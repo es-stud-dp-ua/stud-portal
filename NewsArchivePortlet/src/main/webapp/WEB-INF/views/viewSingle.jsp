@@ -33,7 +33,9 @@
 </head>
 
 <body>
-<portlet:renderURL var="home"> </portlet:renderURL>
+<portlet:renderURL var="home">
+	<portlet:param name="nAction" value="home" />
+</portlet:renderURL>
 <div id="singleView">
 <div class="portlet-content-controlpanel fs20">
 <a href="${home}">
@@ -42,13 +44,13 @@
 </a>
 <%if (request.isUserInRole("Administrator") || request.isUserInRole("User")) { %>
         <% if (request.isUserInRole("Administrator")) { %>
-                                <a style="float: right" href="<portlet:renderURL/>&newsId=<%=news.getId()%>&mode=delete"
+                                <a style="float: right" href="<portlet:renderURL><portlet:param name="newsId" value="<%=news.getId().toString()%>"/><portlet:param name="mode" value="delete" /></portlet:renderURL>"
                                 onclick='return confirm("<spring:message code="form.confDelete"/>")'>
                                 <div class="panelbtn panelbtn-right icon-pcpremove" aria-hidden="true"></div>
                                     <!--<spring:message code="form.delete"/>-->
                                 </a>
         <%}%>
-                <a style="float: right" href="<portlet:renderURL/>&newsId=<%=news.getId()%>&mode=edit">
+                <a style="float: right" href="<portlet:renderURL><portlet:param name="newsId" value="<%=news.getId().toString()%>"/><portlet:param name="mode" value="edit" /></portlet:renderURL>">
                     <!--<spring:message code="viewSingle.Edit"/>-->
                     <div class="panelbtn panelbtn-right icon-pcppencil" aria-hidden="true"></div>
                 </a>
@@ -75,7 +77,7 @@
 		<div class="singleGelery" id="inner">
 			<%for(ImageImpl image:additionalImages){%>
 				<div class="ownGelery" style="margin-left: 5px;">
-					<a class="fancybox-thumbs" data-fancybox-group="thumb" href="<%=imgService.getPathToLargeImage(image, news) %>" <% if (request.isUserInRole("Administrator")) { %>title='<a href="<portlet:renderURL/>&imageId=<%=image.getId()%>&mode=delImage" onclick="return ConfirmImage()"> <spring:message code="form.delete"/></a>'<%}%>>
+					<a class="fancybox-thumbs" data-fancybox-group="thumb" href="<%=imgService.getPathToLargeImage(image, news) %>" <% if (request.isUserInRole("Administrator")) { %>title='<a href="<portlet:renderURL><portlet:param name="imageId" value="<%=image.getId().toString()%>"/><portlet:param name="mode" value="delImage" /></portlet:renderURL>" onclick="return ConfirmImage()"> <spring:message code="form.delete"/></a>'<%}%>>
 						<img src="<%=imgService.getPathToSmallImage(image, news) %>" alt="" />
 					</a>
 				</div>

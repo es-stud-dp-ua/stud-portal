@@ -61,11 +61,13 @@
 <html>
 <head>
 </head>
-
 <body>
     <%if (request.isUserInRole("Administrator") || request.isUserInRole("User")) { %>
+		<portlet:renderURL var="addNewsUrl">
+			<portlet:param name="mode" value="add" />
+		</portlet:renderURL>
         <div class="portlet-content-controlpanel fs20">
-        <a style="float: right" href="<portlet:renderURL/>&mode=add">
+        <a style="float: right" href="${addNewsUrl}">
             <div class="panelbtn panelbtn-right icon-pcpfile" aria-hidden="true"></div>
             <!--<spring:message code="viewAll.addNews"/>-->
         </a>
@@ -84,13 +86,13 @@
         <tr>
             <td width="100%">
                 <div width="100%">
-                    <a href="<portlet:renderURL/>&newsID=<%=currentNews.getId()%>">
+                    <a href='<portlet:renderURL><portlet:param name="newsID" value="<%=currentNews.getId().toString()%>"/></portlet:renderURL>'>
                         <img src="<%= imageService.getPathToMicroblogImage(currentNews.getMainImage(),currentNews) %>"
                              class="newsImage">
                     </a>
 
                     <div class="newsHeader">
-                        <a href="<portlet:renderURL/>&newsID=<%=currentNews.getId()%>">
+                        <a href='<portlet:renderURL><portlet:param name="newsID" value="<%=currentNews.getId().toString()%>"/></portlet:renderURL>'>
                             <%=currentNews.getTopic()%>
 
                         </a>
@@ -98,15 +100,9 @@
                     <div class="newsText">
                         <%--50 as said Anton--%>
                         <%= CustomFunctions.truncateWords(currentNews.getText(), 50) %>
-
-
-                        <%--another way of doing that--%>
-                        <%--<%@taglib uri="http://www.stud.dp.ua/customTags" prefix="jj" %>--%>
-                        <%--pageContext.setAttribute("currentNews", currentNews);--%>
-                        <%--${jj:truncateWords(currentNews.text, 50)}--%>
                     </div>
                         <% if (request.isUserInRole("Administrator")) { %>
-                        <a style="float: right" href="<portlet:renderURL/>&newsId=<%=currentNews.getId()%>&mode=delete"
+                        <a style="float: right" href='<portlet:renderURL><portlet:param name="newsId" value="<%=currentNews.getId().toString()%>"/><portlet:param name="mode" value="delete" /></portlet:renderURL>'
                            onclick='return confirm("<spring:message code="form.confDelete"/>")'>
                             <!--<spring:message code="form.delete"/>-->
                             <div class="panelbtn panelbtn-right fs20 icon-pcpremove" aria-hidden="true"></div>
@@ -148,7 +144,11 @@
     <table width="90%">
         <tr>
             <td width="80" align="left">
-                <a href="<portlet:actionURL name="pagination"/>&direction=prev&pageNumber=<%=currentPage%>">
+			<portlet:actionURL name="pagination" var="pagPrev">
+				<portlet:param name="direction" value="prev"/>
+				<portlet:param name="pageNumber" value="<%=String.valueOf(currentPage)%>"/>
+			</portlet:actionURL>
+                <a href="${pagPrev}">
                     <img class="paginationImage"
                          src="${pageContext.request.contextPath}/images/pagin-left.png"/>
                 </a>
@@ -158,7 +158,7 @@
                 <%-- PAGINATION --%>
                 <%if (skippedBeginning) {%>
                 <%-- HIDING FIRST PAGES --%>
-                <a href="<portlet:actionURL name="pagination"/>&pageNumber=1">1</a>
+                <a href="<portlet:actionURL name="pagination"><portlet:param name="pageNumber" value="1"/></portlet:actionURL>">1</a>
                 <label > ... </label>
                 <%}%>
 
@@ -167,7 +167,7 @@
                     for (int pageNumb = leftPageNumb; pageNumb <= rightPageNumb; ++pageNumb) {
                         if (pageNumb != currentPage) {
                 %>
-                <a href="<portlet:actionURL name="pagination"/>&pageNumber=<%=pageNumb%>"><%=pageNumb%>
+                <a href="<portlet:actionURL name="pagination"><portlet:param name="pageNumber" value="<%=String.valueOf(pageNumb)%>"/></portlet:actionURL>"><%=pageNumb%>
                 </a>
                 <%} else {%>
                 <label style="color: #28477C; font-size: 40px;" ><%=pageNumb%>
@@ -178,12 +178,16 @@
                 <%if (skippedEnding) {%>
                 <%-- HIDING LAST PAGES --%>
                 <label> ... </label>
-                <a href="<portlet:actionURL name="pagination"/>&pageNumber=<%=pagesCount%>"><%=pagesCount%>
+                <a href="<portlet:actionURL name="pagination"><portlet:param name="pageNumber" value="<%=String.valueOf(pagesCount)%>"/></portlet:actionURL>"><%=pagesCount%>
                 </a>
                 <%}%>
             </td>
             <td width="80" align="right">
-                <a href="<portlet:actionURL name="pagination"/>&direction=next&pageNumber=<%=currentPage%>">
+				<portlet:actionURL name="pagination" var="pagNext">
+					<portlet:param name="direction" value="next"/>
+					<portlet:param name="pageNumber" value="<%=String.valueOf(currentPage)%>"/>
+				</portlet:actionURL>
+                <a href="${pagNext}">
                     <img class="paginationImage"
                          src="${pageContext.request.contextPath}/images/pagin-right.png"/>
                 </a>

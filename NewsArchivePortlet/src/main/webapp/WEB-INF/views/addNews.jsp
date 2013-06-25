@@ -51,9 +51,12 @@
             }
         </script>
 
-    <portlet:renderURL var="home"> </portlet:renderURL>
+    <portlet:renderURL var="home">
+		<portlet:param name="nAction" value="home" />
+	</portlet:renderURL>
 
-    <portlet:actionURL var="actionLink" name="addNews"></portlet:actionURL>
+    <portlet:actionURL var="actionLink" name="addNews">
+	</portlet:actionURL>
     <div class="portlet-content-controlpanel fs20">
         <a href="${home}">
         <!--<spring:message code="form.back"/>-->
