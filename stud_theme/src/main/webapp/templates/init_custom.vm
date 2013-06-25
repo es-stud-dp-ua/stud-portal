@@ -1,0 +1,12 @@
+#*
+This file allows you to override and define new Velocity variables.
+#set ($register_url = $company_url + "/home?p_auth=fBP9iO4D&p_p_id=58&p_p_lifecycle=1&p_p_state=maximized&p_p_mode=view&saveLastPath=0&_58_struts_action=%2Flogin%2Fcreate_account")
+#set ($js_folder = "http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js")
+*#
+#set ($ask = $languageUtil.get($locale, "ask question the administrator"))
+
+#set ($register_url = $htmlUtil.escape($theme_display.getURLCreateAccount().toString()))
+
+
+
+

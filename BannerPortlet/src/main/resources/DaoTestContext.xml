@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+                       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+                       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+
+    <context:annotation-config />
+<aop:config>
+    <aop:pointcut id="Daotest" expression="execution(* ua.dp.stud.bannerPortlet.dao.*.* (..))" />
+    <aop:advisor pointcut-ref="Daotest" advice-ref="txAdvice" />
+</aop:config>
+
+    <!--tx:annotation-driven/-->
+    <!--todo: use @transactional instead of aspects-->
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="testGet*" propagation="REQUIRED" read-only="true"  />
+            <tx:method name="testFind*" propagation="REQUIRED" read-only="true"  />
+            <tx:method name="testUpdate*" propagation="REQUIRED" />
+            <tx:method name="testDelete*" propagation="REQUIRED" />
+            <tx:method name="testAdd*" propagation="REQUIRED" />
+        </tx:attributes>
+    </tx:advice>
+
+    <bean id="transactionManager"
+        class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+
+    <context:property-placeholder location="jdbc.properties" />
+    <bean id="dataSource"
+          class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="${database.driver}" />
+        <property name="url" value="${database.url}" />
+        <property name="username" value="${database.user}" />
+        <property name="password" value="${database.password}" />
+
+    </bean>
+
+    <bean id="sessionFactory"
+        class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="configLocation" value="classpath:/hibernate.cfg.xml" />
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">${hibernate.dialect}</prop>
+                <prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+                <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
+            </props>
+        </property>
+    </bean>
+    <bean id="bannerDao" class="ua.dp.stud.bannerPortlet.dao.impl.BannerImageDaoImp">
+                <property name="sessionFactory" ref="sessionFactory" />
+        </bean>
+
+</beans>
