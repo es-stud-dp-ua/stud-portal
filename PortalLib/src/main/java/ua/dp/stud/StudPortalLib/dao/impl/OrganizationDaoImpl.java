@@ -65,7 +65,7 @@ public class OrganizationDaoImpl implements OrganizationDao {
      */
     @Override
     public Organization getOrganizationById(Integer id) {
-        //use load
+        //todo:use load
         return (Organization) getSession().get(Organization.class, id);
     }
 
@@ -135,10 +135,12 @@ public class OrganizationDaoImpl implements OrganizationDao {
      */
     @Override
     public int getCount() {
+        //todo: why int? use true instead of 'true'
         return ((Long) getSession().createQuery("Select Count(*) From Organization WHERE approved= 'true'").uniqueResult()).intValue();
     }
     @Override
     public int getCountOfType(OrganizationType type) {
+        //todo: same
         return ((Long) getSession().createQuery("Select Count(*) From Organization WHERE organizationType= :type and approved='true'").setParameter("type", type).uniqueResult()).intValue();
     }
     
@@ -203,6 +205,7 @@ public class OrganizationDaoImpl implements OrganizationDao {
     }
 
     @Override
+    //todo: change method name
     public int getCount(Boolean approved)
     {
         return ((Long) getSession().createQuery("Select Count(*) From Organization organization  Where organization.approved = :approved and organization.comment is null")

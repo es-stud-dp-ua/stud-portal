@@ -53,8 +53,10 @@ public class News extends BaseImagesSupport implements Serializable {
     private String author;
     private Date publication;
     private Date publicationInCalendar;
+    //todo: change to boolean
     private Integer inCalendar;
     private Boolean approved;
+    //todo: change to boolean
     private Integer onMainpage;
     private Category category;
     private Boolean orgApproved;

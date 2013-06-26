@@ -40,7 +40,6 @@ public class NewsDaoImpl extends HibernateDaoSupport implements NewsDao {
      */
     @Override
     public News getNewsById(Integer id) {
-        //todo: use load instead of get because get returns proxy
         return (News) getSession().get(News.class, id);
     }
 
@@ -51,6 +50,7 @@ public class NewsDaoImpl extends HibernateDaoSupport implements NewsDao {
      * @return The news which Topic = topic;
      */
     @Override
+    //todo: this methdod is used only in service. do we realy need it?
     public News getNewsByTopic(String topic) {
         return (News) getSession().createQuery("Select news From News news  Where news.topic = :topic ").setParameter("topic", topic).uniqueResult();
     }
@@ -128,7 +128,9 @@ public class NewsDaoImpl extends HibernateDaoSupport implements NewsDao {
      * @return Category by id
      */
     @Override
+    //todo: this method is also used only in service
     public Category getCategoryById(Integer id) {
+        //todo: use get instead of load
         return (Category) getSession().load(Category.class, id);
     }
 
@@ -211,7 +213,7 @@ public class NewsDaoImpl extends HibernateDaoSupport implements NewsDao {
      */
 	@Override
     public ImageImpl getImageById(Long id)
-	{   //todo: use load
+	{
         return (ImageImpl) getSession().get(ImageImpl.class, id);
     }
 
@@ -275,7 +277,7 @@ public class NewsDaoImpl extends HibernateDaoSupport implements NewsDao {
      */
     @Override
     public int getCountByOrgAuthor(String author, Boolean approved)
-    {
+    {    //todo: why int?
         return ((Long) getSession().createQuery("Select Count(*) From News news Where news.orgApproved = :approved and news.baseOrg.author = :author and news.comment is null")
                 .setParameter("author", author).setParameter("approved", approved).uniqueResult()).intValue();
     }
@@ -315,7 +317,7 @@ public class NewsDaoImpl extends HibernateDaoSupport implements NewsDao {
      */
     @Override
     public int getCount(Boolean approved)
-    {
+    {   //todo: why int?
         return ((Long) getSession().createQuery("Select Count(*) From News news  Where news.approved = :approved and news.comment is null")
                 .setParameter("approved", approved).uniqueResult()).intValue();
     }

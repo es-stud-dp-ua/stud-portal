@@ -25,7 +25,6 @@ public class StudieDaoImpl extends HibernateDaoSupport implements StudieDao {
 
     @Override
     public Studie getStudieById(Integer id) {
-        //todo: use load
        return (Studie) getSession().get(Studie.class, id);
     }
 
@@ -55,7 +54,7 @@ public class StudieDaoImpl extends HibernateDaoSupport implements StudieDao {
  }
       @Override
     public ImageImpl getImageById(Long id)
-	{//todo: use load
+	{
         return (ImageImpl) getSession().get(ImageImpl.class, id);
     }
     
