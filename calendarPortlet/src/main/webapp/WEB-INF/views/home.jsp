@@ -85,6 +85,7 @@
 
 </div>
 
+<!--todo: move javascript to separate file-->
 
 <script type="text/javascript">
     function setTableColumsSizes() {

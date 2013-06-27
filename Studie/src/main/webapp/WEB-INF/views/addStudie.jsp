@@ -76,6 +76,7 @@
 
     <div width="100%" align="center">
         <form method="POST" action="${actionLink}" enctype="multipart/form-data">
+        <!-- todo: move javascript to separate file-->
             <script type="text/javascript">
                 function a() {
                     jQuery('#cropbox').Jcrop({onChange: setCoords, onSelect: setCoords, bgColor: 'black',

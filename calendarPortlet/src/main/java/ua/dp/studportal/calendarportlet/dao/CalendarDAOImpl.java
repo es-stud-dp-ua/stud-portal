@@ -13,6 +13,7 @@ import java.util.*;
 /**
  * Calendar DAO implementation
  */
+//todo:move to impl package
 @Repository("calendarDAO")
 public class CalendarDAOImpl implements CalendarDAO
 {

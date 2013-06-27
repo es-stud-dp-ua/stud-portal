@@ -313,6 +313,7 @@ public class CommunitiesController {
             os.flush();
             f = new CommonsMultipartFile(fileItem);
         } catch (Exception e) {
+            //todo:use logging
             e.printStackTrace();
         }
         Collection<Organization> orgs = service.getAllOrganizations(true);
@@ -354,7 +355,7 @@ public class CommunitiesController {
 
     }
 
-
+    //todo: add exceptions it to catch block
     @ActionMapping(value = "editCommunity")
     public void editCommunity(@RequestParam("mainImage") CommonsMultipartFile mainImage,
                               @RequestParam("images") CommonsMultipartFile[] images,

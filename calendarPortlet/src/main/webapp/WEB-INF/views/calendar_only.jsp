@@ -4,6 +4,7 @@
 <%@ taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet" %>
 
 <table id="calendarTable">
+    <--todo: wtf?-->
     <h1>AAAAAAAAA</h1>
     <tr>
 		<c:forEach var="entry" items="${news}">
@@ -68,5 +69,5 @@
 </div>
 
 
-
+<--todo: wtf?-->
 <h1>YO YO YO</h1>

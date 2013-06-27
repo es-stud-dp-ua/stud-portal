@@ -1,3 +1,4 @@
+//TODO:wtf?
 //package ua.dp.stud.bannerPortlet.dao.impl;
 
 //import org.junit.After;

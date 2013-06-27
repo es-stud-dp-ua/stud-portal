@@ -12,20 +12,6 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.servlet.SessionMessages;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.Collection;
-import javax.imageio.ImageIO;
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
-import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
 import org.apache.commons.fileupload.disk.DiskFileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +29,15 @@ import ua.dp.stud.StudPortalLib.model.Studie;
 import ua.dp.stud.StudPortalLib.service.StudieService;
 import ua.dp.stud.StudPortalLib.util.ImageService;
 
+import javax.imageio.ImageIO;
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
+import java.awt.image.BufferedImage;
+import java.io.*;
+import java.util.Collection;
+
 @Controller
 @RequestMapping(value = "view")
 //TODO: COMMON LOGIC SHOULD BE MOVED TO PRIVATE HELPER METHOD
@@ -59,6 +54,7 @@ public class StudieController {
     private static final int MINTEXTSYMBOLS = 100;
     @Autowired
     @Qualifier(value = "StudieService")
+    //todo:change variable name
     private StudieService service;
     //Declare our service
 
@@ -74,6 +70,7 @@ public class StudieController {
         } else {
             buttonId = Integer.valueOf(request.getParameter("buttonId"));
         }
+        //todo: add view name as constructor arg to ModelAndView
         model.setViewName("viewAll");
         Collection<Studie> studie = service.getAllStudies();
 
@@ -105,7 +102,7 @@ public class StudieController {
         }
         Collection<ImageImpl> additionalImages = studie.getAdditionalImages();
 
-
+        //todo: add view name as constructor arg to ModelAndView
         ModelAndView model = new ModelAndView();
         model.setViewName("viewSingle");
         model.addObject("studie", studie);
@@ -177,6 +174,7 @@ public class StudieController {
         return false;
     }
 
+    //todo: use try ... catch block and logging
     @ActionMapping(value = "addStudie")
     public void addStudie(@RequestParam("mainImage") CommonsMultipartFile mainImage,
             @RequestParam("images") CommonsMultipartFile[] images,
@@ -249,6 +247,7 @@ public class StudieController {
                 sessionStatus.setComplete();
             } catch (Exception ex) {
                 //exception controller
+                //todo:use logging
                 StringWriter sw = new StringWriter();
                 actionResponse.setRenderParameter(strExept, sw.toString());
             }

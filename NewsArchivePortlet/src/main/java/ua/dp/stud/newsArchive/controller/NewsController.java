@@ -58,6 +58,7 @@ public class NewsController {
 
     @Autowired
     @Qualifier(value = "newsService")
+    //todo: change variable's name
     private NewsService service;
     @Autowired
     @Qualifier(value = "orgsService")
@@ -87,6 +88,7 @@ public class NewsController {
     @RenderMapping
     public ModelAndView showView(RenderRequest request, RenderResponse response) {
         ModelAndView model = new ModelAndView();
+        //todo: add view name as constructor arg to ModelAndView
         model.setViewName("viewAll");
 
         pagesCount = service.getPagesCount(NEWS_BY_PAGE);
@@ -149,6 +151,7 @@ public class NewsController {
 
 
         ModelAndView model = new ModelAndView();
+        //todo: add view name as constructor arg to ModelAndView
         model.setViewName("viewSingle");
         model.addObject("news", news);
         String mainImagePar = "mainImage";
@@ -299,7 +302,7 @@ public class NewsController {
         }
         return false;
     }
-
+    //todo:use try ... catch block and logging
     @ActionMapping(value = "addNews")
     public void addNews(@RequestParam("mainImage") CommonsMultipartFile mainImage,
                         @RequestParam("images") CommonsMultipartFile[] images,
@@ -374,6 +377,7 @@ public class NewsController {
                 sessionStatus.setComplete();
             } catch (Exception ex) {
                 //exception controller
+                //todo:use logging
                 StringWriter sw = new StringWriter();
                 actionResponse.setRenderParameter(strExept, sw.toString());
                 sw.close();

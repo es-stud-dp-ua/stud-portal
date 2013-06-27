@@ -62,7 +62,7 @@ public class AboutTeamController {
         companyurls.add("http://ua.linkedin.com/in/tamplier");
         companyurls.add("http://ru.linkedin.com/in/arsart");
 
-        //TODO: why did you use all this "toString"?
+        //TODO:use local variable for request.getContextPath().toString()+"/images/no_photo.jpg"
         List<Human> bateam =getUsersFromLinkedIn(baurls,
                 request.getContextPath().toString()+"/images/no_photo.jpg");
         List<Human> devteam =getUsersFromLinkedIn(devurls,
@@ -74,7 +74,6 @@ public class AboutTeamController {
         List<Human> tnxteam = new ArrayList<Human>();
         //static members
         //tnx for watching
-
         testersteam.add(addHuman("Elena","Onishenko","tester",request.getContextPath().toString()+"/images/elena-onishenko.jpg",
                 "http://vk.com/elenaonishhenk0"));
         testersteam.add(addHuman("Tatyana", "Podgornaya", "tester", request.getContextPath().toString() + "/images/tanya-podgornaya.jpg",
@@ -140,13 +139,12 @@ public class AboutTeamController {
                 h.setFirstName(doc.$(".given-name").text());
                 h.setLastName(doc.$(".family-name").text());
                 String status = doc.$(".headline-title.title").text().replaceAll("  ","");
-                    //TODO: wtf?
+                //cutting size for view
                 if (status.length()>20) {
                     status = status.substring(0, 17).toString()+"...";
                 }
                 h.setStatus(status);
                 h.setUrl(urls.get(i));
-                str = new String();
                 str =  doc.$(".photo").attr("src");
                 if (str!=null){
                     if (str.equals("")||(str.contains("spacer.gif"))) str=noImage;
@@ -155,6 +153,7 @@ public class AboutTeamController {
                 else h.setPhotoUrl(noImage);
                 userList.add(h);
                 } catch (IOException e) {
+                    //if page is not loaded, just take a new page
                     ++ls;
                 }
             }

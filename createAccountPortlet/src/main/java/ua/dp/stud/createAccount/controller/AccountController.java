@@ -6,7 +6,6 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
-import com.liferay.portal.model.CompanyConstants;
 import com.liferay.portal.model.Role;
 import com.liferay.portal.model.RoleConstants;
 import com.liferay.portal.model.User;
@@ -136,6 +135,7 @@ public class AccountController {
      * @throws SystemException will be happen if server is not available
      * @throws PortalException will be happen if liferay portal is not available
      */
+    //todo: use catch for exceptions
     @ActionMapping(value = "addNewUser")
     public void addNewUser(@Valid @ModelAttribute("userInfo") UserInfo userInfo,
                            BindingResult bindingResult,

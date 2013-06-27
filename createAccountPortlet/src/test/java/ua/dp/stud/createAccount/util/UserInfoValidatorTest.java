@@ -15,7 +15,7 @@ public class UserInfoValidatorTest
     {
         userInfoValidator = new UserInfoValidator();
     }
-
+    //todo:wtf?
     /*@Test
     public void necessaryFieldsNotValidTest()
     {

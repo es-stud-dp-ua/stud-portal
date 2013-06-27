@@ -18,7 +18,7 @@
 </head>
 
 <body>
-
+<!--todo: move css to separate file, remove tables-->
 <div id="contentDiv">
     <div id="tableHeader">
         <spring:message code="header.latestNews" /><br/>

@@ -59,6 +59,7 @@ public class EditMailContoller
     {
         Validator validator = new EmailValidator();
         validator.validate(mailChanger,bindingResult);
+        //TODO: change if condition for compact size
         if (bindingResult.hasErrors())
         {
             return;

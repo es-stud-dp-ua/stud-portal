@@ -28,6 +28,7 @@ public class MicroBlogController {
 
     @Autowired
     @Qualifier(value = "newsService")
+    //todo: change variable name
     private NewsService service;
 
     public void setService(NewsService service) {
@@ -43,6 +44,7 @@ public class MicroBlogController {
      * @throws javax.portlet.PortletModeException
      *
      */
+    //todo: use try ... catch block
     @RenderMapping
     public ModelAndView showView(RenderRequest request, RenderResponse response) throws SystemException, PortalException {
         ModelAndView model = new ModelAndView();

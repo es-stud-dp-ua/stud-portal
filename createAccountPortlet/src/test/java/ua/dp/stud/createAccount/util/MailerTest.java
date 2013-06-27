@@ -63,7 +63,7 @@ public class MailerTest
             assertTrue(false);
         }
     }
-
+    //todo:wtf?
     /*@Test
     public void sendActivationMailTest()
     {

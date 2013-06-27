@@ -34,7 +34,7 @@
     </head>
     <body>
        
-        <!-- move javascript code to separate file-->
+        <!-- todo:move javascript code to separate file-->
         <script language="javascript" type="text/javascript">
             $(document).ready(function() {
                 $.Placeholder.init({color: "#aaa"});

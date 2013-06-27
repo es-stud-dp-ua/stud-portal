@@ -84,6 +84,8 @@
     <%}
 %>
 
+<!--todo: move javascript to separate file-->
+
 <html>
 <head>
     <script>

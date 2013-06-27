@@ -15,7 +15,7 @@
 <head>
 </head>
 <body>
-
+<!--todo:move javascript and css to separate file-->
 <script type="text/javascript">
 
 	$(document).ready(function(){
