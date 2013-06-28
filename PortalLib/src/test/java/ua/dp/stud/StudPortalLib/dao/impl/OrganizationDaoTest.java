@@ -202,6 +202,6 @@ public class OrganizationDaoTest extends AbstractTransactionalJUnit4SpringContex
 
     @Test
     public void getCount() {
-        assertEquals(2, dao.getCount());
+        assertEquals(2, (int)dao.getCount());
     }
 }

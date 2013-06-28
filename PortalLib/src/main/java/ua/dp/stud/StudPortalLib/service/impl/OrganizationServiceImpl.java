@@ -142,14 +142,14 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     @Override
     @Transactional(readOnly = true)
-    public int getPagesCount(Integer orgsByPage)
+    public Integer getPagesCount(Integer orgsByPage)
     {
         return dao.calcPages(dao.getCount(), orgsByPage);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public int getPagesCountOfType(Integer orgsByPage, OrganizationType type)
+    public Integer getPagesCountOfType(Integer orgsByPage, OrganizationType type)
     {
         return dao.calcPages(dao.getCountOfType(type), orgsByPage);
     }
@@ -159,7 +159,7 @@ public class OrganizationServiceImpl implements OrganizationService {
      */
     @Transactional(readOnly = true)
     @Override
-    public int getCount() {
+    public Integer getCount() {
         return dao.getCount();
     }
 
@@ -181,7 +181,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
-    public int getPagesCountByAuthor(String author, Integer orgByPage)
+    public Integer getPagesCountByAuthor(String author, Integer orgByPage)
     {
         return dao.calcPages(dao.getCountByAuthor(author), orgByPage);
     }
@@ -195,7 +195,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     @Override
     @Transactional(readOnly = true)
-    public int getPagesCount(Boolean approved, Integer orgByPage)
+    public Integer getPagesCount(Boolean approved, Integer orgByPage)
     {
         return dao.calcPages(dao.getCountByApprove(approved), orgByPage);
     }

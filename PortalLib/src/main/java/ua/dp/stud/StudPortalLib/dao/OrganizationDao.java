@@ -79,9 +79,9 @@ public interface OrganizationDao {
      *
      * @return
      */
-    int getCount();
+    Integer getCount();
 
-    int getCountOfType(OrganizationType type);
+    Integer getCountOfType(OrganizationType type);
 
     /**
      * delete given organization from db
@@ -94,9 +94,9 @@ public interface OrganizationDao {
     ImageImpl getImageById(Long id);
 
     Collection<Organization> getAllOrganizationByAuthor(String author);
-    int getCountByAuthor(String author);
+    Integer getCountByAuthor(String author);
     Collection<Organization> getPagesOrganizationByAuthor(String author, Integer pageNumb, Integer organizationByPage);
-    int getCountByApprove(Boolean approved);
+    Integer getCountByApprove(Boolean approved);
     Collection<Organization> getOrganizationsOnPage(Boolean approved, Integer pageNumb, Integer orgByPage);
-    public int calcPages(Integer count, Integer perPage);
+    Integer calcPages(Integer count, Integer perPage);
 }

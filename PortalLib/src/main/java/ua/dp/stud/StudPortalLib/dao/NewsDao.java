@@ -28,14 +28,6 @@ public interface NewsDao {
     News getNewsById(Integer id);
 
     /**
-     * getNewsByTopic
-     *
-     * @param topic
-     * @return
-     */
-    News getNewsByTopic(String topic);
-
-    /**
      * updateNews
      *
      * @param news was need to update
@@ -62,7 +54,7 @@ public interface NewsDao {
      *
      * @return
      */
-    int getCount();
+    Integer getCount();
 
     /**
      * persist ImageImpl
@@ -78,14 +70,6 @@ public interface NewsDao {
      * @return
      */
     Category addCategory(Category cat);
-
-    /**
-     * getCategoryById
-     *
-     * @param id
-     * @return
-     */
-    Category getCategoryById(Integer id);
 
     /**
      * updateCategory
@@ -151,7 +135,7 @@ public interface NewsDao {
      * @param author of news
      * @return count of news by author
      */
-    int getCountByAuthor(String author);
+    Integer getCountByAuthor(String author);
 
     /**
      * Returns collection of news on page by author
@@ -176,7 +160,7 @@ public interface NewsDao {
      * @param approved of administrator
      * @return count of news for organization's id
      */
-    int getCountByOrgAuthor(String author, Boolean approved);
+    Integer getCountByOrgAuthor(String author, Boolean approved);
 
     /**
      * Returns collection of news on page for organization's author
@@ -200,7 +184,7 @@ public interface NewsDao {
      * @param approved of administrator
      * @return returns count of approved news
      */
-    int getCount(Boolean approved);
+    Integer getCount(Boolean approved);
 
     /**
      * Returns a collection of news per page for a set number
@@ -211,5 +195,5 @@ public interface NewsDao {
      */
     Collection<News> getNewsOnPage(Boolean approved, Integer pageNumb, Integer newsByPage);
 
-    public int calcPages(Integer count, Integer perPage);
+    Integer calcPages(Integer count, Integer perPage);
 }

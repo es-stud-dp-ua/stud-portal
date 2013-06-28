@@ -60,8 +60,8 @@ public class OrganizationDaoImpl extends BaseDao implements OrganizationDao
      * @return
      */
     @Override
-    public Organization getOrganizationById(Integer id) {
-        //todo:use load
+    public Organization getOrganizationById(Integer id)
+    {
         return (Organization) getSession().get(Organization.class, id);
     }
 
@@ -130,14 +130,16 @@ public class OrganizationDaoImpl extends BaseDao implements OrganizationDao
      * @return number of records in db
      */
     @Override
-    public int getCount() {
-        //todo: why int? use true instead of 'true'
-        return ((Long) getSession().createQuery("Select Count(*) From Organization WHERE approved= 'true'").uniqueResult()).intValue();
+    public Integer getCount()
+    {
+        return ((Long) getSession().createQuery("Select Count(*) From Organization WHERE approved= true")
+                .uniqueResult()).intValue();
     }
     @Override
-    public int getCountOfType(OrganizationType type) {
-        //todo: same
-        return ((Long) getSession().createQuery("Select Count(*) From Organization WHERE organizationType= :type and approved='true'").setParameter("type", type).uniqueResult()).intValue();
+    public Integer getCountOfType(OrganizationType type)
+    {
+        return ((Long) getSession().createQuery("Select Count(*) From Organization WHERE organizationType= :type and approved=true")
+                .setParameter("type", type).uniqueResult()).intValue();
     }
     
     @Override
@@ -165,7 +167,7 @@ public class OrganizationDaoImpl extends BaseDao implements OrganizationDao
                 .setParameter("author", author).list();
     }
     @Override
-    public int getCountByAuthor(String author)
+    public Integer getCountByAuthor(String author)
     {
         return ((Long) getSession().createQuery("Select Count(*) From Organization organization  Where organization.author = :author")
                 .setParameter("author", author).uniqueResult()).intValue();
@@ -187,7 +189,7 @@ public class OrganizationDaoImpl extends BaseDao implements OrganizationDao
     }
 
     @Override
-    public int getCountByApprove(Boolean approved)
+    public Integer getCountByApprove(Boolean approved)
     {
         return ((Long) getSession().createQuery("Select Count(*) From Organization organization  Where organization.approved = :approved and organization.comment is null")
                 .setParameter("approved", approved).uniqueResult()).intValue();

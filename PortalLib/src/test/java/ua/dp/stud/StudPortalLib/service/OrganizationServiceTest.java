@@ -169,6 +169,6 @@ public class OrganizationServiceTest extends AbstractTransactionalJUnit4SpringCo
 
     @Test
     public void getCount() {
-        assertEquals(2, service.getCount());
+        assertEquals(2, (int)service.getCount());
     }
 }

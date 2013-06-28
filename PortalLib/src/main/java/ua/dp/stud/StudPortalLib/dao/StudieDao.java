@@ -22,6 +22,6 @@ public interface StudieDao {
     void addImage(ImageImpl image);
     ImageImpl getImageById(Long id);
     void deleteImage(Long id);
-    public int calcPages(Integer count, Integer perPage);
+    Integer calcPages(Integer count, Integer perPage);
 
 }

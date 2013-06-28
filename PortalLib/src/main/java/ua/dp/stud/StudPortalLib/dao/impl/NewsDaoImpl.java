@@ -45,19 +45,6 @@ public class NewsDaoImpl extends BaseDao implements NewsDao
     }
 
     /**
-     * Method return news form database by topic
-     *
-     * @param topic - Topic of news that we want to get
-     * @return The news which Topic = topic;
-     */
-    @Override
-    //todo: this methdod is used only in service. do we realy need it?
-    public News getNewsByTopic(String topic)
-    {
-        return (News) getSession().createQuery("Select news From News news  Where news.topic = :topic ").setParameter("topic", topic).uniqueResult();
-    }
-
-    /**
      * Method update news by id
      *
      * @param news -news with new parameters
@@ -98,8 +85,8 @@ public class NewsDaoImpl extends BaseDao implements NewsDao
      * @return coutn of news
      */
     @Override
-    public int getCount() {
-        //todo why int?
+    public Integer getCount()
+    {
         return ((Long) getSession().createQuery("Select Count(*) From News").uniqueResult()).intValue();
     }
 
@@ -122,19 +109,6 @@ public class NewsDaoImpl extends BaseDao implements NewsDao
     public Category addCategory(Category cat) {
         getSession().save(cat);
         return cat;
-    }
-
-    /**
-     * getCategoryById
-     *
-     * @param id for getting
-     * @return Category by id
-     */
-    @Override
-    //todo: this method is also used only in service
-    public Category getCategoryById(Integer id)
-    {
-        return (Category) getSession().get(Category.class, id);
     }
 
     /**
@@ -240,8 +214,8 @@ public class NewsDaoImpl extends BaseDao implements NewsDao
      * @return count of news by author
      */
     @Override
-    public int getCountByAuthor(String author)
-    {    //todo: why int?
+    public Integer getCountByAuthor(String author)
+    {
         return ((Long) getSession().createQuery("Select Count(*) From News news  Where news.author = :author")
                 .setParameter("author", author).uniqueResult()).intValue();
     }
@@ -281,8 +255,8 @@ public class NewsDaoImpl extends BaseDao implements NewsDao
      * @return count of news for organization's id
      */
     @Override
-    public int getCountByOrgAuthor(String author, Boolean approved)
-    {    //todo: why int?
+    public Integer getCountByOrgAuthor(String author, Boolean approved)
+    {
         return ((Long) getSession().createQuery("Select Count(*) From News news Where news.orgApproved = :approved and news.baseOrg.author = :author and news.comment is null")
                 .setParameter("author", author).setParameter("approved", approved).uniqueResult()).intValue();
     }
@@ -321,8 +295,8 @@ public class NewsDaoImpl extends BaseDao implements NewsDao
      * @return returns count of approved news
      */
     @Override
-    public int getCount(Boolean approved)
-    {   //todo: why int?
+    public Integer getCount(Boolean approved)
+    {
         return ((Long) getSession().createQuery("Select Count(*) From News news  Where news.approved = :approved and news.comment is null")
                 .setParameter("approved", approved).uniqueResult()).intValue();
     }

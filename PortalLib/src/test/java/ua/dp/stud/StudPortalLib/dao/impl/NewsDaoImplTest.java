@@ -59,7 +59,7 @@ public class NewsDaoImplTest extends AbstractTransactionalJUnit4SpringContextTes
     @Test
     public void calcPagesTest()
     {
-        assertEquals(6, dao.calcPages(21, 4));
+        assertEquals(6, (int)dao.calcPages(21, 4));
     }
 
     @Test
@@ -117,7 +117,6 @@ public class NewsDaoImplTest extends AbstractTransactionalJUnit4SpringContextTes
 	@Test
 	public void testAddCategory() {
 		assertEquals(dao.getAllNews().size(), 2);
-		assertEquals(dao.getCategoryById(cat1.getId()), cat1);
 	}
 
 	/**
@@ -139,18 +138,6 @@ public class NewsDaoImplTest extends AbstractTransactionalJUnit4SpringContextTes
 		assertTrue(n1.getInCalendar() == dao.getNewsById(n1.getId()).getInCalendar());
 		assertEquals(n2, dao.getNewsById(n2.getId()));
 		assertFalse(n2.getTopic().equals(dao.getNewsById(n1.getId()).getTopic()));
-	}
-
-	/**
-	 * Test of getNewsByTopic method, of class NewsDaoImpl.
-	 */
-	@Test
-	public void testGetNewsByTopic() {
-		assertNotNull(dao.getNewsByTopic("Тема1"));
-		assertEquals(n1, dao.getNewsByTopic("Тема1"));
-		assertTrue(n1.getInCalendar() == dao.getNewsByTopic("Тема1").getInCalendar());
-		assertEquals(n2, dao.getNewsByTopic("Тема2"));
-		assertFalse(n2.getText().equals(dao.getNewsByTopic("Тема1").getText()));
 	}
 
 	/**
@@ -195,12 +182,6 @@ public class NewsDaoImplTest extends AbstractTransactionalJUnit4SpringContextTes
 	public void testGetCount() {
 		assertTrue(dao.getCount() == 2);
 		assertFalse(dao.getCount() == 10);
-	}
-
-	@Test
-	public void testGetCategoryById() {
-		assertNotNull(dao.getCategoryById(cat1.getId()));
-		assertTrue(cat1.getCategoryName().equals(dao.getCategoryById(cat1.getId()).getCategoryName()));
 	}
 
 	@Test

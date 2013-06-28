@@ -88,16 +88,6 @@ public class NewsServiceImpl implements NewsService
     }
 
     /**
-     *   returns all news by topic
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public News getNewsByTopic(String topic)
-    {
-        return dao.getNewsByTopic(topic);
-    }
-
-    /**
      *   returns all news from db
      */
     @Override
@@ -127,7 +117,7 @@ public class NewsServiceImpl implements NewsService
      */
     @Override
     @Transactional(readOnly = true)
-    public int getPagesCount(Integer newsByPage)
+    public Integer getPagesCount(Integer newsByPage)
     {
         return dao.calcPages(dao.getCount(), newsByPage);
     }
@@ -141,17 +131,6 @@ public class NewsServiceImpl implements NewsService
     @Transactional(readOnly = true)
     public Collection<News> getNewsOnMainPage() {
         return dao.getNewsOnMainPage();
-    }
-
-    /**
-     * return Category by id
-     * @param id
-     * @return
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public Category getCategoryById(Integer id) {
-        return dao.getCategoryById(id);
     }
 
     /**
@@ -207,7 +186,7 @@ public class NewsServiceImpl implements NewsService
      */
     @Override
     @Transactional(readOnly = true)
-    public int getPagesCountByAuthor(String author, Integer newsByPage)
+    public Integer getPagesCountByAuthor(String author, Integer newsByPage)
     {
         return dao.calcPages(dao.getCountByAuthor(author), newsByPage);
     }
@@ -246,7 +225,7 @@ public class NewsServiceImpl implements NewsService
      * @return count of news for organization's id
      */
     @Override
-    public int getPagesCountByOrgAuthor(String author, Boolean approved, Integer newsByPage)
+    public Integer getPagesCountByOrgAuthor(String author, Boolean approved, Integer newsByPage)
     {
         return dao.calcPages(dao.getCountByOrgAuthor(author, approved), newsByPage);
     }
@@ -286,7 +265,7 @@ public class NewsServiceImpl implements NewsService
      */
     @Override
     @Transactional(readOnly = true)
-    public int getPagesCount(Boolean approved, Integer newsByPage)
+    public Integer getPagesCount(Boolean approved, Integer newsByPage)
     {
         return dao.calcPages(dao.getCount(approved), newsByPage);
     }

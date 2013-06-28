@@ -15,10 +15,6 @@ public interface NewsService {
      */
     News getNewsById(Integer id);
     /**
-     *Method to return news by Topic
-     */
-    News getNewsByTopic(String topic);
-    /**
      *Method to return all news
      */
     Collection<News> getAllNews();
@@ -36,7 +32,7 @@ public interface NewsService {
      * @param newsByPage
      * @return pages count
      */
-    int getPagesCount(Integer newsByPage);
+    Integer getPagesCount(Integer newsByPage);
 
     /**
      * Adds news to DB
@@ -56,13 +52,6 @@ public interface NewsService {
      * @return news which will be visible on Main Page
      */
     Collection<News> getNewsOnMainPage();
-
-    /**
-     * return Category by id
-     * @param id
-     * @return
-     */
-    Category getCategoryById(Integer id);
 
     /**
      * return all Categories
@@ -107,7 +96,7 @@ public interface NewsService {
      * @param author of news
      * @return page count of news by author
      */
-    int getPagesCountByAuthor(String author, Integer newsByPage);
+    Integer getPagesCountByAuthor(String author, Integer newsByPage);
 
     /**
      * Returns collection of news on page by author
@@ -132,7 +121,7 @@ public interface NewsService {
      * @param approved of administrator
      * @return count of news for organization's id
      */
-    int getPagesCountByOrgAuthor(String author, Boolean approved, Integer newsByPage);
+    Integer getPagesCountByOrgAuthor(String author, Boolean approved, Integer newsByPage);
 
     /**
      * Returns collection of news on page for organization's author
@@ -157,7 +146,7 @@ public interface NewsService {
      * @param newsByPage news's count per page
      * @return count of news for administrator
      */
-    int getPagesCount(Boolean approved, Integer newsByPage);
+    Integer getPagesCount(Boolean approved, Integer newsByPage);
 
     /**
      * Return collection news on pages for administrator

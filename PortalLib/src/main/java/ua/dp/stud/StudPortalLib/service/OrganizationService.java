@@ -62,11 +62,11 @@ public interface OrganizationService {
      * runs count(*) on table
      * @return
      */
-    int getCount();
-    
-    
-   int getPagesCount(Integer orgsByPage);
-   int getPagesCountOfType(Integer orgsByPage, OrganizationType type);
+    Integer getCount();
+
+
+    Integer getPagesCount(Integer orgsByPage);
+    Integer getPagesCountOfType(Integer orgsByPage, OrganizationType type);
     /**
      * deletes organization
      * @param organization
@@ -77,8 +77,8 @@ public interface OrganizationService {
 	ImageImpl getImageById(Long id);
 
     Collection<Organization> getAllOrganizationByAuthor(String author);
-    int getPagesCountByAuthor(String author, Integer orgByPage);
+    Integer getPagesCountByAuthor(String author, Integer orgByPage);
     Collection<Organization> getPagesOrganizationByAuthor(String author, Integer pageNumb, Integer organizationByPage);
-    int getPagesCount(Boolean approved, Integer orgByPage);
+    Integer getPagesCount(Boolean approved, Integer orgByPage);
     Collection<Organization> getOrganizationsOnPage(Boolean approved, Integer pageNumb, Integer orgByPage);
 }

@@ -113,17 +113,6 @@ public class NewsServiceTest {
      * Test getNewsByTopic method
      */
     @Test
-    public void testGetNewsByTopic() {
-        when (mockDao.getNewsByTopic("topic2")).thenReturn(news2);
-        assertEquals(news2, service.getNewsByTopic("topic2"));
-		
-		assertNull(service.getNewsByTopic("some"));
-    }
-
-    /**
-     * Test getNewsByTopic method
-     */
-    @Test
     public void testGetAllNews() {
         LinkedList<News> allNews = new LinkedList<News>(Arrays.asList(news1,news2));
         when (mockDao.getAllNews()).thenReturn(allNews);
@@ -149,7 +138,7 @@ public class NewsServiceTest {
     @Test
     public void testGetPagesCountEmptyNews() {
         when (mockDao.getCount()).thenReturn(0);
-        assertEquals(0, service.getPagesCount(10));
+        assertEquals(0, (int)service.getPagesCount(10));
     }
 
     /**
@@ -159,15 +148,15 @@ public class NewsServiceTest {
     public void testGetPagesCount() {
         when (mockDao.getCount()).thenReturn(5);
         when(mockDao.calcPages(5, 10)).thenReturn(1);
-        assertEquals(1, service.getPagesCount(10));
+        assertEquals(1, (int)service.getPagesCount(10));
 
         when (mockDao.getCount()).thenReturn(15);
         when(mockDao.calcPages(15, 10)).thenReturn(2);
-        assertEquals(2, service.getPagesCount(10));
+        assertEquals(2, (int)service.getPagesCount(10));
 
         when (mockDao.getCount()).thenReturn(20);
         when(mockDao.calcPages(20, 20)).thenReturn(1);
-        assertEquals(1, service.getPagesCount(20));
+        assertEquals(1, (int)service.getPagesCount(20));
     }
 
     /**
@@ -196,17 +185,6 @@ public class NewsServiceTest {
         LinkedList<News> allNews = new LinkedList<News>(Arrays.asList(news1));
         when (mockDao.getNewsOnMainPage()).thenReturn(allNews);
         assertEquals(allNews, service.getNewsOnMainPage());
-    }
-
-    /**
-     * Test getCategoryById method
-     */
-    @Test
-    public void testGetCategoryById() {
-        when (mockDao.getCategoryById(1)).thenReturn(cat1);
-        assertEquals(cat1,service.getCategoryById(1));
-		
-		assertNull(service.getCategoryById(0));
     }
 	
 	@Test
