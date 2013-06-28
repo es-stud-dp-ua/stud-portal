@@ -1,5 +1,8 @@
 package ua.dp.stud.StudPortalLib.model;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -20,8 +23,8 @@ public class News extends BaseImagesSupport implements Serializable {
      * Default constructor
      */
     public News() {
-        onMainpage = 0;
-        inCalendar = 0;
+        onMainpage = false;
+        inCalendar = false;
         approved=false;
     }
 
@@ -35,7 +38,8 @@ public class News extends BaseImagesSupport implements Serializable {
      * @param publication Date when news was create
      * @param publicationInCalendar Date when news was publishing in cal
      */
-    public News(String topic, String text, String author, Date publication, Date publicationInCalendar, Category category, Boolean approved, Integer inCalendar, Integer onMainpage) {
+    public News(String topic, String text, String author, Date publication, Date publicationInCalendar,
+                Category category, Boolean approved, Boolean inCalendar, Boolean onMainpage) {
         this.topic = topic;
         this.text = text;
         this.author = author;
@@ -53,11 +57,9 @@ public class News extends BaseImagesSupport implements Serializable {
     private String author;
     private Date publication;
     private Date publicationInCalendar;
-    //todo: change to boolean
-    private Integer inCalendar;
+    private Boolean inCalendar;
     private Boolean approved;
-    //todo: change to boolean
-    private Integer onMainpage;
+    private Boolean onMainpage;
     private Category category;
     private Boolean orgApproved;
     private Organization baseOrg;
@@ -201,11 +203,11 @@ public class News extends BaseImagesSupport implements Serializable {
      * @return 0 if News is not belong for calendar, other value
      */
     @Column(name = "calendar")
-    public Integer getInCalendar() {
+    public Boolean getInCalendar() {
         return inCalendar;
     }
 
-    public void setInCalendar(int inCalendar) {
+    public void setInCalendar(Boolean inCalendar) {
         this.inCalendar = inCalendar;
     }
 
@@ -227,11 +229,11 @@ public class News extends BaseImagesSupport implements Serializable {
      * @return count of News on main page
      */
     @Column(name = "onmainpage")
-    public Integer getOnMainpage() {
+    public Boolean getOnMainpage() {
         return onMainpage;
     }
 
-    public void setOnMainpage(int onMainpage) {
+    public void setOnMainpage(Boolean onMainpage) {
         this.onMainpage = onMainpage;
     }
 
@@ -240,8 +242,41 @@ public class News extends BaseImagesSupport implements Serializable {
      * @return string with topic, text, author, publication date
      */
     @Override
-    public String toString() {
-        return "News{" + "topic=" + topic + "\n" + "text=" + text + "\n" + "author=" + author + ", publication=" + publication + '}';
+    public String toString()
+    {
+        return new StringBuffer().append("News[").append("topic=").append(topic)
+                .append(", text=").append(text).append(']')
+                .append(", author=").append(author).append(']')
+                .append(", publication=").append(publication).append(']').toString();
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return  new HashCodeBuilder(17, 257).append(this.topic).append(this.text).append(this.author)
+                .append(this.publication).append(this.publicationInCalendar).append(this.inCalendar)
+                .append(this.approved).append(this.onMainpage).append(this.category).append(this.orgApproved)
+                .append(this.baseOrg).append(this.comment).toHashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (obj == null) {
+            return false;
+        }
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof News))
+            return false;
+        final News other = (News) obj;
+        return new EqualsBuilder().append(other.topic, topic).append(other.text, text)
+                .append(other.author, author).append(other.publication, publication)
+                .append(other.publicationInCalendar, publicationInCalendar).append(other.inCalendar, inCalendar)
+                .append(other.approved, approved).append(other.onMainpage, onMainpage).append(other.category, category)
+                .append(other.orgApproved, orgApproved).append(other.baseOrg, baseOrg).append(other.comment, comment)
+                .isEquals();
     }
 
     /**

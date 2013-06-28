@@ -62,12 +62,7 @@ public class StudieServiceImpl implements StudieService{
    @Override
     public ImageImpl getImageById(Long id)
 	{
-        ImageImpl image = dao.getImageById(id);
-        //todo: wtf?
-        if (image != null) {
-            return image;
-        }
-        return null;
+        return dao.getImageById(id);
     } 
        @Override
     public void deleteImage(ImageImpl image)

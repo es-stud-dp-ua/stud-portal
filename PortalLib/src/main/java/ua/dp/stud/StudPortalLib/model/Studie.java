@@ -4,6 +4,9 @@
  */
 package ua.dp.stud.StudPortalLib.model;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+
 import javax.persistence.*;
 import java.io.Serializable;
 /**
@@ -75,5 +78,35 @@ public class Studie extends BaseImagesSupport implements Serializable  {
    public void setFacultetsZaoch(String facultetZaoch){
        this.facultetZaoch=facultetZaoch;
    }
-   
+
+    @Override
+    public int hashCode()
+    {
+        return  new HashCodeBuilder(55, 77).append(this.title).append(this.text).append(this.adress)
+                .append(this.facultetDnevn).append(this.facultetZaoch).toHashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (obj == null) {
+            return false;
+        }
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof Studie))
+            return false;
+        final Studie other = (Studie) obj;
+        return new EqualsBuilder().append(other.adress, adress).append(other.text, text).append(other.title, title)
+                .append(other.facultetZaoch, facultetZaoch).append(other.facultetDnevn, facultetDnevn).isEquals();
+    }
+
+    @Override
+    public String toString()
+    {
+        return new StringBuffer().append("Studie[").append("adress=").append(adress)
+                .append(", text=").append(text).append(']')
+                .append(", title=").append(title).append(']').append(']').toString();
+    }
 }

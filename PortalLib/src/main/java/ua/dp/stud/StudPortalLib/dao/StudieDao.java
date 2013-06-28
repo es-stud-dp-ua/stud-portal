@@ -14,13 +14,14 @@ import ua.dp.stud.StudPortalLib.model.Studie;
  */
 public interface StudieDao {
  
-Studie addStudie(Studie studie);
-Studie getStudieById(Integer id);
-Studie updateStudie(Studie studie);
-Collection<Studie> getAllStudies();
-void deleteStudie(Integer id);
-void addImage(ImageImpl image);
-ImageImpl getImageById(Long id);
-void deleteImage(Long id);
+    Studie addStudie(Studie studie);
+    Studie getStudieById(Integer id);
+    Studie updateStudie(Studie studie);
+    Collection<Studie> getAllStudies();
+    void deleteStudie(Integer id);
+    void addImage(ImageImpl image);
+    ImageImpl getImageById(Long id);
+    void deleteImage(Long id);
+    public int calcPages(Integer count, Integer perPage);
 
 }

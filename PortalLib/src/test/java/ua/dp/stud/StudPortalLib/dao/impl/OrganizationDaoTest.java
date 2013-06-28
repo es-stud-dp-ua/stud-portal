@@ -12,7 +12,7 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import ua.dp.stud.StudPortalLib.dao.OrganizationDao;
 import ua.dp.stud.StudPortalLib.model.News;
 import ua.dp.stud.StudPortalLib.model.Organization;
-import ua.dp.stud.StudPortalLib.model.OrganizationType;
+import ua.dp.stud.StudPortalLib.util.OrganizationType;
 
 import java.util.*;
 
@@ -139,7 +139,7 @@ public class OrganizationDaoTest extends AbstractTransactionalJUnit4SpringContex
     public void getCountByApprovedTest()
     {
         Integer result = 0;
-        Integer expResult = dao.getCount(false);
+        Integer expResult = dao.getCountByApprove(false);
         assertEquals(result, expResult);
     }
 

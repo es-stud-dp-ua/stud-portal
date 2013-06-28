@@ -4,6 +4,8 @@ package ua.dp.stud.StudPortalLib.service.impl;
  * @author Ivan Kamyshan
  */
 
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ua.dp.stud.StudPortalLib.dao.NewsDao;
 import ua.dp.stud.StudPortalLib.model.Category;
 import ua.dp.stud.StudPortalLib.model.ImageImpl;
@@ -11,8 +13,11 @@ import ua.dp.stud.StudPortalLib.model.News;
 import ua.dp.stud.StudPortalLib.service.NewsService;
 
 import java.util.Collection;
-//todo: all services must use @Transactional
-public class NewsServiceImpl implements NewsService {
+
+@Service
+@Transactional
+public class NewsServiceImpl implements NewsService
+{
      /**
      * dao - Dao object
      */
@@ -22,47 +27,84 @@ public class NewsServiceImpl implements NewsService {
      * setter for NewsArchiveDAO
      * @param dao   NewsDAO
      */
-    public void setDao(NewsDao dao) {
+    @Transactional(readOnly = false)
+    public void setDao(NewsDao dao)
+    {
         this.dao = dao;
+    }
+
+    /**  adds news
+     *
+     * @param newsToAdd
+     */
+    @Override
+    @Transactional(readOnly = false)
+    public void addNews(News newsToAdd)
+    {
+        dao.addNews(newsToAdd);
+    }
+
+    /**
+     *  updates news
+     * @param news
+     */
+    @Override
+    @Transactional(readOnly = false)
+    public void updateNews(News news)
+    {
+        dao.updateNews(news);
+    }
+
+    /**
+     * delete news
+     * @param news
+     */
+    @Override
+    @Transactional(readOnly = false)
+    public void deleteNews(News news)
+    {
+        dao.deleteNews(news.getId());
+    }
+
+    /**
+     * add image
+     * @param image
+     */
+    @Override
+    @Transactional(readOnly = false)
+    public void addImage(ImageImpl image)
+    {
+        dao.addImage(image);
     }
 
     /**
      *   returns news by id
      */
     @Override
-    public News getNewsById(Integer id) {
-        News news = dao.getNewsById(id);
-        //todo: wtf?!
-        if (news != null) {
-            return news;
-        }
-        return null;
+    @Transactional(readOnly = true)
+    public News getNewsById(Integer id)
+    {
+        return dao.getNewsById(id);
     }
 
     /**
      *   returns all news by topic
      */
     @Override
-    public News getNewsByTopic(String topic) {
-        News news = dao.getNewsByTopic(topic);
-        //todo: facepalm
-        if (news != null) {
-            return news;
-        }
-        return null;
+    @Transactional(readOnly = true)
+    public News getNewsByTopic(String topic)
+    {
+        return dao.getNewsByTopic(topic);
     }
 
     /**
      *   returns all news from db
      */
     @Override
-    public Collection<News> getAllNews() {
-        Collection<News> collection = dao.getAllNews();
-        //todo:
-        if (collection != null) {
-            return dao.getAllNews();
-        }
-        return null;
+    @Transactional(readOnly = true)
+    public Collection<News> getAllNews()
+    {
+        return dao.getAllNews();
     }
 
     /**
@@ -72,7 +114,9 @@ public class NewsServiceImpl implements NewsService {
      * @return
      */
     @Override
-    public Collection<News> getNewsOnPage(Integer pageNumb, Integer newsByPage) {
+    @Transactional(readOnly = true)
+    public Collection<News> getNewsOnPage(Integer pageNumb, Integer newsByPage)
+    {
         return dao.getNewsOnPage(pageNumb,newsByPage);
     }
 
@@ -82,46 +126,10 @@ public class NewsServiceImpl implements NewsService {
      * @return
      */
     @Override
-    public int getPagesCount(Integer newsByPage) {
-        int newsCount = dao.getCount();
-        //todo: move newsCount logic to dao
-        return (newsCount>0)? ((newsCount-1)/newsByPage + 1) : 0;
-    }
-
-    /**  adds news
-     *
-     * @param newsToAdd
-     */
-    @Override
-    public void addNews(News newsToAdd) {
-        dao.addNews(newsToAdd);
-    }
-
-    /**
-     *  updates news
-     * @param news
-     */
-    @Override
-    public void updateNews(News news) {
-        dao.updateNews(news);
-    }
-
-    /**
-     * delete news
-     * @param news
-     */
-    @Override
-    public void deleteNews(News news) {
-        dao.deleteNews(news.getId());
-    }
-
-    /**
-     * add image
-     * @param image
-     */
-    @Override
-    public void addImage(ImageImpl image) {
-       dao.addImage(image);
+    @Transactional(readOnly = true)
+    public int getPagesCount(Integer newsByPage)
+    {
+        return dao.calcPages(dao.getCount(), newsByPage);
     }
 
     /**
@@ -130,6 +138,7 @@ public class NewsServiceImpl implements NewsService {
      * @return news which will be visible on Main Page
      */
     @Override
+    @Transactional(readOnly = true)
     public Collection<News> getNewsOnMainPage() {
         return dao.getNewsOnMainPage();
     }
@@ -140,13 +149,9 @@ public class NewsServiceImpl implements NewsService {
      * @return
      */
     @Override
+    @Transactional(readOnly = true)
     public Category getCategoryById(Integer id) {
-        Category cat = dao.getCategoryById(id);
-        //todo:
-        if (cat != null) {
-            return cat;
-        }
-        return null;
+        return dao.getCategoryById(id);
     }
 
     /**
@@ -154,6 +159,7 @@ public class NewsServiceImpl implements NewsService {
      * @return
      */
     @Override
+    @Transactional(readOnly = true)
     public Collection<Category> getAllCategories() {
         return dao.getAllCategories();
     }
@@ -163,6 +169,7 @@ public class NewsServiceImpl implements NewsService {
      * @param image of image for delete
      */
 	@Override
+    @Transactional(readOnly = false)
     public void deleteImage(ImageImpl image)
 	{
         dao.deleteImage(image.getId());
@@ -174,14 +181,10 @@ public class NewsServiceImpl implements NewsService {
      * @return image that is equals id
      */
 	@Override
+    @Transactional(readOnly = true)
     public ImageImpl getImageById(Long id)
 	{
-        //todo:
-        ImageImpl image = dao.getImageById(id);
-        if (image != null) {
-            return image;
-        }
-        return null;
+        return dao.getImageById(id);
     }
 
     /**
@@ -190,6 +193,7 @@ public class NewsServiceImpl implements NewsService {
      * @return collection of news
      */
     @Override
+    @Transactional(readOnly = true)
     public Collection<News> getAllNewsByAuthor(String author)
     {
         return dao.getAllNewsByAuthor(author);
@@ -202,11 +206,10 @@ public class NewsServiceImpl implements NewsService {
      *
      */
     @Override
+    @Transactional(readOnly = true)
     public int getPagesCountByAuthor(String author, Integer newsByPage)
     {
-        int newsCount = dao.getCountByAuthor(author);
-        //todo:
-        return (newsCount > 0) ? ((newsCount - 1) / newsByPage + 1) : 0;
+        return dao.calcPages(dao.getCountByAuthor(author), newsByPage);
     }
 
     /**
@@ -217,6 +220,7 @@ public class NewsServiceImpl implements NewsService {
      * @return
      */
     @Override
+    @Transactional(readOnly = true)
     public Collection<News> getPagesNewsByAuthor(String author, Integer pageNumb, Integer newsByPage)
     {
         return dao.getPagesNewsByAuthor(author, pageNumb, newsByPage);
@@ -229,6 +233,7 @@ public class NewsServiceImpl implements NewsService {
      * @return collection of news
      */
     @Override
+    @Transactional(readOnly = true)
     public Collection<News> getNewsByOrg(Integer IdOrg, Boolean approved)
     {
         return dao.getNewsByOrg(IdOrg, approved);
@@ -243,9 +248,7 @@ public class NewsServiceImpl implements NewsService {
     @Override
     public int getPagesCountByOrgAuthor(String author, Boolean approved, Integer newsByPage)
     {
-        int newsCount = dao.getCountByOrgAuthor(author, approved);
-        //todo:
-        return (newsCount > 0) ? ((newsCount - 1) / newsByPage + 1) : 0;
+        return dao.calcPages(dao.getCountByOrgAuthor(author, approved), newsByPage);
     }
 
     /**
@@ -257,6 +260,7 @@ public class NewsServiceImpl implements NewsService {
      * @return collection of news on page
      */
     @Override
+    @Transactional(readOnly = true)
     public Collection<News> getPagesNewsByOrgAuthor(String author, Boolean approved, Integer pageNumb, Integer newsByPage)
     {
         return dao.getPagesNewsByOrgAuthor(author, approved, pageNumb, newsByPage);
@@ -268,6 +272,7 @@ public class NewsServiceImpl implements NewsService {
      * @return collection of news for administrator
      */
     @Override
+    @Transactional(readOnly = true)
     public Collection<News> getAllNews(Boolean approved)
     {
         return dao.getAllNews(approved);
@@ -280,11 +285,10 @@ public class NewsServiceImpl implements NewsService {
      * @return count of news for administrator
      */
     @Override
+    @Transactional(readOnly = true)
     public int getPagesCount(Boolean approved, Integer newsByPage)
     {
-        int newsCount = dao.getCount(approved);
-        //todo:
-        return (newsCount > 0) ? ((newsCount - 1) / newsByPage + 1) : 0;
+        return dao.calcPages(dao.getCount(approved), newsByPage);
     }
 
     /**
@@ -295,6 +299,7 @@ public class NewsServiceImpl implements NewsService {
      * @return collection news on pages for administrator
      */
     @Override
+    @Transactional(readOnly = true)
     public Collection<News> getNewsOnPage(Boolean approved, Integer pageNumb, Integer newsByPage)
     {
         return dao.getNewsOnPage(approved, pageNumb, newsByPage);

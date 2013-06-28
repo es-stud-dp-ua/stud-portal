@@ -2,7 +2,7 @@ package ua.dp.stud.StudPortalLib.service;
 
 import ua.dp.stud.StudPortalLib.model.ImageImpl;
 import ua.dp.stud.StudPortalLib.model.Organization;
-import ua.dp.stud.StudPortalLib.model.OrganizationType;
+import ua.dp.stud.StudPortalLib.util.OrganizationType;
 
 import java.util.Collection;
 
@@ -16,10 +16,6 @@ public interface OrganizationService {
      */
     Organization addOrganization(Organization organization);
 
-
-    
-    String getType();
-    void setType(String type);
     /**
      *
      * @param id

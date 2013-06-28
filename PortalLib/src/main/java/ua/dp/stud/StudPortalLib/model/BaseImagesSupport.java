@@ -1,5 +1,8 @@
 package ua.dp.stud.StudPortalLib.model;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
@@ -41,8 +44,8 @@ public class BaseImagesSupport implements Serializable {
     public void setMainImage(ImageImpl mainImage) {
         this.mainImage = mainImage;
     }
-    //todo: use laze fetch type
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "base", orphanRemoval=true)
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "base", orphanRemoval=true)
     public List<ImageImpl> getAdditionalImages() {
         return additionalImages;
     }
@@ -51,9 +54,32 @@ public class BaseImagesSupport implements Serializable {
         this.additionalImages = additionalImages;
     }
 
-    //todo: alwaus override hashcode AND equals
     @Override
     public int hashCode() {
-        return id != null ? id.hashCode() : super.hashCode();
+        return  new HashCodeBuilder(17, 37).append(this.id).append(this.yearMonthUniqueFolder).append(this.mainImage)
+                .toHashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (obj == null) {
+            return false;
+        }
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof BaseImagesSupport))
+            return false;
+        final BaseImagesSupport other = (BaseImagesSupport) obj;
+        return new EqualsBuilder().append(other.id, id).append(other.yearMonthUniqueFolder, yearMonthUniqueFolder)
+                .append(other.mainImage, mainImage).append(other.additionalImages, additionalImages).isEquals();
+    }
+
+    @Override
+    public String toString()
+    {
+        return new StringBuffer().append("BaseImagesSupport[").append("id=").append(id).append(", yearMonthUniqueFolder=")
+                .append(yearMonthUniqueFolder).append(']').toString();
     }
 }

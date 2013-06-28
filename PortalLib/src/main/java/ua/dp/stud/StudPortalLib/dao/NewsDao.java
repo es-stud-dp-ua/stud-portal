@@ -211,5 +211,5 @@ public interface NewsDao {
      */
     Collection<News> getNewsOnPage(Boolean approved, Integer pageNumb, Integer newsByPage);
 
-
+    public int calcPages(Integer count, Integer perPage);
 }

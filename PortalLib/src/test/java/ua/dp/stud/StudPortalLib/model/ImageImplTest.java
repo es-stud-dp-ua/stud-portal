@@ -69,7 +69,7 @@ public class ImageImplTest
 	@Test
 	public void testToString()
 	{
-		String expResult = "ImageImpl{originalImageName=\'null\', id=null}";
+		String expResult = "ImageImpl[originalImageName=null, id=null]";
 		String result = instance.toString();
 		assertEquals(expResult, result);
 	}

@@ -1,23 +1,19 @@
 package ua.dp.stud.StudPortalLib.dao.impl;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import ua.dp.stud.StudPortalLib.dao.OrganizationDao;
 import ua.dp.stud.StudPortalLib.model.ImageImpl;
 import ua.dp.stud.StudPortalLib.model.News;
 import ua.dp.stud.StudPortalLib.model.Organization;
-import ua.dp.stud.StudPortalLib.model.OrganizationType;
+import ua.dp.stud.StudPortalLib.util.OrganizationType;
 
 import java.util.Collection;
 
-public class OrganizationDaoImpl implements OrganizationDao {
-
-    @Autowired
-    private SessionFactory sessionFactory;
-
+@Repository("organizationDao")
+public class OrganizationDaoImpl extends BaseDao implements OrganizationDao
+{
 
     /**
      * collection for organizations news by id
@@ -162,20 +158,6 @@ public class OrganizationDaoImpl implements OrganizationDao {
         getSession().delete(orgs);
     }
 
-    
-    /**
-     * session factory setter
-     * @param sessionFactory
-     */
-    public void setSessionFactory(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
-
-
-    private Session getSession(){
-        return sessionFactory.getCurrentSession();
-    }
-
     @Override
     public Collection<Organization> getAllOrganizationByAuthor(String author)
     {
@@ -205,8 +187,7 @@ public class OrganizationDaoImpl implements OrganizationDao {
     }
 
     @Override
-    //todo: change method name
-    public int getCount(Boolean approved)
+    public int getCountByApprove(Boolean approved)
     {
         return ((Long) getSession().createQuery("Select Count(*) From Organization organization  Where organization.approved = :approved and organization.comment is null")
                 .setParameter("approved", approved).uniqueResult()).intValue();

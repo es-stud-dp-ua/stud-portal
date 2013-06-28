@@ -17,10 +17,7 @@ import static org.apache.commons.lang.StringUtils.join;
 
 /**
  * Created with IntelliJ IDEA.
- * User: Josby
- * Date: 19.12.12
- * Time: 18:41
- * To change this template use File | Settings | File Templates.
+ * @author: Josby
  * @author Vladislav Pikus
  */
 //todo: this must be a spring bean

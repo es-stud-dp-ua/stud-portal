@@ -3,7 +3,7 @@ package ua.dp.stud.StudPortalLib.dao.impl;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
-import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
+import org.springframework.stereotype.Repository;
 import ua.dp.stud.StudPortalLib.dao.NewsDao;
 import ua.dp.stud.StudPortalLib.model.Category;
 import ua.dp.stud.StudPortalLib.model.ImageImpl;
@@ -17,9 +17,9 @@ import java.util.Collection;
  * @author Roman Lukash
  * @author Vladislav Pikus
  */
-//todo: remove inheritance from HibernateDaoSupport and add @Repository
-public class NewsDaoImpl extends HibernateDaoSupport implements NewsDao {
-
+@Repository("newsDao")
+public class NewsDaoImpl extends BaseDao implements NewsDao
+{
     /**
      * Method add news to database
      *
@@ -39,7 +39,8 @@ public class NewsDaoImpl extends HibernateDaoSupport implements NewsDao {
      * @return The news which ID = id;
      */
     @Override
-    public News getNewsById(Integer id) {
+    public News getNewsById(Integer id)
+    {
         return (News) getSession().get(News.class, id);
     }
 
@@ -51,7 +52,8 @@ public class NewsDaoImpl extends HibernateDaoSupport implements NewsDao {
      */
     @Override
     //todo: this methdod is used only in service. do we realy need it?
-    public News getNewsByTopic(String topic) {
+    public News getNewsByTopic(String topic)
+    {
         return (News) getSession().createQuery("Select news From News news  Where news.topic = :topic ").setParameter("topic", topic).uniqueResult();
     }
 
@@ -72,9 +74,9 @@ public class NewsDaoImpl extends HibernateDaoSupport implements NewsDao {
      */
 
     @Override
-    public void deleteNews(Integer id) {
-        //todo: use get instead of query
-        News news = (News) getSession().createQuery("Select news From News news  Where news.id = :id").setParameter("id", id).uniqueResult();
+    public void deleteNews(Integer id)
+    {
+        News news = (News) getSession().get(News.class, id);
         ImageImpl image = news.getMainImage();
         getSession().delete(image);
         getSession().delete(news);
@@ -85,7 +87,8 @@ public class NewsDaoImpl extends HibernateDaoSupport implements NewsDao {
      * @return Collection of News
      */
     @Override
-    public Collection<News> getAllNews() {
+    public Collection<News> getAllNews()
+    {
         return getSession().createCriteria(News.class).addOrder(Order.desc("publication")).list();
     }
 
@@ -129,9 +132,9 @@ public class NewsDaoImpl extends HibernateDaoSupport implements NewsDao {
      */
     @Override
     //todo: this method is also used only in service
-    public Category getCategoryById(Integer id) {
-        //todo: use get instead of load
-        return (Category) getSession().load(Category.class, id);
+    public Category getCategoryById(Integer id)
+    {
+        return (Category) getSession().get(Category.class, id);
     }
 
     /**
@@ -170,7 +173,8 @@ public class NewsDaoImpl extends HibernateDaoSupport implements NewsDao {
     @Override
     public Collection<News> getNewsOnPage(Integer pageNumb, Integer newsByPage) {
          int firstResult = (pageNumb - 1) * newsByPage;
-        return (Collection<News>)getSession().createQuery("From News a ORDER BY a.id desc").setFirstResult(firstResult).setMaxResults(newsByPage).list();
+        return (Collection<News>)getSession().createQuery("From News a ORDER BY a.id desc")
+                .setFirstResult(firstResult).setMaxResults(newsByPage).list();
      
     }
 
@@ -181,7 +185,8 @@ public class NewsDaoImpl extends HibernateDaoSupport implements NewsDao {
      */
     @Override
     public Collection<News> getNewsOnMainPage() {
-        return getSession().createCriteria(News.class).addOrder(Order.desc("publication")).add(Restrictions.eq("onMainpage", 1)).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+        return getSession().createCriteria(News.class).addOrder(Order.desc("publication")).
+                add(Restrictions.eq("onMainpage", true)).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
     }
 
     /**

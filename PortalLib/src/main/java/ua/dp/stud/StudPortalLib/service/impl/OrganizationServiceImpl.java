@@ -6,12 +6,10 @@ import org.springframework.transaction.annotation.Transactional;
 import ua.dp.stud.StudPortalLib.dao.OrganizationDao;
 import ua.dp.stud.StudPortalLib.model.ImageImpl;
 import ua.dp.stud.StudPortalLib.model.Organization;
-import ua.dp.stud.StudPortalLib.model.OrganizationType;
+import ua.dp.stud.StudPortalLib.util.OrganizationType;
 import ua.dp.stud.StudPortalLib.service.OrganizationService;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -21,31 +19,10 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     @Autowired
     private OrganizationDao dao;
-    //todo: you shouldn't use non final variables in service
-    private String type;
-    //todo: delete this
-    @Override
-   public String getType()
-    {
-    return type;
-    }
-    //todo: and this
-    @Override
-   public void setType(String type)
-    {
-        this.type=type;
-    }
-    //todo: and this
-    public OrganizationServiceImpl()
-    {
-  
-    }
-    
-
     
     private static final List<String> ORGANIZATION_TYPES;
-    //todo: use Arrays.asList(OrganizationType.values())
-    static {
+    static
+    {
         ORGANIZATION_TYPES = new ArrayList<String>();
 
         for (OrganizationType t:OrganizationType.values()){
@@ -106,17 +83,17 @@ public class OrganizationServiceImpl implements OrganizationService {
      */
     @Transactional(readOnly = true)
     @Override
-    public Collection<Organization> getOrganizationsByType(String type) {
-        Collection<Organization> result;
-        //todo: remove try-block
-        try {
+    public Collection<Organization> getOrganizationsByType(String type)
+    {
+        try
+        {
             OrganizationType orgType = OrganizationType.valueOf(type);
-            result = dao.getOrganizationsByType(orgType);
-        } catch (Exception ex){
-            result = null;
+            return dao.getOrganizationsByType(orgType);
         }
-
-        return result;
+        catch (Exception unused)
+        {
+            return null;
+        }
     }
 
     /**
@@ -130,39 +107,31 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Override
     public Collection<Organization> getOrganizationsOnPage(Integer pageNumb, Integer orgsPerPage, String type, Boolean approve) 
     {
-        Collection<Organization> result;
-        //todo: remove try-block
-        try {
+        try
+        {
             OrganizationType orgType = OrganizationType.valueOf(type);
-            result = dao.getOrganizationsOnPage(pageNumb, orgsPerPage, orgType,approve);
-        } catch (Exception ex){
-            result = null;
+            return dao.getOrganizationsOnPage(pageNumb, orgsPerPage, orgType,approve);
         }
-
-        return result;
+        catch (Exception unused)
+        {
+            return null;
+        }
     }
     
     @Transactional(readOnly = true)
     @Override
     public Collection<Organization> getOrganizationsOnPage2(Integer pageNumb, Integer orgsPerPage, Boolean approve)
     {
-        Collection<Organization> result;
-        //todo: remove try-block
-        try {
-             result = dao.getOrganizationsOnPage2(pageNumb, orgsPerPage,approve);
-        } catch (Exception ex){
-            result = null;
-        }
-
-        return result;
+        return dao.getOrganizationsOnPage2(pageNumb, orgsPerPage,approve);
     }
      
     @Override
     public void deleteImage(ImageImpl image)
 	{
         dao.deleteImage(image.getId());
-    }      
-            /**
+    }
+
+    /**
      *
      * @return collection of strings that represent organization types
      */
@@ -170,18 +139,19 @@ public class OrganizationServiceImpl implements OrganizationService {
     public Collection<String> getOrganizationTypes() {
         return ORGANIZATION_TYPES;
     }
+
     @Override
-    //todo: @Transactional readonly = true
-    public int getPagesCount(Integer orgsByPage) {
-        int orgsCount = dao.getCount();
-        return (orgsCount>0)? ((orgsCount-1)/orgsByPage + 1) : 0;
+    @Transactional(readOnly = true)
+    public int getPagesCount(Integer orgsByPage)
+    {
+        return dao.calcPages(dao.getCount(), orgsByPage);
     }
+
     @Override
-    //todo: @Transactional readonly = true
+    @Transactional(readOnly = true)
     public int getPagesCountOfType(Integer orgsByPage, OrganizationType type)
     {
-    int orgsCount = dao.getCountOfType(type);
-    return (orgsCount>0)? ((orgsCount-1)/orgsByPage + 1) : 0;
+        return dao.calcPages(dao.getCountOfType(type), orgsByPage);
     }
     /**
      * runs count(*) on table
@@ -199,7 +169,8 @@ public class OrganizationServiceImpl implements OrganizationService {
      * @return
      */
     @Override
-    public void deleteOrganization(Organization organization) {
+    public void deleteOrganization(Organization organization)
+    {
         dao.deleteOrganization(organization.getId());
     }
 
@@ -212,41 +183,35 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Override
     public int getPagesCountByAuthor(String author, Integer orgByPage)
     {
-        int newsCount = dao.getCountByAuthor(author);
-        return (newsCount > 0) ? ((newsCount - 1) / orgByPage + 1) : 0;
+        return dao.calcPages(dao.getCountByAuthor(author), orgByPage);
     }
 
     @Override
-    //todo: @Transactional readonly = true
+    @Transactional(readOnly = true)
     public Collection<Organization> getPagesOrganizationByAuthor(String author, Integer pageNumb, Integer organizationByPage)
     {
         return dao.getPagesOrganizationByAuthor(author, pageNumb, organizationByPage);
     }
 
     @Override
-    //todo: @Transactional readonly = true
+    @Transactional(readOnly = true)
     public int getPagesCount(Boolean approved, Integer orgByPage)
     {
-        int newsCount = dao.getCount(approved);
-        return (newsCount > 0) ? ((newsCount - 1) / orgByPage + 1) : 0;
+        return dao.calcPages(dao.getCountByApprove(approved), orgByPage);
     }
 
     @Override
-    //todo: @Transactional readonly = true
+    @Transactional(readOnly = true)
     public Collection<Organization> getOrganizationsOnPage(Boolean approved, Integer pageNumb, Integer orgByPage)
     {
         return dao.getOrganizationsOnPage(approved, pageNumb, orgByPage);
     }
    	
 	@Override
-    //todo: @Transactional readonly = true
+    @Transactional(readOnly = true)
     public ImageImpl getImageById(Long id)
 	{
-        ImageImpl image = dao.getImageById(id);
-        if (image != null) {
-            return image;
-        }
-        return null;
+        return dao.getImageById(id);
     }
 }
 

@@ -35,10 +35,10 @@ public class NewsServiceTest {
         cat1 = new Category("cat1");
         cat2 = new Category("cat2");
 
-        news1 = new News("topic1","text1","author1",new Date(), new Date(), cat1,true,1,1);
+        news1 = new News("topic1","text1","author1",new Date(), new Date(), cat1,true,true,true);
         news1.setId(1);
 
-        news2 = new News("topic2","text2","author2",new Date(),new Date(), cat2,false,0,0);
+        news2 = new News("topic2","text2","author2",new Date(),new Date(), cat2,false,false,false);
         news2.setId(2);
     }
 
@@ -67,6 +67,7 @@ public class NewsServiceTest {
     public void getPagesCountByAuthorTest()
     {
         when(mockDao.getCountByAuthor("author1")).thenReturn(10);
+        when(mockDao.calcPages(10, 4)).thenReturn(3);
         Integer result = 3;
         Integer expResult = service.getPagesCountByAuthor("author1", 4);
         assertEquals(result, expResult);
@@ -76,6 +77,7 @@ public class NewsServiceTest {
     public void getPagesCountByApprovedTest()
     {
         when(mockDao.getCount(false)).thenReturn(10);
+        when(mockDao.calcPages(10, 4)).thenReturn(3);
         Integer result = 3;
         Integer expResult = service.getPagesCount(false, 4);
         assertEquals(result, expResult);
@@ -156,12 +158,15 @@ public class NewsServiceTest {
     @Test
     public void testGetPagesCount() {
         when (mockDao.getCount()).thenReturn(5);
+        when(mockDao.calcPages(5, 10)).thenReturn(1);
         assertEquals(1, service.getPagesCount(10));
 
         when (mockDao.getCount()).thenReturn(15);
+        when(mockDao.calcPages(15, 10)).thenReturn(2);
         assertEquals(2, service.getPagesCount(10));
 
         when (mockDao.getCount()).thenReturn(20);
+        when(mockDao.calcPages(20, 20)).thenReturn(1);
         assertEquals(1, service.getPagesCount(20));
     }
 

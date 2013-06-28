@@ -6,7 +6,13 @@ package ua.dp.stud.StudPortalLib.dao.impl;
 
 
 import java.util.Collection;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.hibernate3.HibernateTemplate;
+import org.springframework.stereotype.Repository;
 import ua.dp.stud.StudPortalLib.model.Studie;
 import ua.dp.stud.StudPortalLib.model.ImageImpl;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
@@ -15,8 +21,10 @@ import ua.dp.stud.StudPortalLib.dao.StudieDao;
  *
  * @author Ольга
  */
-public class StudieDaoImpl extends HibernateDaoSupport implements StudieDao {
-   
+@Repository("studieDao")
+public class StudieDaoImpl extends BaseDao  implements StudieDao
+{
+
     @Override
     public Studie addStudie(Studie studie) {
         getSession().save(studie);
@@ -48,17 +56,16 @@ public class StudieDaoImpl extends HibernateDaoSupport implements StudieDao {
     }
     
     @Override
- public void addImage(ImageImpl image)
- {
-      getSession().save(image);
- }
+    public void addImage(ImageImpl image)
+    {
+        getSession().save(image);
+    }
       @Override
     public ImageImpl getImageById(Long id)
 	{
         return (ImageImpl) getSession().get(ImageImpl.class, id);
     }
-    
-    
+
     @Override
 	public void deleteImage(Long id)
 	{

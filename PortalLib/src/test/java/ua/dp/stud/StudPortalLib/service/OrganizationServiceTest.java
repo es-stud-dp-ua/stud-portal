@@ -11,7 +11,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import ua.dp.stud.StudPortalLib.model.Organization;
 import ua.dp.stud.StudPortalLib.dao.OrganizationDao;
-import ua.dp.stud.StudPortalLib.model.OrganizationType;
+import ua.dp.stud.StudPortalLib.util.OrganizationType;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -120,6 +120,7 @@ public class OrganizationServiceTest extends AbstractTransactionalJUnit4SpringCo
 	public void getOrganizationTypes()
 	{
 		assertNotNull(service.getOrganizationTypes());
+        assertEquals(7, service.getOrganizationTypes().size());
 	}
 
     @Test

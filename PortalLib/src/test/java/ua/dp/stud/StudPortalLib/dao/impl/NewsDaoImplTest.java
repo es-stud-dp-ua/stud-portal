@@ -33,13 +33,10 @@ import static org.junit.Assert.*;
 @RunWith(SpringJUnit4ClassRunner.class)
 public class NewsDaoImplTest extends AbstractTransactionalJUnit4SpringContextTests {
 
-
-
     public NewsDaoImplTest() {
 	}
 
 	@Autowired
-	@Qualifier(value = "newsDao")
 	private NewsDao dao;
 	private static News n1;
 	private static News n2;
@@ -51,13 +48,19 @@ public class NewsDaoImplTest extends AbstractTransactionalJUnit4SpringContextTes
 	public void setUpClass() {
 		cat1 = new Category("Sport");
 		cat2 = new Category("General");
-		n1 = new News("Тема1", "Текс1", "Автор1", new Date(), new Date(), cat1, true, 1, 1);
-		n2 = new News("Тема2", "Текс2", "Автор2", new Date(), new Date(), cat2, false, 0, 0);
+		n1 = new News("Тема1", "Текс1", "Автор1", new Date(), new Date(), cat1, true, true, true);
+		n2 = new News("Тема2", "Текс2", "Автор2", new Date(), new Date(), cat2, false, false, false);
 		dao.addCategory(cat1);
 		dao.addCategory(cat2);
 		dao.addNews(n1);
 		dao.addNews(n2);
 	}
+
+    @Test
+    public void calcPagesTest()
+    {
+        assertEquals(6, dao.calcPages(21, 4));
+    }
 
     @Test
     public void getAllNewsByAuthorTest()

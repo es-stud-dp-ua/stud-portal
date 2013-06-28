@@ -85,7 +85,7 @@ public class CategoryTest {
 	@Test
 	public void testToString()
 	{
-		String expResult = "Category{id=null, categoryName=null}";
+		String expResult = "Category[categoryId=null, categoryName=null]";
 		String result = instance.toString();
 		assertEquals(expResult, result);
 	}

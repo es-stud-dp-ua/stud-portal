@@ -54,18 +54,8 @@
             </props>
         </property>
     </bean>
-    <bean id="newsDao" class="ua.dp.stud.StudPortalLib.dao.impl.NewsDaoImpl">
-                <property name="sessionFactory" ref="sessionFactory" />
-        </bean>
- <bean id="studieDao" class="ua.dp.stud.StudPortalLib.dao.impl.StudieDaoImpl">
-                <property name="sessionFactory" ref="sessionFactory" />
-    </bean>
-    <bean id="organizationDao" class="ua.dp.stud.StudPortalLib.dao.impl.OrganizationDaoImpl">
-        <property name="sessionFactory" ref="sessionFactory"/>
-    </bean>
+    <context:component-scan base-package="ua.dp.stud.StudPortalLib.dao.impl" />
+    <context:component-scan base-package="ua.dp.stud.StudPortalLib.service.impl" />
 
-    <bean name="organizationService" class="ua.dp.stud.StudPortalLib.service.impl.OrganizationServiceImpl">
-        <property name="dao" ref="organizationDao"/>
-    </bean>
 </beans>
 
