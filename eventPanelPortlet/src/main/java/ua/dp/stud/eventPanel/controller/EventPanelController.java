@@ -27,7 +27,7 @@ import java.util.Collection;
 @RequestMapping(value = "view")
 public class EventPanelController
 {
-    private static final int BY_PAGE = 4;
+    private static final int PER_PAGE = 4;
     private static final String FIRST_STATE = "first";
     private static final String NEXT_STATE = "next";
     private static final String PREV_STATE = "prev";
@@ -102,9 +102,9 @@ public class EventPanelController
         //todo: instead of if-else use map
         if (modelView.equals("myNews"))
         {
-            pageCount = newsService.getPagesCountByAuthor(userName, BY_PAGE);
+            pageCount = newsService.getPagesCountByAuthor(userName, PER_PAGE);
             newCurrentPage = setPage(currentPage, pageCount, direction);
-            newsList = newsService.getPagesNewsByAuthor(userName, newCurrentPage, BY_PAGE);
+            newsList = newsService.getPagesNewsByAuthor(userName, newCurrentPage, PER_PAGE);
             setPlid(request, model, NEWS_ARCHIVE_REFERENCE_NAME);
             model.addObject("newsList", newsList);
             model.addObject(TYPE, "News");
@@ -113,9 +113,9 @@ public class EventPanelController
         {
             if (modelView.equals("myCommunity"))
             {
-                pageCount = orgService.getPagesCountByAuthor(userName, BY_PAGE);
+                pageCount = orgService.getPagesCountByAuthor(userName, PER_PAGE);
                 newCurrentPage = setPage(currentPage, pageCount, direction);
-                orgList = orgService.getPagesOrganizationByAuthor(userName, newCurrentPage, BY_PAGE);
+                orgList = orgService.getPagesOrganizationByAuthor(userName, newCurrentPage, PER_PAGE);
                 setPlid(request, model, COMMUNITIES_REFERENCE_NAME);
                 model.addObject("orgList", orgList);
                 model.addObject(TYPE, "Organization");
@@ -124,9 +124,9 @@ public class EventPanelController
             {
                 if (modelView.equals("newsInMyComm"))
                 {
-                    pageCount = newsService.getPagesCountByOrgAuthor(userName,false, BY_PAGE);
+                    pageCount = newsService.getPagesCountByOrgAuthor(userName,false, PER_PAGE);
                     newCurrentPage = setPage(currentPage, pageCount, direction);
-                    newsList = newsService.getPagesNewsByOrgAuthor(userName, false, newCurrentPage, BY_PAGE);
+                    newsList = newsService.getPagesNewsByOrgAuthor(userName, false, newCurrentPage, PER_PAGE);
                     setPlid(request, model, NEWS_ARCHIVE_REFERENCE_NAME);
                     model.addObject("newsList", newsList);
                     model.addObject(TYPE, "News");
@@ -135,9 +135,9 @@ public class EventPanelController
                 {
                     if (modelView.equals("adminNews"))
                     {
-                        pageCount = newsService.getPagesCount(false, BY_PAGE);
+                        pageCount = newsService.getPagesCount(false, PER_PAGE);
                         newCurrentPage = setPage(currentPage, pageCount, direction);
-                        newsList = newsService.getNewsOnPage(false, newCurrentPage, BY_PAGE);
+                        newsList = newsService.getNewsOnPage(false, newCurrentPage, PER_PAGE);
                         setPlid(request, model, NEWS_ARCHIVE_REFERENCE_NAME);
                         model.addObject("newsList", newsList);
                         model.addObject(TYPE, "News");
@@ -146,9 +146,9 @@ public class EventPanelController
                     {
                         if (modelView.equals("adminCommunity"))
                         {
-                            pageCount = orgService.getPagesCount(false, BY_PAGE);
+                            pageCount = orgService.getPagesCount(false, PER_PAGE);
                             newCurrentPage = setPage(currentPage, pageCount, direction);
-                            orgList = orgService.getOrganizationsOnPage(false, newCurrentPage, BY_PAGE);
+                            orgList = orgService.getOrganizationsOnPage(false, newCurrentPage, PER_PAGE);
                             setPlid(request, model, COMMUNITIES_REFERENCE_NAME);
                             model.addObject("orgList", orgList);
                             model.addObject(TYPE, "Organization");
