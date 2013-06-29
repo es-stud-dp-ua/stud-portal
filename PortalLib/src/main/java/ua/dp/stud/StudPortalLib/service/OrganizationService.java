@@ -2,7 +2,7 @@ package ua.dp.stud.StudPortalLib.service;
 
 import ua.dp.stud.StudPortalLib.model.ImageImpl;
 import ua.dp.stud.StudPortalLib.model.Organization;
-import ua.dp.stud.StudPortalLib.model.OrganizationType;
+import ua.dp.stud.StudPortalLib.util.OrganizationType;
 
 import java.util.Collection;
 
@@ -16,9 +16,6 @@ public interface OrganizationService {
      */
     Organization addOrganization(Organization organization);
 
-
-    
-   
     /**
      *
      * @param id
@@ -56,14 +53,20 @@ public interface OrganizationService {
     Collection<Organization> getOrganizationsOnPage(Integer pageNumb, Integer orgsPerPage, String type, Boolean approve);
     Collection<Organization> getOrganizationsOnPage2(Integer pageNumb, Integer orgsPerPage, Boolean approve);
     /**
+     *
+     * @return collection of strings that represent organization types
+     */
+    Collection<String> getOrganizationTypes();
+
+    /**
      * runs count(*) on table
      * @return
      */
-    int getCount();
-    
-    
-   int getPagesCount(Integer orgsByPage);
-   int getPagesCountOfType(Integer orgsByPage, OrganizationType type);
+    Integer getCount();
+
+
+    Integer getPagesCount(Integer orgsByPage);
+    Integer getPagesCountOfType(Integer orgsByPage, OrganizationType type);
     /**
      * deletes organization
      * @param organization
@@ -74,8 +77,8 @@ public interface OrganizationService {
 	ImageImpl getImageById(Long id);
 
     Collection<Organization> getAllOrganizationByAuthor(String author);
-    int getPagesCountByAuthor(String author, Integer orgByPage);
+    Integer getPagesCountByAuthor(String author, Integer orgByPage);
     Collection<Organization> getPagesOrganizationByAuthor(String author, Integer pageNumb, Integer organizationByPage);
-    int getPagesCount(Boolean approved, Integer orgByPage);
+    Integer getPagesCount(Boolean approved, Integer orgByPage);
     Collection<Organization> getOrganizationsOnPage(Boolean approved, Integer pageNumb, Integer orgByPage);
 }
