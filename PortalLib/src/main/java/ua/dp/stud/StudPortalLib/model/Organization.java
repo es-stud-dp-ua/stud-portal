@@ -1,11 +1,8 @@
 package ua.dp.stud.StudPortalLib.model;
 
 
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
-import ua.dp.stud.StudPortalLib.util.OrganizationType;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -43,7 +40,8 @@ public class Organization extends BaseImagesSupport implements Serializable {
     {
         this.comment = comment;
     }
-    @OneToMany(mappedBy = "baseOrg", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    //todo: use lazy fetch type
+    @OneToMany(mappedBy = "baseOrg", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @Fetch(FetchMode.SUBSELECT)
     public List<News> getNewsList()
     {
@@ -99,38 +97,5 @@ public class Organization extends BaseImagesSupport implements Serializable {
 
     public void setApproved(Boolean approved) {
         this.approved = approved;
-    }
-
-    @Override
-    public int hashCode()
-    {
-        return  new HashCodeBuilder(3, 89).append(this.author).append(this.text).append(this.title)
-                .append(this.organizationType).append(this.approved).append(this.comment).toHashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj)
-    {
-        if (obj == null) {
-            return false;
-        }
-        if (obj == this) {
-            return true;
-        }
-        if (!(obj instanceof Organization))
-            return false;
-        final Organization other = (Organization) obj;
-        return new EqualsBuilder().append(other.author, author).append(other.text, text).append(other.title, title)
-                .append(other.organizationType, organizationType).append(other.approved, approved)
-                .append(other.comment, comment).append(other.newsList, newsList).isEquals();
-    }
-
-    @Override
-    public String toString()
-    {
-        return new StringBuffer().append("Organization[").append("title=").append(title)
-                .append(", text=").append(text).append(']')
-                .append(", author=").append(author).append(']')
-                .append(", organizationType=").append(organizationType).append(']').toString();
     }
 }

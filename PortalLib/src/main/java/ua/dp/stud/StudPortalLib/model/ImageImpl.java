@@ -1,9 +1,6 @@
 package ua.dp.stud.StudPortalLib.model;
 
 
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
-
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -50,33 +47,13 @@ public class ImageImpl implements Serializable {
         this.base = base;
     }
 
-    @Override
-    public String toString()
-    {
-        return new StringBuffer().append("ImageImpl[").append("originalImageName=").append(originalImageName)
-                .append(", id=").append(id).append(']').toString();
-    }
+
 
     @Override
-    public int hashCode()
-    {
-        return  new HashCodeBuilder(17, 97).append(this.id).append(this.base).append(this.originalImageName)
-                .toHashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj)
-    {
-        if (obj == null) {
-            return false;
-        }
-        if (obj == this) {
-            return true;
-        }
-        if (!(obj instanceof ImageImpl))
-            return false;
-        final ImageImpl other = (ImageImpl) obj;
-        return new EqualsBuilder().append(other.id, id).append(other.base, base)
-                .append(other.originalImageName, originalImageName).isEquals();
+    public String toString() {
+        return "ImageImpl{" +
+                "originalImageName='" + originalImageName + '\'' +
+                ", id=" + id +
+                '}';
     }
 }

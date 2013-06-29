@@ -24,7 +24,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
- <!--todo:move javascript and css to separate file, remove tables, rename all *news*-->
+
         <style type="text/css">
             .error {
                 color: #ff0000;

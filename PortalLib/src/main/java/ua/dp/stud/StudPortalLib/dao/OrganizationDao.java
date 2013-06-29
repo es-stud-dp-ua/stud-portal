@@ -3,7 +3,7 @@ package ua.dp.stud.StudPortalLib.dao;
 import ua.dp.stud.StudPortalLib.model.ImageImpl;
 import ua.dp.stud.StudPortalLib.model.News;
 import ua.dp.stud.StudPortalLib.model.Organization;
-import ua.dp.stud.StudPortalLib.util.OrganizationType;
+import ua.dp.stud.StudPortalLib.model.OrganizationType;
 
 import java.util.Collection;
 
@@ -79,9 +79,9 @@ public interface OrganizationDao {
      *
      * @return
      */
-    Integer getCount();
+    int getCount();
 
-    Integer getCountOfType(OrganizationType type);
+    int getCountOfType(OrganizationType type);
 
     /**
      * delete given organization from db
@@ -94,9 +94,8 @@ public interface OrganizationDao {
     ImageImpl getImageById(Long id);
 
     Collection<Organization> getAllOrganizationByAuthor(String author);
-    Integer getCountByAuthor(String author);
+    int getCountByAuthor(String author);
     Collection<Organization> getPagesOrganizationByAuthor(String author, Integer pageNumb, Integer organizationByPage);
-    Integer getCountByApprove(Boolean approved);
+    int getCount(Boolean approved);
     Collection<Organization> getOrganizationsOnPage(Boolean approved, Integer pageNumb, Integer orgByPage);
-    Integer calcPages(Integer count, Integer perPage);
 }
