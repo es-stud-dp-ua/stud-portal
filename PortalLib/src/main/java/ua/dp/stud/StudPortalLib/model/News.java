@@ -13,6 +13,22 @@ import java.util.Date;
  * @author Roman Lukash
  * @author Vladislav Pikus
  */
+@NamedQueries(
+        {
+                @NamedQuery(
+                        name = "News.getByAuthor",
+                        query = "Select news From News news  Where news.author = :author ORDER BY news.id desc"
+                ),
+                @NamedQuery(
+                        name = "News.getByOrganization",
+                        query = "Select news From News news  Where news.baseOrg.id = :id and news.orgApproved = :approved ORDER BY news.id desc"
+                ),
+                @NamedQuery(
+                        name = "News.getByApproved",
+                        query = "Select news From News news  Where news.approved = :approved and news.comment is null ORDER BY news.publication desc"
+                )
+        }
+)
 @Entity
 @Table(name = "newstable")
 @PrimaryKeyJoinColumn(name="id", referencedColumnName="id")
@@ -245,8 +261,7 @@ public class News extends BaseImagesSupport implements Serializable {
     public String toString()
     {
         return new StringBuffer().append("News[").append("topic=").append(topic)
-                .append(", text=").append(text).append(']')
-                .append(", author=").append(author).append(']')
+                .append(", text=").append(text).append(", author=").append(author)
                 .append(", publication=").append(publication).append(']').toString();
     }
 

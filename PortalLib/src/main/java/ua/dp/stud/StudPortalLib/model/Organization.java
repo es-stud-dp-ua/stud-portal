@@ -11,6 +11,18 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
+@NamedQueries(
+        {
+                @NamedQuery(
+                        name = "Organization.getByAuthor",
+                        query = "Select organization From Organization organization  Where organization.author = :author ORDER BY organization.id desc"
+                ),
+                @NamedQuery(
+                        name = "Organization.getNewsByOrgId",
+                        query = "select news from News news where news.baseOrg.id = :id and news.orgApproved= :orgApproved order by news.id"
+                )
+        }
+)
 @Entity
 @Table(name = "organizations_table")
 @PrimaryKeyJoinColumn(name="id", referencedColumnName="id")
@@ -129,8 +141,7 @@ public class Organization extends BaseImagesSupport implements Serializable {
     public String toString()
     {
         return new StringBuffer().append("Organization[").append("title=").append(title)
-                .append(", text=").append(text).append(']')
-                .append(", author=").append(author).append(']')
+                .append(", text=").append(text).append(", author=").append(author)
                 .append(", organizationType=").append(organizationType).append(']').toString();
     }
 }

@@ -2,6 +2,7 @@ package ua.dp.stud.StudPortalLib.dao.impl;
 
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 import ua.dp.stud.StudPortalLib.dao.NewsDao;
@@ -87,7 +88,8 @@ public class NewsDaoImpl extends BaseDao implements NewsDao
     @Override
     public Integer getCount()
     {
-        return ((Long) getSession().createQuery("Select Count(*) From News").uniqueResult()).intValue();
+        return ((Long) getSession().createCriteria(News.class).setProjection(Projections.rowCount())
+                .uniqueResult()).intValue();
     }
 
     /**
@@ -147,7 +149,7 @@ public class NewsDaoImpl extends BaseDao implements NewsDao
     @Override
     public Collection<News> getNewsOnPage(Integer pageNumb, Integer newsByPage) {
          int firstResult = (pageNumb - 1) * newsByPage;
-        return (Collection<News>)getSession().createQuery("From News a ORDER BY a.id desc")
+        return (Collection<News>)getSession().createCriteria(News.class).addOrder(Order.desc("id"))
                 .setFirstResult(firstResult).setMaxResults(newsByPage).list();
      
     }
@@ -204,8 +206,7 @@ public class NewsDaoImpl extends BaseDao implements NewsDao
     @Override
     public Collection<News> getAllNewsByAuthor(String author)
     {
-        return getSession().createQuery("Select news From News news  Where news.author = :author ORDER BY news.id desc")
-                .setParameter("author", author).list();
+        return getSession().getNamedQuery("News.getByAuthor").setParameter("author", author).list();
     }
 
     /**
@@ -231,8 +232,8 @@ public class NewsDaoImpl extends BaseDao implements NewsDao
     public Collection<News> getPagesNewsByAuthor(String author, Integer pageNumb, Integer newsByPage)
     {
         int firstResult = (pageNumb - 1) * newsByPage;
-        return getSession().createQuery("Select news From News news  Where news.author = :author ORDER BY news.id desc")
-                .setParameter("author", author).setFirstResult(firstResult).setMaxResults(newsByPage).list();
+        return getSession().getNamedQuery("News.getByAuthor").setParameter("author", author)
+                .setFirstResult(firstResult).setMaxResults(newsByPage).list();
     }
 
     /**
@@ -244,7 +245,7 @@ public class NewsDaoImpl extends BaseDao implements NewsDao
     @Override
     public Collection<News> getNewsByOrg(Integer IdOrg, Boolean approved)
     {
-        return getSession().createQuery("Select news From News news  Where news.baseOrg.id = :id and news.orgApproved = :approved ORDER BY news.id desc")
+        return getSession().getNamedQuery("News.getByOrganization")
                 .setParameter("approved", approved).setParameter("id", IdOrg).list();
     }
 
@@ -267,13 +268,13 @@ public class NewsDaoImpl extends BaseDao implements NewsDao
      * @param approved for administrator
      * @param pageNumb number of pages
      * @param newsByPage news's count for 1 page
-     * @return collection of news on page
+     * @return collection of news per page
      */
     @Override
     public Collection<News> getPagesNewsByOrgAuthor(String author, Boolean approved, Integer pageNumb, Integer newsByPage)
     {
         int firstResult = (pageNumb - 1) * newsByPage;
-        return getSession().createQuery("Select news From News news  Where news.orgApproved = :approved and news.baseOrg.author = :author and news.comment is null ORDER BY news.id desc")
+        return getSession().getNamedQuery("News.getByOrganization")
                 .setParameter("author", author).setParameter("approved", approved).setFirstResult(firstResult).setMaxResults(newsByPage).list();
     }
 
@@ -285,7 +286,7 @@ public class NewsDaoImpl extends BaseDao implements NewsDao
     @Override
     public Collection<News> getAllNews(Boolean approved)
     {
-        return getSession().createQuery("Select news From News news  Where news.approved = :approved and news.comment is null ORDER BY news.publication desc")
+        return getSession().getNamedQuery("News.getByApproved")
                 .setParameter("approved", approved).list();
     }
 
@@ -306,13 +307,13 @@ public class NewsDaoImpl extends BaseDao implements NewsDao
      * @param approved of administrator
      * @param pageNumb page number
      * @param newsByPage count news by page
-     * @return collection for page number
+     * @return collection for current page number
      */
     @Override
     public Collection<News> getNewsOnPage(Boolean approved, Integer pageNumb, Integer newsByPage)
     {
         int firstResult = (pageNumb - 1) * newsByPage;
-        return getSession().createQuery("Select news From News news  Where news.approved = :approved and news.comment is null ORDER BY news.publication desc")
+        return getSession().getNamedQuery("News.getByApproved")
                 .setParameter("approved", approved).setFirstResult(firstResult).setMaxResults(newsByPage).list();
     }
 }

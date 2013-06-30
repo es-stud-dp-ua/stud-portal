@@ -25,7 +25,7 @@ public class OrganizationDaoImpl extends BaseDao implements OrganizationDao
     @Override
     public Collection<News> getOrganizationsNewsByIdOnPage(Integer id, Integer pageNumb, Integer newsByPage, Boolean approve) {
         int firstResult = (pageNumb - 1) * newsByPage;
-        return getSession().createQuery("select news from News news where news.baseOrg.id = :id and news.orgApproved= :orgApproved order by news.id")
+        return getSession().getNamedQuery("Organization.getNewsByOrgId")
                 .setParameter("id", id).setParameter("orgApproved", approve)
                 .setFirstResult(firstResult)
                 .setMaxResults(newsByPage)
@@ -39,7 +39,7 @@ public class OrganizationDaoImpl extends BaseDao implements OrganizationDao
      */
     @Override
     public Collection<News> getAllOrganizationsNewsById(Integer id, Boolean approve) {
-        return getSession().createQuery("select news from News news where news.baseOrg.id = :id and news.orgApproved= :orgApproved order by news.id")
+        return getSession().getNamedQuery("Organization.getNewsByOrgId")
                 .setParameter("id", id).setParameter("orgApproved", approve).list();
     }
 
@@ -163,7 +163,7 @@ public class OrganizationDaoImpl extends BaseDao implements OrganizationDao
     @Override
     public Collection<Organization> getAllOrganizationByAuthor(String author)
     {
-        return getSession().createQuery("Select organization From Organization organization  Where organization.author = :author ORDER BY organization.id desc")
+        return getSession().getNamedQuery("Organization.getByAuthor")
                 .setParameter("author", author).list();
     }
     @Override
@@ -176,7 +176,7 @@ public class OrganizationDaoImpl extends BaseDao implements OrganizationDao
     public Collection<Organization> getPagesOrganizationByAuthor(String author, Integer pageNumb, Integer organizationByPage)
     {
         int firstResult = (pageNumb - 1) * organizationByPage;
-        return getSession().createQuery("Select organization From Organization organization  Where organization.author = :author ORDER BY organization.id desc")
+        return getSession().getNamedQuery("Organization.getByAuthor")
                 .setParameter("author", author).setFirstResult(firstResult).setMaxResults(organizationByPage).list();
     }
 

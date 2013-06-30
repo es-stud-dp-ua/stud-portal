@@ -19,16 +19,6 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     @Autowired
     private OrganizationDao dao;
-    
-    private static final List<String> ORGANIZATION_TYPES;
-    static
-    {
-        ORGANIZATION_TYPES = new ArrayList<String>();
-
-        for (OrganizationType t:OrganizationType.values()){
-            ORGANIZATION_TYPES.add(t.toString());
-        }
-    }
 
     public void setDao(OrganizationDao dao) {
         this.dao = dao;
@@ -137,7 +127,7 @@ public class OrganizationServiceImpl implements OrganizationService {
      */
     @Override
     public Collection<String> getOrganizationTypes() {
-        return ORGANIZATION_TYPES;
+        return OrganizationType.allTypes();
     }
 
     @Override
