@@ -1,11 +1,13 @@
-package ua.dp.studportal.calendarportlet.dao;
+package ua.dp.studportal.calendarportlet.dao.impl;
 
+import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ua.dp.stud.StudPortalLib.model.News;
+import ua.dp.studportal.calendarportlet.dao.CalendarDAO;
 import ua.dp.studportal.calendarportlet.util.MapInitializer;
 
 import java.util.*;
@@ -13,7 +15,6 @@ import java.util.*;
 /**
  * Calendar DAO implementation
  */
-//todo:move to impl package
 @Repository("calendarDAO")
 public class CalendarDAOImpl implements CalendarDAO
 {
@@ -44,28 +45,20 @@ public class CalendarDAOImpl implements CalendarDAO
         Calendar endDate = new GregorianCalendar(year,month,daysInMonth,MAX_HOURS,MAX_SECONDS,MAX_MINUTES);
         List<News> calNews = sessionFactory.getCurrentSession().createCriteria(News.class)
                 .add(Restrictions.between("publicationInCalendar", startDate.getTime(), endDate.getTime()))
-                .add(Restrictions.eq("inCalendar",1)).add(Restrictions.eq("approved",true)).list();
-        //todo: why set is used?
-		Set<News> setcalNews = new LinkedHashSet<News>();
-        for (News news : calNews)
-        {
-            setcalNews.add(news);
-        }
+                .add(Restrictions.eq("inCalendar", true)).add(Restrictions.eq("approved", true))
+                .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
         Map<Long, ArrayList<News>>  toReturn = MapInitializer.initMap(daysInMonth);
-        Iterator<News> iter = setcalNews.iterator();
-        //todo: replace while loop by foreach
-        while (iter.hasNext())
+        for(News news : calNews)
         {
-            News oneNews  = iter.next();
             Calendar cal = Calendar.getInstance();
-            cal.setTime(oneNews.getPublicationInCalendar());
+            cal.setTime(news.getPublicationInCalendar());
             int day = cal.get(Calendar.DAY_OF_MONTH);
             ArrayList<News> list = toReturn.get((long)day);
             if (list == null)
             {
                 list = new ArrayList<News>();
             }
-            list.add(oneNews);
+            list.add(news);
             toReturn.put((long)day,list);
         }
         return toReturn;

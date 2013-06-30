@@ -47,12 +47,13 @@ public class CalendarDaoTest extends AbstractTransactionalJUnit4SpringContextTes
         cat1=new Category("General");
         cat2=new Category("Sports");
         Calendar cal = new GregorianCalendar(1980, 2, 1, 12, 23, 53);
-        oldNews = new News("topic","this is old in cal news","jjdev",cal.getTime(),cal.getTime(),cat1,true,1,1);
-
-        News notInCal = new News("topic","this is old not in cal news","/",cal.getTime(),cal.getTime(),cat1,true,0,1);
-
+        oldNews = new News("topic", "this is old in cal news", "jjdev", cal.getTime(),
+                cal.getTime(), cat1, true, true, true);
+        News notInCal = new News("topic", "this is old not in cal news", "/", cal.getTime(),
+                cal.getTime(), cat1, true, false, true);
         cal = new GregorianCalendar(2012, 3, 3, 12, 23, 53);
-        newNews = new News("topic","this is new news","jjdev",cal.getTime(),cal.getTime(),cat1,true,1,1);
+        newNews = new News("topic", "this is new news", "jjdev", cal.getTime(),
+                cal.getTime(), cat1, true, true, true);
         getSessionFactory().getCurrentSession().save(cat1);
         getSessionFactory().getCurrentSession().save(oldNews);
         getSessionFactory().getCurrentSession().save(notInCal);

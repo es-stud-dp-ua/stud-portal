@@ -16,27 +16,24 @@ import java.util.*;
  * To change this template use File | Settings | File Templates.
  */
 @Service("mockCalendarService")
-public class MockCalendarService implements CalendarService
-{
+public class MockCalendarService implements CalendarService {
     private ArrayList<News> testContent;
 
-    public MockCalendarService()
-    {
+    public MockCalendarService() {
         init();
     }
 
-    private void init()
-    {
+    private void init() {
         testContent = new ArrayList<News>();
-        Category cat1=new Category("General");
+        Category cat1 = new Category("General");
         Calendar cal = new GregorianCalendar(1980, 2, 1, 12, 23, 53);
-        News oldNews = new News("topic","this is old in cal news","jjdev",new Date(),cal.getTime(),cat1,true,1,1);
-
-        News notInCal = new News("topic","this is old not in cal news","jjdev",new Date(),cal.getTime(),cat1,true,0,1);
-
+        News oldNews = new News("topic", "this is old in cal news", "jjdev", new Date(),
+                cal.getTime(), cat1, true, true, true);
+        News notInCal = new News("topic", "this is old not in cal news", "jjdev", new Date(), cal.getTime(),
+                cat1, true, false, true);
         cal = new GregorianCalendar(2012, 3, 3, 12, 23, 53);
-        News newNews = new News("topic","this is new news","jjdev",new Date(),cal.getTime(),cat1,true,1,1);
-
+        News newNews = new News("topic", "this is new news", "jjdev", new Date(), cal.getTime(),
+                cat1, true, true, true);
 
         testContent.add(oldNews);
         testContent.add(notInCal);
@@ -48,13 +45,12 @@ public class MockCalendarService implements CalendarService
         int daysInMonth = startDate.getActualMaximum(5);
         Calendar endDate = new GregorianCalendar(year, month, daysInMonth, 23, 59, 59);
         Map<Long, ArrayList<News>> toReturn = MapInitializer.initMap(daysInMonth);
-        for (News newsModel : testContent)
-        {
-            if(newsModel.getPublication().after(startDate.getTime()) && newsModel.getPublication().before(endDate.getTime()) && newsModel.getInCalendar() == 1)
-            {
+        for (News newsModel : testContent) {
+            if (newsModel.getPublication().after(startDate.getTime()) &&
+                    newsModel.getPublication().before(endDate.getTime()) && newsModel.getInCalendar() == true) {
                 Calendar cal = new GregorianCalendar();
                 cal.setTime(newsModel.getPublication());
-                toReturn.get((long)cal.get(Calendar.DAY_OF_MONTH)).add(newsModel);
+                toReturn.get((long) cal.get(Calendar.DAY_OF_MONTH)).add(newsModel);
             }
         }
         return toReturn;
