@@ -3,14 +3,10 @@ package ua.dp.stud.bannerPortlet.model;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 /**
- * Created with IntelliJ IDEA.
  * @author Vladislav Pikus
- * Date: 15.03.13
- * Time: 16:27
- * To change this template use File | Settings | File Templates.
  */
 public class BannerImageTest
 {
@@ -41,8 +37,28 @@ public class BannerImageTest
     public void toStringTest()
     {
         banner = new BannerImage("http://vk.com");
-        String expResult = "BannerImage{url=http://vk.com}";
+        String expResult = "BannerImage[url=http://vk.com]";
         String result = banner.toString();
         assertEquals(expResult, result);
+    }
+
+    @Test
+    public void hashCodeTest()
+    {
+        assertNotNull(banner.hashCode());
+    }
+
+    @Test
+    public void equalsTest()
+    {
+        assertFalse(banner.equals(null));
+        BannerImage banner1 = banner;
+        assertTrue(banner.equals(banner1));
+        Integer numb = 4;
+        assertFalse(banner.equals(numb));
+        banner1 = new BannerImage();
+        assertTrue(banner.equals(banner1));
+        banner1 = new BannerImage("http://stud.dp.ua/");
+        assertFalse(banner.equals(banner1));
     }
 }

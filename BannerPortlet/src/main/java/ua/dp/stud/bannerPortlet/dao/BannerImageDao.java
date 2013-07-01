@@ -1,12 +1,13 @@
 package ua.dp.stud.bannerPortlet.dao;
+
 import ua.dp.stud.bannerPortlet.model.BannerImage;
 
 import java.util.Collection;
+
 /**
  * @author Vladislav Pikus
  */
-public interface BannerImageDao
-{
+public interface BannerImageDao {
     BannerImage getBannerImageById(Integer id);
 
     void addBannerImage(BannerImage banner);
@@ -16,4 +17,6 @@ public interface BannerImageDao
     void updateBannerImage(BannerImage banner);
 
     Collection<BannerImage> getAll();
+
+    BannerImage getByURL(String url);
 }
