@@ -25,8 +25,7 @@ import java.util.Collection;
  */
 @Controller
 @RequestMapping(value = "view")
-public class EventPanelController
-{
+public class EventPanelController {
     private static final int PER_PAGE = 4;
     private static final String FIRST_STATE = "first";
     private static final String NEXT_STATE = "next";
@@ -40,141 +39,165 @@ public class EventPanelController
     @Autowired
     @Qualifier(value = "OrganizationService")
     private OrganizationService orgService;
-    public void setOrgService(OrganizationService service)
-    {
+
+    public void setOrgService(OrganizationService service) {
         this.orgService = service;
     }
 
     @Autowired
     @Qualifier(value = "newsService")
     private NewsService newsService;
+
     public void setNewsService(NewsService service) {
         this.newsService = service;
     }
 
     /**
+     * Create current model and set new user name
+     *
+     * @param request
+     * @return new model
+     */
+    private ModelAndView getCurrentModel(RenderRequest request) {
+        userName = getCurrentUserName(request);
+        ModelAndView model = new ModelAndView("view");
+        model.addObject("myNewsSize", newsService.getPagesCountByAuthor(userName, 1));
+        model.addObject("myOrgSize", orgService.getPagesCountByAuthor(userName, 1));
+        model.addObject("adminOrgSize", orgService.getPagesCount(false, 1));
+        model.addObject("adminNewsSize", newsService.getPagesCount(false, 1));
+        model.addObject("newsInMyComm", newsService.getPagesCountByOrgAuthor(userName, false, 1));
+        return model;
+    }
+
+    /**
      * Show event panel
+     *
      * @param request
      * @param response
      * @return
      */
     @RenderMapping
-    public ModelAndView showView(RenderRequest request, RenderResponse response)
-    {
-        ModelAndView model = new ModelAndView();
-        model.setViewName("view");
+    public ModelAndView showView(RenderRequest request, RenderResponse response) {
+       return getCurrentModel(request);
+    }
 
-        userName = getCurrentUserName(request);
-        Integer myNewsSize = newsService.getPagesCountByAuthor(userName, 1);
-        Integer myOrgSize = orgService.getPagesCountByAuthor(userName, 1);
-        Integer adminNewsSize = newsService.getPagesCount(false, 1);
-        Integer adminOrgSize = orgService.getPagesCount(false, 1);
-        Integer newsInMyComm = newsService.getPagesCountByOrgAuthor(userName, false, 1);
+    private ModelAndView getMyNews(RenderRequest request, int currentPage, String direction) {
+        ModelAndView model = getCurrentModel(request);
+        Integer pageCount = newsService.getPagesCountByAuthor(userName, PER_PAGE);
+        Integer newCurrentPage = setPage(currentPage, pageCount, direction);
+        Collection<News> newsList = newsService.getPagesNewsByAuthor(userName, newCurrentPage, PER_PAGE);
+        setPlid(request, model, NEWS_ARCHIVE_REFERENCE_NAME);
+        model.addObject("newsList", newsList);
+        model.addObject(TYPE, "News");
+        model.addObject("pageCount", pageCount);
+        model.addObject("currentPage", newCurrentPage);
+        return model;
+    }
 
-        model.addObject("myNewsSize", myNewsSize);
-        model.addObject("myOrgSize", myOrgSize);
-        model.addObject("adminOrgSize", adminOrgSize);
-        model.addObject("adminNewsSize", adminNewsSize);
-        model.addObject("newsInMyComm", newsInMyComm);
+    private ModelAndView getMyCommunity(RenderRequest request, int currentPage, String direction) {
+        ModelAndView model = getCurrentModel(request);
+        Integer pageCount = orgService.getPagesCountByAuthor(userName, PER_PAGE);
+        Integer newCurrentPage = setPage(currentPage, pageCount, direction);
+        Collection<Organization> orgList = orgService.getPagesOrganizationByAuthor(userName,
+                newCurrentPage, PER_PAGE);
+        setPlid(request, model, COMMUNITIES_REFERENCE_NAME);
+        model.addObject("orgList", orgList);
+        model.addObject(TYPE, "Organization");
+        model.addObject("pageCount", pageCount);
+        model.addObject("currentPage", newCurrentPage);
+        return model;
+    }
 
+    private ModelAndView getNewsInMyComm(RenderRequest request, int currentPage, String direction) {
+        ModelAndView model = getCurrentModel(request);
+        Integer pageCount = newsService.getPagesCountByOrgAuthor(userName, false, PER_PAGE);
+        Integer newCurrentPage = setPage(currentPage, pageCount, direction);
+        Collection<News> newsList = newsService.getPagesNewsByOrgAuthor(userName, false,
+                newCurrentPage, PER_PAGE);
+        setPlid(request, model, NEWS_ARCHIVE_REFERENCE_NAME);
+        model.addObject("newsList", newsList);
+        model.addObject(TYPE, "News");
+        model.addObject("pageCount", pageCount);
+        model.addObject("currentPage", newCurrentPage);
+        return model;
+    }
+
+    private ModelAndView getAdminNews(RenderRequest request, int currentPage, String direction) {
+        ModelAndView model = getCurrentModel(request);
+        Integer pageCount = newsService.getPagesCount(false, PER_PAGE);
+        Integer newCurrentPage = setPage(currentPage, pageCount, direction);
+        Collection<News> newsList = newsService.getNewsOnPage(false, newCurrentPage, PER_PAGE);
+        setPlid(request, model, NEWS_ARCHIVE_REFERENCE_NAME);
+        model.addObject("newsList", newsList);
+        model.addObject(TYPE, "News");
+        model.addObject("pageCount", pageCount);
+        model.addObject("currentPage", newCurrentPage);
+        return model;
+    }
+
+    private ModelAndView getAdminCommunity(RenderRequest request, int currentPage, String direction) {
+        ModelAndView model = getCurrentModel(request);
+        Integer pageCount = orgService.getPagesCount(false, PER_PAGE);
+        Integer newCurrentPage = setPage(currentPage, pageCount, direction);
+        Collection<Organization> orgList = orgService.getOrganizationsOnPage(false, newCurrentPage,
+                PER_PAGE);
+        setPlid(request, model, COMMUNITIES_REFERENCE_NAME);
+        model.addObject("orgList", orgList);
+        model.addObject(TYPE, "Organization");
+        model.addObject("pageCount", pageCount);
+        model.addObject("currentPage", newCurrentPage);
         return model;
     }
 
     /**
      * Show community for approve
+     *
      * @param request
      * @param response
      * @param currentPage current page
-     * @param direction takes one of three values​​: the first, prev, next
+     * @param direction   takes one of three values​​: the first, prev, next
      * @return
      */
     @RenderMapping(params = "mode=pagination")
     public ModelAndView pagination(RenderRequest request, RenderResponse response,
-                                @RequestParam(required = true, defaultValue = "1") int currentPage,
-                                @RequestParam(required = true, defaultValue = FIRST_STATE) String direction,
-                                @RequestParam(required = true, defaultValue = "view") String modelView)
-    {
-        ModelAndView model = showView(request, response);
-        Integer pageCount;
-        Integer newCurrentPage;
-        Collection<Organization> orgList;
-        Collection<News> newsList;
-        //todo: instead of if-else use map
-        if (modelView.equals("myNews"))
-        {
-            pageCount = newsService.getPagesCountByAuthor(userName, PER_PAGE);
-            newCurrentPage = setPage(currentPage, pageCount, direction);
-            newsList = newsService.getPagesNewsByAuthor(userName, newCurrentPage, PER_PAGE);
-            setPlid(request, model, NEWS_ARCHIVE_REFERENCE_NAME);
-            model.addObject("newsList", newsList);
-            model.addObject(TYPE, "News");
-        }
-        else
-        {
-            if (modelView.equals("myCommunity"))
-            {
-                pageCount = orgService.getPagesCountByAuthor(userName, PER_PAGE);
-                newCurrentPage = setPage(currentPage, pageCount, direction);
-                orgList = orgService.getPagesOrganizationByAuthor(userName, newCurrentPage, PER_PAGE);
-                setPlid(request, model, COMMUNITIES_REFERENCE_NAME);
-                model.addObject("orgList", orgList);
-                model.addObject(TYPE, "Organization");
-            }
-            else
-            {
-                if (modelView.equals("newsInMyComm"))
-                {
-                    pageCount = newsService.getPagesCountByOrgAuthor(userName,false, PER_PAGE);
-                    newCurrentPage = setPage(currentPage, pageCount, direction);
-                    newsList = newsService.getPagesNewsByOrgAuthor(userName, false, newCurrentPage, PER_PAGE);
-                    setPlid(request, model, NEWS_ARCHIVE_REFERENCE_NAME);
-                    model.addObject("newsList", newsList);
-                    model.addObject(TYPE, "News");
-                }
-                else
-                {
-                    if (modelView.equals("adminNews"))
-                    {
-                        pageCount = newsService.getPagesCount(false, PER_PAGE);
-                        newCurrentPage = setPage(currentPage, pageCount, direction);
-                        newsList = newsService.getNewsOnPage(false, newCurrentPage, PER_PAGE);
-                        setPlid(request, model, NEWS_ARCHIVE_REFERENCE_NAME);
-                        model.addObject("newsList", newsList);
-                        model.addObject(TYPE, "News");
-                    }
-                    else
-                    {
-                        if (modelView.equals("adminCommunity"))
-                        {
-                            pageCount = orgService.getPagesCount(false, PER_PAGE);
-                            newCurrentPage = setPage(currentPage, pageCount, direction);
-                            orgList = orgService.getOrganizationsOnPage(false, newCurrentPage, PER_PAGE);
-                            setPlid(request, model, COMMUNITIES_REFERENCE_NAME);
-                            model.addObject("orgList", orgList);
-                            model.addObject(TYPE, "Organization");
-                        }
-                        else
-                        {
-                            return model;
+                                   @RequestParam(required = true, defaultValue = "1") int currentPage,
+                                   @RequestParam(required = true, defaultValue = FIRST_STATE) String direction,
+                                   @RequestParam(required = true, defaultValue = "view") String modelView) {
+        ModelAndView model;
+        if (modelView.equals("myNews")) {
+            model = getMyNews(request, currentPage, direction);
+        } else {
+            if (modelView.equals("myCommunity")) {
+                model = getMyCommunity(request, currentPage, direction);
+            } else {
+                if (modelView.equals("newsInMyComm")) {
+                    model = getNewsInMyComm(request, currentPage, direction);
+                } else {
+                    if (modelView.equals("adminNews")) {
+                        model = getAdminNews(request, currentPage, direction);
+                    } else {
+                        if (modelView.equals("adminCommunity")) {
+                            model = getAdminCommunity(request, currentPage, direction);
+                        } else {
+                            return getCurrentModel(request);
                         }
                     }
                 }
             }
         }
-        model.addObject("pageCount", pageCount);
-        model.addObject("currentPage", newCurrentPage);
         model.addObject("class", modelView);
         return model;
     }
 
     /**
      * Set approve for news or organization
+     *
      * @param request
      * @param response
      * @param currentPage current page
-     * @param direction takes one of three values​​: the first, prev, next or current
-     * @param modelView name of view
-     * @param objectId id of news or organization
+     * @param direction   takes one of three values​​: the first, prev, next or current
+     * @param modelView   name of view
+     * @param objectId    id of news or organization
      * @return
      */
     @RenderMapping(params = "mode=approve")
@@ -183,35 +206,24 @@ public class EventPanelController
                                 @RequestParam(required = true, defaultValue = "current") String direction,
                                 @RequestParam(required = true, defaultValue = "view") String modelView,
                                 @RequestParam(required = true, defaultValue = "0") int objectId,
-                                @RequestParam(required = true, defaultValue = "false") boolean appr)
-    {
+                                @RequestParam(required = true, defaultValue = "false") boolean appr) {
         ModelAndView model;
-        if (modelView.equals("newsInMyComm"))
-        {
+        if (modelView.equals("newsInMyComm")) {
             News currentNews = newsService.getNewsById(objectId);
             currentNews.setOrgApproved(true);
             newsService.updateNews(currentNews);
-        }
-        else
-        {
-            if (modelView.equals("adminNews"))
-            {
+        } else {
+            if (modelView.equals("adminNews")) {
                 News currentNews = newsService.getNewsById(objectId);
                 currentNews.setApproved(true);
                 newsService.updateNews(currentNews);
-            }
-            else
-            {
-                if (modelView.equals("adminCommunity"))
-                {
+            } else {
+                if (modelView.equals("adminCommunity")) {
                     Organization currentOrg = orgService.getOrganizationById(objectId);
                     currentOrg.setApproved(true);
                     orgService.updateOrganization(currentOrg);
-                }
-                else
-                {
-                    model = showView(request, response);
-                    return model;
+                } else {
+                    return getCurrentModel(request);
                 }
             }
         }
@@ -221,40 +233,29 @@ public class EventPanelController
 
     /**
      * Set current page
+     *
      * @param currentPage current page
-     * @param pageCount page count
-     * @param direction takes one of three values​​: the first, prev, nex
+     * @param pageCount   page count
+     * @param direction   takes one of three values​​: the first, prev, nex
      * @return current page
      */
-    private int setPage(Integer currentPage, Integer pageCount, String direction)
-    {
+    private int setPage(Integer currentPage, Integer pageCount, String direction) {
         Integer newCurrentPage = currentPage;
-        if (direction.equals(NEXT_STATE))
-        {
+        if (direction.equals(NEXT_STATE)) {
             newCurrentPage++;
-        }
-        else
-        {
-            if (direction.equals(PREV_STATE))
-            {
+        } else {
+            if (direction.equals(PREV_STATE)) {
                 newCurrentPage--;
-            }
-            else
-            {
-                if (direction.equals(FIRST_STATE))
-                {
+            } else {
+                if (direction.equals(FIRST_STATE)) {
                     newCurrentPage = 1;
                 }
             }
         }
-        if (pageCount < newCurrentPage)
-        {
+        if (pageCount < newCurrentPage) {
             newCurrentPage = 1;
-        }
-        else
-        {
-            if (newCurrentPage < 1)
-            {
+        } else {
+            if (newCurrentPage < 1) {
                 newCurrentPage = pageCount;
             }
         }
@@ -263,28 +264,27 @@ public class EventPanelController
 
     /**
      * Get current user name
+     *
      * @param request
      * @return return user name
      */
-    private String getCurrentUserName(RenderRequest request)
-    {
+    private String getCurrentUserName(RenderRequest request) {
         User user = (User) request.getAttribute(WebKeys.USER);
         return (user != null) ? user.getScreenName() : "";
     }
 
     /**
-     *
      * @param request
      * @param model
      * @param portletName portlet name
      */
-    private void setPlid(RenderRequest request, ModelAndView model, String portletName)  {
+    private void setPlid(RenderRequest request, ModelAndView model, String portletName) {
         ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
         Long groupId = themeDisplay.getScopeGroupId();
         Long plid = 0l;
-        try{
+        try {
             plid = LayoutLocalServiceUtil.getDefaultPlid(groupId, false, portletName);
-        }   catch (Exception ex){
+        } catch (Exception ex) {
 
         }
         model.addObject("plid", plid);
