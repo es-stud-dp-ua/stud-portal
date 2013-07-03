@@ -1,5 +1,5 @@
 <%@ page import="ua.dp.stud.StudPortalLib.model.Organization" %>
-<%@ page import="ua.dp.stud.StudPortalLib.model.OrganizationType" %>
+<%@ page import="ua.dp.stud.StudPortalLib.util.OrganizationType" %>
 <%@ page import="ua.dp.stud.StudPortalLib.service.OrganizationService" %>
 <%@ page import="ua.dp.stud.StudPortalLib.service.impl.OrganizationServiceImpl" %>
 <%@ page import="java.util.Collection" %>
@@ -7,6 +7,7 @@
 <%@ page import="com.liferay.portal.kernel.util.WebKeys" %>
 <%@ page import="com.liferay.portal.kernel.servlet.ImageServletTokenUtil" %>
 <%@ page import="java.util.Locale" %>
+<%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.ResourceBundle" %>
 <%@ page import="ua.dp.stud.StudPortalLib.util.ImageService" %>
 <%@ page import="ua.dp.stud.StudPortalLib.util.CustomFunctions" %>
@@ -17,8 +18,8 @@
 <portlet:defineObjects/>
 <%
     Collection<Organization> orgs = (Collection) request.getAttribute("organisations");
-    int pagesCount = (Integer) request.getAttribute("pagesCount");
-    int currentPage = (Integer) request.getAttribute("currentPage");
+    Integer pagesCount = (Integer) request.getAttribute("pagesCount");
+    Integer currentPage = (Integer) request.getAttribute("currentPage");
     OrganizationService service=new OrganizationServiceImpl();
     OrganizationType type=null;
     if(request.getAttribute("type")!=null)
@@ -27,7 +28,7 @@
     String imagePath = new StringBuilder(themeDisplay.getPortalURL()).append('/')
             .append(themeDisplay.getPathImage()).append("/image_gallery?img_id=").toString();
     ImageService imageService = new ImageService();
-
+    Collection<String> allTypes=(Collection) (OrganizationType.allTypes());
     int nearbyPages = 2; //number of pages to show to left and right of current
     int overallPages = 7; //overall number of pages
     int leftPageNumb = Math.max(1, currentPage - nearbyPages);
@@ -53,7 +54,7 @@
             rightPageNumb = pagesCount;
         }
     }
-
+    String temp;
     Locale locale = (Locale) request.getSession().getAttribute("org.apache.struts.action.LOCALE");
     String language = locale.getLanguage();
     String country = locale.getCountry();
@@ -63,10 +64,10 @@
 
 <html>
     <head>
-
     </head>
 
     <body>
+        
 
     <liferay-ui:success message='<%=res.getString("msg.successAdd")%>' key="success-add"/>
     <div id="contentDiv">
@@ -81,62 +82,19 @@
         <%}%>
         <div class="cmt-types">
             <form method="post" action="<portlet:renderURL/>">
-                <%if (type==OrganizationType.SPORTS)  { %>
-                <div  class="ribbon-wrapper" ><button  class="btnselected"  style=" width: 150px;  height: 40px; margin-left: -10px; background-color: rgba(0, 122, 255, 0.47); border-color: rgba(68, 115, 185, 0);" name="type" value="<%=OrganizationType.SPORTS%>"> 
-                        <spring:message code="form.SPORTS"/></button><div class="ribbon-edge-topleft"></div><div class="ribbon-edge-bottomleft"></div></div>   
-                        <%}else{%>
-                <div  class="ribbon-wrapper" ><button  class="btntype" style=" width: 150px; height: 40px;  background:  #4473B9; margin-left: -10px;  border-color: #4473B9;" name="type" value="<%=OrganizationType.SPORTS%>">         
-                        <spring:message code="form.SPORTS"/></button><div class="ribbon-edge-topleft"></div><div class="ribbon-edge-bottomleft"></div></div>
-                        <% }%>
+                <% for(String currentType: allTypes){
+                temp=new String("form."+currentType);%>
+                <div  class="ribbon-wrapper" ><button  class="btntype" style=" width: 150px; height: 40px;   margin-left: -10px;  border-color: #4473B9;" name="type" value="<%=currentType%>" id="<%=currentType%>">          
+                        <spring:message code="<%=temp%>"/></button><div class="ribbon-edge-topleft"></div><div class="ribbon-edge-bottomleft"></div></div>
+
                 <br/>
-                <%if (type==OrganizationType.YOUNGSTERS)  { %>
-                <div  class="ribbon-wrapper" ><button  class="btnselected"  style=" width: 150px;  height: 40px; margin-left: -10px; background-color: rgba(0, 122, 255, 0.47); border-color: rgba(68, 115, 185, 0);" name="type" value="<%=OrganizationType.YOUNGSTERS%>"> 
-                        <spring:message code="form.YOUNGSTERS"/></button><div class="ribbon-edge-topleft"></div><div class="ribbon-edge-bottomleft"></div></div>   
-                        <%}else{%>
-                <div  class="ribbon-wrapper" ><button  class="btntype" style=" width: 150px; height: 40px;  background:  #4473B9; margin-left: -10px;  border-color: #4473B9;" name="type" value="<%=OrganizationType.YOUNGSTERS%>">         
-                        <spring:message code="form.YOUNGSTERS"/></button><div class="ribbon-edge-topleft"></div><div class="ribbon-edge-bottomleft"></div></div>
-                        <% }%>
-                <br/>
-                <%if (type==OrganizationType.VOLUNTEERING)  { %>
-                <div  class="ribbon-wrapper" ><button  class="btnselected"  style=" width: 150px;  height: 40px; margin-left: -10px; background-color: rgba(0, 122, 255, 0.47); border-color: rgba(68, 115, 185, 0);" name="type" value="<%=OrganizationType.VOLUNTEERING%>"> 
-                        <spring:message code="form.VOLUNTEERING"/></button><div class="ribbon-edge-topleft"></div><div class="ribbon-edge-bottomleft"></div></div>   
-                        <%}else{%>
-                <div  class="ribbon-wrapper" ><button  class="btntype" style=" width: 150px; height: 40px;  background:  #4473B9; margin-left: -10px;  border-color: #4473B9;" name="type" value="<%=OrganizationType.VOLUNTEERING%>">         
-                        <spring:message code="form.VOLUNTEERING"/></button><div class="ribbon-edge-topleft"></div><div class="ribbon-edge-bottomleft"></div></div>
-                        <% }%>
-                <br/>
-                <%if (type==OrganizationType.CHARITY)  { %>
-                <div  class="ribbon-wrapper" ><button  class="btnselected"  style=" width: 150px;  height: 40px; margin-left: -10px; background-color: rgba(0, 122, 255, 0.47); border-color: rgba(68, 115, 185, 0);" name="type" value="<%=OrganizationType.CHARITY%>"> 
-                        <spring:message code="form.CHARITY"/></button><div class="ribbon-edge-topleft"></div><div class="ribbon-edge-bottomleft"></div></div>   
-                        <%}else{%>
-                <div  class="ribbon-wrapper" ><button  class="btntype" style=" width: 150px; height: 40px;  background:  #4473B9; margin-left: -10px;  border-color: #4473B9;" name="type" value="<%=OrganizationType.CHARITY%>">         
-                        <spring:message code="form.CHARITY"/></button><div class="ribbon-edge-topleft"></div><div class="ribbon-edge-bottomleft"></div></div>
-                        <% }%>
-                <br/>
-                <%if (type==OrganizationType.INT_ORGS)  { %>
-                <div  class="ribbon-wrapper" ><button  class="btnselected"  style=" width: 150px;  height: 40px; margin-left: -10px; background-color: rgba(0, 122, 255, 0.47); border-color: rgba(68, 115, 185, 0);" name="type" value="<%=OrganizationType.YOUNGSTERS%>"> 
-                        <spring:message code="form.INT_ORGS"/></button><div class="ribbon-edge-topleft"></div><div class="ribbon-edge-bottomleft"></div></div>   
-                        <%}else{%>
-                <div  class="ribbon-wrapper" ><button  class="btntype" style=" width: 150px; height: 40px;  background:  #4473B9; margin-left: -10px;  border-color: #4473B9;" name="type" value="<%=OrganizationType.INT_ORGS%>">         
-                        <spring:message code="form.INT_ORGS"/></button><div class="ribbon-edge-topleft"></div><div class="ribbon-edge-bottomleft"></div></div>
-                        <% }%>
-                <br/>
-                <%if (type==OrganizationType.ART)  { %>
-                <div  class="ribbon-wrapper" ><button  class="btnselected"  style=" width: 150px;  height: 40px; margin-left: -10px; background-color: rgba(0, 122, 255, 0.47); border-color: rgba(68, 115, 185, 0);" name="type" value="<%=OrganizationType.ART%>"> 
-                        <spring:message code="form.ART"/></button><div class="ribbon-edge-topleft"></div><div class="ribbon-edge-bottomleft"></div></div>   
-                        <%}else{%>
-                <div  class="ribbon-wrapper" ><button  class="btntype" style=" width: 150px; height: 40px;  background:  #4473B9; margin-left: -10px;  border-color: #4473B9;" name="type" value="<%=OrganizationType.ART%>">         
-                        <spring:message code="form.ART"/></button><div class="ribbon-edge-topleft"></div><div class="ribbon-edge-bottomleft"></div></div>
-                        <% }%>
-                <br/>
-                <%if (type==OrganizationType.OTHERS)  { %>
-                <div  class="ribbon-wrapper" ><button  class="btnselected"  style=" width: 150px;  height: 40px; margin-left: -10px; background-color: rgba(0, 122, 255, 0.47); border-color: rgba(68, 115, 185, 0);" name="type" value="<%=OrganizationType.OTHERS%>"> 
-                        <spring:message code="form."/></button><div class="ribbon-edge-topleft"></div><div class="ribbon-edge-bottomleft"></div></div>   
-                        <%}else{%>
-                <div  class="ribbon-wrapper" ><button  class="btntype" style=" width: 150px; height: 40px;  background:  #4473B9; margin-left: -10px;  border-color: #4473B9;" name="type" value="<%=OrganizationType.OTHERS%>">         
-                        <spring:message code="form.OTHERS"/></button><div class="ribbon-edge-topleft"></div><div class="ribbon-edge-bottomleft"></div></div>
-                        <% }%>
-                <br/>
+                <% }if (type!=null){%>
+               <script>
+                        $( document ).ready( function(){
+                            $("#"+"<%=type.toString()%>").removeClass('btntype').addClass('btnselected');
+                        });
+                </script>
+                <%}%>
             </form>
         </div>
         <div id="newsTable">
@@ -158,6 +116,7 @@
                     <div class="panelbtn panelbtn-right fs20 icon-pcpremove" aria-hidden="true"></div>
                 </a>
                 <%}%>
+
             </div>
             <div width="100%" align="right">
                 <table width="90%">
@@ -226,7 +185,7 @@
                     <label> ... </label>
                     <a href="<portlet:actionURL name="pagination"><portlet:param name="pageNumber" value="<%=String.valueOf(pagesCount)%>"/>
                         <% if (type!=null) {%><portlet:param name="type" value="<%=String.valueOf(type)%>"/><%} %>
-                        </portlet:actionURL>"><%=pagesCount%>
+                        </portlet:actionURL>"><%=String.valueOf(pagesCount)%>
                     </a>
                     <%}%>
                 </td>

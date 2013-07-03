@@ -6,6 +6,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
+import org.hibernate.Hibernate;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -47,6 +48,8 @@ public class BaseImagesSupport implements Serializable {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "base", orphanRemoval=true)
     public List<ImageImpl> getAdditionalImages() {
+        
+       // Hibernate.initialize(additionalImages) ;
         return additionalImages;
     }
 

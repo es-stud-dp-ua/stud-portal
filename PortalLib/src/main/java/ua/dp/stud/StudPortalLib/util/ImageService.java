@@ -9,19 +9,26 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.commons.fileupload.disk.DiskFileItem;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 
 import static org.apache.commons.lang.StringUtils.join;
 
 /**
  * Created with IntelliJ IDEA.
+ *
  * @author: Josby
  * @author Vladislav Pikus
  */
 //todo: this must be a spring bean
 public class ImageService {
+
     private static final String FOLDER_SEPARATOR;
     private static final String TOMCAT_FOLDER;
     private static final int TO_CALENDAR_WIDTH = 56;
@@ -39,8 +46,6 @@ public class ImageService {
     static final String IMAGE_URL_PREFIX = "/mediastuff/";
     static final String SPLIT_BY;
 
-
-
     static {
         CALENDAR_IMAGE_PREFIX = "toCalendar_";
         SMALL_IMAGE_PREFIX = "small_";
@@ -49,10 +54,10 @@ public class ImageService {
         FOLDER_SEPARATOR = File.separator;
         TOMCAT_FOLDER = System.getProperty("catalina.base");
 
-        IMAGES_FOLDER_ABS_PATH = TOMCAT_FOLDER +
-                                 FOLDER_SEPARATOR +
-                                 IMAGES_FOLDER +
-                                 FOLDER_SEPARATOR;
+        IMAGES_FOLDER_ABS_PATH = TOMCAT_FOLDER
+                + FOLDER_SEPARATOR
+                + IMAGES_FOLDER
+                + FOLDER_SEPARATOR;
 
         if (File.separator.equals("\\")) {
             SPLIT_BY = "\\\\";
@@ -86,7 +91,7 @@ public class ImageService {
     /**
      * method for saving ADDITIONAL IMAGES
      *
-     * @param file CommonsMultipartFile  image
+     * @param file CommonsMultipartFile image
      * @param base
      * @throws IOException
      */
@@ -100,7 +105,7 @@ public class ImageService {
             ImageImpl image = new ImageImpl();
             image.setBase(base);
             image.setOriginalImageName(file.getOriginalFilename());
-            if (base.getAdditionalImages() == null){
+            if (base.getAdditionalImages() == null) {
                 base.setAdditionalImages(new ArrayList<ImageImpl>());
             }
             base.getAdditionalImages().add(image);
@@ -110,7 +115,7 @@ public class ImageService {
     /**
      * method for saving ADDITIONAL IMAGES
      *
-     * @param files - list of CommonsMultipartFile  images
+     * @param files - list of CommonsMultipartFile images
      * @param base
      * @throws java.io.IOException
      */
@@ -124,7 +129,7 @@ public class ImageService {
                 ImageImpl image = new ImageImpl();
                 image.setBase(base);
                 image.setOriginalImageName(file.getOriginalFilename());
-                if (base.getAdditionalImages() == null){
+                if (base.getAdditionalImages() == null) {
                     base.setAdditionalImages(new ArrayList<ImageImpl>());
                 }
                 base.getAdditionalImages().add(image);
@@ -135,27 +140,23 @@ public class ImageService {
     }
 
     /**
-     * generates absolute path to images folder
-     * like:  /home/tomcat/PROJECT_DATA/
+     * generates absolute path to images folder like: /home/tomcat/PROJECT_DATA/
      *
-     * @return  abs path to images
+     * @return abs path to images
      */
     public static String getImagesFolderAbsolutePath() {
         return IMAGES_FOLDER_ABS_PATH;
     }
 
-
     /**
-     * method for fixing WINDOWS like paths
-     * to UNIX paths
-     * needed to create url for image
-     * gonna convert   2012\11\12  => 2012/11/12
+     * method for fixing WINDOWS like paths to UNIX paths needed to create url
+     * for image gonna convert 2012\11\12 => 2012/11/12
      *
      * @param yearMonthUniqueFolder
      * @return
      */
     private String correctFolderSeparator(String yearMonthUniqueFolder) {
-        if (yearMonthUniqueFolder == null){
+        if (yearMonthUniqueFolder == null) {
             //to prevent null pointer exception
             //for images, where news wasn't set
             return null;
@@ -170,10 +171,10 @@ public class ImageService {
      *
      * @return
      */
-    public String getPathToLargeImage(ImageImpl img,BaseImagesSupport base) {
+    public String getPathToLargeImage(ImageImpl img, BaseImagesSupport base) {
         StringBuilder sb = new StringBuilder();
         String joinedYearMonthUniqueFolder = correctFolderSeparator(base.getYearMonthUniqueFolder());
-        if (joinedYearMonthUniqueFolder == null){
+        if (joinedYearMonthUniqueFolder == null) {
             return null;
         }
         return sb.append(IMAGE_URL_PREFIX)
@@ -192,7 +193,7 @@ public class ImageService {
     public String getPathToSmallImage(ImageImpl img, BaseImagesSupport base) {
         StringBuilder sb = new StringBuilder();
         String joinedYearMonthUniqueFolder = correctFolderSeparator(base.getYearMonthUniqueFolder());
-        if (joinedYearMonthUniqueFolder == null){
+        if (joinedYearMonthUniqueFolder == null) {
             return null;
         }
         return sb.append(IMAGE_URL_PREFIX)
@@ -202,17 +203,16 @@ public class ImageService {
                 .append(img.getOriginalImageName()).toString();
     }
 
-
     /**
      * method returns url of microblog image
      * /mediastuff/2012/12/31/small_asdasdas.jpg
      *
      * @return
      */
-    public String getPathToMicroblogImage(ImageImpl img,BaseImagesSupport base) {
+    public String getPathToMicroblogImage(ImageImpl img, BaseImagesSupport base) {
         StringBuilder sb = new StringBuilder();
         String joinedYearMonthUniqueFolder = correctFolderSeparator(base.getYearMonthUniqueFolder());
-        if (joinedYearMonthUniqueFolder == null){
+        if (joinedYearMonthUniqueFolder == null) {
             return null;
         }
         return sb.append(IMAGE_URL_PREFIX)
@@ -228,10 +228,10 @@ public class ImageService {
      *
      * @return
      */
-    public String getPathToCalendarImage(ImageImpl img,BaseImagesSupport base) {
+    public String getPathToCalendarImage(ImageImpl img, BaseImagesSupport base) {
         StringBuilder sb = new StringBuilder();
         String joinedYearMonthUniqueFolder = correctFolderSeparator(base.getYearMonthUniqueFolder());
-        if (joinedYearMonthUniqueFolder == null){
+        if (joinedYearMonthUniqueFolder == null) {
             return null;
         }
         return sb.append(IMAGE_URL_PREFIX)
@@ -240,8 +240,6 @@ public class ImageService {
                 .append(CALENDAR_IMAGE_PREFIX)
                 .append(img.getOriginalImageName()).toString();
     }
-
-
 
     private String checkPathToImagesFolder(BaseImagesSupport base) {
         String path;
@@ -273,12 +271,10 @@ public class ImageService {
         return sb.toString();
     }
 
-
-
     private void saveToDiskScaled(CommonsMultipartFile file, String pathToImagesFolder, String outputFilePrefix,
-                                  Integer width, Integer height) throws IOException {
+            Integer width, Integer height) throws IOException {
 
-        StringBuilder sb = new StringBuilder();
+        StringBuilder sb ;
         BufferedImage sourceImage = ImageIO.read(file.getInputStream());
         Image thumbnail = sourceImage.getScaledInstance(width,
                 height, Image.SCALE_SMOOTH);
@@ -293,77 +289,69 @@ public class ImageService {
         String fileLocation = sb.toString();
         ImageIO.write(bufferedThumbnail, "jpeg", new File(fileLocation));
     }
+
     /**
      * Class need to resize images
      */
-    
-        public static BufferedImage resize(BufferedImage imageToResize, int width, int height) {
-            float dx = ((float) width) / imageToResize.getWidth();
-            float dy = ((float) height) / imageToResize.getHeight();
+    public static BufferedImage resize(BufferedImage imageToResize, int width, int height) {
+        float dx = ((float) width) / imageToResize.getWidth();
+        float dy = ((float) height) / imageToResize.getHeight();
 
-            int genX, genY;
-            int startX, startY;
+        int genX, genY;
+        int startX, startY;
 
-            if (imageToResize.getWidth() <= width && imageToResize.getHeight() <= height) {
-                genX = imageToResize.getWidth();
-                genY = imageToResize.getHeight();
+        if (imageToResize.getWidth() <= width && imageToResize.getHeight() <= height) {
+            genX = imageToResize.getWidth();
+            genY = imageToResize.getHeight();
+        } else {
+            if (dx <= dy) {
+                genX = width;
+                genY = (int) (dx * imageToResize.getHeight());
             } else {
-                if (dx <= dy) {
-                    genX = width;
-                    genY = (int) (dx * imageToResize.getHeight());
-                } else {
-                    genX = (int) (dy * imageToResize.getWidth());
-                    genY = height;
-                }
+                genX = (int) (dy * imageToResize.getWidth());
+                genY = height;
             }
-
-            startX = (width - genX) / 2;
-            startY = (height - genY) / 2;
-
-            BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-            Graphics2D graphics2D = null;
-
-            try {
-                graphics2D = bufferedImage.createGraphics();
-                graphics2D.fillRect(0, 0, width, height);
-                graphics2D.drawImage(imageToResize, startX, startY, genX, genY, null);
-            } finally {
-                if (graphics2D != null) {
-                    graphics2D.dispose();
-                }
-            }
-
-            return bufferedImage;
         }
-    
-    
-    
-    public void deleteImage(ImageImpl img,BaseImagesSupport base)
-    {
+
+        startX = (width - genX) / 2;
+        startY = (height - genY) / 2;
+
+        BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        Graphics2D graphics2D = null;
+
+        try {
+            graphics2D = bufferedImage.createGraphics();
+            graphics2D.fillRect(0, 0, width, height);
+            graphics2D.drawImage(imageToResize, startX, startY, genX, genY, null);
+        } finally {
+            if (graphics2D != null) {
+                graphics2D.dispose();
+            }
+        }
+
+        return bufferedImage;
+    }
+
+    public void deleteImage(ImageImpl img, BaseImagesSupport base) {
         StringBuilder imagePath = new StringBuilder();
         imagePath.append(this.getImagesFolderAbsolutePath())
                 .append(base.getYearMonthUniqueFolder())
                 .append(FOLDER_SEPARATOR);
-        if (base.getMainImage().getOriginalImageName().equals(img.getOriginalImageName()))
-        {
+        if (base.getMainImage().getOriginalImageName().equals(img.getOriginalImageName())) {
             this.deleteImage(imagePath.toString() + CALENDAR_IMAGE_PREFIX + img.getOriginalImageName());
             this.deleteImage(imagePath.toString() + MICROBLOG_IMAGE_PREFIX + img.getOriginalImageName());
             this.deleteImage(imagePath.toString() + img.getOriginalImageName());
-        }
-        else
-        {
+        } else {
             this.deleteImage(imagePath.toString() + SMALL_IMAGE_PREFIX + img.getOriginalImageName());
             this.deleteImage(imagePath.toString() + img.getOriginalImageName());
         }
         File dir = new File(imagePath.toString());
-        if (dir.list().length == 0)
-        {
+        if (dir.list().length == 0) {
             dir.delete();
         }
     }
 
-    public void deleteDirectory(BaseImagesSupport base)
-    {
+    public void deleteDirectory(BaseImagesSupport base) {
         StringBuilder path = new StringBuilder();
         path.append(this.getImagesFolderAbsolutePath())
                 .append(base.getYearMonthUniqueFolder())
@@ -373,39 +361,55 @@ public class ImageService {
 
     /**
      * Deletes directory with subdirs and subfolders
+     *
      * @param dir Directory to delete
      */
-    private void deleteDirectory(File dir)
-    {
-        if (dir.isDirectory())
-        {
+    private void deleteDirectory(File dir) {
+        if (dir.isDirectory()) {
             String[] children = dir.list();
-            for (int i=0; i<children.length; i++)
-            {
+            for (int i = 0; i < children.length; i++) {
                 File f = new File(dir, children[i]);
                 this.deleteDirectory(f);
             }
             dir.delete();
-        }
-        //todo: remove else-block
-        else
-        {
+        } //todo: remove else-block
+        else {
             dir.delete();
         }
     }
 
-    private void deleteImage(String path)
-    {
-        try
-        {
+    private void deleteImage(String path) {
+        try {
             File file = new File(path);
             file.delete();
-        }
-        catch (Exception e)
-        {
-          
+        } catch (Exception e) {
         }
     }
+
+    public static CommonsMultipartFile cropImage(CommonsMultipartFile image, Integer t, Integer l, Integer w, Integer h) {
+        CommonsMultipartFile croppedImage;
+        try {
+            BufferedImage sourceImage = ImageIO.read(image.getInputStream());
+//        Compressing an image to produce the necessary proportions
+            sourceImage = ImageService.resize(sourceImage, 443, 253);
+//        cut the selected user area
+            sourceImage = sourceImage.getSubimage(t, l, w, h);
+            File tempFile = new File(ImageService.getImagesFolderAbsolutePath() + image.getOriginalFilename());
+            ImageIO.write(sourceImage, "jpg", tempFile);
+            DiskFileItem fileItem = (DiskFileItem) new DiskFileItemFactory().createItem("fileData", "image/jpeg", true, tempFile.getName());
+            InputStream input = new FileInputStream(tempFile);
+            OutputStream os = fileItem.getOutputStream();
+            int ret = input.read();
+            while (ret != -1) {
+                os.write(ret);
+                ret = input.read();
+            }
+            os.flush();
+            croppedImage = new CommonsMultipartFile(fileItem);
+        } catch (IOException e) {
+            return null;
+        }
+
+        return croppedImage;
+    }
 }
-
-

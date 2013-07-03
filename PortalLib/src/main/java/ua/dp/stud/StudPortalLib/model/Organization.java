@@ -10,6 +10,7 @@ import ua.dp.stud.StudPortalLib.util.OrganizationType;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
+import org.hibernate.Hibernate;
 
 @NamedQueries(
         {
@@ -58,7 +59,8 @@ public class Organization extends BaseImagesSupport implements Serializable {
     @OneToMany(mappedBy = "baseOrg", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @Fetch(FetchMode.SUBSELECT)
     public List<News> getNewsList()
-    {
+    {   
+        
         return this.newsList;
     }
     

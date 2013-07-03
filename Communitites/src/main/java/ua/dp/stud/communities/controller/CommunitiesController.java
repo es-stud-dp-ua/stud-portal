@@ -16,8 +16,6 @@ import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.model.User;
 import com.liferay.portal.service.LayoutLocalServiceUtil;
 import com.liferay.portal.theme.ThemeDisplay;
-import org.apache.commons.fileupload.disk.DiskFileItem;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -31,17 +29,16 @@ import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import ua.dp.stud.StudPortalLib.model.ImageImpl;
 import ua.dp.stud.StudPortalLib.model.News;
 import ua.dp.stud.StudPortalLib.model.Organization;
-import ua.dp.stud.StudPortalLib.model.OrganizationType;
+import ua.dp.stud.StudPortalLib.util.OrganizationType;
 import ua.dp.stud.StudPortalLib.service.OrganizationService;
 import ua.dp.stud.StudPortalLib.util.ImageService;
 
-import javax.imageio.ImageIO;
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
-import java.awt.image.BufferedImage;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Collection;
 
 @Controller
@@ -51,6 +48,7 @@ public class CommunitiesController {
     private static final String MAIN_IMAGE_MOCK_URL = "http://www.princetonmn.org/vertical/Sites/%7BF37F81E8-174B-4EDB-91E0-1A3D62050D16%7D/uploads/News.gif";
     private static final String strFail = "fail";
     private static final String strNoImage = "no-images";
+    private static final String strBadImage = "Failed to load image";
     private static final String strExept = "exception";
     private static final String strDuplicatTopic = "dplTopic";
     private static final String administratorRole = "Administrator";
@@ -81,7 +79,7 @@ public class CommunitiesController {
         model.setViewName("viewAll");
         Collection<Organization> organisations;
 //      set type of displayed organisations
-
+       StringBuilder temp=new StringBuilder("");
         int pagesCount;
         int currentPage;
         OrganizationType type;
@@ -106,7 +104,7 @@ public class CommunitiesController {
 
         model.addObject("organisations", organisations);
         model.addObject("currentPage", currentPage);
-        model.addObject("pagesCount",  pagesCount);
+        model.addObject("pagesCount", pagesCount);
         model.addObject("type", type);
         model.addObject("OrgsByPage", ORGS_BY_PAGE);
         return model;
@@ -121,7 +119,7 @@ public class CommunitiesController {
      */
     @RenderMapping(params = "orgsID")
     public ModelAndView showSelectedOrgs(RenderRequest request, RenderResponse response) throws SystemException, PortalException {
-
+        
         int orgsID = Integer.valueOf(request.getParameter("orgsID"));
         Organization organisation = service.getOrganizationById(orgsID);
         ImageService imageService = new ImageService();
@@ -147,6 +145,7 @@ public class CommunitiesController {
         model.addObject("newsArchivePageID", plid);
         return model;
     }
+
     /**
      * Pagination handling
      *
@@ -161,6 +160,7 @@ public class CommunitiesController {
             response.setRenderParameter("type", request.getParameter("type"));
         }
     }
+
     /**
      * Pagination handling
      *
@@ -173,14 +173,16 @@ public class CommunitiesController {
         if (request.getParameter("type") == null) {
             if (currentPage < service.getPagesCount(ORGS_BY_PAGE)) {
                 currentPage += 1;
-            }} else if (currentPage < service.getPagesCountOfType(ORGS_BY_PAGE,OrganizationType.valueOf(request.getParameter("type")))) {
-                currentPage += 1;
             }
+        } else if (currentPage < service.getPagesCountOfType(ORGS_BY_PAGE, OrganizationType.valueOf(request.getParameter("type")))) {
+            currentPage += 1;
+        }
         response.setRenderParameter("currentPage", String.valueOf(currentPage));
         if (request.getParameter("type") != null) {
             response.setRenderParameter("type", request.getParameter("type"));
         }
     }
+
     /**
      * Pagination handling
      *
@@ -198,11 +200,12 @@ public class CommunitiesController {
             response.setRenderParameter("type", request.getParameter("type"));
         }
     }
+
     private boolean updateCommunityFields(@RequestParam("mainImage") CommonsMultipartFile mainImage,
             @RequestParam("images") CommonsMultipartFile[] images,
             String frmTopic, String frmText, String frmRole, String role,
             ActionResponse actionResponse, String strFail, String strNoImage, Organization someorgs, OrganizationType type)
-            throws IOException, SystemException, PortalException {
+            throws SystemException, PortalException {
         boolean successUpload = true;
         ImageService imageService = new ImageService();
 //        check the length of the title and text
@@ -226,7 +229,7 @@ public class CommunitiesController {
             for (CommonsMultipartFile file : images) {
                 imageService.saveAdditionalImages(file, someorgs);
             }
-        } catch (Exception ex) {
+        } catch (IOException ex) {
             successUpload = false;
             StringWriter sw = new StringWriter();
             actionResponse.setRenderParameter(strExept, sw.toString());
@@ -244,7 +247,7 @@ public class CommunitiesController {
             @RequestParam("images") CommonsMultipartFile[] images,
             ActionRequest actionRequest,
             ActionResponse actionResponse, SessionStatus sessionStatus)
-            throws IOException, SystemException, PortalException {
+            throws SystemException, PortalException {
 //        path for main image is not empty
         if (mainImage.getOriginalFilename().equals("")) {
             actionResponse.setRenderParameter(strFail, strNoImage);
@@ -257,30 +260,16 @@ public class CommunitiesController {
         String text = actionRequest.getParameter("text");
         OrganizationType typeOrg = OrganizationType.valueOf(actionRequest.getParameter("type"));
 
-        BufferedImage sourceImage = ImageIO.read(mainImage.getInputStream());
-//        Compressing an image to produce the necessary proportions
-        sourceImage = ImageService.resize(sourceImage, 443, 253);
-//        cut the selected user area
-        sourceImage = sourceImage.getSubimage(Integer.parseInt(actionRequest.getParameter("t")),
+//        crop main image
+        CommonsMultipartFile croppedImage = ImageService.cropImage(mainImage, Integer.parseInt(actionRequest.getParameter("t")),
                 Integer.parseInt(actionRequest.getParameter("l")),
                 Integer.parseInt(actionRequest.getParameter("w")),
                 Integer.parseInt(actionRequest.getParameter("h")));
-        File tempFile = new File(ImageService.getImagesFolderAbsolutePath() + mainImage.getOriginalFilename());
-        ImageIO.write(sourceImage, "jpg", tempFile);
-        CommonsMultipartFile croppedImage = null;
-        try {
-            DiskFileItem fileItem = (DiskFileItem) new DiskFileItemFactory().createItem("fileData", "image/jpeg", true, tempFile.getName());
-            InputStream input = new FileInputStream(tempFile);
-            OutputStream os = fileItem.getOutputStream();
-            int ret = input.read();
-            while (ret != -1) {
-                os.write(ret);
-                ret = input.read();
-            }
-            os.flush();
-            croppedImage = new CommonsMultipartFile(fileItem);
-        } catch (Exception e) {
+        if (croppedImage == null) {
+            actionResponse.setRenderParameter(strFail, strBadImage);
+            return;
         }
+
 //        check the uniqueness of the name
         Collection<Organization> orgs = service.getAllOrganizations(true);
         Boolean isUnique = false;
@@ -289,7 +278,6 @@ public class CommunitiesController {
                 isUnique = true;
             }
         }
-
         String role;
         if (actionRequest.isUserInRole(administratorRole)) {
             role = administratorRole;
@@ -335,9 +323,8 @@ public class CommunitiesController {
 
         if (updateCommunityFields(mainImage, images, topic.trim(), text.trim(), role, usRole, actionResponse, strFail, strNoImage, organization, typeOrg)) {
             service.updateOrganization(organization);
-//            close session
+//        close session
             sessionStatus.setComplete();
-
         } else {
             actionResponse.setRenderParameter(strFail, strDuplicatTopic);
         }

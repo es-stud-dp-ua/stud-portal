@@ -1,5 +1,5 @@
 <%@ page import="ua.dp.stud.StudPortalLib.model.Category" %>
-<%@ page import="ua.dp.stud.StudPortalLib.model.OrganizationType" %>
+<%@ page import="ua.dp.stud.StudPortalLib.util.OrganizationType" %>
 <%@ page import="java.util.Collection" %>
 <%@ page import="java.util.Locale" %>
 <%@ page import="java.util.ResourceBundle" %>
@@ -157,9 +157,7 @@
                             reader.readAsDataURL(f);
                                a();
                         }
-                           
-
-                            document.getElementById('mainImage').addEventListener('change', handleFileSelect, false);
+                         document.getElementById('mainImage').addEventListener('change', handleFileSelect, false);
                         </script>
 
                         <br/>

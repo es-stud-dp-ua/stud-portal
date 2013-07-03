@@ -46,7 +46,9 @@ background-color: rgba(0, 122, 255, 0.47);
 	left:-10px;
 	z-index: 2;
 }
-
+.btnselected:hover,.btntype:hover{
+    background-color: #111199;
+}
   .btnselected,.btntype,
   .ribbon-back-left{
 	-moz-box-shadow: 0px 0px 4px rgba(0,0,0,0.55);

@@ -10,11 +10,14 @@ import ua.dp.stud.StudPortalLib.model.Organization;
 import ua.dp.stud.StudPortalLib.util.OrganizationType;
 
 import java.util.Collection;
+import org.hibernate.Hibernate;
 
 @Repository("organizationDao")
 public class OrganizationDaoImpl extends BaseDao implements OrganizationDao
 {
 
+   
+    
     /**
      * collection for organizations news by id
      * @param id organizations id
@@ -62,7 +65,11 @@ public class OrganizationDaoImpl extends BaseDao implements OrganizationDao
     @Override
     public Organization getOrganizationById(Integer id)
     {
-        return (Organization) getSession().get(Organization.class, id);
+        Organization org = (Organization) getSession().get(Organization.class, id);
+        Hibernate.initialize(org.getAdditionalImages());
+        Hibernate.initialize(org.getNewsList());
+        return org;
+      
     }
 
     /**
@@ -90,7 +97,7 @@ public class OrganizationDaoImpl extends BaseDao implements OrganizationDao
     @Override
     public ImageImpl getImageById(Long id)
 	{        //use load
-        return (ImageImpl) getSession().get(ImageImpl.class, id);
+            return (ImageImpl) getSession().get(ImageImpl.class, id);
     }
     
     

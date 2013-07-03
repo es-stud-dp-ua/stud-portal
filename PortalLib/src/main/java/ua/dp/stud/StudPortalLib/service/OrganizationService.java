@@ -65,8 +65,8 @@ public interface OrganizationService {
     Integer getCount();
 
 
-    Integer getPagesCount(Integer orgsByPage);
-    Integer getPagesCountOfType(Integer orgsByPage, OrganizationType type);
+    Integer getPagesCount(int orgsByPage);
+    Integer getPagesCountOfType(int orgsByPage, OrganizationType type);
     /**
      * deletes organization
      * @param organization
@@ -79,6 +79,6 @@ public interface OrganizationService {
     Collection<Organization> getAllOrganizationByAuthor(String author);
     Integer getPagesCountByAuthor(String author, Integer orgByPage);
     Collection<Organization> getPagesOrganizationByAuthor(String author, Integer pageNumb, Integer organizationByPage);
-    Integer getPagesCount(Boolean approved, Integer orgByPage);
+    Integer getPagesCount(Boolean approved, int orgByPage);
     Collection<Organization> getOrganizationsOnPage(Boolean approved, Integer pageNumb, Integer orgByPage);
 }
