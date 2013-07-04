@@ -4,20 +4,19 @@ import java.io.Serializable;
 
 /**
  * Mail changer model
+ *
  * @author Alex
  */
-public class MailChanger implements Serializable
-{
+public class MailChanger implements Serializable {
     private String newMail;
+
     /**
      * Constructor
      */
-    public MailChanger()
-    {
+    public MailChanger() {
     }
 
     /**
-     *
      * @return newMail string
      */
     public String getNewMail() {
@@ -26,6 +25,7 @@ public class MailChanger implements Serializable
 
     /**
      * set new mail
+     *
      * @param newMail
      */
     public void setNewMail(String newMail) {
@@ -35,24 +35,22 @@ public class MailChanger implements Serializable
 
     /**
      * Equals override
+     *
      * @param o
      * @return
      */
     @Override
     public boolean equals(Object o) {
-        if (this == o)
-        {
+        if (this == o) {
             return true;
         }
-        if (o == null || getClass() != o.getClass())
-        {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
 
         MailChanger that = (MailChanger) o;
-        //TODO: simplify if statement
-        if (newMail != null ? !newMail.equals(that.newMail) : that.newMail != null)
-        {
+
+        if (newMail != null ? !newMail.equals(that.newMail) : that.newMail != null) {
             return false;
         }
 
@@ -61,6 +59,7 @@ public class MailChanger implements Serializable
 
     /**
      * hashcode override
+     *
      * @return
      */
     @Override

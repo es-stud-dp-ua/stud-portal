@@ -6,7 +6,7 @@ import java.io.Serializable;
  * Question models
  * @author Oleg
  */
-public class Question implements Serializable{
+public class Question implements Serializable {
     private String sentFrom;
     private String subject;
     private String text;

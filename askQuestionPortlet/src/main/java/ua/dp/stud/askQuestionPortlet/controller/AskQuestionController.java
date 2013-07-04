@@ -18,8 +18,10 @@ import ua.dp.stud.askQuestionPortlet.util.QuestionValidator;
 import javax.portlet.ActionResponse;
 import javax.portlet.RenderResponse;
 import javax.validation.Valid;
+
 /**
  * Ask question controller
+ *
  * @author Oleg
  */
 @Controller
@@ -31,6 +33,7 @@ public class AskQuestionController {
 
     /**
      * Sets the mailer
+     *
      * @param mailer
      */
     public void setMailer(Mailer mailer) {
@@ -39,6 +42,7 @@ public class AskQuestionController {
 
     /**
      * Calls after form's submit button pressed
+     *
      * @param question
      * @param bindingResult
      * @param response
@@ -46,7 +50,7 @@ public class AskQuestionController {
      */
     @ActionMapping
     public void doPost(@Valid @ModelAttribute("question") Question question, BindingResult bindingResult,
-                               ActionResponse response, SessionStatus sessionStatus) {
+                       ActionResponse response, SessionStatus sessionStatus) {
         Validator validator = new QuestionValidator();
         validator.validate(question, bindingResult);
         if (bindingResult.hasErrors()) {
@@ -54,17 +58,18 @@ public class AskQuestionController {
         } else {
             synchronized (mailer) {
                 mailer.sendMail(
-                    question.getSentFrom(),
-                    question.getSubject(),
-                    question.getText());
+                        question.getSentFrom(),
+                        question.getSubject(),
+                        question.getText());
             }
             sessionStatus.setComplete();
-            response.setRenderParameter("result","success");
+            response.setRenderParameter("result", "success");
         }
     }
 
     /**
      * Render incoming request to askQuestionForm.jsp
+     *
      * @param response
      * @return
      */
@@ -75,6 +80,7 @@ public class AskQuestionController {
 
     /**
      * Renders to success_page.jsp
+     *
      * @param model
      * @return
      */
@@ -85,6 +91,7 @@ public class AskQuestionController {
 
     /**
      * Returns empty question object
+     *
      * @return
      */
     @ModelAttribute(value = "question")
