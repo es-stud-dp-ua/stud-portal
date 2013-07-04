@@ -17,16 +17,20 @@
 <portlet:defineObjects/>
 <%
     List<Studie> studie = (List) request.getAttribute("studie");
-    
+    int buttonId = 0;  
+    if (request.getParameter("buttonId")!=null){
+    buttonId = Integer.parseInt(request.getParameter("buttonId"));
+       }
     ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
     String imagePath = new StringBuilder(themeDisplay.getPortalURL()).append('/')
             .append(themeDisplay.getPathImage()).append("/image_gallery?img_id=").toString();
     ImageService imageService = new ImageService();
-    //todo: remove
     Locale locale = (Locale) request.getSession().getAttribute("org.apache.struts.action.LOCALE");
     String language = locale.getLanguage();
     String country = locale.getCountry();
     ResourceBundle res = ResourceBundle.getBundle("messages", new Locale(language, country));
+    String temp;
+    String[] type={"studie","entry","helps","informal","scholarships","grants"};
 %>
 
 <html>
@@ -49,101 +53,24 @@
    
     <%} %>
    
-    <ul style="margin-left: -80px;" >
-               <!-- todo: WTF IS THIS???!-->
-    <li>
-              <% if (request.getParameter("buttonId")!=null) { %>
-            <%  if (Integer.valueOf(request.getParameter("buttonId"))==0) { %>
-                <div  class="ribbon-wrapper" ><button  class="btnselected" style=" width: 150px; height: 40px;  margin-left: -10px;  background-color: rgba(0, 122, 255, 0.47); border-color: rgba(68, 115, 185, 0);" name="buttonId" value="0"> 
-                         <spring:message code="form.studie"/></button><div class="ribbon-edge-topleft"></div><div class="ribbon-edge-bottomleft"></div></div> 
-           <% } else { %>
-                           <div  class="ribbon-wrapper" ><button  class="btntype" style=" width: 150px; height: 40px;  background:  #4473B9; margin-left: -10px;  border-color: #4473B9;" name="buttonId" value="0"> 
-                         <spring:message code="form.studie"/></button><div class="ribbon-edge-topleft"></div><div class="ribbon-edge-bottomleft"></div></div> 
- 
-           <%} } else {%>
-                         <div  class="ribbon-wrapper" ><button  class="btntype" style=" width: 150px; height: 40px;  background:  #4473B9; margin-left: -10px;  border-color: #4473B9;" name="buttonId" value="0"> 
-                         <spring:message code="form.studie"/></button><div class="ribbon-edge-topleft"></div><div class="ribbon-edge-bottomleft"></div></div> 
- 
-           <%} %>
-                </li>
-                 <li> 
-                 <% if (request.getParameter("buttonId")!=null) {
-              if (Integer.valueOf(request.getParameter("buttonId"))==1) { %>
-                <div  class="ribbon-wrapper" ><button  class="btnselected" style=" width: 150px; height: 40px;   margin-left: -10px; background-color: rgba(0, 122, 255, 0.47); border-color: rgba(68, 115, 185, 0);" name="buttonId" value="1"> 
-                         <spring:message code="form.entry"/></button><div class="ribbon-edge-topleft"></div><div class="ribbon-edge-bottomleft"></div></div> 
-          <% } else { %>
-                         <div  class="ribbon-wrapper" ><button  class="btntype" style=" width: 150px; height: 40px;  background:  #4473B9; margin-left: -10px;  border-color: #4473B9;" name="buttonId" value="1"> 
-                         <spring:message code="form.entry"/></button><div class="ribbon-edge-topleft"></div><div class="ribbon-edge-bottomleft"></div></div> 
-            <%} } else {%>
-                           <div  class="ribbon-wrapper" ><button  class="btntype" style=" width: 150px; height: 40px;  background:  #4473B9; margin-left: -10px;  border-color: #4473B9;" name="buttonId" value="1"> 
-                         <spring:message code="form.entry"/></button><div class="ribbon-edge-topleft"></div><div class="ribbon-edge-bottomleft"></div></div> 
-             <%} %>
-                </li>
-                 <li>
-                 <% if (request.getParameter("buttonId")!=null) {
-              if (Integer.valueOf(request.getParameter("buttonId"))==2) { %>
-                <div  class="ribbon-wrapper" ><button  class="btnselected" style=" width: 150px; height: 40px;   margin-left: -10px;  background-color: rgba(0, 122, 255, 0.47); border-color: rgba(68, 115, 185, 0);" name="buttonId" value="2"> 
-                         <spring:message code="form.helps"/></button><div class="ribbon-edge-topleft"></div><div class="ribbon-edge-bottomleft"></div></div> 
-          <% } else { %>
-                          <div  class="ribbon-wrapper" ><button  class="btntype" style=" width: 150px; height: 40px;  background:  #4473B9; margin-left: -10px;  border-color: #4473B9;" name="buttonId" value="2"> 
-                         <spring:message code="form.helps"/></button><div class="ribbon-edge-topleft"></div><div class="ribbon-edge-bottomleft"></div></div> 
-      
-          <%} } else {%>
-                          <div  class="ribbon-wrapper" ><button  class="btntype" style=" width: 150px; height: 40px;  background:  #4473B9; margin-left: -10px;  border-color: #4473B9;" name="buttonId" value="2"> 
-                         <spring:message code="form.helps"/></button><div class="ribbon-edge-topleft"></div><div class="ribbon-edge-bottomleft"></div></div> 
-           <%} %>
-                </li>
-                 <li>
-           <% if (request.getParameter("buttonId")!=null) {
-              if (Integer.valueOf(request.getParameter("buttonId"))==3) { %>
-                <div  class="ribbon-wrapper" ><button  class="btnselected" style=" width: 150px; height: 40px;   margin-left: -10px;  background-color: rgba(0, 122, 255, 0.47); border-color: rgba(68, 115, 185, 0);" name="buttonId" value="3"> 
-                         <spring:message code="form.informal"/></button><div class="ribbon-edge-topleft"></div><div class="ribbon-edge-bottomleft"></div></div> 
-            <% } else { %>
-                            <div  class="ribbon-wrapper" ><button  class="btntype" style=" width: 150px; height: 40px;  background:  #4473B9; margin-left: -10px;  border-color: #4473B9;" name="buttonId" value="3"> 
-                         <spring:message code="form.informal"/></button><div class="ribbon-edge-topleft"></div><div class="ribbon-edge-bottomleft"></div></div> 
-
-            <%} } else {%>
-                            <div  class="ribbon-wrapper" ><button  class="btntype" style=" width: 150px; height: 40px;  background:  #4473B9; margin-left: -10px;  border-color: #4473B9;" name="buttonId" value="3"> 
-                         <spring:message code="form.informal"/></button><div class="ribbon-edge-topleft"></div><div class="ribbon-edge-bottomleft"></div></div> 
-
-              <%} %>
-                </li>
-                 <li>
-                 <% if (request.getParameter("buttonId")!=null) {
-              if (Integer.valueOf(request.getParameter("buttonId"))==4) { %>
-                 <div  class="ribbon-wrapper" ><button  class="btnselected" style=" width: 150px; height: 40px;  margin-left: -10px;  background-color: rgba(0, 122, 255, 0.47); border-color: rgba(68, 115, 185, 0);" name="buttonId" value="4"> 
-                         <spring:message code="form.scholarships"/></button><div class="ribbon-edge-topleft"></div><div class="ribbon-edge-bottomleft"></div></div> 
-            <% } else { %>
-                             <div  class="ribbon-wrapper" ><button  class="btntype" style=" width: 150px; height: 40px;  background:  #4473B9; margin-left: -10px;  border-color: #4473B9;" name="buttonId" value="4"> 
-                         <spring:message code="form.scholarships"/></button><div class="ribbon-edge-topleft"></div><div class="ribbon-edge-bottomleft"></div></div> 
-   
-            <%} } else {%>
-                             <div  class="ribbon-wrapper" ><button  class="btntype" style=" width: 150px; height: 40px;  background:  #4473B9; margin-left: -10px;  border-color: #4473B9;" name="buttonId" value="4"> 
-                         <spring:message code="form.scholarships"/></button><div class="ribbon-edge-topleft"></div><div class="ribbon-edge-bottomleft"></div></div> 
-   
-            <%} %>
-                 </li>
-                 <li>
-                    <% if (request.getParameter("buttonId")!=null) {
-              if (Integer.valueOf(request.getParameter("buttonId"))==5) { %>
-                 <div  class="ribbon-wrapper" ><button  class="btnselected" style=" width: 150px; height: 40px;  margin-left: -10px;   background-color: rgba(0, 122, 255, 0.47); border-color: rgba(68, 115, 185, 0);" name="buttonId" value="5"> 
-                         <spring:message code="form.grants"/></button><div class="ribbon-edge-topleft"></div><div class="ribbon-edge-bottomleft"></div></div> 
-         <% } else { %>
-                          <div  class="ribbon-wrapper" ><button  class="btntype" style=" width: 150px; height: 40px;  background:  #4473B9; margin-left: -10px; border-color: #4473B9;" name="buttonId" value="5"> 
-                         <spring:message code="form.grants"/></button><div class="ribbon-edge-topleft"></div><div class="ribbon-edge-bottomleft"></div></div> 
- 
-          <%} } else {%>
-                           <div  class="ribbon-wrapper" ><button  class="btntype" style=" width: 150px; height: 40px;  background:  #4473B9; margin-left: -10px;  border-color: #4473B9;" name="buttonId" value="5"> 
-                         <spring:message code="form.grants"/></button><div class="ribbon-edge-topleft"></div><div class="ribbon-edge-bottomleft"></div></div> 
- 
-           <%} %>
-          </li>
-		  </ul>
-               
+    <div style="margin-left: -80px;" class="cmt-types" >
+                   <% for(int i=0;i<6;i++){
+                if (buttonId==i)  {  
+                  temp=new String("form.".concat(type[i]));%>
+                   <div  class="ribbon-wrapper" ><button  class="btnselected" style=" width: 150px; height: 40px;  margin-left: -10px;  background-color: rgba(0, 122, 255, 0.47); border-color: rgba(68, 115, 185, 0);" name="buttonId" value="<%=i%>"> 
+                         <spring:message code="<%=temp%>"/></button><div class="ribbon-edge-topleft"></div><div class="ribbon-edge-bottomleft"></div></div> 
+                 <%}else{
+                    temp=new String("form.".concat(type[i])); %>
+                        <div  class="ribbon-wrapper" ><button  class="btntype" style=" width: 150px; height: 40px;  background:  #4473B9; margin-left: -10px;  border-color: #4473B9;" name="buttonId" value="<%=i%>"> 
+                         <spring:message code="<%=temp%>"/></button><div class="ribbon-edge-topleft"></div><div class="ribbon-edge-bottomleft"></div></div> 
+                     <%}%>
+                <br/>
+                <% }%>
+    </div>   
                <% if (!studie.isEmpty())
                                     { %>
     
-    <table id="newsTable" >
+    <div style="display: table" id="newsTable">
        <%
                                    
        if ((studie.size()>=3))
@@ -151,8 +78,8 @@
             for (int i=0; i<studie.size(); i=i+3) 
                                      {
     %>
-        <tr style="vertical-align: top;">
-            <td style="text-align: center; margin: 10px 10px 10px 10px;">
+        <div style="vertical-align: top; display: table-row">
+            <div style="text-align: center; margin: 10px 10px 10px 10px; display: table-cell">
          
                 <div width="100%">
                     <div id="block">
@@ -161,17 +88,17 @@
                     <% if (request.isUserInRole("Administrator")) { %>
                                 <a  href="<portlet:renderURL/>&studieId=<%=studie.get(i).getId()%>&mode=delete"
                                 onclick='return confirm("<spring:message code="form.confDelete"/>")'>
-                                    <span>  x</span></a>
+                                   <span>  x</span></a> 
                                 <%}%></div>
-                    <div class="studieHeader">
+                    <div class="studieHeader" >
                         <a href="<portlet:renderURL/>&studieID=<%=studie.get(i).getId()%>">
                             <%=studie.get(i).getTitle()%>
                         </a>
                     </div>
                         
                 </div>
-            </td>
-          <td  style="text-align: center; margin: 10px 10px 10px 10px;">
+            </div>
+          <div  style="text-align: center; margin: 10px 10px 10px 10px; display: table-cell">
              <% if (i+1<studie.size()) { %>
                 <div width="100%">
                    <div id="block">
@@ -189,8 +116,8 @@
                     </div>
                 </div>
              <%}%>         
-            </td>
-            <td style="text-align: center; margin: 10px 10px 10px 10px;">
+            </div>
+            <div style="text-align: center; margin: 10px 10px 10px 10px; display: table-cell">
                <%if (i+2<studie.size()) { %>
                 <div width="100%">
                     <div id="block">
@@ -208,14 +135,14 @@
                     </div>
                 </div>
                <%}%>
-            </td>
-        </tr>
+            </div>
+        </div>
            <%
                  }}  if ((studie.size()==2)){ 
             for (int i=0; i<studie.size(); i=i+2) {
     %>
-         <tr style="vertical-align: top;">
-            <td style="text-align: center; margin: 10px 10px 10px 10px;">
+         <div style="vertical-align: top; display: table-row">
+            <div style="text-align: center; margin: 10px 10px 10px 10px; display: table-cell">
                 <div width="100%">
                          <div id="block">
                   <a href="<portlet:renderURL/>&studieID=<%=studie.get(i).getId()%>">  
@@ -231,8 +158,8 @@
                         </a>
                     </div>
                 </div>
-            </td>
-          <td  style="text-align: center; margin: 10px 10px 10px 10px;">
+            </div>
+          <div  style="text-align: center; margin: 10px 10px 10px 10px; display: table-cell">
              <% if (i+1<studie.size()) { %>
                 <div width="100%">
                        <div id="block">
@@ -250,17 +177,17 @@
                     </div>
                 </div>
                 <% }%>
-            </td>
+            </div>
             
-        </tr>
+        </div>
         <%
              }}
            
        if ((studie.size()==1)) 
                      {
    %>
-         <tr style="vertical-align: top;">
-            <td style="text-align: center; margin: 10px 10px 10px 10px;">
+         <div style="vertical-align: top; display: table-row">
+            <div style="text-align: center; margin: 10px 10px 10px 10px; display: table-cell">
                 <div width="100%">
                          <div id="block">
                   <a href="<portlet:renderURL/>&studieID=<%=studie.get(0).getId()%>">  
@@ -276,11 +203,11 @@
                         </a>
                     </div>
                 </div>
-            </td>
-        </tr>
+            </div>
+        </div>
        
       <%}%>
-    </table>  
+    </div>  
 <%}%>  
   
            

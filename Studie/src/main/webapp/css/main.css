@@ -2,28 +2,48 @@
     display: block;
     position:relative;    
 }
+
+.cmt-types{
+    display: inline-block;
+    float: left;
+}
+
+
 #block span{ 
-    display: block;
+  /*  display: inline-block;
     bottom: 140px;
     position:absolute;   
     font-family: Lucida Console;
     font-size: 15pt;
     font-weight: bold;
     color:#DCDCDC;
-    margin-left: 140px;
+    float: right;
     text-decoration: none;
     opacity: 0.9;
-    text-shadow: 1px 1px 2px black, 0 0 1em black;
+    text-shadow: 1px 1px 2px black, 0 0 1em black;*/
+display: inline-block;
+bottom: 140px;
+margin-left: 140px;
+position: absolute;
+font-family: Lucida Console;
+font-size: 15pt;
+font-weight: bold;
+color: #DCDCDC;
+float: right;
+vertical-align: top;
+text-decoration: none;
+opacity: .9;
+text-shadow: 1px 1px 2px black,0 0 1em black;
 }
 #block span:hover{   
-    display: block;
+    display: inline-block;
     position:absolute;   
     bottom: 140px;
     font-family:Lucida Console;
     font-size: 15pt;
     color:red;
     font-weight: bold;
-    margin-left: 140px;
+    float: right;
     text-decoration: none;
     text-shadow: 1px 1px 2px black, 0 0 1em black;
 }
@@ -111,9 +131,9 @@ background-color: #4473B9;
 }
 
 #contentDiv {
-    width: 80%;
-    margin-left: 10%;
-    margin-right: 10%;
+    width: 850px;
+	margin-left:70px;
+	display: inline-block;
 }
 
 #tableHeader {
@@ -123,10 +143,13 @@ background-color: #4473B9;
 }
 
 #newsTable {
-    width: 100%;
+    width: 90%;
     font-family: Arial, Helvetica, sans-serif;
-    margin: 0px 0px 10px 10px;
     z-index: 99;
+    position:relative; 
+    display: inline-block;
+    float: right;
+    
 }
 
 #buttons {
