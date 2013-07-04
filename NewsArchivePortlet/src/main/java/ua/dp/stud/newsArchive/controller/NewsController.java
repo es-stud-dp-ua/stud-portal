@@ -245,9 +245,9 @@ public class NewsController {
         }
         somenews.setText(frmText);
         //set in calendar instance from views
-        somenews.setInCalendar((frmInCalendar) ? 1 : 0);
+        somenews.setInCalendar((frmInCalendar) ? true : false);
         //if admin add then get on main page visibility from views
-        somenews.setOnMainpage((frmOnMainPage) ? 1 : 0);
+        somenews.setOnMainpage((frmOnMainPage) ? true : false);
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         //get date for calendar view from views
         //todo: use one try block
