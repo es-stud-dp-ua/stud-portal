@@ -65,7 +65,7 @@ public class MicroBlogController {
     {
         Integer newsId = Integer.valueOf(request.getParameter("newsID"));
         News news = service.getNewsById(newsId);
-        news.setOnMainpage(0);
+        news.setOnMainpage(false);
         service.updateNews(news);
         //todo: move common logic to private helper method ot use redirect/forward
         return showView(request, response);
