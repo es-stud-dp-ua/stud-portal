@@ -1,4 +1,0 @@
-stud-portal
-===========
-
-Student portal
