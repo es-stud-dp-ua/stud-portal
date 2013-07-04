@@ -1,6 +1,8 @@
 package ua.dp.stud.StudPortalLib.util;
 
 import org.joda.time.DateTime;
+import org.springframework.stereotype.*;
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import ua.dp.stud.StudPortalLib.model.BaseImagesSupport;
 import ua.dp.stud.StudPortalLib.model.ImageImpl;
@@ -26,7 +28,7 @@ import static org.apache.commons.lang.StringUtils.join;
  * @author: Josby
  * @author Vladislav Pikus
  */
-//todo: this must be a spring bean
+@Component("imageService")
 public class ImageService {
 
     private static final String FOLDER_SEPARATOR;
@@ -371,9 +373,6 @@ public class ImageService {
                 File f = new File(dir, children[i]);
                 this.deleteDirectory(f);
             }
-            dir.delete();
-        } //todo: remove else-block
-        else {
             dir.delete();
         }
     }

@@ -45,6 +45,15 @@ public class BannerController {
         this.bannerImageService = bannerImageService;
     }
 
+    @Autowired
+    @Qualifier(value = "imageService")
+    private ImageService imageService;
+
+    public void setImageService(ImageService imageService)
+    {
+        this.imageService = imageService;
+    }
+
     private boolean updateBannerImage(CommonsMultipartFile mainImage,
                                       String url, ActionResponse actionResponse, BannerImage banner) {
         if (url.length() < URLSIMBOL) {
@@ -53,7 +62,6 @@ public class BannerController {
         }
 
         banner.setUrl(url);
-        ImageService imageService = new ImageService();
         boolean successUpload = true;
         if (mainImage != null) {
             if (mainImage.getSize() > 0) {
