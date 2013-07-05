@@ -121,4 +121,34 @@
             <%}%>
         </div>
     </div>
+    <script>
+        function rewindPanel(currentPage, direction, paramsName) {
+            $.ajax({
+                url:"<portlet:renderURL/>&mode=pagination",
+                cache:false,
+                data:{currentPage:currentPage, direction:direction, modelView:paramsName},
+                dataType:"html",
+                type:"GET",
+                contentType:"application/json;charset=utf-8",
+                success:function (data) {
+                    var myNews = $("." + paramsName);
+                    myNews.html($('.' + paramsName, data));
+                }
+            });
+        }
+        function approve(currentPage, modelView, objectId, appr) {
+            $.ajax({
+                url:"<portlet:renderURL/>&mode=approve",
+                cache:false,
+                data:{currentPage:currentPage, modelView:modelView, objectId:objectId, appr:appr},
+                dataType:"html",
+                type:"GET",
+                contentType:"application/json;charset=utf-8",
+                success:function (data) {
+                    var myNews = $("." + modelView);
+                    myNews.html($('.' + modelView, data));
+                }
+            });
+          }
+    </script>
 <%}%>
