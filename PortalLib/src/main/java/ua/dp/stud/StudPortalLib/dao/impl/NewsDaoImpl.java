@@ -11,6 +11,7 @@ import ua.dp.stud.StudPortalLib.model.ImageImpl;
 import ua.dp.stud.StudPortalLib.model.News;
 
 import java.util.Collection;
+import org.hibernate.Hibernate;
 
 /**
  * Class is used to work with the database
@@ -42,7 +43,9 @@ public class NewsDaoImpl extends BaseDao implements NewsDao
     @Override
     public News getNewsById(Integer id)
     {
-        return (News) getSession().get(News.class, id);
+        News news = (News) getSession().get(News.class, id);
+        Hibernate.initialize(news.getAdditionalImages());
+        return news;
     }
 
     /**

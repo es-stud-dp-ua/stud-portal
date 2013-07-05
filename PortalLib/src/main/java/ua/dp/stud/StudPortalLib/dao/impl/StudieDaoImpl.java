@@ -6,6 +6,7 @@ package ua.dp.stud.StudPortalLib.dao.impl;
 
 
 import java.util.Collection;
+import org.hibernate.Hibernate;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -33,7 +34,9 @@ public class StudieDaoImpl extends BaseDao  implements StudieDao
 
     @Override
     public Studie getStudieById(Integer id) {
-       return (Studie) getSession().get(Studie.class, id);
+        Studie studie = (Studie) getSession().get(Studie.class, id);
+        Hibernate.initialize(studie.getAdditionalImages());
+        return studie;
     }
 
     @Override
