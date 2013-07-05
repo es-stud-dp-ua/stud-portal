@@ -5,15 +5,9 @@
 <portlet:renderURL var="home"> </portlet:renderURL>
 <portlet:actionURL var="actionLink" name="addImage"></portlet:actionURL>
 
-<%
-    Locale locale = (Locale) request.getSession().getAttribute("org.apache.struts.action.LOCALE");
-    String language = locale.getLanguage();
-    String country = locale.getCountry();
-    ResourceBundle res = ResourceBundle.getBundle("messages", new Locale(language, country));
-%>
-<liferay-ui:error key="error.dplBannerAdd" message='<%=res.getString("msg.wrong.dplBanner")%>'></liferay-ui:error>
-<liferay-ui:error key="error.no_images" message='<%=res.getString("msg.wrong.no_images")%>'></liferay-ui:error>
-<liferay-ui:error key="error.toLow" message='<%=res.getString("msg.wrong.unknown")%>'></liferay-ui:error>
+<liferay-ui:error key="error.no_images" message='<spring:message code="msg.wrong.no_images"/>'></liferay-ui:error>
+<liferay-ui:error key="error.dplBanner" message='<spring:message code="msg.wrong.dplBanner"/>'></liferay-ui:error>
+<liferay-ui:error key="error.toLow" message='<spring:message code="msg.wrong.toLow"/>'></liferay-ui:error>
 
 <html>
 <head>

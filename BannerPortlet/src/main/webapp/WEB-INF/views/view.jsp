@@ -9,10 +9,6 @@
     Collection<BannerImage> bannerImages =
             (Collection<BannerImage>) request.getAttribute("bannerImages");
     ImageService imageService = (ImageService)pageContext.findAttribute("imageService");
-    Locale locale = (Locale) request.getSession().getAttribute("org.apache.struts.action.LOCALE");
-    String language = locale.getLanguage();
-    String country = locale.getCountry();
-    ResourceBundle res = ResourceBundle.getBundle("messages", new Locale(language, country));
 %>
 
 <html>
@@ -20,7 +16,7 @@
 	<script src="${pageContext.request.contextPath}/js/banner.js"></script>
 </head>
 <body>
-<liferay-ui:success message='<%=res.getString("msg.successAdd")%>' key="success"/>
+<liferay-ui:success message='<spring:message code="msg.successAdd"/>' key="success"/>
 <div style="width: 100%">
 	<% if(request.isUserInRole("Administrator")){%>
             <div style="margin-right: 450px;">

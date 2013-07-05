@@ -6,8 +6,6 @@
 <%@ page contentType="text/html" isELIgnored="false"%>
 <%@ taglib uri="http://liferay.com/tld/aui" prefix="aui" %>
 <%@ taglib prefix="liferay-ui" uri="http://liferay.com/tld/ui" %>
-<%@ page import="java.util.Locale" %>
-<%@ page import="java.util.ResourceBundle" %>
 <portlet:defineObjects />
 
 
@@ -15,7 +13,7 @@
 <head>
 </head>
 <body>
-<!--todo:move javascript and css to separate file-->
+
 <script type="text/javascript">
 
 	$(document).ready(function(){
@@ -67,15 +65,9 @@
 </script>
 
 <portlet:actionURL var="actionLink" name="addNewUser"></portlet:actionURL>
-<%
-    Locale locale = (Locale) request.getSession().getAttribute("org.apache.struts.action.LOCALE");
-    String language = locale.getLanguage();
-    String country = locale.getCountry();
-    ResourceBundle res = ResourceBundle.getBundle("messages", new Locale(language, country));
-%>
-<liferay-ui:error key="error.email" message='<%=res.getString("msg.wrong.email")%>'></liferay-ui:error>
-<liferay-ui:error key="error.global" message='<%=res.getString("result.exeption")%>'></liferay-ui:error>
-<liferay-ui:error key="error.data" message='<%=res.getString("msg.wrong")%>'></liferay-ui:error>
+<liferay-ui:error key="error.email" message='<spring:message code="msg.wrong.email"/>'></liferay-ui:error>
+<liferay-ui:error key="error.global" message='<spring:message code="result.exeption"/>'></liferay-ui:error>
+<liferay-ui:error key="error.data" message='<spring:message code="msg.wrong"/>'></liferay-ui:error>
 
 <form:form method="POST" action="${actionLink}" commandName="userInfo" id="registration-form" class="" enctype="multipart/form-data">
 	<fieldset id="mainContent">
