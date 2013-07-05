@@ -39,23 +39,6 @@ function bindPopups() {
 	});
 }
 
-function rewind(year, month, direction) {
-	$.ajax({
-		url:"${link}&mode=next",
-		cache:false,
-		data:{year:year, month:month, direction:direction},
-		dataType:"html",
-		type:"GET",
-		contentType:"application/json;charset=utf-8",
-		success:function (data) {
-			var outerCalendarContainer = $("#outerCalendarContainer");
-			outerCalendarContainer.html($('#outerCalendarContainer', data));
-			setTableColumsSizes();
-			bindPopups();
-		}
-	});
-}
-
 $(function () {
 	setTableColumsSizes();
 	bindPopups();

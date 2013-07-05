@@ -3,6 +3,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet" %>
 
+<liferay-portlet:renderURL var="link"/>
 <table id="calendarTable">
     <tr>
 		<c:forEach var="entry" items="${news}">
