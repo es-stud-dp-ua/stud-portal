@@ -19,21 +19,16 @@
 <%@include file="include.jsp" %>
 
 <%
-    Locale locale = (Locale) request.getSession().getAttribute("org.apache.struts.action.LOCALE");
-    String language = locale.getLanguage();
-    String country = locale.getCountry();
-    ResourceBundle res = ResourceBundle.getBundle("messages", new Locale(language, country));
     String ex = (String) request.getAttribute("exception");
-  
+    Collection<String> allTypes=(Collection) (OrganizationType.allTypes());
+    String temp;
     Organization orgs = (Organization) request.getAttribute("organisation");
     String mainImage = (String)request.getAttribute("mainImage");
-   
 %>
 <portlet:defineObjects/>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  
 </head>
 <body>
 <script type="text/javascript">
@@ -41,7 +36,6 @@ function isNotMax(e){
 	e = e || window.event;
 	var target = e.target || e.srcElement;
 	var code=e.keyCode?e.keyCode:(e.which?e.which:e.charCode)
-
 	switch (code){
 		case 13:
 		case 8:
@@ -56,9 +50,7 @@ function isNotMax(e){
 	return target.value.length <= target.getAttribute('maxlength');
 }
 </script>
-
 <portlet:renderURL var="home"> </portlet:renderURL>
-
 <portlet:actionURL var="actionLink" name="editCommunity"></portlet:actionURL>
 <div class="portlet-content-controlpanel fs20" >
         <a href="${home}">
@@ -74,12 +66,11 @@ function isNotMax(e){
         </a>
         <%}%>
     </div>
-<liferay-ui:error key="no-images" message='<%=res.getString("msg.noImages")%>'/>
-<liferay-ui:error key="dplTopic" message='<%=res.getString("msg.dplTopic")%>'/>
+<liferay-ui:error key="no-images" message='<spring:message code="msg.noImages"/>'/>
+<liferay-ui:error key="dplTopic"  message='<spring:message code="msg.dplTopic"/>'/>
 <%if (ex != null) {%>
 <%=ex%>
 <%}%>
-
 <div width="100%" align="center">
    <form method="POST" action="${actionLink}" enctype="multipart/form-data">
        
@@ -92,33 +83,24 @@ function isNotMax(e){
   .thumb {
     height: 253px;
     width: 443px;
-    
   }
 </style>
-
-
-
-<div id="lup">
-                    </div>
+<div id="lup"> </div>
 <div id="mainPic" style="background: url(${pageContext.request.contextPath}/images/mainpic_443x253.png) no-repeat">
 <!-- Output for our douwnload Image-->
 <input type="file" id="mainImage" name="mainImage" />
 <output id="list"></output>
 </div>
- <div id="rdn">
-      </div>             
+ <div id="rdn"></div>             
 <script>
   function handleFileSelect(evt) 
   {
     var files = evt.target.files; // FileList object
-
-    // Loop through the FileList and render image files as thumbnails.
+      // Loop through the FileList and render image files as thumbnails.
     var f=files[files.length-1];
-
       // Only process im11age files.
      document.getElementById('list').innerHTML='';
       var reader = new FileReader();
-
       // Closure to capture the file information.
       reader.onload = (function(theFile) {
         return function(e) {
@@ -129,16 +111,13 @@ function isNotMax(e){
           document.getElementById('list').insertBefore(span, null);
         };
       })(f);
-
       // Read in the image file as a data URL.
       reader.readAsDataURL(f);
-   
   }
-
   document.getElementById('mainImage').addEventListener('change', handleFileSelect, false);
 </script>
                        <br/>
-                       <div id="imageLoader">
+                       <div id="imageLoader" style="margin-top: 265px;">
                            <div id="imgloaderBtn">
                                <input name="images" type="file" id="aui_3_2_0_11607" accept="image/jpeg,image/png,image/gif"/ multiple>
                                <div id="nt"><spring:message code="form.addPictures"/></div>
@@ -162,83 +141,28 @@ function isNotMax(e){
                           <br/><br/>
                    </td>                
                </tr>
-               
                    <tr>
-
                 <td width="50%" align="right">
                     <div id="eventSetting">
                         <div style="font-size:14px">
-                         
-                           
                             <div style="float: right; margin-top: 30px; ">
                                 <table >
                                     <tr><label><div style="font-weight: bold; "><spring:message code="addOrganisation.type"/></div></label></tr>
-                                <tr >
-                                    <td><div style="float: right; margin-right: 10px;"><spring:message code="form.SPORTS"/></div></td>
-                                    <td >
-                                        <% if (orgs.getOrganizationType()==OrganizationType.SPORTS) {%>
-                                        <input type="radio" name="type" value="<%= OrganizationType.SPORTS %>" checked="" style="float: right;"/>
-                                    <%} else { %>
-                                    <input type="radio" name="type" value="<%= OrganizationType.SPORTS %>" style="float: right;"/>
-                                    <% } %></td>
-                                </tr>
+                                <% for(String currentType: allTypes){
+                                temp=new String("form."+currentType);%>
                                 <tr>
-                                    <td><div style="float: right; margin-right: 10px; "><spring:message code="form.YOUNGSTERS"/></div></td>
-                                    <td> <% if (orgs.getOrganizationType()==OrganizationType.YOUNGSTERS) {%>
-                                        <input type="radio" name="type" value="<%= OrganizationType.YOUNGSTERS %>" checked="" style="float: right;"/>
-                                    <%} else { %>
-                                    <input type="radio" name="type" value="<%= OrganizationType.YOUNGSTERS %>" style="float: right;"/>
-                                    <% } %></td>
-                                </tr>
-                                <tr>
-                                     <td><div style="float: right; margin-right: 10px;"><spring:message code="form.VOLUNTEERING"/></div></td>
-                                    <td> 
-                                         <% if (orgs.getOrganizationType()==OrganizationType.VOLUNTEERING) {%>
-                                         <input type="radio" name="type" value="<%= OrganizationType.VOLUNTEERING %>" checked="" style="float: right;"/>
-                                    <%} else { %>
-                                     <input type="radio" name="type" value="<%= OrganizationType.VOLUNTEERING %>" style="float: right;"/>
-                                    <% } %></td>
-                                </tr>
-                                <tr>
-                                    <td><div style="float: right; margin-right: 10px;"><spring:message code="form.CHARITY"/></div></td>
+                                    <td><div style="float: right; margin-right: 10px;"><spring:message code="<%=temp%>"/></div></td>
                                     <td>
-                                        <% if (orgs.getOrganizationType()==OrganizationType.CHARITY) {%>
-                                        <input type="radio" name="type" value="<%= OrganizationType.CHARITY %>" checked="" style="float: right;"/>
-                                     <%} else { %>
-                                    <input type="radio" name="type" value="<%= OrganizationType.CHARITY %>" style="float: right;"/>
-                                    <% } %></td>
-                                </tr>
-                                <tr>
-                                    <td><div style="float: right; margin-right: 10px;"><spring:message code="form.INT_ORGS"/></div></td>
-                                    <td>  <% if (orgs.getOrganizationType()==OrganizationType.INT_ORGS) {%>
-                                        <input type="radio" name="type" value="<%= OrganizationType.INT_ORGS %>" checked="" style="float: right;"/>
+                                        <% if (orgs.getOrganizationType().toString()==currentType) {%>
+                                        <input type="radio" name="type" value="<%=currentType%>" checked="" style="float: right;"/>
                                     <%} else { %>
-                                    <input type="radio" name="type" value="<%= OrganizationType.INT_ORGS %>" style="float: right;"/>
-                                    <% } %></td>
+                                    <input type="radio" name="type" value="<%=currentType%>" style="float: right;"/>
+                                    <%}%>
+                                        </td>
                                 </tr>
-                                <tr>
-                                    <td><div style="float: right; margin-right: 10px;"><spring:message code="form.ART"/></div></td>
-                                    <td>
-                                        <% if (orgs.getOrganizationType()==OrganizationType.ART) {%>
-                                        <input type="radio" name="type" value="<%= OrganizationType.ART %>" checked="" style="float: right;"/>
-                                    <%} else { %>
-                                      <input type="radio" name="type" value="<%= OrganizationType.ART %>" style="float: right;"/>
-                                    <% } %></td>
-                                </tr>
-                                <tr>
-                                    <td><div style="float: right; margin-right: 10px;"><spring:message code="form.OTHERS"/></div></td>
-                                    <td>
-                                        <% if (orgs.getOrganizationType()==OrganizationType.OTHERS) {%>
-                                        <input type="radio" name="type" value="<%= OrganizationType.OTHERS %>" checked="" style="float: right;"/>
-                                     <%} else { %>
-                                     <input type="radio" name="type" value="<%= OrganizationType.OTHERS %>" style="float: right;"/>
-                                    <% } %></td>
-                                </tr>
+                                <%}%>
                                 </table>
                             </div>
-                         
-                             
-                            <br/>
                         </div>
                     </div>
                 </td>

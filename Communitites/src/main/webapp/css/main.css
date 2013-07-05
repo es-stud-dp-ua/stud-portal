@@ -1,4 +1,4 @@
-﻿/*-----------------------------------normal css selectors------------------------------------------------------------*/
+/*-----------------------------------normal css selectors------------------------------------------------------------*/
 
 #contentDiv { /*almost normal*/
     width: 900px;
@@ -330,7 +330,7 @@ background-color: rgba(0, 122, 255, 0.47);
     font-size: 12px;
 }
 
-.aui-field-label { /*text ��������*/
+.aui-field-label { /*text ????????*/
     font-weight: bold;
     padding-left: 9px;
 }

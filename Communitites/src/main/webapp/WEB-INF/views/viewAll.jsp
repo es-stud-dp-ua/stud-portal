@@ -20,63 +20,30 @@
     Collection<Organization> orgs = (Collection) request.getAttribute("organisations");
     Integer pagesCount = (Integer) request.getAttribute("pagesCount");
     Integer currentPage = (Integer) request.getAttribute("currentPage");
-    OrganizationService service=new OrganizationServiceImpl();
+    int leftPageNumb = (Integer)request.getAttribute("leftPageNumb");
+    int rightPageNumb =(Integer) request.getAttribute("rightPageNumb");
+    boolean skippedBeginning = (Boolean) request.getAttribute("skippedBeginning");
+    boolean    skippedEnding = (Boolean) request.getAttribute("skippedEnding");
     OrganizationType type=null;
     if(request.getAttribute("type")!=null)
     type=(OrganizationType) request.getAttribute("type");
     ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
     String imagePath = new StringBuilder(themeDisplay.getPortalURL()).append('/')
             .append(themeDisplay.getPathImage()).append("/image_gallery?img_id=").toString();
-    ImageService imageService = new ImageService();
     Collection<String> allTypes=(Collection) (OrganizationType.allTypes());
-    int nearbyPages = 2; //number of pages to show to left and right of current
-    int overallPages = 7; //overall number of pages
-    int leftPageNumb = Math.max(1, currentPage - nearbyPages);
-    int rightPageNumb = Math.min(pagesCount, currentPage + nearbyPages);
-    boolean skippedBeginning = false;
-    boolean    skippedEnding = false;
-
-    if (pagesCount <= overallPages) {
-        leftPageNumb = 1;                 //all pages are shown
-        rightPageNumb = pagesCount;
-    } else {
-        if (currentPage > 2 + nearbyPages) { //if farther then page #1 + '...' + nearby pages
-            skippedBeginning = true;        // will look like 1 .. pages
-        } else {
-            leftPageNumb = 1;             //shows all first pages
-            rightPageNumb = 2 + 2 * nearbyPages; //#1 + nearby pages + current + nearby pages
-        }
-
-        if (currentPage < pagesCount - (nearbyPages + 1)) { //if farther then nearby + '...' + last
-            skippedEnding = true;         //will look like pages .. lastPage
-        } else {
-            leftPageNumb = (pagesCount - 1) - 2 * nearbyPages;  //shows all last pages:
-            rightPageNumb = pagesCount;
-        }
-    }
     String temp;
-    Locale locale = (Locale) request.getSession().getAttribute("org.apache.struts.action.LOCALE");
-    String language = locale.getLanguage();
-    String country = locale.getCountry();
-    ResourceBundle res = ResourceBundle.getBundle("messages", new Locale(language, country));
-    
 %>
 
 <html>
     <head>
     </head>
-
     <body>
-        
-
-    <liferay-ui:success message='<%=res.getString("msg.successAdd")%>' key="success-add"/>
+    <liferay-ui:success message='<spring:message code="msg.successAdd"/>' key="success-add"/>
     <div id="contentDiv">
-
         <%if (request.isUserInRole("Administrator") || request.isUserInRole("User")) { %>
         <div class="portlet-content-controlpanel fs20">
             <a style="float: right" href="<portlet:renderURL/>&mode=add">
                 <div class="panelbtn panelbtn-right icon-pcpfile" aria-hidden="true"></div>
-
             </a>
         </div>
         <%}%>
@@ -89,10 +56,10 @@
 
                 <br/>
                 <% }if (type!=null){%>
-               <script>
-                        $( document ).ready( function(){
-                            $("#"+"<%=type.toString()%>").removeClass('btntype').addClass('btnselected');
-                        });
+                <script>
+                    $(document).ready(function() {
+                        $("#" + "<%=type.toString()%>").removeClass('btntype').addClass('btnselected');
+                    });
                 </script>
                 <%}%>
             </form>
@@ -101,7 +68,7 @@
             <% if (!orgs.isEmpty()) {
                  for (Organization currentOrgs : orgs){%>
             <div width="100%">
-                <img src="<%= imageService.getPathToMicroblogImage(currentOrgs.getMainImage(),currentOrgs) %>"
+                <img src="<%= ImageService.getPathToMicroblogImage(currentOrgs.getMainImage(),currentOrgs) %>"
                      class="newsImage">
                 <div class="newsHeader">
                     <a href="<portlet:renderURL/>&orgsID=<%=currentOrgs.getId()%>">

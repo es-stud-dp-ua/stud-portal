@@ -56,6 +56,8 @@ public class CommunitiesController {
     private static final int MINTITLESYMBOLS = 4;
     private static final int MINTEXTSYMBOLS = 100;
     private static final int ORGS_BY_PAGE = 5;
+    private static final int NEARBY_PAGES = 2;//number of pages to show to left and right of current
+    private static final int OVERAL_PAGES = 7;//overall number of pages
     @Autowired
     @Qualifier(value = "OrganizationService")
     private OrganizationService service;
@@ -79,9 +81,9 @@ public class CommunitiesController {
         model.setViewName("viewAll");
         Collection<Organization> organisations;
 //      set type of displayed organisations
-       StringBuilder temp=new StringBuilder("");
         int pagesCount;
         int currentPage;
+
         OrganizationType type;
         if (request.getParameter("currentPage") != null) {
             currentPage = Integer.parseInt(request.getParameter("currentPage"));
@@ -102,6 +104,34 @@ public class CommunitiesController {
             organisations = service.getOrganizationsOnPage(currentPage, ORGS_BY_PAGE, type.toString(), true);
         }
 
+        int leftPageNumb = Math.max(1, currentPage - NEARBY_PAGES);
+        int rightPageNumb = Math.min(pagesCount, currentPage + NEARBY_PAGES);
+        boolean skippedBeginning = false;
+        boolean skippedEnding = false;
+
+        if (pagesCount <= OVERAL_PAGES) {
+            leftPageNumb = 1;                 //all pages are shown
+            rightPageNumb = pagesCount;
+        } else {
+            if (currentPage > 2 + NEARBY_PAGES) { //if farther then page #1 + '...' + nearby pages
+                skippedBeginning = true;        // will look like 1 .. pages
+            } else {
+                leftPageNumb = 1;             //shows all first pages
+                rightPageNumb = 2 + 2 * NEARBY_PAGES; //#1 + nearby pages + current + nearby pages
+            }
+
+            if (currentPage < pagesCount - (NEARBY_PAGES + 1)) { //if farther then nearby + '...' + last
+                skippedEnding = true;         //will look like pages .. lastPage
+            } else {
+                leftPageNumb = (pagesCount - 1) - 2 * NEARBY_PAGES;  //shows all last pages:
+                rightPageNumb = pagesCount;
+            }
+        }
+
+        model.addObject("leftPageNumb", leftPageNumb);
+        model.addObject("rightPageNumb", rightPageNumb);
+        model.addObject("skippedBeginning", skippedBeginning);
+        model.addObject("skippedEnding", skippedEnding);
         model.addObject("organisations", organisations);
         model.addObject("currentPage", currentPage);
         model.addObject("pagesCount", pagesCount);
@@ -119,7 +149,7 @@ public class CommunitiesController {
      */
     @RenderMapping(params = "orgsID")
     public ModelAndView showSelectedOrgs(RenderRequest request, RenderResponse response) throws SystemException, PortalException {
-        
+
         int orgsID = Integer.valueOf(request.getParameter("orgsID"));
         Organization organisation = service.getOrganizationById(orgsID);
         ImageService imageService = new ImageService();
