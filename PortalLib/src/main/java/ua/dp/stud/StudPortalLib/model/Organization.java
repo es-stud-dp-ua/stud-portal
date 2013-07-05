@@ -10,7 +10,6 @@ import ua.dp.stud.StudPortalLib.util.OrganizationType;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
-import org.hibernate.Hibernate;
 
 @NamedQueries(
         {
@@ -132,7 +131,9 @@ public class Organization extends BaseImagesSupport implements Serializable {
             return true;
         }
         if (!(obj instanceof Organization))
+        {
             return false;
+        }
         final Organization other = (Organization) obj;
         return new EqualsBuilder().append(other.author, author).append(other.text, text).append(other.title, title)
                 .append(other.organizationType, organizationType).append(other.approved, approved)

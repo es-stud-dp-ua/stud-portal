@@ -83,7 +83,9 @@ public class Category implements Serializable {
             return true;
         }
         if (!(obj instanceof Category))
+        {
             return false;
+        }
         final Category other = (Category) obj;
         return new EqualsBuilder().append(other.categoryId, categoryId).append(other.categoryName, categoryName)
                 .append(other.newsList, newsList).isEquals();

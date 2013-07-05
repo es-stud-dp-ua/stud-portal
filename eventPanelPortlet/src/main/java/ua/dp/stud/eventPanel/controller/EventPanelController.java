@@ -33,23 +33,26 @@ public class EventPanelController {
     private static final String TYPE = "type";
     private static final String NEWS_ARCHIVE_REFERENCE_NAME = "NewsArchive_WAR_studnewsArchive";
     private static final String COMMUNITIES_REFERENCE_NAME = "Communities_WAR_studcommunity";
+    private static final String VIEW = "view";
+    private static final String PAGE_COUNT = "pageCount";
+    private static final String CURRENT_PAGE = "currentPage";
 
     private String userName;
 
     @Autowired
-    @Qualifier(value = "OrganizationService")
-    private OrganizationService orgService;
+    @Qualifier(value = "organizationService")
+    private OrganizationService organizationService;
 
-    public void setOrgService(OrganizationService service) {
-        this.orgService = service;
+    public void setOrganizationService(OrganizationService organizationService) {
+        this.organizationService = organizationService;
     }
 
     @Autowired
     @Qualifier(value = "newsService")
     private NewsService newsService;
 
-    public void setNewsService(NewsService service) {
-        this.newsService = service;
+    public void setNewsService(NewsService newsService) {
+        this.newsService = newsService;
     }
 
     /**
@@ -60,10 +63,10 @@ public class EventPanelController {
      */
     private ModelAndView getCurrentModel(RenderRequest request) {
         userName = getCurrentUserName(request);
-        ModelAndView model = new ModelAndView("view");
+        ModelAndView model = new ModelAndView(VIEW);
         model.addObject("myNewsSize", newsService.getPagesCountByAuthor(userName, 1));
-        model.addObject("myOrgSize", orgService.getPagesCountByAuthor(userName, 1));
-        model.addObject("adminOrgSize", orgService.getPagesCount(false, 1));
+        model.addObject("myOrgSize", organizationService.getPagesCountByAuthor(userName, 1));
+        model.addObject("adminOrgSize", organizationService.getPagesCount(false, 1));
         model.addObject("adminNewsSize", newsService.getPagesCount(false, 1));
         model.addObject("newsInMyComm", newsService.getPagesCountByOrgAuthor(userName, false, 1));
         return model;
@@ -89,22 +92,22 @@ public class EventPanelController {
         setPlid(request, model, NEWS_ARCHIVE_REFERENCE_NAME);
         model.addObject("newsList", newsList);
         model.addObject(TYPE, "News");
-        model.addObject("pageCount", pageCount);
-        model.addObject("currentPage", newCurrentPage);
+        model.addObject(PAGE_COUNT, pageCount);
+        model.addObject(CURRENT_PAGE, newCurrentPage);
         return model;
     }
 
     private ModelAndView getMyCommunity(RenderRequest request, int currentPage, String direction) {
         ModelAndView model = getCurrentModel(request);
-        Integer pageCount = orgService.getPagesCountByAuthor(userName, PER_PAGE);
+        Integer pageCount = organizationService.getPagesCountByAuthor(userName, PER_PAGE);
         Integer newCurrentPage = setPage(currentPage, pageCount, direction);
-        Collection<Organization> orgList = orgService.getPagesOrganizationByAuthor(userName,
+        Collection<Organization> orgList = organizationService.getPagesOrganizationByAuthor(userName,
                 newCurrentPage, PER_PAGE);
         setPlid(request, model, COMMUNITIES_REFERENCE_NAME);
         model.addObject("orgList", orgList);
         model.addObject(TYPE, "Organization");
-        model.addObject("pageCount", pageCount);
-        model.addObject("currentPage", newCurrentPage);
+        model.addObject(PAGE_COUNT, pageCount);
+        model.addObject(CURRENT_PAGE, newCurrentPage);
         return model;
     }
 
@@ -117,8 +120,8 @@ public class EventPanelController {
         setPlid(request, model, NEWS_ARCHIVE_REFERENCE_NAME);
         model.addObject("newsList", newsList);
         model.addObject(TYPE, "News");
-        model.addObject("pageCount", pageCount);
-        model.addObject("currentPage", newCurrentPage);
+        model.addObject(PAGE_COUNT, pageCount);
+        model.addObject(CURRENT_PAGE, newCurrentPage);
         return model;
     }
 
@@ -130,22 +133,22 @@ public class EventPanelController {
         setPlid(request, model, NEWS_ARCHIVE_REFERENCE_NAME);
         model.addObject("newsList", newsList);
         model.addObject(TYPE, "News");
-        model.addObject("pageCount", pageCount);
-        model.addObject("currentPage", newCurrentPage);
+        model.addObject(PAGE_COUNT, pageCount);
+        model.addObject(CURRENT_PAGE, newCurrentPage);
         return model;
     }
 
     private ModelAndView getAdminCommunity(RenderRequest request, int currentPage, String direction) {
         ModelAndView model = getCurrentModel(request);
-        Integer pageCount = orgService.getPagesCount(false, PER_PAGE);
+        Integer pageCount = organizationService.getPagesCount(false, PER_PAGE);
         Integer newCurrentPage = setPage(currentPage, pageCount, direction);
-        Collection<Organization> orgList = orgService.getOrganizationsOnPage(false, newCurrentPage,
+        Collection<Organization> orgList = organizationService.getOrganizationsOnPage(false, newCurrentPage,
                 PER_PAGE);
         setPlid(request, model, COMMUNITIES_REFERENCE_NAME);
         model.addObject("orgList", orgList);
         model.addObject(TYPE, "Organization");
-        model.addObject("pageCount", pageCount);
-        model.addObject("currentPage", newCurrentPage);
+        model.addObject(PAGE_COUNT, pageCount);
+        model.addObject(CURRENT_PAGE, newCurrentPage);
         return model;
     }
 
@@ -162,7 +165,7 @@ public class EventPanelController {
     public ModelAndView pagination(RenderRequest request, RenderResponse response,
                                    @RequestParam(required = true, defaultValue = "1") int currentPage,
                                    @RequestParam(required = true, defaultValue = FIRST_STATE) String direction,
-                                   @RequestParam(required = true, defaultValue = "view") String modelView) {
+                                   @RequestParam(required = true, defaultValue = VIEW) String modelView) {
         ModelAndView model;
         if (modelView.equals("myNews")) {
             model = getMyNews(request, currentPage, direction);
@@ -204,7 +207,7 @@ public class EventPanelController {
     public ModelAndView approve(RenderRequest request, RenderResponse response,
                                 @RequestParam(required = true, defaultValue = "1") int currentPage,
                                 @RequestParam(required = true, defaultValue = "current") String direction,
-                                @RequestParam(required = true, defaultValue = "view") String modelView,
+                                @RequestParam(required = true, defaultValue = VIEW) String modelView,
                                 @RequestParam(required = true, defaultValue = "0") int objectId,
                                 @RequestParam(required = true, defaultValue = "false") boolean appr) {
         ModelAndView model;
@@ -219,9 +222,9 @@ public class EventPanelController {
                 newsService.updateNews(currentNews);
             } else {
                 if (modelView.equals("adminCommunity")) {
-                    Organization currentOrg = orgService.getOrganizationById(objectId);
+                    Organization currentOrg = organizationService.getOrganizationById(objectId);
                     currentOrg.setApproved(true);
-                    orgService.updateOrganization(currentOrg);
+                    organizationService.updateOrganization(currentOrg);
                 } else {
                     return getCurrentModel(request);
                 }

@@ -74,7 +74,9 @@ public class ImageImpl implements Serializable {
             return true;
         }
         if (!(obj instanceof ImageImpl))
+        {
             return false;
+        }
         final ImageImpl other = (ImageImpl) obj;
         return new EqualsBuilder().append(other.id, id).append(other.base, base)
                 .append(other.originalImageName, originalImageName).isEquals();

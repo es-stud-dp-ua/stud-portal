@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-@Service
+@Service("organizationService")
 @Transactional
 public class OrganizationServiceImpl implements OrganizationService {
 

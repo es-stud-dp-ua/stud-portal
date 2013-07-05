@@ -96,7 +96,9 @@ public class Studie extends BaseImagesSupport implements Serializable  {
             return true;
         }
         if (!(obj instanceof Studie))
+        {
             return false;
+        }
         final Studie other = (Studie) obj;
         return new EqualsBuilder().append(other.adress, adress).append(other.text, text).append(other.title, title)
                 .append(other.facultetZaoch, facultetZaoch).append(other.facultetDnevn, facultetDnevn).isEquals();

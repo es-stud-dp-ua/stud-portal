@@ -45,7 +45,9 @@ public class BannerImageDaoImp implements BannerImageDao {
         BannerImage banner = (BannerImage) getSession().get(BannerImage.class, id);
         ImageImpl image = banner.getMainImage();
         if (image != null)
+        {
             getSession().delete(image);
+        }
         getSession().delete(banner);
     }
 

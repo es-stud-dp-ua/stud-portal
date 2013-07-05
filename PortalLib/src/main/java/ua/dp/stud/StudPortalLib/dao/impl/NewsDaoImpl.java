@@ -238,15 +238,15 @@ public class NewsDaoImpl extends BaseDao implements NewsDao
 
     /**
      * Returns collection of approved or not approved news by id organization
-     * @param IdOrg organization
+     * @param idOrg organization
      * @param approved of administrator
      * @return collection of news
      */
     @Override
-    public Collection<News> getNewsByOrg(Integer IdOrg, Boolean approved)
+    public Collection<News> getNewsByOrg(Integer idOrg, Boolean approved)
     {
         return getSession().getNamedQuery("News.getByOrganization")
-                .setParameter("approved", approved).setParameter("id", IdOrg).list();
+                .setParameter("approved", approved).setParameter("id", idOrg).list();
     }
 
     /**

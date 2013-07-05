@@ -284,7 +284,9 @@ public class News extends BaseImagesSupport implements Serializable {
             return true;
         }
         if (!(obj instanceof News))
+        {
             return false;
+        }
         final News other = (News) obj;
         return new EqualsBuilder().append(other.topic, topic).append(other.text, text)
                 .append(other.author, author).append(other.publication, publication)
