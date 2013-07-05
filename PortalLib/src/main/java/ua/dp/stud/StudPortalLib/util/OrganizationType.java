@@ -9,7 +9,9 @@ public enum OrganizationType
     public static List<String> allTypes(){
         List<String> result=new ArrayList<String>() ;
         for (OrganizationType t:OrganizationType.values())
+        {
             result.add(t.toString());
+        }
         return result;
     }
 }

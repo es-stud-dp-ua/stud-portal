@@ -50,7 +50,9 @@ public class BannerImage extends BaseImagesSupport implements Serializable {
             return true;
         }
         if (!(obj instanceof BannerImage))
+        {
             return false;
+        }
         final BannerImage other = (BannerImage) obj;
         return new EqualsBuilder().append(other.url, url).isEquals();
     }

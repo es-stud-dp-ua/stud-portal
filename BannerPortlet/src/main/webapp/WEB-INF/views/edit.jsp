@@ -1,6 +1,7 @@
 <%@ page import="ua.dp.stud.bannerPortlet.model.BannerImage" %>
 <%@ page import="ua.dp.stud.StudPortalLib.util.ImageService" %>
 <%@ page import="java.util.Collection" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@include file="include.jsp"%>
 <!--todo: javascript to separate file move you should-->
 
@@ -8,7 +9,7 @@
 <%
     Collection<BannerImage> bannerImages =
             (Collection<BannerImage>) request.getAttribute("bannerImages");
-    ImageService imageService = new ImageService();
+    ImageService imageService = (ImageService)pageContext.findAttribute("imageService");
     Locale locale = (Locale) request.getSession().getAttribute("org.apache.struts.action.LOCALE");
     String language = locale.getLanguage();
     String country = locale.getCountry();

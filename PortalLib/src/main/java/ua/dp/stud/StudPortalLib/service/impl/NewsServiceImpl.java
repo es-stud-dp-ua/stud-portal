@@ -4,6 +4,7 @@ package ua.dp.stud.StudPortalLib.service.impl;
  * @author Ivan Kamyshan
  */
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.dp.stud.StudPortalLib.dao.NewsDao;
@@ -14,13 +15,14 @@ import ua.dp.stud.StudPortalLib.service.NewsService;
 
 import java.util.Collection;
 
-@Service
+@Service("newsService")
 @Transactional
 public class NewsServiceImpl implements NewsService
 {
      /**
      * dao - Dao object
      */
+     @Autowired
     private NewsDao dao;
 
     /**
@@ -207,15 +209,15 @@ public class NewsServiceImpl implements NewsService
 
     /**
      * Returns collection of approved or not approved news by id organization
-     * @param IdOrg organization
+     * @param idOrg organization
      * @param approved of administrator
      * @return collection of news
      */
     @Override
     @Transactional(readOnly = true)
-    public Collection<News> getNewsByOrg(Integer IdOrg, Boolean approved)
+    public Collection<News> getNewsByOrg(Integer idOrg, Boolean approved)
     {
-        return dao.getNewsByOrg(IdOrg, approved);
+        return dao.getNewsByOrg(idOrg, approved);
     }
 
     /**

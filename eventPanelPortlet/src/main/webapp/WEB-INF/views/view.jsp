@@ -33,7 +33,7 @@
         }
         int pageCount = (Integer) request.getAttribute("pageCount");
         int currentPage = (Integer) request.getAttribute("currentPage");
-        ImageService imageService = new ImageService();
+        ImageService imageService = (ImageService)pageContext.findAttribute("imageService");;
         String className = (String) request.getAttribute("class");
         %>
         <div style="display: none;"><div id="eventContainer" class="<%=className%>">

@@ -6,7 +6,6 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
-import org.hibernate.Hibernate;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -48,8 +47,6 @@ public class BaseImagesSupport implements Serializable {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "base", orphanRemoval=true)
     public List<ImageImpl> getAdditionalImages() {
-        
-       // Hibernate.initialize(additionalImages) ;
         return additionalImages;
     }
 
@@ -73,7 +70,9 @@ public class BaseImagesSupport implements Serializable {
             return true;
         }
         if (!(obj instanceof BaseImagesSupport))
+        {
             return false;
+        }
         final BaseImagesSupport other = (BaseImagesSupport) obj;
         return new EqualsBuilder().append(other.id, id).append(other.yearMonthUniqueFolder, yearMonthUniqueFolder)
                 .append(other.mainImage, mainImage).append(other.additionalImages, additionalImages).isEquals();

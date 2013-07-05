@@ -16,14 +16,14 @@ public interface OrganizationDao {
      * @param newsByPage news by page
      * @return collection of News for organization
      */
-    Collection<News> getOrganizationsNewsByIdOnPage(Integer id, Integer pageNumb, Integer newsByPage, Boolean approve_);
+    Collection<News> getOrganizationsNewsByIdOnPage(Integer id, Integer pageNumb, Integer newsByPage, Boolean approve);
 
     /**
      * collection for all organizations news by id
      * @param id of organization
      * @return set of News
      */
-    Collection<News> getAllOrganizationsNewsById(Integer id, Boolean approve_);
+    Collection<News> getAllOrganizationsNewsById(Integer id, Boolean approve);
 
     /**
      * persists organization

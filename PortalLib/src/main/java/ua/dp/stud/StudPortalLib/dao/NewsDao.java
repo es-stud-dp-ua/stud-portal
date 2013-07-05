@@ -148,11 +148,11 @@ public interface NewsDao {
 
     /**
      * Returns collection of approved or not approved news by id organization
-     * @param IdOrg organization
+     * @param idOrg organization
      * @param approved of administrator
      * @return collection of news
      */
-    Collection<News> getNewsByOrg(Integer IdOrg, Boolean approved);
+    Collection<News> getNewsByOrg(Integer idOrg, Boolean approved);
 
     /**
      * Returns count of news for organization's author
