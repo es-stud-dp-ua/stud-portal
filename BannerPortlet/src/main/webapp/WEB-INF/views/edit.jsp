@@ -1,7 +1,6 @@
 <%@ page import="ua.dp.stud.bannerPortlet.model.BannerImage" %>
 <%@ page import="ua.dp.stud.StudPortalLib.util.ImageService" %>
 <%@ page import="java.util.Collection" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@include file="include.jsp"%>
 <!--todo: javascript to separate file move you should-->
 
@@ -10,15 +9,11 @@
     Collection<BannerImage> bannerImages =
             (Collection<BannerImage>) request.getAttribute("bannerImages");
     ImageService imageService = (ImageService)pageContext.findAttribute("imageService");
-    Locale locale = (Locale) request.getSession().getAttribute("org.apache.struts.action.LOCALE");
-    String language = locale.getLanguage();
-    String country = locale.getCountry();
-    ResourceBundle res = ResourceBundle.getBundle("messages", new Locale(language, country));
 %>
-<liferay-ui:error key="error.no_images" message='<%=res.getString("msg.wrong.no_images")%>'></liferay-ui:error>
-<liferay-ui:error key="error.dplBanner" message='<%=res.getString("msg.wrong.dplBanner")%>'></liferay-ui:error>
-<liferay-ui:error key="error.toLow" message='<%=res.getString("msg.wrong.toLow")%>'></liferay-ui:error>
-<liferay-ui:error key="error.unknown" message='<%=res.getString("msg.wrong.unknown")%>'></liferay-ui:error>
+<liferay-ui:error key="error.no_images" message='<spring:message code="msg.wrong.no_images"/>'></liferay-ui:error>
+<liferay-ui:error key="error.dplBanner" message='<spring:message code="msg.wrong.dplBanner"/>'></liferay-ui:error>
+<liferay-ui:error key="error.toLow" message='<spring:message code="msg.wrong.toLow"/>'></liferay-ui:error>
+<liferay-ui:error key="error.unknown" message='<spring:message code="msg.wrong.unknown"/>'></liferay-ui:error>
 
 <portlet:renderURL var="home"> </portlet:renderURL>
 <portlet:actionURL var="actionLink" name="updateImage"></portlet:actionURL>
