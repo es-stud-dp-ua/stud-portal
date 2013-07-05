@@ -8,8 +8,7 @@
 <%
     Collection<BannerImage> bannerImages =
             (Collection<BannerImage>) request.getAttribute("bannerImages");
-    ImageService imageService = new ImageService();
-    //todo: remove all stuff about locale
+    ImageService imageService = (ImageService)pageContext.findAttribute("imageService");
     Locale locale = (Locale) request.getSession().getAttribute("org.apache.struts.action.LOCALE");
     String language = locale.getLanguage();
     String country = locale.getCountry();
