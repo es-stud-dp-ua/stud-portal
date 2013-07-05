@@ -20,14 +20,17 @@ import java.util.List;
 
 /**
  * About team controller
+ *
  * @author Tradunsky V.V.
  */
 @Controller
 @RequestMapping(value = "view")
 public class AboutTeamController {
+    private static final String TESTER = "tester";
 
     /**
      * Render incoming request to aboutTeamList.jsp
+     *
      * @return dafault view
      */
     @RenderMapping
@@ -62,42 +65,39 @@ public class AboutTeamController {
         companyurls.add("http://ua.linkedin.com/in/tamplier");
         companyurls.add("http://ru.linkedin.com/in/arsart");
 
-        //TODO:use local variable for request.getContextPath().toString()+"/images/no_photo.jpg"
-        List<Human> bateam =getUsersFromLinkedIn(baurls,
-                request.getContextPath().toString()+"/images/no_photo.jpg");
-        List<Human> devteam =getUsersFromLinkedIn(devurls,
-                request.getContextPath().toString()+"/images/no_photo.jpg");
-        List<Human> testersteam =getUsersFromLinkedIn(testersurls,
-                request.getContextPath().toString()+"/images/no_photo.jpg");
-        List<Human> companyteam =getUsersFromLinkedIn(companyurls,
-                request.getContextPath().toString()+"/images/no_photo.jpg");
+        String contextPath = request.getContextPath().toString();
+        String fotoUrl = contextPath + "/images/no_photo.jpg";
+        List<Human> bateam = getUsersFromLinkedIn(baurls, fotoUrl);
+        List<Human> devteam = getUsersFromLinkedIn(devurls, fotoUrl);
+        List<Human> testersteam = getUsersFromLinkedIn(testersurls, fotoUrl);
+        List<Human> companyteam = getUsersFromLinkedIn(companyurls, fotoUrl);
         List<Human> tnxteam = new ArrayList<Human>();
         //static members
         //tnx for watching
-        testersteam.add(addHuman("Elena","Onishenko","tester",request.getContextPath().toString()+"/images/elena-onishenko.jpg",
+        testersteam.add(addHuman("Elena", "Onishenko", TESTER, contextPath + "/images/elena-onishenko.jpg",
                 "http://vk.com/elenaonishhenk0"));
-        testersteam.add(addHuman("Tatyana", "Podgornaya", "tester", request.getContextPath().toString() + "/images/tanya-podgornaya.jpg",
+        testersteam.add(addHuman("Tatyana", "Podgornaya", TESTER, contextPath + "/images/tanya-podgornaya.jpg",
                 "http://www.facebook.com/tatyana.podgornaya.10"));
-        testersteam.add(addHuman("Oksana","Schur","tester",request.getContextPath().toString()+"/images/oksana-shur.jpg",
+        testersteam.add(addHuman("Oksana", "Schur", TESTER, contextPath + "/images/oksana-shur.jpg",
                 "http://vk.com/id21246119"));
-        testersteam.add(addHuman("Ilya","Solomyanikov","tester",request.getContextPath().toString()+"/images/ilya-solomyanikov.jpg",
+        testersteam.add(addHuman("Ilya", "Solomyanikov", TESTER, contextPath + "/images/ilya-solomyanikov.jpg",
                 "https://www.facebook.com/ilya.solomyanikov"));
 
-        companyteam.add(addHuman("Konstantin", "Gavrilchenko", "Software Engineer", request.getContextPath().toString() + "/images/kostya-gavrilchenko.jpg",
+        companyteam.add(addHuman("Konstantin", "Gavrilchenko", "Software Engineer", contextPath + "/images/kostya-gavrilchenko.jpg",
                 ""));
-        companyteam.add(addHuman("Sergey","Alekseenko","Software Engineer",request.getContextPath().toString()+"/images/no_photo.jpg",
+        companyteam.add(addHuman("Sergey", "Alekseenko", "Software Engineer", contextPath + "/images/no_photo.jpg",
                 ""));
-        companyteam.add(addHuman("Anastasiia","Shatorna","QA",request.getContextPath().toString()+"/images/anastasiia-shatorna.jpg",
+        companyteam.add(addHuman("Anastasiia", "Shatorna", "QA", contextPath + "/images/anastasiia-shatorna.jpg",
                 "http://vk.com/id14291951"));
-        bateam.add(addHuman("Anton", "Batiuk", "Product Specialist", request.getContextPath().toString() + "/images/anton-batiuk.jpg",
+        bateam.add(addHuman("Anton", "Batiuk", "Product Specialist", contextPath + "/images/anton-batiuk.jpg",
                 "https://plus.google.com/u/1/113264243001342224417/posts"));
-        tnxteam.add(addHuman("Alexey", "Duzhy", "Software Engineer", request.getContextPath().toString() + "/images/alex-duzhy.jpg",
+        tnxteam.add(addHuman("Alexey", "Duzhy", "Software Engineer", contextPath + "/images/alex-duzhy.jpg",
                 "http://vk.com/id26434691"));
-        devteam.add(addHuman("Oleg", "Novikov", "Software Engineer", request.getContextPath().toString() + "/images/oleg-novikov.jpg",
+        devteam.add(addHuman("Oleg", "Novikov", "Software Engineer", contextPath + "/images/oleg-novikov.jpg",
                 "https://www.facebook.com/lplyr"));
-        tnxteam.add(addHuman("Maxim", "Kulishev", "Software Engineer", request.getContextPath().toString() + "/images/no_photo.jpg",
+        tnxteam.add(addHuman("Maxim", "Kulishev", "Software Engineer", contextPath + "/images/no_photo.jpg",
                 "http://ua.linkedin.com/pub/max-kulishev/64/2b7/632"));
-        tnxteam.add(addHuman("Roman","Lukas","Software Engineer",request.getContextPath().toString()+"/images/Roman-Lukash.jpg",
+        tnxteam.add(addHuman("Roman", "Lukas", "Software Engineer", contextPath + "/images/Roman-Lukash.jpg",
                 "http://vk.com/id153906964"));
 
         model.setViewName("aboutTeamList");
@@ -108,56 +108,59 @@ public class AboutTeamController {
         model.addObject("tnxTeam", tnxteam);
         return model;
     }
-    //TODO: use fullnames for variables
-    private Human addHuman(String fname, String lname, String status, String photoUrl, String url){
-        Human sm = new Human();
-        sm.setFirstName(fname);
-        sm.setLastName(lname);
-        sm.setStatus(status);
-        sm.setPhotoUrl(photoUrl);
-        sm.setUrl(url);
-        return sm;
+
+
+    private Human addHuman(String fname, String lname, String status, String photoUrl, String url) {
+        Human human = new Human();
+        human.setFirstName(fname);
+        human.setLastName(lname);
+        human.setStatus(status);
+        human.setPhotoUrl(photoUrl);
+        human.setUrl(url);
+        return human;
     }
 
-    private List<Human> getUsersFromLinkedIn(List<String> urls, String noImage){
+    private List<Human> getUsersFromLinkedIn(List<String> urls, String noImage) {
         List<Human> userList = new ArrayList<Human>();
-        //TODO: use "human" instead of "h"
-        Human h=null;
+
+        Human human = null;
         String str = null;
-        //TODO: wtf is ls?
-        int ls=0;
+        int ls = 0; //if page is not loaded, just take a new page
         // download the page super-efficiently
         File file;
         for (int i = ls; i < urls.size(); i++) {
-                file = new File(SystemUtil.getTempDir(), "team"+i+".html");
-                h = new Human();
-                try {
+            file = new File(SystemUtil.getTempDir(), "team" + i + ".html");
+            human = new Human();
+            try {
                 NetUtil.downloadFile(urls.get(i), file);
                 // create Jerry, i.e. document context
                 Jerry doc = null;
                 doc = Jerry.jerry(FileUtil.readString(file));
-                h.setFirstName(doc.$(".given-name").text());
-                h.setLastName(doc.$(".family-name").text());
-                String status = doc.$(".headline-title.title").text().replaceAll("  ","");
+                human.setFirstName(doc.$(".given-name").text());
+                human.setLastName(doc.$(".family-name").text());
+                String status = doc.$(".headline-title.title").text().replaceAll("  ", "");
                 //cutting size for view
-                if (status.length()>20) {
-                    status = status.substring(0, 17).toString()+"...";
+                if (status.length() > 20) {
+                    status = status.substring(0, 17).toString() + "...";
                 }
-                h.setStatus(status);
-                h.setUrl(urls.get(i));
-                str =  doc.$(".photo").attr("src");
-                if (str!=null){
-                    if (str.equals("")||(str.contains("spacer.gif"))) str=noImage;
-                    h.setPhotoUrl(str);
+                human.setStatus(status);
+                human.setUrl(urls.get(i));
+                str = doc.$(".photo").attr("src");
+                if (str != null) {
+                    if (str.equals("") || (str.contains("spacer.gif"))) {
+                        str = noImage;
+                    }
+                    human.setPhotoUrl(str);
+                } else {
+                    human.setPhotoUrl(noImage);
                 }
-                else h.setPhotoUrl(noImage);
-                userList.add(h);
-                } catch (IOException e) {
-                    //if page is not loaded, just take a new page
-                    ++ls;
-                }
+                userList.add(human);
+            } catch (IOException e) {
+                //if page is not loaded, just take a new page
+                ++ls;
             }
-            return userList;
+        }
+        return userList;
     }
 
 }

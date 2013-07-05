@@ -59,18 +59,14 @@ public class Human {
         this.photoUrl = photoUrl;
     }
 
+    @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
-        sb.append(this.firstName);
-        sb.append("\n");
-        sb.append(this.lastName);
-        sb.append("\n");
-        sb.append(this.status);
-        sb.append("\n");
-        sb.append(this.photoUrl);
-        sb.append("\n");
-        sb.append(this.url);
-        sb.append("\n");
+        sb.append("Human[").append("firstName=").append(firstName)
+                .append("lastName=").append(lastName)
+                .append("status=").append(status)
+                .append("url=").append(url)
+                .append("photoUrl=").append(photoUrl).append("]");
         return sb.toString();
     }
 }
