@@ -17,7 +17,7 @@
     String mainImage = (String)request.getAttribute("mainImage");
     Collection<ImageImpl> additionalImages = (Collection<ImageImpl>)request.getAttribute("additionalImages");
     Collection<News> newsList = (Collection<News>)request.getAttribute("newsList");
-        Long newsArchivePageID = (Long)request.getAttribute("newsArchivePageID");
+    Long newsArchivePageID = (Long)request.getAttribute("newsArchivePageID");
 %>
 <html>
     <head>
@@ -160,8 +160,7 @@
             </div>
         </div>
     </div>
-    <%}%>
-    <%
+    <%}
             if (!newsList.isEmpty())
             { carusel = true;
     %>

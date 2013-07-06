@@ -16,7 +16,23 @@
 
 /*-----------------------------------end of normal css selectors-----------------------------------------------------*/
 
+.error {
+                color: #ff0000;
+            }
+            label.valid {
+                width: 24px;
+                height: 24px;
+                background: url(${pageContext.request.contextPath}/images/valid.png) center center no-repeat;
+                display: inline-block;
+                text-indent: -9999px;
+            }
 
+            label.error {
+                font-weight: bold;
+                color: red;
+                padding: 2px 8px;
+                margin-top: 2px;
+            }
 
 
 .ownGelery

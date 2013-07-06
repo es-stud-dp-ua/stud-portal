@@ -29,7 +29,6 @@
             .error {
                 color: #ff0000;
             }
-
             label.valid {
                 width: 24px;
                 height: 24px;
@@ -44,11 +43,10 @@
                 padding: 2px 8px;
                 margin-top: 2px;
             }
-
         </style>
     </head>
     <body>
- <script type="text/javascript">
+        <script type="text/javascript">
             function a() {
                 jQuery('#cropbox').Jcrop({onChange: setCoords, onSelect: setCoords, bgColor: 'black',
                     bgOpacity: .4,
@@ -66,7 +64,7 @@
             }
             ;
         </script>
-            
+
         <script language="javascript" type="text/javascript">
             $(document).ready(function() {
                 $.Placeholder.init({color: "#aaa"});
@@ -83,8 +81,8 @@
     <portlet:actionURL var="actionLink" name="addOrganisation"></portlet:actionURL>
     <div class="portlet-content-controlpanel fs20">
         <a href="${home}">
-        <!--<spring:message code="form.back"/>-->
-        <div class="panelbtn panelbtn-right fs20 icon-pcparrow-left" aria-hidden="true"></div>
+            <!--<spring:message code="form.back"/>-->
+            <div class="panelbtn panelbtn-right fs20 icon-pcparrow-left" aria-hidden="true"></div>
         </a>
     </div>
 
@@ -104,7 +102,6 @@
             <table width="100%" margin-bottom="15px">
                 <tr>
                     <td width="50%" align="center">
-
                         <!---->
                         <!--<input type="file" name="mainImage" accept="image/jpeg,image/png,image/gif" />-->
                         <style>
@@ -149,15 +146,16 @@
                                         span.innerHTML = ['<img id="cropbox" class="thumb" src="', e.target.result,
                                             '" title="', escape(theFile.name), '"/>'].join('');
                                         document.getElementById('list').insertBefore(span, null);
+                                        a();
+                                    };
                                     a();
-                                };a();
-                            })(f);
-                                
-                            // Read in the image file as a data URL.
-                            reader.readAsDataURL(f);
-                               a();
-                        }
-                         document.getElementById('mainImage').addEventListener('change', handleFileSelect, false);
+                                })(f);
+
+                                // Read in the image file as a data URL.
+                                reader.readAsDataURL(f);
+                                a();
+                            }
+                            document.getElementById('mainImage').addEventListener('change', handleFileSelect, false);
                         </script>
 
                         <br/>

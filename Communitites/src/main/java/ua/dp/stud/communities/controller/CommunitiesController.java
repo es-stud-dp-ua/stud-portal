@@ -40,6 +40,8 @@ import javax.portlet.RenderResponse;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Controller
 @RequestMapping(value = "view")
@@ -58,6 +60,7 @@ public class CommunitiesController {
     private static final int ORGS_BY_PAGE = 5;
     private static final int NEARBY_PAGES = 2;//number of pages to show to left and right of current
     private static final int OVERAL_PAGES = 7;//overall number of pages
+    private static Logger log = Logger.getLogger(CommunitiesController.class.getName());
     @Autowired
     @Qualifier(value = "OrganizationService")
     private OrganizationService service;
@@ -83,14 +86,13 @@ public class CommunitiesController {
 //      set type of displayed organisations
         int pagesCount;
         int currentPage;
-
         OrganizationType type;
         if (request.getParameter("currentPage") != null) {
             currentPage = Integer.parseInt(request.getParameter("currentPage"));
         } else {
             currentPage = 1;
         }
-
+//      PAGINATION 
         if (request.getParameter("type") != null) {
             type = OrganizationType.valueOf(request.getParameter("type"));
         } else {
@@ -238,7 +240,7 @@ public class CommunitiesController {
             throws SystemException, PortalException {
         boolean successUpload = true;
         ImageService imageService = new ImageService();
-//        check the length of the title and text
+//check the length of the title and text
         if (frmTopic.length() < MINTITLESYMBOLS || frmText.length() < MINTEXTSYMBOLS) {
             actionResponse.setRenderParameter(strFail, strFail);
             return false;
@@ -253,15 +255,16 @@ public class CommunitiesController {
             someorgs.setAuthor(role);
         }
         try {
-//        main image uploading
+//main image uploading
             imageService.saveMainImage(mainImage, someorgs);
-//        image collection uploading
+//image collection uploading
             for (CommonsMultipartFile file : images) {
                 imageService.saveAdditionalImages(file, someorgs);
             }
         } catch (IOException ex) {
             successUpload = false;
             StringWriter sw = new StringWriter();
+            log.log(Level.SEVERE, "Exception: ", ex);
             actionResponse.setRenderParameter(strExept, sw.toString());
         }
         //success upload message
@@ -278,19 +281,17 @@ public class CommunitiesController {
             ActionRequest actionRequest,
             ActionResponse actionResponse, SessionStatus sessionStatus)
             throws SystemException, PortalException {
-//        path for main image is not empty
+//path for main image is not empty
         if (mainImage.getOriginalFilename().equals("")) {
             actionResponse.setRenderParameter(strFail, strNoImage);
             return;
         }
-
         Organization organization = new Organization();
-//        getting all parameters from form
+//getting all parameters from form
         String topic = actionRequest.getParameter("topic");
         String text = actionRequest.getParameter("text");
         OrganizationType typeOrg = OrganizationType.valueOf(actionRequest.getParameter("type"));
-
-//        crop main image
+//crop main image
         CommonsMultipartFile croppedImage = ImageService.cropImage(mainImage, Integer.parseInt(actionRequest.getParameter("t")),
                 Integer.parseInt(actionRequest.getParameter("l")),
                 Integer.parseInt(actionRequest.getParameter("w")),
@@ -299,8 +300,7 @@ public class CommunitiesController {
             actionResponse.setRenderParameter(strFail, strBadImage);
             return;
         }
-
-//        check the uniqueness of the name
+//check the uniqueness of the name
         Collection<Organization> orgs = service.getAllOrganizations(true);
         Boolean isUnique = false;
         for (Organization currentOrgs : orgs) {
@@ -316,7 +316,7 @@ public class CommunitiesController {
         }
         User user = (User) actionRequest.getAttribute(WebKeys.USER);
         String usRole = user.getScreenName();
-//        try to update fields for new organisation
+//try to update fields for new organisation
         if (!isUnique) {
             if (updateCommunityFields(croppedImage, images, topic.trim(), text.trim(), role, usRole, actionResponse, strFail, strNoImage, organization, typeOrg)) {
                 organization = service.addOrganization(organization);
