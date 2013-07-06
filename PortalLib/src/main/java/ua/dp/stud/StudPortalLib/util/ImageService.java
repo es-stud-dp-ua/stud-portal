@@ -295,7 +295,7 @@ public class ImageService {
     /**
      * Class need to resize images
      */
-    public static BufferedImage resize(BufferedImage imageToResize, int width, int height) {
+    public BufferedImage resize(BufferedImage imageToResize, int width, int height) {
         float dx = ((float) width) / imageToResize.getWidth();
         float dy = ((float) height) / imageToResize.getHeight();
 
@@ -385,12 +385,12 @@ public class ImageService {
         }
     }
 
-    public static CommonsMultipartFile cropImage(CommonsMultipartFile image, Integer t, Integer l, Integer w, Integer h) {
+    public CommonsMultipartFile cropImage(CommonsMultipartFile image, Integer t, Integer l, Integer w, Integer h) {
         CommonsMultipartFile croppedImage;
         try {
             BufferedImage sourceImage = ImageIO.read(image.getInputStream());
 //        Compressing an image to produce the necessary proportions
-            sourceImage = ImageService.resize(sourceImage, 443, 253);
+            sourceImage = this.resize(sourceImage, 443, 253);
 //        cut the selected user area
             sourceImage = sourceImage.getSubimage(t, l, w, h);
             File tempFile = new File(ImageService.getImagesFolderAbsolutePath() + image.getOriginalFilename());
