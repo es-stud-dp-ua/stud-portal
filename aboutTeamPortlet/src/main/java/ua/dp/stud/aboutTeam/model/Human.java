@@ -19,6 +19,15 @@ public class Human {
         photoUrl = "";
     }
 
+    public Human(String firstName, String lastName, String status, String photoUrl, String url)
+    {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.status = status;
+        this.url = url;
+        this.photoUrl = photoUrl;
+    }
+
     public String getFirstName() {
         return firstName;
     }
