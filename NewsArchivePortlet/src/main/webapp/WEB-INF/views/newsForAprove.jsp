@@ -3,8 +3,6 @@
 <%@ page import="com.liferay.portal.theme.ThemeDisplay" %>
 <%@ page import="com.liferay.portal.kernel.util.WebKeys" %>
 <%@ page import="com.liferay.portal.kernel.servlet.ImageServletTokenUtil" %>
-<%@ page import="java.util.Locale" %>
-<%@ page import="java.util.ResourceBundle" %>
 <%@ page import="ua.dp.stud.StudPortalLib.util.ImageService" %>
 <%@ page import="ua.dp.stud.StudPortalLib.util.CustomFunctions" %>
 <%@ taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet" %>
@@ -22,7 +20,7 @@
     ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
     String imagePath = new StringBuilder(themeDisplay.getPortalURL()).append('/')
             .append(themeDisplay.getPathImage()).append("/image_gallery?img_id=").toString();
-    ImageService imageService = new ImageService();
+    ImageService imageService = (ImageService)pageContext.findAttribute("imageService");
 
     int nearbyPages = 2; //number of pages to show to left and right of current
     int overallPages = 7; //overall number of pages
@@ -49,11 +47,6 @@
             rightPageNumb = pagesCount;
         }
     }
-    //todo: LOCALE
-    Locale locale = (Locale) request.getSession().getAttribute("org.apache.struts.action.LOCALE");
-    String language = locale.getLanguage();
-    String country = locale.getCountry();
-    ResourceBundle res = ResourceBundle.getBundle("messages", new Locale(language, country));
 
 %>
 
@@ -72,7 +65,7 @@
     <%} %>
 <div id="contentDiv">
 
-    <liferay-ui:success message='<%=res.getString("msg.successAdd")%>' key="success-add"/>
+    <liferay-ui:success message='<%=<spring:message code="viewAll.successAdd"/>%>' key="success-add"/>
 
     <% if (!news.isEmpty()) {%>
     <table id="newsTable">

@@ -15,6 +15,7 @@ import javax.portlet.RenderResponse;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -27,6 +28,31 @@ import java.util.List;
 @RequestMapping(value = "view")
 public class AboutTeamController {
     private static final String TESTER = "tester";
+    private static final String NO_PHOTO = "/images/no_photo.jpg";
+    private static final List<String> BA_URLS;
+    private static final List<String> DEV_URLS;
+    private static final List<String> TESTER_URLS;
+    private static final List<String> COMPANY_URLS;
+
+    static {
+        //BA linkedIn urls
+        BA_URLS = Arrays.asList("http://ua.linkedin.com/pub/aleksey-filyaev/47/457/aaa");
+        //Developers linkedIn urls
+        DEV_URLS = Arrays.asList("http://ua.linkedin.com/pub/ivan-kamyshan/61/5a0/255/en",
+                "http://ua.linkedin.com/pub/vyacheslav-tradunsky/59/983/779",
+                "http://ua.linkedin.com/pub/igor-lapko/6b/646/630", "http://www.linkedin.com/in/vlablack",
+                "http://www.linkedin.com/pub/gorbunov-dmitriy/6b/646/a35",
+                "http://ua.linkedin.com/pub/olga-ryzol/6b/647/a80");
+        //Testers linkedIn urls
+        TESTER_URLS = Arrays.asList("http://ua.linkedin.com/pub/elena-onischenko/6b/626/674",
+                "http://ua.linkedin.com/pub/olga-goryanaya/54/819/722",
+                "http://www.linkedin.com/pub/tatyana-chudopalova/6b/736/b2a",
+                "http://ua.linkedin.com/pub/%D0%B0%D0%BD%D0%BD%D0%B0-%D0%B8%D0%B2%D0%B0%D1%85%D0%BD%D0%B8%D0%BA/4a/975/809",
+                "http://ua.linkedin.com/pub/marina-khodakovskaya/25/7b9/92b");
+        //Companies linkedIn urls
+        COMPANY_URLS = Arrays.asList("http://ua.linkedin.com/pub/tatyana-bulanaya/38/13b/424/",
+                "http://ua.linkedin.com/in/tamplier", "http://ru.linkedin.com/in/arsart");
+    }
 
     /**
      * Render incoming request to aboutTeamList.jsp
@@ -35,102 +61,46 @@ public class AboutTeamController {
      */
     @RenderMapping
     public ModelAndView showView(RenderRequest request, RenderResponse response) {
-        ModelAndView model = new ModelAndView();
-        List<String> baurls = new ArrayList<String>();
-        List<String> devurls = new ArrayList<String>();
-        List<String> testersurls = new ArrayList<String>();
-        List<String> companyurls = new ArrayList<String>();
-
-        //TODO: think about adding
-        //team linkedin list
-        //add new team here
-        //ba
-        baurls.add("http://ua.linkedin.com/pub/aleksey-filyaev/47/457/aaa");
-        //developers
-        devurls.add("http://ua.linkedin.com/pub/ivan-kamyshan/61/5a0/255/en");
-        devurls.add("http://ua.linkedin.com/pub/vyacheslav-tradunsky/59/983/779");
-        devurls.add("http://ua.linkedin.com/pub/igor-lapko/6b/646/630");
-        devurls.add("http://www.linkedin.com/in/vlablack");
-        devurls.add("http://www.linkedin.com/pub/gorbunov-dmitriy/6b/646/a35");
-        devurls.add("http://ua.linkedin.com/pub/olga-ryzol/6b/647/a80");
-        //testers count==testersCount!
-        testersurls.add("http://ua.linkedin.com/pub/elena-onischenko/6b/626/674");
-        testersurls.add("http://ua.linkedin.com/pub/olga-goryanaya/54/819/722");
-        testersurls.add("http://www.linkedin.com/pub/tatyana-chudopalova/6b/736/b2a");
-        testersurls.add("http://ua.linkedin.com/pub/%D0%B0%D0%BD%D0%BD%D0%B0-%D0%B8%D0%B2%D0%B0%D1%85%D0%BD%D0%B8%D0%BA/4a/975/809");
-        testersurls.add("http://ua.linkedin.com/pub/marina-khodakovskaya/25/7b9/92b");
-
-        //company count==expertsCount!
-        companyurls.add("http://ua.linkedin.com/pub/tatyana-bulanaya/38/13b/424/");
-        companyurls.add("http://ua.linkedin.com/in/tamplier");
-        companyurls.add("http://ru.linkedin.com/in/arsart");
 
         String contextPath = request.getContextPath().toString();
-        String fotoUrl = contextPath + "/images/no_photo.jpg";
-        List<Human> bateam = getUsersFromLinkedIn(baurls, fotoUrl);
-        List<Human> devteam = getUsersFromLinkedIn(devurls, fotoUrl);
-        List<Human> testersteam = getUsersFromLinkedIn(testersurls, fotoUrl);
-        List<Human> companyteam = getUsersFromLinkedIn(companyurls, fotoUrl);
-        List<Human> tnxteam = new ArrayList<Human>();
+        String photoUrl = contextPath + NO_PHOTO;
+        List<Human> baTeam = getUsersFromLinkedIn(BA_URLS, photoUrl);
+        List<Human> devTeam = getUsersFromLinkedIn(DEV_URLS, photoUrl);
+        List<Human> testersTeam = getUsersFromLinkedIn(TESTER_URLS, photoUrl);
+        List<Human> companyTeam = getUsersFromLinkedIn(COMPANY_URLS, photoUrl);
         //static members
-        //tnx for watching
-        testersteam.add(addHuman("Elena", "Onishenko", TESTER, contextPath + "/images/elena-onishenko.jpg",
-                "http://vk.com/elenaonishhenk0"));
-        testersteam.add(addHuman("Tatyana", "Podgornaya", TESTER, contextPath + "/images/tanya-podgornaya.jpg",
-                "http://www.facebook.com/tatyana.podgornaya.10"));
-        testersteam.add(addHuman("Oksana", "Schur", TESTER, contextPath + "/images/oksana-shur.jpg",
-                "http://vk.com/id21246119"));
-        testersteam.add(addHuman("Ilya", "Solomyanikov", TESTER, contextPath + "/images/ilya-solomyanikov.jpg",
-                "https://www.facebook.com/ilya.solomyanikov"));
+        List<Human> tnxTeam = Arrays.asList(new Human("Elena", "Onishenko", TESTER, contextPath + "/images/elena-onishenko.jpg", "http://vk.com/elenaonishhenk0"),
+                new Human("Tatyana", "Podgornaya", TESTER, contextPath + "/images/tanya-podgornaya.jpg", "http://www.facebook.com/tatyana.podgornaya.10"),
+                new Human("Oksana", "Schur", TESTER, contextPath + "/images/oksana-shur.jpg", "http://vk.com/id21246119"),
+                new Human("Ilya", "Solomyanikov", TESTER, contextPath + "/images/ilya-solomyanikov.jpg", "https://www.facebook.com/ilya.solomyanikov"),
+                new Human("Konstantin", "Gavrilchenko", "Software Engineer", contextPath + "/images/kostya-gavrilchenko.jpg", ""),
+                new Human("Sergey", "Alekseenko", "Software Engineer", contextPath + "/images/no_photo.jpg", ""),
+                new Human("Anastasiia", "Shatorna", "QA", contextPath + "/images/anastasiia-shatorna.jpg", "http://vk.com/id14291951"),
+                new Human("Anton", "Batiuk", "Product Specialist", contextPath + "/images/anton-batiuk.jpg", "https://plus.google.com/u/1/113264243001342224417/posts"),
+                new Human("Alexey", "Duzhy", "Software Engineer", contextPath + "/images/alex-duzhy.jpg", "http://vk.com/id26434691"),
+                new Human("Oleg", "Novikov", "Software Engineer", contextPath + "/images/oleg-novikov.jpg", "https://www.facebook.com/lplyr"),
+                new Human("Maxim", "Kulishev", "Software Engineer", contextPath + "/images/no_photo.jpg", "http://ua.linkedin.com/pub/max-kulishev/64/2b7/632"),
+                new Human("Roman", "Lukas", "Software Engineer", contextPath + "/images/Roman-Lukash.jpg", "http://vk.com/id153906964"));
 
-        companyteam.add(addHuman("Konstantin", "Gavrilchenko", "Software Engineer", contextPath + "/images/kostya-gavrilchenko.jpg",
-                ""));
-        companyteam.add(addHuman("Sergey", "Alekseenko", "Software Engineer", contextPath + "/images/no_photo.jpg",
-                ""));
-        companyteam.add(addHuman("Anastasiia", "Shatorna", "QA", contextPath + "/images/anastasiia-shatorna.jpg",
-                "http://vk.com/id14291951"));
-        bateam.add(addHuman("Anton", "Batiuk", "Product Specialist", contextPath + "/images/anton-batiuk.jpg",
-                "https://plus.google.com/u/1/113264243001342224417/posts"));
-        tnxteam.add(addHuman("Alexey", "Duzhy", "Software Engineer", contextPath + "/images/alex-duzhy.jpg",
-                "http://vk.com/id26434691"));
-        devteam.add(addHuman("Oleg", "Novikov", "Software Engineer", contextPath + "/images/oleg-novikov.jpg",
-                "https://www.facebook.com/lplyr"));
-        tnxteam.add(addHuman("Maxim", "Kulishev", "Software Engineer", contextPath + "/images/no_photo.jpg",
-                "http://ua.linkedin.com/pub/max-kulishev/64/2b7/632"));
-        tnxteam.add(addHuman("Roman", "Lukas", "Software Engineer", contextPath + "/images/Roman-Lukash.jpg",
-                "http://vk.com/id153906964"));
-
-        model.setViewName("aboutTeamList");
-        model.addObject("baTeam", bateam);
-        model.addObject("devTeam", devteam);
-        model.addObject("testersTeam", testersteam);
-        model.addObject("companyTeam", companyteam);
-        model.addObject("tnxTeam", tnxteam);
+        ModelAndView model = new ModelAndView("aboutTeamList");
+        model.addObject("baTeam", baTeam);
+        model.addObject("devTeam", devTeam);
+        model.addObject("testersTeam", testersTeam);
+        model.addObject("companyTeam", companyTeam);
+        model.addObject("tnxTeam", tnxTeam);
         return model;
-    }
-
-
-    private Human addHuman(String fname, String lname, String status, String photoUrl, String url) {
-        Human human = new Human();
-        human.setFirstName(fname);
-        human.setLastName(lname);
-        human.setStatus(status);
-        human.setPhotoUrl(photoUrl);
-        human.setUrl(url);
-        return human;
     }
 
     private List<Human> getUsersFromLinkedIn(List<String> urls, String noImage) {
         List<Human> userList = new ArrayList<Human>();
 
-        Human human = null;
         String str = null;
         int ls = 0; //if page is not loaded, just take a new page
         // download the page super-efficiently
         File file;
         for (int i = ls; i < urls.size(); i++) {
             file = new File(SystemUtil.getTempDir(), "team" + i + ".html");
-            human = new Human();
+            Human human = new Human();
             try {
                 NetUtil.downloadFile(urls.get(i), file);
                 // create Jerry, i.e. document context

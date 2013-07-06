@@ -1,7 +1,5 @@
 <%@ page import="ua.dp.stud.StudPortalLib.model.Category" %>
 <%@ page import="java.util.Collection" %>
-<%@ page import="java.util.Locale" %>
-<%@ page import="java.util.ResourceBundle" %>
 
 <%--
     Document   : addnews
@@ -13,11 +11,6 @@
 
 
 <%
-    //todo delete all code about locale
-    Locale locale = (Locale) request.getSession().getAttribute("org.apache.struts.action.LOCALE");
-    String language = locale.getLanguage();
-    String country = locale.getCountry();
-    ResourceBundle res = ResourceBundle.getBundle("messages", new Locale(language, country));
 
     String ex = (String) request.getAttribute("exception");
     Boolean russianLocaleEnabled = request.getLocale().getLanguage().equals("ru");
@@ -64,7 +57,7 @@
         </a>
     </div>
 
-    <liferay-ui:error key="no-images" message='<%=res.getString("msg.noImages")%>'/>
+    <liferay-ui:error key="no-images" message='<spring:message code="form.noImages"/>'/>
     <%if (ex != null) {%>
     <%=ex%>
     <%}%>
