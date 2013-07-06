@@ -1,10 +1,6 @@
 <%@ page import="ua.dp.stud.StudPortalLib.model.News" %>
 <%@ page import="java.util.Collection" %>
-<%@ page import="com.liferay.portal.theme.ThemeDisplay" %>
-<%@ page import="com.liferay.portal.kernel.util.WebKeys" %>
 <%@ page import="com.liferay.portal.kernel.servlet.ImageServletTokenUtil" %>
-<%@ page import="java.util.Locale" %>
-<%@ page import="java.util.ResourceBundle" %>
 <%@ page import="ua.dp.stud.StudPortalLib.util.ImageService" %>
 <%@ page import="ua.dp.stud.StudPortalLib.util.CustomFunctions" %>
 <%@ taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet" %>
@@ -19,43 +15,14 @@
     Collection<News> news = (Collection) request.getAttribute("news");
     int pagesCount = (Integer) request.getAttribute("pagesCount");
     int currentPage = (Integer) request.getAttribute("currentPage");
+    ImageService imageService = (ImageService)pageContext.findAttribute("imageService");
 
-    ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
-    String imagePath = new StringBuilder(themeDisplay.getPortalURL()).append('/')
-            .append(themeDisplay.getPathImage()).append("/image_gallery?img_id=").toString();
-    ImageService imageService = new ImageService();
-    //todo: to controller
-    int nearbyPages = 2; //number of pages to show to left and right of current
-    int overallPages = 7; //overall number of pages
-    int leftPageNumb = Math.max(1, currentPage - nearbyPages),
-            rightPageNumb = Math.min(pagesCount, currentPage + nearbyPages);
-    boolean skippedBeginning = false,
-            skippedEnding = false;
-
-    if (pagesCount <= overallPages) {
-        leftPageNumb = 1;                 //all pages are shown
-        rightPageNumb = pagesCount;
-    } else {
-        if (currentPage > 2 + nearbyPages) { //if farther then page #1 + '...' + nearby pages
-            skippedBeginning = true;        // will look like 1 .. pages
-        } else {
-            leftPageNumb = 1;             //shows all first pages
-            rightPageNumb = 2 + 2 * nearbyPages; //#1 + nearby pages + current + nearby pages
-        }
-
-        if (currentPage < pagesCount - (nearbyPages + 1)) { //if farther then nearby + '...' + last
-            skippedEnding = true;         //will look like pages .. lastPage
-        } else {
-            leftPageNumb = (pagesCount - 1) - 2 * nearbyPages;  //shows all last pages:
-            rightPageNumb = pagesCount;
-        }
-    }
-    //todo:locale
-    Locale locale = (Locale) request.getSession().getAttribute("org.apache.struts.action.LOCALE");
-    String language = locale.getLanguage();
-    String country = locale.getCountry();
-    ResourceBundle res = ResourceBundle.getBundle("messages", new Locale(language, country));
-
+    int nearbyPages = (Integer) request.getAttribute("nearbyPages"); //number of pages to show to left and right of current
+    int overallPages = (Integer) request.getAttribute("overallPages"); //overall number of pages
+    int leftPageNumb = (Integer) request.getAttribute("leftPageNumb"),
+            rightPageNumb = (Integer) request.getAttribute("rightPageNumb");
+    boolean skippedBeginning = (Boolean) request.getAttribute("skippedBeginning"),
+            skippedEnding = (Boolean) request.getAttribute("skippedEnding");
 %>
 
 <html>
@@ -74,8 +41,7 @@
         </div>
     <%}%>
 <div id="contentDiv">
-
-    <liferay-ui:success message='<%=res.getString("msg.successAdd")%>' key="success-add"/>
+    <liferay-ui:success message='<spring:message code="msg.successAdd"/>' key="success-add"/>
 
     <% if (!news.isEmpty()) {%>
     <table id="newsTable">
@@ -99,7 +65,7 @@
                     </div>
                     <div class="newsText">
                         <%--50 as said Anton--%>
-                        <%= CustomFunctions.truncateWords(currentNews.getText(), 50) %>
+                        <%= CustomFunctions.truncateHtml(currentNews.getText(), 50) %>
                     </div>
                         <% if (request.isUserInRole("Administrator")) { %>
                         <a style="float: right" href='<portlet:renderURL><portlet:param name="newsId" value="<%=currentNews.getId().toString()%>"/><portlet:param name="mode" value="delete" /></portlet:renderURL>'

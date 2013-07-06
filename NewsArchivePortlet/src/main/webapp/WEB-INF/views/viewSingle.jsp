@@ -1,8 +1,4 @@
 <%@ page import="ua.dp.stud.StudPortalLib.model.News" %>
-<%@ page import="com.liferay.portal.kernel.language.LanguageUtil" %>
-<%@ page import="com.liferay.portal.theme.ThemeDisplay" %>
-<%@ page import="com.liferay.portal.kernel.util.WebKeys" %>
-<%@ page import="com.liferay.portal.theme.PortletDisplay" %>
 <%@ page import="com.liferay.portal.model.Layout" %>
 <%@ page import="java.util.Collection" %>
 <%@ page import="ua.dp.stud.StudPortalLib.model.ImageImpl" %>
@@ -12,23 +8,96 @@
 
 <portlet:defineObjects/>
 <%
-    ImageService imgService = new ImageService();
+    ImageService imgService = (ImageService)pageContext.findAttribute("imageService");
     News news = (News) request.getAttribute("news");
     String mainImage = (String)request.getAttribute("mainImage");
     Collection<ImageImpl> additionalImages = (Collection<ImageImpl>)request.getAttribute("additionalImages");
 %>
 <html>
 <head>
-    <style type="text/css">
-        .fancybox-custom .fancybox-skin {
-            box-shadow: 0 0 50px #222;
-        }
-    </style>
 	<script>
 		function ConfirmImage()
 		{
 			return confirm("<spring:message code="form.confDeleteImg"/>");
 		}
+		<% if (additionalImages != null) {%>
+		$(window).load(function()
+        {
+            var size = 0;
+            var maxSize = 0;
+            $('.ownGelery').each(function()
+            {
+                size = $(this).find('img').height();
+                if (maxSize < size)
+                    maxSize = size;
+                $(this).width($(this).find('img').width());
+                $(this).height($(this).find('img').height());
+            });
+            $(".next").height(maxSize);
+            $(".prev").height(maxSize);
+            $(".middle").height(maxSize);
+            $(".image_carousel").height(maxSize);
+            $("#inner").carouFredSel({
+                circular: false,
+                infinite: true,
+                auto 	: false,
+                prev	: {
+                    button	: ".prev",
+                    key		: "left"
+                },
+                next	: {
+                    button	: ".next",
+                    key		: "right"
+                }
+            });
+            $('.ajax-loader').hide();
+            $('.image_carousel').css("left","0px");
+        });<%}%>
+        (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/ru_RU/all.js#xfbml=1";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+        !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];
+        if(!d.getElementById(id)){js=d.createElement(s);js.id=id;
+        js.src="//platform.twitter.com/widgets.js";
+        fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
+        $(document).ready(function() {
+
+        $('.fancybox-thumbs').fancybox({
+            prevEffect : 'none',
+            nextEffect : 'none',
+            'overlayShow': true,
+            'overlayColor': '#000',
+            'overlayOpacity': 0.8,
+
+            closeBtn  : true,
+            arrows    : true,
+            nextClick : true,
+
+            helpers : {
+                thumbs : {},
+                title: {
+                    type: 'inside'
+                }
+            }
+        });
+    });
+
+    var mcChannel = "${news.id}";
+    // will return en   or   ru
+    var mcLocale = "<%= request.getLocale().getLanguage() %>";
+    var mcSite = '13747';
+
+    (function () {
+        var mc = document.createElement('script');
+        mc.type = 'text/javascript';
+        mc.async = true;
+        mc.src = 'http://cackle.me/mc.widget-min.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(mc);
+    })();
 	</script>
 </head>
 
@@ -85,64 +154,13 @@
 		</div>
 	</div>
 </div>
-<script type="text/javascript">
-	$(window).load(function()
-	{
-		var size = 0;
-		var maxSize = 0;
-		$('.ownGelery').each(function()
-		{
-			size = $(this).find('img').height();
-			if (maxSize < size)
-				maxSize = size;
-			$(this).width($(this).find('img').width());
-			$(this).height($(this).find('img').height());
-		});
-		$(".next").height(maxSize);
-		$(".prev").height(maxSize);
-		$(".middle").height(maxSize);
-		$(".image_carousel").height(maxSize);
-		$("#inner").carouFredSel({
-			circular: false,
-			infinite: true,
-			auto 	: false,
-			prev	: {	
-				button	: ".prev",
-				key		: "left"
-			},
-			next	: { 
-				button	: ".next",
-				key		: "right"
-			}
-		});
-		$('.ajax-loader').hide();
-		$('.image_carousel').css("left","0px");
-	});
-</script>
 <%}%>
 <br><br>
 
 <div id="Social_networks_Likes">
 	<div id="fb-root"></div>
-	<script>
-	(function(d, s, id) 
-	{
-		var js, fjs = d.getElementsByTagName(s)[0];
-		if (d.getElementById(id)) return;
-		js = d.createElement(s); js.id = id;
-		js.src = "//connect.facebook.net/ru_RU/all.js#xfbml=1";
-		fjs.parentNode.insertBefore(js, fjs);
-	}(document, 'script', 'facebook-jssdk'));
-	</script>
 	<div class="fb-like" data-send="true" data-width="450" data-show-faces="true" data-font="arial"></div>
 	<a href="https://twitter.com/share" class="twitter-share-button">Tweet</a>
-	<script>
-		!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];
-		if(!d.getElementById(id)){js=d.createElement(s);js.id=id;
-		js.src="//platform.twitter.com/widgets.js";
-		fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
-		
-	</script>
 </div>
 
 <br/><br/>
@@ -175,44 +193,6 @@
 
 <%--commentz support--%>
 <div id="mc-container"></div>
-<script type="text/javascript">
-
-    // init  gallery images
-    $(document).ready(function() {
-
-        $('.fancybox-thumbs').fancybox({
-            prevEffect : 'none',
-            nextEffect : 'none',
-            'overlayShow': true,
-            'overlayColor': '#000',
-            'overlayOpacity': 0.8,
-
-            closeBtn  : true,
-            arrows    : true,
-            nextClick : true,
-
-            helpers : {
-                thumbs : {},
-				title: {
-					type: 'inside'
-				}
-            }
-        });
-    });
-
-    var mcChannel = "${news.id}";
-    // will return en   or   ru
-    var mcLocale = "<%= request.getLocale().getLanguage() %>";
-    var mcSite = '13747';
-
-    (function () {
-        var mc = document.createElement('script');
-        mc.type = 'text/javascript';
-        mc.async = true;
-        mc.src = 'http://cackle.me/mc.widget-min.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(mc);
-    })();
-</script>
 <!--<a href="http://cackle.me" id="mc-link"><spring:message code="viewSingle.copyright"/> <b style="color:#4FA3DA">CACKL</b><b
         style="color:#F65077">E</b></a>-->
 <%--commentz support--%>

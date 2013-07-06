@@ -2,33 +2,22 @@
 <%@ page import="ua.dp.stud.StudPortalLib.util.ImageService" %>
 <%@ page import="ua.dp.stud.StudPortalLib.model.News" %>
 <%@ page import="java.util.Collection" %>
-<%@ page import="java.util.Locale" %>
-<%@ page import="java.util.ResourceBundle" %>
-<%@ page import="com.liferay.portal.theme.ThemeDisplay" %>
-<%@ page import="com.liferay.portal.kernel.util.WebKeys" %>
 <%@ page import="com.liferay.portal.kernel.servlet.ImageServletTokenUtil" %>
 <%@ taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet" %>
-
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@include file="include.jsp" %>
 <%--
     Document   : addnews
     Author     : Tradunsky V.V.
 --%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
-<%@include file="include.jsp" %>
 
 <%if (request.isUserInRole("Administrator") || request.isUserInRole("User")) {%>
 <script id="" src="${pageContext.request.contextPath}/js/cropbox.js" type="text/javascript"></script>
 
 <%
-    //todo LOCALE!
-    Locale locale = (Locale) request.getSession().getAttribute("org.apache.struts.action.LOCALE");
-    String language = locale.getLanguage();
-    String country = locale.getCountry();
-    ResourceBundle res = ResourceBundle.getBundle("messages", new Locale(language, country));
     String ex = (String) request.getAttribute("exception");
-    ImageService imageService = new ImageService();
+    ImageService imageService = (ImageService)pageContext.findAttribute("imageService");
     Boolean russianLocaleEnabled = request.getLocale().getLanguage().equals("ru");
     News news = (News) request.getAttribute("news");
 %>
@@ -38,22 +27,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 </head>
 <body>
-
-<script language="javascript" type="text/javascript">
-    function isNotMax(e, id) {
-        var validateValueTextArea = document.getElementById(id);
-        validateValueTextArea.value = validateValueTextArea.value.substr(0, validateValueTextArea.getAttribute('maxlength'));
-    }
-
-    $(function () {
-        <%
-            if (russianLocaleEnabled){ %>
-                $.datepicker.setDefaults($.datepicker.regional['ru']);
-        <%}%>
-
-        $("#calendarDate").datepicker({dateFormat: 'yy-mm-dd'});
-    });
-</script>
 
 <portlet:renderURL var="home">
 	<portlet:param name="nAction" value="home" />
@@ -66,7 +39,6 @@
     <div class="panelbtn panelbtn-right fs20 icon-pcparrow-left" aria-hidden="true"></div>
     </a>
 	<% if (request.isUserInRole("Administrator")) { %>
-		
 		<a style="margin-left: 10px;" href='<portlet:renderURL><portlet:param name="newsId" value="<%=news.getId().toString()%>"/><portlet:param name="mode" value="delete" /></portlet:renderURL>'
 		   onclick='return confirm("<spring:message code="form.confDelete"/>")'>
 			<!--<spring:message code="form.delete"/>-->
@@ -74,7 +46,8 @@
 		</a>
 	<%}%>
 </div>
-<liferay-ui:error key="no-images" message='<%=res.getString("msg.noImages")%>'/>
+<liferay-ui:error key="no-images" message='<spring:message code="form.noImages"/>'/>
+<liferay-ui:error key="no-images" message='<spring:message code="form.noImages"/>'/>
 <%if (ex != null) {%>
 <%=ex%>
 <%}%>
@@ -121,41 +94,6 @@
                     </div>
                     <input name="mainImage" id="mainImage" type="file" class="nphotos" />
                 </div>
-
-
-                <script>
-                    function handleFileSelect(evt)
-                    {
-                        var files = evt.target.files; // FileList object
-                        // Loop through the FileList and render image files as thumbnails.
-                        var f = files[files.length - 1];
-
-                                                // Only process im11age files.
-                                                document.getElementById('list').innerHTML = '';
-                                                var reader = new FileReader();
-
-                                                // Closure to capture the file information.
-                                                reader.onload = (function(theFile) {
-                                                    return function(e) {
-                                                        // Render thumbnail.
-                                                        var span = document.createElement('span');
-                                                        span.innerHTML = ['<img id="cropbox" class="thumb" src="', e.target.result,
-                                                            '" title="', escape(theFile.name), '"/>'].join('');
-                                                        document.getElementById('list').insertBefore(span, null);
-                                                    a();
-                                                };a();
-                                            })(f);
-
-                                            // Read in the image file as a data URL.
-                                            reader.readAsDataURL(f);
-                                               a();
-                                        }
-
-
-                                            document.getElementById('mainImage').addEventListener('change', handleFileSelect, false);
-                </script>
-
-
 				<div class="grayrect" style="margin-top: 371px;">
                     <div class="greenbtn" >
                         <spring:message code="form.addPictures"/>
@@ -186,6 +124,50 @@
 		</div>
     </form>
 </div>
+<script>
+    function handleFileSelect(evt)
+    {
+        var files = evt.target.files; // FileList object
+        // Loop through the FileList and render image files as thumbnails.
+        var f = files[files.length - 1];
+
+                                // Only process im11age files.
+                                document.getElementById('list').innerHTML = '';
+                                var reader = new FileReader();
+
+                                // Closure to capture the file information.
+                                reader.onload = (function(theFile) {
+                                    return function(e) {
+                                        // Render thumbnail.
+                                        var span = document.createElement('span');
+                                        span.innerHTML = ['<img id="cropbox" class="thumb" src="', e.target.result,
+                                            '" title="', escape(theFile.name), '"/>'].join('');
+                                        document.getElementById('list').insertBefore(span, null);
+                                    a();
+                                };a();
+                            })(f);
+
+                            // Read in the image file as a data URL.
+                            reader.readAsDataURL(f);
+                               a();
+                        }
+
+
+                            document.getElementById('mainImage').addEventListener('change', handleFileSelect, false);
+        function isNotMax(e, id) {
+            var validateValueTextArea = document.getElementById(id);
+            validateValueTextArea.value = validateValueTextArea.value.substr(0, validateValueTextArea.getAttribute('maxlength'));
+        }
+
+        $(function () {
+            <%
+                if (russianLocaleEnabled){ %>
+                    $.datepicker.setDefaults($.datepicker.regional['ru']);
+            <%}%>
+
+            $("#calendarDate").datepicker({dateFormat: 'yy-mm-dd'});
+        });
+</script>
 </body>
 </html>
 <%}%>
