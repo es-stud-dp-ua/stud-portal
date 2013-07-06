@@ -50,10 +50,12 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static com.liferay.portal.kernel.util.WebKeys.THEME_DISPLAY;
-
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Create account controller
+ *
  * @author Tradunsky Vyacheslav
  * @author Vladislav Pikus
  */
@@ -63,16 +65,15 @@ import static com.liferay.portal.kernel.util.WebKeys.THEME_DISPLAY;
 public class AccountController {
 
     private static String strExcept = "exception";
+    private static final Logger log = Logger.getLogger(AccountController.class.getName());
     //index of rules
-    private static final  int RULESACEPT = 6;
-
+    private static final int RULESACEPT = 6;
     @Autowired
     private Mailer mailer;
 
     public void setMailer(Mailer mailer) {
         this.mailer = mailer;
     }
-
 
     @RenderMapping
     public ModelAndView showView(RenderRequest request, RenderResponse response) {
@@ -82,7 +83,6 @@ public class AccountController {
         return model;
     }
 
-  
     @RenderMapping(params = "result=success")
     public String successPage(Model model) {
         return "success_page";
@@ -93,11 +93,10 @@ public class AccountController {
             throws PortalException, IOException, SystemException {
         ModelAndView model = new ModelAndView();
         //choose activation result
-        if (confirmNewUser(request)){
+        if (confirmNewUser(request)) {
             model.setViewName("activation");
             //LoginUtil.login(request, response, loginUser, password, false, CompanyConstants.AUTH_TYPE_EA);
-        }
-        else {
+        } else {
             model.setViewName("activationFail");
         }
         //set view for user activation result
@@ -106,6 +105,7 @@ public class AccountController {
 
     /**
      * Exception rendering messege
+     *
      * @param request rendering request
      * @param response rendering response
      * @return return current view with exception message
@@ -117,7 +117,6 @@ public class AccountController {
         return model;
     }
 
-    
     @ModelAttribute(value = "userInfo")
     public UserInfo getCommandObject() {
         return new UserInfo();
@@ -125,25 +124,27 @@ public class AccountController {
 
     /**
      * Adding new user in database using liferay user service.
+     *
      * @param userInfo new user's info
      * @param bindingResult validation for new user info
      * @param actionRequest request from registration form
      * @param actionResponse request response for registration form
      * @param sessionStatus session work for registration form
      * @param image new user portret
-     * @throws IOException will be happen if some information about new user is wrong
+     * @throws IOException will be happen if some information about new user is
+     * wrong
      * @throws SystemException will be happen if server is not available
      * @throws PortalException will be happen if liferay portal is not available
      */
     //todo: use catch for exceptions
     @ActionMapping(value = "addNewUser")
     public void addNewUser(@Valid @ModelAttribute("userInfo") UserInfo userInfo,
-                           BindingResult bindingResult,
-                           ActionRequest actionRequest,
-                           ActionResponse actionResponse,
-                           SessionStatus sessionStatus,
-                           @RequestParam("portret") CommonsMultipartFile image)
-            throws IOException, SystemException, PortalException {
+            BindingResult bindingResult,
+            ActionRequest actionRequest,
+            ActionResponse actionResponse,
+            SessionStatus sessionStatus,
+            @RequestParam("portret") CommonsMultipartFile image)
+            throws SystemException, PortalException {
         UserInfoValidator validator = new UserInfoValidator();
         //validate necessary information
 
@@ -155,12 +156,12 @@ public class AccountController {
         }
         //activation link setup
         HttpServletRequest request = PortalUtil.getHttpServletRequest(actionRequest);
-        ThemeDisplay themeDisplay = (ThemeDisplay)actionRequest.getAttribute(THEME_DISPLAY);
+        ThemeDisplay themeDisplay = (ThemeDisplay) actionRequest.getAttribute(THEME_DISPLAY);
         String portletId = (String) actionRequest.getAttribute(WebKeys.PORTLET_ID);
         request = PortalUtil.getOriginalServletRequest(request);
         //Retrieve layout id of another portlet
         long plid = PortalUtil.getPlidFromPortletId(themeDisplay.getScopeGroupId(), portletId);
-        PortletURL activationURL = PortletURLFactoryUtil.create(request ,portletId, plid ,PortletRequest.RENDER_PHASE);
+        PortletURL activationURL = PortletURLFactoryUtil.create(request, portletId, plid, PortletRequest.RENDER_PHASE);
         //sets other fields
         boolean autoPassword = false;
         boolean autoScreenName = true;
@@ -176,14 +177,15 @@ public class AccountController {
         DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
         //get date for calendar view from views
         Date birthday = null;
-		Calendar calendar = GregorianCalendar.getInstance();
+        Calendar calendar = GregorianCalendar.getInstance();
         //todo: if birthday param is invalid then just skip it or render same view with error message
         try {
             birthday = df.parse(ParamUtil.getString(actionRequest, "birthday"));
         } catch (ParseException ex) {
+            log.log(Level.SEVERE, "Exception: ", ex);
             birthday = new Date();
         }
-		calendar.setTime(birthday);
+        calendar.setTime(birthday);
         //get company id
         long companyId = themeDisplay.getCompany().getCompanyId();
         long creatorId = themeDisplay.getUser().getUserId();
@@ -224,52 +226,50 @@ public class AccountController {
             }
             //set old PermissionChecker
             PermissionThreadLocal.setPermissionChecker(permissionCheckerBackup);
-        }
-        catch (DuplicateUserEmailAddressException e) {
+        } catch (DuplicateUserEmailAddressException ex) {
+            log.log(Level.SEVERE, "Exception: ", ex);
             actionResponse.setRenderParameter(strExcept, "error.email");
             return;
-        }
-        catch (Exception e) {
+        } catch (Exception ex) {
+            log.log(Level.SEVERE, "Exception: ", ex);
             actionResponse.setRenderParameter(strExcept, "error.global");
             return;
         }
         //todo: use on try-block
-        try
-        {
+        try {
             //update new user Portrait
-            if (image.getSize() > 0)
-            {
+            if (image.getSize() > 0) {
                 UserLocalServiceUtil.updatePortrait(user.getUserId(), image.getBytes());
             }
+        } catch (Exception ex) {/* when error happen while upload image */
+
         }
-        catch (Exception e) {/* when error happen while upload image */}
         //activation url for encryption
-		StringBuilder hashStr = new StringBuilder();
-		hashStr.append("id=").append(String.valueOf(user.getUserId()))
-				.append("&emailAddress=").append(user.getEmailAddress());
-		Hash hash = new Hash();
+        StringBuilder hashStr = new StringBuilder();
+        hashStr.append("id=").append(String.valueOf(user.getUserId()))
+                .append("&emailAddress=").append(user.getEmailAddress());
+        Hash hash = new Hash();
         String hashedStr = hash.getCrypt(hashStr.toString());
         if (hashedStr.isEmpty()) {
             actionResponse.setRenderParameter(strExcept, "error.global");
             return;
         }
         //rendering setting
-		activationURL.setParameter("hash", hashedStr);
+        activationURL.setParameter("hash", hashedStr);
         //rendering params
-		activationURL.setParameter("mode", "activate");
-		//send activation message on new user mail
-		synchronized (mailer) {
-			mailer.sendActivationMail(userInfo.getEmailAddress(),
-					activationURL.toString());
-		}
-		//complete session
-		sessionStatus.setComplete();
-		//send success message
-		actionResponse.setRenderParameter("result","success");
+        activationURL.setParameter("mode", "activate");
+        //send activation message on new user mail
+        synchronized (mailer) {
+            mailer.sendActivationMail(userInfo.getEmailAddress(),
+                    activationURL.toString());
+        }
+        //complete session
+        sessionStatus.setComplete();
+        //send success message
+        actionResponse.setRenderParameter("result", "success");
     }
 
     //helper methods
-
     private boolean confirmNewUser(RenderRequest actionRequest)
             throws IOException, SystemException, PortalException {
         //hash functions object
@@ -281,8 +281,7 @@ public class AccountController {
         //create variable for attributes
         Map<String, String> hashMap = new HashMap<String, String>();
         //get all attributes
-        for (String hashObj: hashSplit)
-        {
+        for (String hashObj : hashSplit) {
             String[] buff = hashObj.split("=");
             hashMap.put(buff[0], buff[1]);
         }
@@ -291,77 +290,76 @@ public class AccountController {
         //try to active new user
         try {
             UserLocalServiceUtil.updateActive(userId, true);
-        }catch (Exception e){
+        } catch (Exception ex) {
+            log.log(Level.SEVERE, "Exception: ", ex);
             return false;
         }
         return true;
     }
 
-    
     private boolean createExpandoFields(ExpandoBridge userExpandoBridge) {
         //columns name
         String[] expandoColumn = new String[]{"placeOfStudy",
-                "faculty",
-                "group",
-                "vkUid",
-                "faceBook",
-                "about",
-                "rules"};
+            "faculty",
+            "group",
+            "vkUid",
+            "faceBook",
+            "about",
+            "rules"};
         //columns type
         int type = ExpandoColumnConstants.STRING;
         //for not empty bridge
-        if(userExpandoBridge != null) {
+        if (userExpandoBridge != null) {
             try {
                 //adding new expando in database
-                for(int i=0;i<expandoColumn.length-1;i++){
-                    if(!userExpandoBridge.hasAttribute(expandoColumn[i])) {
-                        userExpandoBridge.addAttribute(expandoColumn[i],type);
+                for (int i = 0; i < expandoColumn.length - 1; i++) {
+                    if (!userExpandoBridge.hasAttribute(expandoColumn[i])) {
+                        userExpandoBridge.addAttribute(expandoColumn[i], type);
                     }
                 }
                 //add rules column
                 type = ExpandoColumnConstants.BOOLEAN;
-                if(!userExpandoBridge.hasAttribute(expandoColumn[RULESACEPT])) {
-                    userExpandoBridge.addAttribute(expandoColumn[RULESACEPT],type);
+                if (!userExpandoBridge.hasAttribute(expandoColumn[RULESACEPT])) {
+                    userExpandoBridge.addAttribute(expandoColumn[RULESACEPT], type);
                 }
-            } catch(PortalException pe) {
+            } catch (PortalException ex) {
+                log.log(Level.SEVERE, "Exception: ", ex);
                 return false;
             }
         }
         return true;
     }
 
-   
     private void setExpandoFields(ExpandoBridge userExpandoBridge, Map mapOfExpFields) {
         //columns name
         String[] expandoColumn = new String[]{"placeOfStudy",
-                "faculty",
-                "group",
-                "vkUid",
-                "faceBook",
-                "about",
-                "rules"};
+            "faculty",
+            "group",
+            "vkUid",
+            "faceBook",
+            "about",
+            "rules"};
         //column of rules
         boolean rules;
         //for not empty bridge
-        if(userExpandoBridge != null) {
-                //adding expando information in database
-                for(int i=0; i < expandoColumn.length-1; i++){
-                    //for not empty columns
-                    if(!mapOfExpFields.get(expandoColumn[i]).equals("")) {
-                        //set expando column
-                        userExpandoBridge.setAttribute(expandoColumn[i],
-                                (Serializable) mapOfExpFields.get(expandoColumn[i]));
-                    }
+        if (userExpandoBridge != null) {
+            //adding expando information in database
+            for (int i = 0; i < expandoColumn.length - 1; i++) {
+                //for not empty columns
+                if (!mapOfExpFields.get(expandoColumn[i]).equals("")) {
+                    //set expando column
+                    userExpandoBridge.setAttribute(expandoColumn[i],
+                            (Serializable) mapOfExpFields.get(expandoColumn[i]));
                 }
+            }
             //get rules column
-            rules = (mapOfExpFields.get(expandoColumn[RULESACEPT]).equals("true"))?true:false;
+            rules = (mapOfExpFields.get(expandoColumn[RULESACEPT]).equals("true")) ? true : false;
             //set rules column
             userExpandoBridge.setAttribute(expandoColumn[RULESACEPT], rules);
         }
     }
 
-    private static PermissionChecker getAdministratorPermissionChecker(long companyId) throws PortalException,
-            SystemException {
+    private static PermissionChecker getAdministratorPermissionChecker(long companyId) throws PortalException,SystemException {
         PermissionChecker administratorPermissionChecker = null;
         Role administratorRole = RoleLocalServiceUtil.getRole(companyId, RoleConstants.ADMINISTRATOR);
         List<User> administratorUsers = UserLocalServiceUtil.getRoleUsers(administratorRole.getRoleId());
@@ -372,17 +370,14 @@ public class AccountController {
 
             try {
                 administratorPermissionChecker = PermissionCheckerFactoryUtil.getPermissionCheckerFactory().create(administratorUser, true);
+            } catch (Exception ex) {
+                log.log(Level.SEVERE, "Exception: ", ex);
+                throw new SystemException(ex.getMessage(), ex);
             }
-            catch (Exception e) {
-                throw new SystemException(e.getMessage(), e);
-            }
-        }
-        else {
+        } else {
             throw new SystemException("Unable to find a user with the Administrator role! Impossible!");
         }
 
         return administratorPermissionChecker;
     }
-
 }
-

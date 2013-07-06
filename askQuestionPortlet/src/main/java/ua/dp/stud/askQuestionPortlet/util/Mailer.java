@@ -9,6 +9,8 @@ import org.springframework.stereotype.Component;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**  Class for sending emails.
  *   Depends on javax.mail and spring framework
@@ -16,12 +18,12 @@ import java.util.Properties;
 
 @Component
 public class Mailer {
-
+    
     @Autowired
     private MailSender mailSender;
 
 
-
+    private static  Logger log = Logger.getLogger(Mailer.class.getName());
     /**
      * Sets mail sender
      * @param mailSender
@@ -70,6 +72,7 @@ public class Mailer {
         try {
             prop.store(new FileOutputStream(PortletProps.get("base.path")), "new mail setted");
         } catch (IOException e) {
+            log.log(Level.SEVERE, "Exception: ", e);
         }
     }
 }

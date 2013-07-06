@@ -1,4 +1,3 @@
-
 package ua.dp.stud.studie.controller;
 
 /**
@@ -16,9 +15,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.StringWriter;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -53,9 +52,9 @@ public class StudieController {
     private static String mainImagePar = "mainImage";
     //todo: remove this variable
     private Integer buttonId = 0;
-    
     private static final int MINTITLESYMBOLS = 4;
     private static final int MINTEXTSYMBOLS = 100;
+    private static final Logger log = Logger.getLogger(StudieController.class.getName());
     @Autowired
     @Qualifier(value = "StudieService")
     private StudieService service;
@@ -69,8 +68,7 @@ public class StudieController {
         ModelAndView model = new ModelAndView();
         if (request.getParameter("buttonId") == null) {
             buttonId = 0;
-        } 
-        else {
+        } else {
             buttonId = Integer.valueOf(request.getParameter("buttonId"));
         }
         model.setViewName("viewAll");
@@ -95,8 +93,7 @@ public class StudieController {
         String[] facultetZaoch = facultetZ.split(";");
         if (mImage == null) {
             mainImageUrl = MAIN_IMAGE_MOCK_URL;
-        } 
-        else {
+        } else {
             mainImageUrl = imageService.getPathToLargeImage(mImage, studie);
         }
         Collection<ImageImpl> additionalImages = studie.getAdditionalImages();
@@ -136,20 +133,21 @@ public class StudieController {
                 try {
                     imageService.saveMainImage(mainImage, somestudie);
                 } catch (Exception ex) {
+                    log.log(Level.SEVERE, "Exception: ", ex);
                     successUpload = false;
                 }
             }
             if (images != null && images.length > 0) {
-                
-                    for (CommonsMultipartFile file : images) {
-                        imageService.saveAdditionalImages(file, somestudie);
-                    }                       
+
+                for (CommonsMultipartFile file : images) {
+                    imageService.saveAdditionalImages(file, somestudie);
+                }
             }
-        } 
-        catch (Exception ex) {
+        } catch (Exception ex) {
+            log.log(Level.SEVERE, "Exception: ", ex);
             StringWriter sw = new StringWriter();
             actionResponse.setRenderParameter(strExept, sw.toString());
-              successUpload = false;
+            successUpload = false;
         }
         if (successUpload) {
             return true;
@@ -199,28 +197,21 @@ public class StudieController {
         sourceImage = sourceImage.getSubimage(t, l, w, h);
         File temp = new File(ImageService.getImagesFolderAbsolutePath() + mainImage.getOriginalFilename());
         ImageIO.write(sourceImage, "jpg", temp);
-        CommonsMultipartFile f = null;
+        CommonsMultipartFile f = ImageService.cropImage(mainImage, Integer.parseInt(actionRequest.getParameter("t")),
+                Integer.parseInt(actionRequest.getParameter("l")),
+                Integer.parseInt(actionRequest.getParameter("w")),
+                Integer.parseInt(actionRequest.getParameter("h")));
         try {
-            DiskFileItem fileItem = (DiskFileItem) new DiskFileItemFactory().createItem("fileData", "image/jpeg", true, temp.getName());
-            InputStream input = new FileInputStream(temp);
-            OutputStream os = fileItem.getOutputStream();
-            int ret = input.read();
-            while (ret != -1) {
-                os.write(ret);
-                ret = input.read();
-            }
-            os.flush();
-            f = new CommonsMultipartFile(fileItem);     
-        if (updateCommunityFields(f, images, topic.trim(), text.trim(), facultetD, facultetZ, adress, actionResponse, strFail, strNoImage, studie)) {
+            if (updateCommunityFields(f, images, topic.trim(), text.trim(), facultetD, facultetZ, adress, actionResponse, strFail, strNoImage, studie)) {
                 service.addStudie(studie);
                 actionResponse.setRenderParameter("orgsID", Integer.toString(studie.getId()));
-                sessionStatus.setComplete();           
-                }
-        }
-        catch (Exception ex) {
-                StringWriter sw = new StringWriter();
-                actionResponse.setRenderParameter(strExept, sw.toString());
+                sessionStatus.setComplete();
             }
+        } catch (Exception ex) {
+            log.log(Level.SEVERE, "Exception: ", ex);
+            StringWriter sw = new StringWriter();
+            actionResponse.setRenderParameter(strExept, sw.toString());
+        }
     }
 
     @ActionMapping(value = "editStudie")
@@ -255,8 +246,8 @@ public class StudieController {
             try {
                 service.updateStudie(studie);
                 sessionStatus.setComplete();
-            } 
-            catch (Exception ex) {
+            } catch (Exception ex) {
+                log.log(Level.SEVERE, "Exception: ", ex);
                 StringWriter sw = new StringWriter();
                 actionResponse.setRenderParameter(strExept, sw.toString());
             }
@@ -296,8 +287,7 @@ public class StudieController {
         String[] facultetZaoch = facultetZ.split(";");
         if (mImage == null) {
             mainImageUrl = MAIN_IMAGE_MOCK_URL;
-        } 
-        else {
+        } else {
             mainImageUrl = imageService.getPathToLargeImage(mImage, studie);
         }
         Collection<ImageImpl> additionalImages = studie.getAdditionalImages();
@@ -315,7 +305,7 @@ public class StudieController {
     public ModelAndView deleteOrganisation(RenderRequest request, RenderResponse response) {
         int studieID = Integer.valueOf(request.getParameter("studieId"));
         Studie studie = service.getStudieById(studieID);
-	ImageService imageService = new ImageService();
+        ImageService imageService = new ImageService();
         imageService.deleteDirectory(studie);
         service.deleteStudie(studie);
         return showAddSuccess(request, response);

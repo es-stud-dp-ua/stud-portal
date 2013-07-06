@@ -25,18 +25,16 @@ import ua.dp.stud.StudPortalLib.service.NewsService;
 import ua.dp.stud.StudPortalLib.service.OrganizationService;
 import ua.dp.stud.StudPortalLib.util.ImageService;
 
-import javax.imageio.ImageIO;
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
-import java.awt.image.BufferedImage;
 import java.io.*;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -45,7 +43,8 @@ import java.util.logging.Logger;
 @Controller
 @RequestMapping(value = "view")
 public class NewsController {
-    private static final Logger LOGGER = Logger.getLogger(NewsController.class.getName());
+
+    private static final Logger log = Logger.getLogger(NewsController.class.getName());
     private static final String MAIN_IMAGE_MOCK_URL = "http://www.princetonmn.org/vertical/Sites/%7BF37F81E8-174B-4EDB-91E0-1A3D62050D16%7D/uploads/News.gif";
     private static final String STR_FAIL = "fail";
     private static final String NO_IMAGE = "no-images";
@@ -56,7 +55,6 @@ public class NewsController {
     private static final int MINTITLESYMBOLS = 4;
     private static final int MINTEXTSYMBOLS = 100;
     private static final int NEWS_BY_PAGE = 10;
-
     @Autowired
     @Qualifier(value = "newsService")
     private NewsService newsService;
@@ -64,7 +62,6 @@ public class NewsController {
     public void setNewsService(NewsService newsService) {
         this.newsService = newsService;
     }
-
     @Autowired
     @Qualifier(value = "organizationService")
     private OrganizationService organizationService;
@@ -72,7 +69,6 @@ public class NewsController {
     public void setServiceOrg(OrganizationService organizationService) {
         this.organizationService = organizationService;
     }
-
     @Autowired
     @Qualifier(value = "imageService")
     private ImageService imageService;
@@ -264,12 +260,11 @@ public class NewsController {
      * @throws SystemException
      * @throws PortalException
      */
-
     private boolean updateNewsFields(CommonsMultipartFile mainImage,
-                                     CommonsMultipartFile[] images,
-                                     String frmTopic, String frmText, Boolean frmInCalendar, Boolean frmOnMainPage,
-                                     String frmDateInCalendar, String frmRole, String role,
-                                     ActionResponse actionResponse, String strFail, String strNoImage, News somenews) {
+            CommonsMultipartFile[] images,
+            String frmTopic, String frmText, Boolean frmInCalendar, Boolean frmOnMainPage,
+            String frmDateInCalendar, String frmRole, String role,
+            ActionResponse actionResponse, String strFail, String strNoImage, News somenews) {
 
         boolean successUpload = true;
 
@@ -311,7 +306,7 @@ public class NewsController {
             }
         } catch (Exception ex) {
             successUpload = false;
-            LOGGER.warning(ex.getMessage());
+            log.log(Level.SEVERE, "Exception: ", ex);
         }
         //success upload message
         if (successUpload) {
@@ -325,9 +320,9 @@ public class NewsController {
 
     @ActionMapping(value = "addNews")
     public void addNews(@RequestParam("mainImage") CommonsMultipartFile mainImage,
-                        @RequestParam("images") CommonsMultipartFile[] images,
-                        ActionRequest actionRequest,
-                        ActionResponse actionResponse, SessionStatus sessionStatus) {
+            @RequestParam("images") CommonsMultipartFile[] images,
+            ActionRequest actionRequest,
+            ActionResponse actionResponse, SessionStatus sessionStatus) {
         //path for main image is not empty
         if (mainImage.getOriginalFilename().equals("")) {
             actionResponse.setRenderParameter(STR_FAIL, NO_IMAGE);
@@ -340,11 +335,11 @@ public class NewsController {
         String text = actionRequest.getParameter("text");
         String dateInCalendar = actionRequest.getParameter("startDate");
         String role;
-        int t = Integer.parseInt(actionRequest.getParameter("t"));
-        int l = Integer.parseInt(actionRequest.getParameter("l"));
-        int w = Integer.parseInt(actionRequest.getParameter("w"));
-        int h = Integer.parseInt(actionRequest.getParameter("h"));
-        CommonsMultipartFile f = imageService.cropImage(mainImage, t, l, w, h);
+
+        CommonsMultipartFile f = ImageService.cropImage(mainImage, Integer.parseInt(actionRequest.getParameter("t")),
+                Integer.parseInt(actionRequest.getParameter("l")),
+                Integer.parseInt(actionRequest.getParameter("w")),
+                Integer.parseInt(actionRequest.getParameter("h")));
 
         role = actionRequest.isUserInRole(ADMIN_ROLE) ? ADMIN_ROLE : USER_ROLE;
         User user = (User) actionRequest.getAttribute(WebKeys.USER);
@@ -362,7 +357,7 @@ public class NewsController {
                 sessionStatus.setComplete();
             } catch (Exception ex) {
                 //exception controller
-                LOGGER.warning("Error wile add news");
+                log.log(Level.SEVERE, "Exception: ", ex);
                 actionResponse.setRenderParameter(STR_EXEPT, "");
             }
         }
@@ -370,9 +365,9 @@ public class NewsController {
 
     @ActionMapping(value = "editNews")
     public void editNews(@RequestParam("mainImage") CommonsMultipartFile mainImage,
-                         @RequestParam("images") CommonsMultipartFile[] images,
-                         ActionRequest actionRequest,
-                         ActionResponse actionResponse, SessionStatus sessionStatus) {
+            @RequestParam("images") CommonsMultipartFile[] images,
+            ActionRequest actionRequest,
+            ActionResponse actionResponse, SessionStatus sessionStatus) {
         //getting current news
         int newsID = Integer.valueOf(actionRequest.getParameter("newsId"));
         News news = newsService.getNewsById(newsID);
@@ -398,7 +393,6 @@ public class NewsController {
             sessionStatus.setComplete();
         }
     }
-
 
     @RenderMapping(params = "mode=add")
     public ModelAndView showAddNews(RenderRequest request, RenderResponse response) {
@@ -469,4 +463,3 @@ public class NewsController {
         return model;
     }
 }
-

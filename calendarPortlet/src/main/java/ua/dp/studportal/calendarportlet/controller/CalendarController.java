@@ -17,6 +17,8 @@ import ua.dp.studportal.calendarportlet.service.CalendarService;
 
 import javax.portlet.*;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /**
@@ -27,6 +29,7 @@ import java.util.*;
 public class CalendarController {
     private static final int MONTH_LOCALIZATION_DELTA = 10;
     private static final String NEWS_ARCHIVE_REFERENCE_NAME = "NewsArchive_WAR_studnewsArchive";
+    private static final Logger log = Logger.getLogger(CalendarController.class.getName());
 
     @Autowired
     @Qualifier("calendarService")
@@ -169,8 +172,8 @@ public class CalendarController {
         Long plid = 0l;
         try {
             plid = LayoutLocalServiceUtil.getDefaultPlid(groupId, false, NEWS_ARCHIVE_REFERENCE_NAME);
-        } catch (Exception unused) {
-
+        } catch (Exception ex) {
+            log.log(Level.SEVERE, "Exception: ", ex);
         }
         model.put("plid", plid);
         model.put("archive_name", NEWS_ARCHIVE_REFERENCE_NAME);

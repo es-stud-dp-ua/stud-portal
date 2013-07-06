@@ -22,6 +22,7 @@ import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -31,7 +32,7 @@ import java.util.logging.Logger;
 @Controller
 @RequestMapping(value = "view")
 public class BannerController {
-    private static final Logger LOGGER = Logger.getLogger(BannerController.class.getName());
+    private static final Logger log = Logger.getLogger(BannerController.class.getName());
     private static final String STR_FAIL = "fail";
     private static final String STR_NO_IMAGE = "error.no_images";
     private static final String STR_DUBLICAT = "error.dplBanner";
@@ -69,7 +70,7 @@ public class BannerController {
                 try {
                     imageService.saveMainImage(mainImage, banner);
                 } catch (IOException ex) {
-                    LOGGER.warning("Error while uploading " + mainImage.getOriginalFilename());
+                    log.log(Level.SEVERE, "Exception: ", ex);
                     successUpload = false;
                 }
             }
@@ -167,8 +168,8 @@ public class BannerController {
         imageService.deleteDirectory(banner);
         try {
             bannerImageService.deleteBannerImage(banner);
-        } catch (Exception unused) {
-            LOGGER.warning("Error while deleting banner id= " + imgId);
+        } catch (Exception ex) {
+            log.log(Level.SEVERE, "Exception: ", ex);
         }
         return showAddSuccess(request, response);
     }

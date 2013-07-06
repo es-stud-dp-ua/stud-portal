@@ -1,6 +1,8 @@
 package ua.dp.stud.createAccount.util;
 
 import com.liferay.util.portlet.PortletProps;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailParseException;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -19,6 +21,7 @@ import java.util.regex.Pattern;
 @Component
 public class Mailer
 {
+    private static final Logger log = Logger.getLogger(Mailer.class.getName());
 
     private static final String EMAIL_PATTERN =
             "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
@@ -48,9 +51,10 @@ public class Mailer
 			helper.setSubject(subject);
 			helper.setText(msg);
 		}
-		catch (MessagingException e)
+		catch (MessagingException ex)
 		{
-			throw new MailParseException(e);
+                        log.log(Level.SEVERE, "Exception: ", ex);
+			throw new MailParseException(ex);
 	    }
         mailSender.send(message);
     }
@@ -90,9 +94,10 @@ public class Mailer
 			helper.setText(text.toString(), true);
 
         }
-		catch (MessagingException e)
+		catch (MessagingException ex)
 		{
-			throw new MailParseException(e);
+                    log.log(Level.SEVERE, "Exception: ", ex);
+                    throw new MailParseException(ex);
 	    }
 
         this.mailSender.send(message);

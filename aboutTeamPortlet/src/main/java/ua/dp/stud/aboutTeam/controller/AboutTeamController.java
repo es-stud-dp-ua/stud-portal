@@ -17,6 +17,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /**
@@ -33,6 +35,7 @@ public class AboutTeamController {
     private static final List<String> DEV_URLS;
     private static final List<String> TESTER_URLS;
     private static final List<String> COMPANY_URLS;
+    private static Logger log = Logger.getLogger(AboutTeamController.class.getName());
 
     static {
         //BA linkedIn urls
@@ -127,6 +130,7 @@ public class AboutTeamController {
                 userList.add(human);
             } catch (IOException e) {
                 //if page is not loaded, just take a new page
+            log.log(Level.SEVERE, "Exception: ", e);
                 ++ls;
             }
         }
