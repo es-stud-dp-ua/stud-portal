@@ -65,7 +65,7 @@
                     </div>
                     <div class="newsText">
                         <%--50 as said Anton--%>
-                        <%= CustomFunctions.truncateHtml(currentNews.getText(), 50) %>
+                        <%= CustomFunctions.truncateHtml(currentNews.getText(), 700) %>
                     </div>
                         <% if (request.isUserInRole("Administrator")) { %>
                         <a style="float: right" href='<portlet:renderURL><portlet:param name="newsId" value="<%=currentNews.getId().toString()%>"/><portlet:param name="mode" value="delete" /></portlet:renderURL>'

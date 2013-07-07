@@ -29,7 +29,7 @@
 <body>
 
 <portlet:renderURL var="home">
-	<portlet:param name="nAction" value="home" />
+	<portlet:param name="newsID" value="<%=news.getId().toString()%>"/>
 </portlet:renderURL>
 
 <portlet:actionURL var="actionLink" name="editNews"></portlet:actionURL>
@@ -106,14 +106,14 @@
                             <% if (request.isUserInRole("Administrator")) { %>
                             <label for="onMainPageChBx"><spring:message code="form.onMainPage"/></label>
                             <input id="onMainPageChBx" type="checkbox" name="onMainPage"
-                                    <%if (news.getOnMainpage() == 1) {%>
+                                    <%if (news.getOnMainpage()) {%>
                                    CHECKED
                                     <%}%>/><br/>
                             <%}%>
                             <br/>
                             <label for="inCalendarChBx"><spring:message code="form.onCalendar"/></label>
                             <input id="inCalendarChBx" type="checkbox" name="inCalendar"
-                                    <%if (news.getInCalendar() == 1) {%>
+                                    <%if (news.getInCalendar()) {%>
                                    CHECKED
                                     <%}%>/><br/>
                             <input type="text" name="startDate" id="calendarDate"
