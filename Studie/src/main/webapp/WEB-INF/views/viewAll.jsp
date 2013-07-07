@@ -8,8 +8,6 @@
 <%@ page import="com.liferay.portal.kernel.servlet.ImageServletTokenUtil" %>
 <%@ page import="java.util.Locale" %>
 <%@ page import="java.util.ResourceBundle" %>
-<%@ page import="ua.dp.stud.StudPortalLib.util.ImageService" %>
-<%@ page import="ua.dp.stud.StudPortalLib.util.CustomFunctions" %>
 <%@ taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet" %>
 <%@include file="include.jsp" %>
 
@@ -24,7 +22,6 @@
     ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
     String imagePath = new StringBuilder(themeDisplay.getPortalURL()).append('/')
             .append(themeDisplay.getPathImage()).append("/image_gallery?img_id=").toString();
-    ImageService imageService = new ImageService();
     Locale locale = (Locale) request.getSession().getAttribute("org.apache.struts.action.LOCALE");
     String language = locale.getLanguage();
     String country = locale.getCountry();

@@ -9,7 +9,6 @@
 <%@ page import="java.util.Locale" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.ResourceBundle" %>
-<%@ page import="ua.dp.stud.StudPortalLib.util.ImageService" %>
 <%@ page import="ua.dp.stud.StudPortalLib.util.CustomFunctions" %>
 <%@ taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet" %>
 <%@include file="include.jsp" %>
@@ -68,14 +67,14 @@
             <% if (!orgs.isEmpty()) {
                  for (Organization currentOrgs : orgs){%>
             <div width="100%">
-                <img src="<%= ImageService.getPathToMicroblogImage(currentOrgs.getMainImage(),currentOrgs) %>"
+                <img src="<%= imageService.getPathToMicroblogImage(currentOrgs.getMainImage(),currentOrgs) %>"
                      class="newsImage">
                 <div class="newsHeader">
                     <a href="<portlet:renderURL/>&orgsID=<%=currentOrgs.getId()%>">
                         <%=currentOrgs.getTitle()%>
                     </a>
                 </div>
-                <div class="newsText"> <%= CustomFunctions.truncateWords(currentOrgs.getText(), 50) %>
+                <div class="newsText"> <%= CustomFunctions.truncateHtml(currentOrgs.getText(), 700) %>
                 </div>
                 <% if (request.isUserInRole("Administrator")) { %>
                 <a style="float: right" href="<portlet:renderURL/>&orgsId=<%=currentOrgs.getId()%>&mode=delete"

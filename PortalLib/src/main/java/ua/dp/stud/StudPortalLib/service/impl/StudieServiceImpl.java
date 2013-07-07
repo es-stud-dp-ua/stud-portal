@@ -16,7 +16,7 @@ import ua.dp.stud.StudPortalLib.model.ImageImpl;
  *
  * @author Ольга
  */
-@Service
+@Service("studieService")
 @Transactional
 public class StudieServiceImpl implements StudieService{
     

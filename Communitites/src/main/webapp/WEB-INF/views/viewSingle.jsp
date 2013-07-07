@@ -7,7 +7,6 @@
 <%@ page import="com.liferay.portal.model.Layout" %>
 <%@ page import="java.util.Collection" %>
 <%@ page import="ua.dp.stud.StudPortalLib.model.ImageImpl" %>
-<%@ page import="ua.dp.stud.StudPortalLib.util.ImageService" %>
 <%@ taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet" %>
 <%@include file="include.jsp" %>
 
@@ -152,8 +151,8 @@
                 <%for(ImageImpl image:additionalImages){
                         if (!image.equals(organization.getMainImage())){%>
                 <div class="ownGelery" style="margin-left: 5px;">
-                    <a class="fancybox-thumbs" data-fancybox-group="thumb" href="<%=ImageService.getPathToLargeImage(image, organization) %>" <% if (request.isUserInRole("Administrator")) { %>title='<a href="<portlet:renderURL/>&imageId=<%=image.getId()%>&mode=delImage" onclick="return ConfirmImage()"> <spring:message code="form.delete"/></a>'<%}%>>
-                        <img src="<%=ImageService.getPathToSmallImage(image, organization) %>" alt="" />
+                    <a class="fancybox-thumbs" data-fancybox-group="thumb" href="<%=imageService.getPathToLargeImage(image, organization) %>" <% if (request.isUserInRole("Administrator")) { %>title='<a href="<portlet:renderURL/>&imageId=<%=image.getId()%>&mode=delImage" onclick="return ConfirmImage()"> <spring:message code="form.delete"/></a>'<%}%>>
+                        <img src="<%=imageService.getPathToSmallImage(image, organization) %>" alt="" />
                     </a>
                 </div>
                 <%}}%>
@@ -172,7 +171,7 @@
             <div class="singleGelery" id="inner1">
                 <%for(News news : newsList){%>
                 <div class="ownGelery" style="margin-left: 5px;">
-                    <a href="<liferay-portlet:renderURL plid="<%=newsArchivePageID%>" portletName="NewsArchive_WAR_NewsArchivePortlet101"/>&newsID=<%=news.getId()%>"><img src="<%=ImageService.getPathToMicroblogImage(news.getMainImage(), news)%>" title="<%=news.getTopic()%>"></img></a>
+                    <a href="<liferay-portlet:renderURL plid="<%=newsArchivePageID%>" portletName="NewsArchive_WAR_NewsArchivePortlet101"/>&newsID=<%=news.getId()%>"><img src="<%=imageService.getPathToMicroblogImage(news.getMainImage(), news)%>" title="<%=news.getTopic()%>"></img></a>
                 </div>
                 <%}%>
             </div>

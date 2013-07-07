@@ -336,7 +336,7 @@ public class NewsController {
         String dateInCalendar = actionRequest.getParameter("startDate");
         String role;
 
-        CommonsMultipartFile f = ImageService.cropImage(mainImage, Integer.parseInt(actionRequest.getParameter("t")),
+        CommonsMultipartFile f = imageService.cropImage(mainImage, Integer.parseInt(actionRequest.getParameter("t")),
                 Integer.parseInt(actionRequest.getParameter("l")),
                 Integer.parseInt(actionRequest.getParameter("w")),
                 Integer.parseInt(actionRequest.getParameter("h")));

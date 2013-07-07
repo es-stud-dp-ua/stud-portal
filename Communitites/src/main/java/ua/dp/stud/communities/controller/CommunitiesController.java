@@ -62,11 +62,18 @@ public class CommunitiesController {
     private static final int OVERAL_PAGES = 7;//overall number of pages
     private static Logger log = Logger.getLogger(CommunitiesController.class.getName());
     @Autowired
-    @Qualifier(value = "OrganizationService")
-    private OrganizationService service;
+    @Qualifier(value = "organizationService")
+    private OrganizationService organizationService;
 
-    public void setService(OrganizationService service) {
-        this.service = service;
+    public void setServiceOrg(OrganizationService organizationService) {
+        this.organizationService = organizationService;
+    }
+    @Autowired
+    @Qualifier(value = "imageService")
+    private ImageService imageService;
+
+    public void setImageService(ImageService imageService) {
+        this.imageService = imageService;
     }
 
     /**
@@ -99,11 +106,11 @@ public class CommunitiesController {
             type = null;
         }
         if (type == null) {
-            pagesCount = service.getPagesCount(ORGS_BY_PAGE);
-            organisations = service.getOrganizationsOnPage2(currentPage, ORGS_BY_PAGE, true);
+            pagesCount = organizationService.getPagesCount(ORGS_BY_PAGE);
+            organisations = organizationService.getOrganizationsOnPage2(currentPage, ORGS_BY_PAGE, true);
         } else {
-            pagesCount = service.getPagesCountOfType(ORGS_BY_PAGE, type);
-            organisations = service.getOrganizationsOnPage(currentPage, ORGS_BY_PAGE, type.toString(), true);
+            pagesCount = organizationService.getPagesCountOfType(ORGS_BY_PAGE, type);
+            organisations = organizationService.getOrganizationsOnPage(currentPage, ORGS_BY_PAGE, type.toString(), true);
         }
 
         int leftPageNumb = Math.max(1, currentPage - NEARBY_PAGES);
@@ -153,8 +160,7 @@ public class CommunitiesController {
     public ModelAndView showSelectedOrgs(RenderRequest request, RenderResponse response) throws SystemException, PortalException {
 
         int orgsID = Integer.valueOf(request.getParameter("orgsID"));
-        Organization organisation = service.getOrganizationById(orgsID);
-        ImageService imageService = new ImageService();
+        Organization organisation = organizationService.getOrganizationById(orgsID);
         ImageImpl mImage = organisation.getMainImage();
         String mainImageUrl;
 
@@ -203,10 +209,10 @@ public class CommunitiesController {
     public void showNextPage(ActionRequest request, ActionResponse response) {
         int currentPage = Integer.valueOf(request.getParameter("pageNumber"));
         if (request.getParameter("type") == null) {
-            if (currentPage < service.getPagesCount(ORGS_BY_PAGE)) {
+            if (currentPage < organizationService.getPagesCount(ORGS_BY_PAGE)) {
                 currentPage += 1;
             }
-        } else if (currentPage < service.getPagesCountOfType(ORGS_BY_PAGE, OrganizationType.valueOf(request.getParameter("type")))) {
+        } else if (currentPage < organizationService.getPagesCountOfType(ORGS_BY_PAGE, OrganizationType.valueOf(request.getParameter("type")))) {
             currentPage += 1;
         }
         response.setRenderParameter("currentPage", String.valueOf(currentPage));
@@ -239,7 +245,6 @@ public class CommunitiesController {
             ActionResponse actionResponse, String strFail, String strNoImage, Organization someorgs, OrganizationType type)
             throws SystemException, PortalException {
         boolean successUpload = true;
-        ImageService imageService = new ImageService();
 //check the length of the title and text
         if (frmTopic.length() < MINTITLESYMBOLS || frmText.length() < MINTEXTSYMBOLS) {
             actionResponse.setRenderParameter(strFail, strFail);
@@ -292,7 +297,7 @@ public class CommunitiesController {
         String text = actionRequest.getParameter("text");
         OrganizationType typeOrg = OrganizationType.valueOf(actionRequest.getParameter("type"));
 //crop main image
-        CommonsMultipartFile croppedImage = ImageService.cropImage(mainImage, Integer.parseInt(actionRequest.getParameter("t")),
+        CommonsMultipartFile croppedImage = imageService.cropImage(mainImage, Integer.parseInt(actionRequest.getParameter("t")),
                 Integer.parseInt(actionRequest.getParameter("l")),
                 Integer.parseInt(actionRequest.getParameter("w")),
                 Integer.parseInt(actionRequest.getParameter("h")));
@@ -301,7 +306,7 @@ public class CommunitiesController {
             return;
         }
 //check the uniqueness of the name
-        Collection<Organization> orgs = service.getAllOrganizations(true);
+        Collection<Organization> orgs = organizationService.getAllOrganizations(true);
         Boolean isUnique = false;
         for (Organization currentOrgs : orgs) {
             if (currentOrgs.getTitle().trim().equalsIgnoreCase(topic.trim())) {
@@ -319,7 +324,7 @@ public class CommunitiesController {
 //try to update fields for new organisation
         if (!isUnique) {
             if (updateCommunityFields(croppedImage, images, topic.trim(), text.trim(), role, usRole, actionResponse, strFail, strNoImage, organization, typeOrg)) {
-                organization = service.addOrganization(organization);
+                organization = organizationService.addOrganization(organization);
                 actionResponse.setRenderParameter("orgsID", Integer.toString(organization.getId()));
                 sessionStatus.setComplete();
             }
@@ -337,7 +342,7 @@ public class CommunitiesController {
             throws IOException, SystemException, PortalException {
 //        getting current news
         int organisationID = Integer.valueOf(actionRequest.getParameter("orgsId"));
-        Organization organization = service.getOrganizationById(organisationID);
+        Organization organization = organizationService.getOrganizationById(organisationID);
 //        getting all parameters from form
         String topic = actionRequest.getParameter("topic");
         String text = actionRequest.getParameter("text");
@@ -352,7 +357,7 @@ public class CommunitiesController {
         String usRole = user.getScreenName();
 
         if (updateCommunityFields(mainImage, images, topic.trim(), text.trim(), role, usRole, actionResponse, strFail, strNoImage, organization, typeOrg)) {
-            service.updateOrganization(organization);
+            organizationService.updateOrganization(organization);
 //        close session
             sessionStatus.setComplete();
         } else {
@@ -371,12 +376,11 @@ public class CommunitiesController {
     @RenderMapping(params = "mode=delImage")
     public ModelAndView delImage(RenderRequest request, RenderResponse response) {
         long imageID = Long.valueOf(request.getParameter("imageId"));
-        ImageImpl image = service.getImageById(imageID);
-        ImageService imageService = new ImageService();
+        ImageImpl image = organizationService.getImageById(imageID);
 //        delete image from folder
         imageService.deleteImage(image, image.getBase());
 //        delete image from data base
-        service.deleteImage(image);
+        organizationService.deleteImage(image);
         return showAddSuccess(request, response);
     }
 
@@ -385,8 +389,7 @@ public class CommunitiesController {
         ModelAndView model = new ModelAndView();
         //getting news
         int organisationID = Integer.valueOf(request.getParameter("orgsId"));
-        Organization organisation = service.getOrganizationById(organisationID);
-        ImageService imageService = new ImageService();
+        Organization organisation = organizationService.getOrganizationById(organisationID);
         ImageImpl mImage = organisation.getMainImage();
         String mainImageUrl;
 
@@ -410,12 +413,11 @@ public class CommunitiesController {
         //getting current news
 
         int organisationID = Integer.valueOf(request.getParameter("orgsId"));
-        Organization organisation = service.getOrganizationById(organisationID);
-        ImageService imageService = new ImageService();
+        Organization organisation = organizationService.getOrganizationById(organisationID);
         //delete chosen organization's image from folder
         imageService.deleteDirectory(organisation);
         // delete chosen news
-        service.deleteOrganization(organisation);
+        organizationService.deleteOrganization(organisation);
 
         return showAddSuccess(request, response);
     }

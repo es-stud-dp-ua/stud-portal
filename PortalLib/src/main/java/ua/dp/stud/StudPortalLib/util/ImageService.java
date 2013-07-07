@@ -146,7 +146,7 @@ public class ImageService {
      *
      * @return abs path to images
      */
-    public static String getImagesFolderAbsolutePath() {
+    public String getImagesFolderAbsolutePath() {
         return IMAGES_FOLDER_ABS_PATH;
     }
 
@@ -393,7 +393,7 @@ public class ImageService {
             sourceImage = this.resize(sourceImage, 443, 253);
 //        cut the selected user area
             sourceImage = sourceImage.getSubimage(t, l, w, h);
-            File tempFile = new File(ImageService.getImagesFolderAbsolutePath() + image.getOriginalFilename());
+            File tempFile = new File(this.getImagesFolderAbsolutePath() + image.getOriginalFilename());
             ImageIO.write(sourceImage, "jpg", tempFile);
             DiskFileItem fileItem = (DiskFileItem) new DiskFileItemFactory().createItem("fileData", "image/jpeg", true, tempFile.getName());
             InputStream input = new FileInputStream(tempFile);

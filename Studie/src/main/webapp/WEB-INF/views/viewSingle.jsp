@@ -8,13 +8,11 @@
 <%@ page import="com.liferay.portal.model.Layout" %>
 <%@ page import="java.util.Collection" %>
 <%@ page import="ua.dp.stud.StudPortalLib.model.ImageImpl" %>
-<%@ page import="ua.dp.stud.StudPortalLib.util.ImageService" %>
 <%@ taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet" %>
 <%@include file="include.jsp" %>
 
 <portlet:defineObjects/>
 <%
-    ImageService imageService = new ImageService();
     Studie studie = (Studie) request.getAttribute("studie");
     
 	String[] facultetDnevn = (String[])request.getAttribute("facultetDnevn");

@@ -1,5 +1,4 @@
 <%@ page import="ua.dp.stud.StudPortalLib.model.Category" %>
-<%@ page import="ua.dp.stud.StudPortalLib.util.ImageService" %>
 <%@ page import="ua.dp.stud.StudPortalLib.model.ImageImpl" %>
 <%@ page import="ua.dp.stud.StudPortalLib.model.Studie" %>
 <%@ page import="java.util.Collection" %>
@@ -22,7 +21,6 @@
     String country = locale.getCountry();
     ResourceBundle res = ResourceBundle.getBundle("messages", new Locale(language, country));
     String ex = (String) request.getAttribute("exception");
-    ImageService imageService = new ImageService();
     Studie studie = (Studie) request.getAttribute("studie");
     
 	String[] facultetDnevn = (String[])request.getAttribute("facultetDnevn");

@@ -1,5 +1,4 @@
 <%@ page import="ua.dp.stud.StudPortalLib.model.Category" %>
-<%@ page import="ua.dp.stud.StudPortalLib.util.ImageService" %>
 <%@ page import="ua.dp.stud.StudPortalLib.model.ImageImpl" %>
 <%@ page import="ua.dp.stud.StudPortalLib.model.Organization" %>
 <%@ page import="ua.dp.stud.StudPortalLib.util.OrganizationType" %>
