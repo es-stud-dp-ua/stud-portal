@@ -39,6 +39,11 @@
 
 .astatus {
     color: gray;
-    font-size: 12px;
+    font-size: 18px;
     display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 200px;
+    border-bottom: none;
 }

@@ -4,11 +4,15 @@ import jodd.io.FileUtil;
 import jodd.io.NetUtil;
 import jodd.jerry.Jerry;
 import jodd.util.SystemUtil;
+import org.joda.time.DateTime;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.servlet.ModelAndView;
 import ua.dp.stud.aboutTeam.model.Human;
+import ua.dp.stud.aboutTeam.service.HumanService;
 
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
@@ -16,6 +20,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -35,7 +40,17 @@ public class AboutTeamController {
     private static final List<String> DEV_URLS;
     private static final List<String> TESTER_URLS;
     private static final List<String> COMPANY_URLS;
+    private static final Integer REFRESH_RATE = 7;
+    private static final Integer TOTAL_MS_PER_DAY = 24 * 60 * 60 * 1000;
     private static Logger log = Logger.getLogger(AboutTeamController.class.getName());
+
+    @Autowired
+    @Qualifier(value = "humanService")
+    private HumanService humanService;
+
+    public void setHumanService(HumanService humanService) {
+        this.humanService = humanService;
+    }
 
     static {
         //BA linkedIn urls
@@ -96,45 +111,62 @@ public class AboutTeamController {
 
     private List<Human> getUsersFromLinkedIn(List<String> urls, String noImage) {
         List<Human> userList = new ArrayList<Human>();
-
-        String str = null;
-        int ls = 0; //if page is not loaded, just take a new page
         // download the page super-efficiently
-        File file;
-        for (int i = ls; i < urls.size(); i++) {
-            file = new File(SystemUtil.getTempDir(), "team" + i + ".html");
-            Human human = new Human();
-            try {
-                NetUtil.downloadFile(urls.get(i), file);
-                // create Jerry, i.e. document context
-                Jerry doc = null;
-                doc = Jerry.jerry(FileUtil.readString(file));
-                human.setFirstName(doc.$(".given-name").text());
-                human.setLastName(doc.$(".family-name").text());
-                String status = doc.$(".headline-title.title").text().replaceAll("  ", "");
-                //cutting size for view
-                if (status.length() > 20) {
-                    status = status.substring(0, 17).toString() + "...";
-                }
-                human.setStatus(status);
-                human.setUrl(urls.get(i));
-                str = doc.$(".photo").attr("src");
-                if (str != null) {
-                    if (str.equals("") || (str.contains("spacer.gif"))) {
-                        str = noImage;
-                    }
-                    human.setPhotoUrl(str);
+        for (int i = 0; i < urls.size(); i++) {
+            Human human = humanService.getByUrl(urls.get(i));
+            Date now = DateTime.now().toDate();
+            if (human == null) {
+                human = new Human();
+                if (loadUser(human, urls.get(i), i, noImage)) {
+                    human.setDate(now);
+                    humanService.addHuman(human);
                 } else {
-                    human.setPhotoUrl(noImage);
+                    continue;
                 }
-                userList.add(human);
-            } catch (IOException e) {
-                //if page is not loaded, just take a new page
-            log.log(Level.SEVERE, "Exception: ", e);
-                ++ls;
+            } else {
+                Long difference = now.getTime() - human.getDate().getTime();
+                Integer days = (int) (difference / TOTAL_MS_PER_DAY);
+                if (days >= REFRESH_RATE) {
+                    if (loadUser(human, urls.get(i), i, noImage)) {
+                        human.setDate(now);
+                        humanService.updateHuman(human);
+                    } else {
+                        continue;
+                    }
+                }
             }
+            userList.add(human);
         }
         return userList;
     }
 
+    private Boolean loadUser(Human human, String url, Integer id, String noImage) {
+        String str;
+        File file = new File(SystemUtil.getTempDir(), "team" + id + ".html");
+        try {
+            NetUtil.downloadFile(url, file);
+            // create Jerry, i.e. document context
+            Jerry doc = null;
+            doc = Jerry.jerry(FileUtil.readString(file));
+            human.setFirstName(doc.$(".given-name").text());
+            human.setLastName(doc.$(".family-name").text());
+            String status = doc.$(".headline-title.title").text().replaceAll("  ", "");
+            human.setStatus(status.replaceAll("\n|\r\n", ""));
+            human.setUrl(url);
+            str = doc.$(".photo").attr("src");
+            if (str != null) {
+                if (str.equals("") || (str.contains("spacer.gif"))) {
+                    str = noImage;
+                }
+                human.setPhotoUrl(str);
+            } else {
+                human.setPhotoUrl(noImage);
+            }
+        } catch (IOException e) {
+            //if page is not loaded, just take a new page
+            log.log(Level.SEVERE, "Exception: ", e);
+            return false;
+        }
+        return true;
+    }
 }

@@ -38,9 +38,9 @@
                                 <p><%=bateam.get(i).getLastName()%></p>
                             </a>
                             <h1>
-                            <div class="astatus">
-                                <h3><%=bateam.get(i).getStatus()%><h3>
-                            </div>
+                            <acronym class="astatus" title="<%=bateam.get(i).getStatus()%>">
+                                <%=bateam.get(i).getStatus()%>
+                            </acronym>
                         </div>
                 </div>
         </div>
@@ -61,9 +61,9 @@
                                 <p><%=devteam.get(i).getLastName()%></p>
                             </a>
                             <h1>
-                            <div class="astatus">
-                                <h3><%=devteam.get(i).getStatus()%><h3>
-                            </div>
+                            <acronym class="astatus" title="<%=devteam.get(i).getStatus()%>">
+                                <%=devteam.get(i).getStatus()%>
+                            </acronym>
                         </div>
                 </div>
         </div>
@@ -84,9 +84,9 @@
                                     <p><%=testersteam.get(i).getLastName()%></p>
                                 </a>
                                 <h1>
-                                <div class="astatus">
-                                    <h3><%=testersteam.get(i).getStatus()%><h3>
-                                </div>
+                                <acronym class="astatus" title="<%=testersteam.get(i).getStatus()%>">
+                                    <%=testersteam.get(i).getStatus()%>
+                                </acronym>
                             </div>
                     </div>
             </div>
@@ -107,9 +107,9 @@
                                     <p><%=companyteam.get(i).getLastName()%></p>
                                 </a>
                                 <h1>
-                                <div class="astatus">
-                                    <h3><%=companyteam.get(i).getStatus()%><h3>
-                                </div>
+                                <acronym class="astatus" title="<%=companyteam.get(i).getStatus()%>">
+                                    <%=companyteam.get(i).getStatus()%>
+                                </acronym>
                             </div>
                     </div>
             </div>
@@ -130,9 +130,9 @@
                                     <p><%=tnxteam.get(i).getLastName()%></p>
                                 </a>
                                 <h1>
-                                <div class="astatus">
-                                    <h3><%=tnxteam.get(i).getStatus()%><h3>
-                                </div>
+                                <acronym class="astatus" title="<%=tnxteam.get(i).getStatus()%>">
+                                    <%=tnxteam.get(i).getStatus()%>
+                                </acronym>
                             </div>
                     </div>
             </div>

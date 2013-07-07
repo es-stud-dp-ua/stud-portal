@@ -1,23 +1,45 @@
 package ua.dp.stud.aboutTeam.model;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.joda.time.DateTime;
+
+import javax.persistence.*;
+import java.util.Date;
+
 /**
  * Author: Tradunsky V.V.
  * Date: 24.04.13
  */
+@Entity
+@Table(name = "team_table")
 public class Human {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
+    @Column
     private String firstName;
+    @Column
     private String lastName;
+    @Column
     private String status;
+    @Column
     private String url;
+    @Column
     private String photoUrl;
+    @Column
+    @Temporal(TemporalType.DATE)
+    private Date date;
 
-    public Human(){
-        firstName = "";
-        lastName = "";
-        status = "";
-        url = "";
-        photoUrl = "";
+    public Integer getId() {
+        return id;
     }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Human() {}
 
     public Human(String firstName, String lastName, String status, String photoUrl, String url)
     {
@@ -66,6 +88,43 @@ public class Human {
 
     public void setPhotoUrl(String photoUrl) {
         this.photoUrl = photoUrl;
+    }
+
+    public void setDate(Date date)
+    {
+        this.date = date;
+    }
+
+    public Date getDate()
+    {
+        return date;
+    }
+
+    @Override
+    public int hashCode() {
+        return  new HashCodeBuilder(37, 77).append(this.id).
+                append(this.firstName).append(this.lastName)
+                .append(status).append(url).append(photoUrl).append(date)
+                .toHashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (obj == null) {
+            return false;
+        }
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof Human))
+        {
+            return false;
+        }
+        final Human other = (Human) obj;
+        return new EqualsBuilder().append(other.id, id).append(other.firstName, firstName)
+                .append(other.lastName, lastName).append(other.status, status)
+                .append(other.url, url).append(other.photoUrl, photoUrl).append(other.date, date).isEquals();
     }
 
     @Override
