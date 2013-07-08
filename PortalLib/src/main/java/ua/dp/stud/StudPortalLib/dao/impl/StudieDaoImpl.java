@@ -5,19 +5,13 @@
 package ua.dp.stud.StudPortalLib.dao.impl;
 
 
-import java.util.Collection;
 import org.hibernate.Hibernate;
-
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Order;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.stereotype.Repository;
-import ua.dp.stud.StudPortalLib.model.Studie;
-import ua.dp.stud.StudPortalLib.model.ImageImpl;
-import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import ua.dp.stud.StudPortalLib.dao.StudieDao;
+import ua.dp.stud.StudPortalLib.model.ImageImpl;
+import ua.dp.stud.StudPortalLib.model.Studie;
+
+import java.util.Collection;
 /**
  *
  * @author Ольга

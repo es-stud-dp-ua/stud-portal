@@ -25,14 +25,14 @@ import java.util.List;
 )
 @Entity
 @Table(name = "organizations_table")
-@PrimaryKeyJoinColumn(name="id", referencedColumnName="id")
+@PrimaryKeyJoinColumn(name = "id", referencedColumnName = "id")
 public class Organization extends BaseImagesSupport implements Serializable {
 
     /**
      * Constructor by default
      */
-    public Organization(){
-        approved=false;
+    public Organization() {
+        approved = false;
     }
 
     //Fields//
@@ -46,25 +46,22 @@ public class Organization extends BaseImagesSupport implements Serializable {
     private String comment;
 
     @Column
-    public String getComment()
-    {
+    public String getComment() {
         return comment;
     }
 
-    public void setComment(String comment)
-    {
+    public void setComment(String comment) {
         this.comment = comment;
     }
+
     @OneToMany(mappedBy = "baseOrg", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @Fetch(FetchMode.SUBSELECT)
-    public List<News> getNewsList()
-    {   
-        
+    public List<News> getNewsList() {
+
         return this.newsList;
     }
-    
-    public void setNewsList(List<News> newsList)
-    {
+
+    public void setNewsList(List<News> newsList) {
         this.newsList = newsList;
     }
 
@@ -114,24 +111,24 @@ public class Organization extends BaseImagesSupport implements Serializable {
         this.approved = approved;
     }
 
+    private static final int START_HASH = 3;
+    private static final int MULT_HASH = 89;
+
     @Override
-    public int hashCode()
-    {
-        return  new HashCodeBuilder(3, 89).append(this.author).append(this.text).append(this.title)
+    public int hashCode() {
+        return new HashCodeBuilder(START_HASH, MULT_HASH).append(this.author).append(this.text).append(this.title)
                 .append(this.organizationType).append(this.approved).append(this.comment).toHashCode();
     }
 
     @Override
-    public boolean equals(Object obj)
-    {
+    public boolean equals(Object obj) {
         if (obj == null) {
             return false;
         }
         if (obj == this) {
             return true;
         }
-        if (!(obj instanceof Organization))
-        {
+        if (!(obj instanceof Organization)) {
             return false;
         }
         final Organization other = (Organization) obj;
@@ -141,8 +138,7 @@ public class Organization extends BaseImagesSupport implements Serializable {
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return new StringBuffer().append("Organization[").append("title=").append(title)
                 .append(", text=").append(text).append(", author=").append(author)
                 .append(", organizationType=").append(organizationType).append(']').toString();

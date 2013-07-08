@@ -1,7 +1,8 @@
 package ua.dp.stud.StudPortalLib.util;
 
+import org.apache.commons.fileupload.disk.DiskFileItem;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.joda.time.DateTime;
-import org.springframework.stereotype.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import ua.dp.stud.StudPortalLib.model.BaseImagesSupport;
@@ -10,23 +11,17 @@ import ua.dp.stud.StudPortalLib.model.ImageImpl;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.commons.fileupload.disk.DiskFileItem;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 
 import static org.apache.commons.lang.StringUtils.join;
 
 /**
  * Created with IntelliJ IDEA.
  *
- * @author: Josby
  * @author Vladislav Pikus
+ * @author: Josby
  */
 @Component("imageService")
 public class ImageService {
@@ -36,6 +31,7 @@ public class ImageService {
     private static final int TO_CALENDAR_WIDTH = 56;
     private static final int TO_CALENDAR_HEIGHT = 56;
     private static final int IMAGE_MAX_WIDTH = 443;
+    private static final int IMAGE_MAX_HEIGHT = 253;
     private static final int SMALL_IMAGE_HEIGHT = 68;
     private static final String MICROBLOG_IMAGE_PREFIX;
     private static final int MICROBLOG_IMAGE_HEIGHT = 100;
@@ -274,9 +270,9 @@ public class ImageService {
     }
 
     private void saveToDiskScaled(CommonsMultipartFile file, String pathToImagesFolder, String outputFilePrefix,
-            Integer width, Integer height) throws IOException {
+                                  Integer width, Integer height) throws IOException {
 
-        StringBuilder sb ;
+        StringBuilder sb;
         BufferedImage sourceImage = ImageIO.read(file.getInputStream());
         Image thumbnail = sourceImage.getScaledInstance(width,
                 height, Image.SCALE_SMOOTH);
@@ -389,9 +385,9 @@ public class ImageService {
         CommonsMultipartFile croppedImage;
         try {
             BufferedImage sourceImage = ImageIO.read(image.getInputStream());
-//        Compressing an image to produce the necessary proportions
-            sourceImage = this.resize(sourceImage, 443, 253);
-//        cut the selected user area
+            //Compressing an image to produce the necessary proportions
+            sourceImage = this.resize(sourceImage, IMAGE_MAX_WIDTH, IMAGE_MAX_HEIGHT);
+            //cut the selected user area
             sourceImage = sourceImage.getSubimage(t, l, w, h);
             File tempFile = new File(this.getImagesFolderAbsolutePath() + image.getOriginalFilename());
             ImageIO.write(sourceImage, "jpg", tempFile);

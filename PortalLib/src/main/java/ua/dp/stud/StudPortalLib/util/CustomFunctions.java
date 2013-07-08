@@ -12,6 +12,8 @@ import static org.apache.commons.lang.StringUtils.join;
  */
 public class CustomFunctions {
 
+    public CustomFunctions() {}
+
     public static String truncateWords(String inputText, int wordsNumber) {
         String[] splitedInputText = inputText.split(" ");
 
@@ -53,8 +55,10 @@ public class CustomFunctions {
                 out.append(parts[i]);
             } else {
                 if (parts[i].length() >= 2) {
-                    if (!parts[i].substring(parts[i].length() - 2, parts[i].length()).equals("/>")) {
-                        if ((l += parts[i].length()) >= length) {
+                    buffer = parts[i].substring(parts[i].length() - 2, parts[i].length());
+                    if (!buffer.equals("/>")) {
+                        l += parts[i].length();
+                        if (l >= length) {
                             out.append(parts[i].substring(0, (length - l + parts[i].length())));
                             break;
                         } else {

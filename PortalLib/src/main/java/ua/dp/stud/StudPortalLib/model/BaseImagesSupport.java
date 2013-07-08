@@ -35,7 +35,7 @@ public class BaseImagesSupport implements Serializable {
         this.yearMonthUniqueFolder = yearMonthUniqueFolder;
     }
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval=true)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "FK_Main_Img")
     public ImageImpl getMainImage() {
         return mainImage;
@@ -45,7 +45,7 @@ public class BaseImagesSupport implements Serializable {
         this.mainImage = mainImage;
     }
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "base", orphanRemoval=true)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "base", orphanRemoval = true)
     public List<ImageImpl> getAdditionalImages() {
         return additionalImages;
     }
@@ -54,23 +54,24 @@ public class BaseImagesSupport implements Serializable {
         this.additionalImages = additionalImages;
     }
 
+    private static final int START_HASH = 17;
+    private static final int MULT_HASH = 37;
+
     @Override
     public int hashCode() {
-        return  new HashCodeBuilder(17, 37).append(this.id).append(this.yearMonthUniqueFolder).append(this.mainImage)
+        return new HashCodeBuilder(START_HASH, MULT_HASH).append(this.id).append(this.yearMonthUniqueFolder).append(this.mainImage)
                 .toHashCode();
     }
 
     @Override
-    public boolean equals(Object obj)
-    {
+    public boolean equals(Object obj) {
         if (obj == null) {
             return false;
         }
         if (obj == this) {
             return true;
         }
-        if (!(obj instanceof BaseImagesSupport))
-        {
+        if (!(obj instanceof BaseImagesSupport)) {
             return false;
         }
         final BaseImagesSupport other = (BaseImagesSupport) obj;
@@ -79,8 +80,7 @@ public class BaseImagesSupport implements Serializable {
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return new StringBuffer().append("BaseImagesSupport[").append("id=").append(id).append(", yearMonthUniqueFolder=")
                 .append(yearMonthUniqueFolder).append(']').toString();
     }

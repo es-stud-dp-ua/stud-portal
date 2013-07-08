@@ -1,6 +1,7 @@
 package ua.dp.stud.StudPortalLib.dao.impl;
 
 import org.hibernate.Criteria;
+import org.hibernate.Hibernate;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
@@ -11,7 +12,6 @@ import ua.dp.stud.StudPortalLib.model.ImageImpl;
 import ua.dp.stud.StudPortalLib.model.News;
 
 import java.util.Collection;
-import org.hibernate.Hibernate;
 
 /**
  * Class is used to work with the database
@@ -20,8 +20,10 @@ import org.hibernate.Hibernate;
  * @author Vladislav Pikus
  */
 @Repository("newsDao")
-public class NewsDaoImpl extends BaseDao implements NewsDao
-{
+public class NewsDaoImpl extends BaseDao implements NewsDao {
+    private static final String AUTHOR = "author";
+    private static final String APPROVED = "approved";
+
     /**
      * Method add news to database
      *
@@ -41,8 +43,7 @@ public class NewsDaoImpl extends BaseDao implements NewsDao
      * @return The news which ID = id;
      */
     @Override
-    public News getNewsById(Integer id)
-    {
+    public News getNewsById(Integer id) {
         News news = (News) getSession().get(News.class, id);
         Hibernate.initialize(news.getAdditionalImages());
         return news;
@@ -65,8 +66,7 @@ public class NewsDaoImpl extends BaseDao implements NewsDao
      */
 
     @Override
-    public void deleteNews(Integer id)
-    {
+    public void deleteNews(Integer id) {
         News news = (News) getSession().get(News.class, id);
         ImageImpl image = news.getMainImage();
         getSession().delete(image);
@@ -75,11 +75,11 @@ public class NewsDaoImpl extends BaseDao implements NewsDao
 
     /**
      * getAllNews
+     *
      * @return Collection of News
      */
     @Override
-    public Collection<News> getAllNews()
-    {
+    public Collection<News> getAllNews() {
         return getSession().createCriteria(News.class).addOrder(Order.desc("publication")).list();
     }
 
@@ -89,14 +89,14 @@ public class NewsDaoImpl extends BaseDao implements NewsDao
      * @return coutn of news
      */
     @Override
-    public Integer getCount()
-    {
+    public Integer getCount() {
         return ((Long) getSession().createCriteria(News.class).setProjection(Projections.rowCount())
                 .uniqueResult()).intValue();
     }
 
     /**
      * add image
+     *
      * @param image for adding
      */
     @Override
@@ -151,10 +151,10 @@ public class NewsDaoImpl extends BaseDao implements NewsDao
      */
     @Override
     public Collection<News> getNewsOnPage(Integer pageNumb, Integer newsByPage) {
-         int firstResult = (pageNumb - 1) * newsByPage;
-        return (Collection<News>)getSession().createCriteria(News.class).addOrder(Order.desc("id"))
+        int firstResult = (pageNumb - 1) * newsByPage;
+        return (Collection<News>) getSession().createCriteria(News.class).addOrder(Order.desc("id"))
                 .setFirstResult(firstResult).setMaxResults(newsByPage).list();
-     
+
     }
 
     /**
@@ -170,6 +170,7 @@ public class NewsDaoImpl extends BaseDao implements NewsDao
 
     /**
      * Returns all categories
+     *
      * @return collection categories
      */
     @Override
@@ -179,145 +180,145 @@ public class NewsDaoImpl extends BaseDao implements NewsDao
 
     /**
      * Delete image by id
+     *
      * @param id of image for delete
      */
-	@Override
-	public void deleteImage(Long id)
-	{   //todo: find better approach
-		ImageImpl image = getImageById(id);
+    @Override
+    public void deleteImage(Long id) {   //todo: find better approach
+        ImageImpl image = getImageById(id);
         image.getBase().getAdditionalImages().remove(image);
-		image.setBase(null);
-		getSession().delete(image);
-	}
+        image.setBase(null);
+        getSession().delete(image);
+    }
 
     /**
      * Returns image by id
+     *
      * @param id image
      * @return image that is equals id
      */
-	@Override
-    public ImageImpl getImageById(Long id)
-	{
+    @Override
+    public ImageImpl getImageById(Long id) {
         return (ImageImpl) getSession().get(ImageImpl.class, id);
     }
 
     /**
      * Returns collection of news by author
+     *
      * @param author of news
      * @return collection of news
      */
     @Override
-    public Collection<News> getAllNewsByAuthor(String author)
-    {
-        return getSession().getNamedQuery("News.getByAuthor").setParameter("author", author).list();
+    public Collection<News> getAllNewsByAuthor(String author) {
+        return getSession().getNamedQuery("News.getByAuthor").setParameter(AUTHOR, author).list();
     }
 
     /**
      * Returns count of news for author
+     *
      * @param author of news
      * @return count of news by author
      */
     @Override
-    public Integer getCountByAuthor(String author)
-    {
+    public Integer getCountByAuthor(String author) {
         return ((Long) getSession().createQuery("Select Count(*) From News news  Where news.author = :author")
-                .setParameter("author", author).uniqueResult()).intValue();
+                .setParameter(AUTHOR, author).uniqueResult()).intValue();
     }
 
     /**
      * Returns collection of news on page by author
+     *
      * @param author
      * @param pageNumb
      * @param newsByPage
      * @return
      */
     @Override
-    public Collection<News> getPagesNewsByAuthor(String author, Integer pageNumb, Integer newsByPage)
-    {
+    public Collection<News> getPagesNewsByAuthor(String author, Integer pageNumb, Integer newsByPage) {
         int firstResult = (pageNumb - 1) * newsByPage;
-        return getSession().getNamedQuery("News.getByAuthor").setParameter("author", author)
+        return getSession().getNamedQuery("News.getByAuthor").setParameter(AUTHOR, author)
                 .setFirstResult(firstResult).setMaxResults(newsByPage).list();
     }
 
     /**
      * Returns collection of approved or not approved news by id organization
-     * @param idOrg organization
+     *
+     * @param idOrg    organization
      * @param approved of administrator
      * @return collection of news
      */
     @Override
-    public Collection<News> getNewsByOrg(Integer idOrg, Boolean approved)
-    {
+    public Collection<News> getNewsByOrg(Integer idOrg, Boolean approved) {
         return getSession().getNamedQuery("News.getByOrganization")
-                .setParameter("approved", approved).setParameter("id", idOrg).list();
+                .setParameter(APPROVED, approved).setParameter("id", idOrg).list();
     }
 
     /**
      * Returns count of news for organization's id
-     * @param author author of organization
+     *
+     * @param author   author of organization
      * @param approved of administrator
      * @return count of news for organization's id
      */
     @Override
-    public Integer getCountByOrgAuthor(String author, Boolean approved)
-    {
+    public Integer getCountByOrgAuthor(String author, Boolean approved) {
         return ((Long) getSession().createQuery("Select Count(*) From News news Where news.orgApproved = :approved and news.baseOrg.author = :author and news.comment is null")
-                .setParameter("author", author).setParameter("approved", approved).uniqueResult()).intValue();
+                .setParameter(AUTHOR, author).setParameter(APPROVED, approved).uniqueResult()).intValue();
     }
 
     /**
      * Returns collection of news on page for organization's author
-     * @param author author of organization
-     * @param approved for administrator
-     * @param pageNumb number of pages
+     *
+     * @param author     author of organization
+     * @param approved   for administrator
+     * @param pageNumb   number of pages
      * @param newsByPage news's count for 1 page
      * @return collection of news per page
      */
     @Override
-    public Collection<News> getPagesNewsByOrgAuthor(String author, Boolean approved, Integer pageNumb, Integer newsByPage)
-    {
+    public Collection<News> getPagesNewsByOrgAuthor(String author, Boolean approved, Integer pageNumb, Integer newsByPage) {
         int firstResult = (pageNumb - 1) * newsByPage;
         return getSession().getNamedQuery("News.getByOrganization")
-                .setParameter("author", author).setParameter("approved", approved).setFirstResult(firstResult).setMaxResults(newsByPage).list();
+                .setParameter(AUTHOR, author).setParameter(APPROVED, approved).setFirstResult(firstResult).setMaxResults(newsByPage).list();
     }
 
     /**
      * Returns all news by approved
+     *
      * @param approved of administrator
      * @return collection of news
      */
     @Override
-    public Collection<News> getAllNews(Boolean approved)
-    {
+    public Collection<News> getAllNews(Boolean approved) {
         return getSession().getNamedQuery("News.getByApproved")
-                .setParameter("approved", approved).list();
+                .setParameter(APPROVED, approved).list();
     }
 
     /**
      * Returns count of news by approved
+     *
      * @param approved of administrator
      * @return returns count of approved news
      */
     @Override
-    public Integer getCount(Boolean approved)
-    {
+    public Integer getCount(Boolean approved) {
         return ((Long) getSession().createQuery("Select Count(*) From News news  Where news.approved = :approved and news.comment is null")
-                .setParameter("approved", approved).uniqueResult()).intValue();
+                .setParameter(APPROVED, approved).uniqueResult()).intValue();
     }
 
     /**
      * Returns a collection of news per page for a set number
-     * @param approved of administrator
-     * @param pageNumb page number
+     *
+     * @param approved   of administrator
+     * @param pageNumb   page number
      * @param newsByPage count news by page
      * @return collection for current page number
      */
     @Override
-    public Collection<News> getNewsOnPage(Boolean approved, Integer pageNumb, Integer newsByPage)
-    {
+    public Collection<News> getNewsOnPage(Boolean approved, Integer pageNumb, Integer newsByPage) {
         int firstResult = (pageNumb - 1) * newsByPage;
         return getSession().getNamedQuery("News.getByApproved")
-                .setParameter("approved", approved).setFirstResult(firstResult).setMaxResults(newsByPage).list();
+                .setParameter(APPROVED, approved).setFirstResult(firstResult).setMaxResults(newsByPage).list();
     }
 }
     
