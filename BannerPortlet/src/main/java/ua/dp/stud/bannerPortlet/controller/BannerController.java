@@ -32,7 +32,7 @@ import java.util.logging.Logger;
 @Controller
 @RequestMapping(value = "view")
 public class BannerController {
-    private static final Logger log = Logger.getLogger(BannerController.class.getName());
+    private static final Logger LOG = Logger.getLogger(BannerController.class.getName());
     private static final String STR_FAIL = "fail";
     private static final String STR_NO_IMAGE = "error.no_images";
     private static final String STR_DUBLICAT = "error.dplBanner";
@@ -70,7 +70,7 @@ public class BannerController {
                 try {
                     imageService.saveMainImage(mainImage, banner);
                 } catch (IOException ex) {
-                    log.log(Level.SEVERE, "Exception: ", ex);
+                    LOG.log(Level.SEVERE, "Exception: ", ex);
                     successUpload = false;
                 }
             }
@@ -144,12 +144,10 @@ public class BannerController {
         BannerImage banner = bannerImageService.getBannerImageById(id);
         String url = actionRequest.getParameter("url");
         BannerImage other = bannerImageService.getByURL(url);
-        if (other != null)
+        if (other != null && other.getId() != banner.getId())
         {
-            if (other.getId() != banner.getId()) {
-                actionResponse.setRenderParameter(STR_FAIL, STR_DUBLICAT);
-                return;
-            }
+			actionResponse.setRenderParameter(STR_FAIL, STR_DUBLICAT);
+			return;
         }
         if (this.updateBannerImage(mainImage, url, actionResponse, banner)) {
             try {
@@ -169,7 +167,7 @@ public class BannerController {
         try {
             bannerImageService.deleteBannerImage(banner);
         } catch (Exception ex) {
-            log.log(Level.SEVERE, "Exception: ", ex);
+            LOG.log(Level.SEVERE, "Exception: ", ex);
         }
         return showAddSuccess(request, response);
     }

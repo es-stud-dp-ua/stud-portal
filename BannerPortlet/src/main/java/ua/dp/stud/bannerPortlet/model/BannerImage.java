@@ -35,10 +35,13 @@ public class BannerImage extends BaseImagesSupport implements Serializable {
     public void setUrl(String url) {
         this.url = url;
     }
+	
+	private static final int START_HASH = 55;
+    private static final int MULT_HASH = 257;
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder(55, 257).append(this.url).toHashCode();
+        return new HashCodeBuilder(START_HASH, MULT_HASH).append(this.url).toHashCode();
     }
 
     @Override

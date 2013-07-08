@@ -102,7 +102,7 @@ public class Human {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder(37, 77).append(this.id).
+        return new HashCodeBuilder(START_HASH, MULT_HASH).append(this.id).
                 append(this.firstName).append(this.lastName)
                 .append(status).append(url).append(photoUrl).append(date)
                 .toHashCode();
