@@ -10,9 +10,9 @@ import static org.apache.commons.lang.StringUtils.join;
  * @author Josby
  * @author Vladislav Pikus
  */
-public class CustomFunctions {
+public final class CustomFunctions {
     
-    private CustomFunctions(){}
+    private  CustomFunctions(){}
     public static String truncateWords(String inputText, int wordsNumber) {
         String[] splitedInputText = inputText.split(" ");
 
