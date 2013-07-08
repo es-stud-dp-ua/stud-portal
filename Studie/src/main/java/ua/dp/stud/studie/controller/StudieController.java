@@ -4,7 +4,6 @@ package ua.dp.stud.studie.controller;
  *
  * @author Olga Ryzol
  */
-
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.servlet.SessionErrors;
@@ -24,13 +23,10 @@ import ua.dp.stud.StudPortalLib.model.Studie;
 import ua.dp.stud.StudPortalLib.service.StudieService;
 import ua.dp.stud.StudPortalLib.util.ImageService;
 
-import javax.imageio.ImageIO;
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.Collection;
@@ -43,15 +39,19 @@ import java.util.logging.Logger;
 public class StudieController {
 
     private static final String MAIN_IMAGE_MOCK_URL = "images/no-logo-study.jpg";
-    private static String strFail = "fail";
-    private static String strNoImage = "no-images";
-    private static String strExept = "exception";
-    private static String mainImagePar = "mainImage";
-    //todo: remove this variable
+    private static final String STR_FAIL = "fail";
+    private static final String STR_NO_IMAGE = "no images";
+    private static final String STR_EXEPT = "Exception ";
+    private static final String MAIN_IMAGE = "mainImage";
+    private static final String BUTTON_ID = "buttonId";
+    private static final String DAY_FACULTY = "facultetDnevn";
+    private static final String CORRESP_FACULTY = "facultetZaoch";
+    private static final String ADRESS = "adress";
+//todo: remove this variable
     private Integer buttonId = 0;
     private static final int MINTITLESYMBOLS = 4;
     private static final int MINTEXTSYMBOLS = 100;
-    private static final Logger log = Logger.getLogger(StudieController.class.getName());
+    private static final Logger LOG = Logger.getLogger(StudieController.class.getName());
     @Autowired
     @Qualifier(value = "studieService")
     private StudieService service;
@@ -59,7 +59,6 @@ public class StudieController {
     public void setService(StudieService service) {
         this.service = service;
     }
-
     @Autowired
     @Qualifier(value = "imageService")
     private ImageService imageService;
@@ -71,15 +70,15 @@ public class StudieController {
     @RenderMapping
     public ModelAndView showView(RenderRequest request, RenderResponse response) {
         ModelAndView model = new ModelAndView();
-        if (request.getParameter("buttonId") == null) {
+        if (request.getParameter(BUTTON_ID) == null) {
             buttonId = 0;
         } else {
-            buttonId = Integer.valueOf(request.getParameter("buttonId"));
+            buttonId = Integer.valueOf(request.getParameter(BUTTON_ID));
         }
         model.setViewName("viewAll");
         Collection<Studie> studie = service.getAllStudies();
         model.addObject("studie", studie);
-        model.addObject("buttonId", buttonId);
+        model.addObject(BUTTON_ID, buttonId);
         return model;
     }
 
@@ -104,27 +103,27 @@ public class StudieController {
         ModelAndView model = new ModelAndView();
         model.setViewName("viewSingle");
         model.addObject("studie", studie);
-        model.addObject(mainImagePar, mainImageUrl);
+        model.addObject(MAIN_IMAGE, mainImageUrl);
         model.addObject("additionalImages", additionalImages);
-        model.addObject("facultetDnevn", facultetDnevn);
-        model.addObject("facultetZaoch", facultetZaoch);
-        model.addObject("adress", adress);
-        model.addObject("buttonId", buttonId);
+        model.addObject(DAY_FACULTY, facultetDnevn);
+        model.addObject(CORRESP_FACULTY, facultetZaoch);
+        model.addObject(ADRESS, adress);
+        model.addObject(BUTTON_ID, buttonId);
         return model;
     }
 
     private boolean updateCommunityFields(CommonsMultipartFile mainImage, CommonsMultipartFile[] images,
-                                          String frmTopic, String frmText, String frmFaculteDnevn, String frmFacultetZaoch, String adress,
-                                          ActionResponse actionResponse, String strFail, String strNoImage, Studie somestudie)
+            String frmTopic, String frmText, String frmFaculteDnevn, String frmFacultetZaoch, String adress,
+            ActionResponse actionResponse, Studie somestudie)
             throws IOException, SystemException, PortalException {
         boolean successUpload = true;
         if (frmTopic.length() < MINTITLESYMBOLS) {
-            actionResponse.setRenderParameter(strFail, strFail);
+            actionResponse.setRenderParameter(STR_FAIL, STR_FAIL);
             return false;
         }
         somestudie.setTitle(frmTopic);
         if (frmText.length() < MINTEXTSYMBOLS) {
-            actionResponse.setRenderParameter(strFail, strFail);
+            actionResponse.setRenderParameter(STR_FAIL, STR_FAIL);
             return false;
         }
         somestudie.setText(frmText);
@@ -136,7 +135,7 @@ public class StudieController {
                 try {
                     imageService.saveMainImage(mainImage, somestudie);
                 } catch (Exception ex) {
-                    log.log(Level.SEVERE, "Exception: ", ex);
+                    LOG.log(Level.SEVERE, STR_EXEPT, ex);
                     successUpload = false;
                 }
             }
@@ -147,9 +146,9 @@ public class StudieController {
                 }
             }
         } catch (Exception ex) {
-            log.log(Level.SEVERE, "Exception: ", ex);
+            LOG.log(Level.SEVERE, STR_EXEPT, ex);
             StringWriter sw = new StringWriter();
-            actionResponse.setRenderParameter(strExept, sw.toString());
+            actionResponse.setRenderParameter(STR_EXEPT, sw.toString());
             successUpload = false;
         }
         if (successUpload) {
@@ -160,20 +159,20 @@ public class StudieController {
 
     @ActionMapping(value = "addStudie")
     public void addStudie(@RequestParam("mainImage") CommonsMultipartFile mainImage,
-                          @RequestParam("images") CommonsMultipartFile[] images,
-                          ActionRequest actionRequest,
-                          ActionResponse actionResponse, SessionStatus sessionStatus)
+            @RequestParam("images") CommonsMultipartFile[] images,
+            ActionRequest actionRequest,
+            ActionResponse actionResponse, SessionStatus sessionStatus)
             throws IOException, SystemException, PortalException {
         if (mainImage.getOriginalFilename().equals("")) {
-            actionResponse.setRenderParameter(strFail, strNoImage);
+            actionResponse.setRenderParameter(STR_FAIL, STR_NO_IMAGE);
             return;
         }
         Studie studie = new Studie();
         String topic = actionRequest.getParameter("topic");
         String text = actionRequest.getParameter("text");
-        String[] facultetDnevn = actionRequest.getParameterValues("facultetDnevn");
-        String[] facultetZaoch = actionRequest.getParameterValues("facultetZaoch");
-        String adress = actionRequest.getParameter("adress");
+        String[] facultetDnevn = actionRequest.getParameterValues(DAY_FACULTY);
+        String[] facultetZaoch = actionRequest.getParameterValues(CORRESP_FACULTY);
+        String adress = actionRequest.getParameter(ADRESS);
         String facultetZ = "", facultetD = "";
         for (String strD : facultetDnevn) {
             if (!"".equals(strD)) {
@@ -190,46 +189,36 @@ public class StudieController {
         }
         facultetD = facultetD.substring(0, facultetD.length() - 1);
         facultetZ = facultetZ.substring(0, facultetZ.length() - 1);
-        //todo: move code about resizing to service
-        int t = Integer.parseInt(actionRequest.getParameter("t"));
-        int l = Integer.parseInt(actionRequest.getParameter("l"));
-        int w = Integer.parseInt(actionRequest.getParameter("w"));
-        int h = Integer.parseInt(actionRequest.getParameter("h"));
-        BufferedImage sourceImage = ImageIO.read(mainImage.getInputStream());
-        sourceImage = imageService.resize(sourceImage, 443, 253);
-        sourceImage = sourceImage.getSubimage(t, l, w, h);
-        File temp = new File(imageService.getImagesFolderAbsolutePath() + mainImage.getOriginalFilename());
-        ImageIO.write(sourceImage, "jpg", temp);
         CommonsMultipartFile f = imageService.cropImage(mainImage, Integer.parseInt(actionRequest.getParameter("t")),
                 Integer.parseInt(actionRequest.getParameter("l")),
                 Integer.parseInt(actionRequest.getParameter("w")),
                 Integer.parseInt(actionRequest.getParameter("h")));
         try {
-            if (updateCommunityFields(f, images, topic.trim(), text.trim(), facultetD, facultetZ, adress, actionResponse, strFail, strNoImage, studie)) {
+            if (updateCommunityFields(f, images, topic.trim(), text.trim(), facultetD, facultetZ, adress, actionResponse, studie)) {
                 service.addStudie(studie);
                 actionResponse.setRenderParameter("orgsID", Integer.toString(studie.getId()));
                 sessionStatus.setComplete();
             }
         } catch (Exception ex) {
-            log.log(Level.SEVERE, "Exception: ", ex);
+            LOG.log(Level.SEVERE, STR_EXEPT, ex);
             StringWriter sw = new StringWriter();
-            actionResponse.setRenderParameter(strExept, sw.toString());
+            actionResponse.setRenderParameter(STR_EXEPT, sw.toString());
         }
     }
 
     @ActionMapping(value = "editStudie")
     public void editStudie(@RequestParam("mainImage") CommonsMultipartFile mainImage,
-                           @RequestParam("images") CommonsMultipartFile[] images,
-                           ActionRequest actionRequest,
-                           ActionResponse actionResponse, SessionStatus sessionStatus)
+            @RequestParam("images") CommonsMultipartFile[] images,
+            ActionRequest actionRequest,
+            ActionResponse actionResponse, SessionStatus sessionStatus)
             throws IOException, SystemException, PortalException {
         int organisationID = Integer.valueOf(actionRequest.getParameter("studieId"));
         Studie studie = service.getStudieById(organisationID);
         String topic = actionRequest.getParameter("topic");
         String text = actionRequest.getParameter("text");
-        String[] facultetDnevn = actionRequest.getParameterValues("facultetDnevn");
-        String[] facultetZaoch = actionRequest.getParameterValues("facultetZaoch");
-        String adress = actionRequest.getParameter("adress");
+        String[] facultetDnevn = actionRequest.getParameterValues(DAY_FACULTY);
+        String[] facultetZaoch = actionRequest.getParameterValues(CORRESP_FACULTY);
+        String adress = actionRequest.getParameter(ADRESS);
         String facultetZ = "", facultetD = "";
         for (String strD : facultetDnevn) {
             if (!"".equals(strD)) {
@@ -245,14 +234,14 @@ public class StudieController {
         }
         facultetD = facultetD.substring(0, facultetD.length() - 1);
         facultetZ = facultetZ.substring(0, facultetZ.length() - 1);
-        if (updateCommunityFields(mainImage, images, topic.trim(), text.trim(), facultetD, facultetZ, adress, actionResponse, strFail, strNoImage, studie)) {
+        if (updateCommunityFields(mainImage, images, topic.trim(), text.trim(), facultetD, facultetZ, adress, actionResponse, studie)) {
             try {
                 service.updateStudie(studie);
                 sessionStatus.setComplete();
             } catch (Exception ex) {
-                log.log(Level.SEVERE, "Exception: ", ex);
+                LOG.log(Level.SEVERE, STR_EXEPT, ex);
                 StringWriter sw = new StringWriter();
-                actionResponse.setRenderParameter(strExept, sw.toString());
+                actionResponse.setRenderParameter(STR_EXEPT, sw.toString());
             }
         }
 
@@ -294,11 +283,11 @@ public class StudieController {
         Collection<ImageImpl> additionalImages = studie.getAdditionalImages();
         model.setViewName("editStudie");
         model.addObject("studie", studie);
-        model.addObject(mainImagePar, mainImageUrl);
+        model.addObject(MAIN_IMAGE, mainImageUrl);
         model.addObject("additionalImages", additionalImages);
-        model.addObject("facultetDnevn", facultetDnevn);
-        model.addObject("facultetZaoch", facultetZaoch);
-        model.addObject("adress", adress);
+        model.addObject(DAY_FACULTY, facultetDnevn);
+        model.addObject(CORRESP_FACULTY, facultetZaoch);
+        model.addObject(ADRESS, adress);
         return model;
     }
 
@@ -322,14 +311,14 @@ public class StudieController {
     @RenderMapping(params = "fail")
     public ModelAndView showAddFailed(RenderRequest request, RenderResponse response) {
         ModelAndView model = showAddStuds(request, response);
-        SessionErrors.add(request, request.getParameter(strFail));
+        SessionErrors.add(request, request.getParameter(STR_FAIL));
         return model;
     }
 
     @RenderMapping(params = "exception")
     public ModelAndView showAddException(RenderRequest request, RenderResponse response) {
         ModelAndView model = showAddStuds(request, response);
-        model.addObject(strExept, request.getParameter(strExept));
+        model.addObject(STR_EXEPT, request.getParameter(STR_EXEPT));
         return model;
     }
 }

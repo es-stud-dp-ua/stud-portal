@@ -32,7 +32,6 @@ import ua.dp.stud.StudPortalLib.model.Organization;
 import ua.dp.stud.StudPortalLib.util.OrganizationType;
 import ua.dp.stud.StudPortalLib.service.OrganizationService;
 import ua.dp.stud.StudPortalLib.util.ImageService;
-
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.RenderRequest;
@@ -50,7 +49,7 @@ public class CommunitiesController {
     private static final String STR_FAIL = "fail";
     private static final String STR_NO_IMAGE = "no images";
     private static final String STR_BAD_IMAGE = "Failed to load image";
-    private static final String STR_EXEPT = "exception";
+    private static final String STR_EXEPT = "Exception";
     private static final String STR_DUPLICAT_TOPIC = "duplicating topic";
     private static final String ADMINISTRATOR_ROLE = "Administrator";
     private static final String USER_ROLE = "User";
@@ -62,7 +61,7 @@ public class CommunitiesController {
     private static final int ORGS_BY_PAGE = 5;
     private static final int NEARBY_PAGES = 2;
     private static final int OVERAL_PAGES = 7;
-    private static final Logger log = Logger.getLogger(CommunitiesController.class.getName());
+    private static final Logger LOG = Logger.getLogger(CommunitiesController.class.getName());
     @Autowired
     @Qualifier(value = "organizationService")
     private OrganizationService organizationService;
@@ -274,7 +273,7 @@ public class CommunitiesController {
         } catch (IOException ex) {
             successUpload = false;
             StringWriter sw = new StringWriter();
-            log.log(Level.SEVERE, "Exception: ", ex);
+            LOG.log(Level.SEVERE, STR_EXEPT, ex);
             actionResponse.setRenderParameter(STR_EXEPT, sw.toString());
         }
 //success upload message
