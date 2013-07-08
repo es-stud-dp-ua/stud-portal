@@ -1,5 +1,6 @@
 <%@ page import="ua.dp.stud.StudPortalLib.model.Organization" %>
 <%@ page import="ua.dp.stud.StudPortalLib.util.OrganizationType" %>
+<%@ page import="ua.dp.stud.StudPortalLib.util.CustomFunctions" %>
 <%@ page import="ua.dp.stud.StudPortalLib.service.OrganizationService" %>
 <%@ page import="ua.dp.stud.StudPortalLib.service.impl.OrganizationServiceImpl" %>
 <%@ page import="java.util.Collection" %>
@@ -9,7 +10,7 @@
 <%@ page import="java.util.Locale" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.ResourceBundle" %>
-<%@ page import="ua.dp.stud.StudPortalLib.util.CustomFunctions" %>
+
 <%@ taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet" %>
 <%@include file="include.jsp" %>
 
