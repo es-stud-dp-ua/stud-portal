@@ -48,10 +48,10 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
-
-import static com.liferay.portal.kernel.util.WebKeys.THEME_DISPLAY;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import static com.liferay.portal.kernel.util.WebKeys.THEME_DISPLAY;
 
 /**
  * Create account controller
@@ -65,9 +65,12 @@ import java.util.logging.Logger;
 public class AccountController {
 
     private static String strExcept = "exception";
-    private static final Logger log = Logger.getLogger(AccountController.class.getName());
+    private static final Logger LOG = Logger.getLogger(AccountController.class.getName());
     //index of rules
     private static final int RULESACEPT = 6;
+    private static final int DEFAULT_ROLE_ID = 10142;
+    private static final String EXEPTION = "Exception: ";
+
     @Autowired
     private Mailer mailer;
 
@@ -77,10 +80,7 @@ public class AccountController {
 
     @RenderMapping
     public ModelAndView showView(RenderRequest request, RenderResponse response) {
-        //todo: move setting of veiw_name to ModelAndView constructor
-        ModelAndView model = new ModelAndView();
-        model.setViewName("create_account");
-        return model;
+        return new ModelAndView("create_account");
     }
 
     @RenderMapping(params = "result=success")
@@ -95,7 +95,6 @@ public class AccountController {
         //choose activation result
         if (confirmNewUser(request)) {
             model.setViewName("activation");
-            //LoginUtil.login(request, response, loginUser, password, false, CompanyConstants.AUTH_TYPE_EA);
         } else {
             model.setViewName("activationFail");
         }
@@ -106,7 +105,7 @@ public class AccountController {
     /**
      * Exception rendering messege
      *
-     * @param request rendering request
+     * @param request  rendering request
      * @param response rendering response
      * @return return current view with exception message
      */
@@ -125,25 +124,24 @@ public class AccountController {
     /**
      * Adding new user in database using liferay user service.
      *
-     * @param userInfo new user's info
-     * @param bindingResult validation for new user info
-     * @param actionRequest request from registration form
+     * @param userInfo       new user's info
+     * @param bindingResult  validation for new user info
+     * @param actionRequest  request from registration form
      * @param actionResponse request response for registration form
-     * @param sessionStatus session work for registration form
-     * @param image new user portret
-     * @throws IOException will be happen if some information about new user is
-     * wrong
+     * @param sessionStatus  session work for registration form
+     * @param image          new user portret
+     * @throws IOException     will be happen if some information about new user is
+     *                         wrong
      * @throws SystemException will be happen if server is not available
      * @throws PortalException will be happen if liferay portal is not available
      */
-    //todo: use catch for exceptions
     @ActionMapping(value = "addNewUser")
     public void addNewUser(@Valid @ModelAttribute("userInfo") UserInfo userInfo,
-            BindingResult bindingResult,
-            ActionRequest actionRequest,
-            ActionResponse actionResponse,
-            SessionStatus sessionStatus,
-            @RequestParam("portret") CommonsMultipartFile image)
+                           BindingResult bindingResult,
+                           ActionRequest actionRequest,
+                           ActionResponse actionResponse,
+                           SessionStatus sessionStatus,
+                           @RequestParam("portret") CommonsMultipartFile image)
             throws SystemException, PortalException {
         UserInfoValidator validator = new UserInfoValidator();
         //validate necessary information
@@ -168,7 +166,7 @@ public class AccountController {
         boolean male = true;
         long[] groupIds = null;
         long[] organizationIds = null;
-        long[] roleIds = {10142};
+        long[] roleIds = {DEFAULT_ROLE_ID};
         long[] userGroupIds = null;
         boolean sendEmail = true;
         //create variable for user expando fields
@@ -182,7 +180,7 @@ public class AccountController {
         try {
             birthday = df.parse(ParamUtil.getString(actionRequest, "birthday"));
         } catch (ParseException ex) {
-            log.log(Level.SEVERE, "Exception: ", ex);
+            LOG.log(Level.SEVERE, EXEPTION, ex);
             birthday = new Date();
         }
         calendar.setTime(birthday);
@@ -227,11 +225,11 @@ public class AccountController {
             //set old PermissionChecker
             PermissionThreadLocal.setPermissionChecker(permissionCheckerBackup);
         } catch (DuplicateUserEmailAddressException ex) {
-            log.log(Level.SEVERE, "Exception: ", ex);
+            LOG.log(Level.SEVERE, EXEPTION, ex);
             actionResponse.setRenderParameter(strExcept, "error.email");
             return;
         } catch (Exception ex) {
-            log.log(Level.SEVERE, "Exception: ", ex);
+            LOG.log(Level.SEVERE, EXEPTION, ex);
             actionResponse.setRenderParameter(strExcept, "error.global");
             return;
         }
@@ -241,8 +239,8 @@ public class AccountController {
             if (image.getSize() > 0) {
                 UserLocalServiceUtil.updatePortrait(user.getUserId(), image.getBytes());
             }
-        } catch (Exception ex) {/* when error happen while upload image */
-
+        } catch (Exception ex) {
+            /* when error happen while upload image then dont do nothing! because user is all ready created*/
         }
         //activation url for encryption
         StringBuilder hashStr = new StringBuilder();
@@ -291,7 +289,7 @@ public class AccountController {
         try {
             UserLocalServiceUtil.updateActive(userId, true);
         } catch (Exception ex) {
-            log.log(Level.SEVERE, "Exception: ", ex);
+            LOG.log(Level.SEVERE, EXEPTION, ex);
             return false;
         }
         return true;
@@ -300,12 +298,12 @@ public class AccountController {
     private boolean createExpandoFields(ExpandoBridge userExpandoBridge) {
         //columns name
         String[] expandoColumn = new String[]{"placeOfStudy",
-            "faculty",
-            "group",
-            "vkUid",
-            "faceBook",
-            "about",
-            "rules"};
+                "faculty",
+                "group",
+                "vkUid",
+                "faceBook",
+                "about",
+                "rules"};
         //columns type
         int type = ExpandoColumnConstants.STRING;
         //for not empty bridge
@@ -323,7 +321,7 @@ public class AccountController {
                     userExpandoBridge.addAttribute(expandoColumn[RULESACEPT], type);
                 }
             } catch (PortalException ex) {
-                log.log(Level.SEVERE, "Exception: ", ex);
+                LOG.log(Level.SEVERE, EXEPTION, ex);
                 return false;
             }
         }
@@ -333,12 +331,12 @@ public class AccountController {
     private void setExpandoFields(ExpandoBridge userExpandoBridge, Map mapOfExpFields) {
         //columns name
         String[] expandoColumn = new String[]{"placeOfStudy",
-            "faculty",
-            "group",
-            "vkUid",
-            "faceBook",
-            "about",
-            "rules"};
+                "faculty",
+                "group",
+                "vkUid",
+                "faceBook",
+                "about",
+                "rules"};
         //column of rules
         boolean rules;
         //for not empty bridge
@@ -359,7 +357,7 @@ public class AccountController {
         }
     }
 
-    private static PermissionChecker getAdministratorPermissionChecker(long companyId) throws PortalException,SystemException {
+    private static PermissionChecker getAdministratorPermissionChecker(long companyId) throws PortalException, SystemException {
         PermissionChecker administratorPermissionChecker = null;
         Role administratorRole = RoleLocalServiceUtil.getRole(companyId, RoleConstants.ADMINISTRATOR);
         List<User> administratorUsers = UserLocalServiceUtil.getRoleUsers(administratorRole.getRoleId());
@@ -371,7 +369,7 @@ public class AccountController {
             try {
                 administratorPermissionChecker = PermissionCheckerFactoryUtil.getPermissionCheckerFactory().create(administratorUser, true);
             } catch (Exception ex) {
-                log.log(Level.SEVERE, "Exception: ", ex);
+                LOG.log(Level.SEVERE, EXEPTION, ex);
                 throw new SystemException(ex.getMessage(), ex);
             }
         } else {

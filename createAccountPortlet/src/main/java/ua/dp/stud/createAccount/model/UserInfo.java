@@ -27,22 +27,22 @@ public class UserInfo implements Serializable {
     /**
      * Constructor by default
      */
-    public UserInfo(){
+    public UserInfo() { }
+    //todo: do we really need two constructors? - yes
 
-    }
-    //todo: do we really need two constructors?
     /**
      * Constructor for new user necessary fields
-     * @param lastName Last name
-     * @param firstName First name
+     *
+     * @param lastName     Last name
+     * @param firstName    First name
      * @param emailAddress email address
-     * @param password1 Password
-     * @param password2 Confirm password
-     * @param rules Acept rules
+     * @param password1    Password
+     * @param password2    Confirm password
+     * @param rules        Acept rules
      */
     public UserInfo(String lastName, String firstName,
                     String emailAddress, String password1,
-                    String password2, Boolean rules)    {
+                    String password2, Boolean rules) {
         this.lastName = lastName;
         this.firstName = firstName;
         this.emailAddress = emailAddress;
@@ -53,17 +53,18 @@ public class UserInfo implements Serializable {
 
     /**
      * Constructor for new user all fields
-     * @param lastName Last name
-     * @param firstName First name
+     *
+     * @param lastName     Last name
+     * @param firstName    First name
      * @param emailAddress email address
-     * @param password1 Password
-     * @param password2 Confirm password
-     * @param rules Acept rules
+     * @param password1    Password
+     * @param password2    Confirm password
+     * @param rules        Acept rules
      * @param placeOfStudy Place of study
-     * @param group Group
-     * @param vkontakteId russian social networking id
-     * @param facebookId american social networking id
-     * @param aboutMe something about new user
+     * @param group        Group
+     * @param vkontakteId  russian social networking id
+     * @param facebookId   american social networking id
+     * @param aboutMe      something about new user
      */
     public UserInfo(String lastName, String firstName,
                     String emailAddress, String password1,
@@ -71,7 +72,7 @@ public class UserInfo implements Serializable {
                     String placeOfStudy, String group,
                     String vkontakteId, String facebookId,
                     String aboutMe
-                    ) {
+    ) {
         this(lastName, firstName, emailAddress, password1, password2, rules);
         this.placeOfStudy = placeOfStudy;
         this.group = group;
