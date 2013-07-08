@@ -35,6 +35,7 @@ import java.util.logging.Logger;
 @RequestMapping(value = "view")
 public class AboutTeamController {
     private static final String TESTER = "tester";
+    private static final String SOFT_ENG = "Software Engineer";
     private static final String NO_PHOTO = "/images/no_photo.jpg";
     private static final List<String> BA_URLS;
     private static final List<String> DEV_URLS;
@@ -91,14 +92,14 @@ public class AboutTeamController {
                 new Human("Tatyana", "Podgornaya", TESTER, contextPath + "/images/tanya-podgornaya.jpg", "http://www.facebook.com/tatyana.podgornaya.10"),
                 new Human("Oksana", "Schur", TESTER, contextPath + "/images/oksana-shur.jpg", "http://vk.com/id21246119"),
                 new Human("Ilya", "Solomyanikov", TESTER, contextPath + "/images/ilya-solomyanikov.jpg", "https://www.facebook.com/ilya.solomyanikov"),
-                new Human("Konstantin", "Gavrilchenko", "Software Engineer", contextPath + "/images/kostya-gavrilchenko.jpg", ""),
-                new Human("Sergey", "Alekseenko", "Software Engineer", contextPath + "/images/no_photo.jpg", ""),
+                new Human("Konstantin", "Gavrilchenko", SOFT_ENG, contextPath + "/images/kostya-gavrilchenko.jpg", ""),
+                new Human("Sergey", "Alekseenko", SOFT_ENG, contextPath + "/images/no_photo.jpg", ""),
                 new Human("Anastasiia", "Shatorna", "QA", contextPath + "/images/anastasiia-shatorna.jpg", "http://vk.com/id14291951"),
                 new Human("Anton", "Batiuk", "Product Specialist", contextPath + "/images/anton-batiuk.jpg", "https://plus.google.com/u/1/113264243001342224417/posts"),
-                new Human("Alexey", "Duzhy", "Software Engineer", contextPath + "/images/alex-duzhy.jpg", "http://vk.com/id26434691"),
-                new Human("Oleg", "Novikov", "Software Engineer", contextPath + "/images/oleg-novikov.jpg", "https://www.facebook.com/lplyr"),
-                new Human("Maxim", "Kulishev", "Software Engineer", contextPath + "/images/no_photo.jpg", "http://ua.linkedin.com/pub/max-kulishev/64/2b7/632"),
-                new Human("Roman", "Lukas", "Software Engineer", contextPath + "/images/Roman-Lukash.jpg", "http://vk.com/id153906964"));
+                new Human("Alexey", "Duzhy", SOFT_ENG, contextPath + "/images/alex-duzhy.jpg", "http://vk.com/id26434691"),
+                new Human("Oleg", "Novikov", SOFT_ENG, contextPath + "/images/oleg-novikov.jpg", "https://www.facebook.com/lplyr"),
+                new Human("Maxim", "Kulishev", SOFT_ENG, contextPath + "/images/no_photo.jpg", "http://ua.linkedin.com/pub/max-kulishev/64/2b7/632"),
+                new Human("Roman", "Lukas", SOFT_ENG, contextPath + "/images/Roman-Lukash.jpg", "http://vk.com/id153906964"));
 
         ModelAndView model = new ModelAndView("aboutTeamList");
         model.addObject("baTeam", baTeam);

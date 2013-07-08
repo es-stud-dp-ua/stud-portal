@@ -3,7 +3,6 @@ package ua.dp.stud.createAccount.util;
 import com.sun.mail.util.BASE64DecoderStream;
 import com.sun.mail.util.BASE64EncoderStream;
 
-
 import javax.crypto.Cipher;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
@@ -20,6 +19,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Hash {
+    private static final String EXEPTION = "Exception: ";
 
     private static Cipher ecipher;
     private static Cipher dcipher;
@@ -35,11 +35,11 @@ public class Hash {
     private static final byte FIFTHBYTE = (byte) 0x44;
     private static final byte SIXTHBYTE = (byte) 0x21;
     private static final byte SEVENTHBYTE = (byte) 0xC3;
-    private static final Logger log = Logger.getLogger(Hash.class.getName());
+    private static final Logger LOG = Logger.getLogger(Hash.class.getName());
 
     private static final byte[] SALT = {
-        FIRSTBYTE, SECONDBYTE, THIRDBYTE, FIRSTBYTE,
-        FIFTHBYTE, SIXTHBYTE, SEVENTHBYTE, SEVENTHBYTE
+            FIRSTBYTE, SECONDBYTE, THIRDBYTE, FIRSTBYTE,
+            FIFTHBYTE, SIXTHBYTE, SEVENTHBYTE, SEVENTHBYTE
     };
 
     public Hash() {
@@ -57,11 +57,11 @@ public class Hash {
             ecipher = Cipher.getInstance(key.getAlgorithm());
             dcipher = Cipher.getInstance(key.getAlgorithm());
         } catch (InvalidKeySpecException ex) {
-            log.log(Level.SEVERE, "Exception: ", ex);
+            LOG.log(Level.SEVERE, EXEPTION, ex);
         } catch (NoSuchAlgorithmException ex) {
-            log.log(Level.SEVERE, "Exception: ", ex);
+            LOG.log(Level.SEVERE, EXEPTION, ex);
         } catch (NoSuchPaddingException ex) {
-            log.log(Level.SEVERE, "Exception: ", ex);
+            LOG.log(Level.SEVERE, EXEPTION, ex);
         }
     }
 
@@ -74,10 +74,10 @@ public class Hash {
 
             return hex;
         } catch (InvalidAlgorithmParameterException ex) {
-            log.log(Level.SEVERE, "Exception: ", ex);
+            LOG.log(Level.SEVERE, EXEPTION, ex);
             return null;
         } catch (InvalidKeyException ex) {
-            log.log(Level.SEVERE, "Exception: ", ex);
+            LOG.log(Level.SEVERE, EXEPTION, ex);
             return null;
         }
 
@@ -90,10 +90,10 @@ public class Hash {
             String encrypted = this.hexToStr(input);
             return this.decrypt(encrypted);
         } catch (InvalidAlgorithmParameterException ex) {
-            log.log(Level.SEVERE, "Exception: ", ex);
+            LOG.log(Level.SEVERE, EXEPTION, ex);
             return null;
         } catch (InvalidKeyException ex) {
-            log.log(Level.SEVERE, "Exception: ", ex);
+            LOG.log(Level.SEVERE, EXEPTION, ex);
             return null;
         }
     }
@@ -108,7 +108,7 @@ public class Hash {
             enc = BASE64EncoderStream.encode(enc);
             return new String(enc);
         } catch (Exception ex) {
-            log.log(Level.SEVERE, "Exception: ", ex);
+            LOG.log(Level.SEVERE, EXEPTION, ex);
         }
         return null;
     }
@@ -121,7 +121,7 @@ public class Hash {
             // create new string based on the specified charset
             return new String(utf8, "UTF8");
         } catch (Exception ex) {
-            log.log(Level.SEVERE, "Exception: ", ex);
+            LOG.log(Level.SEVERE, EXEPTION, ex);
         }
         return null;
     }

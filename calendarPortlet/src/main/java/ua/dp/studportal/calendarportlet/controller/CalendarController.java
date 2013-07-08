@@ -29,7 +29,7 @@ import java.util.logging.Logger;
 public class CalendarController {
     private static final int MONTH_LOCALIZATION_DELTA = 10;
     private static final String NEWS_ARCHIVE_REFERENCE_NAME = "NewsArchive_WAR_studnewsArchive";
-    private static final Logger log = Logger.getLogger(CalendarController.class.getName());
+    private static final Logger LOG = Logger.getLogger(CalendarController.class.getName());
 
     @Autowired
     @Qualifier("calendarService")
@@ -173,7 +173,7 @@ public class CalendarController {
         try {
             plid = LayoutLocalServiceUtil.getDefaultPlid(groupId, false, NEWS_ARCHIVE_REFERENCE_NAME);
         } catch (Exception ex) {
-            log.log(Level.SEVERE, "Exception: ", ex);
+            LOG.log(Level.SEVERE, "Exception: ", ex);
         }
         model.put("plid", plid);
         model.put("archive_name", NEWS_ARCHIVE_REFERENCE_NAME);

@@ -2,7 +2,6 @@ package ua.dp.stud.aboutTeam.model;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.joda.time.DateTime;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -39,10 +38,10 @@ public class Human {
         this.id = id;
     }
 
-    public Human() {}
+    public Human() {
+    }
 
-    public Human(String firstName, String lastName, String status, String photoUrl, String url)
-    {
+    public Human(String firstName, String lastName, String status, String photoUrl, String url) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.status = status;
@@ -90,35 +89,34 @@ public class Human {
         this.photoUrl = photoUrl;
     }
 
-    public void setDate(Date date)
-    {
+    public void setDate(Date date) {
         this.date = date;
     }
 
-    public Date getDate()
-    {
+    public Date getDate() {
         return date;
     }
 
+    private static final int START_HASH = 37;
+    private static final int MULT_HASH = 77;
+
     @Override
     public int hashCode() {
-        return  new HashCodeBuilder(37, 77).append(this.id).
+        return new HashCodeBuilder(37, 77).append(this.id).
                 append(this.firstName).append(this.lastName)
                 .append(status).append(url).append(photoUrl).append(date)
                 .toHashCode();
     }
 
     @Override
-    public boolean equals(Object obj)
-    {
+    public boolean equals(Object obj) {
         if (obj == null) {
             return false;
         }
         if (obj == this) {
             return true;
         }
-        if (!(obj instanceof Human))
-        {
+        if (!(obj instanceof Human)) {
             return false;
         }
         final Human other = (Human) obj;
@@ -128,7 +126,7 @@ public class Human {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Human[").append("firstName=").append(firstName)
                 .append("lastName=").append(lastName)
