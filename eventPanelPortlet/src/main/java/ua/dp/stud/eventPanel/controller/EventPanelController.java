@@ -39,7 +39,7 @@ public class EventPanelController {
     private static final String VIEW = "view";
     private static final String PAGE_COUNT = "pageCount";
     private static final String CURRENT_PAGE = "currentPage";
-    private static final Logger log = Logger.getLogger(EventPanelController.class.getName());
+    private static final Logger LOG = Logger.getLogger(EventPanelController.class.getName());
     private String userName;
     @Autowired
     @Qualifier(value = "organizationService")
@@ -290,7 +290,7 @@ public class EventPanelController {
         try {
             plid = LayoutLocalServiceUtil.getDefaultPlid(groupId, false, portletName);
         } catch (Exception ex) {
-            log.log(Level.SEVERE, "Exception: ", ex);
+            LOG.log(Level.SEVERE, "Exception: ", ex);
         }
         model.addObject("plid", plid);
         model.addObject("portlet_name", portletName);
