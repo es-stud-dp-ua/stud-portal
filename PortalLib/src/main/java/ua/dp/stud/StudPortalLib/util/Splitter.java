@@ -7,43 +7,49 @@ public class Splitter {
     private static final Pattern DEFAULT_PATTERN = Pattern.compile("\\s+");
 
     private Pattern pattern;
-    private boolean keep_delimiters;
+    private boolean keepDelimiters;
 
-    public Splitter(Pattern pattern, boolean keep_delimiters) {
+    public Splitter(Pattern pattern, boolean keepDelimiters) {
         this.pattern = pattern;
-        this.keep_delimiters = keep_delimiters;
+        this.keepDelimiters = keepDelimiters;
     }
-    public Splitter(String pattern, boolean keep_delimiters) {
-        this(Pattern.compile(pattern==null?"":pattern), keep_delimiters);
-    }
-    public Splitter(Pattern pattern) { this(pattern, true); }
-    public Splitter(String pattern) { this(pattern, true); }
-    public Splitter(boolean keep_delimiters) { this(DEFAULT_PATTERN, keep_delimiters); }
-    public Splitter() { this(DEFAULT_PATTERN); }
 
-    public String[] split(String text) {
+    public Splitter(String pattern, boolean keepDelimiters) {
+        this(Pattern.compile(pattern == null ? "" : pattern), keepDelimiters);
+    }
+
+    public Splitter(Pattern pattern) {
+        this(pattern, true);
+    }
+
+    public Splitter(String pattern) {
+        this(pattern, true);
+    }
+
+    public Splitter(boolean keepDelimiters) {
+        this(DEFAULT_PATTERN, keepDelimiters);
+    }
+
+    public Splitter() {
+        this(DEFAULT_PATTERN);
+    }
+
+    public String[] split(String toSplit) {
+        String text = toSplit;
         if (text == null) {
             text = "";
         }
-
-        int last_match = 0;
+        int lastMatch = 0;
         LinkedList<String> splitted = new LinkedList<String>();
-
-        Matcher m = this.pattern.matcher(text);
-
-        while (m.find()) {
-
-            splitted.add(text.substring(last_match,m.start()));
-
-            if (this.keep_delimiters) {
-                splitted.add(m.group());
+        Matcher matcher = this.pattern.matcher(text);
+        while (matcher.find()) {
+            splitted.add(text.substring(lastMatch, matcher.start()));
+            if (this.keepDelimiters) {
+                splitted.add(matcher.group());
             }
-
-            last_match = m.end();
+            lastMatch = matcher.end();
         }
-
-        splitted.add(text.substring(last_match));
-
+        splitted.add(text.substring(lastMatch));
         return splitted.toArray(new String[splitted.size()]);
     }
 }

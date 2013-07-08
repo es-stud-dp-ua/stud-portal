@@ -51,30 +51,29 @@ public class ImageImpl implements Serializable {
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return new StringBuffer().append("ImageImpl[").append("originalImageName=").append(originalImageName)
                 .append(", id=").append(id).append(']').toString();
     }
 
+    private static final int START_HASH = 17;
+    private static final int MULT_HASH = 97;
+
     @Override
-    public int hashCode()
-    {
-        return  new HashCodeBuilder(17, 97).append(this.id).append(this.base).append(this.originalImageName)
+    public int hashCode() {
+        return new HashCodeBuilder(START_HASH, MULT_HASH).append(this.id).append(this.base).append(this.originalImageName)
                 .toHashCode();
     }
 
     @Override
-    public boolean equals(Object obj)
-    {
+    public boolean equals(Object obj) {
         if (obj == null) {
             return false;
         }
         if (obj == this) {
             return true;
         }
-        if (!(obj instanceof ImageImpl))
-        {
+        if (!(obj instanceof ImageImpl)) {
             return false;
         }
         final ImageImpl other = (ImageImpl) obj;

@@ -31,7 +31,7 @@ import java.util.Date;
 )
 @Entity
 @Table(name = "newstable")
-@PrimaryKeyJoinColumn(name="id", referencedColumnName="id")
+@PrimaryKeyJoinColumn(name = "id", referencedColumnName = "id")
 public class News extends BaseImagesSupport implements Serializable {
     private static final int NEWS_TEXT_LENGTH = 10000;
 
@@ -41,17 +41,17 @@ public class News extends BaseImagesSupport implements Serializable {
     public News() {
         onMainpage = false;
         inCalendar = false;
-        approved=false;
+        approved = false;
     }
 
 
     /**
      * constructor with params
      *
-     * @param topic       topic of news
-     * @param text        text of news
-     * @param author      author of news
-     * @param publication Date when news was create
+     * @param topic                 topic of news
+     * @param text                  text of news
+     * @param author                author of news
+     * @param publication           Date when news was create
      * @param publicationInCalendar Date when news was publishing in cal
      */
     public News(String topic, String text, String author, Date publication, Date publicationInCalendar,
@@ -82,44 +82,40 @@ public class News extends BaseImagesSupport implements Serializable {
     private String comment;
 
     @Column
-    public String getComment()
-    {
+    public String getComment() {
         return comment;
     }
 
-    public void setComment(String comment)
-    {
+    public void setComment(String comment) {
         this.comment = comment;
     }
 
     /**
      * Return administrator approved
+     *
      * @return "true" if administrator of organization approved, "false" another way
      */
     @Column(name = "orgApproved")
-    public Boolean getOrgApproved()
-    {
+    public Boolean getOrgApproved() {
         return orgApproved;
     }
 
-    public void setOrgApproved(Boolean orgApproved)
-    {
+    public void setOrgApproved(Boolean orgApproved) {
         this.orgApproved = orgApproved;
     }
 
     /**
      * Return the organization that owns this news
+     *
      * @return base organization object
      */
     @ManyToOne
     @JoinColumn(name = "Org_Base")
-    public Organization getBaseOrg()
-    {
+    public Organization getBaseOrg() {
         return this.baseOrg;
     }
 
-    public void setBaseOrg(Organization baseOrg)
-    {
+    public void setBaseOrg(Organization baseOrg) {
         this.baseOrg = baseOrg;
     }
 
@@ -202,6 +198,7 @@ public class News extends BaseImagesSupport implements Serializable {
 
     /**
      * return Category for organization
+     *
      * @return Category object
      */
     @ManyToOne(fetch = FetchType.LAZY)
@@ -216,6 +213,7 @@ public class News extends BaseImagesSupport implements Serializable {
 
     /**
      * Returns a positive value if news in calendar
+     *
      * @return 0 if News is not belong for calendar, other value
      */
     @Column(name = "calendar")
@@ -229,6 +227,7 @@ public class News extends BaseImagesSupport implements Serializable {
 
     /**
      * Returns "true" if admin approved this News
+     *
      * @return "true" if administrator approved, "false" another way
      */
     @Column(name = "approved")
@@ -242,6 +241,7 @@ public class News extends BaseImagesSupport implements Serializable {
 
     /**
      * Returns count of News on main page
+     *
      * @return count of News on main page
      */
     @Column(name = "onmainpage")
@@ -255,36 +255,36 @@ public class News extends BaseImagesSupport implements Serializable {
 
     /**
      * Convert News to string, contains topic, text, author, publication date
+     *
      * @return string with topic, text, author, publication date
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         return new StringBuffer().append("News[").append("topic=").append(topic)
                 .append(", text=").append(text).append(", author=").append(author)
                 .append(", publication=").append(publication).append(']').toString();
     }
 
+    private static final int START_HASH = 17;
+    private static final int MULT_HASH = 257;
+
     @Override
-    public int hashCode()
-    {
-        return  new HashCodeBuilder(17, 257).append(this.topic).append(this.text).append(this.author)
+    public int hashCode() {
+        return new HashCodeBuilder(START_HASH, MULT_HASH).append(this.topic).append(this.text).append(this.author)
                 .append(this.publication).append(this.publicationInCalendar).append(this.inCalendar)
                 .append(this.approved).append(this.onMainpage).append(this.category).append(this.orgApproved)
                 .append(this.baseOrg).append(this.comment).toHashCode();
     }
 
     @Override
-    public boolean equals(Object obj)
-    {
+    public boolean equals(Object obj) {
         if (obj == null) {
             return false;
         }
         if (obj == this) {
             return true;
         }
-        if (!(obj instanceof News))
-        {
+        if (!(obj instanceof News)) {
             return false;
         }
         final News other = (News) obj;
@@ -298,6 +298,7 @@ public class News extends BaseImagesSupport implements Serializable {
 
     /**
      * Returns date for publication in calendar
+     *
      * @return
      */
     @Temporal(javax.persistence.TemporalType.DATE)

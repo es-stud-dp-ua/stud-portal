@@ -6,12 +6,10 @@ import org.springframework.transaction.annotation.Transactional;
 import ua.dp.stud.StudPortalLib.dao.OrganizationDao;
 import ua.dp.stud.StudPortalLib.model.ImageImpl;
 import ua.dp.stud.StudPortalLib.model.Organization;
-import ua.dp.stud.StudPortalLib.util.OrganizationType;
 import ua.dp.stud.StudPortalLib.service.OrganizationService;
+import ua.dp.stud.StudPortalLib.util.OrganizationType;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 @Service("organizationService")
 @Transactional

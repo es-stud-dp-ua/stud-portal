@@ -6,8 +6,6 @@ import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.model.User;
-import org.apache.commons.fileupload.disk.DiskFileItem;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -29,7 +27,7 @@ import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
-import java.io.*;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
@@ -44,13 +42,15 @@ import java.util.logging.Logger;
 @RequestMapping(value = "view")
 public class NewsController {
 
-    private static final Logger log = Logger.getLogger(NewsController.class.getName());
+    private static final Logger LOG = Logger.getLogger(NewsController.class.getName());
     private static final String MAIN_IMAGE_MOCK_URL = "http://www.princetonmn.org/vertical/Sites/%7BF37F81E8-174B-4EDB-91E0-1A3D62050D16%7D/uploads/News.gif";
     private static final String STR_FAIL = "fail";
     private static final String NO_IMAGE = "no-images";
     private static final String STR_EXEPT = "exception";
     private static final String ADMIN_ROLE = "Administrator";
     private static final String USER_ROLE = "User";
+    private static final String CURRENT_PAGE = "currentPage";
+    private static final String ADD_NEWS = "addNews";
     //news text limitations
     private static final int MINTITLESYMBOLS = 4;
     private static final int MINTEXTSYMBOLS = 100;
@@ -96,14 +96,14 @@ public class NewsController {
 
         Integer pagesCount = newsService.getPagesCount(NEWS_BY_PAGE);
         Integer currentPage;
-        if (request.getParameter("currentPage") != null) {
-            currentPage = Integer.parseInt(request.getParameter("currentPage"));
+        if (request.getParameter(CURRENT_PAGE) != null) {
+            currentPage = Integer.parseInt(request.getParameter(CURRENT_PAGE));
         } else {
             currentPage = 1;
         }
         Collection<News> news = newsService.getNewsOnPage(true, currentPage, NEWS_BY_PAGE);
         model.addObject("news", news);
-        model.addObject("currentPage", currentPage);
+        model.addObject(CURRENT_PAGE, currentPage);
         model.addObject("pagesCount", pagesCount);
         model.addObject("newsByPage", NEWS_BY_PAGE);
         createPagination(model, currentPage, pagesCount);
@@ -111,28 +111,37 @@ public class NewsController {
     }
 
     private void createPagination(ModelAndView model, Integer currentPage, Integer pagesCount) {
-        Integer nearbyPages = 2; //number of pages to show to left and right of current
-        Integer overallPages = 7; //overall number of pages
+        //number of pages to show to left and right of current
+        Integer nearbyPages = 2;
+        //overall number of pages
+        Integer overallPages = 7;
         Integer leftPageNumb = Math.max(1, currentPage - nearbyPages),
                 rightPageNumb = Math.min(pagesCount, currentPage + nearbyPages);
         Boolean skippedBeginning = false,
                 skippedEnding = false;
 
         if (pagesCount <= overallPages) {
-            leftPageNumb = 1;                 //all pages are shown
+            //all pages are shown
+            leftPageNumb = 1;
             rightPageNumb = pagesCount;
         } else {
-            if (currentPage > 2 + nearbyPages) { //if farther then page #1 + '...' + nearby pages
-                skippedBeginning = true;        // will look like 1 .. pages
+            //if farther then page #1 + '...' + nearby pages
+            if (currentPage > 2 + nearbyPages) {
+                // will look like 1 .. pages
+                skippedBeginning = true;
             } else {
-                leftPageNumb = 1;             //shows all first pages
-                rightPageNumb = 2 + 2 * nearbyPages; //#1 + nearby pages + current + nearby pages
+                //shows all first pages
+                leftPageNumb = 1;
+                //#1 + nearby pages + current + nearby pages
+                rightPageNumb = 2 + 2 * nearbyPages;
             }
-
-            if (currentPage < pagesCount - (nearbyPages + 1)) { //if farther then nearby + '...' + last
-                skippedEnding = true;         //will look like pages .. lastPage
+            //if farther then nearby + '...' + last
+            if (currentPage < pagesCount - (nearbyPages + 1)) {
+                //will look like pages .. lastPage
+                skippedEnding = true;
             } else {
-                leftPageNumb = (pagesCount - 1) - 2 * nearbyPages;  //shows all last pages:
+                //shows all last pages:
+                leftPageNumb = (pagesCount - 1) - 2 * nearbyPages;
                 rightPageNumb = pagesCount;
             }
         }
@@ -164,7 +173,7 @@ public class NewsController {
      * @param response
      */
     @RenderMapping(params = "aproveByMyOrgs")
-    private ModelAndView GetNewsWaitingForAprove(ActionRequest request, ActionResponse response) {
+    public ModelAndView getNewsWaitingForAprove(ActionRequest request, ActionResponse response) {
         Collection<Organization> orgs = organizationService.getAllOrganizationByAuthor(request.getParameter("author"));
         Collection<Collection<News>> news = null;
         for (Organization org : orgs) {
@@ -207,7 +216,7 @@ public class NewsController {
     @ActionMapping(value = "pagination")
     public void showPage(ActionRequest request, ActionResponse response) {
         int currentPage = Integer.valueOf(request.getParameter("pageNumber"));
-        response.setRenderParameter("currentPage", String.valueOf(currentPage));
+        response.setRenderParameter(CURRENT_PAGE, String.valueOf(currentPage));
     }
 
     /**
@@ -223,7 +232,7 @@ public class NewsController {
         if (currentPage < pagesCount) {
             currentPage++;
         }
-        response.setRenderParameter("currentPage", String.valueOf(currentPage));
+        response.setRenderParameter(CURRENT_PAGE, String.valueOf(currentPage));
     }
 
     /**
@@ -238,7 +247,7 @@ public class NewsController {
         if (currentPage > 1) {
             currentPage--;
         }
-        response.setRenderParameter("currentPage", String.valueOf(currentPage));
+        response.setRenderParameter(CURRENT_PAGE, String.valueOf(currentPage));
     }
 
     /**
@@ -306,7 +315,7 @@ public class NewsController {
             }
         } catch (Exception ex) {
             successUpload = false;
-            log.log(Level.SEVERE, "Exception: ", ex);
+            LOG.log(Level.SEVERE, "Exception: ", ex);
         }
         //success upload message
         if (successUpload) {
@@ -318,7 +327,7 @@ public class NewsController {
         }
     }
 
-    @ActionMapping(value = "addNews")
+    @ActionMapping(value = ADD_NEWS)
     public void addNews(@RequestParam("mainImage") CommonsMultipartFile mainImage,
             @RequestParam("images") CommonsMultipartFile[] images,
             ActionRequest actionRequest,
@@ -357,7 +366,7 @@ public class NewsController {
                 sessionStatus.setComplete();
             } catch (Exception ex) {
                 //exception controller
-                log.log(Level.SEVERE, "Exception: ", ex);
+                LOG.log(Level.SEVERE, "Exception: ", ex);
                 actionResponse.setRenderParameter(STR_EXEPT, "");
             }
         }
@@ -396,8 +405,7 @@ public class NewsController {
 
     @RenderMapping(params = "mode=add")
     public ModelAndView showAddNews(RenderRequest request, RenderResponse response) {
-        ModelAndView model = new ModelAndView("addNews");
-        return model;
+        return new ModelAndView(ADD_NEWS);
     }
 
     @RenderMapping(params = "mode=edit")
@@ -451,14 +459,14 @@ public class NewsController {
 
     @RenderMapping(params = "fail")
     public ModelAndView showAddFailed(RenderRequest request, RenderResponse response) {
-        ModelAndView model = new ModelAndView("addNews");
+        ModelAndView model = new ModelAndView(ADD_NEWS);
         SessionErrors.add(request, request.getParameter(STR_FAIL));
         return model;
     }
 
     @RenderMapping(params = "exception")
     public ModelAndView showAddException(RenderRequest request, RenderResponse response) {
-        ModelAndView model = new ModelAndView("addNews");
+        ModelAndView model = new ModelAndView(ADD_NEWS);
         model.addObject(STR_EXEPT, request.getParameter(STR_EXEPT));
         return model;
     }
