@@ -12,15 +12,12 @@ import static org.apache.commons.lang.StringUtils.join;
  */
 public class CustomFunctions {
 
-    public CustomFunctions() {}
-
     public static String truncateWords(String inputText, int wordsNumber) {
         String[] splitedInputText = inputText.split(" ");
 
         if (wordsNumber < 1 || wordsNumber > splitedInputText.length) {
             return inputText;
         }
-
 
         String[] subTextArray = new String[wordsNumber];
         System.arraycopy(splitedInputText, 0, subTextArray, 0, wordsNumber);

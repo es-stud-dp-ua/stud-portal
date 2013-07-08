@@ -1,7 +1,5 @@
 package ua.dp.stud.newsArchive.controller;
 
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.util.WebKeys;
@@ -27,7 +25,6 @@ import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
@@ -55,6 +52,8 @@ public class NewsController {
     private static final int MINTITLESYMBOLS = 4;
     private static final int MINTEXTSYMBOLS = 100;
     private static final int NEWS_BY_PAGE = 10;
+    private static final int NEARBY_PAGES = 2;
+    private static final int OVERALL_PAGES = 7;
     @Autowired
     @Qualifier(value = "newsService")
     private NewsService newsService;
@@ -111,42 +110,38 @@ public class NewsController {
     }
 
     private void createPagination(ModelAndView model, Integer currentPage, Integer pagesCount) {
-        //number of pages to show to left and right of current
-        Integer nearbyPages = 2;
-        //overall number of pages
-        Integer overallPages = 7;
-        Integer leftPageNumb = Math.max(1, currentPage - nearbyPages),
-                rightPageNumb = Math.min(pagesCount, currentPage + nearbyPages);
+        Integer leftPageNumb = Math.max(1, currentPage - NEARBY_PAGES),
+                rightPageNumb = Math.min(pagesCount, currentPage + NEARBY_PAGES);
         Boolean skippedBeginning = false,
                 skippedEnding = false;
 
-        if (pagesCount <= overallPages) {
+        if (pagesCount <= OVERALL_PAGES) {
             //all pages are shown
             leftPageNumb = 1;
             rightPageNumb = pagesCount;
         } else {
             //if farther then page #1 + '...' + nearby pages
-            if (currentPage > 2 + nearbyPages) {
+            if (currentPage > 2 + NEARBY_PAGES) {
                 // will look like 1 .. pages
                 skippedBeginning = true;
             } else {
                 //shows all first pages
                 leftPageNumb = 1;
                 //#1 + nearby pages + current + nearby pages
-                rightPageNumb = 2 + 2 * nearbyPages;
+                rightPageNumb = 2 + 2 * NEARBY_PAGES;
             }
             //if farther then nearby + '...' + last
-            if (currentPage < pagesCount - (nearbyPages + 1)) {
+            if (currentPage < pagesCount - (NEARBY_PAGES + 1)) {
                 //will look like pages .. lastPage
                 skippedEnding = true;
             } else {
                 //shows all last pages:
-                leftPageNumb = (pagesCount - 1) - 2 * nearbyPages;
+                leftPageNumb = (pagesCount - 1) - 2 * NEARBY_PAGES;
                 rightPageNumb = pagesCount;
             }
         }
-        model.addObject("nearbyPages", nearbyPages);
-        model.addObject("overallPages", overallPages);
+        model.addObject("nearbyPages", NEARBY_PAGES);
+        model.addObject("overallPages",OVERALL_PAGES);
         model.addObject("leftPageNumb", leftPageNumb);
         model.addObject("rightPageNumb", rightPageNumb);
         model.addObject("skippedBeginning", skippedBeginning);

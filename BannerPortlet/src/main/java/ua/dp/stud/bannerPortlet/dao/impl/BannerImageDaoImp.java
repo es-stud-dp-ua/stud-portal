@@ -5,7 +5,6 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 import ua.dp.stud.StudPortalLib.model.ImageImpl;
 import ua.dp.stud.bannerPortlet.dao.BannerImageDao;
 import ua.dp.stud.bannerPortlet.model.BannerImage;

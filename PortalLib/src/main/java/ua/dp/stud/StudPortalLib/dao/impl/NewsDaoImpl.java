@@ -184,7 +184,8 @@ public class NewsDaoImpl extends BaseDao implements NewsDao {
      * @param id of image for delete
      */
     @Override
-    public void deleteImage(Long id) {   //todo: find better approach
+    public void deleteImage(Long id) {
+        //todo: find better approach
         ImageImpl image = getImageById(id);
         image.getBase().getAdditionalImages().remove(image);
         image.setBase(null);

@@ -5,11 +5,11 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
-import ua.dp.stud.StudPortalLib.util.OrganizationType;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
+import ua.dp.stud.StudPortalLib.util.OrganizationType;
 
 @NamedQueries(
         {
