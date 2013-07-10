@@ -10,6 +10,9 @@
 <%@ page import="java.util.Locale" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.ResourceBundle" %>
+<%@ page import="java.text.DateFormat" %>
+<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="java.util.Date" %>
 
 <%@ taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet" %>
 <%@include file="include.jsp" %>
@@ -32,6 +35,7 @@
             .append(themeDisplay.getPathImage()).append("/image_gallery?img_id=").toString();
     Collection<String> allTypes=(Collection) (OrganizationType.allTypes());
     String temp;
+    DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 %>
 
 <html>
@@ -76,6 +80,10 @@
                     </a>
                 </div>
                 <div class="newsText"> <%= CustomFunctions.truncateHtml(currentOrgs.getText(), 700) %>
+                </div>
+                <div class="info"><spring:message code="form.views"/> <%= currentOrgs.getViews()%><br/>
+                    <spring:message code="form.author"/> <%=currentOrgs.getAuthor()%><br/>
+                    <spring:message code="form.creationDate"/> <%=df.format(currentOrgs.getPublication())%><br/> 
                 </div>
                 <% if (request.isUserInRole("Administrator")) { %>
                 <a style="float: right" href="<portlet:renderURL/>&orgsId=<%=currentOrgs.getId()%>&mode=delete"

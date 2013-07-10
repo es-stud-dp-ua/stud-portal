@@ -38,6 +38,7 @@ import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import java.io.*;
 import java.util.Collection;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -165,6 +166,7 @@ public class CommunitiesController {
 
         int orgsID = Integer.valueOf(request.getParameter("orgsID"));
         Organization organisation = organizationService.getOrganizationById(orgsID);
+        organizationService.incViews(organisation);
         ImageImpl mImage = organisation.getMainImage();
         String mainImageUrl;
 
@@ -328,6 +330,8 @@ public class CommunitiesController {
 //try to update fields for new organisation
         if (!isUnique) {
             if (updateCommunityFields(croppedImage, images, topic.trim(), text.trim(), role, usRole, actionResponse, organization, typeOrg)) {
+                Date date=new Date();
+                organization.setPublication(date);
                 organization = organizationService.addOrganization(organization);
                 actionResponse.setRenderParameter("orgsID", Integer.toString(organization.getId()));
                 sessionStatus.setComplete();
@@ -396,7 +400,7 @@ public class CommunitiesController {
         Organization organisation = organizationService.getOrganizationById(organisationID);
         ImageImpl mImage = organisation.getMainImage();
         String mainImageUrl;
-
+        //organisation.getYearMonthUniqueFolder()
         if (mImage == null) {
             mainImageUrl = MAIN_IMAGE_MOCK_URL;
         } else {

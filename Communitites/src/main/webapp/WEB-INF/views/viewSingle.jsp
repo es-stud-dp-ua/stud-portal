@@ -9,6 +9,9 @@
 <%@ page import="ua.dp.stud.StudPortalLib.model.ImageImpl" %>
 <%@ taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet" %>
 <%@include file="include.jsp" %>
+<%@ page import="java.text.DateFormat" %>
+<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="java.util.Date" %>
 
 <portlet:defineObjects/>
 <%
@@ -17,11 +20,19 @@
     Collection<ImageImpl> additionalImages = (Collection<ImageImpl>)request.getAttribute("additionalImages");
     Collection<News> newsList = (Collection<News>)request.getAttribute("newsList");
     Long newsArchivePageID = (Long)request.getAttribute("newsArchivePageID");
+    DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 %>
 <html>
     <head>
         <style type="text/css">
             .scroll-content { width: <%=newsList.size() * 122%>px; float: left; }
+            label.valid {
+                width: 24px;
+                height: 24px;
+                background: url(${pageContext.request.contextPath}/images/valid.png) center center no-repeat;
+                display: inline-block;
+                text-indent: -9999px;
+            }
         </style>
         <script>
             function ConfirmImage()
@@ -134,6 +145,11 @@
         <br/>
         <div class="newsText">
             ${organization.text}
+        </div>
+        <div class="info">
+            <spring:message code="form.views"/>        <%= organization.getViews()%>                 <br/>
+            <spring:message code="form.author"/>       <%= organization.getAuthor()%>                <br/>
+            <spring:message code="form.creationDate"/> <%= df.format(organization.getPublication())%><br/> 
         </div>
     </div>
     <br/>

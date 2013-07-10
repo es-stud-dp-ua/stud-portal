@@ -191,9 +191,8 @@ public class OrganizationDaoImpl extends BaseDao implements OrganizationDao {
     @Override
     public void incViews(Organization organization)
     {
-       Organization org = (Organization) getSession().createQuery("Select orgs From Organization orgs  Where orgs.id = :organization.id").setParameter("organization", organization);
-       org.setViews(org.getViews()+1);
-       getSession().update(org);
+       organization.setViews(organization.getViews()+1);
+       getSession().update(organization);
     
     }
 }
