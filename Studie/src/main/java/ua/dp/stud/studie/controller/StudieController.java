@@ -47,8 +47,6 @@ public class StudieController {
     private static final String DAY_FACULTY = "facultetDnevn";
     private static final String CORRESP_FACULTY = "facultetZaoch";
     private static final String ADRESS = "adress";
-//todo: remove this variable
-    private Integer buttonId = 0;
     private static final int MINTITLESYMBOLS = 4;
     private static final int MINTEXTSYMBOLS = 100;
     private static final Logger LOG = Logger.getLogger(StudieController.class.getName());
@@ -70,6 +68,7 @@ public class StudieController {
     @RenderMapping
     public ModelAndView showView(RenderRequest request, RenderResponse response) {
         ModelAndView model = new ModelAndView();
+        Integer buttonId;
         if (request.getParameter(BUTTON_ID) == null) {
             buttonId = 0;
         } else {
@@ -85,6 +84,12 @@ public class StudieController {
     @RenderMapping(params = "studieID")
     public ModelAndView showSelectedSrudie(RenderRequest request, RenderResponse response) {
         int studieID = Integer.valueOf(request.getParameter("studieID"));
+        Integer buttonId=0;
+         if (request.getParameter(BUTTON_ID) == null) {
+            buttonId = 0;
+        } else {
+            buttonId = Integer.valueOf(request.getParameter(BUTTON_ID));
+        }
         Studie studie = service.getStudieById(studieID);
         ImageImpl mImage = studie.getMainImage();
         String mainImageUrl;

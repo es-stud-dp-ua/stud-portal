@@ -14,14 +14,18 @@
 <portlet:defineObjects/>
 <%
     Studie studie = (Studie) request.getAttribute("studie");
-    
+        int buttonId = 0;  
+    if (request.getParameter("buttonId")!=null){
+    buttonId = Integer.parseInt(request.getParameter("buttonId"));
+       }
 	String[] facultetDnevn = (String[])request.getAttribute("facultetDnevn");
 	String[] facultetZaoch = (String[])request.getAttribute("facultetZaoch");
 	String adress = (String)request.getAttribute("adress");	
 	
 	
 	String mainImage = (String)request.getAttribute("mainImage");
-	
+	    String temp;
+    String[] type={"studie","entry","helps","informal","scholarships","grants"};
     Collection<ImageImpl> additionalImages = (Collection<ImageImpl>)request.getAttribute("additionalImages");
 %>
 <html>
@@ -60,86 +64,18 @@
   <br/> <br/>
 	<div style="margin-left:-11px; margin-right: 20px" align="left" class="cmt-types" >
 
-               <% if (request.getParameter("buttonId")!=null) { %>
-            <%  if (Integer.valueOf(request.getParameter("buttonId"))==0) { %>
-                <div  class="ribbon-wrapper" ><button  class="btnselected" style=" width: 150px; height: 40px;  margin-left: -10px;  background-color: rgba(0, 122, 255, 0.47); border-color: rgba(68, 115, 185, 0);" name="buttonId" value="0"> 
-                        <a href="${home}">  <spring:message code="form.studie"/></a></button><div class="ribbon-edge-topleft"></div><div class="ribbon-edge-bottomleft"></div></div> 
-           <% } else { %>
-                           <div  class="ribbon-wrapper" ><button  class="btntype" style=" width: 150px; height: 40px;  background:  #4473B9; margin-left: -10px;  border-color: #4473B9;" name="buttonId" value="0"> 
-                         <spring:message code="form.studie"/></button><div class="ribbon-edge-topleft"></div><div class="ribbon-edge-bottomleft"></div></div> 
- 
-           <%} } else {%>
-                         <div  class="ribbon-wrapper" ><button  class="btntype" style=" width: 150px; height: 40px;  background:  #4473B9; margin-left: -10px;  border-color: #4473B9;" name="buttonId" value="0"> 
-                         <spring:message code="form.studie"/></button><div class="ribbon-edge-topleft"></div><div class="ribbon-edge-bottomleft"></div></div> 
- 
-           <%} %>
-             <br/>
-                 <% if (request.getParameter("buttonId")!=null) {
-              if (Integer.valueOf(request.getParameter("buttonId"))==1) { %>
-                <div  class="ribbon-wrapper" ><button  class="btnselected" style=" width: 150px; height: 40px;   margin-left: -10px; background-color: rgba(0, 122, 255, 0.47); border-color: rgba(68, 115, 185, 0);" name="buttonId" value="1"> 
-                         <spring:message code="form.entry"/></button><div class="ribbon-edge-topleft"></div><div class="ribbon-edge-bottomleft"></div></div> 
-          <% } else { %>
-                         <div  class="ribbon-wrapper" ><button  class="btntype" style=" width: 150px; height: 40px;  background:  #4473B9; margin-left: -10px;  border-color: #4473B9;" name="buttonId" value="1"> 
-                         <spring:message code="form.entry"/></button><div class="ribbon-edge-topleft"></div><div class="ribbon-edge-bottomleft"></div></div> 
-            <%} } else {%>
-                           <div  class="ribbon-wrapper" ><button  class="btntype" style=" width: 150px; height: 40px;  background:  #4473B9; margin-left: -10px;  border-color: #4473B9;" name="buttonId" value="1"> 
-                         <spring:message code="form.entry"/></button><div class="ribbon-edge-topleft"></div><div class="ribbon-edge-bottomleft"></div></div> 
-             <%} %>
-              <br/>
-                 <% if (request.getParameter("buttonId")!=null) {
-              if (Integer.valueOf(request.getParameter("buttonId"))==2) { %>
-                <div  class="ribbon-wrapper" ><button  class="btnselected" style=" width: 150px; height: 40px;   margin-left: -10px;  background-color: rgba(0, 122, 255, 0.47); border-color: rgba(68, 115, 185, 0);" name="buttonId" value="2"> 
-                         <spring:message code="form.helps"/></button><div class="ribbon-edge-topleft"></div><div class="ribbon-edge-bottomleft"></div></div> 
-          <% } else { %>
-                          <div  class="ribbon-wrapper" ><button  class="btntype" style=" width: 150px; height: 40px;  background:  #4473B9; margin-left: -10px;  border-color: #4473B9;" name="buttonId" value="2"> 
-                         <spring:message code="form.helps"/></button><div class="ribbon-edge-topleft"></div><div class="ribbon-edge-bottomleft"></div></div> 
-      
-          <%} } else {%>
-                          <div  class="ribbon-wrapper" ><button  class="btntype" style=" width: 150px; height: 40px;  background:  #4473B9; margin-left: -10px;  border-color: #4473B9;" name="buttonId" value="2"> 
-                         <spring:message code="form.helps"/></button><div class="ribbon-edge-topleft"></div><div class="ribbon-edge-bottomleft"></div></div> 
-           <%} %>
-             <br/>
-           <% if (request.getParameter("buttonId")!=null) {
-              if (Integer.valueOf(request.getParameter("buttonId"))==3) { %>
-                <div  class="ribbon-wrapper" ><button  class="btnselected" style=" width: 150px; height: 40px;   margin-left: -10px;  background-color: rgba(0, 122, 255, 0.47); border-color: rgba(68, 115, 185, 0);" name="buttonId" value="3"> 
-                         <spring:message code="form.informal"/></button><div class="ribbon-edge-topleft"></div><div class="ribbon-edge-bottomleft"></div></div> 
-            <% } else { %>
-                            <div  class="ribbon-wrapper" ><button  class="btntype" style=" width: 150px; height: 40px;  background:  #4473B9; margin-left: -10px;  border-color: #4473B9;" name="buttonId" value="3"> 
-                         <spring:message code="form.informal"/></button><div class="ribbon-edge-topleft"></div><div class="ribbon-edge-bottomleft"></div></div> 
-
-            <%} } else {%>
-                            <div  class="ribbon-wrapper" ><button  class="btntype" style=" width: 150px; height: 40px;  background:  #4473B9; margin-left: -10px;  border-color: #4473B9;" name="buttonId" value="3"> 
-                         <spring:message code="form.informal"/></button><div class="ribbon-edge-topleft"></div><div class="ribbon-edge-bottomleft"></div></div> 
-
-              <%} %>
-             <br/>
-                 <% if (request.getParameter("buttonId")!=null) {
-              if (Integer.valueOf(request.getParameter("buttonId"))==4) { %>
-                 <div  class="ribbon-wrapper" ><button  class="btnselected" style=" width: 150px; height: 40px;  margin-left: -10px;  background-color: rgba(0, 122, 255, 0.47); border-color: rgba(68, 115, 185, 0);" name="buttonId" value="4"> 
-                         <spring:message code="form.scholarships"/></button><div class="ribbon-edge-topleft"></div><div class="ribbon-edge-bottomleft"></div></div> 
-            <% } else { %>
-                             <div  class="ribbon-wrapper" ><button  class="btntype" style=" width: 150px; height: 40px;  background:  #4473B9; margin-left: -10px;  border-color: #4473B9;" name="buttonId" value="4"> 
-                         <spring:message code="form.scholarships"/></button><div class="ribbon-edge-topleft"></div><div class="ribbon-edge-bottomleft"></div></div> 
-   
-            <%} } else {%>
-                             <div  class="ribbon-wrapper" ><button  class="btntype" style=" width: 150px; height: 40px;  background:  #4473B9; margin-left: -10px;  border-color: #4473B9;" name="buttonId" value="4"> 
-                         <spring:message code="form.scholarships"/></button><div class="ribbon-edge-topleft"></div><div class="ribbon-edge-bottomleft"></div></div> 
-   
-            <%} %>
-		<br/>
-                    <% if (request.getParameter("buttonId")!=null) {
-              if (Integer.valueOf(request.getParameter("buttonId"))==5) { %>
-                 <div  class="ribbon-wrapper" ><button  class="btnselected" style=" width: 150px; height: 40px;  margin-left: -10px;   background-color: rgba(0, 122, 255, 0.47); border-color: rgba(68, 115, 185, 0);" name="buttonId" value="5"> 
-                         <spring:message code="form.grants"/></button><div class="ribbon-edge-topleft"></div><div class="ribbon-edge-bottomleft"></div></div> 
-         <% } else { %>
-                          <div  class="ribbon-wrapper" ><button  class="btntype" style=" width: 150px; height: 40px;  background:  #4473B9; margin-left: -10px; " name="buttonId" value="5"> 
-                         <spring:message code="form.grants"/></button><div class="ribbon-edge-topleft"></div><div class="ribbon-edge-bottomleft"></div></div> 
- 
-          <%} } else {%>
-                           <div  class="ribbon-wrapper" ><button  class="btntype" style=" width: 150px; height: 40px;  background:  #4473B9; margin-left: -10px;  border-color: #4473B9;" name="buttonId" value="5"> 
-                         <spring:message code="form.grants"/></button><div class="ribbon-edge-topleft"></div><div class="ribbon-edge-bottomleft"></div></div> 
- 
-           <%} %> 
+                                 <% for(int i=0;i<6;i++){
+                if (buttonId==i)  {  
+                  temp=new String("form.".concat(type[i]));%>
+                   <div  class="ribbon-wrapper" ><button  class="btnselected" style=" width: 150px; height: 40px;  margin-left: -10px;  background-color: rgba(0, 122, 255, 0.47); border-color: rgba(68, 115, 185, 0);" name="buttonId" value="<%=i%>"> 
+                         <spring:message code="<%=temp%>"/></button><div class="ribbon-edge-topleft"></div><div class="ribbon-edge-bottomleft"></div></div> 
+                 <%}else{
+                    temp=new String("form.".concat(type[i])); %>
+                        <div  class="ribbon-wrapper" ><button  class="btntype" style=" width: 150px; height: 40px;  background:  #4473B9; margin-left: -10px;  border-color: #4473B9;" name="buttonId" value="<%=i%>"> 
+                         <spring:message code="<%=temp%>"/></button><div class="ribbon-edge-topleft"></div><div class="ribbon-edge-bottomleft"></div></div> 
+                     <%}%>
+                <br/>
+                <% }%>
 	</div>
    
   <div id="singleView" >

@@ -22,10 +22,6 @@
     ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
     String imagePath = new StringBuilder(themeDisplay.getPortalURL()).append('/')
             .append(themeDisplay.getPathImage()).append("/image_gallery?img_id=").toString();
-    Locale locale = (Locale) request.getSession().getAttribute("org.apache.struts.action.LOCALE");
-    String language = locale.getLanguage();
-    String country = locale.getCountry();
-    ResourceBundle res = ResourceBundle.getBundle("messages", new Locale(language, country));
     String temp;
     String[] type={"studie","entry","helps","informal","scholarships","grants"};
 %>
@@ -39,7 +35,7 @@
  <portlet:renderURL var="home"> </portlet:renderURL>
  <form method="post" action="<portlet:renderURL/>"> 
  
-<liferay-ui:success message='<%=res.getString("msg.successAdd")%>' key="success-add"/>
+
 <div id="contentDiv">
   
     <br/><br/>
