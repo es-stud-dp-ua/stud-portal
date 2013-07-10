@@ -376,3 +376,33 @@ span.cke_skin_kama {
     width: 156px;
     border-width: thin;
 }
+/*footer of news*/
+.reply_link_wrap {
+	background: #eee;
+	width: 100%;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+.rel_date {
+	background: url("../images/clock.png") no-repeat;
+	background-position: 4px 60%;
+	background-size: 14px;
+	padding-left: 25px;
+	margin-right: 5px
+}
+
+.rel_author {
+	background: url("../images/auth.png") no-repeat;
+	background-position: 4px 60%;
+	background-size: 14px;
+	padding-left: 25px;
+	margin-right: 5px
+}
+
+.rel_view {
+	background: url("../images/eye.png") no-repeat;
+	background-position: 4px 60%;
+	background-size: 18px;
+	padding-left: 25px;
+	margin-right: 5px
+}

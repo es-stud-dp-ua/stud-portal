@@ -81,9 +81,10 @@
                 </div>
                 <div class="newsText"> <%= CustomFunctions.truncateHtml(currentOrgs.getText(), 700) %>
                 </div>
-                <div class="info"><spring:message code="form.views"/> <%= currentOrgs.getViews()%><br/>
-                    <spring:message code="form.author"/> <%=currentOrgs.getAuthor()%><br/>
-                    <spring:message code="form.creationDate"/> <%=df.format(currentOrgs.getPublication())%><br/> 
+                <div class="reply_link_wrap">
+                    <span class="rel_author"><%=currentOrgs.getAuthor()%></span>
+                    <span class="rel_view"><%=currentOrgs.getViews()%></span>
+                    <span class="rel_date"><%=df.format(currentOrgs.getPublication())%></span>
                 </div>
                 <% if (request.isUserInRole("Administrator")) { %>
                 <a style="float: right" href="<portlet:renderURL/>&orgsId=<%=currentOrgs.getId()%>&mode=delete"

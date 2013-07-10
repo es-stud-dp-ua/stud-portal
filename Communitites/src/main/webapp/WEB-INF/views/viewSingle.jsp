@@ -146,10 +146,10 @@
         <div class="newsText">
             ${organization.text}
         </div>
-        <div class="info">
-            <spring:message code="form.views"/>        <%= organization.getViews()%>                 <br/>
-            <spring:message code="form.author"/>       <%= organization.getAuthor()%>                <br/>
-            <spring:message code="form.creationDate"/> <%= df.format(organization.getPublication())%><br/> 
+        <div class="reply_link_wrap">
+            <span class="rel_author"><%=organization.getAuthor()%></span>
+            <span class="rel_view"><%=organization.getViews()%></span>
+            <span class="rel_date"><%=df.format(organization.getPublication())%></span>
         </div>
     </div>
     <br/>
