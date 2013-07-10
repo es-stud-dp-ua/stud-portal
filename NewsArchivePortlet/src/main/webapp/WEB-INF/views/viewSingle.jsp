@@ -125,11 +125,13 @@
                 </a>
 <%}%>
 </div>
-    <div class="newsHeader">
-        <img src="<%=mainImage%>" alt=""/>
-        <%=news.getTopic()%>
+    <div class="newsHeader"><%=news.getTopic()%></div>
+    <div class="reply_link_wrap" style="text-align: center;">
+        <span class="rel_author"><%=news.getAuthor()%></span>
+        <span class="rel_view"><%=news.getNumberOfViews()%></span>
+        <span class="rel_date"><%=CustomFunctions.getCreationDate(news.getPublication())%></span>
     </div>
-    <br/>
+    <img src="<%=mainImage%>" alt="" class="mainImage"/>
     <div class="newsText">
         <%=news.getText()%>
     </div>
