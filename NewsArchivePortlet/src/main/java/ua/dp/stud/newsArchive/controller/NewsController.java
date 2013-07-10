@@ -191,14 +191,15 @@ public class NewsController {
             mainImageUrl = imageService.getPathToLargeImage(mImage, news);
         }
         Collection<ImageImpl> additionalImages = news.getAdditionalImages();
+        Integer numberView = news.getNumberOfViews();
 
-
+        news.setNumberOfViews(((numberView == null) ? 0 : numberView) + 1);
+        newsService.updateNews(news);
         ModelAndView model = new ModelAndView("viewSingle");
         model.addObject("news", news);
         String mainImagePar = "mainImage";
         model.addObject(mainImagePar, mainImageUrl);
         model.addObject("additionalImages", additionalImages);
-
         return model;
     }
 
@@ -260,9 +261,6 @@ public class NewsController {
      * @param strFail
      * @param strNoImage
      * @param somenews
-     * @throws IOException
-     * @throws SystemException
-     * @throws PortalException
      */
     private boolean updateNewsFields(CommonsMultipartFile mainImage,
             CommonsMultipartFile[] images,

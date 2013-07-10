@@ -39,6 +39,7 @@
     font-size: 12pt;
     text-align: justify;
     margin-left: 5px;
+	min-height: 70px;
 }
 
 #mainImageLoader {
@@ -156,13 +157,13 @@
 
 #singleView .newsHeader {
     width: 100%;
-    text-align: justify;
+    text-align: center;
     font-size: 16pt;
     font-weight: bold;
 }
 
-#singleView .newsHeader>img {
-    width: 33%;
+#singleView .mainImage {
+    width: 40%;
     float: left;
     margin: 0 20px 6px 10px;
 }
@@ -292,4 +293,34 @@ span.cke_skin_kama {
 #calendarDate {
     width: 156px;
     border-width: thin;
+}
+/*footer of news*/
+.reply_link_wrap {
+	background: #eee;
+	width: 100%;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+.rel_date {
+	background: url("../images/clock.png") no-repeat;
+	background-position: 4px 60%;
+	background-size: 14px;
+	padding-left: 25px;
+	margin-right: 5px
+}
+
+.rel_author {
+	background: url("../images/auth.png") no-repeat;
+	background-position: 4px 60%;
+	background-size: 14px;
+	padding-left: 25px;
+	margin-right: 5px
+}
+
+.rel_view {
+	background: url("../images/eye.png") no-repeat;
+	background-position: 4px 60%;
+	background-size: 18px;
+	padding-left: 25px;
+	margin-right: 5px
 }

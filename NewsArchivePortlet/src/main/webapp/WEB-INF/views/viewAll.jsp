@@ -2,7 +2,6 @@
 <%@ page import="java.util.Collection" %>
 <%@ page import="com.liferay.portal.kernel.servlet.ImageServletTokenUtil" %>
 <%@ page import="ua.dp.stud.StudPortalLib.util.ImageService" %>
-<%@ page import="ua.dp.stud.StudPortalLib.util.CustomFunctions" %>
 <%@ taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet" %>
 <%@include file="include.jsp" %>
 
@@ -52,6 +51,13 @@
         <tr>
             <td width="100%">
                 <div width="100%">
+                    <% if (request.isUserInRole("Administrator")) { %>
+                        <a style="float: right" href='<portlet:renderURL><portlet:param name="newsId" value="<%=currentNews.getId().toString()%>"/><portlet:param name="mode" value="delete" /></portlet:renderURL>'
+                           onclick='return confirm("<spring:message code="form.confDelete"/>")'>
+                            <!--<spring:message code="form.delete"/>-->
+                            <div class="panelbtn panelbtn-right fs20 icon-pcpremove" aria-hidden="true"></div>
+                            </a>
+                    <%}%>
                     <a href='<portlet:renderURL><portlet:param name="newsID" value="<%=currentNews.getId().toString()%>"/></portlet:renderURL>'>
                         <img src="<%= imageService.getPathToMicroblogImage(currentNews.getMainImage(),currentNews) %>"
                              class="newsImage">
@@ -67,13 +73,11 @@
                         <%--50 as said Anton--%>
                         <%= CustomFunctions.truncateHtml(currentNews.getText(), 700) %>
                     </div>
-                        <% if (request.isUserInRole("Administrator")) { %>
-                        <a style="float: right" href='<portlet:renderURL><portlet:param name="newsId" value="<%=currentNews.getId().toString()%>"/><portlet:param name="mode" value="delete" /></portlet:renderURL>'
-                           onclick='return confirm("<spring:message code="form.confDelete"/>")'>
-                            <!--<spring:message code="form.delete"/>-->
-                            <div class="panelbtn panelbtn-right fs20 icon-pcpremove" aria-hidden="true"></div>
-                            </a>
-                        <%}%>
+                </div>
+                <div class="reply_link_wrap">
+                    <span class="rel_author"><%=currentNews.getAuthor()%></span>
+                    <span class="rel_view"><%=currentNews.getNumberOfViews()%></span>
+                    <span class="rel_date"><%=CustomFunctions.getCreationDate(currentNews.getPublication())%></span>
                 </div>
                 <div width="100%" align="right">
                     <table width="90%">
