@@ -175,6 +175,7 @@ label.error {
 }
 
 #singleView .newsHeader {
+    text-align: center;
     width: 100%;
     text-align: justify;
     font-size: 16pt;
