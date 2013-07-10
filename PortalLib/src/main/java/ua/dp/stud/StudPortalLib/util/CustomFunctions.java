@@ -33,49 +33,59 @@ public final class CustomFunctions {
         return join(subTextArray, " ");
     }
 
+    private static final Integer TOTAL_MS_PER_HOURS = 1000 * 60 * 60;
+    private static final Integer TOTAL_MS_PER_MIN = 1000 * 60;
+    private static final Integer TOTAL_MS = 1000;
+
     public static String getCreationDate(Date date) {
-        StringBuilder sb = new StringBuilder();
+        StringBuilder outDate = new StringBuilder();
         Date pubDate = date;
         Date now = DateTime.now().toDate();
+        Long difference = now.getTime() - date.getTime();
+        if (difference < 0) {
+            throw  new IllegalArgumentException();
+        }
         Integer year = now.getYear() - pubDate.getYear();
         if (year == 0) {
             Integer day = now.getDate() - pubDate.getDate();
             if (day == 0) {
-                Integer hours = now.getHours() - pubDate.getHours();
+                Long hours = difference / TOTAL_MS_PER_HOURS;
                 if (hours == 0) {
-                    Integer minutes = now.getMinutes() - pubDate.getMinutes();
+                    Long minutes = difference / TOTAL_MS_PER_MIN;
                     if (minutes == 0) {
-                        Integer seconds = now.getSeconds() - pubDate.getSeconds();
+                        Long seconds = difference / TOTAL_MS;
                         if (seconds < 10) {
-                            sb.append("только что");
+                            outDate.append("только что");
                         } else {
-                            sb.append(seconds).append(" секунд назад");
+                            outDate.append(seconds).append(" секунд назад");
                         }
                     } else {
-                        sb.append(minutes).append(" минут назад");
+                        outDate.append(minutes).append(" минут назад");
                     }
                 } else {
                     if (hours > 0 && hours < 4) {
-                        sb.append(hours).append(" час(а) назад");
+                        outDate.append(hours).append(" час(а) назад");
                     } else {
-                        sb.append("сегодня в ")
+                        outDate.append("сегодня в ")
                                 .append(DateFormat.getTimeInstance(DateFormat.SHORT).format(pubDate));
                     }
                 }
             } else {
                 if (day == 1) {
-                    sb.append("вчера в ")
+                    outDate.append("вчера в ")
                             .append(DateFormat.getTimeInstance(DateFormat.SHORT).format(pubDate));
                 } else {
-                    DateFormat dateFormat = new SimpleDateFormat("dd.MM HH:mm");
-                    sb.append(dateFormat.format(pubDate));
+                    DateFormat dateFormat = new SimpleDateFormat("dd.MM");
+                    outDate.append(dateFormat.format(pubDate)).append(" в ")
+                            .append(DateFormat.getTimeInstance(DateFormat.SHORT).format(pubDate));
                 }
             }
         } else {
-            DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm");
-            sb.append(dateFormat.format(pubDate));
+            DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+            outDate.append(dateFormat.format(pubDate)).append(" в ")
+                    .append(DateFormat.getTimeInstance(DateFormat.SHORT).format(pubDate));
         }
-        return sb.toString();
+        return outDate.toString();
     }
 
     public static String truncateHtml(String html, Integer length) {
