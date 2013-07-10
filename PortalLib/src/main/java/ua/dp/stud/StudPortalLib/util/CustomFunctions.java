@@ -41,6 +41,7 @@ public final class CustomFunctions {
         StringBuilder outDate = new StringBuilder();
         Date pubDate = date;
         Date now = DateTime.now().toDate();
+		DateFormat hoursFormat = new SimpleDateFormat("HH:mm");
         Long difference = now.getTime() - date.getTime();
         if (difference < 0) {
             throw  new IllegalArgumentException();
@@ -67,23 +68,23 @@ public final class CustomFunctions {
                         outDate.append(hours).append(" час(а) назад");
                     } else {
                         outDate.append("сегодня в ")
-                                .append(DateFormat.getTimeInstance(DateFormat.SHORT).format(pubDate));
+                                .append(hoursFormat.format(pubDate));
                     }
                 }
             } else {
                 if (day == 1) {
                     outDate.append("вчера в ")
-                            .append(DateFormat.getTimeInstance(DateFormat.SHORT).format(pubDate));
+                            .append(hoursFormat.format(pubDate));
                 } else {
                     DateFormat dateFormat = new SimpleDateFormat("dd.MM");
                     outDate.append(dateFormat.format(pubDate)).append(" в ")
-                            .append(DateFormat.getTimeInstance(DateFormat.SHORT).format(pubDate));
+                            .append(hoursFormat.format(pubDate));
                 }
             }
         } else {
-            DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-            outDate.append(dateFormat.format(pubDate)).append(" в ")
-                    .append(DateFormat.getTimeInstance(DateFormat.SHORT).format(pubDate));
+            DateFormat dayFormat = new SimpleDateFormat("dd.MM.yyyy");
+            outDate.append(dayFormat.format(pubDate)).append(" в ")
+                    .append(hoursFormat.format(pubDate));
         }
         return outDate.toString();
     }
