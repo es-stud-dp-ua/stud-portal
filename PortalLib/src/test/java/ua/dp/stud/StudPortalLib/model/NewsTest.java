@@ -21,6 +21,13 @@ public class NewsTest {
     }
 
     @Test
+    public void getNumberOfViewsTest()
+    {
+        Integer result = 0;
+        assertEquals(result, instance.getNumberOfViews());
+    }
+
+    @Test
     public void getOrgApprovedTest()
     {
         assertNull(instance.getOrgApproved());

@@ -1,8 +1,14 @@
 package ua.dp.stud.StudPortalLib.util;
 
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.junit.Test;
 
+import java.util.Date;
+
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Created with IntelliJ IDEA.
@@ -30,5 +36,13 @@ public class CustomFunctionsTest {
                 .append("<center><table><tr></tr></table></center>\n")
                 .append("[p]В феврале 1905 года в Луганске состо");
         assertEquals(result.toString(), CustomFunctions.truncateHtml(sourceString.toString(), 2500));
+    }
+
+    @Test
+    public void getCreationDate()
+    {
+        Date date = DateTime.parse("10.07.2013 19:52:00", DateTimeFormat.forPattern("dd.MM.yyyy HH:mm:ss")).toDate();
+        String result = CustomFunctions.getCreationDate(date);
+        assertNotNull(result);
     }
 }

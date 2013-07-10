@@ -80,6 +80,18 @@ public class News extends BaseImagesSupport implements Serializable {
     private Boolean orgApproved;
     private Organization baseOrg;
     private String comment;
+    private Integer numberOfViews = 0;
+
+    @Column
+    public Integer getNumberOfViews()
+    {
+        return numberOfViews;
+    }
+
+    public void setNumberOfViews(Integer numberOfViews)
+    {
+        this.numberOfViews = numberOfViews;
+    }
 
     @Column
     public String getComment() {

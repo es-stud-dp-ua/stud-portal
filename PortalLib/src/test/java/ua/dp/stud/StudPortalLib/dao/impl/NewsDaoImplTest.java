@@ -22,6 +22,7 @@ import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Roman Lukash
@@ -60,6 +61,14 @@ public class NewsDaoImplTest extends AbstractTransactionalJUnit4SpringContextTes
     public void calcPagesTest()
     {
         assertEquals(6, (int)dao.calcPages(21, 4));
+    }
+
+    @Test
+    public void getNumberOfViewsTest()
+    {
+        News news = dao.getNewsById(n1.getId());
+        Integer result = 0;
+        assertEquals(result, news.getNumberOfViews());
     }
 
     @Test
