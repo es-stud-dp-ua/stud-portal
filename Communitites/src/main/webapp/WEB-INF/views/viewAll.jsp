@@ -1,6 +1,5 @@
 <%@ page import="ua.dp.stud.StudPortalLib.model.Organization" %>
 <%@ page import="ua.dp.stud.StudPortalLib.util.OrganizationType" %>
-<%@ page import="ua.dp.stud.StudPortalLib.util.CustomFunctions" %>
 <%@ page import="ua.dp.stud.StudPortalLib.service.OrganizationService" %>
 <%@ page import="ua.dp.stud.StudPortalLib.service.impl.OrganizationServiceImpl" %>
 <%@ page import="java.util.Collection" %>
@@ -10,9 +9,6 @@
 <%@ page import="java.util.Locale" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.ResourceBundle" %>
-<%@ page import="java.text.DateFormat" %>
-<%@ page import="java.text.SimpleDateFormat" %>
-<%@ page import="java.util.Date" %>
 
 <%@ taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet" %>
 <%@include file="include.jsp" %>
@@ -35,7 +31,6 @@
             .append(themeDisplay.getPathImage()).append("/image_gallery?img_id=").toString();
     Collection<String> allTypes=(Collection) (OrganizationType.allTypes());
     String temp;
-    DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 %>
 
 <html>
@@ -84,7 +79,7 @@
                 <div class="reply_link_wrap">
                     <span class="rel_author"><%=currentOrgs.getAuthor()%></span>
                     <span class="rel_view"><%=currentOrgs.getViews()%></span>
-                    <span class="rel_date"><%=df.format(currentOrgs.getPublication())%></span>
+                    <span class="rel_date"><%=CustomFunctions.getCreationDate(currentOrgs.getPublication())%></span>
                 </div>
                 <% if (request.isUserInRole("Administrator")) { %>
                 <a style="float: right" href="<portlet:renderURL/>&orgsId=<%=currentOrgs.getId()%>&mode=delete"

@@ -4,5 +4,6 @@
 <%@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
 <%@ page contentType="text/html" isELIgnored="false"%>
 <%@ page import="ua.dp.stud.StudPortalLib.util.ImageService" %>
+<%@ page import="ua.dp.stud.StudPortalLib.util.CustomFunctions" %>
 
 <% ImageService imageService = (ImageService)pageContext.findAttribute("imageService"); %>

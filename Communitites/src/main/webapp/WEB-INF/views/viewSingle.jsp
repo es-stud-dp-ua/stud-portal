@@ -9,9 +9,6 @@
 <%@ page import="ua.dp.stud.StudPortalLib.model.ImageImpl" %>
 <%@ taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet" %>
 <%@include file="include.jsp" %>
-<%@ page import="java.text.DateFormat" %>
-<%@ page import="java.text.SimpleDateFormat" %>
-<%@ page import="java.util.Date" %>
 
 <portlet:defineObjects/>
 <%
@@ -20,7 +17,6 @@
     Collection<ImageImpl> additionalImages = (Collection<ImageImpl>)request.getAttribute("additionalImages");
     Collection<News> newsList = (Collection<News>)request.getAttribute("newsList");
     Long newsArchivePageID = (Long)request.getAttribute("newsArchivePageID");
-    DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 %>
 <html>
     <head>
@@ -149,7 +145,7 @@
         <div class="reply_link_wrap">
             <span class="rel_author"><%=organization.getAuthor()%></span>
             <span class="rel_view"><%=organization.getViews()%></span>
-            <span class="rel_date"><%=df.format(organization.getPublication())%></span>
+            <span class="rel_date"><%=CustomFunctions.getCreationDate(organization.getPublication())%></span>
         </div>
     </div>
     <br/>
