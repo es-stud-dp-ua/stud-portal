@@ -30,6 +30,8 @@ public interface OrganizationService {
      */
     Organization updateOrganization(Organization organization);
 
+    
+    void incViews(Organization organization);
     /**
      *
      * @return collection of organizations

@@ -24,6 +24,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     /**
      * persist organization in db
+     *
      * @param organization
      * @return
      */
@@ -46,12 +47,18 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     /**
      * update organization
+     *
      * @param organization
      * @return
      */
     @Override
     public Organization updateOrganization(Organization organization) {
         return dao.updateOrganization(organization);
+    }
+
+    @Override
+    public void incViews(Organization organization) {
+        dao.incViews(organization);
     }
 
     /**
@@ -65,27 +72,25 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     /**
-     * return organizations by type  (enum.toSting())
+     * return organizations by type (enum.toSting())
+     *
      * @param type String representation of enum
      * @return
      */
     @Transactional(readOnly = true)
     @Override
-    public Collection<Organization> getOrganizationsByType(String type)
-    {
-        try
-        {
+    public Collection<Organization> getOrganizationsByType(String type) {
+        try {
             OrganizationType orgType = OrganizationType.valueOf(type);
             return dao.getOrganizationsByType(orgType);
-        }
-        catch (Exception unused)
-        {
+        } catch (Exception unused) {
             return null;
         }
     }
 
     /**
      * paginations support
+     *
      * @param pageNumb
      * @param orgsPerPage
      * @param type
@@ -93,29 +98,23 @@ public class OrganizationServiceImpl implements OrganizationService {
      */
     @Transactional(readOnly = true)
     @Override
-    public Collection<Organization> getOrganizationsOnPage(Integer pageNumb, Integer orgsPerPage, String type, Boolean approve) 
-    {
-        try
-        {
+    public Collection<Organization> getOrganizationsOnPage(Integer pageNumb, Integer orgsPerPage, String type, Boolean approve) {
+        try {
             OrganizationType orgType = OrganizationType.valueOf(type);
-            return dao.getOrganizationsOnPage(pageNumb, orgsPerPage, orgType,approve);
-        }
-        catch (Exception unused)
-        {
+            return dao.getOrganizationsOnPage(pageNumb, orgsPerPage, orgType, approve);
+        } catch (Exception unused) {
             return null;
         }
     }
-    
+
     @Transactional(readOnly = true)
     @Override
-    public Collection<Organization> getOrganizationsOnPage2(Integer pageNumb, Integer orgsPerPage, Boolean approve)
-    {
-        return dao.getOrganizationsOnPage2(pageNumb, orgsPerPage,approve);
+    public Collection<Organization> getOrganizationsOnPage2(Integer pageNumb, Integer orgsPerPage, Boolean approve) {
+        return dao.getOrganizationsOnPage2(pageNumb, orgsPerPage, approve);
     }
-     
+
     @Override
-    public void deleteImage(ImageImpl image)
-	{
+    public void deleteImage(ImageImpl image) {
         dao.deleteImage(image.getId());
     }
 
@@ -130,19 +129,19 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     @Override
     @Transactional(readOnly = true)
-    public Integer getPagesCount(int orgsByPage)
-    {
+    public Integer getPagesCount(int orgsByPage) {
         return dao.calcPages(dao.getCount(), orgsByPage);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Integer getPagesCountOfType(int orgsByPage, OrganizationType type)
-    {
+    public Integer getPagesCountOfType(int orgsByPage, OrganizationType type) {
         return dao.calcPages(dao.getCountOfType(type), orgsByPage);
     }
+
     /**
      * runs count(*) on table
+     *
      * @return
      */
     @Transactional(readOnly = true)
@@ -153,53 +152,46 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     /**
      * deletes organization
+     *
      * @param organization
      * @return
      */
     @Override
-    public void deleteOrganization(Organization organization)
-    {
+    public void deleteOrganization(Organization organization) {
         dao.deleteOrganization(organization.getId());
     }
 
     @Override
-    public Collection<Organization> getAllOrganizationByAuthor(String author)
-    {
+    public Collection<Organization> getAllOrganizationByAuthor(String author) {
         return dao.getAllOrganizationByAuthor(author);
     }
 
     @Override
-    public Integer getPagesCountByAuthor(String author, Integer orgByPage)
-    {
+    public Integer getPagesCountByAuthor(String author, Integer orgByPage) {
         return dao.calcPages(dao.getCountByAuthor(author), orgByPage);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Collection<Organization> getPagesOrganizationByAuthor(String author, Integer pageNumb, Integer organizationByPage)
-    {
+    public Collection<Organization> getPagesOrganizationByAuthor(String author, Integer pageNumb, Integer organizationByPage) {
         return dao.getPagesOrganizationByAuthor(author, pageNumb, organizationByPage);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Integer getPagesCount(Boolean approved, int orgByPage)
-    {
+    public Integer getPagesCount(Boolean approved, int orgByPage) {
         return dao.calcPages(dao.getCountByApprove(approved), orgByPage);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Collection<Organization> getOrganizationsOnPage(Boolean approved, Integer pageNumb, Integer orgByPage)
-    {
+    public Collection<Organization> getOrganizationsOnPage(Boolean approved, Integer pageNumb, Integer orgByPage) {
         return dao.getOrganizationsOnPage(approved, pageNumb, orgByPage);
     }
-   	
-	@Override
+
+    @Override
     @Transactional(readOnly = true)
-    public ImageImpl getImageById(Long id)
-	{
+    public ImageImpl getImageById(Long id) {
         return dao.getImageById(id);
     }
 }
-

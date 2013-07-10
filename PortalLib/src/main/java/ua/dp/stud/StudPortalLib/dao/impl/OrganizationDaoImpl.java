@@ -187,4 +187,13 @@ public class OrganizationDaoImpl extends BaseDao implements OrganizationDao {
         return ((Long) getSession().createQuery("Select Count(*) From Organization organization  Where organization.approved = :approved and organization.comment is null")
                 .setParameter("approved", approved).uniqueResult()).intValue();
     }
+    
+    @Override
+    public void incViews(Organization organization)
+    {
+       Organization org = (Organization) getSession().createQuery("Select orgs From Organization orgs  Where orgs.id = :organization.id").setParameter("organization", organization);
+       org.setViews(org.getViews()+1);
+       getSession().update(org);
+    
+    }
 }

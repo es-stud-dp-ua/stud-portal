@@ -53,7 +53,14 @@ public interface OrganizationDao {
      * @return collection of all organizations
      */
     Collection<Organization> getAllOrganizations(Boolean approve);
-
+    
+    /** increment of views for current organization
+     * 
+     * @param organization 
+     * 
+     */
+    void incViews(Organization organization);
+    
     /**
      * return all organization with specified enum type
      *
