@@ -43,8 +43,7 @@ public class BannerImageDaoImp implements BannerImageDao {
     public void deleteBannerImage(Integer id) {
         BannerImage banner = (BannerImage) getSession().get(BannerImage.class, id);
         ImageImpl image = banner.getMainImage();
-        if (image != null)
-        {
+        if (image != null) {
             getSession().delete(image);
         }
         getSession().delete(banner);
@@ -61,8 +60,7 @@ public class BannerImageDaoImp implements BannerImageDao {
     }
 
     @Override
-    public BannerImage getByURL(String url)
-    {
+    public BannerImage getByURL(String url) {
         return (BannerImage) getSession().createCriteria(BannerImage.class).add(Restrictions.eq("url", url)).uniqueResult();
     }
 }

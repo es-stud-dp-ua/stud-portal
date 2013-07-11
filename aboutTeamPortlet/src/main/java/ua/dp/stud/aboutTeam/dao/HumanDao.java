@@ -5,7 +5,7 @@ import ua.dp.stud.aboutTeam.model.Human;
 import java.util.Collection;
 
 /**
- * @author  Vladislav Pikus
+ * @author Vladislav Pikus
  */
 public interface HumanDao {
     Human getHumanById(Integer id);

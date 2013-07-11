@@ -3,7 +3,9 @@
  * and open the template in the editor.
  */
 package ua.dp.stud.StudPortalLib.service;
+
 import java.util.ArrayList;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,46 +24,45 @@ import static org.mockito.Mockito.*;
 
 
 /**
- *
  * @author Ольга
  */
 @RunWith(MockitoJUnitRunner.class)
 public class StudiesServiceTest {
-    
+
     private StudieService service;
     private StudieDao mockDao;
     private Studie stud1, stud2;
-    
+
 
     @Before
-    public void init(){
+    public void init() {
         service = new StudieServiceImpl();
         mockDao = mock(StudieDao.class);
-        ((StudieServiceImpl)service).setDao(mockDao);
-        stud1 = new Studie("topic1","text1","fucultets1","fucultets1","adress");
+        ((StudieServiceImpl) service).setDao(mockDao);
+        stud1 = new Studie("topic1", "text1", "fucultets1", "fucultets1", "adress");
         stud1.setId(1);
 
-        stud2 = new Studie("topic2","text2","fucultets1","fucultets1","adress");
+        stud2 = new Studie("topic2", "text2", "fucultets1", "fucultets1", "adress");
         stud2.setId(2);
     }
 
- 
+
     @Test
     public void testGetStudieById() {
-        when (mockDao.getStudieById(1)).thenReturn(stud1);
-        assertEquals(stud1,service.getStudieById(1));
-		
-		assertNull(service.getStudieById(0));
+        when(mockDao.getStudieById(1)).thenReturn(stud1);
+        assertEquals(stud1, service.getStudieById(1));
+
+        assertNull(service.getStudieById(0));
     }
 
 
     @Test
     public void testGetAllStudies() {
-        ArrayList<Studie> allStudies = new ArrayList<Studie>(Arrays.asList(stud1,stud2));
-        when (mockDao.getAllStudies()).thenReturn(allStudies);
+        ArrayList<Studie> allStudies = new ArrayList<Studie>(Arrays.asList(stud1, stud2));
+        when(mockDao.getAllStudies()).thenReturn(allStudies);
         assertEquals(allStudies, service.getAllStudies());
-		
-		when (mockDao.getAllStudies()).thenReturn(null);
+
+        when(mockDao.getAllStudies()).thenReturn(null);
         assertNull(service.getAllStudies());
     }
 
@@ -71,30 +72,27 @@ public class StudiesServiceTest {
         verify(mockDao, times(1)).addStudie(stud1);
     }
 
-    
+
     @Test
     public void testUpdateStudie() {
         service.updateStudie(stud1);
-        verify(mockDao,times(1)).updateStudie(stud1);
+        verify(mockDao, times(1)).updateStudie(stud1);
     }
-	
-	@Test
-	public void testAddImage()
-	{
-		ImageImpl image = new ImageImpl();
-		service.addImage(image);
-		verify(mockDao, times(1)).addImage(image);
-	}
-	
 
-	
-	@Test
-	public void testDeleteStudie()
-	{
-		service.addStudie(stud1);
-		Integer id = stud1.getId();
-		service.deleteStudie(stud1);
-		verify(mockDao, times(1)).deleteStudie(id);
-	}
-    
+    @Test
+    public void testAddImage() {
+        ImageImpl image = new ImageImpl();
+        service.addImage(image);
+        verify(mockDao, times(1)).addImage(image);
+    }
+
+
+    @Test
+    public void testDeleteStudie() {
+        service.addStudie(stud1);
+        Integer id = stud1.getId();
+        service.deleteStudie(stud1);
+        verify(mockDao, times(1)).deleteStudie(id);
+    }
+
 }

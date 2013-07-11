@@ -58,6 +58,7 @@ public interface NewsDao {
 
     /**
      * persist ImageImpl
+     *
      * @param image
      * @return
      */
@@ -106,25 +107,29 @@ public interface NewsDao {
 
     /**
      * Returns all categories
+     *
      * @return collection categories
      */
     Collection<Category> getAllCategories();
 
     /**
      * Delete image by id
+     *
      * @param id of image for delete
      */
-	void deleteImage(Long id);
+    void deleteImage(Long id);
 
     /**
      * Returns image by id
+     *
      * @param id image
      * @return image that is equals id
      */
-	ImageImpl getImageById(Long id);
+    ImageImpl getImageById(Long id);
 
     /**
      * Returns collection of news by author
+     *
      * @param author of news
      * @return collection of news
      */
@@ -132,6 +137,7 @@ public interface NewsDao {
 
     /**
      * Returns count of news for author
+     *
      * @param author of news
      * @return count of news by author
      */
@@ -139,6 +145,7 @@ public interface NewsDao {
 
     /**
      * Returns collection of news on page by author
+     *
      * @param author
      * @param pageNumb
      * @param newsByPage
@@ -148,7 +155,8 @@ public interface NewsDao {
 
     /**
      * Returns collection of approved or not approved news by id organization
-     * @param idOrg organization
+     *
+     * @param idOrg    organization
      * @param approved of administrator
      * @return collection of news
      */
@@ -156,7 +164,8 @@ public interface NewsDao {
 
     /**
      * Returns count of news for organization's author
-     * @param author author of organization
+     *
+     * @param author   author of organization
      * @param approved of administrator
      * @return count of news for organization's id
      */
@@ -164,9 +173,10 @@ public interface NewsDao {
 
     /**
      * Returns collection of news on page for organization's author
-     * @param author author of organization
-     * @param approved for administrator
-     * @param pageNumb number of pages
+     *
+     * @param author     author of organization
+     * @param approved   for administrator
+     * @param pageNumb   number of pages
      * @param newsByPage news's count for 1 page
      * @return collection of news on page
      */
@@ -174,6 +184,7 @@ public interface NewsDao {
 
     /**
      * Returns all news by approved
+     *
      * @param approved of administrator
      * @return collection of news
      */
@@ -181,6 +192,7 @@ public interface NewsDao {
 
     /**
      * Returns count of news by approved
+     *
      * @param approved of administrator
      * @return returns count of approved news
      */
@@ -188,8 +200,9 @@ public interface NewsDao {
 
     /**
      * Returns a collection of news per page for a set number
-     * @param approved of administrator
-     * @param pageNumb page number
+     *
+     * @param approved   of administrator
+     * @param pageNumb   page number
      * @param newsByPage count news by page
      * @return collection for page number
      */

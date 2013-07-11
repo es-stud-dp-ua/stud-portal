@@ -6,21 +6,24 @@ import ua.dp.stud.StudPortalLib.model.ImageImpl;
 import ua.dp.stud.StudPortalLib.model.News;
 
 import java.util.Collection;
+
 /**
  * @author Ivan Kamyshan
  */
 public interface NewsService {
     /**
-     *Method to return news by ID
+     * Method to return news by ID
      */
     News getNewsById(Integer id);
+
     /**
-     *Method to return all news
+     * Method to return all news
      */
     Collection<News> getAllNews();
 
     /**
      * For pagination
+     *
      * @param pageNumb
      * @param newsByPage
      * @return news on current page
@@ -29,6 +32,7 @@ public interface NewsService {
 
     /**
      * Returns overall pages count
+     *
      * @param newsByPage
      * @return pages count
      */
@@ -36,12 +40,14 @@ public interface NewsService {
 
     /**
      * Adds news to DB
+     *
      * @param newsToAdd
      */
     void addNews(News newsToAdd);
 
     /**
      * add image
+     *
      * @param image
      */
     void addImage(ImageImpl image);
@@ -55,37 +61,43 @@ public interface NewsService {
 
     /**
      * return all Categories
+     *
      * @return
      */
     Collection<Category> getAllCategories();
 
     /**
-     *  updates news
+     * updates news
+     *
      * @param news
      */
     void updateNews(News news);
 
     /**
      * delete news
+     *
      * @param news
      */
     void deleteNews(News news);
 
     /**
      * Delete image by id
+     *
      * @param image of image for delete
      */
-	void deleteImage(ImageImpl image);
+    void deleteImage(ImageImpl image);
 
     /**
      * Returns image by id
+     *
      * @param id image
      * @return image that is equals id
      */
-	ImageImpl getImageById(Long id);
+    ImageImpl getImageById(Long id);
 
     /**
      * Returns collection of news by author
+     *
      * @param author of news
      * @return collection of news
      */
@@ -93,6 +105,7 @@ public interface NewsService {
 
     /**
      * Returns page count of news for author
+     *
      * @param author of news
      * @return page count of news by author
      */
@@ -100,6 +113,7 @@ public interface NewsService {
 
     /**
      * Returns collection of news on page by author
+     *
      * @param author
      * @param pageNumb
      * @param newsByPage
@@ -109,7 +123,8 @@ public interface NewsService {
 
     /**
      * Returns collection of approved or not approved news by id organization
-     * @param idOrg organization
+     *
+     * @param idOrg    organization
      * @param approved of administrator
      * @return collection of news
      */
@@ -117,7 +132,8 @@ public interface NewsService {
 
     /**
      * Returns count of news for organization's id
-     * @param author author of organization
+     *
+     * @param author   author of organization
      * @param approved of administrator
      * @return count of news for organization's id
      */
@@ -125,9 +141,10 @@ public interface NewsService {
 
     /**
      * Returns collection of news on page for organization's author
-     * @param author author of organization
-     * @param approved for administrator
-     * @param pageNumb number of pages
+     *
+     * @param author     author of organization
+     * @param approved   for administrator
+     * @param pageNumb   number of pages
      * @param newsByPage news's count for 1 page
      * @return collection of news on page
      */
@@ -135,6 +152,7 @@ public interface NewsService {
 
     /**
      * Return collection of news for administrator
+     *
      * @param approved for administrator
      * @return collection of news for administrator
      */
@@ -142,7 +160,8 @@ public interface NewsService {
 
     /**
      * Return count of news for administrator
-     * @param approved for administrator
+     *
+     * @param approved   for administrator
      * @param newsByPage news's count per page
      * @return count of news for administrator
      */
@@ -150,8 +169,9 @@ public interface NewsService {
 
     /**
      * Return collection news on pages for administrator
-     * @param approved for administrator
-     * @param pageNumb number of page
+     *
+     * @param approved   for administrator
+     * @param pageNumb   number of page
      * @param newsByPage news by page
      * @return collection news on pages for administrator
      */

@@ -48,15 +48,15 @@
           class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
         <property name="defaultLocale" value="ru"/>
     </bean>
-	
-	<!--config mail sender-->
+
+    <!--config mail sender-->
 
     <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-		<property name="defaultEncoding" value="UTF-8"/>
-        <property name="host" value="smtp.gmail.com" />
-        <property name="port" value="587" />
-        <property name="username" value="studdpuasender@gmail.com" />
-        <property name="password" value="123123123q" />
+        <property name="defaultEncoding" value="UTF-8"/>
+        <property name="host" value="smtp.gmail.com"/>
+        <property name="port" value="587"/>
+        <property name="username" value="studdpuasender@gmail.com"/>
+        <property name="password" value="123123123q"/>
 
         <property name="javaMailProperties">
             <props>

@@ -1,6 +1,6 @@
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
-<%@ taglib prefix="portlet" uri="http://java.sun.com/portlet_2_0"%>
+<%@ taglib prefix="portlet" uri="http://java.sun.com/portlet_2_0" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <portlet:actionURL var="postUrl">
@@ -22,10 +22,11 @@
             <td><spring:message code="form.currentMail"/>${curmail}</td>
         </tr>
         <tr>
-            <td><form:input path="newMail" /><form:errors path="newMail" cssClass="error"/></td>
+            <td><form:input path="newMail"/><form:errors path="newMail" cssClass="error"/></td>
         </tr>
         <tr>
-            <td><input type = "submit" value = <spring:message code="form.btSave"/> ></td>
+            <td><input type="submit" value=
+                <spring:message code="form.btSave"/>></td>
         </tr>
     </table>
 </form:form>

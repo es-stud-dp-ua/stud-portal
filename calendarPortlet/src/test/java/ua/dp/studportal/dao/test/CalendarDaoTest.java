@@ -22,8 +22,7 @@ import static org.junit.Assert.assertEquals;
 @Transactional
 @TransactionConfiguration(defaultRollback = true)
 @ContextConfiguration(locations = "classpath:calendarDaoTest.xml")
-public class CalendarDaoTest extends AbstractTransactionalJUnit4SpringContextTests
-{
+public class CalendarDaoTest extends AbstractTransactionalJUnit4SpringContextTests {
     private News oldNews;
     private News newNews;
     private Category cat1;
@@ -35,17 +34,15 @@ public class CalendarDaoTest extends AbstractTransactionalJUnit4SpringContextTes
     @Autowired
     private SessionFactory sessionFactory;
 
-    private SessionFactory getSessionFactory()
-    {
+    private SessionFactory getSessionFactory() {
         return sessionFactory;
     }
 
     @Test
     @Rollback(true)
-    public void testGetCalNewsForMonth()
-    {
-        cat1=new Category("General");
-        cat2=new Category("Sports");
+    public void testGetCalNewsForMonth() {
+        cat1 = new Category("General");
+        cat2 = new Category("Sports");
         Calendar cal = new GregorianCalendar(1980, 2, 1, 12, 23, 53);
         oldNews = new News("topic", "this is old in cal news", "jjdev", cal.getTime(),
                 cal.getTime(), cat1, true, true, true);
@@ -58,10 +55,10 @@ public class CalendarDaoTest extends AbstractTransactionalJUnit4SpringContextTes
         getSessionFactory().getCurrentSession().save(oldNews);
         getSessionFactory().getCurrentSession().save(notInCal);
         getSessionFactory().getCurrentSession().save(newNews);
-        Map<Long, ArrayList<News>> gettedMap = calendarDAO.getCalNewsForMonth(2,1980);
+        Map<Long, ArrayList<News>> gettedMap = calendarDAO.getCalNewsForMonth(2, 1980);
         assertEquals(oldNews, gettedMap.get(Long.valueOf(1)).get(0));
         assertEquals(31, gettedMap.size());
-        gettedMap = calendarDAO.getCalNewsForMonth(3,2012);
+        gettedMap = calendarDAO.getCalNewsForMonth(3, 2012);
         assertEquals(newNews, gettedMap.get(Long.valueOf(3)).get(0));
         assertEquals(30, gettedMap.size());
     }

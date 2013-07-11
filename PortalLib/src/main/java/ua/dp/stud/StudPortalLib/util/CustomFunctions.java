@@ -41,10 +41,10 @@ public final class CustomFunctions {
         StringBuilder outDate = new StringBuilder();
         Date pubDate = date;
         Date now = DateTime.now().toDate();
-		DateFormat hoursFormat = new SimpleDateFormat("HH:mm");
+        DateFormat hoursFormat = new SimpleDateFormat("HH:mm");
         Long difference = now.getTime() - date.getTime();
         if (difference < 0) {
-            throw  new IllegalArgumentException();
+            throw new IllegalArgumentException();
         }
         Integer year = now.getYear() - pubDate.getYear();
         if (year == 0) {

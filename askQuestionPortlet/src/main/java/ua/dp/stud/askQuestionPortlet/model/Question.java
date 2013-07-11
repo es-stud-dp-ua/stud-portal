@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 /**
  * Question models
+ *
  * @author Oleg
  */
 public class Question implements Serializable {
@@ -19,6 +20,7 @@ public class Question implements Serializable {
 
     /**
      * returns sentFrom email
+     *
      * @return
      */
     public String getSentFrom() {
@@ -27,6 +29,7 @@ public class Question implements Serializable {
 
     /**
      * sets sentFrom email
+     *
      * @param sentFrom
      */
     public void setSentFrom(String sentFrom) {
@@ -35,6 +38,7 @@ public class Question implements Serializable {
 
     /**
      * gets subject of mail
+     *
      * @return
      */
     public String getSubject() {
@@ -43,6 +47,7 @@ public class Question implements Serializable {
 
     /**
      * Sets subject of mail
+     *
      * @param subject
      */
     public void setSubject(String subject) {
@@ -51,6 +56,7 @@ public class Question implements Serializable {
 
     /**
      * returns mail text
+     *
      * @return
      */
     public String getText() {
@@ -59,6 +65,7 @@ public class Question implements Serializable {
 
     /**
      * sets mail text
+     *
      * @param text
      */
     public void setText(String text) {

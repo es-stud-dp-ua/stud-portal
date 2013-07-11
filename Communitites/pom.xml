@@ -10,7 +10,7 @@
 
     <name>Communities</name>
 
-     <build>
+    <build>
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>

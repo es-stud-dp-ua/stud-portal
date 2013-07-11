@@ -8,34 +8,29 @@ import static org.junit.Assert.*;
 /**
  * @author Vladislav Pikus
  */
-public class BannerImageTest
-{
+public class BannerImageTest {
     private BannerImage banner;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         this.banner = new BannerImage();
     }
 
     @Test
-    public void getUrlTest()
-    {
+    public void getUrlTest() {
         String expResult = null;
         String result = this.banner.getUrl();
         assertEquals(expResult, result);
     }
 
     @Test
-    public void setUrlTest()
-    {
+    public void setUrlTest() {
         String url = "http://vk.com";
         banner.setUrl(url);
     }
 
     @Test
-    public void toStringTest()
-    {
+    public void toStringTest() {
         banner = new BannerImage("http://vk.com");
         String expResult = "BannerImage[url=http://vk.com]";
         String result = banner.toString();
@@ -43,14 +38,12 @@ public class BannerImageTest
     }
 
     @Test
-    public void hashCodeTest()
-    {
+    public void hashCodeTest() {
         assertNotNull(banner.hashCode());
     }
 
     @Test
-    public void equalsTest()
-    {
+    public void equalsTest() {
         assertFalse(banner.equals(null));
         BannerImage banner1 = banner;
         assertTrue(banner.equals(banner1));

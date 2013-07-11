@@ -32,16 +32,16 @@
     </build>
 
     <modules>
-		<module>askQuestionPortlet</module>
-		<module>BannerPortlet</module>
-		<module>calendarPortlet</module>
-	    <module>MicroBlogPortlet</module>
-		<module>NewsArchivePortlet</module>
-		<module>Communitites</module>
-		<module>createAccountPortlet</module>
-		<module>eventPanelPortlet</module>
-		<module>Studie</module>
-		<module>PortalLib</module>
+        <module>askQuestionPortlet</module>
+        <module>BannerPortlet</module>
+        <module>calendarPortlet</module>
+        <module>MicroBlogPortlet</module>
+        <module>NewsArchivePortlet</module>
+        <module>Communitites</module>
+        <module>createAccountPortlet</module>
+        <module>eventPanelPortlet</module>
+        <module>Studie</module>
+        <module>PortalLib</module>
         <module>aboutTeamPortlet</module>
     </modules>
 

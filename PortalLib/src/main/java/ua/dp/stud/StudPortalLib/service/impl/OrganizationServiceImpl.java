@@ -35,7 +35,6 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     /**
-     *
      * @param id
      * @return organization by given ID
      */
@@ -62,7 +61,6 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     /**
-     *
      * @return collection of organizations
      */
     @Transactional(readOnly = true)
@@ -119,7 +117,6 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     /**
-     *
      * @return collection of strings that represent organization types
      */
     @Override

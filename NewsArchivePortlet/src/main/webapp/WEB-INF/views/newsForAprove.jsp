@@ -10,7 +10,7 @@
 
 
 <%@ taglib prefix="theme" uri="http://liferay.com/tld/theme" %>
-<%if (request.isUserInRole("Administrator") ||request.isUserInRole("User")) { %>
+<%if (request.isUserInRole("Administrator") || request.isUserInRole("User")) { %>
 <portlet:defineObjects/>
 <%
     Collection<Collection<News>> news = (Collection<Collection<News>>) request.getAttribute("newsForAprove");
@@ -20,7 +20,7 @@
     ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
     String imagePath = new StringBuilder(themeDisplay.getPortalURL()).append('/')
             .append(themeDisplay.getPathImage()).append("/image_gallery?img_id=").toString();
-    ImageService imageService = (ImageService)pageContext.findAttribute("imageService");
+    ImageService imageService = (ImageService) pageContext.findAttribute("imageService");
 
     int nearbyPages = 2; //number of pages to show to left and right of current
     int overallPages = 7; //overall number of pages
@@ -55,91 +55,91 @@
 </head>
 
 <body>
-    <%if (request.isUserInRole("Administrator") ||request.isUserInRole("User")) { %>
-    <div class="portlet-content-controlpanel fs20">
-        <a style="float: right" href="<portlet:renderURL/>&mode=add">
-            <div class="panelbtn panelbtn-right icon-pcpfile" aria-hidden="true"></div>
-            <!--<spring:message code="viewAll.addNews"/>-->
-        </a>
-    </div>
-    <%} %>
+<%if (request.isUserInRole("Administrator") || request.isUserInRole("User")) { %>
+<div class="portlet-content-controlpanel fs20">
+    <a style="float: right" href="<portlet:renderURL/>&mode=add">
+        <div class="panelbtn panelbtn-right icon-pcpfile" aria-hidden="true"></div>
+        <!--<spring:message code="viewAll.addNews"/>-->
+    </a>
+</div>
+<%} %>
 <div id="contentDiv">
 
     <liferay-ui:success message='<%=<spring:message code="viewAll.successAdd"/>%>' key="success-add"/>
 
     <c:if test="${not empty news}">
-    <table id="newsTable">
-        <%
-            for (Collection<News> currentNewsForAprove : news) {
-                    for (News currentNews :currentNewsForAprove )
-                                               {
-        %>
-        <tr>
-            <td width="100%">
-                <div width="100%">
-                    <a href="<portlet:renderURL/>&newsID=<%=currentNews.getId()%>">
-                        <img src="<%= imageService.getPathToMicroblogImage(currentNews.getMainImage(),currentNews) %>"
-                             class="newsImage">
-                    </a>
-
-                    <div class="newsHeader">
+        <table id="newsTable">
+            <%
+                for (Collection<News> currentNewsForAprove : news) {
+                    for (News currentNews : currentNewsForAprove) {
+            %>
+            <tr>
+                <td width="100%">
+                    <div width="100%">
                         <a href="<portlet:renderURL/>&newsID=<%=currentNews.getId()%>">
-                            <%=currentNews.getTopic()%>
-
+                            <img src="<%= imageService.getPathToMicroblogImage(currentNews.getMainImage(),currentNews) %>"
+                                 class="newsImage">
                         </a>
-                    </div>
-                    <div class="newsText">
-                        <%--50 as said Anton--%>
-                        <%= CustomFunctions.truncateWords(currentNews.getText(), 50) %>
+
+                        <div class="newsHeader">
+                            <a href="<portlet:renderURL/>&newsID=<%=currentNews.getId()%>">
+                                <%=currentNews.getTopic()%>
+
+                            </a>
+                        </div>
+                        <div class="newsText">
+                                <%--50 as said Anton--%>
+                            <%= CustomFunctions.truncateWords(currentNews.getText(), 50) %>
 
 
-                        <%--another way of doing that--%>
-                        <%--<%@taglib uri="http://www.stud.dp.ua/customTags" prefix="jj" %>--%>
-                        <%--pageContext.setAttribute("currentNews", currentNews);--%>
-                        <%--${jj:truncateWords(currentNews.text, 50)}--%>
+                                <%--another way of doing that--%>
+                                <%--<%@taglib uri="http://www.stud.dp.ua/customTags" prefix="jj" %>--%>
+                                <%--pageContext.setAttribute("currentNews", currentNews);--%>
+                                <%--${jj:truncateWords(currentNews.text, 50)}--%>
+                        </div>
+                        <div id="portlet-content-controlpanel">
+                            <% if (request.isUserInRole("Administrator")) { %>
+                            <a style="float: right"
+                               href="<portlet:renderURL/>&newsId=<%=currentNews.getId()%>&mode=delete"
+                               onclick='return confirm("<spring:message code="form.confDelete"/>")'>
+                                <!--<spring:message code="form.delete"/>-->
+                                <div class="panelbtn panelbtn-right fs20 icon-pcpremove" aria-hidden="true"></div>
+                                        <%}%>
+                        </div>
                     </div>
-                    <div id="portlet-content-controlpanel">
-                        <% if (request.isUserInRole("Administrator")) { %>
-                        <a style="float: right" href="<portlet:renderURL/>&newsId=<%=currentNews.getId()%>&mode=delete"
-                           onclick='return confirm("<spring:message code="form.confDelete"/>")'>
-                            <!--<spring:message code="form.delete"/>-->
-                            <div class="panelbtn panelbtn-right fs20 icon-pcpremove" aria-hidden="true"></div>
-                        <%}%>
+                    <div width="100%" align="right">
+                        <table width="90%">
+                            <tr>
+                                <td width="60">
+                                    <img width="60" class="newsDecorImage"
+                                         src="${pageContext.request.contextPath}/images/news-decor-line-left-end.png"/>
+                                </td>
+                                <td width="auto" align="left">
+                                    <img width="100%" class="newsDecorImage"
+                                         src="${pageContext.request.contextPath}/images/news-decor-line.png"/>
+                                </td>
+                                <td width="52">
+                                    <img width="52" class="newsDecorImage"
+                                         src="${pageContext.request.contextPath}/images/news-decor-center.png"/>
+                                </td>
+                                <td width="auto" align="right">
+                                    <img width="100%" class="newsDecorImage"
+                                         src="${pageContext.request.contextPath}/images/news-decor-line.png"/>
+                                </td>
+                                <td width="50">
+                                    <img width="50" class="newsDecorImage"
+                                         src="${pageContext.request.contextPath}/images/news-decor-line-right-end.png"/>
+                                </td>
+                            </tr>
+                        </table>
                     </div>
-                </div>
-                <div width="100%" align="right">
-                    <table width="90%">
-                        <tr>
-                            <td width="60">
-                                <img width="60" class="newsDecorImage"
-                                     src="${pageContext.request.contextPath}/images/news-decor-line-left-end.png"/>
-                            </td>
-                            <td width="auto" align="left">
-                                <img width="100%" class="newsDecorImage"
-                                     src="${pageContext.request.contextPath}/images/news-decor-line.png"/>
-                            </td>
-                            <td width="52">
-                                <img width="52" class="newsDecorImage"
-                                     src="${pageContext.request.contextPath}/images/news-decor-center.png"/>
-                            </td>
-                            <td width="auto" align="right">
-                                <img width="100%" class="newsDecorImage"
-                                     src="${pageContext.request.contextPath}/images/news-decor-line.png"/>
-                            </td>
-                            <td width="50">
-                                <img width="50" class="newsDecorImage"
-                                     src="${pageContext.request.contextPath}/images/news-decor-line-right-end.png"/>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-            </td>
-        </tr>
-        <%}%>
-    </table>
-   
-    <%  }%>
- </c:if>
+                </td>
+            </tr>
+            <%}%>
+        </table>
+
+        <% }%>
+    </c:if>
     <table width="90%">
         <tr>
             <td width="80" align="left">

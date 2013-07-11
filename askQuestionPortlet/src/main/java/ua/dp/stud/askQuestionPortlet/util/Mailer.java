@@ -12,31 +12,35 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**  Class for sending emails.
- *   Depends on javax.mail and spring framework
+/**
+ * Class for sending emails.
+ * Depends on javax.mail and spring framework
  */
 
 @Component
 public class Mailer {
-    
+
     @Autowired
     private MailSender mailSender;
 
 
-    private static  Logger log = Logger.getLogger(Mailer.class.getName());
+    private static Logger log = Logger.getLogger(Mailer.class.getName());
+
     /**
      * Sets mail sender
+     *
      * @param mailSender
      */
     public void setMailSender(MailSender mailSender) {
         this.mailSender = mailSender;
     }
 
-    /** object sends out an email through this method
+    /**
+     * object sends out an email through this method
      *
-     * @param sentFrom			Email adress of a question sender
-     * @param subject			Subject of email
-     * @param text              Email body (text)
+     * @param sentFrom Email adress of a question sender
+     * @param subject  Subject of email
+     * @param text     Email body (text)
      */
     public void sendMail(String sentFrom, String subject, String text) {
         String newLine = "\n";
@@ -62,10 +66,10 @@ public class Mailer {
 
     /**
      * Sets new admin's email and saves it in the property file
+     *
      * @param newMail
      */
-    public void setNewMail(String newMail)
-    {
+    public void setNewMail(String newMail) {
         PortletProps.set("admin_mail", newMail);
         Properties prop = PortletProps.getProperties();
         prop.setProperty("admin_mail", newMail);

@@ -9,17 +9,18 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+
 import ua.dp.stud.StudPortalLib.util.OrganizationType;
 
 @NamedQueries(
         {
-    @NamedQuery(
-            name = "Organization.getByAuthor",
-            query = "Select organization From Organization organization  Where organization.author = :author ORDER BY organization.id desc"),
-    @NamedQuery(
-            name = "Organization.getNewsByOrgId",
-            query = "select news from News news where news.baseOrg.id = :id and news.orgApproved= :orgApproved order by news.id")
-})
+                @NamedQuery(
+                        name = "Organization.getByAuthor",
+                        query = "Select organization From Organization organization  Where organization.author = :author ORDER BY organization.id desc"),
+                @NamedQuery(
+                        name = "Organization.getNewsByOrgId",
+                        query = "select news from News news where news.baseOrg.id = :id and news.orgApproved= :orgApproved order by news.id")
+        })
 @Entity
 @Table(name = "organizations_table")
 @PrimaryKeyJoinColumn(name = "id", referencedColumnName = "id")
@@ -31,6 +32,7 @@ public class Organization extends BaseImagesSupport implements Serializable {
     public Organization() {
         approved = false;
     }
+
     //Fields//
     private static final int TEXT_LENGTH = 10000;
     private String author;
@@ -132,6 +134,7 @@ public class Organization extends BaseImagesSupport implements Serializable {
     public void setApproved(Boolean approved) {
         this.approved = approved;
     }
+
     private static final int START_HASH = 3;
     private static final int MULT_HASH = 89;
 

@@ -12,18 +12,17 @@ import ua.dp.stud.StudPortalLib.model.ImageImpl;
 import ua.dp.stud.StudPortalLib.model.Studie;
 
 import java.util.Collection;
+
 /**
- *
  * @author Ольга
  */
 @Repository("studieDao")
-public class StudieDaoImpl extends BaseDao  implements StudieDao
-{
+public class StudieDaoImpl extends BaseDao implements StudieDao {
 
     @Override
     public Studie addStudie(Studie studie) {
         getSession().save(studie);
-       return studie;
+        return studie;
     }
 
     @Override
@@ -41,7 +40,7 @@ public class StudieDaoImpl extends BaseDao  implements StudieDao
 
     @Override
     public Collection<Studie> getAllStudies() {
-         return (Collection<Studie>)getSession().createQuery("From Studie studie  ORDER BY studie.id desc").list();
+        return (Collection<Studie>) getSession().createQuery("From Studie studie  ORDER BY studie.id desc").list();
     }
 
     @Override
@@ -51,24 +50,22 @@ public class StudieDaoImpl extends BaseDao  implements StudieDao
         getSession().delete(image);
         getSession().delete(stud);
     }
-    
+
     @Override
-    public void addImage(ImageImpl image)
-    {
+    public void addImage(ImageImpl image) {
         getSession().save(image);
     }
-      @Override
-    public ImageImpl getImageById(Long id)
-	{
+
+    @Override
+    public ImageImpl getImageById(Long id) {
         return (ImageImpl) getSession().get(ImageImpl.class, id);
     }
 
     @Override
-	public void deleteImage(Long id)
-	{
-		ImageImpl image = getImageById(id);
+    public void deleteImage(Long id) {
+        ImageImpl image = getImageById(id);
         image.getBase().getAdditionalImages().remove(image);
-		image.setBase(null);
-		getSession().delete(image);
-	}  
+        image.setBase(null);
+        getSession().delete(image);
+    }
 }

@@ -17,34 +17,35 @@
     <!--todo: you already define this beans in lib-->
     <bean id="newsDao"
           class="ua.dp.stud.StudPortalLib.dao.impl.NewsDaoImpl">
-        <property name="sessionFactory" ref="sessionFactory" />
+        <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
     <bean id="newsService"
           class="ua.dp.stud.StudPortalLib.service.impl.NewsServiceImpl">
         <property name="dao" ref="newsDao"/>
     </bean>
 
-    <context:component-scan base-package="ua.dp.stud.microblog.controller" />
-    <mvc:annotation-driven />
-    <context:annotation-config />
+    <context:component-scan base-package="ua.dp.stud.microblog.controller"/>
+    <mvc:annotation-driven/>
+    <context:annotation-config/>
 
-    <context:property-placeholder location="classpath:/jdbc.properties" />
+    <context:property-placeholder location="classpath:/jdbc.properties"/>
     <bean id="dataSource"
           class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="${database.driver}" />
-        <property name="url" value="${database.url}" />
-        <property name="username" value="${database.user}" />
-        <property name="password" value="${database.password}" />
+        <property name="driverClassName" value="${database.driver}"/>
+        <property name="url" value="${database.url}"/>
+        <property name="username" value="${database.user}"/>
+        <property name="password" value="${database.password}"/>
 
     </bean>
 
-    <bean id="portletMultipartResolver" class="org.springframework.web.portlet.multipart.CommonsPortletMultipartResolver">
+    <bean id="portletMultipartResolver"
+          class="org.springframework.web.portlet.multipart.CommonsPortletMultipartResolver">
         <property name="maxUploadSize" value="1000000"/>
-     </bean>
+    </bean>
     <bean id="sessionFactory"
           class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
-        <property name="dataSource" ref="dataSource" />
-        <property name="configLocation" value="classpath:/hibernate.cfg.xml" />
+        <property name="dataSource" ref="dataSource"/>
+        <property name="configLocation" value="classpath:/hibernate.cfg.xml"/>
         <property name="hibernateProperties">
             <props>
                 <prop key="hibernate.dialect">${hibernate.dialect}</prop>
@@ -56,36 +57,34 @@
     <!-- todo: remove transactionManager and sessionFactory-->
     <bean id="transactionManager"
           class="org.springframework.orm.hibernate3.HibernateTransactionManager">
-        <property name="sessionFactory" ref="sessionFactory" />
+        <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 
     <aop:config>
-        <aop:pointcut id="ServiceT" expression="execution(* ua.dp.stud.StudPortalLib.service.*.* (..))" />
-        <aop:advisor pointcut-ref="ServiceT" advice-ref="txAdvice" />
+        <aop:pointcut id="ServiceT" expression="execution(* ua.dp.stud.StudPortalLib.service.*.* (..))"/>
+        <aop:advisor pointcut-ref="ServiceT" advice-ref="txAdvice"/>
     </aop:config>
 
     <tx:advice id="txAdvice" transaction-manager="transactionManager">
         <tx:attributes>
-            <tx:method name="get*" propagation="REQUIRED" read-only="true"  />
-            <tx:method name="update*" propagation="REQUIRED" />
-            <tx:method name="delete*" propagation="REQUIRED" />
+            <tx:method name="get*" propagation="REQUIRED" read-only="true"/>
+            <tx:method name="update*" propagation="REQUIRED"/>
+            <tx:method name="delete*" propagation="REQUIRED"/>
         </tx:attributes>
     </tx:advice>
-
-
 
 
     <bean id="viewResolver"
           class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="viewClass"
-                  value="org.springframework.web.servlet.view.JstlView" />
-        <property name="prefix" value="/WEB-INF/views/" />
-        <property name="suffix" value=".jsp" />
+                  value="org.springframework.web.servlet.view.JstlView"/>
+        <property name="prefix" value="/WEB-INF/views/"/>
+        <property name="suffix" value=".jsp"/>
     </bean>
 
     <bean id="messageSource"
           class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
-        <property name="basename" value="classpath:messages" />
+        <property name="basename" value="classpath:messages"/>
         <property name="defaultEncoding" value="cp1251"/>
     </bean>
 
@@ -96,7 +95,7 @@
 
     <mvc:interceptors>
         <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
-            <property name="paramName" value="lang" />
+            <property name="paramName" value="lang"/>
         </bean>
     </mvc:interceptors>
 </beans>

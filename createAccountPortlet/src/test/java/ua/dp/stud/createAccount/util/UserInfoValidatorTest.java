@@ -6,13 +6,11 @@ import org.junit.Before;
  * Author: Pikus V.V.
  * Date: 25.03.13
  */
-public class UserInfoValidatorTest
-{
+public class UserInfoValidatorTest {
     private UserInfoValidator userInfoValidator;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         userInfoValidator = new UserInfoValidator();
     }
     //todo:wtf?

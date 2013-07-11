@@ -4,10 +4,11 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 
-<portlet:renderURL var = "home">
-    <portlet:param name = "myaction" value = "home" />
+<portlet:renderURL var="home">
+    <portlet:param name="myaction" value="home"/>
 </portlet:renderURL>
 
 
 <a href="${home}"><spring:message code="form.back"/></a>
+
 <h1><spring:message code="result.mailchanged"/></h1>

@@ -52,8 +52,7 @@ public class OrganizationServiceTest extends AbstractTransactionalJUnit4SpringCo
     }
 
     @Test
-    public void getOrganizationsOnPageTest()
-    {
+    public void getOrganizationsOnPageTest() {
         List<Organization> expResult = (List) service.getOrganizationsOnPage(true, 1, 4);
         assertFalse(expResult.size() == 1);
         assertEquals(2, expResult.size());
@@ -61,8 +60,7 @@ public class OrganizationServiceTest extends AbstractTransactionalJUnit4SpringCo
     }
 
     @Test
-    public void getAllOrganizationByAuthorTest()
-    {
+    public void getAllOrganizationByAuthorTest() {
         List<Organization> expResult = (List) service.getAllOrganizationByAuthor("author1");
         assertFalse(expResult.size() == 1);
         assertEquals(2, expResult.size());
@@ -70,16 +68,14 @@ public class OrganizationServiceTest extends AbstractTransactionalJUnit4SpringCo
     }
 
     @Test
-    public void getCountByAuthorTest()
-    {
+    public void getCountByAuthorTest() {
         Integer result = 1;
         Integer expResult = service.getPagesCountByAuthor("author1", 4);
         assertEquals(result, expResult);
     }
 
     @Test
-    public void getPagesOrganizationByAuthorTest()
-    {
+    public void getPagesOrganizationByAuthorTest() {
         List<Organization> expResult = (List) service.getPagesOrganizationByAuthor("author1", 1, 4);
         assertFalse(expResult.size() == 1);
         assertEquals(2, expResult.size());
@@ -87,8 +83,7 @@ public class OrganizationServiceTest extends AbstractTransactionalJUnit4SpringCo
     }
 
     @Test
-    public void getPagesCountTest()
-    {
+    public void getPagesCountTest() {
         Integer result = 1;
         Integer expResult = service.getPagesCount(true, 4);
         assertEquals(result, expResult);
@@ -116,12 +111,12 @@ public class OrganizationServiceTest extends AbstractTransactionalJUnit4SpringCo
         assertEquals(orgsList, fromDao);
         assertEquals(2, fromDao.size());
     }
-	@Test
-	public void getOrganizationTypes()
-	{
-		assertNotNull(service.getOrganizationTypes());
+
+    @Test
+    public void getOrganizationTypes() {
+        assertNotNull(service.getOrganizationTypes());
         assertEquals(7, service.getOrganizationTypes().size());
-	}
+    }
 
     @Test
     public void getByType() {
@@ -143,11 +138,11 @@ public class OrganizationServiceTest extends AbstractTransactionalJUnit4SpringCo
         o3.setOrganizationType(OrganizationType.OTHERS);
         o3.setApproved(Boolean.TRUE);
         service.addOrganization(o3);
-        List<Organization> othersList = (List<Organization>) service.getOrganizationsOnPage(1, 1,o3.getOrganizationType().toString(),true);
-       // assertEquals(1, othersList.size());
+        List<Organization> othersList = (List<Organization>) service.getOrganizationsOnPage(1, 1, o3.getOrganizationType().toString(), true);
+        // assertEquals(1, othersList.size());
         //assertEquals(o3, othersList.get(0));
-		
-		assertNull(service.getOrganizationsOnPage(1, 1, "type1",true));
+
+        assertNull(service.getOrganizationsOnPage(1, 1, "type1", true));
     }
 
    /* @Test
@@ -159,7 +154,7 @@ public class OrganizationServiceTest extends AbstractTransactionalJUnit4SpringCo
     }*/
 
     @Test
-    public void update(){
+    public void update() {
         Integer id = org1.getId();
         org1.setOrganizationType(OrganizationType.OTHERS);
         service.updateOrganization(org1);
@@ -169,6 +164,6 @@ public class OrganizationServiceTest extends AbstractTransactionalJUnit4SpringCo
 
     @Test
     public void getCount() {
-        assertEquals(2, (int)service.getCount());
+        assertEquals(2, (int) service.getCount());
     }
 }

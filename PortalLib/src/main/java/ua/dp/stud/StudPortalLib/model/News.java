@@ -83,13 +83,11 @@ public class News extends BaseImagesSupport implements Serializable {
     private Integer numberOfViews = 0;
 
     @Column
-    public Integer getNumberOfViews()
-    {
+    public Integer getNumberOfViews() {
         return numberOfViews;
     }
 
-    public void setNumberOfViews(Integer numberOfViews)
-    {
+    public void setNumberOfViews(Integer numberOfViews) {
         this.numberOfViews = numberOfViews;
     }
 

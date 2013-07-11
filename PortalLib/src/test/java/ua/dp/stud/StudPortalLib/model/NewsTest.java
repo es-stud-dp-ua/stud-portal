@@ -8,34 +8,32 @@ import java.util.Date;
 import static org.junit.Assert.*;
 
 /**
- * @author  Roman Lukash
+ * @author Roman Lukash
  */
 public class NewsTest {
     public NewsTest() {
     }
+
     private News instance;
 
     @Before
     public void setUp() {
-        instance=new News();
+        instance = new News();
     }
 
     @Test
-    public void getNumberOfViewsTest()
-    {
+    public void getNumberOfViewsTest() {
         Integer result = 0;
         assertEquals(result, instance.getNumberOfViews());
     }
 
     @Test
-    public void getOrgApprovedTest()
-    {
+    public void getOrgApprovedTest() {
         assertNull(instance.getOrgApproved());
     }
 
     @Test
-    public void setOrgApprovedTest()
-    {
+    public void setOrgApprovedTest() {
         instance.setOrgApproved(true);
         assertTrue(instance.getOrgApproved());
     }
@@ -49,6 +47,7 @@ public class NewsTest {
         Integer result = instance.getId();
         assertEquals(expResult, result);
     }
+
     /**
      * Test of setId method, of class News.
      */
@@ -57,6 +56,7 @@ public class NewsTest {
         Integer id = null;
         instance.setId(id);
     }
+
     /**
      * Test of getTopic method, of class News.
      */
@@ -75,6 +75,7 @@ public class NewsTest {
         String topic = "";
         instance.setTopic(topic);
     }
+
     /**
      * Test of getText method, of class News.
      */
@@ -84,6 +85,7 @@ public class NewsTest {
         String result = instance.getText();
         assertEquals(expResult, result);
     }
+
     /**
      * Test of setText method, of class News.
      */
@@ -92,6 +94,7 @@ public class NewsTest {
         String text = "";
         instance.setText(text);
     }
+
     /**
      * Test of getAuthor method, of class News.
      */
@@ -101,6 +104,7 @@ public class NewsTest {
         String result = instance.getAuthor();
         assertEquals(expResult, result);
     }
+
     /**
      * Test of setAuthor method, of class News.
      */
@@ -120,7 +124,7 @@ public class NewsTest {
         assertEquals(expResult, result);
     }
 
-    
+
     /**
      * Test of setPublication method, of class News.
      */
@@ -148,6 +152,7 @@ public class NewsTest {
         boolean inCalendar = false;
         instance.setInCalendar(inCalendar);
     }
+
     /**
      * Test of getApproved method, of class News.
      */
@@ -176,6 +181,7 @@ public class NewsTest {
         boolean result = instance.getOnMainpage();
         assertEquals(expResult, result);
     }
+
     /**
      * Test of setOnMainpage method, of class News.
      */
@@ -185,15 +191,14 @@ public class NewsTest {
         instance.setOnMainpage(onMainpage);
     }
 
-	@Test
-	public void testHashCode(){
-		Integer result = instance.hashCode();
-		assertNotNull(result);
-	}
-	
-	@Test
-	public void testToString()
-	{
-		assertNotNull(instance.toString());
-	}
+    @Test
+    public void testHashCode() {
+        Integer result = instance.hashCode();
+        assertNotNull(result);
+    }
+
+    @Test
+    public void testToString() {
+        assertNotNull(instance.toString());
+    }
 }

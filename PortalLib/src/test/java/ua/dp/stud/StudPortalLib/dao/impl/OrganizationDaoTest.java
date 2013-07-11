@@ -83,17 +83,17 @@ public class OrganizationDaoTest extends AbstractTransactionalJUnit4SpringContex
     }
 
     @Test
-    public void getAllOrganizationsNewsByIdTests(){
+    public void getAllOrganizationsNewsByIdTests() {
         Integer id = org1.getId();
-        Collection <News> news = dao.getAllOrganizationsNewsById(id,true);
+        Collection<News> news = dao.getAllOrganizationsNewsById(id, true);
         assertTrue(news.contains(n1));
         assertFalse(news.contains(n2));
     }
 
     @Test
-    public void getOrganizationsNewsByIdOnPage(){
+    public void getOrganizationsNewsByIdOnPage() {
         Integer id = org1.getId();
-        Collection <News> news = dao.getOrganizationsNewsByIdOnPage(id, 1, 2, true);
+        Collection<News> news = dao.getOrganizationsNewsByIdOnPage(id, 1, 2, true);
         assertEquals(2, news.size());
         assertTrue(news.contains(n1));
         assertTrue(news.contains(n3));
@@ -101,8 +101,7 @@ public class OrganizationDaoTest extends AbstractTransactionalJUnit4SpringContex
     }
 
     @Test
-    public void getOrganizationsOnPageTest()
-    {
+    public void getOrganizationsOnPageTest() {
         List<Organization> expResult = (List) dao.getOrganizationsOnPage(true, 1, 4);
         assertFalse(expResult.size() == 1);
         assertEquals(2, expResult.size());
@@ -110,8 +109,7 @@ public class OrganizationDaoTest extends AbstractTransactionalJUnit4SpringContex
     }
 
     @Test
-    public void getAllOrganizationByAuthorTest()
-    {
+    public void getAllOrganizationByAuthorTest() {
         List<Organization> expResult = (List) dao.getAllOrganizationByAuthor("author1");
         assertFalse(expResult.size() == 1);
         assertEquals(2, expResult.size());
@@ -119,16 +117,14 @@ public class OrganizationDaoTest extends AbstractTransactionalJUnit4SpringContex
     }
 
     @Test
-    public void getCountByAuthorTest()
-    {
+    public void getCountByAuthorTest() {
         Integer result = 2;
         Integer expResult = dao.getCountByAuthor("author1");
         assertEquals(result, expResult);
     }
 
     @Test
-    public void getPagesOrganizationByAuthorTest()
-    {
+    public void getPagesOrganizationByAuthorTest() {
         List<Organization> expResult = (List) dao.getPagesOrganizationByAuthor("author1", 1, 4);
         assertFalse(expResult.size() == 1);
         assertEquals(2, expResult.size());
@@ -136,8 +132,7 @@ public class OrganizationDaoTest extends AbstractTransactionalJUnit4SpringContex
     }
 
     @Test
-    public void getCountByApprovedTest()
-    {
+    public void getCountByApprovedTest() {
         Integer result = 0;
         Integer expResult = dao.getCountByApprove(false);
         assertEquals(result, expResult);
@@ -181,7 +176,7 @@ public class OrganizationDaoTest extends AbstractTransactionalJUnit4SpringContex
         o3.setOrganizationType(OrganizationType.OTHERS);
         o3.setApproved(Boolean.TRUE);
         dao.addOrganization(o3);
-        List<Organization> othersList = (List<Organization>) dao.getOrganizationsOnPage(1, 2, OrganizationType.OTHERS,true);
+        List<Organization> othersList = (List<Organization>) dao.getOrganizationsOnPage(1, 2, OrganizationType.OTHERS, true);
         assertTrue(othersList.contains(o3));
     }
 
@@ -192,7 +187,7 @@ public class OrganizationDaoTest extends AbstractTransactionalJUnit4SpringContex
     }*/
 
     @Test
-    public void update(){
+    public void update() {
         Integer id = org1.getId();
         org1.setOrganizationType(OrganizationType.OTHERS);
         dao.updateOrganization(org1);
@@ -202,6 +197,6 @@ public class OrganizationDaoTest extends AbstractTransactionalJUnit4SpringContex
 
     @Test
     public void getCount() {
-        assertEquals(2, (int)dao.getCount());
+        assertEquals(2, (int) dao.getCount());
     }
 }

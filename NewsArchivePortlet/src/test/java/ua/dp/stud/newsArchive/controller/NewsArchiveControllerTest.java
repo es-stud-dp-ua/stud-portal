@@ -44,15 +44,15 @@ import static org.mockito.Mockito.*;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({IGImageLocalServiceUtil.class,
-                 IGFolderLocalServiceUtil.class,
-                 ImageServletTokenUtil.class,
-                 UserLocalServiceUtil.class,
-                 SessionMessages.class,
-                 SessionErrors.class})
+        IGFolderLocalServiceUtil.class,
+        ImageServletTokenUtil.class,
+        UserLocalServiceUtil.class,
+        SessionMessages.class,
+        SessionErrors.class})
 public class NewsArchiveControllerTest {
     private static final int NEWS_BY_PAGE = 10;
     private int pagesCount, currentPage;
-    private NewsController controller  = new NewsController();
+    private NewsController controller = new NewsController();
     private ThemeDisplay mockThemeDisplay;
     private NewsService mockService;
     private Collection<News> news;
@@ -64,7 +64,7 @@ public class NewsArchiveControllerTest {
     private News mockNews;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         PowerMockito.mockStatic(IGImageLocalServiceUtil.class);
         PowerMockito.mockStatic(ImageServletTokenUtil.class);
         PowerMockito.mockStatic(UserLocalServiceUtil.class);
@@ -76,24 +76,24 @@ public class NewsArchiveControllerTest {
 
         pagesCount = 3;
         currentPage = 1;
-        news = new LinkedList<News>(Collections.nCopies(10,new News()));
+        news = new LinkedList<News>(Collections.nCopies(10, new News()));
         when(mockService.getPagesCount(NEWS_BY_PAGE)).thenReturn(pagesCount);
-        when(mockService.getNewsOnPage(true, currentPage,NEWS_BY_PAGE)).thenReturn(news);
+        when(mockService.getNewsOnPage(true, currentPage, NEWS_BY_PAGE)).thenReturn(news);
         controller.setNewsService(mockService);
 
         mockThemeDisplay = mock(ThemeDisplay.class);
 
         IGImage imageMock1 = mock(IGImage.class);
-        when(imageMock1.getLargeImageId()).thenReturn((long)1);
+        when(imageMock1.getLargeImageId()).thenReturn((long) 1);
         IGImage imageMock2 = mock(IGImage.class);
         when(imageMock2.getLargeImageId()).thenReturn((long) 2);
         PowerMockito.when(ImageServletTokenUtil.getToken(anyLong())).thenReturn("token");
 
         PowerMockito.doNothing().when(SessionMessages.class);
-        SessionMessages.add(any(RenderRequest.class),any(String.class));
+        SessionMessages.add(any(RenderRequest.class), any(String.class));
         PowerMockito.doNothing().when(SessionErrors.class);
-        SessionErrors.add(any(RenderRequest.class),any(String.class));
-        
+        SessionErrors.add(any(RenderRequest.class), any(String.class));
+
         mainImage = mock(CommonsMultipartFile.class);
         image1 = mock(CommonsMultipartFile.class);
         image2 = mock(CommonsMultipartFile.class);
@@ -111,9 +111,9 @@ public class NewsArchiveControllerTest {
             PowerMockito.when(IGImageLocalServiceUtil.getImage(1)).thenReturn(imageMock1);
             PowerMockito.when(IGImageLocalServiceUtil.getImage(2)).thenReturn(imageMock2);
             when(UserLocalServiceUtil.getUser(0l)).thenReturn(mockUser);
-            when(IGFolderLocalServiceUtil.getFolder(anyLong(),anyLong(),anyString()))
+            when(IGFolderLocalServiceUtil.getFolder(anyLong(), anyLong(), anyString()))
                     .thenReturn(mockParentFolder);
-            when(IGFolderLocalServiceUtil.addFolder(anyLong(),anyLong(),anyString(),anyString(),any(ServiceContext.class)))
+            when(IGFolderLocalServiceUtil.addFolder(anyLong(), anyLong(), anyString(), anyString(), any(ServiceContext.class)))
                     .thenReturn(mockFolder);
             when(IGImageLocalServiceUtil.addImage(anyLong(), anyLong(), anyLong(),
                     anyString(), anyString(), anyString(),
@@ -124,25 +124,25 @@ public class NewsArchiveControllerTest {
     }
 
     @Test
-    public void testShowView(){
+    public void testShowView() {
         ModelAndView model = showView();
 
-        assertEquals(news,model.getModel().get("news"));
-        assertEquals(currentPage,model.getModel().get("currentPage"));
-        assertEquals(pagesCount,model.getModel().get("pagesCount"));
-        assertEquals(NEWS_BY_PAGE,model.getModel().get("newsByPage"));
-        assertEquals("viewAll",model.getViewName());
+        assertEquals(news, model.getModel().get("news"));
+        assertEquals(currentPage, model.getModel().get("currentPage"));
+        assertEquals(pagesCount, model.getModel().get("pagesCount"));
+        assertEquals(NEWS_BY_PAGE, model.getModel().get("newsByPage"));
+        assertEquals("viewAll", model.getViewName());
     }
 
     @Test
-    public void testShowSelectedNews(){
+    public void testShowSelectedNews() {
         RenderResponse response = new MockRenderResponse();
         RenderRequest request = mock(RenderRequest.class);
-        
+
         News mockNews = new News();
         mockNews.setId(1);
 //        mockNews.setMainImageId(0l);
-        Collection<Long> photosIDs = new LinkedList<Long>(Arrays.asList((long)1, (long)2));
+        Collection<Long> photosIDs = new LinkedList<Long>(Arrays.asList((long) 1, (long) 2));
 //        mockNews.setAdditionalPicturesHolder(photosIDs);
         ThemeDisplay mockThemeDisplay = mock(ThemeDisplay.class);
 
@@ -152,34 +152,34 @@ public class NewsArchiveControllerTest {
         when(mockThemeDisplay.getPortalURL()).thenReturn("http://portal");
         when(mockThemeDisplay.getPathImage()).thenReturn("images");
 
-        ModelAndView model = controller.showSelectedNews(request,response);
+        ModelAndView model = controller.showSelectedNews(request, response);
 
-        assertEquals("viewSingle",model.getViewName());
-        assertEquals(mockNews.getId(),((News)model.getModel().get("news")).getId());
+        assertEquals("viewSingle", model.getViewName());
+        assertEquals(mockNews.getId(), ((News) model.getModel().get("news")).getId());
 //        assertEquals(photosIDs.size(),((Collection)model.getModel().get("additionalImages")).size());
 //        assertEquals(true,((String)model.getModel().get("mainImage")).endsWith("img_id=0&t=token"));
     }
 
     @Test
-    public void testShowPage(){
+    public void testShowPage() {
         MockActionResponse actionResponse = new MockActionResponse();
         ActionRequest actionRequest = mock(ActionRequest.class);
 
         when(actionRequest.getParameter("pageNumber")).thenReturn("2");
-        controller.showPage(actionRequest,actionResponse);
+        controller.showPage(actionRequest, actionResponse);
 
         RenderResponse response = new MockRenderResponse();
         RenderRequest request = mock(RenderRequest.class);
 
         int pagesCount = 3, currentPage = 2;
-        when(mockService.getNewsOnPage(true, currentPage,NEWS_BY_PAGE)).thenReturn(new LinkedList<News>());
+        when(mockService.getNewsOnPage(true, currentPage, NEWS_BY_PAGE)).thenReturn(new LinkedList<News>());
 
         ModelAndView model = controller.showView(request, response);
         //assertEquals(currentPage,model.getModel().get("currentPage"));
     }
 
     @Test
-    public void testShowNextPage(){
+    public void testShowNextPage() {
         //applying params
         showView();
 
@@ -187,14 +187,14 @@ public class NewsArchiveControllerTest {
         ActionRequest actionRequest = mock(ActionRequest.class);
         when(actionRequest.getParameter("pageNumber")).thenReturn("2");
 
-        controller.showPage(actionRequest,actionResponse);
-        controller.showNextPage(actionRequest,actionResponse);
+        controller.showPage(actionRequest, actionResponse);
+        controller.showNextPage(actionRequest, actionResponse);
         ModelAndView model = showView();
         //assertEquals(3,model.getModel().get("currentPage"));
     }
 
     @Test
-    public void testShowNextAfterLastPage(){
+    public void testShowNextAfterLastPage() {
         //applying params
         showView();
 
@@ -208,7 +208,7 @@ public class NewsArchiveControllerTest {
     }
 
     @Test
-    public void testShowPrevPage(){
+    public void testShowPrevPage() {
         //applying params
         showView();
 
@@ -218,11 +218,11 @@ public class NewsArchiveControllerTest {
 
         controller.showPrevPage(actionRequest, actionResponse);
         ModelAndView model = showView();
-        assertEquals(1,model.getModel().get("currentPage"));
+        assertEquals(1, model.getModel().get("currentPage"));
     }
 
     @Test
-    public void testShowPrevBeforeFirstPage(){
+    public void testShowPrevBeforeFirstPage() {
         //applying params
         showView();
 
@@ -232,63 +232,62 @@ public class NewsArchiveControllerTest {
 
         controller.showPrevPage(actionRequest, actionResponse);
         ModelAndView model = showView();
-        assertEquals(1,model.getModel().get("currentPage"));
+        assertEquals(1, model.getModel().get("currentPage"));
     }
 
-    private ModelAndView showView(){
+    private ModelAndView showView() {
         RenderResponse response = new MockRenderResponse();
         RenderRequest request = new MockRenderRequest();
         return controller.showView(request, response);
     }
 
     @Test
-    public void testShowAddNewsPage(){
+    public void testShowAddNewsPage() {
         RenderResponse response = new MockRenderResponse();
         RenderRequest request = new MockRenderRequest();
         ModelAndView model = controller.showAddNews(request, response);
 
-        assertEquals("addNews",model.getViewName());
+        assertEquals("addNews", model.getViewName());
     }
 
     @Test
-    public void testShowAddNewsSuccessPage(){
+    public void testShowAddNewsSuccessPage() {
         RenderResponse response = new MockRenderResponse();
         RenderRequest request = mock(RenderRequest.class);
         when(request.getParameter("success")).thenReturn("message");
 
         ModelAndView model = controller.showAddSuccess(request, response);
-        assertEquals("viewAll",model.getViewName());
+        assertEquals("viewAll", model.getViewName());
 
         PowerMockito.verifyStatic();
-        SessionMessages.add(request,"message");
+        SessionMessages.add(request, "message");
     }
 
     @Test
-     public void testShowAddNewsFailPage(){
+    public void testShowAddNewsFailPage() {
         RenderResponse response = new MockRenderResponse();
         RenderRequest request = mock(RenderRequest.class);
         when(request.getParameter("fail")).thenReturn("message");
 
         ModelAndView model = controller.showAddFailed(request, response);
-        assertEquals("addNews",model.getViewName());
+        assertEquals("addNews", model.getViewName());
 
         PowerMockito.verifyStatic();
-        SessionErrors.add(request,"message");
+        SessionErrors.add(request, "message");
     }
 
     @Test
-    public void testAddNewsNoMainImage(){
-        ActionRequest  request = mock(ActionRequest.class);
+    public void testAddNewsNoMainImage() {
+        ActionRequest request = mock(ActionRequest.class);
         ActionResponse response = mock(ActionResponse.class);
         SessionStatus sessionStatus = mock(SessionStatus.class);
         when(mainImage.getOriginalFilename()).thenReturn("");
 
-        try{
+        try {
             controller.addNews(mainImage, null, request, response, sessionStatus);
-            verify(response).setRenderParameter("fail","no-images");
-        }
-        catch(Exception ex){
-            ex.printStackTrace();    
+            verify(response).setRenderParameter("fail", "no-images");
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 

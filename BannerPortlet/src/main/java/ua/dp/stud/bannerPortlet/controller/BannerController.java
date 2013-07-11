@@ -51,8 +51,7 @@ public class BannerController {
     @Qualifier(value = "imageService")
     private ImageService imageService;
 
-    public void setImageService(ImageService imageService)
-    {
+    public void setImageService(ImageService imageService) {
         this.imageService = imageService;
     }
 
@@ -144,10 +143,9 @@ public class BannerController {
         BannerImage banner = bannerImageService.getBannerImageById(id);
         String url = actionRequest.getParameter("url");
         BannerImage other = bannerImageService.getByURL(url);
-        if (other != null && other.getId() != banner.getId())
-        {
-			actionResponse.setRenderParameter(STR_FAIL, STR_DUBLICAT);
-			return;
+        if (other != null && other.getId() != banner.getId()) {
+            actionResponse.setRenderParameter(STR_FAIL, STR_DUBLICAT);
+            return;
         }
         if (this.updateBannerImage(mainImage, url, actionResponse, banner)) {
             try {

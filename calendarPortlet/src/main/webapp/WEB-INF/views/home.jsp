@@ -8,17 +8,18 @@
 <%@ taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet" %>
 <% ImageService imgService = new ImageService(); %>
 
-<link href="${pageContext.request.contextPath}/css/main.css" rel="stylesheet" type="text/css" />
+<link href="${pageContext.request.contextPath}/css/main.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/main.js"></script>
 <liferay-portlet:renderURL var="link"/>
 
 <div id="outerCalendarContainer">
-	<div id="bodyCalend"><table id="calendarTable">
-        <tr>
-            <c:forEach var="entry" items="${news}" >
-                <td
-                        <c:choose>
-                            <c:when test="${fn:length(entry.value) gt 0}">class="haveEvent">
+    <div id="bodyCalend">
+        <table id="calendarTable">
+            <tr>
+                <c:forEach var="entry" items="${news}">
+                    <td
+                            <c:choose>
+                                <c:when test="${fn:length(entry.value) gt 0}">class="haveEvent">
                                 <span <c:choose>
                                     <c:when test="${days[entry.key]==6 || days[entry.key]==7 }"> class="dayoff">
                                         <spring:message code="${days[entry.key]}"/>
@@ -29,9 +30,9 @@
                                 </c:choose></span>
                                     <br>
                                     <span class="off">${entry.key}</span>
-                            </c:when>
-                            <c:otherwise>
-                                >
+                                </c:when>
+                                <c:otherwise>
+                                    >
                             <span  <c:choose>
                                 <c:when test="${days[entry.key]==6 || days[entry.key]==7 }"> class="dayoff">
                                     <spring:message code="${days[entry.key]}"/>
@@ -42,41 +43,46 @@
                             </c:choose>
                             </span>
 
-                                <br>
+                                    <br>
 
-                                ${entry.key}
+                                    ${entry.key}
 
 
-                            </c:otherwise>
-                        </c:choose>
+                                </c:otherwise>
+                            </c:choose>
 
-                        <c:if test="${fn:length(entry.value) gt 0}">
-                            <div class="pop-up">
-                                <c:forEach var="event" items="${entry.value}" varStatus="status">
-                                    <div class="inner">
-                                        <liferay-portlet:renderURL plid="${plid}" var="linkToSingleNews" portletName="${archive_name}">
-                                            <liferay-portlet:param name="newsID" value="${event.id}" />
-                                        </liferay-portlet:renderURL>
-                                        <% News news = (News) pageContext.getAttribute("event"); %>
+                            <c:if test="${fn:length(entry.value) gt 0}">
+                                <div class="pop-up">
+                                    <c:forEach var="event" items="${entry.value}" varStatus="status">
+                                        <div class="inner">
+                                            <liferay-portlet:renderURL plid="${plid}" var="linkToSingleNews"
+                                                                       portletName="${archive_name}">
+                                                <liferay-portlet:param name="newsID" value="${event.id}"/>
+                                            </liferay-portlet:renderURL>
+                                            <% News news = (News) pageContext.getAttribute("event"); %>
 
-                                        <div style="min-height: 71px;"><img src="<%= imgService.getPathToCalendarImage(news.getMainImage(), news) %>" alt="image" style="float: left; padding-right: 10px;">
-											<p>
-												<a href="${linkToSingleNews}">${event.topic}</a>
-											</p>
-										</div>
+                                            <div style="min-height: 71px;"><img
+                                                    src="<%= imgService.getPathToCalendarImage(news.getMainImage(), news) %>"
+                                                    alt="image" style="float: left; padding-right: 10px;">
 
-                                        <c:if test="${fn:length(entry.value)-1 ne status.index}">
-                                           <br>
-                                        </c:if>
+                                                <p>
+                                                    <a href="${linkToSingleNews}">${event.topic}</a>
+                                                </p>
+                                            </div>
 
-                                    </div>
-                                </c:forEach>
-                            </div>
-                        </c:if>
-                </td>
-            </c:forEach>
-        </tr>
-    </table></div>
+                                            <c:if test="${fn:length(entry.value)-1 ne status.index}">
+                                                <br>
+                                            </c:if>
+
+                                        </div>
+                                    </c:forEach>
+                                </div>
+                            </c:if>
+                    </td>
+                </c:forEach>
+            </tr>
+        </table>
+    </div>
 
     <div id="calendar_month">
         <div class="right" onclick="rewind(${currentYear},${currentMonth},'nextMonth');"></div>
@@ -86,20 +92,20 @@
 
 </div>
 <script>
-function rewind(year, month, direction) {
-	$.ajax({
-		url:"${link}&mode=next",
-		cache:false,
-		data:{year:year, month:month, direction:direction},
-		dataType:"html",
-		type:"GET",
-		contentType:"application/json;charset=utf-8",
-		success:function (data) {
-			var outerCalendarContainer = $("#outerCalendarContainer");
-			outerCalendarContainer.html($('#outerCalendarContainer', data));
-			setTableColumsSizes();
-			bindPopups();
-		}
-	});
-}
+    function rewind(year, month, direction) {
+        $.ajax({
+            url: "${link}&mode=next",
+            cache: false,
+            data: {year: year, month: month, direction: direction},
+            dataType: "html",
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+            success: function (data) {
+                var outerCalendarContainer = $("#outerCalendarContainer");
+                outerCalendarContainer.html($('#outerCalendarContainer', data));
+                setTableColumsSizes();
+                bindPopups();
+            }
+        });
+    }
 </script>

@@ -48,6 +48,7 @@ public class EventPanelController {
     public void setOrganizationService(OrganizationService organizationService) {
         this.organizationService = organizationService;
     }
+
     @Autowired
     @Qualifier(value = "newsService")
     private NewsService newsService;
@@ -159,14 +160,14 @@ public class EventPanelController {
      * @param request
      * @param response
      * @param currentPage current page
-     * @param direction takes one of three values​​: the first, prev, next
+     * @param direction   takes one of three values​​: the first, prev, next
      * @return
      */
     @RenderMapping(params = "mode=pagination")
     public ModelAndView pagination(RenderRequest request, RenderResponse response,
-            @RequestParam(required = true, defaultValue = "1") int currentPage,
-            @RequestParam(required = true, defaultValue = FIRST_STATE) String direction,
-            @RequestParam(required = true, defaultValue = VIEW) String modelView) {
+                                   @RequestParam(required = true, defaultValue = "1") int currentPage,
+                                   @RequestParam(required = true, defaultValue = FIRST_STATE) String direction,
+                                   @RequestParam(required = true, defaultValue = VIEW) String modelView) {
         ModelAndView model;
         if (modelView.equals("myNews")) {
             model = getMyNews(request, currentPage, direction);
@@ -199,19 +200,19 @@ public class EventPanelController {
      * @param request
      * @param response
      * @param currentPage current page
-     * @param direction takes one of three values​​: the first, prev, next or
-     * current
-     * @param modelView name of view
-     * @param objectId id of news or organization
+     * @param direction   takes one of three values​​: the first, prev, next or
+     *                    current
+     * @param modelView   name of view
+     * @param objectId    id of news or organization
      * @return
      */
     @RenderMapping(params = "mode=approve")
     public ModelAndView approve(RenderRequest request, RenderResponse response,
-            @RequestParam(required = true, defaultValue = "1") int currentPage,
-            @RequestParam(required = true, defaultValue = "current") String direction,
-            @RequestParam(required = true, defaultValue = VIEW) String modelView,
-            @RequestParam(required = true, defaultValue = "0") int objectId,
-            @RequestParam(required = true, defaultValue = "false") boolean appr) {
+                                @RequestParam(required = true, defaultValue = "1") int currentPage,
+                                @RequestParam(required = true, defaultValue = "current") String direction,
+                                @RequestParam(required = true, defaultValue = VIEW) String modelView,
+                                @RequestParam(required = true, defaultValue = "0") int objectId,
+                                @RequestParam(required = true, defaultValue = "false") boolean appr) {
         ModelAndView model;
         if (modelView.equals("newsInMyComm")) {
             News currentNews = newsService.getNewsById(objectId);
@@ -240,8 +241,8 @@ public class EventPanelController {
      * Set current page
      *
      * @param currentPage current page
-     * @param pageCount page count
-     * @param direction takes one of three values​​: the first, prev, nex
+     * @param pageCount   page count
+     * @param direction   takes one of three values​​: the first, prev, nex
      * @return current page
      */
     private int setPage(Integer currentPage, Integer pageCount, String direction) {

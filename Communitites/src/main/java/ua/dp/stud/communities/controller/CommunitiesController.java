@@ -8,6 +8,7 @@ package ua.dp.stud.communities.controller;
  *
  * @author Игорь Лапко
  */
+
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.servlet.SessionErrors;
@@ -32,6 +33,7 @@ import ua.dp.stud.StudPortalLib.model.Organization;
 import ua.dp.stud.StudPortalLib.util.OrganizationType;
 import ua.dp.stud.StudPortalLib.service.OrganizationService;
 import ua.dp.stud.StudPortalLib.util.ImageService;
+
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.RenderRequest;
@@ -70,6 +72,7 @@ public class CommunitiesController {
     public void setServiceOrg(OrganizationService organizationService) {
         this.organizationService = organizationService;
     }
+
     @Autowired
     @Qualifier(value = "imageService")
     private ImageService imageService;
@@ -122,22 +125,22 @@ public class CommunitiesController {
 
         if (pagesCount <= OVERAL_PAGES) {
 //all pages are shown
-            leftPageNumb = 1;                 
+            leftPageNumb = 1;
             rightPageNumb = pagesCount;
         } else {
 //if farther then page #1 + '...' + nearby pages  will look like 1 .. pages
             if (currentPage > 2 + NEARBY_PAGES) {
-                skippedBeginning = true;       
+                skippedBeginning = true;
             } else {
 //#1 + nearby pages + current + nearby pages   
-                leftPageNumb = 1;             
-                rightPageNumb = 2 + 2 * NEARBY_PAGES; 
+                leftPageNumb = 1;
+                rightPageNumb = 2 + 2 * NEARBY_PAGES;
             }
 //if farther then nearby + '...' + last
             if (currentPage < pagesCount - (NEARBY_PAGES + 1)) {
-                skippedEnding = true;        
+                skippedEnding = true;
             } else {
-                leftPageNumb = (pagesCount - 1) - 2 * NEARBY_PAGES; 
+                leftPageNumb = (pagesCount - 1) - 2 * NEARBY_PAGES;
                 rightPageNumb = pagesCount;
             }
         }
@@ -246,9 +249,9 @@ public class CommunitiesController {
     }
 
     private boolean updateCommunityFields(@RequestParam(MAIN_IMAGE) CommonsMultipartFile mainImage,
-            @RequestParam("images") CommonsMultipartFile[] images,
-            String frmTopic, String frmText, String frmRole, String role,
-            ActionResponse actionResponse, Organization someorgs, OrganizationType type)
+                                          @RequestParam("images") CommonsMultipartFile[] images,
+                                          String frmTopic, String frmText, String frmRole, String role,
+                                          ActionResponse actionResponse, Organization someorgs, OrganizationType type)
             throws SystemException, PortalException {
         boolean successUpload = true;
 //check the length of the title and text
@@ -288,9 +291,9 @@ public class CommunitiesController {
 
     @ActionMapping(value = "addOrganisation")
     public void addOrganisation(@RequestParam(MAIN_IMAGE) CommonsMultipartFile mainImage,
-            @RequestParam("images") CommonsMultipartFile[] images,
-            ActionRequest actionRequest,
-            ActionResponse actionResponse, SessionStatus sessionStatus)
+                                @RequestParam("images") CommonsMultipartFile[] images,
+                                ActionRequest actionRequest,
+                                ActionResponse actionResponse, SessionStatus sessionStatus)
             throws SystemException, PortalException {
 //path for main image is not empty
         if (mainImage.getOriginalFilename().equals("")) {
@@ -330,7 +333,7 @@ public class CommunitiesController {
 //try to update fields for new organisation
         if (!isUnique) {
             if (updateCommunityFields(croppedImage, images, topic.trim(), text.trim(), role, usRole, actionResponse, organization, typeOrg)) {
-                Date date=new Date();
+                Date date = new Date();
                 organization.setPublication(date);
                 organization = organizationService.addOrganization(organization);
                 actionResponse.setRenderParameter("orgsID", Integer.toString(organization.getId()));
@@ -344,9 +347,9 @@ public class CommunitiesController {
 
     @ActionMapping(value = "editCommunity")
     public void editCommunity(@RequestParam(MAIN_IMAGE) CommonsMultipartFile mainImage,
-            @RequestParam("images") CommonsMultipartFile[] images,
-            ActionRequest actionRequest,
-            ActionResponse actionResponse, SessionStatus sessionStatus)
+                              @RequestParam("images") CommonsMultipartFile[] images,
+                              ActionRequest actionRequest,
+                              ActionResponse actionResponse, SessionStatus sessionStatus)
             throws IOException, SystemException, PortalException {
 //getting current news
         int organisationID = Integer.valueOf(actionRequest.getParameter("orgsId"));

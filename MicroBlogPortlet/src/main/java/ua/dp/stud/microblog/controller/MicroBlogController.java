@@ -51,18 +51,17 @@ public class MicroBlogController {
         model.setViewName("viewAll");
 
         Collection<News> news = service.getNewsOnMainPage();
-        ThemeDisplay themeDisplay= (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
-        long groupId= themeDisplay.getScopeGroupId();
+        ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+        long groupId = themeDisplay.getScopeGroupId();
         long plid = LayoutLocalServiceUtil.getDefaultPlid(groupId, false, NEWS_ARCHIVE_REFERENCE_NAME);
 
         model.addObject("news", news);
-        model.addObject("newsArchivePageID",plid);
+        model.addObject("newsArchivePageID", plid);
         return model;
     }
 
     @RenderMapping(params = "mode=remove")
-    public ModelAndView remove(RenderRequest request, RenderResponse response) throws SystemException, PortalException
-    {
+    public ModelAndView remove(RenderRequest request, RenderResponse response) throws SystemException, PortalException {
         Integer newsId = Integer.valueOf(request.getParameter("newsID"));
         News news = service.getNewsById(newsId);
         news.setOnMainpage(false);

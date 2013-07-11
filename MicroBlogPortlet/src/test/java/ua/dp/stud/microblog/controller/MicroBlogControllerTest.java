@@ -25,27 +25,27 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(LayoutLocalServiceUtil.class )
+@PrepareForTest(LayoutLocalServiceUtil.class)
 public class MicroBlogControllerTest {
-    private MicroBlogController controller  = new MicroBlogController();
+    private MicroBlogController controller = new MicroBlogController();
     NewsService mockService;
     Collection<News> news;
-    
+
     private final String PORTLET_ID = "NewsArchive_WAR_studnewsArchive";
     private final long GROUP_ID = 1;
     private final long PAGE_ID = 2;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         mockService = mock(NewsService.class);
 
-        news = new LinkedList<News>(Collections.nCopies(10,new News()));
+        news = new LinkedList<News>(Collections.nCopies(10, new News()));
         when(mockService.getNewsOnMainPage()).thenReturn(news);
         controller.setService(mockService);
 
         PowerMockito.mockStatic(LayoutLocalServiceUtil.class);
         try {
-            PowerMockito.when(LayoutLocalServiceUtil.getDefaultPlid(GROUP_ID,false,PORTLET_ID))
+            PowerMockito.when(LayoutLocalServiceUtil.getDefaultPlid(GROUP_ID, false, PORTLET_ID))
                     .thenReturn(PAGE_ID);
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -53,7 +53,7 @@ public class MicroBlogControllerTest {
     }
 
     @Test
-    public void testShowView(){
+    public void testShowView() {
         RenderResponse response = new MockRenderResponse();
         RenderRequest request = mock(RenderRequest.class);
         ThemeDisplay mockThemeDisplay = mock(ThemeDisplay.class);
@@ -68,8 +68,8 @@ public class MicroBlogControllerTest {
             ex.printStackTrace();
         }
 
-        assertEquals(news,model.getModel().get("news"));
-        assertEquals(PAGE_ID,model.getModel().get("newsArchivePageID"));
-        assertEquals("viewAll",model.getViewName());
+        assertEquals(news, model.getModel().get("news"));
+        assertEquals(PAGE_ID, model.getModel().get("newsArchivePageID"));
+        assertEquals("viewAll", model.getViewName());
     }
 }

@@ -1,4 +1,3 @@
-
 #contentDiv {
     margin-left: 1%;
     max-width: 632px;
@@ -16,7 +15,7 @@
 }
 
 #newsTable .newsImage {
-    float:left;
+    float: left;
     width: 100px;
     height: 100px;
     margin: 0px 20px 10px 10px;
@@ -46,6 +45,6 @@
     /*font-family: Florence, cursive;*/
     font-size: 17pt;
     color: #a9a9a9;
-    display:inline-block;
+    display: inline-block;
     width: 20px;
 }

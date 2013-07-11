@@ -26,8 +26,7 @@ import static org.junit.Assert.assertFalse;
 @ContextConfiguration(locations = {"classpath:/DaoTestContext.xml"})
 @TransactionConfiguration(defaultRollback = true)
 @RunWith(SpringJUnit4ClassRunner.class)
-public class BannerImageDaoImpTest extends AbstractTransactionalJUnit4SpringContextTests
-{
+public class BannerImageDaoImpTest extends AbstractTransactionalJUnit4SpringContextTests {
     @Autowired
     @Qualifier(value = "bannerDao")
     private BannerImageDao bannerDao;
@@ -41,8 +40,7 @@ public class BannerImageDaoImpTest extends AbstractTransactionalJUnit4SpringCont
 
     @Before
     @Rollback(false)
-    public  void setUp()
-    {
+    public void setUp() {
         banner1 = new BannerImage("http://vk.com");
         banner2 = new BannerImage("http://stud.dp.ua");
         bannerDao.addBannerImage(banner1);
@@ -50,29 +48,25 @@ public class BannerImageDaoImpTest extends AbstractTransactionalJUnit4SpringCont
     }
 
     @Test
-    public void getAllTest()
-    {
+    public void getAllTest() {
         Collection<BannerImage> bannerImageCollection = bannerDao.getAll();
         assertEquals(2, bannerImageCollection.size());
     }
 
     @Test
-    public void updateBannerImageTest()
-    {
+    public void updateBannerImageTest() {
         banner1.setUrl("http://google.com/");
         bannerDao.updateBannerImage(banner1);
     }
 
     @Test
-    public void getByURLTest()
-    {
+    public void getByURLTest() {
         BannerImage banner = bannerDao.getByURL("http://vk.com");
         assertEquals(banner, banner1);
     }
 
     @Test
-    public void getBannerImageByIdTest()
-    {
+    public void getBannerImageByIdTest() {
         BannerImage banner = bannerDao.getBannerImageById(banner2.getId());
         assertEquals(banner, banner2);
     }

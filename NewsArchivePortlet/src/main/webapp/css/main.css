@@ -20,26 +20,25 @@
 }
 
 #newsTable .newsImage {
-    float:left;
+    float: left;
     width: 100px;
     height: 100px;
     margin: 0px 20px 10px 10px;
 }
 
-.singleGelery
-{
+.singleGelery {
 }
-.ownGelery
-{
-	margin-left: 5px;
-	float: left;
+
+.ownGelery {
+    margin-left: 5px;
+    float: left;
 }
 
 #newsTable .newsText {
     font-size: 12pt;
     text-align: justify;
     margin-left: 5px;
-	min-height: 70px;
+    min-height: 70px;
 }
 
 #mainImageLoader {
@@ -52,8 +51,9 @@
     margin-left: 12px;
     position: absolute;
     margin-top: 280px;
-    
+
 }
+
 #mainImgloaderBtn {
     width: 96px;
     height: 24px;
@@ -64,7 +64,7 @@
     color: white;
     position: absolute;
     cursor: pointer;
-    margin-top:20px;
+    margin-top: 20px;
     margin-left: 170px;
     z-index: 1;
 }
@@ -76,11 +76,13 @@
     opacity: 0;
     width: 100%;
     height: 100%;
-   position: absolute;
+    position: absolute;
     z-index: 25;
     cursor: pointer;
-    }
-.grayrect { /*imageLoader*/
+}
+
+.grayrect {
+    /*imageLoader*/
     border: 1px solid;
     border-color: rgb(231, 231, 231);
     height: 70px;
@@ -93,7 +95,8 @@
     /*margin-top: 360px;*/
 }
 
-.greenbtn { /*#imgLoaderBtn wtf?*/
+.greenbtn {
+    /*#imgLoaderBtn wtf?*/
     width: 22%;
     height: 23px;
     border: 1px solid;
@@ -113,14 +116,15 @@
 .nphotos {
     background: none;
     position: absolute;
-    margin-left:-222px;
+    margin-left: -222px;
     border: 1px solid;
     opacity: 0;
-    width: 100%!important;
+    width: 100% !important;
     height: 100%;
     z-index: 2;
     cursor: pointer;
 }
+
 #newsTable .newsHeader {
     margin-top: 5px;
     margin-bottom: 10px;
@@ -145,7 +149,7 @@
     /*font-family: Florence, cursive;*/
     font-size: 17pt;
     color: #a9a9a9;
-    display:inline-block;
+    display: inline-block;
     width: 20px;
 }
 
@@ -173,7 +177,7 @@
     font-size: 11pt;
     /*font-family: Tahoma, Geneva, sans-serif;*/
     text-align: justify;
-	line-height: 16pt;
+    line-height: 16pt;
 }
 
 #underline-decoration {
@@ -192,7 +196,7 @@
 }
 
 /*add & edit news*/
-#topicInput{
+#topicInput {
     resize: initial;
     margin-top: 15px;
     width: 430px;
@@ -249,8 +253,8 @@
     position: absolute;
     z-index: 3;
 }
-#list
-{
+
+#list {
     z-index: 2;
 }
 
@@ -258,17 +262,19 @@
     height: 253px;
     width: 443px;
 }
+
 /*multiple image loader*/
 
-.aui-field-label { /*text описание*/
+.aui-field-label {
+    /*text описание*/
     font-weight: bold;
     padding-left: 9px;
 }
 
 #eventSetting {
     position: absolute;
-    margin-top:437px;
-    margin-left:200px;
+    margin-top: 437px;
+    margin-left: 200px;
 }
 
 /*rich editor*/
@@ -285,7 +291,8 @@ span.cke_skin_kama {
 #sbm {
     margin-left: 8px;
 }
-.disable{
+
+.disable {
     color: rgb(155, 155, 155);
 }
 
@@ -294,33 +301,35 @@ span.cke_skin_kama {
     width: 156px;
     border-width: thin;
 }
+
 /*footer of news*/
 .reply_link_wrap {
-	background: #eee;
-	width: 100%;
-	margin-top: 10px;
-	margin-bottom: 10px;
+    background: #eee;
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
+
 .rel_date {
-	background: url("../images/clock.png") no-repeat;
-	background-position: 4px 60%;
-	background-size: 14px;
-	padding-left: 25px;
-	margin-right: 5px
+    background: url("../images/clock.png") no-repeat;
+    background-position: 4px 60%;
+    background-size: 14px;
+    padding-left: 25px;
+    margin-right: 5px
 }
 
 .rel_author {
-	background: url("../images/auth.png") no-repeat;
-	background-position: 4px 60%;
-	background-size: 14px;
-	padding-left: 25px;
-	margin-right: 5px
+    background: url("../images/auth.png") no-repeat;
+    background-position: 4px 60%;
+    background-size: 14px;
+    padding-left: 25px;
+    margin-right: 5px
 }
 
 .rel_view {
-	background: url("../images/eye.png") no-repeat;
-	background-position: 4px 60%;
-	background-size: 18px;
-	padding-left: 25px;
-	margin-right: 5px
+    background: url("../images/eye.png") no-repeat;
+    background-position: 4px 60%;
+    background-size: 18px;
+    padding-left: 25px;
+    margin-right: 5px
 }

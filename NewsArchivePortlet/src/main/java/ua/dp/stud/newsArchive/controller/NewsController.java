@@ -61,6 +61,7 @@ public class NewsController {
     public void setNewsService(NewsService newsService) {
         this.newsService = newsService;
     }
+
     @Autowired
     @Qualifier(value = "organizationService")
     private OrganizationService organizationService;
@@ -68,6 +69,7 @@ public class NewsController {
     public void setServiceOrg(OrganizationService organizationService) {
         this.organizationService = organizationService;
     }
+
     @Autowired
     @Qualifier(value = "imageService")
     private ImageService imageService;
@@ -141,7 +143,7 @@ public class NewsController {
             }
         }
         model.addObject("nearbyPages", NEARBY_PAGES);
-        model.addObject("overallPages",OVERALL_PAGES);
+        model.addObject("overallPages", OVERALL_PAGES);
         model.addObject("leftPageNumb", leftPageNumb);
         model.addObject("rightPageNumb", rightPageNumb);
         model.addObject("skippedBeginning", skippedBeginning);
@@ -263,10 +265,10 @@ public class NewsController {
      * @param somenews
      */
     private boolean updateNewsFields(CommonsMultipartFile mainImage,
-            CommonsMultipartFile[] images,
-            String frmTopic, String frmText, Boolean frmInCalendar, Boolean frmOnMainPage,
-            String frmDateInCalendar, String frmRole, String role,
-            ActionResponse actionResponse, String strFail, String strNoImage, News somenews) {
+                                     CommonsMultipartFile[] images,
+                                     String frmTopic, String frmText, Boolean frmInCalendar, Boolean frmOnMainPage,
+                                     String frmDateInCalendar, String frmRole, String role,
+                                     ActionResponse actionResponse, String strFail, String strNoImage, News somenews) {
 
         boolean successUpload = true;
 
@@ -322,9 +324,9 @@ public class NewsController {
 
     @ActionMapping(value = ADD_NEWS)
     public void addNews(@RequestParam("mainImage") CommonsMultipartFile mainImage,
-            @RequestParam("images") CommonsMultipartFile[] images,
-            ActionRequest actionRequest,
-            ActionResponse actionResponse, SessionStatus sessionStatus) {
+                        @RequestParam("images") CommonsMultipartFile[] images,
+                        ActionRequest actionRequest,
+                        ActionResponse actionResponse, SessionStatus sessionStatus) {
         //path for main image is not empty
         if (mainImage.getOriginalFilename().equals("")) {
             actionResponse.setRenderParameter(STR_FAIL, NO_IMAGE);
@@ -367,9 +369,9 @@ public class NewsController {
 
     @ActionMapping(value = "editNews")
     public void editNews(@RequestParam("mainImage") CommonsMultipartFile mainImage,
-            @RequestParam("images") CommonsMultipartFile[] images,
-            ActionRequest actionRequest,
-            ActionResponse actionResponse, SessionStatus sessionStatus) {
+                         @RequestParam("images") CommonsMultipartFile[] images,
+                         ActionRequest actionRequest,
+                         ActionResponse actionResponse, SessionStatus sessionStatus) {
         //getting current news
         int newsID = Integer.valueOf(actionRequest.getParameter("newsId"));
         News news = newsService.getNewsById(newsID);

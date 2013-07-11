@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 
 /**
  * Question validator
- * 
+ *
  * @author Oleg
  */
 public class QuestionValidator implements Validator {
@@ -19,6 +19,7 @@ public class QuestionValidator implements Validator {
 
     /**
      * required method
+     *
      * @param klass
      * @return
      */

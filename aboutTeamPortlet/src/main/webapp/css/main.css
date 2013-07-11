@@ -1,8 +1,9 @@
 /*---------------------------------------*/
-#about-wrapper{
-    margin-top:10px;
+#about-wrapper {
+    margin-top: 10px;
 }
-.asection{
+
+.asection {
     font-size: 130%;
     width: 98%;
     padding: 0;
@@ -11,6 +12,7 @@
     margin-bottom: 10px;
     margin-top: 15px;
 }
+
 .ahum-wrapper {
     border: 1px solid;
     border-color: #e7e7e7;
@@ -24,6 +26,7 @@
     height: 100px;
     display: inline-block;
 }
+
 .ainfo {
     display: inline-block;
 }

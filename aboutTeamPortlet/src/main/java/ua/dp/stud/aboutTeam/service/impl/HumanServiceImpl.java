@@ -20,50 +20,43 @@ public class HumanServiceImpl implements HumanService {
     private HumanDao humanDao;
 
     @Transactional(readOnly = false)
-    public void setHumanDao(HumanDao humanDao)
-    {
+    public void setHumanDao(HumanDao humanDao) {
         this.humanDao = humanDao;
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Human getHumanById(Integer id)
-    {
+    public Human getHumanById(Integer id) {
         return humanDao.getHumanById(id);
     }
 
     @Override
     @Transactional(readOnly = false)
-    public void addHuman(Human human)
-    {
+    public void addHuman(Human human) {
         humanDao.addHuman(human);
     }
 
     @Override
     @Transactional(readOnly = false)
-    public void deleteHuman(Human human)
-    {
+    public void deleteHuman(Human human) {
         humanDao.deleteHuman(human.getId());
     }
 
     @Override
     @Transactional(readOnly = false)
-    public void updateHuman(Human human)
-    {
+    public void updateHuman(Human human) {
         humanDao.updateHuman(human);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Collection<Human> getAll()
-    {
+    public Collection<Human> getAll() {
         return humanDao.getAll();
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Human getByUrl(String url)
-    {
+    public Human getByUrl(String url) {
         return humanDao.getByUrl(url);
     }
 }

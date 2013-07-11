@@ -10,30 +10,32 @@ import org.springframework.transaction.annotation.Transactional;
 import ua.dp.stud.StudPortalLib.dao.StudieDao;
 import ua.dp.stud.StudPortalLib.model.Studie;
 import ua.dp.stud.StudPortalLib.service.StudieService;
+
 import java.util.*;
+
 import ua.dp.stud.StudPortalLib.model.ImageImpl;
+
 /**
- *
  * @author Ольга
  */
 @Service("studieService")
 @Transactional
-public class StudieServiceImpl implements StudieService{
-    
+public class StudieServiceImpl implements StudieService {
+
     @Autowired
     private StudieDao dao;
-    
+
     public void setDao(StudieDao dao) {
         this.dao = dao;
     }
 
     @Override
     public Studie addStudie(Studie studie) {
-       dao.addStudie(studie);
+        dao.addStudie(studie);
         return studie;
     }
 
-   @Transactional(readOnly = true)
+    @Transactional(readOnly = true)
     @Override
     public Studie getStudieById(Integer id) {
         return dao.getStudieById(id);
@@ -43,30 +45,31 @@ public class StudieServiceImpl implements StudieService{
     public Studie updateStudie(Studie studie) {
         return dao.updateStudie(studie);
     }
+
     @Transactional(readOnly = true)
     @Override
     public Collection<Studie> getAllStudies() {
-       return  dao.getAllStudies();
+        return dao.getAllStudies();
     }
 
-    
+
     @Override
     public void deleteStudie(Studie studie) {
-       dao.deleteStudie(studie.getId());
+        dao.deleteStudie(studie.getId());
     }
-    
-     @Override
+
+    @Override
     public void addImage(ImageImpl image) {
-       dao.addImage(image);
+        dao.addImage(image);
     }
-   @Override
-    public ImageImpl getImageById(Long id)
-	{
+
+    @Override
+    public ImageImpl getImageById(Long id) {
         return dao.getImageById(id);
-    } 
-       @Override
-    public void deleteImage(ImageImpl image)
-	{
+    }
+
+    @Override
+    public void deleteImage(ImageImpl image) {
         dao.deleteImage(image.getId());
-    } 
+    }
 }

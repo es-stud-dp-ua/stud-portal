@@ -24,39 +24,37 @@ public class NewsServiceTest {
     private NewsService service;
     private NewsDao mockDao;
     private News news1, news2;
-    private Category cat1,cat2;
+    private Category cat1, cat2;
 
     @Before
-    public void init(){
+    public void init() {
         service = new NewsServiceImpl();
         mockDao = mock(NewsDao.class);
-        ((NewsServiceImpl)service).setDao(mockDao);
+        ((NewsServiceImpl) service).setDao(mockDao);
 
         cat1 = new Category("cat1");
         cat2 = new Category("cat2");
 
-        news1 = new News("topic1","text1","author1",new Date(), new Date(), cat1,true,true,true);
+        news1 = new News("topic1", "text1", "author1", new Date(), new Date(), cat1, true, true, true);
         news1.setId(1);
 
-        news2 = new News("topic2","text2","author2",new Date(),new Date(), cat2,false,false,false);
+        news2 = new News("topic2", "text2", "author2", new Date(), new Date(), cat2, false, false, false);
         news2.setId(2);
     }
 
     @Test
-    public void getAllNewsByAuthorTest()
-    {
+    public void getAllNewsByAuthorTest() {
         LinkedList<News> allNews = new LinkedList<News>(Arrays.asList(news1));
         when(mockDao.getAllNewsByAuthor("author1")).thenReturn(allNews);
 
         assertEquals(allNews, service.getAllNewsByAuthor("author1"));
 
-        when (mockDao.getAllNewsByAuthor("author10")).thenReturn(null);
+        when(mockDao.getAllNewsByAuthor("author10")).thenReturn(null);
         assertNull(service.getAllNewsByAuthor("author10"));
     }
 
     @Test
-    public void getAllNewsByApprovedTest()
-    {
+    public void getAllNewsByApprovedTest() {
         LinkedList<News> allNews = new LinkedList<News>(Arrays.asList(news2));
         when(mockDao.getAllNews(false)).thenReturn(allNews);
 
@@ -64,8 +62,7 @@ public class NewsServiceTest {
     }
 
     @Test
-    public void getPagesCountByAuthorTest()
-    {
+    public void getPagesCountByAuthorTest() {
         when(mockDao.getCountByAuthor("author1")).thenReturn(10);
         when(mockDao.calcPages(10, 4)).thenReturn(3);
         Integer result = 3;
@@ -74,8 +71,7 @@ public class NewsServiceTest {
     }
 
     @Test
-    public void getPagesCountByApprovedTest()
-    {
+    public void getPagesCountByApprovedTest() {
         when(mockDao.getCount(false)).thenReturn(10);
         when(mockDao.calcPages(10, 4)).thenReturn(3);
         Integer result = 3;
@@ -84,29 +80,28 @@ public class NewsServiceTest {
     }
 
     @Test
-    public void getPagesNewsByAuthorTest()
-    {
+    public void getPagesNewsByAuthorTest() {
         LinkedList<News> allNews = new LinkedList<News>(Arrays.asList(news1));
         when(mockDao.getPagesNewsByAuthor("author1", 1, 4)).thenReturn(allNews);
         assertEquals(allNews, service.getPagesNewsByAuthor("author1", 1, 4));
     }
 
     @Test
-    public void getPagesNewsByApprovedTest()
-    {
+    public void getPagesNewsByApprovedTest() {
         LinkedList<News> allNews = new LinkedList<News>(Arrays.asList(news2));
         when(mockDao.getNewsOnPage(false, 1, 4)).thenReturn(allNews);
         assertEquals(allNews, service.getNewsOnPage(false, 1, 4));
     }
+
     /**
      * Test getNewsById method
      */
     @Test
     public void testGetNewsById() {
-        when (mockDao.getNewsById(1)).thenReturn(news1);
-        assertEquals(news1,service.getNewsById(1));
-		
-		assertNull(service.getNewsById(0));
+        when(mockDao.getNewsById(1)).thenReturn(news1);
+        assertEquals(news1, service.getNewsById(1));
+
+        assertNull(service.getNewsById(0));
     }
 
     /**
@@ -114,11 +109,11 @@ public class NewsServiceTest {
      */
     @Test
     public void testGetAllNews() {
-        LinkedList<News> allNews = new LinkedList<News>(Arrays.asList(news1,news2));
-        when (mockDao.getAllNews()).thenReturn(allNews);
+        LinkedList<News> allNews = new LinkedList<News>(Arrays.asList(news1, news2));
+        when(mockDao.getAllNews()).thenReturn(allNews);
         assertEquals(allNews, service.getAllNews());
-		
-		when (mockDao.getAllNews()).thenReturn(null);
+
+        when(mockDao.getAllNews()).thenReturn(null);
         assertNull(service.getAllNews());
     }
 
@@ -127,8 +122,8 @@ public class NewsServiceTest {
      */
     @Test
     public void testGetNewsOnPage() {
-        LinkedList<News> allNews = new LinkedList<News>(Arrays.asList(news1,news2));
-        when (mockDao.getNewsOnPage(1,10)).thenReturn(allNews);
+        LinkedList<News> allNews = new LinkedList<News>(Arrays.asList(news1, news2));
+        when(mockDao.getNewsOnPage(1, 10)).thenReturn(allNews);
         assertEquals(allNews, service.getNewsOnPage(1, 10));
     }
 
@@ -137,8 +132,8 @@ public class NewsServiceTest {
      */
     @Test
     public void testGetPagesCountEmptyNews() {
-        when (mockDao.getCount()).thenReturn(0);
-        assertEquals(0, (int)service.getPagesCount(10));
+        when(mockDao.getCount()).thenReturn(0);
+        assertEquals(0, (int) service.getPagesCount(10));
     }
 
     /**
@@ -146,17 +141,17 @@ public class NewsServiceTest {
      */
     @Test
     public void testGetPagesCount() {
-        when (mockDao.getCount()).thenReturn(5);
+        when(mockDao.getCount()).thenReturn(5);
         when(mockDao.calcPages(5, 10)).thenReturn(1);
-        assertEquals(1, (int)service.getPagesCount(10));
+        assertEquals(1, (int) service.getPagesCount(10));
 
-        when (mockDao.getCount()).thenReturn(15);
+        when(mockDao.getCount()).thenReturn(15);
         when(mockDao.calcPages(15, 10)).thenReturn(2);
-        assertEquals(2, (int)service.getPagesCount(10));
+        assertEquals(2, (int) service.getPagesCount(10));
 
-        when (mockDao.getCount()).thenReturn(20);
+        when(mockDao.getCount()).thenReturn(20);
         when(mockDao.calcPages(20, 20)).thenReturn(1);
-        assertEquals(1, (int)service.getPagesCount(20));
+        assertEquals(1, (int) service.getPagesCount(20));
     }
 
     /**
@@ -174,7 +169,7 @@ public class NewsServiceTest {
     @Test
     public void testUpdateNews() {
         service.updateNews(news1);
-        verify(mockDao,times(1)).updateNews(news1);
+        verify(mockDao, times(1)).updateNews(news1);
     }
 
     /**
@@ -183,32 +178,29 @@ public class NewsServiceTest {
     @Test
     public void testGetNewsOnMainPage() {
         LinkedList<News> allNews = new LinkedList<News>(Arrays.asList(news1));
-        when (mockDao.getNewsOnMainPage()).thenReturn(allNews);
+        when(mockDao.getNewsOnMainPage()).thenReturn(allNews);
         assertEquals(allNews, service.getNewsOnMainPage());
     }
-	
-	@Test
-	public void testAddImage()
-	{
-		ImageImpl image = new ImageImpl();
-		service.addImage(image);
-		verify(mockDao, times(1)).addImage(image);
-	}
-	
-	@Test
-	public void testGetAllCategories()
-	{
-		LinkedList<Category> allCat = new LinkedList<Category>(Arrays.asList(cat1,cat2));
-        when (mockDao.getAllCategories()).thenReturn(allCat);
+
+    @Test
+    public void testAddImage() {
+        ImageImpl image = new ImageImpl();
+        service.addImage(image);
+        verify(mockDao, times(1)).addImage(image);
+    }
+
+    @Test
+    public void testGetAllCategories() {
+        LinkedList<Category> allCat = new LinkedList<Category>(Arrays.asList(cat1, cat2));
+        when(mockDao.getAllCategories()).thenReturn(allCat);
         assertEquals(allCat, service.getAllCategories());
-	}
-	
-	@Test
-	public void testDeleteNews()
-	{
-		service.addNews(news1);
-		Integer id = news1.getId();
-		service.deleteNews(news1);
-		verify(mockDao, times(1)).deleteNews(id);
-	}
+    }
+
+    @Test
+    public void testDeleteNews() {
+        service.addNews(news1);
+        Integer id = news1.getId();
+        service.deleteNews(news1);
+        verify(mockDao, times(1)).deleteNews(id);
+    }
 }

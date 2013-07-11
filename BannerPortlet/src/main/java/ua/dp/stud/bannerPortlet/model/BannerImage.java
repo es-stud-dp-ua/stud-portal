@@ -35,8 +35,8 @@ public class BannerImage extends BaseImagesSupport implements Serializable {
     public void setUrl(String url) {
         this.url = url;
     }
-	
-	private static final int START_HASH = 55;
+
+    private static final int START_HASH = 55;
     private static final int MULT_HASH = 257;
 
     @Override
@@ -52,8 +52,7 @@ public class BannerImage extends BaseImagesSupport implements Serializable {
         if (obj == this) {
             return true;
         }
-        if (!(obj instanceof BannerImage))
-        {
+        if (!(obj instanceof BannerImage)) {
             return false;
         }
         final BannerImage other = (BannerImage) obj;

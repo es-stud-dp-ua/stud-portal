@@ -4,6 +4,7 @@ package ua.dp.stud.studie.controller;
  *
  * @author Olga Ryzol
  */
+
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.servlet.SessionErrors;
@@ -57,6 +58,7 @@ public class StudieController {
     public void setService(StudieService service) {
         this.service = service;
     }
+
     @Autowired
     @Qualifier(value = "imageService")
     private ImageService imageService;
@@ -84,8 +86,8 @@ public class StudieController {
     @RenderMapping(params = "studieID")
     public ModelAndView showSelectedSrudie(RenderRequest request, RenderResponse response) {
         int studieID = Integer.valueOf(request.getParameter("studieID"));
-        Integer buttonId=0;
-         if (request.getParameter(BUTTON_ID) == null) {
+        Integer buttonId = 0;
+        if (request.getParameter(BUTTON_ID) == null) {
             buttonId = 0;
         } else {
             buttonId = Integer.valueOf(request.getParameter(BUTTON_ID));
@@ -118,8 +120,8 @@ public class StudieController {
     }
 
     private boolean updateCommunityFields(CommonsMultipartFile mainImage, CommonsMultipartFile[] images,
-            String frmTopic, String frmText, String frmFaculteDnevn, String frmFacultetZaoch, String adress,
-            ActionResponse actionResponse, Studie somestudie)
+                                          String frmTopic, String frmText, String frmFaculteDnevn, String frmFacultetZaoch, String adress,
+                                          ActionResponse actionResponse, Studie somestudie)
             throws IOException, SystemException, PortalException {
         boolean successUpload = true;
         if (frmTopic.length() < MINTITLESYMBOLS) {
@@ -164,9 +166,9 @@ public class StudieController {
 
     @ActionMapping(value = "addStudie")
     public void addStudie(@RequestParam("mainImage") CommonsMultipartFile mainImage,
-            @RequestParam("images") CommonsMultipartFile[] images,
-            ActionRequest actionRequest,
-            ActionResponse actionResponse, SessionStatus sessionStatus)
+                          @RequestParam("images") CommonsMultipartFile[] images,
+                          ActionRequest actionRequest,
+                          ActionResponse actionResponse, SessionStatus sessionStatus)
             throws IOException, SystemException, PortalException {
         if (mainImage.getOriginalFilename().equals("")) {
             actionResponse.setRenderParameter(STR_FAIL, STR_NO_IMAGE);
@@ -213,9 +215,9 @@ public class StudieController {
 
     @ActionMapping(value = "editStudie")
     public void editStudie(@RequestParam("mainImage") CommonsMultipartFile mainImage,
-            @RequestParam("images") CommonsMultipartFile[] images,
-            ActionRequest actionRequest,
-            ActionResponse actionResponse, SessionStatus sessionStatus)
+                           @RequestParam("images") CommonsMultipartFile[] images,
+                           ActionRequest actionRequest,
+                           ActionResponse actionResponse, SessionStatus sessionStatus)
             throws IOException, SystemException, PortalException {
         int organisationID = Integer.valueOf(actionRequest.getParameter("studieId"));
         Studie studie = service.getStudieById(organisationID);

@@ -27,7 +27,8 @@ public class UserInfo implements Serializable {
     /**
      * Constructor by default
      */
-    public UserInfo() { }
+    public UserInfo() {
+    }
     //todo: do we really need two constructors? - yes
 
     /**

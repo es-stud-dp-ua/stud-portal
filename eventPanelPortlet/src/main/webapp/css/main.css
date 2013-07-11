@@ -1,41 +1,41 @@
-.Event-window
-{
+.Event-window {
 }
-.Event-window .EventContent
-{
+
+.Event-window .EventContent {
     width: 300px;
     margin-left: 36px;
 }
-.Event-window .LeftSwith
-{
+
+.Event-window .LeftSwith {
     float: left;
     vertical-align: middle;
 }
-.Event-window #leftBtn
-{
+
+.Event-window #leftBtn {
     background: url(../images/btn_left.png);
     cursor: pointer;
     width: 36px;
     height: 36px;
 }
-.Event-window .rightButton
-{
+
+.Event-window .rightButton {
     top: 30%;
     position: absolute;
     right: 10px;
 }
-.Event-window .leftButton
-{
+
+.Event-window .leftButton {
     top: 30%;
     position: absolute;
 }
-.Event-window #rightBtn
-{
+
+.Event-window #rightBtn {
     background: url(../images/btn_right.png);
     cursor: pointer;
     width: 36px;
     height: 36px;
 }
+
 .Event-window #like {
     float: right;
     padding: 5px;
@@ -43,6 +43,7 @@
     color: #3072b3;
     cursor: pointer;
 }
+
 .Event-window .newsImage {
     float: left;
     width: 50px;
@@ -50,8 +51,7 @@
     margin: 0px 20px 10px 10px;
 }
 
-.event-panel #count
-{
+.event-panel #count {
     background: #e02424;
     position: absolute;
     right: 1px;
@@ -65,13 +65,13 @@
     min-width: 12px;
     text-align: center;
 }
-.event-panel #elem
-{
+
+.event-panel #elem {
     float: left;
     position: relative;
 }
-.event-panel .event
-{
+
+.event-panel .event {
     font-size: 18px;
     padding: 5px 10px;
     position: relative;
@@ -94,8 +94,8 @@
     -o-background-clip: padding-box;*/
     zoom: 1;
 }
-.event-panel .event:hover
-{
+
+.event-panel .event:hover {
     border-color: #3072b3;
     border-bottom-color: #2a65a0;
     text-decoration: none;
@@ -108,7 +108,7 @@
     background-image: linear-gradient(#599bdc, #3072b3);
 }
 
-#event-panel-wraper{
+#event-panel-wraper {
     float: right;
     padding-right: 13%;
 }
@@ -129,12 +129,20 @@
 }
 
 /* LOADER */
-.loader { width:32px; height:32px; }
+.loader {
+    width: 32px;
+    height: 32px;
+}
 
 /* основные настройки отображения */
 .bar {
-    background-color:#99aaca; border:1px solid #96a6c9; float:left;
-    margin-right:4px; margin-top:6px; width:6px; height:18px;
+    background-color: #99aaca;
+    border: 1px solid #96a6c9;
+    float: left;
+    margin-right: 4px;
+    margin-top: 6px;
+    width: 6px;
+    height: 18px;
 
     /* Set the animation properties */
     animation-duration: 1s;
@@ -143,19 +151,51 @@
 }
 
 /* задержка анимации для второго и третьего элемента */
-.loader .bar:nth-child(2) { animation-delay: 0.1s; }
-.loader .bar:nth-child(3) { animation-delay: 0.2s; }
+.loader .bar:nth-child(2) {
+    animation-delay: 0.1s;
+}
+
+.loader .bar:nth-child(3) {
+    animation-delay: 0.2s;
+}
 
 /* анимация */
 @keyframes loadingbar {
-     0% { }
-    10% { margin-top:5px; height:22px; border-color:#d1d8e6; background-color:#bac5db; }
-    20% { margin-top:0px; height:32px; border-color:#d1d7e2; background-color:#c6ccda; }
-    30% { margin-top:1px; height:30px; border-color:#d1d8e6; background-color:#bac5db; }
-    40% { margin-top:3px; height:26px; }
-    50% { margin-top:5px; height:22px; }
-    60% { margin-top:6px; height:18px; }
-    70% { }
+    0% {
+    }
+    10% {
+        margin-top: 5px;
+        height: 22px;
+        border-color: #d1d8e6;
+        background-color: #bac5db;
+    }
+    20% {
+        margin-top: 0px;
+        height: 32px;
+        border-color: #d1d7e2;
+        background-color: #c6ccda;
+    }
+    30% {
+        margin-top: 1px;
+        height: 30px;
+        border-color: #d1d8e6;
+        background-color: #bac5db;
+    }
+    40% {
+        margin-top: 3px;
+        height: 26px;
+    }
+    50% {
+        margin-top: 5px;
+        height: 22px;
+    }
+    60% {
+        margin-top: 6px;
+        height: 18px;
+    }
+    70% {
+    }
     /* разрыв между кадрами вызовет задержку */
-    100% { }
+    100% {
+    }
 }

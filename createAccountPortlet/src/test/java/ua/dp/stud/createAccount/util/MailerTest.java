@@ -18,15 +18,13 @@ import static org.mockito.Mockito.*;
  * Date: 25.03.13
  */
 @RunWith(MockitoJUnitRunner.class)
-public class MailerTest
-{
+public class MailerTest {
     private Mailer mailer;
     private JavaMailSender mockSender;
     private MimeMessage mockMessage;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         this.mailer = new Mailer();
         this.mockSender = mock(JavaMailSender.class);
         this.mailer.setMailSender(this.mockSender);
@@ -34,32 +32,25 @@ public class MailerTest
     }
 
     @Test
-    public void sendMailTest()
-    {
+    public void sendMailTest() {
         String from = "admin@gmail.com";
         String to = "user@gmail.com";
         String subject = "New subject";
         String msg = "Message text";
         when(mockSender.createMimeMessage()).thenReturn(mockMessage);
-        try
-        {
+        try {
             MimeMessageHelper helper = new MimeMessageHelper(mockMessage, true);
             helper.setFrom(from);
             helper.setTo(to);
             helper.setSubject(subject);
             helper.setText(msg);
-        }
-        catch (MessagingException e)
-        {
+        } catch (MessagingException e) {
 
         }
-        try
-        {
+        try {
             this.mailer.sendMail(from, to, subject, msg);
             verify(mockSender).send(mockMessage);
-        }
-        catch(MessagingException e)
-        {
+        } catch (MessagingException e) {
             assertTrue(false);
         }
     }

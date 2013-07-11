@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 
 /**
  * Email validator
- * 
+ *
  * @author Alex
  */
 public class EmailValidator implements Validator {
@@ -18,6 +18,7 @@ public class EmailValidator implements Validator {
 
     /**
      * required method
+     *
      * @param klass
      * @return
      */
