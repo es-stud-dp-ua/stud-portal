@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="ua.dp.stud.StudPortalLib.model.Category" %>
 <%@ page import="java.util.Collection" %>
 <%@ page import="java.util.Locale" %>
@@ -16,9 +17,6 @@
     String language = locale.getLanguage();
     String country = locale.getCountry();
     ResourceBundle res = ResourceBundle.getBundle("messages", new Locale(language, country));
-    
-    String ex = (String) request.getAttribute("exception");
-
 %>
 <portlet:defineObjects/>
 <html>
@@ -68,12 +66,10 @@
     </div>
 
     <liferay-ui:error key="no-images" message='<%=res.getString("msg.noImages")%>'/>
-
     <liferay-ui:error key="dplTopic" message='<%=res.getString("msg.dplTopic")%>'/>
-    <%if (ex != null) {%>
-    <%=ex%>
-    <%}%>
-
+    <c:if test="${exception !=null }">
+        ${exception}
+    </c:if>
     <div width="100%" align="center">
         <form method="POST" action="${actionLink}" enctype="multipart/form-data">
             <script type="text/javascript">

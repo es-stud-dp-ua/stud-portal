@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="ua.dp.stud.StudPortalLib.model.Studie" %>
 <%@ page import="ua.dp.stud.StudPortalLib.service.StudieService" %>
 <%@ page import="ua.dp.stud.StudPortalLib.service.impl.StudieServiceImpl" %>
@@ -9,6 +10,7 @@
 <%@ page import="java.util.Collection" %>
 <%@ page import="ua.dp.stud.StudPortalLib.model.ImageImpl" %>
 <%@ taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@include file="include.jsp" %>
 
 <portlet:defineObjects/>
@@ -18,13 +20,7 @@
     if (request.getParameter("buttonId")!=null){
     buttonId = Integer.parseInt(request.getParameter("buttonId"));
        }
-	String[] facultetDnevn = (String[])request.getAttribute("facultetDnevn");
-	String[] facultetZaoch = (String[])request.getAttribute("facultetZaoch");
-	String adress = (String)request.getAttribute("adress");	
-	
-	
-	String mainImage = (String)request.getAttribute("mainImage");
-	    String temp;
+    String temp;
     String[] type={"studie","entry","helps","informal","scholarships","grants"};
     Collection<ImageImpl> additionalImages = (Collection<ImageImpl>)request.getAttribute("additionalImages");
 %>
@@ -99,7 +95,7 @@
     <a  style="float: right; margin-right: 16px;" href="${home}"><spring:message code="form.back"/></a>
     <br/>
     <div class="newsHeader"  >
-        <img src="<%=mainImage%>" alt=""/>
+        <img src="${mainImage}" alt=""/>
         ${studie.title}
     </div>
     <br/>
@@ -194,18 +190,12 @@
             <label  id="plusik" onclick="showHide('spisok','plusik');" style="font-size:18px; font-weight: bold; " >+</label>
           
 <div id="spisok" style="display:none">
- <ul>    	
-	 <%  
-               for(String fd :facultetDnevn)
-                
-                {%>
-        
-            <li style="font-size:14px;">               
-                --  <%=fd%>             
+ <ul>   
+     <c:forEach items="${facultetDnevn}"  var="fd">    
+     <li style="font-size:14px;">               
+                --  ${fd}             
             </li>
-         
-        
-          <% } %> 
+     </c:forEach>
     </ul>
   </div>
         <br/>
@@ -215,22 +205,16 @@
         
             <div id="spisok2" style="display:none">
 <ul>
-        <%  
-               for(String fz :facultetZaoch)
-                
-                {%>
-        
-            <li style="font-size:14px;">
-              
-               --  <%=fz%>
-            </li>
-         
-         <% } %>  
+    <c:forEach items="${facultetZaoch}" var="fz">         
+            <li style="font-size:14px;">              
+               --  ${fz}
+            </li>        
+    </c:forEach>
     </ul>
 </div>
 <br/> <br/>
 
-	<p style="font-size:14px;"><%=adress%></p>
+	<p style="font-size:14px;">${adress}</p>
 
  <br/><br/>
  <div style="font-size:14px;">

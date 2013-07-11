@@ -9,6 +9,7 @@
 <%@ page import="java.util.Locale" %>
 <%@ page import="java.util.ResourceBundle" %>
 <%@ taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@include file="include.jsp" %>
 
 
@@ -32,6 +33,7 @@
 </head>
 
 <body >
+
  <portlet:renderURL var="home"> </portlet:renderURL>
  <form method="post" action="<portlet:renderURL/>"> 
  
@@ -59,10 +61,10 @@
                      <%}%>
                 <br/>
                 <% }%>
-    </div>   
-               <% if (!studie.isEmpty())
-                                    { %>
-    
+    </div>  
+     <c:forEach items="${studie}" var="studie">
+         <c:if test="${not empty studie}">
+                
     <div style="display: table" id="newsTable">
        <%
                                    
@@ -71,6 +73,7 @@
             for (int i=0; i<studie.size(); i=i+3) 
                                      {
     %>
+  
         <div style="vertical-align: top; display: table-row">
             <div style="text-align: center; margin: 10px 10px 10px 10px; display: table-cell">
          
@@ -201,12 +204,13 @@
        
       <%}%>
     </div>  
-<%}%>  
-  
+      </c:if> 
+  </c:forEach>
            
               
     
 </div>
   </form> 
+
 </body>
 </html>

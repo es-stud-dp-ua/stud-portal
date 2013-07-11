@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="ua.dp.stud.StudPortalLib.model.Category" %>
 <%@ page import="ua.dp.stud.StudPortalLib.model.ImageImpl" %>
 <%@ page import="ua.dp.stud.StudPortalLib.model.Studie" %>
@@ -19,19 +20,9 @@
     Locale locale = (Locale) request.getSession().getAttribute("org.apache.struts.action.LOCALE");
     String language = locale.getLanguage();
     String country = locale.getCountry();
-    ResourceBundle res = ResourceBundle.getBundle("messages", new Locale(language, country));
-    String ex = (String) request.getAttribute("exception");
-    Studie studie = (Studie) request.getAttribute("studie");
-    
-	String[] facultetDnevn = (String[])request.getAttribute("facultetDnevn");
-	String[] facultetZaoch = (String[])request.getAttribute("facultetZaoch");
-	String adress = (String)request.getAttribute("adress");	
-	
-	
-	String mainImage = (String)request.getAttribute("mainImage");
-	
+    ResourceBundle res = ResourceBundle.getBundle("messages", new Locale(language, country));	
     Collection<ImageImpl> additionalImages = (Collection<ImageImpl>)request.getAttribute("additionalImages");
-   
+    Studie studie = (Studie) request.getAttribute("studie");
 %>
 <portlet:defineObjects/>
 <html>
@@ -100,9 +91,9 @@ document.getElementById ('facultetZ').appendChild(txt);
 
 <liferay-ui:error key="no-images" message='<%=res.getString("msg.noImages")%>'/>
 <liferay-ui:error key="dplTopic" message='<%=res.getString("msg.dplTopic")%>'/>
-<%if (ex != null) {%>
-<%=ex%>
-<%}%>
+<c:if test="${exception != null}" >
+${exception}
+</c:if>
 
 <div width="100%" align="center">
    <form method="POST" action="${actionLink}" enctype="multipart/form-data">
@@ -136,23 +127,21 @@ document.getElementById ('facultetZ').appendChild(txt);
                    <td width="50%" align="center" style="vertical-align: top;">
                        <div id="lup">
                        </div>
-                      
-                           <%if (studie.getMainImage()==null) {%>
-                            <div id="mainPic" style="vertical-align: top; z-index: 2;" style="background: url(${pageContext.request.contextPath}/images/mainpic_443x253.png) no-repeat">
+                       <% if (studie.getMainImage() == null) { %>
+                       <div id="mainPic" style="vertical-align: top; z-index: 2;" style="background: url(${pageContext.request.contextPath}/images/mainpic_443x253.png) no-repeat">
 <!-- Output for our douwnload Image-->
 <input type="file" id="mainImage" name="mainImage" />
 <output id="list"></output>
 </div>
-                               
-                           <%} else {  
-                           %>
+                      <% } else { %>
+                      
                            <div id="mainPic"  style="vertical-align: top; z-index: 2;">
-                             <img id="img" style="vertical-align: top; z-index: 1;" src="<%=mainImage%>"/>
+                             <img id="img" style="vertical-align: top; z-index: 1;" src="${mainImage}"/>
 <!-- Output for our douwnload Image-->
 <input type="file" id="mainImage" name="mainImage" />
 <output id="list"></output>
                            </div>
-                           <%}%>
+                      <% } %>
                        
                        <div id="rdn">
                        </div>
@@ -195,40 +184,33 @@ document.getElementById('img').parentNode.removeChild(document.getElementById('i
                        <br/><br/>
                        <div id="facultetD" style="float: left;">
                         <label style="font-size:16px; font-weight: bold;"><spring:message code="form.dnevn"/></label> <br/>
-                <%  
-               for(String fd :facultetDnevn)
-                
-                {%>
-                 <textarea id="facultetInput" cols="60" rows="1" maxlength="1000"  name="facultetDnevn" style="float: left; margin-top: 15px;"><%=fd%></textarea>
+                        <c:forEach items="${facultetDnevn}" var="fd">
+                 <textarea id="facultetInput" cols="60" rows="1" maxlength="1000"  name="facultetDnevn" style="float: left; margin-top: 15px;">${fd}</textarea>
                       
-                 <%}%>
+                        </c:forEach>
                                             <input type="button" id="plus1" name="plus1" value="+" onclick="Add()" style="float: right; margin-top: 18px; margin-left: 3px; "/>          
                     </div>
                                             <br/> <br/>
                    <div  style="float: left;">
                        <br/> <br/>
                     <label style="font-size:16px; font-weight: bold;"><spring:message code="form.adress"/></label> <br/>
-                    <textarea  id="adressInput" cols="60" rows="1" maxlength="100"  name="adress" style="float: left; margin-top: 15px;" ><%=adress%></textarea><br/><br/>
+                    <textarea  id="adressInput" cols="60" rows="1" maxlength="100"  name="adress" style="float: left; margin-top: 15px;" >${adress}</textarea><br/><br/>
                     </div>
                       
                    </td>
                    <td rowspan=2 width="50%" >
-                        <textarea id="topicInput" cols="90" rows="2" maxlength="80" onkeypress="return isNotMax(event)" name="topic"><%=studie.getTitle().trim()%>
+                        <textarea id="topicInput" cols="90" rows="2" maxlength="80" onkeypress="return isNotMax(event)" name="topic">${studie.title}
                         </textarea><br/>
                         <div style="width: 450px; float: bottom ;padding-left: 8px;" >
-                        <textarea class="ckeditor" id="textInput" cols="60" rows="10" maxlength="8000" onkeypress="return isNotMax(event)" name="text"><%=studie.getText().trim()%>
+                        <textarea class="ckeditor" id="textInput" cols="60" rows="10" maxlength="8000" onkeypress="return isNotMax(event)" name="text">${studie.text}
                         </textarea><br/><br/>
                         </div>
                          <div id="facultetZ" style="float: left;">
                         <label style="font-size:16px; font-weight: bold;"><spring:message code="form.zaoch"/></label> <br/>
-               
-                        <%
-          for(String fd :facultetZaoch)
-                
-                {%>
-                 <textarea id="facultetInput" cols="60" rows="1" maxlength="1000"  name="facultetZaoch" style="float: left; margin-top: 15px;"><%=fd%></textarea>
+                        <c:forEach items="${facultetZaoch}" var="fz" >
+                 <textarea id="facultetInput" cols="60" rows="1" maxlength="1000"  name="facultetZaoch" style="float: left; margin-top: 15px;">${fz}</textarea>
                        
-                 <%}%>  
+                        </c:forEach> 
                               <input type="button" id="plus2" name="plus1" value="+" onclick="Add2()" style="float: right; margin-top: 18px; margin-left: 3px; "/>           
                   </div>
                               <br/> <br/>
