@@ -3,13 +3,13 @@
 <%@ page import="ua.dp.stud.StudPortalLib.util.ImageService" %>
 <%@ page import="ua.dp.stud.StudPortalLib.util.CustomFunctions" %>
 <%@ taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@include file="include.jsp"%>
 
 
 <portlet:defineObjects/>
 <%
     Collection<News> news = (Collection)request.getAttribute("news");
-    Long newsArchivePageID = (Long)request.getAttribute("newsArchivePageID");
     ImageService imageService = new ImageService();
 %>
 
@@ -25,13 +25,13 @@
         <br/>
     </div>
 
-    <% if (! news.isEmpty()){%>
+    <c:if test="${not empty news}">
     <table id="newsTable">
         <%for(News currentNews:news){%>
         <tr>
             <td width="100%">
                 <div width="100%">
-                    <a href="<liferay-portlet:renderURL plid="<%=newsArchivePageID%>" portletName="NewsArchive_WAR_studnewsArchive"/>&newsID=<%=currentNews.getId()%>">
+                    <a href="<liferay-portlet:renderURL plid="${newsArchivePageID}" portletName="NewsArchive_WAR_studnewsArchive"/>&newsID=<%=currentNews.getId()%>">
                         <img src="<%=imageService.getPathToMicroblogImage(currentNews.getMainImage(),currentNews)%>" class="newsImage">
                     </a>
                     <%if (request.isUserInRole("Administrator")){%>
@@ -42,7 +42,7 @@
                     <%}%>
                     <div class="newsHeader">
                         <a href="<liferay-portlet:renderURL
-                               plid="<%=newsArchivePageID%>"
+                               plid="${newsArchivePageID}"
                                portletName="NewsArchive_WAR_studnewsArchive"/>&newsID=<%=currentNews.getId()%>">
                             <%=currentNews.getTopic()%>
                         </a>
@@ -80,7 +80,7 @@
         </tr>
         <%}%>
     </table>
-    <%}%>
+    </c:if>
 </div>
 
 </body>
