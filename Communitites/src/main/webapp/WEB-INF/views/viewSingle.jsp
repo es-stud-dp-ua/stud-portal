@@ -142,8 +142,8 @@
             ${organization.text}
         </div>
         <div class="reply_link_wrap">
-            <span class="rel_author">${organization.Author}</span>
-            <span class="rel_view">${organization.Views}</span>
+            <span class="rel_author">${organization.author}</span>
+            <span class="rel_view">${organization.views}</span>
             <span class="rel_date"><%=CustomFunctions.getCreationDate(organization.getPublication())%></span>
         </div>
     </div>
