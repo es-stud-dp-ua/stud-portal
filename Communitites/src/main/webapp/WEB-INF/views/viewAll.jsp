@@ -9,7 +9,7 @@
 <%@ page import="java.util.Locale" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.ResourceBundle" %>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet" %>
 <%@include file="include.jsp" %>
 
@@ -64,8 +64,9 @@
             </form>
         </div>
         <div id="newsTable">
-            <% if (!orgs.isEmpty()) {
-                 for (Organization currentOrgs : orgs){%>
+       <c:forEach items="${organisations}" var="orgs">
+         <c:if test="${not empty orgs}">
+            <%  for (Organization currentOrgs : orgs){%>
             <div width="100%">
                 <img src="<%= imageService.getPathToMicroblogImage(currentOrgs.getMainImage(),currentOrgs) %>"
                      class="newsImage">
@@ -116,6 +117,8 @@
                 </table>
             </div>
             <%}%>
+         </c:if>
+           </c:forEach>
             <table width="90%">
                 <tr>
                     <td width="80" align="left">

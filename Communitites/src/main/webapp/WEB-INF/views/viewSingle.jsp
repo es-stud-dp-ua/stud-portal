@@ -8,15 +8,14 @@
 <%@ page import="java.util.Collection" %>
 <%@ page import="ua.dp.stud.StudPortalLib.model.ImageImpl" %>
 <%@ taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@include file="include.jsp" %>
 
 <portlet:defineObjects/>
 <%
     Organization organization = (Organization) request.getAttribute("organization");
-    String mainImage = (String)request.getAttribute("mainImage");
     Collection<ImageImpl> additionalImages = (Collection<ImageImpl>)request.getAttribute("additionalImages");
     Collection<News> newsList = (Collection<News>)request.getAttribute("newsList");
-    Long newsArchivePageID = (Long)request.getAttribute("newsArchivePageID");
 %>
 <html>
     <head>
@@ -135,7 +134,7 @@
             <%}%>
         </div>
         <div class="newsHeader">
-            <img src="<%=mainImage%>" alt=""/>
+            <img src="${mainImage}" alt=""/>
             ${organization.title}
         </div>
         <br/>
@@ -143,8 +142,8 @@
             ${organization.text}
         </div>
         <div class="reply_link_wrap">
-            <span class="rel_author"><%=organization.getAuthor()%></span>
-            <span class="rel_view"><%=organization.getViews()%></span>
+            <span class="rel_author">${organization.Author}</span>
+            <span class="rel_view">${organization.Views}</span>
             <span class="rel_date"><%=CustomFunctions.getCreationDate(organization.getPublication())%></span>
         </div>
     </div>
@@ -183,7 +182,8 @@
             <div class="singleGelery" id="inner1">
                 <%for(News news : newsList){%>
                 <div class="ownGelery" style="margin-left: 5px;">
-                    <a href="<liferay-portlet:renderURL plid="<%=newsArchivePageID%>" portletName="NewsArchive_WAR_NewsArchivePortlet101"/>&newsID=<%=news.getId()%>"><img src="<%=imageService.getPathToMicroblogImage(news.getMainImage(), news)%>" title="<%=news.getTopic()%>"></img></a>
+                    <a href="<liferay-portlet:renderURL plid="${newsArchivePageID}" portletName="NewsArchive_WAR_NewsArchivePortlet101"/>&newsID=<%=news.getId()%>">
+                        <img src="<%=imageService.getPathToMicroblogImage(news.getMainImage(), news)%>" title="<%=news.getTopic()%>"></img></a>
                 </div>
                 <%}%>
             </div>

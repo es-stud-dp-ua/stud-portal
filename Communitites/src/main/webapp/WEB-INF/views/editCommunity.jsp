@@ -14,15 +14,13 @@
 <script type="text/javascript" src="js/myscripts.js"></script>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@include file="include.jsp" %>
 
 <%
-    String ex = (String) request.getAttribute("exception");
     Collection<String> allTypes=(Collection) (OrganizationType.allTypes());
     String temp;
     Organization orgs = (Organization) request.getAttribute("organisation");
-    String mainImage = (String)request.getAttribute("mainImage");
 %>
 <portlet:defineObjects/>
 <html>
@@ -67,9 +65,9 @@
     </div>
     <liferay-ui:error key="no-images" message='<spring:message code="msg.noImages"/>'/>
     <liferay-ui:error key="dplTopic"  message='<spring:message code="msg.dplTopic"/>'/>
-    <%if (ex != null) {%>
-    <%=ex%>
-    <%}%>
+    <c:if test="${exception}" >
+    ${exception}
+    </c:if>
     <div width="100%" align="center">
         <form method="POST" action="${actionLink}" enctype="multipart/form-data">
 
@@ -125,10 +123,10 @@
                         <br/>
                     </td>
                     <td rowspan=2 width="50%" align="left">
-                        <textarea id="topicInput" cols="90" rows="2" maxlength="80" onkeypress="return isNotMax(event)" name="topic"><%=orgs.getTitle().trim()%>
+                        <textarea id="topicInput" cols="90" rows="2" maxlength="80" onkeypress="return isNotMax(event)" name="topic">${organisation.Title}
                         </textarea><br/>
                         <div style="width: 450px; float: bottom ;padding-left: 8px;" >
-                            <textarea class="ckeditor" id="textInput" cols="60" rows="10" maxlength="8000" onkeypress="return isNotMax(event)" name="text"><%=orgs.getText().trim()%>
+                            <textarea class="ckeditor" id="textInput" cols="60" rows="10" maxlength="8000" onkeypress="return isNotMax(event)" name="text">${organisation.Text}
                             </textarea><br/><br/>
                         </div>
                         <div id="sbm">
