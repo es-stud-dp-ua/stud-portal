@@ -36,12 +36,12 @@
         ImageService imageService = (ImageService)pageContext.findAttribute("imageService");;
         String className = (String) request.getAttribute("class");
         %>
-        <div style="display: none;"><div id="eventContainer" class="<%=className%>">
+        <div style="display: none;"><div id="eventContainer" class="${class}">
             <div class="LeftSwith leftButton">
-                <a onclick="rewindPanel(<%=currentPage%>, 'prev', '<%=className%>');"><div id="leftBtn"></div></a>
+                <a onclick="rewindPanel(${currentPage}, 'prev', '${class}');"><div id="leftBtn"></div></a>
             </div>
             <div class="LeftSwith EventContent">
-                <%if (request.getAttribute("type") == "News")
+                <% if (request.getAttribute("type") == "News")
                 {
                 for (News currentNews : newsList){%>
                     <liferay-portlet:renderURL plid="${plid}" var="linkToSingle" portletName="${portlet_name}">
@@ -52,8 +52,8 @@
                         <a href="${linkToSingle}"><p><%=currentNews.getTopic()%></p></a>
                         <%if (className.equals("adminNews") || className.equals("newsInMyComm")){%>
                             <div>
-                                <a onclick="approve(<%=currentPage%>, '<%=className%>', <%=currentNews.getId()%>, false);"><div style="padding-top: 10px;" id="like"><span aria-hidden="true" class="icon-thumbs-up"></span></div></a>
-                                <a onclick="approve(<%=currentPage%>, '<%=className%>', <%=currentNews.getId()%>, true);"><div id="like"><span aria-hidden="true" class="icon-thumbs-up-2"></span></div></a>
+                                <a onclick="approve(${currentPage}, '${class}', <%=currentNews.getId()%>, false);"><div style="padding-top: 10px;" id="like"><span aria-hidden="true" class="icon-thumbs-up"></span></div></a>
+                                <a onclick="approve(${currentPage}, '${class}', <%=currentNews.getId()%>, true);"><div id="like"><span aria-hidden="true" class="icon-thumbs-up-2"></span></div></a>
                             </div>
                         <%}%>
                     </div>
@@ -68,18 +68,18 @@
                         <a href="${linkToSingle1}"><p><%=currentOrg.getTitle()%></p></a>
                         <%if (className.equals("adminCommunity")){%>
                             <div>
-                                <a onclick="approve(<%=currentPage%>, '<%=className%>', <%=currentOrg.getId()%>, false);"><div style="padding-top: 10px;" id="like"><span aria-hidden="true" class="icon-thumbs-up"></span></div></a>
-                                <a onclick="approve(<%=currentPage%>, '<%=className%>', <%=currentOrg.getId()%>, true);"><div id="like"><span aria-hidden="true" class="icon-thumbs-up-2"></span></div></a>
+                                <a onclick="approve(${currentPage}, '${class}', <%=currentOrg.getId()%>, false);"><div style="padding-top: 10px;" id="like"><span aria-hidden="true" class="icon-thumbs-up"></span></div></a>
+                                <a onclick="approve(${currentPage}, '${class}', <%=currentOrg.getId()%>, true);"><div id="like"><span aria-hidden="true" class="icon-thumbs-up-2"></span></div></a>
                             </div>
                         <%}%>
                     </div>
                 <%}}%>
                 <div style="text-align: center;">
-                    <%=currentPage%> <spring:message code="viewAll.From"/> <%=pageCount%>
+                    ${currentPage} <spring:message code="viewAll.From"/> ${pageCount}
                 </div>
             </div>
             <div class="LeftSwith rightButton">
-                <a onclick="rewindPanel(<%=currentPage%>, 'next', '<%=className%>');"><div id="rightBtn"></div></a>
+                <a onclick="rewindPanel(${currentPage}, 'next', '${class}');"><div id="rightBtn"></div></a>
             </div>
           </div></div>
     <%}
@@ -91,32 +91,33 @@
                 <div class = "event <%if (myNewsSize > 0){%> newEvent <%}%>" rel="<portlet:renderURL/>&mode=pagination" dataclass="myNews" title = "<spring:message code="viewAll.myNews"/>">
                     <span aria-hidden="true" class="icon-bubbles-2"></span>
                 </div>
-                <%if (myNewsSize > 0){%><span id="count"><%=myNewsSize%></span><%}%>
+                <c:if test="${myNewsSize > 0 }"><span id="count">${myNewsSize}</span></c:if>
             </div>
             <div id = "elem">
                 <div class = "event <%if (myOrgSize > 0){%> newEvent <%}%>" rel="<portlet:renderURL/>&mode=pagination" dataclass="myCommunity" title = "<spring:message code="viewAll.myCommunities"/>">
                     <span aria-hidden="true" class="icon-earth"></span>
                 </div>
-               <%if (myOrgSize > 0){%> <span id="count"><%=myOrgSize%></span><%}%>
+                <c:if test="${myOrgSize > 0 }"> <span id="count">${myOrgSize}</span></c:if>
             </div>
             <div id = "elem">
                 <div class = "event <%if (newsInMyComm > 0){%> newEvent <%}%>" rel="<portlet:renderURL/>&mode=pagination" dataclass="newsInMyComm" title = "<spring:message code="viewAll.NewsInMyComm"/>">
                     <span aria-hidden="true" class="icon-stackoverflow"></span>
                 </div>
-                <%if (newsInMyComm > 0){%><span id="count">+<%=newsInMyComm%></span><%}%>
+                <c:if test="${newsInMyComm > 0}"><span id="count">+${newsInMyComm}</span></c:if>
             </div>
             <%if (request.isUserInRole("Administrator")) {%>
                 <div id = "elem">
                     <div class = "event <%if (adminNewsSize > 0){%> newEvent <%}%>" rel="<portlet:renderURL/>&mode=pagination" dataclass="adminNews" title = "<spring:message code="viewAll.News"/>">
                         <span aria-hidden="true" class="icon-office"></span>
                     </div>
-                    <%if (adminNewsSize > 0){%><span id="count"><%=adminNewsSize%></span><%}%>
+                    <c:if test="${adminNewsSize > 0}"><span id="count">${adminNewsSize}</span></c:if>
                 </div>
                 <div id = "elem">
                     <div class = "event <%if (adminOrgSize > 0){%> newEvent <%}%>" rel="<portlet:renderURL/>&mode=pagination" dataclass="adminCommunity" title = "<spring:message code="viewAll.Communities"/>">
                         <span aria-hidden="true" class="icon-share"></span>
                     </div>
-                    <%if (adminOrgSize > 0){%><span id="count"><%=adminOrgSize%></span><%}%>
+                        <c:if test="${adminOrgSize > 0}">
+                            <span id="count">${adminOrgSize}</span></c:if>
                 </div>
             <%}%>
         </div>
