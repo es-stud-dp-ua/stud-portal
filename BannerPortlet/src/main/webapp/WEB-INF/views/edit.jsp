@@ -2,6 +2,7 @@
 <%@ page import="ua.dp.stud.StudPortalLib.util.ImageService" %>
 <%@ page import="java.util.Collection" %>
 <%@include file="include.jsp"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!--todo: javascript to separate file move you should-->
 
 <portlet:defineObjects/>
@@ -27,9 +28,10 @@
 	<div class="panelbtn panelbtn-right fs20 icon-pcparrow-left" aria-hidden="true"></div>
 	</a>
     </div>
-        <%if(bannerImages.isEmpty()){%>
+         <c:if test="${not empty bannerImages}" >      
         <b><spring:message code="noImages"/></b><br>
-        <%}else{%>
+        </c:if>
+        <c:if test="${empty bannerImages}"> 
         <spring:message code="currentImages"/><br>
             <%for(BannerImage image:bannerImages){%>
             <form method="post" class="banner-form"<%=image.getId()%>" action='${actionLink}' enctype="multipart/form-data">
@@ -79,8 +81,9 @@
             		});
             	});
             </script>
-            <%}%>
+       
         <%}%>
+         </c:if>
     </div>
 </body>
 </html>

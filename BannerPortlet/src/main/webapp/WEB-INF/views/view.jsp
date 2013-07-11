@@ -3,7 +3,7 @@
 <%@ page import="ua.dp.stud.StudPortalLib.util.ImageService" %>
 <%@ page import="ua.dp.stud.bannerPortlet.model.BannerImage" %>
 <%@include file="include.jsp"%>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <portlet:defineObjects/>
 <%
     Collection<BannerImage> bannerImages =
@@ -29,7 +29,7 @@
 		<img id="left-bottom" src="${pageContext.request.contextPath}/images/frame1.png">
 		<img id="right-top" src="${pageContext.request.contextPath}/images/frame1.png">
 		
-		<% if (!bannerImages.isEmpty()) {%>
+		 <c:if test="${ not empty bannerImages}">
 		<div  class="banner">
 			
 			<div align="left" class="images">
@@ -44,7 +44,7 @@
 				</ul>
 			</div>
 		</div>
-		<% }%>
+                 </c:if>
 
     </div>
 
