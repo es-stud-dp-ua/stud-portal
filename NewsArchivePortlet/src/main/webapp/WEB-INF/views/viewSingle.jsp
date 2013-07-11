@@ -10,7 +10,7 @@
 <%
     ImageService imgService = (ImageService)pageContext.findAttribute("imageService");
     News news = (News) request.getAttribute("news");
-    String mainImage = (String)request.getAttribute("mainImage");
+
     Collection<ImageImpl> additionalImages = (Collection<ImageImpl>)request.getAttribute("additionalImages");
 %>
 <html>
@@ -125,21 +125,18 @@
                 </a>
 <%}%>
 </div>
-    <div class="newsHeader"><%=news.getTopic()%></div>
+    <div class="newsHeader">${news.topic}</div>
     <div class="reply_link_wrap" style="text-align: center;">
-        <span class="rel_author"><%=news.getAuthor()%></span>
-        <span class="rel_view"><%=news.getNumberOfViews()%></span>
+        <span class="rel_author">${news.author}</span>
+        <span class="rel_view">${news.numberOfViews}</span>
         <span class="rel_date"><%=CustomFunctions.getCreationDate(news.getPublication())%></span>
     </div>
-    <img src="<%=mainImage%>" alt="" class="mainImage"/>
+    <img src="${mainImage}" alt="" class="mainImage"/>
     <div class="newsText">
-        <%=news.getText()%>
+        ${news.text}
     </div>
 </div>
-<%
-	if (additionalImages != null)
-	{
-%>
+<c:if test="${additionalImages != null}" >
 <div class="ajax-loader" style="margin-top: 30px; width: 639px; height: 21px;"></div>
 <div class="image_carousel" style="width: 639px; left: -10000px;">
 	<a href="javascript:" class="carousel-control next pagination-right" rel="next"></a>
@@ -156,7 +153,7 @@
 		</div>
 	</div>
 </div>
-<%}%>
+</c:if>
 <br><br>
 
 <div id="Social_networks_Likes">

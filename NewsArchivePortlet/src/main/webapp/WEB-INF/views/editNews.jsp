@@ -16,7 +16,6 @@
 <script id="" src="${pageContext.request.contextPath}/js/cropbox.js" type="text/javascript"></script>
 
 <%
-    String ex = (String) request.getAttribute("exception");
     ImageService imageService = (ImageService)pageContext.findAttribute("imageService");
     Boolean russianLocaleEnabled = request.getLocale().getLanguage().equals("ru");
     News news = (News) request.getAttribute("news");
@@ -48,9 +47,9 @@
 </div>
 <liferay-ui:error key="no-images" message='<spring:message code="form.noImages"/>'/>
 <liferay-ui:error key="no-images" message='<spring:message code="form.noImages"/>'/>
-<%if (ex != null) {%>
-<%=ex%>
-<%}%>
+<c:if test="${exception != null}" >
+${exception}
+</c:if>
 
 <div style="width: 900px;">
     <form method="POST" action="${actionLink}" enctype="multipart/form-data">

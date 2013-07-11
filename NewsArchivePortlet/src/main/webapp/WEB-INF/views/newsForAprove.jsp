@@ -67,7 +67,7 @@
 
     <liferay-ui:success message='<%=<spring:message code="viewAll.successAdd"/>%>' key="success-add"/>
 
-    <% if (!news.isEmpty()) {%>
+    <c:if test="${not empty news}">
     <table id="newsTable">
         <%
             for (Collection<News> currentNewsForAprove : news) {
@@ -137,8 +137,9 @@
         </tr>
         <%}%>
     </table>
-    <% } }%>
-
+   
+    <%  }%>
+ </c:if>
     <table width="90%">
         <tr>
             <td width="80" align="left">
