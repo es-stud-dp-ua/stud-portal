@@ -38,8 +38,8 @@ public class CustomFunctionsTest {
     }
 
     @Test
-    public void getCreationDate() {
-        Date date = DateTime.parse("10.07.2013 19:52:00", DateTimeFormat.forPattern("dd.MM.yyyy HH:mm:ss")).toDate();
+    public void getCreationDateTest() {
+        Date date = DateTime.parse("31.12.2012 09:00:00", DateTimeFormat.forPattern("dd.MM.yyyy HH:mm:ss")).toDate();
         String result = CustomFunctions.getCreationDate(date);
         assertNotNull(result);
     }

@@ -1,9 +1,11 @@
 package ua.dp.stud.StudPortalLib.util;
 
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Stack;
 import java.util.StringTokenizer;
@@ -33,58 +35,66 @@ public final class CustomFunctions {
         return join(subTextArray, " ");
     }
 
+    private static final Integer TOTAL_MS_PER_DAY = 1000 * 60 * 60 * 24;
     private static final Integer TOTAL_MS_PER_HOURS = 1000 * 60 * 60;
     private static final Integer TOTAL_MS_PER_MIN = 1000 * 60;
     private static final Integer TOTAL_MS = 1000;
+    private static final DateFormat hoursFormat = new SimpleDateFormat("HH:mm");
+    private static final DateFormat dayFormat = new SimpleDateFormat("dd.MM.yyyy");
+    private static final DateFormat dateFormat = new SimpleDateFormat("dd.MM");
 
     public static String getCreationDate(Date date) {
         StringBuilder outDate = new StringBuilder();
         Date pubDate = date;
         Date now = DateTime.now().toDate();
-        DateFormat hoursFormat = new SimpleDateFormat("HH:mm");
+        Calendar nowCal = Calendar.getInstance();
+        nowCal.setTime(now);
+        Calendar pubDateCal = Calendar.getInstance();
+        pubDateCal.setTime(date);
         Long difference = now.getTime() - date.getTime();
-        if (difference < 0) {
-            throw new IllegalArgumentException();
-        }
-        Integer year = now.getYear() - pubDate.getYear();
-        if (year == 0) {
-            Integer day = now.getDate() - pubDate.getDate();
-            if (day == 0) {
-                Long hours = difference / TOTAL_MS_PER_HOURS;
-                if (hours == 0) {
-                    Long minutes = difference / TOTAL_MS_PER_MIN;
-                    if (minutes == 0) {
-                        Long seconds = difference / TOTAL_MS;
-                        if (seconds < 10) {
-                            outDate.append("только что");
-                        } else {
-                            outDate.append(seconds).append(" секунд назад");
-                        }
-                    } else {
-                        outDate.append(minutes).append(" минут назад");
-                    }
+        Long seconds = difference / TOTAL_MS;
+        if (seconds < 10) {
+            outDate.append("только что");
+        } else {
+            if (seconds < 60) {
+                outDate.append(seconds).append(" секунд назад");
+            } else {
+                Long minutes = difference / TOTAL_MS_PER_MIN;
+                if (minutes < 60) {
+                    outDate.append(minutes).append(" минут назад");
                 } else {
-                    if (hours > 0 && hours < 4) {
+                    Long hours = difference / TOTAL_MS_PER_HOURS;
+                    if (hours < 4) {
                         outDate.append(hours).append(" час(а) назад");
                     } else {
-                        outDate.append("сегодня в ")
-                                .append(hoursFormat.format(pubDate));
+                        if (hours < 24) {
+                            Integer day = nowCal.get(Calendar.DAY_OF_MONTH) - pubDateCal.get(Calendar.DAY_OF_MONTH);
+                            if (day == 0) {
+                                outDate.append("сегодня в ")
+                                    .append(hoursFormat.format(pubDate));
+                            } else {
+                                outDate.append("вчера в ")
+                                        .append(hoursFormat.format(pubDate));
+                            }
+                        } else {
+                            Long day = difference / TOTAL_MS_PER_DAY;
+                            if (day == 1) {
+                                outDate.append("вчера в ")
+                                        .append(hoursFormat.format(pubDate));
+                            } else {
+                                Integer year = nowCal.get(Calendar.YEAR) - pubDateCal.get(Calendar.YEAR);
+                                if (year == 0) {
+                                    outDate.append(dateFormat.format(pubDate)).append(" в ")
+                                            .append(hoursFormat.format(pubDate));
+                                } else {
+                                    outDate.append(dayFormat.format(pubDate)).append(" в ")
+                                            .append(hoursFormat.format(pubDate));
+                                }
+                            }
+                        }
                     }
                 }
-            } else {
-                if (day == 1) {
-                    outDate.append("вчера в ")
-                            .append(hoursFormat.format(pubDate));
-                } else {
-                    DateFormat dateFormat = new SimpleDateFormat("dd.MM");
-                    outDate.append(dateFormat.format(pubDate)).append(" в ")
-                            .append(hoursFormat.format(pubDate));
-                }
             }
-        } else {
-            DateFormat dayFormat = new SimpleDateFormat("dd.MM.yyyy");
-            outDate.append(dayFormat.format(pubDate)).append(" в ")
-                    .append(hoursFormat.format(pubDate));
         }
         return outDate.toString();
     }
