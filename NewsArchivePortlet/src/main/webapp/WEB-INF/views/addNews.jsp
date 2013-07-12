@@ -25,7 +25,6 @@
 </head>
 <body>
 
-<!-- todo:move javascript code to separate file-->
 <script language="javascript" type="text/javascript">
     $(document).ready(function () {
         $.Placeholder.init({color: "#aaa"});

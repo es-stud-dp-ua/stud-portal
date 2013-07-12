@@ -28,7 +28,6 @@
             rightPageNumb = Math.min(pagesCount, currentPage + nearbyPages);
     boolean skippedBeginning = false,
             skippedEnding = false;
-    //todo: move this code to controller
     if (pagesCount <= overallPages) {
         leftPageNumb = 1;                 //all pages are shown
         rightPageNumb = pagesCount;

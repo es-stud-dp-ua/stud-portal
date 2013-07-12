@@ -35,7 +35,6 @@
 <div class="portlet-content-controlpanel fs20">
     <a style="float: right" href="${addNewsUrl}">
         <div class="panelbtn panelbtn-right icon-pcpfile" aria-hidden="true"></div>
-        <!--<spring:message code="viewAll.addNews"/>-->
     </a>
 </div>
 <%}%>
@@ -43,73 +42,64 @@
     <liferay-ui:success message='<spring:message code="msg.successAdd"/>' key="success-add"/>
 
     <c:if test="${not empty news}">
-        <table id="newsTable">
-            <%
-                for (News currentNews : news) {
+        <div id="newsTable">
+            <%for (News currentNews : news) {%>
+				<div><div width="100%">
+					<% if (request.isUserInRole("Administrator")) { %>
+					<a style="float: right"
+					   href='<portlet:renderURL><portlet:param name="newsId" value="<%=currentNews.getId().toString()%>"/><portlet:param name="mode" value="delete" /></portlet:renderURL>'
+					   onclick='return confirm("<spring:message code="form.confDelete"/>")'>
+						<div class="panelbtn panelbtn-right fs20 icon-pcpremove" aria-hidden="true"></div>
+					</a>
+					<%}%>
+					<a href='<portlet:renderURL><portlet:param name="newsID" value="<%=currentNews.getId().toString()%>"/></portlet:renderURL>'>
+						<img src="<%= imageService.getPathToMicroblogImage(currentNews.getMainImage(),currentNews) %>"
+							 class="newsImage">
+					</a>
+					<div class="newsHeader">
+						<a href='<portlet:renderURL><portlet:param name="newsID" value="<%=currentNews.getId().toString()%>"/></portlet:renderURL>'>
+							<%=currentNews.getTopic()%>
 
-            %>
-            <tr>
-                <td width="100%">
-                    <div width="100%">
-                        <% if (request.isUserInRole("Administrator")) { %>
-                        <a style="float: right"
-                           href='<portlet:renderURL><portlet:param name="newsId" value="<%=currentNews.getId().toString()%>"/><portlet:param name="mode" value="delete" /></portlet:renderURL>'
-                           onclick='return confirm("<spring:message code="form.confDelete"/>")'>
-                            <!--<spring:message code="form.delete"/>-->
-                            <div class="panelbtn panelbtn-right fs20 icon-pcpremove" aria-hidden="true"></div>
-                        </a>
-                        <%}%>
-                        <a href='<portlet:renderURL><portlet:param name="newsID" value="<%=currentNews.getId().toString()%>"/></portlet:renderURL>'>
-                            <img src="<%= imageService.getPathToMicroblogImage(currentNews.getMainImage(),currentNews) %>"
-                                 class="newsImage">
-                        </a>
-
-                        <div class="newsHeader">
-                            <a href='<portlet:renderURL><portlet:param name="newsID" value="<%=currentNews.getId().toString()%>"/></portlet:renderURL>'>
-                                <%=currentNews.getTopic()%>
-
-                            </a>
-                        </div>
-                        <div class="newsText">
-                                <%--50 as said Anton--%>
-                            <%= CustomFunctions.truncateHtml(currentNews.getText(), 700) %>
-                        </div>
-                    </div>
-                    <div class="reply_link_wrap">
-                        <span class="rel_author"><%=currentNews.getAuthor()%></span>
-                        <span class="rel_view"><%=currentNews.getNumberOfViews()%></span>
-                        <span class="rel_date"><%=CustomFunctions.getCreationDate(currentNews.getPublication())%></span>
-                    </div>
-                    <div width="100%" align="right">
-                        <table width="90%">
-                            <tr>
-                                <td width="60">
-                                    <img width="60" class="newsDecorImage"
-                                         src="${pageContext.request.contextPath}/images/news-decor-line-left-end.png"/>
-                                </td>
-                                <td width="auto" align="left">
-                                    <img width="100%" class="newsDecorImage"
-                                         src="${pageContext.request.contextPath}/images/news-decor-line.png"/>
-                                </td>
-                                <td width="52">
-                                    <img width="52" class="newsDecorImage"
-                                         src="${pageContext.request.contextPath}/images/news-decor-center.png"/>
-                                </td>
-                                <td width="auto" align="right">
-                                    <img width="100%" class="newsDecorImage"
-                                         src="${pageContext.request.contextPath}/images/news-decor-line.png"/>
-                                </td>
-                                <td width="50">
-                                    <img width="50" class="newsDecorImage"
-                                         src="${pageContext.request.contextPath}/images/news-decor-line-right-end.png"/>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                </td>
-            </tr>
+						</a>
+					</div>
+					<div class="newsText">
+							<%--50 as said Anton--%>
+						<%= CustomFunctions.truncateHtml(currentNews.getText(), 700) %>
+					</div>
+				</div>
+				<div class="reply_link_wrap">
+					<span class="rel_author"><%=currentNews.getAuthor()%></span>
+					<span class="rel_view"><%=currentNews.getNumberOfViews()%></span>
+					<span class="rel_date"><%=CustomFunctions.getCreationDate(currentNews.getPublication())%></span>
+				</div>
+				<div width="100%" align="right">
+					<table width="90%">
+						<tr>
+							<td width="60">
+								<img width="60" class="newsDecorImage"
+									 src="${pageContext.request.contextPath}/images/news-decor-line-left-end.png"/>
+							</td>
+							<td width="auto" align="left">
+								<img width="100%" class="newsDecorImage"
+									 src="${pageContext.request.contextPath}/images/news-decor-line.png"/>
+							</td>
+							<td width="52">
+								<img width="52" class="newsDecorImage"
+									 src="${pageContext.request.contextPath}/images/news-decor-center.png"/>
+							</td>
+							<td width="auto" align="right">
+								<img width="100%" class="newsDecorImage"
+									 src="${pageContext.request.contextPath}/images/news-decor-line.png"/>
+							</td>
+							<td width="50">
+								<img width="50" class="newsDecorImage"
+									 src="${pageContext.request.contextPath}/images/news-decor-line-right-end.png"/>
+							</td>
+						</tr>
+					</table>
+				</div></div>
             <%}%>
-        </table>
+        </div>
     </c:if>
 
     <table width="90%">

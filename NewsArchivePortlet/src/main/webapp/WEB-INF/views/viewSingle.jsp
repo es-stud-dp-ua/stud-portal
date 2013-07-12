@@ -112,7 +112,6 @@
 <div id="singleView">
     <div class="portlet-content-controlpanel fs20">
         <a href="${home}">
-            <!--<spring:message code="form.back"/>-->
             <div class="panelbtn panelbtn-right fs20 icon-pcparrow-left" aria-hidden="true"></div>
         </a>
         <%if (request.isUserInRole("Administrator") || request.isUserInRole("User")) { %>
@@ -121,13 +120,11 @@
            href="<portlet:renderURL><portlet:param name="newsId" value="<%=news.getId().toString()%>"/><portlet:param name="mode" value="delete" /></portlet:renderURL>"
            onclick='return confirm("<spring:message code="form.confDelete"/>")'>
             <div class="panelbtn panelbtn-right icon-pcpremove" aria-hidden="true"></div>
-            <!--<spring:message code="form.delete"/>-->
         </a>
         <%}%>
         <a style="float: right"
            href="<portlet:renderURL><portlet:param name="newsId" value="<%=news.getId().toString()%>"/><portlet:param name="mode" value="edit" /></portlet:renderURL>">
-            <!--<spring:message code="viewSingle.Edit"/>-->
-            <div class="panelbtn panelbtn-right icon-pcppencil" aria-hidden="true"></div>
+           <div class="panelbtn panelbtn-right icon-pcppencil" aria-hidden="true"></div>
         </a>
         <%}%>
     </div>

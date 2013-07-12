@@ -1,7 +1,6 @@
 #contentDiv {
     margin-left: 1%;
-    /*margin-right: 10%;*/
-    max-width: 632px;
+	width:100%;
 }
 
 .fancybox-custom .fancybox-skin {
@@ -38,7 +37,6 @@
     font-size: 12pt;
     text-align: justify;
     margin-left: 5px;
-    min-height: 70px;
 }
 
 #mainImageLoader {
@@ -308,6 +306,7 @@ span.cke_skin_kama {
     width: 100%;
     margin-top: 10px;
     margin-bottom: 10px;
+	clear: both;
 }
 
 .rel_date {
