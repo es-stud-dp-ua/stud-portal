@@ -195,7 +195,8 @@
 
 /*add & edit news*/
 #topicInput {
-    resize: initial;
+    overflow:  hidden;
+	resize: none;
     margin-top: 15px;
     width: 430px;
     font-size: large;
