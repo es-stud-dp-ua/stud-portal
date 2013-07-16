@@ -71,8 +71,7 @@
         </form>
     </div>
     <div id="newsTable">
-        <c:forEach items="${organisations}" var="orgs">
-            <c:if test="${not empty orgs}">
+        <% if (!orgs.isEmpty()) { 
                 <% for (Organization currentOrgs : orgs) {%>
                 <div width="100%">
                     <img src="<%= imageService.getPathToMicroblogImage(currentOrgs.getMainImage(),currentOrgs) %>"
@@ -125,8 +124,6 @@
                     </table>
                 </div>
                 <%}%>
-            </c:if>
-        </c:forEach>
         <table width="90%">
             <tr>
                 <td width="80" align="left">
