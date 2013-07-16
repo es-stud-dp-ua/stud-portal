@@ -126,12 +126,12 @@
                 </td>
                 <td rowspan=2 width="50%" align="left">
                     <textarea id="topicInput" cols="90" rows="2" maxlength="80" onkeypress="return isNotMax(event)"
-                              name="topic">${organisation.Title}
+                              name="topic">${organisation.title}
                     </textarea><br/>
 
                     <div style="width: 450px; float: bottom ;padding-left: 8px;">
                         <textarea class="ckeditor" id="textInput" cols="60" rows="10" maxlength="8000"
-                                  onkeypress="return isNotMax(event)" name="text">${organisation.Text}
+                                  onkeypress="return isNotMax(event)" name="text">${organisation.text}
                         </textarea><br/><br/>
                     </div>
                     <div id="sbm">
@@ -147,7 +147,7 @@
                 <td width="50%" align="right">
                     <div id="eventSetting">
                         <div style="font-size:14px">
-                            <div style="float: right; margin-top: 30px; ">
+                            <div style="float: right; margin-top: 140px; ">
                                 <table>
                                     <tr><label>
                                         <div style="font-weight: bold; "><spring:message
@@ -182,7 +182,6 @@
 </div>
 
 
-</script>
-<
-/body>
-< /html>
+
+</body>
+</html>

@@ -71,8 +71,8 @@
         </form>
     </div>
     <div id="newsTable">
-        <% if (!orgs.isEmpty()) { 
-                <% for (Organization currentOrgs : orgs) {%>
+                <% if (!orgs.isEmpty()) {
+                 for (Organization currentOrgs : orgs){%>
                 <div width="100%">
                     <img src="<%= imageService.getPathToMicroblogImage(currentOrgs.getMainImage(),currentOrgs) %>"
                          class="newsImage">
