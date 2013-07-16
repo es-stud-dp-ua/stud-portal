@@ -6,6 +6,7 @@
     <portlet>
         <portlet-name>eventPanel</portlet-name>
         <instanceable>false</instanceable>
+        <css-class-wrapper>eventPanel</css-class-wrapper>
         <system>true</system>
     </portlet>
 </liferay-portlet-app>

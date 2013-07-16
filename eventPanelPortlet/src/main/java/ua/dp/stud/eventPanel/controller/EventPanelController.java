@@ -212,21 +212,31 @@ public class EventPanelController {
                                 @RequestParam(required = true, defaultValue = "current") String direction,
                                 @RequestParam(required = true, defaultValue = VIEW) String modelView,
                                 @RequestParam(required = true, defaultValue = "0") int objectId,
-                                @RequestParam(required = true, defaultValue = "false") boolean appr) {
+                                @RequestParam(required = true, defaultValue = "false") boolean appr,
+                                @RequestParam(required = true, defaultValue = "") String comment) {
         ModelAndView model;
         if (modelView.equals("newsInMyComm")) {
             News currentNews = newsService.getNewsById(objectId);
-            currentNews.setOrgApproved(true);
+            if (comment.length() > 0) {
+                currentNews.setComment(comment);
+            }
+            currentNews.setOrgApproved(appr);
             newsService.updateNews(currentNews);
         } else {
             if (modelView.equals("adminNews")) {
                 News currentNews = newsService.getNewsById(objectId);
-                currentNews.setApproved(true);
+                if (comment.length() > 0) {
+                    currentNews.setComment(comment);
+                }
+                currentNews.setApproved(appr);
                 newsService.updateNews(currentNews);
             } else {
                 if (modelView.equals("adminCommunity")) {
                     Organization currentOrg = organizationService.getOrganizationById(objectId);
-                    currentOrg.setApproved(true);
+                    if (comment.length() > 0) {
+                        currentOrg.setComment(comment);
+                    }
+                    currentOrg.setApproved(appr);
                     organizationService.updateOrganization(currentOrg);
                 } else {
                     return getCurrentModel(request);

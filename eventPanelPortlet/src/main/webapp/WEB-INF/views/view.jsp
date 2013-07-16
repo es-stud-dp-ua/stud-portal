@@ -54,11 +54,11 @@
             </p></a>
             <%if (className.equals("adminNews") || className.equals("newsInMyComm")) {%>
             <div>
-                <a onclick="approve(${currentPage}, '${class}', <%=currentNews.getId()%>, false);">
+                <a href="javascript:;" class="disapprove" currentPage="${currentPage}" epClass="${class}" epID="<%=currentNews.getId()%>" approve="false">
                     <div style="padding-top: 10px;" id="like"><span aria-hidden="true" class="icon-thumbs-up"></span>
                     </div>
                 </a>
-                <a onclick="approve(${currentPage}, '${class}', <%=currentNews.getId()%>, true);">
+                <a onclick="approve(${currentPage}, '${class}', <%=currentNews.getId()%>, true, '');">
                     <div id="like"><span aria-hidden="true" class="icon-thumbs-up-2"></span></div>
                 </a>
             </div>
@@ -79,10 +79,10 @@
         </p></a>
         <%if (className.equals("adminCommunity")) {%>
         <div>
-            <a onclick="approve(${currentPage}, '${class}', <%=currentOrg.getId()%>, false);">
+            <a href="javascript:;" class="disapprove" currentPage="${currentPage}" epClass="${class}" epID="<%=currentOrg.getId()%>" approve="false">
                 <div style="padding-top: 10px;" id="like"><span aria-hidden="true" class="icon-thumbs-up"></span></div>
             </a>
-            <a onclick="approve(${currentPage}, '${class}', <%=currentOrg.getId()%>, true);">
+            <a onclick="approve(${currentPage}, '${class}', <%=currentOrg.getId()%>, true, '');">
                 <div id="like"><span aria-hidden="true" class="icon-thumbs-up-2"></span></div>
             </a>
         </div>
@@ -148,6 +148,17 @@
         <%}%>
     </div>
 </div>
+<div id="epOpenModal" class="modalDialog">
+	<div>
+		<a href="javascript:;" title='<spring:message code="viewAll.Disapprove.Cancel"/>' class="close" onclick="$('#epOpenModal').hide()">X</a>
+		<h3><spring:message code="viewAll.Disapprove.Cause"/></h3>
+		<div>
+			<div><spring:message code="viewAll.Disapprove.Message"/></div>
+			<textarea id="epComment"></textarea>
+			<button id="epSendApprove" ><spring:message code="viewAll.Disapprove.Answer"/></button>
+		</div>
+	</div>
+</div>
 <script>
     function rewindPanel(currentPage, direction, paramsName) {
         $.ajax({
@@ -160,14 +171,15 @@
             success: function (data) {
                 var myNews = $("." + paramsName);
                 myNews.html($('.' + paramsName, data));
+                setOnClick();
             }
         });
     }
-    function approve(currentPage, modelView, objectId, appr) {
+    function approve(currentPage, modelView, objectId, appr, comment) {
         $.ajax({
             url: "<portlet:renderURL/>&mode=approve",
             cache: false,
-            data: {currentPage: currentPage, modelView: modelView, objectId: objectId, appr: appr},
+            data: {currentPage: currentPage, modelView: modelView, objectId: objectId, appr: appr, comment:comment},
             dataType: "html",
             type: "GET",
             contentType: "application/json;charset=utf-8",
@@ -177,5 +189,13 @@
             }
         });
     }
+    $('#epSendApprove').click(function() {
+        $('#epOpenModal').hide();
+        if ($('#epComment').val().length > 5) {
+            approve(EPWrapper.currentPage, EPWrapper.epClass, EPWrapper.epID, EPWrapper.approve, $('#epComment').val());
+        } else {
+            alert('<spring:message code="viewAll.Disapprove.TooShort"/>');
+        }
+    });
 </script>
 <%}%>
