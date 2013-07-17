@@ -233,11 +233,16 @@
             <artifactId>commons-lang</artifactId>
             <version>2.3</version>
         </dependency>
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+            <version>2.1</version>
+        </dependency>
 
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>StudPortalLib</artifactId>
-            <version>1.1.0</version>
+            <version>1.1.5</version>
         </dependency>
     </dependencies>
 </project>
