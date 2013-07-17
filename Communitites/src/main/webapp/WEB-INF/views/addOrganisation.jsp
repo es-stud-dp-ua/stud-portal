@@ -155,9 +155,7 @@
                         }
                         document.getElementById('mainImage').addEventListener('change', handleFileSelect, false);
                     </script>
-
                     <br/>
-
                     <div id="imageLoader">
                         <div id="imgloaderBtn">
                             <input name="images" type="file" id="aui_3_2_0_11607"
@@ -168,9 +166,10 @@
                     <br/>
                 </td>
                 <td rowspan=2 width="50%" align="left">
-                    <textarea id="topicInput" cols="90" rows="2" maxlength="80"
+                    <textarea id="topicInput" cols="90" rows="2" maxlength="100"
                               onkeyup="isNotMax(event, getAttribute('id'))" name="topic"
                               placeholder="<spring:message code="form.topic"/>"></textarea><br/>
+
 
                     <div style="width: 450px; float: bottom ;padding-left: 8px;">
                         <textarea class="ckeditor" id="textInput" cols="60" rows="10" maxlength="8000"

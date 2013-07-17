@@ -6,6 +6,11 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Size;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  * Entity class instances of which will be stored in DB
@@ -15,24 +20,21 @@ import java.util.Date;
  */
 @NamedQueries(
         {
-                @NamedQuery(
-                        name = "News.getByAuthor",
-                        query = "Select news From News news  Where news.author = :author ORDER BY news.id desc"
-                ),
-                @NamedQuery(
-                        name = "News.getByOrganization",
-                        query = "Select news From News news  Where news.baseOrg.id = :id and news.orgApproved = :approved ORDER BY news.id desc"
-                ),
-                @NamedQuery(
-                        name = "News.getByApproved",
-                        query = "Select news From News news  Where news.approved = :approved and news.comment is null ORDER BY news.publication desc"
-                )
-        }
-)
+    @NamedQuery(
+            name = "News.getByAuthor",
+            query = "Select news From News news  Where news.author = :author ORDER BY news.id desc"),
+    @NamedQuery(
+            name = "News.getByOrganization",
+            query = "Select news From News news  Where news.baseOrg.id = :id and news.orgApproved = :approved ORDER BY news.id desc"),
+    @NamedQuery(
+            name = "News.getByApproved",
+            query = "Select news From News news  Where news.approved = :approved and news.comment is null ORDER BY news.publication desc")
+})
 @Entity
 @Table(name = "newstable")
 @PrimaryKeyJoinColumn(name = "id", referencedColumnName = "id")
 public class News extends BaseImagesSupport implements Serializable {
+
     private static final int NEWS_TEXT_LENGTH = 10000;
 
     /**
@@ -44,18 +46,17 @@ public class News extends BaseImagesSupport implements Serializable {
         approved = false;
     }
 
-
     /**
      * constructor with params
      *
-     * @param topic                 topic of news
-     * @param text                  text of news
-     * @param author                author of news
-     * @param publication           Date when news was create
+     * @param topic topic of news
+     * @param text text of news
+     * @param author author of news
+     * @param publication Date when news was create
      * @param publicationInCalendar Date when news was publishing in cal
      */
     public News(String topic, String text, String author, Date publication, Date publicationInCalendar,
-                Category category, Boolean approved, Boolean inCalendar, Boolean onMainpage) {
+            Category category, Boolean approved, Boolean inCalendar, Boolean onMainpage) {
         this.topic = topic;
         this.text = text;
         this.author = author;
@@ -66,20 +67,36 @@ public class News extends BaseImagesSupport implements Serializable {
         this.onMainpage = onMainpage;
         this.category = category;
     }
-
     //Fields//
+    @Size(min = 5, max = 100)
+    @NotNull
+    @NotBlank
     private String topic;
+    @Size(min = 100, max = 1000)
+    @NotNull
+    @NotBlank
     private String text;
+    @Size(min = 2, max = 30)
+    @NotNull
+    @NotBlank
     private String author;
+    @NotNull
+    @Past
     private Date publication;
     private Date publicationInCalendar;
+    @NotNull
     private Boolean inCalendar;
+    @NotNull
     private Boolean approved;
+    @NotNull
     private Boolean onMainpage;
     private Category category;
     private Boolean orgApproved;
     private Organization baseOrg;
+    @Size(min = 5, max = 1000)
     private String comment;
+    @NotNull
+    @Min(0)
     private Integer numberOfViews = 0;
 
     @Column
@@ -103,7 +120,8 @@ public class News extends BaseImagesSupport implements Serializable {
     /**
      * Return administrator approved
      *
-     * @return "true" if administrator of organization approved, "false" another way
+     * @return "true" if administrator of organization approved, "false" another
+     * way
      */
     @Column(name = "orgApproved")
     public Boolean getOrgApproved() {
@@ -274,7 +292,6 @@ public class News extends BaseImagesSupport implements Serializable {
                 .append(", text=").append(text).append(", author=").append(author)
                 .append(", publication=").append(publication).append(']').toString();
     }
-
     private static final int START_HASH = 17;
     private static final int MULT_HASH = 257;
 

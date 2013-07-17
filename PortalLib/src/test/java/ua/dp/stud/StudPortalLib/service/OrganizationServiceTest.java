@@ -14,6 +14,7 @@ import ua.dp.stud.StudPortalLib.dao.OrganizationDao;
 import ua.dp.stud.StudPortalLib.util.OrganizationType;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -30,13 +31,18 @@ public class OrganizationServiceTest extends AbstractTransactionalJUnit4SpringCo
     private OrganizationService service;
     private static Organization org1;
     private static Organization org2;
+    private static Organization org3;
     private OrganizationDao mockDao;
+     private static final String TEST_TEXT="TEST test TEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST test"
+    +"TEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST test"
+    +"TEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST test";
 
     @Before
     @Rollback(false)
     public void setUpClass() {
         org1 = new Organization();
         org2 = new Organization();
+        org3 = new Organization();
         org1.setOrganizationType(OrganizationType.SPORTS);
         org1.setTitle("Sport org");
         org1.setText("We are sport!");
@@ -47,6 +53,16 @@ public class OrganizationServiceTest extends AbstractTransactionalJUnit4SpringCo
         org2.setAuthor("author1");
         org1.setApproved(Boolean.TRUE);
         org2.setApproved(Boolean.TRUE);
+        org3.setOrganizationType(OrganizationType.OTHERS);
+        org3.setApproved(Boolean.TRUE);
+        org3.setAuthor("test");
+        org3.setTitle("test123");
+        org1.setText(TEST_TEXT);
+        org2.setText(TEST_TEXT);
+        org3.setText(TEST_TEXT);
+        org1.setPublication(new Date(123));
+        org2.setPublication(new Date(123));
+        org3.setPublication(new Date(123));
         service.addOrganization(org1);
         service.addOrganization(org2);
     }
@@ -91,7 +107,6 @@ public class OrganizationServiceTest extends AbstractTransactionalJUnit4SpringCo
 
     @Test
     public void AddOrg() {
-        Organization org3 = new Organization();
         assertNull(org3.getId());
         service.addOrganization(org3);
         assertNotNull(org3.getId());
@@ -134,14 +149,8 @@ public class OrganizationServiceTest extends AbstractTransactionalJUnit4SpringCo
 
     @Test
     public void pagination() {
-        Organization o3 = new Organization();
-        o3.setOrganizationType(OrganizationType.OTHERS);
-        o3.setApproved(Boolean.TRUE);
-        service.addOrganization(o3);
-        List<Organization> othersList = (List<Organization>) service.getOrganizationsOnPage(1, 1, o3.getOrganizationType().toString(), true);
-        // assertEquals(1, othersList.size());
-        //assertEquals(o3, othersList.get(0));
-
+        service.addOrganization(org3);
+        List<Organization> othersList = (List<Organization>) service.getOrganizationsOnPage(1, 1, org3.getOrganizationType().toString(), true);
         assertNull(service.getOrganizationsOnPage(1, 1, "type1", true));
     }
 

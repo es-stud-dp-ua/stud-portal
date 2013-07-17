@@ -157,8 +157,8 @@
     if (additionalImages != null) {
         carusel = true;
 %>
-<div style="text-align: center; font-weight: bold; font-size: 16px;"><spring:message code="form.photo"/></div>
-<div class="image_carousel" style="width: 639px">
+<div style="text-align: center; font-weight: bold; font-size: 16px; margin-top: 200px;"><spring:message code="form.photo"/></div>
+<div class="image_carousel" style="width: 639px; margin-left: 120px;">
     <a href="javascript:" class="carousel-control next pagination-right right" rel="next"></a>
     <a href="javascript:" class="carousel-control prev pagination-left left" rel="prev"></a>
 

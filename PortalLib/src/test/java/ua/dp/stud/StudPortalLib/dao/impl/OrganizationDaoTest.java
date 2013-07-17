@@ -18,12 +18,12 @@ import java.util.*;
 
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
+import org.junit.Ignore;
 
 @ContextConfiguration(locations = {"classpath:/DaoTestContext.xml"})
 @TransactionConfiguration(defaultRollback = true)
 @RunWith(SpringJUnit4ClassRunner.class)
 public class OrganizationDaoTest extends AbstractTransactionalJUnit4SpringContextTests {
-
 
     public OrganizationDaoTest() {
     }
@@ -31,21 +31,24 @@ public class OrganizationDaoTest extends AbstractTransactionalJUnit4SpringContex
     public void setDao(OrganizationDao dao) {
         this.dao = dao;
     }
-
     @Autowired
     private OrganizationDao dao;
     private static Organization org1;
     private static Organization org2;
+    private static Organization org3;
     private static News n1;
     private static News n2;
     private static News n3;
-
+    private static final String TEST_TEXT = "TEST test TEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST test"
+            + "TEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST test"
+            + "TEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST test";
 
     @Before
     @Rollback(false)
     public void setUpClass() {
         org1 = new Organization();
         org2 = new Organization();
+        org3 = new Organization();
         org1.setApproved(Boolean.TRUE);
         org2.setApproved(Boolean.TRUE);
         org1.setOrganizationType(OrganizationType.SPORTS);
@@ -56,23 +59,41 @@ public class OrganizationDaoTest extends AbstractTransactionalJUnit4SpringContex
         org2.setTitle("Other org");
         org2.setText("We are other!");
         org2.setAuthor("author1");
+        org3.setOrganizationType(OrganizationType.OTHERS);
+        org3.setApproved(Boolean.TRUE);
+        org3.setAuthor("test");
+        org3.setTitle("test123");
+        org1.setText(TEST_TEXT);
+        org2.setText(TEST_TEXT);
+        org3.setText(TEST_TEXT);
+        org1.setPublication(new Date(123));
+        org2.setPublication(new Date(123));
+        org3.setPublication(new Date(123));
         List<News> news = new ArrayList<News>();
 
         n1 = new News();
-        n1.setText("text1");
+        n1.setText(TEST_TEXT);
+        n1.setTopic("topic1");
         n1.setBaseOrg(org1);
         n1.setOrgApproved(true);
+        n1.setAuthor("bugaga");
+        n1.setPublication(new Date(123));
 
         n2 = new News();
-        n2.setText("text2");
+        n2.setText(TEST_TEXT);
+        n2.setTopic("topic2");
         n2.setBaseOrg(org1);
         n2.setOrgApproved(false);
+        n2.setAuthor("bugaga");
+        n2.setPublication(new Date(123));
 
         n3 = new News();
-        n3.setText("text3");
+        n3.setText(TEST_TEXT);
+        n3.setTopic("topic3");
         n3.setBaseOrg(org1);
         n3.setOrgApproved(true);
-
+        n3.setAuthor("bugaga");
+        n3.setPublication(new Date(123));
         news.add(n1);
         news.add(n2);
         news.add(n3);
@@ -140,9 +161,8 @@ public class OrganizationDaoTest extends AbstractTransactionalJUnit4SpringContex
 
     @Test
     public void AddOrg() {
-        Organization org3 = new Organization();
-        org3.setApproved(Boolean.TRUE);
         assertNull(org3.getId());
+        org3.setAuthor("test");
         dao.addOrganization(org3);
         assertNotNull(org3.getId());
     }
@@ -172,20 +192,18 @@ public class OrganizationDaoTest extends AbstractTransactionalJUnit4SpringContex
 
     @Test
     public void pagination() {
-        Organization o3 = new Organization();
-        o3.setOrganizationType(OrganizationType.OTHERS);
-        o3.setApproved(Boolean.TRUE);
-        dao.addOrganization(o3);
+
+        dao.addOrganization(org3);
         List<Organization> othersList = (List<Organization>) dao.getOrganizationsOnPage(1, 2, OrganizationType.OTHERS, true);
-        assertTrue(othersList.contains(o3));
+        assertTrue(othersList.contains(org3));
     }
 
- /*   @Test
-    public void delete() {
-        assertEquals(1, dao.deleteOrganization(org1));
-        assertEquals(0, dao.deleteOrganization(org1));
-    }*/
-
+    /*
+     @Test
+     public void delete() {
+     assertEquals(1, dao.deleteOrganization(org1.getId()));
+     assertEquals(0, dao.deleteOrganization(org1));
+     }*/
     @Test
     public void update() {
         Integer id = org1.getId();

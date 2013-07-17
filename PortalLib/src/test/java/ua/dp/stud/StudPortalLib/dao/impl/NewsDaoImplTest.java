@@ -5,7 +5,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
@@ -33,6 +32,9 @@ import static org.junit.Assert.assertEquals;
 @TransactionConfiguration(defaultRollback = true)
 @RunWith(SpringJUnit4ClassRunner.class)
 public class NewsDaoImplTest extends AbstractTransactionalJUnit4SpringContextTests {
+private static final String TEST_TEXT="TEST test TEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST test"
+    +"TEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST test"
+    +"TEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST test";
 
     public NewsDaoImplTest() {
     }
@@ -49,8 +51,8 @@ public class NewsDaoImplTest extends AbstractTransactionalJUnit4SpringContextTes
     public void setUpClass() {
         cat1 = new Category("Sport");
         cat2 = new Category("General");
-        n1 = new News("Тема1", "Текс1", "Автор1", new Date(), new Date(), cat1, true, true, true);
-        n2 = new News("Тема2", "Текс2", "Автор2", new Date(), new Date(), cat2, false, false, false);
+        n1 = new News("Тема1", TEST_TEXT, "Автор1", new Date(123), new Date(123), cat1, true, true, true);
+        n2 = new News("Тема2", TEST_TEXT, "Автор2", new Date(123), new Date(123), cat2, false, false, false);
         dao.addCategory(cat1);
         dao.addCategory(cat2);
         dao.addNews(n1);
