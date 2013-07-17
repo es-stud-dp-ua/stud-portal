@@ -1,7 +1,5 @@
 package ua.dp.stud.microblog.controller;
 
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.service.LayoutLocalServiceUtil;
 import com.liferay.portal.theme.ThemeDisplay;
@@ -17,6 +15,8 @@ import ua.dp.stud.StudPortalLib.service.NewsService;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import java.util.Collection;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Controller for view mode
@@ -25,14 +25,14 @@ import java.util.Collection;
 @RequestMapping(value = "view")
 public class MicroBlogController {
     private static final String NEWS_ARCHIVE_REFERENCE_NAME = "NewsArchive_WAR_studnewsArchive";
+    private static final Logger LOGGER = Logger.getLogger(MicroBlogController.class.getName());
 
     @Autowired
     @Qualifier(value = "newsService")
-    //todo: change variable name
-    private NewsService service;
+    private NewsService newsService;
 
-    public void setService(NewsService service) {
-        this.service = service;
+    public void setNewsService(NewsService newsService) {
+        this.newsService = newsService;
     }
 
     /**
@@ -41,33 +41,37 @@ public class MicroBlogController {
      * @param request
      * @param response
      * @return
-     * @throws javax.portlet.PortletModeException
      *
      */
-    //todo: use try ... catch block
     @RenderMapping
-    public ModelAndView showView(RenderRequest request, RenderResponse response) throws SystemException, PortalException {
-        ModelAndView model = new ModelAndView();
-        model.setViewName("viewAll");
+    public ModelAndView showView(RenderRequest request, RenderResponse response) {
+        return getMainView(request);
+    }
 
-        Collection<News> news = service.getNewsOnMainPage();
+    private ModelAndView getMainView(RenderRequest request) {
+        ModelAndView model = new ModelAndView("viewAll");
+
+        Collection<News> news = newsService.getNewsOnMainPage();
         ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
         long groupId = themeDisplay.getScopeGroupId();
-        long plid = LayoutLocalServiceUtil.getDefaultPlid(groupId, false, NEWS_ARCHIVE_REFERENCE_NAME);
-
+        Long plid = 0l;
+        try {
+            plid = LayoutLocalServiceUtil.getDefaultPlid(groupId, false, NEWS_ARCHIVE_REFERENCE_NAME);
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Exception: ", e);
+        }
         model.addObject("news", news);
         model.addObject("newsArchivePageID", plid);
         return model;
     }
 
     @RenderMapping(params = "mode=remove")
-    public ModelAndView remove(RenderRequest request, RenderResponse response) throws SystemException, PortalException {
+    public ModelAndView remove(RenderRequest request, RenderResponse response) {
         Integer newsId = Integer.valueOf(request.getParameter("newsID"));
-        News news = service.getNewsById(newsId);
+        News news = newsService.getNewsById(newsId);
         news.setOnMainpage(false);
-        service.updateNews(news);
-        //todo: move common logic to private helper method ot use redirect/forward
-        return showView(request, response);
+        newsService.updateNews(news);
+        return getMainView(request);
     }
 }
 

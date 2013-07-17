@@ -41,7 +41,7 @@ public class MicroBlogControllerTest {
 
         news = new LinkedList<News>(Collections.nCopies(10, new News()));
         when(mockService.getNewsOnMainPage()).thenReturn(news);
-        controller.setService(mockService);
+        controller.setNewsService(mockService);
 
         PowerMockito.mockStatic(LayoutLocalServiceUtil.class);
         try {
