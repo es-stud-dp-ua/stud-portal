@@ -35,201 +35,102 @@
 <body>
 
 <portlet:renderURL var="home"> </portlet:renderURL>
-<form method="post" action="<portlet:renderURL/>">
+<div id="contentDiv">
+	<%if (request.isUserInRole("Administrator") || request.isUserInRole("User")) { %>
+		<portlet:renderURL var="addLink">
+			<portlet:param name="mode" value="add"/>
+		</portlet:renderURL>
+		<div class="portlet-content-controlpanel fs20">
+			<a style="float: right" href="${addLink}">
+				<div class="panelbtn panelbtn-right icon-pcpfile" aria-hidden="true"></div>
+			</a>
+		</div>
+	<%} %>
 
+	<div style="margin-left: -10px;" class="cmt-types">
+		<form method="post" action="<portlet:renderURL/>">
+		<% for (int i = 0; i < 6; i++) {
+			if (buttonId == i) {
+				temp = new String("form.".concat(type[i]));%>
+		<div class="ribbon-wrapper">
+			<button class="btnselected"
+					style=" width: 150px; height: 40px;  margin-left: -10px;  background-color: rgba(0, 122, 255, 0.47); border-color: rgba(68, 115, 185, 0);"
+					name="buttonId" value="<%=i%>">
+				<spring:message code="<%=temp%>"/></button>
+			<div class="ribbon-edge-topleft"></div>
+			<div class="ribbon-edge-bottomleft"></div>
+		</div>
+		<%
+		} else {
+			temp = new String("form.".concat(type[i]));
+		%>
+		<div class="ribbon-wrapper">
+			<button class="btntype"
+					style=" width: 150px; height: 40px;  background:  #4473B9; margin-left: -10px;  border-color: #4473B9;"
+					name="buttonId" value="<%=i%>">
+				<spring:message code="<%=temp%>"/></button>
+			<div class="ribbon-edge-topleft"></div>
+			<div class="ribbon-edge-bottomleft"></div>
+		</div>
+		<%}%>
+		<br/>
+		<% }%>
+	</form>
+	</div>
+	<div id="newsTable">
+		<c:if test="${not empty studie}">
+			<%for (Studie currStudy : studie){%>
+				<portlet:renderURL var="linkToSingle">
+					<portlet:param name="studieID" value="<%=currStudy.getId().toString()%>"/>
+				</portlet:renderURL>
+				<div id="singleStd">
+						<table width="100%"><tbody><tr>
+						<td><a href="${linkToSingle}">
+							<img src="<%= imageService.getPathToMicroblogImage(currStudy.getMainImage(),currStudy) %>" class="studieImage">
+						</a></td>
+						<td><a href="${linkToSingle}"><%=currStudy.getTitle()%></a></td>
+						<tr></tbody></table>
+						<% if (request.isUserInRole("Administrator")) { %>
+						<portlet:renderURL var="removeLink">
+							<portlet:param name="studieId" value="<%=currStudy.getId().toString()%>"/>
+							<portlet:param name="mode" value="delete"/>
+						</portlet:renderURL>
+						<a href="${removeLink}" style="float: right;" onclick='return confirm("<spring:message code="form.confDelete"/>")'>
+							<div class="panelbtn panelbtn-right fs20 icon-pcpremove" aria-hidden="true"></div>
+						</a>
+						<%}%>
+				</div>
+				<div width="100%" align="right">
+				<table width="100%">
+					<tr>
+						<td width="60">
+							<img width="60" class="newsDecorImage"
+								 src="${pageContext.request.contextPath}/images/news-decor-line-left-end.png"/>
+						</td>
+						<td width="auto" align="left">
+							<img width="100%" class="newsDecorImage"
+								 src="${pageContext.request.contextPath}/images/news-decor-line.png"/>
+						</td>
+						<td width="52">
+							<img width="52" class="newsDecorImage"
+								 src="${pageContext.request.contextPath}/images/news-decor-center.png"/>
+						</td>
+						<td width="auto" align="right">
+							<img width="100%" class="newsDecorImage"
+								 src="${pageContext.request.contextPath}/images/news-decor-line.png"/>
+						</td>
+						<td width="50">
+							<img width="50" class="newsDecorImage"
+								 src="${pageContext.request.contextPath}/images/news-decor-line-right-end.png"/>
+						</td>
+					</tr>
+				</table>
+			</div>
+			<%}%>
+		</c:if>
+	</div>
 
-    <div id="contentDiv">
-
-        <br/><br/>
-        <%if (request.isUserInRole("Administrator") || request.isUserInRole("User")) { %>
-        <a style="float: right" href="<portlet:renderURL/>&mode=add">
-            <spring:message code="viewAll.addStudie"/>
-        </a>
-
-        <%} %>
-
-        <div style="margin-left: -80px;" class="cmt-types">
-            <% for (int i = 0; i < 6; i++) {
-                if (buttonId == i) {
-                    temp = new String("form.".concat(type[i]));%>
-            <div class="ribbon-wrapper">
-                <button class="btnselected"
-                        style=" width: 150px; height: 40px;  margin-left: -10px;  background-color: rgba(0, 122, 255, 0.47); border-color: rgba(68, 115, 185, 0);"
-                        name="buttonId" value="<%=i%>">
-                    <spring:message code="<%=temp%>"/></button>
-                <div class="ribbon-edge-topleft"></div>
-                <div class="ribbon-edge-bottomleft"></div>
-            </div>
-            <%
-            } else {
-                temp = new String("form.".concat(type[i]));
-            %>
-            <div class="ribbon-wrapper">
-                <button class="btntype"
-                        style=" width: 150px; height: 40px;  background:  #4473B9; margin-left: -10px;  border-color: #4473B9;"
-                        name="buttonId" value="<%=i%>">
-                    <spring:message code="<%=temp%>"/></button>
-                <div class="ribbon-edge-topleft"></div>
-                <div class="ribbon-edge-bottomleft"></div>
-            </div>
-            <%}%>
-            <br/>
-            <% }%>
-        </div>
-        <c:forEach items="${studie}" var="studie">
-            <c:if test="${not empty studie}">
-
-                <div style="display: table" id="newsTable">
-                    <%
-
-                        if ((studie.size() >= 3)) {
-                            for (int i = 0; i < studie.size(); i = i + 3) {
-                    %>
-
-                    <div style="vertical-align: top; display: table-row">
-                        <div style="text-align: center; margin: 10px 10px 10px 10px; display: table-cell">
-
-                            <div width="100%">
-                                <div id="block">
-                                    <a href="<portlet:renderURL/>&studieID=<%=studie.get(i).getId()%>">
-                                        <img src="<%= imageService.getPathToMicroblogImage(studie.get(i).getMainImage(),studie.get(i)) %>"
-                                             class="studieImage"> </a>
-                                    <% if (request.isUserInRole("Administrator")) { %>
-                                    <a href="<portlet:renderURL/>&studieId=<%=studie.get(i).getId()%>&mode=delete"
-                                       onclick='return confirm("<spring:message code="form.confDelete"/>")'>
-                                        <span>  x</span></a>
-                                    <%}%></div>
-                                <div class="studieHeader">
-                                    <a href="<portlet:renderURL/>&studieID=<%=studie.get(i).getId()%>">
-                                        <%=studie.get(i).getTitle()%>
-                                    </a>
-                                </div>
-
-                            </div>
-                        </div>
-                        <div style="text-align: center; margin: 10px 10px 10px 10px; display: table-cell">
-                            <% if (i + 1 < studie.size()) { %>
-                            <div width="100%">
-                                <div id="block">
-                                    <a href="<portlet:renderURL/>&studieID=<%=studie.get(i+1).getId()%>">
-                                        <img src="<%= imageService.getPathToMicroblogImage(studie.get(i+1).getMainImage(),studie.get(i+1)) %>"
-                                             class="studieImage"> </a>
-                                    <% if (request.isUserInRole("Administrator")) { %>
-                                    <a href="<portlet:renderURL/>&studieId=<%=studie.get(i+1).getId()%>&mode=delete"
-                                       onclick='return confirm("<spring:message code="form.confDelete"/>")'>
-                                        <span>  x</span></a>
-                                    <%}%></div>
-                                <div class="studieHeader">
-                                    <a href="<portlet:renderURL/>&studieID=<%=studie.get(i+1).getId()%>">
-                                        <%=studie.get(i + 1).getTitle()%>
-                                    </a>
-                                </div>
-                            </div>
-                            <%}%>
-                        </div>
-                        <div style="text-align: center; margin: 10px 10px 10px 10px; display: table-cell">
-                            <%if (i + 2 < studie.size()) { %>
-                            <div width="100%">
-                                <div id="block">
-                                    <a href="<portlet:renderURL/>&studieID=<%=studie.get(i+2).getId()%>">
-                                        <img src="<%= imageService.getPathToMicroblogImage(studie.get(i+2).getMainImage(),studie.get(i+2)) %>"
-                                             class="studieImage"> </a>
-                                    <% if (request.isUserInRole("Administrator")) { %>
-                                    <a href="<portlet:renderURL/>&studieId=<%=studie.get(i+2).getId()%>&mode=delete"
-                                       onclick='return confirm("<spring:message code="form.confDelete"/>")'>
-                                        <span>  x</span></a>
-                                    <%}%></div>
-                                <div class="studieHeader">
-                                    <a href="<portlet:renderURL/>&studieID=<%=studie.get(i+2).getId()%>">
-                                        <%=studie.get(i + 2).getTitle()%>
-                                    </a>
-                                </div>
-                            </div>
-                            <%}%>
-                        </div>
-                    </div>
-                    <%
-                            }
-                        }
-                        if ((studie.size() == 2)) {
-                            for (int i = 0; i < studie.size(); i = i + 2) {
-                    %>
-                    <div style="vertical-align: top; display: table-row">
-                        <div style="text-align: center; margin: 10px 10px 10px 10px; display: table-cell">
-                            <div width="100%">
-                                <div id="block">
-                                    <a href="<portlet:renderURL/>&studieID=<%=studie.get(i).getId()%>">
-                                        <img src="<%= imageService.getPathToMicroblogImage(studie.get(i).getMainImage(),studie.get(i)) %>"
-                                             class="studieImage"> </a>
-                                    <% if (request.isUserInRole("Administrator")) { %>
-                                    <a href="<portlet:renderURL/>&studieId=<%=studie.get(i).getId()%>&mode=delete"
-                                       onclick='return confirm("<spring:message code="form.confDelete"/>")'>
-                                        <span>  x</span></a>
-                                    <%}%></div>
-                                <div class="studieHeader">
-                                    <a href="<portlet:renderURL/>&studieID=<%=studie.get(i).getId()%>">
-                                        <%=studie.get(i).getTitle()%>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div style="text-align: center; margin: 10px 10px 10px 10px; display: table-cell">
-                            <% if (i + 1 < studie.size()) { %>
-                            <div width="100%">
-                                <div id="block">
-                                    <a href="<portlet:renderURL/>&studieID=<%=studie.get(i+1).getId()%>">
-                                        <img src="<%= imageService.getPathToMicroblogImage(studie.get(i+1).getMainImage(),studie.get(i+1)) %>"
-                                             class="studieImage"> </a>
-                                    <% if (request.isUserInRole("Administrator")) { %>
-                                    <a href="<portlet:renderURL/>&studieId=<%=studie.get(i+1).getId()%>&mode=delete"
-                                       onclick='return confirm("<spring:message code="form.confDelete"/>")'>
-                                        <span>  x</span></a>
-                                    <%}%></div>
-                                <div class="studieHeader">
-                                    <a href="<portlet:renderURL/>&studieID=<%=studie.get(i+1).getId()%>">
-                                        <%=studie.get(i + 1).getTitle()%>
-                                    </a>
-                                </div>
-                            </div>
-                            <% }%>
-                        </div>
-
-                    </div>
-                    <%
-                            }
-                        }
-
-                        if ((studie.size() == 1)) {
-                    %>
-                    <div style="vertical-align: top; display: table-row">
-                        <div style="text-align: center; margin: 10px 10px 10px 10px; display: table-cell">
-                            <div width="100%">
-                                <div id="block">
-                                    <a href="<portlet:renderURL/>&studieID=<%=studie.get(0).getId()%>">
-                                        <img src="<%= imageService.getPathToMicroblogImage(studie.get(0).getMainImage(),studie.get(0)) %>"
-                                             class="studieImage"> </a>
-                                    <% if (request.isUserInRole("Administrator")) { %>
-                                    <a href="<portlet:renderURL/>&studieId=<%=studie.get(0).getId()%>&mode=delete"
-                                       onclick='return confirm("<spring:message code="form.confDelete"/>")'>
-                                        <span>  x</span></a>
-                                    <%}%></div>
-                                <div class="studieHeader">
-                                    <a href="<portlet:renderURL/>&studieID=<%=studie.get(0).getId()%>">
-                                        <%=studie.get(0).getTitle()%>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <%}%>
-                </div>
-            </c:if>
-        </c:forEach>
-
-
-    </div>
-</form>
+</div>
 
 </body>
 </html>
