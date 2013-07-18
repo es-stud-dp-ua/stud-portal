@@ -1,0 +1,134 @@
+.banner {
+    position: relative;
+    border: none;
+    width: 940px;
+    height: 263px;
+    overflow: hidden;
+    position: relative;
+    padding: 0px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    z-index: 0;
+}
+
+.images {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 263px;
+    width: 4700px;
+    float: right;
+    margin: 0px;
+    padding: 0px;
+    z-index: 0;
+}
+
+.banner a {
+    width: 940px;
+    height: 263px;
+    float: left;
+    display: inline-block;
+    margin: 0px;
+}
+
+.banner a img {
+    position: absolute;
+    display: inline-block;
+    width: 940px;
+    height: 263px;
+    margin: 0px;
+    padding: 0px;
+}
+
+.pagination {
+    position: absolute;
+    right: 40px;
+    bottom: 10px;
+    margin: 0px 0px;
+
+    z-index: 25;
+}
+
+.pagination ul > li {
+    float: left;
+    margin: 0px 1px;
+    list-style: none;
+    border: none;
+    padding: 0 0;
+    background-color: transparent;
+}
+
+.pagination ul > li > a {
+    display: block;
+    width: 15px;
+    height: 15px;
+    padding: 0 0;
+    border: none;
+    background-color: transparent;
+    background-image: url(../images/circle_lightblue.png);
+    background-position: 0 15px;
+    float: left;
+    overflow: hidden;
+}
+
+.pagination ul > li > a:hover {
+    background-color: transparent;
+    background-image: url(../images/circle_blue.png);
+    background-position: 0 15px;
+}
+
+.pagination li.current a {
+    background-color: transparent;
+    background-image: url(../images/circle_red.png);
+    background-position: 0 15px;
+}
+
+#left-top {
+    position: absolute;
+    bottom: 205px;
+    left: 0px;
+    width: 75px;
+    height: 75px;
+    z-index: 50;
+}
+
+#left-bottom {
+    position: absolute;
+    left: 0px;
+    width: 75px;
+    height: 75px;
+    bottom: -20px;
+    z-index: 50;
+}
+
+#right-top {
+    position: absolute;
+    bottom: 205px;
+    right: 0px;
+    width: 75px;
+    height: 75px;
+    z-index: 50;
+}
+
+#editRef {
+    float: right;
+    margin-right: 150px;
+    margin-top: 10px;
+    text-align: right;
+    vertical-align: text-top;
+    z-index: 60;
+}
+
+#block {
+    margin: 10px;
+}
+
+.error {
+    color: red;
+    font-size: 14px;
+}
+
+.banner-form {
+    width: 100%;
+    background-color: rgb(248, 248, 248);
+}
