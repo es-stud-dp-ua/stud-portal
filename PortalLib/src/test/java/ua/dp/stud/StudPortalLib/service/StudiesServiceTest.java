@@ -39,10 +39,10 @@ public class StudiesServiceTest {
         service = new StudieServiceImpl();
         mockDao = mock(StudieDao.class);
         ((StudieServiceImpl) service).setDao(mockDao);
-        stud1 = new Studie("topic1", "text1", "fucultets1", "fucultets1", "adress");
+        stud1 = new Studie();
         stud1.setId(1);
 
-        stud2 = new Studie("topic2", "text2", "fucultets1", "fucultets1", "adress");
+        stud2 = new Studie();
         stud2.setId(2);
     }
 

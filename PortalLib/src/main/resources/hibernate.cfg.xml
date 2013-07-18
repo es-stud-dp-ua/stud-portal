@@ -7,6 +7,8 @@
         <mapping class="ua.dp.stud.StudPortalLib.model.News"/>
         <mapping class="ua.dp.stud.StudPortalLib.model.Organization"/>
         <mapping class="ua.dp.stud.StudPortalLib.model.Studie"/>
+        <mapping class="ua.dp.stud.StudPortalLib.model.Faculties"/>
+        <mapping class="ua.dp.stud.StudPortalLib.model.Specialties"/>
         <mapping class="ua.dp.stud.StudPortalLib.model.Category"/>
         <mapping class="ua.dp.stud.StudPortalLib.model.ImageImpl"/>
     </session-factory>
