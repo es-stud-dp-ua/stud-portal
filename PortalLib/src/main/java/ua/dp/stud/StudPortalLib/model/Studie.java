@@ -21,56 +21,31 @@ import java.util.List;
 @PrimaryKeyJoinColumn(name = "id", referencedColumnName = "id")
 public class Studie extends BaseImagesSupport implements Serializable {
 
-    @Column(name = "title")
     private String title;  //название вуза
-    @Column(name = "text", length = TEXT_LENGTH)
     private String text;   // подробнее о вузе
-    @Column(name = "city")
     private String city; //город
-    @Column(name = "years")
     private Integer years; //год
-    @Column(name = "status")
     private String status; //статус
-    @Column(name = "accreditacion")
     private String accreditacion; //уровень аккредитации
-    @Column(name = "formOfTraining")
     private String formOfTraining; //форма обучения
-    @Column(name = "qualificationLevel")
     private String qualificationLevel; //квалификационный уровень
-    @Column(name = "adress")
     private String adress; //адрес
-    @Column(name = "phone")
     private String phone; //телефон
-    @Column(name = "phoneAdmissions")
     private String phoneAdmissions; //телефон приемной коммисии
-    @Column(name = "website")
     private String website; //сайт
-    @Column(name = "freeTrainig")
     private Boolean freeTrainig; //наличие бесплатного очубения
-    @Column(name = "paidTrainig")
     private Boolean paidTrainig; //наличие платного обучения
-    @Column(name = "militaryDepartment")
     private Boolean militaryDepartment; //наличие военной кафедры
-    @Column(name = "hostel")
     private Boolean hostel; //наличие общежития
-    @Column(name = "postgraduateEducation")
     private Boolean postgraduateEducation; //наличие последипломного образования
-    @Column(name = "postgraduateAndDoctoralStudies")
     private Boolean postgraduateAndDoctoralStudies; //наличие аспирантуры и докторантуры
-    @Column(name = "preparatoryDepartment")
     private Boolean preparatoryDepartment; //надичие подготовительных курсов
-    @Column(name = "countOfStudents")
     private Integer countOfStudents; //количество студентов
-    @Column(name = "countOfTeachers")
     private Integer countOfTeachers;//количество преподавателей
-    @Column(name = "countOfCandidates")
     private Integer countOfCandidates;//количество кандидатов наук
-    @Column(name = "countOfProfessors")
     private Integer countOfProfessors;//количество докторов и проффесоров
-    @Column(name = "enrollees")
     private String enrollees;//информация аббитуриентам
     private static final int TEXT_LENGTH = 10000;
-
     private List<Faculties> faculties;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "base", fetch = FetchType.LAZY)
@@ -117,6 +92,7 @@ public class Studie extends BaseImagesSupport implements Serializable {
         this.enrollees = enrollees;
     }
 
+    @Column(name = "title")
     public String getTitle() {
         return title;
     }
@@ -125,6 +101,7 @@ public class Studie extends BaseImagesSupport implements Serializable {
         this.title = title;
     }
 
+    @Column(name = "text", length = TEXT_LENGTH)
     public String getText() {
         return text;
     }
@@ -133,6 +110,7 @@ public class Studie extends BaseImagesSupport implements Serializable {
         this.text = text;
     }
 
+    @Column(name = "adress")
     public String getAdress() {
         return adress;
     }
@@ -141,6 +119,7 @@ public class Studie extends BaseImagesSupport implements Serializable {
         this.adress = adress;
     }
 
+    @Column(name = "city")
     public String getCity() {
         return city;
     }
@@ -149,6 +128,7 @@ public class Studie extends BaseImagesSupport implements Serializable {
         this.city = city;
     }
 
+    @Column(name = "years")
     public Integer getYears() {
         return years;
     }
@@ -157,6 +137,7 @@ public class Studie extends BaseImagesSupport implements Serializable {
         this.years = year;
     }
 
+    @Column(name = "status")
     public String getStatus() {
         return status;
     }
@@ -165,6 +146,7 @@ public class Studie extends BaseImagesSupport implements Serializable {
         this.status = status;
     }
 
+    @Column(name = "accreditacion")
     public String getAccreditacion() {
         return accreditacion;
     }
@@ -173,6 +155,7 @@ public class Studie extends BaseImagesSupport implements Serializable {
         this.accreditacion = accreditacion;
     }
 
+    @Column(name = "formOfTraining")
     public String getFormOfTraining() {
         return formOfTraining;
     }
@@ -181,6 +164,7 @@ public class Studie extends BaseImagesSupport implements Serializable {
         this.formOfTraining = formOfTraining;
     }
 
+    @Column(name = "qualificationLevel")
     public String getQualificationLevel() {
         return qualificationLevel;
     }
@@ -189,6 +173,7 @@ public class Studie extends BaseImagesSupport implements Serializable {
         this.qualificationLevel = qualificationLevel;
     }
 
+    @Column(name = "phone")
     public String getPhone() {
         return phone;
     }
@@ -197,6 +182,7 @@ public class Studie extends BaseImagesSupport implements Serializable {
         this.phone = phone;
     }
 
+    @Column(name = "phoneAdmissions")
     public String getPhoneAdmissions() {
         return phoneAdmissions;
     }
@@ -205,6 +191,7 @@ public class Studie extends BaseImagesSupport implements Serializable {
         this.phoneAdmissions = phoneAdmissions;
     }
 
+    @Column(name = "website")
     public String getWebsite() {
         return website;
     }
@@ -213,6 +200,7 @@ public class Studie extends BaseImagesSupport implements Serializable {
         this.website = website;
     }
 
+    @Column(name = "freeTrainig")
     public Boolean getFreeTrainig() {
         return freeTrainig;
     }
@@ -221,6 +209,7 @@ public class Studie extends BaseImagesSupport implements Serializable {
         this.freeTrainig = freeTrainig;
     }
 
+    @Column(name = "paidTrainig")
     public Boolean getPaidTrainig() {
         return paidTrainig;
     }
@@ -229,6 +218,7 @@ public class Studie extends BaseImagesSupport implements Serializable {
         this.paidTrainig = paidTrainig;
     }
 
+    @Column(name = "militaryDepartment")
     public Boolean getMilitaryDepartment() {
         return militaryDepartment;
     }
@@ -236,6 +226,8 @@ public class Studie extends BaseImagesSupport implements Serializable {
     public void setMilitaryDepartment(Boolean militaryDepartment) {
         this.militaryDepartment = militaryDepartment;
     }
+
+    @Column(name = "hostel")
     public Boolean getHostel() {
         return hostel;
     }
@@ -244,6 +236,7 @@ public class Studie extends BaseImagesSupport implements Serializable {
         this.hostel = hostel;
     }
 
+    @Column(name = "postgraduateEducation")
     public Boolean getPostgraduateEducation() {
         return postgraduateEducation;
     }
@@ -252,6 +245,7 @@ public class Studie extends BaseImagesSupport implements Serializable {
         this.postgraduateEducation = postgraduateEducation;
     }
 
+    @Column(name = "postgraduateAndDoctoralStudies")
     public Boolean getPostgraduateAndDoctoralStudies() {
         return postgraduateAndDoctoralStudies;
     }
@@ -260,6 +254,7 @@ public class Studie extends BaseImagesSupport implements Serializable {
         this.postgraduateAndDoctoralStudies = postgraduateAndDoctoralStudies;
     }
 
+    @Column(name = "preparatoryDepartment")
     public Boolean getPreparatoryDepartment() {
         return preparatoryDepartment;
     }
@@ -268,6 +263,7 @@ public class Studie extends BaseImagesSupport implements Serializable {
         this.preparatoryDepartment = preparatoryDepartment;
     }
 
+    @Column(name = "countOfStudents")
     public Integer getCountOfStudents() {
         return countOfStudents;
     }
@@ -276,6 +272,7 @@ public class Studie extends BaseImagesSupport implements Serializable {
         this.countOfStudents = countOfStudents;
     }
 
+    @Column(name = "countOfTeachers")
     public Integer getCountOfTeachers() {
         return countOfTeachers;
     }
@@ -284,6 +281,7 @@ public class Studie extends BaseImagesSupport implements Serializable {
         this.countOfTeachers = countOfTeachers;
     }
 
+    @Column(name = "countOfCandidates")
     public Integer getCountOfCandidates() {
         return countOfCandidates;
     }
@@ -292,6 +290,7 @@ public class Studie extends BaseImagesSupport implements Serializable {
         this.countOfCandidates = countOfCandidates;
     }
 
+    @Column(name = "countOfProfessors")
     public Integer getCountOfProfessors() {
         return countOfProfessors;
     }
@@ -300,6 +299,7 @@ public class Studie extends BaseImagesSupport implements Serializable {
         this.countOfProfessors = countOfProfessors;
     }
 
+    @Column(name = "enrollees")
     public String getEnrollees() {
         return enrollees;
     }

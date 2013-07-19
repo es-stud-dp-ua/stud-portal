@@ -6,6 +6,8 @@ package ua.dp.stud.StudPortalLib.dao;
 
 
 import java.util.Collection;
+import java.util.List;
+import ua.dp.stud.StudPortalLib.model.Faculties;
 
 import ua.dp.stud.StudPortalLib.model.ImageImpl;
 import ua.dp.stud.StudPortalLib.model.Studie;
@@ -32,5 +34,11 @@ public interface StudieDao {
     void deleteImage(Long id);
 
     Integer calcPages(Integer count, Integer perPage);
+    
+    Faculties addFaculties(Faculties faculties);
+    
+    List<Faculties> getFacultiesOfStudie(Studie studie);
+    
+    List<Faculties> getAllFaculties();
 
 }

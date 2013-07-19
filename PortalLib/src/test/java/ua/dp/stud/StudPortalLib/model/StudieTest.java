@@ -4,6 +4,8 @@
  */
 package ua.dp.stud.StudPortalLib.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -69,6 +71,16 @@ public class StudieTest {
         Integer result = instance.hashCode();
         assertNotNull(result);
     }
-
+ @Test
+    public void getFacultiesOfStudie() {
+        Studie stud3 = new Studie();
+        List<Faculties> f=new ArrayList<Faculties>();
+        Faculties ff=new Faculties();
+        ff.setNameOfFaculties("ololo"); 
+        f.add(ff); 
+        stud3.setFaculties(f);
+        List<Faculties> f2=stud3.getFaculties(); 
+        assertEquals(f, f2);
+    }
 
 }

@@ -21,6 +21,7 @@ import java.util.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import ua.dp.stud.StudPortalLib.model.Faculties;
 
 /**
  * @author Ольга
@@ -81,4 +82,19 @@ public class StudieDaoTest extends AbstractTransactionalJUnit4SpringContextTests
         assertEquals(2, fromDao.size());
     }
 
+    
+     
+      @Test
+    public void getAllFaculties() {
+       
+        List<Faculties> f=new ArrayList<Faculties>();
+        Faculties ff=new Faculties();
+        ff.setNameOfFaculties("ololo"); 
+        f.add(ff); 
+        dao.addFaculties(ff);
+        List<Faculties> f2=dao.getAllFaculties();
+        System.out.println(f.get(0).toString()); 
+        System.out.println(f2.toString()); 
+        assertEquals(f, f2);
+    }
 }

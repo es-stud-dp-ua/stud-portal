@@ -12,6 +12,8 @@ import ua.dp.stud.StudPortalLib.model.ImageImpl;
 import ua.dp.stud.StudPortalLib.model.Studie;
 
 import java.util.Collection;
+import java.util.List;
+import ua.dp.stud.StudPortalLib.model.Faculties;
 
 /**
  * @author Ольга
@@ -29,6 +31,7 @@ public class StudieDaoImpl extends BaseDao implements StudieDao {
     public Studie getStudieById(Integer id) {
         Studie studie = (Studie) getSession().get(Studie.class, id);
         Hibernate.initialize(studie.getAdditionalImages());
+        Hibernate.initialize(studie.getFaculties());
         return studie;
     }
 
@@ -67,5 +70,23 @@ public class StudieDaoImpl extends BaseDao implements StudieDao {
         image.getBase().getAdditionalImages().remove(image);
         image.setBase(null);
         getSession().delete(image);
+    }
+
+    @Override
+    public Faculties addFaculties(Faculties faculties) {
+       getSession().save(faculties);
+        return faculties; 
+    }
+
+    @Override
+    public List<Faculties> getFacultiesOfStudie(Studie studie) {
+       return   getSession().createQuery("Select faculties from Faculties faculties Where faculties.base = :id").setParameter("id", studie.getId()).list();
+        
+    }
+
+    @Override
+    public List<Faculties> getAllFaculties() {
+           return (List<Faculties>) getSession().createQuery("From Faculties nameOfFaculties  ORDER BY nameOfFaculties.id desc").list();
+      
     }
 }

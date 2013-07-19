@@ -42,7 +42,7 @@ public class Faculties implements Serializable {
     @Column(name = "nameOfFaculties")
     private String nameOfFaculties;
     @ManyToOne
-    @JoinColumn(name = "BASE")
+    @JoinColumn(name = "base")
     private Studie base;
      
     public void setNameOfFaculties(String nameOfFaculties) {
