@@ -28,7 +28,25 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 </head>
 <body>
-<script type="text/javascript">
+    <script type="text/javascript">
+    function a() {
+        jQuery('#cropbox').Jcrop({onChange: setCoords, onSelect: setCoords, bgColor: 'black',
+            bgOpacity: .4,
+            setSelect: [100, 0, 253, 353],
+            aspectRatio: 1});
+    }
+    function setCoords(c) {
+        jQuery('#x1').val(c.x);
+        jQuery('#y1').val(c.y);
+        jQuery('#x2').val(c.x2);
+        jQuery('#y2').val(c.y2);
+        jQuery('#w').val(c.w);
+        jQuery('#h').val(c.h);
+    }
+    ;
+ $(document).ready(function () {
+        $.Placeholder.init({color: "#aaa"});
+    });
     function isNotMax(e) {
         e = e || window.event;
         var target = e.target || e.srcElement;
@@ -70,7 +88,10 @@
 </c:if>
 <div width="100%" align="center">
     <form method="POST" action="${actionLink}" enctype="multipart/form-data">
-
+        <input type="hidden" size="0" id="x1" name="t"/>
+        <input type="hidden" size="0" id="y1" name="l"/>
+        <input type="hidden" size="0" id="w" name="w"/>
+        <input type="hidden" size="0" id="h" name="h"/>
         <input type="hidden" name="orgsId" value="<%=orgs.getId()%>">
 
         <table width="100%" margin-bottom="15px">
@@ -82,40 +103,68 @@
                             width: 443px;
                         }
                     </style>
-                    <div id="lup"></div>
-                    <div id="mainPic"
-                         style="background: url(${pageContext.request.contextPath}/images/mainpic_443x253.png) no-repeat">
-                        <!-- Output for our douwnload Image-->
-                        <input type="file" id="mainImage" name="mainImage"/>
-                        <output id="list"></output>
+                   <div id="lup">
                     </div>
-                    <div id="rdn"></div>
+                      <% if (orgs.getMainImage() == null) { %>
+                        <div id="mainPic" style="vertical-align: top; z-index: 2;"
+                             style="background: url(${pageContext.request.contextPath}/images/mainpic_443x253.png) no-repeat">
+                            <!-- Output for our douwnload Image-->
+                            
+                            <output id="list"></output>
+                        </div>
+                        <% } else { %>
+
+                        <div id="mainPic" style="vertical-align: top; z-index: 2;">
+                            <img id="img" style="vertical-align: top; z-index: 1;" src="${mainImage}"/>
+                           <output id="list"></output>
+                        </div>
+                        <% } %>
+                        
+            
+                    <div id="rdn">
+                    </div>
+                    <div id="mainImageLoader">
+                        <div id="mainImgloaderBtn">
+                            <input type="file" id="mainImage" name="mainImage">
+
+                            <div id="nt"><spring:message code="form.addMainPictures"/></div>
+                        </div>
+                    </div>
+                   
                     <script>
                         function handleFileSelect(evt) {
                             var files = evt.target.files; // FileList object
+
                             // Loop through the FileList and render image files as thumbnails.
                             var f = files[files.length - 1];
+
                             // Only process im11age files.
                             document.getElementById('list').innerHTML = '';
                             var reader = new FileReader();
+
                             // Closure to capture the file information.
                             reader.onload = (function (theFile) {
                                 return function (e) {
                                     // Render thumbnail.
                                     var span = document.createElement('span');
-                                    span.innerHTML = ['<img class="thumb" src="', e.target.result,
+                                    span.innerHTML = ['<img id="cropbox" class="thumb" src="', e.target.result,
                                         '" title="', escape(theFile.name), '"/>'].join('');
                                     document.getElementById('list').insertBefore(span, null);
+                                    a();
                                 };
+                                a();
                             })(f);
+ document.getElementById('img').parentNode.removeChild(document.getElementById('img'));
+                                // Read in the image file as a data URL.
+                                reader.readAsDataURL(f);
                             // Read in the image file as a data URL.
                             reader.readAsDataURL(f);
+                            a();
                         }
                         document.getElementById('mainImage').addEventListener('change', handleFileSelect, false);
                     </script>
                     <br/>
-
-                    <div id="imageLoader" style="margin-top: 265px;">
+                    <div id="imageLoader">
                         <div id="imgloaderBtn">
                             <input name="images" type="file" id="aui_3_2_0_11607"
                                    accept="image/jpeg,image/png,image/gif"/ multiple>

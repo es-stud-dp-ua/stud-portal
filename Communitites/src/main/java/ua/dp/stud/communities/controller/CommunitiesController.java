@@ -268,12 +268,21 @@ public class CommunitiesController {
         } else if (frmRole.equals(USER_ROLE)) {
             someorgs.setAuthor(role);
         }
-        try {
-//main image uploading
-            imageService.saveMainImage(mainImage, someorgs);
-//image collection uploading
-            for (CommonsMultipartFile file : images) {
-                imageService.saveAdditionalImages(file, someorgs);
+      
+             try {
+            if (mainImage.getSize() > 0) {
+                try {
+                    imageService.saveMainImage(mainImage, someorgs);
+                } catch (Exception ex) {
+                    LOG.log(Level.SEVERE, STR_EXEPT, ex);
+                    successUpload = false;
+                }
+            }
+            if (images != null && images.length > 0) {
+
+                for (CommonsMultipartFile file : images) {
+                    imageService.saveAdditionalImages(file, someorgs);
+                }
             }
         } catch (IOException ex) {
             successUpload = false;
@@ -358,6 +367,14 @@ public class CommunitiesController {
         String topic = actionRequest.getParameter("topic");
         String text = actionRequest.getParameter("text");
         OrganizationType typeOrg = OrganizationType.valueOf(actionRequest.getParameter(TYPE));
+         CommonsMultipartFile croppedImage = imageService.cropImage(mainImage, Integer.parseInt(actionRequest.getParameter("t")),
+                Integer.parseInt(actionRequest.getParameter("l")),
+                Integer.parseInt(actionRequest.getParameter("w")),
+                Integer.parseInt(actionRequest.getParameter("h")));
+        if (croppedImage == null) {
+            actionResponse.setRenderParameter(STR_FAIL, STR_BAD_IMAGE);
+            return;
+        }
         String role;
         if (actionRequest.isUserInRole(ADMINISTRATOR_ROLE)) {
             role = ADMINISTRATOR_ROLE;
@@ -367,7 +384,7 @@ public class CommunitiesController {
         User user = (User) actionRequest.getAttribute(WebKeys.USER);
         String usRole = user.getScreenName();
 
-        if (updateCommunityFields(mainImage, images, topic.trim(), text.trim(), role, usRole, actionResponse, organization, typeOrg)) {
+        if (updateCommunityFields(croppedImage, images, topic.trim(), text.trim(), role, usRole, actionResponse, organization, typeOrg)) {
             organizationService.updateOrganization(organization);
 //close session
             sessionStatus.setComplete();
