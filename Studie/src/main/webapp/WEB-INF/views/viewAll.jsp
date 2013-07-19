@@ -1,8 +1,5 @@
 <%@ page import="ua.dp.stud.StudPortalLib.model.Studie" %>
-<%@ page import="ua.dp.stud.StudPortalLib.service.StudieService" %>
-<%@ page import="ua.dp.stud.StudPortalLib.service.impl.StudieServiceImpl" %>
 <%@ page import="java.util.List" %>
-<%@ page import="java.util.Collection" %>
 <%@ page import="com.liferay.portal.theme.ThemeDisplay" %>
 <%@ page import="com.liferay.portal.kernel.util.WebKeys" %>
 <%@ page import="com.liferay.portal.kernel.servlet.ImageServletTokenUtil" %>
@@ -24,7 +21,7 @@
     String imagePath = new StringBuilder(themeDisplay.getPortalURL()).append('/')
             .append(themeDisplay.getPathImage()).append("/image_gallery?img_id=").toString();
     String temp;
-    String[] type = {"studie", "entry", "helps", "informal", "scholarships", "grants"};
+    String[] type = {"studie", "StudentCouncil", "schedule", "Courses", "OnlineCourses", "grants"};
 %>
 
 <html>
@@ -85,20 +82,22 @@
 				</portlet:renderURL>
 				<div id="singleStd">
 						<table width="100%"><tbody><tr>
-						<td><a href="${linkToSingle}">
+						<td style="width: 110px;"><a href="${linkToSingle}">
 							<img src="<%= imageService.getPathToMicroblogImage(currStudy.getMainImage(),currStudy) %>" class="studieImage">
 						</a></td>
-						<td><a href="${linkToSingle}"><%=currStudy.getTitle()%></a></td>
+						<td>
+							<a href="${linkToSingle}" style="font-weight: bold; font-size: 14px;"><%=currStudy.getTitle()%></a>
+							<% if (request.isUserInRole("Administrator")) { %>
+								<portlet:renderURL var="removeLink">
+									<portlet:param name="studieId" value="<%=currStudy.getId().toString()%>"/>
+									<portlet:param name="mode" value="delete"/>
+								</portlet:renderURL>
+								<a href="${removeLink}" style="float: right;" onclick='return confirm("<spring:message code="form.confDelete"/>")'>
+									<div class="panelbtn panelbtn-right fs20 icon-pcpremove" aria-hidden="true"></div>
+								</a>
+							<%}%>
+						</td>
 						<tr></tbody></table>
-						<% if (request.isUserInRole("Administrator")) { %>
-						<portlet:renderURL var="removeLink">
-							<portlet:param name="studieId" value="<%=currStudy.getId().toString()%>"/>
-							<portlet:param name="mode" value="delete"/>
-						</portlet:renderURL>
-						<a href="${removeLink}" style="float: right;" onclick='return confirm("<spring:message code="form.confDelete"/>")'>
-							<div class="panelbtn panelbtn-right fs20 icon-pcpremove" aria-hidden="true"></div>
-						</a>
-						<%}%>
 				</div>
 				<div width="100%" align="right">
 				<table width="100%">

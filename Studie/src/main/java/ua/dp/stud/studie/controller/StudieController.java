@@ -95,12 +95,6 @@ public class StudieController {
         Studie studie = service.getStudieById(studieID);
         ImageImpl mImage = studie.getMainImage();
         String mainImageUrl;
-        String facultetD = studie.getFacultetsDnev();
-        String facultetZ = studie.getFacultetsZaoch();
-        String adress = studie.getAdress();
-        //todo: use ArrayList instead of array
-        String[] facultetDnevn = facultetD.split(";");
-        String[] facultetZaoch = facultetZ.split(";");
         if (mImage == null) {
             mainImageUrl = MAIN_IMAGE_MOCK_URL;
         } else {
@@ -112,9 +106,6 @@ public class StudieController {
         model.addObject("studie", studie);
         model.addObject(MAIN_IMAGE, mainImageUrl);
         model.addObject("additionalImages", additionalImages);
-        model.addObject(DAY_FACULTY, facultetDnevn);
-        model.addObject(CORRESP_FACULTY, facultetZaoch);
-        model.addObject(ADRESS, adress);
         model.addObject(BUTTON_ID, buttonId);
         return model;
     }
@@ -134,8 +125,6 @@ public class StudieController {
             return false;
         }
         somestudie.setText(frmText);
-        somestudie.setFacultetsDnev(frmFaculteDnevn);
-        somestudie.setFacultetsZaoch(frmFacultetZaoch);
         somestudie.setAdress(adress);
         try {
             if (mainImage.getSize() > 0) {
@@ -277,11 +266,6 @@ public class StudieController {
         Studie studie = service.getStudieById(studieID);
         ImageImpl mImage = studie.getMainImage();
         String mainImageUrl;
-        String facultetD = studie.getFacultetsDnev();
-        String facultetZ = studie.getFacultetsZaoch();
-        String adress = studie.getAdress();
-        String[] facultetDnevn = facultetD.split(";");
-        String[] facultetZaoch = facultetZ.split(";");
         if (mImage == null) {
             mainImageUrl = MAIN_IMAGE_MOCK_URL;
         } else {
@@ -292,9 +276,6 @@ public class StudieController {
         model.addObject("studie", studie);
         model.addObject(MAIN_IMAGE, mainImageUrl);
         model.addObject("additionalImages", additionalImages);
-        model.addObject(DAY_FACULTY, facultetDnevn);
-        model.addObject(CORRESP_FACULTY, facultetZaoch);
-        model.addObject(ADRESS, adress);
         return model;
     }
 
