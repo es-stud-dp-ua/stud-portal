@@ -272,6 +272,7 @@ public class CommunitiesController {
             throws SystemException, PortalException {
         boolean successUpload = true;
 //check the length of the title and text
+        //todo: remove this checking
         if (frmTopic.length() < MINTITLESYMBOLS || frmText.length() < MINTEXTSYMBOLS) {
             actionResponse.setRenderParameter(STR_FAIL, STR_FAIL);
             return false;
@@ -284,7 +285,7 @@ public class CommunitiesController {
             someorgs.setApproved(true);
         } else if (frmRole.equals(USER_ROLE)) {
             someorgs.setAuthor(role);
-        }
+        }  //todo: one try-catch block
         try {
             if (mainImage.getSize() > 0) {
                 try {
@@ -334,6 +335,7 @@ public class CommunitiesController {
             throws SystemException, PortalException {
         if (bindingResult.hasFieldErrors()) {
             //SessionErrors.add(action,"fuck the logic");
+            //todo: remove println
             for (ObjectError oe : bindingResult.getAllErrors()) {
                 System.out.println(oe.getDefaultMessage());
             }
@@ -359,6 +361,7 @@ public class CommunitiesController {
                 return;
             }
 //check the uniqueness of the name
+            //todo: use another approach
             Collection<Organization> orgs = organizationService.getAllOrganizations(true);
             Boolean isUnique = false;
             for (Organization currentOrgs : orgs) {
@@ -367,6 +370,7 @@ public class CommunitiesController {
                 }
             }
             String role;
+            //todo: ternary operator
             if (actionRequest.isUserInRole(ADMINISTRATOR_ROLE)) {
                 role = ADMINISTRATOR_ROLE;
             } else {
@@ -412,6 +416,7 @@ public class CommunitiesController {
             return;
         }
         String role;
+        //todo: ternary operator
         if (actionRequest.isUserInRole(ADMINISTRATOR_ROLE)) {
             role = ADMINISTRATOR_ROLE;
         } else {
@@ -457,6 +462,7 @@ public class CommunitiesController {
         ImageImpl mImage = organisation.getMainImage();
         String mainImageUrl;
         //organisation.getYearMonthUniqueFolder()
+        //todo: ternary operator
         if (mImage == null) {
             mainImageUrl = MAIN_IMAGE_MOCK_URL;
         } else {
