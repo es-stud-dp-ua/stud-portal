@@ -39,9 +39,6 @@ public class OrganizationDaoTest extends AbstractTransactionalJUnit4SpringContex
     private static News n1;
     private static News n2;
     private static News n3;
-    private static final String TEST_TEXT = "TEST test TEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST test"
-            + "TEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST test"
-            + "TEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST test";
 
     @Before
     @Rollback(false)
@@ -63,6 +60,7 @@ public class OrganizationDaoTest extends AbstractTransactionalJUnit4SpringContex
         org3.setApproved(Boolean.TRUE);
         org3.setAuthor("test");
         org3.setTitle("test123");
+        String TEST_TEXT = "sadgfsdfhsflhkfsdkgnsdjfhgbsdjhgdasdfsdgfdhfgjsadgfsdfhsflhkfsdkgnsdjfhgbsdjhgdasdfsdgfdhfgjsadgfsdfhsflhkfsdkgnsdjfhgbsdjhgdasdfsdgfdhfgjsadgfsdfhsflhkfsdkgnsdjfhgbsdjhgdasdfsdgfdhfgjsadgfsdfhsflhkfsdkgnsdjfhgbsdjhgdasdfsdgfdhfgjsadgfsdfhsflhkfsdkgnsdjfhgbsdjhgdasdfsdgfdhfgjsadgfsdfhsflhkfsdkgnsdjfhgbsdjhgdasdfsdgfdhfgjsadgfsdfhsflhkfsdkgnsdjfhgbsdjhgdasdfsdgfdhfgjsadgfsdfhsflhkfsdkgnsdjfhgbsdjhgdasdfsdgfdhfgjsadgfsdfhsflhkfsdkgnsdjfhgbsdjhgdasdfsdgfdhfgjsadgfsdfhsflhkfsdkgnsdjfhgbsdjhgdasdfsdgfdhfgjsadgfsdfhsflhkfsdkgnsdjfhgbsdjhgdasdfsdgfdhfgjsadgfsdfhsflhkfsdkgnsdjfhgbsdjhgdasdfsdgfdhfgjsadgfsdfhsflhkfsdkgnsdjfhgbsdjhgdasdfsdgfdhfgjsadgfsdfhsflhkfsdkgnsdjfhgbsdjhgdasdfsdgfdhfgjsadgfsdf";
         org1.setText(TEST_TEXT);
         org2.setText(TEST_TEXT);
         org3.setText(TEST_TEXT);
