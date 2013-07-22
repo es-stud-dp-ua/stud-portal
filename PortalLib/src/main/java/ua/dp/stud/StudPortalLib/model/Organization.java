@@ -41,22 +41,17 @@ public class Organization extends BaseImagesSupport implements Serializable {
 
     //Fields//
     private static final int TEXT_LENGTH = 10000;
-    @Size(min=2, max=30) @NotNull @NotBlank
     private String author;
-    @Size(min=5, max=100) @NotNull @NotBlank
+    @Size(min=5, max=100)  @NotNull @NotBlank
     private String title;
-    @Size(min=100, max=1000) @NotNull @NotBlank
+    @Size(min=500, max=10000) @NotNull @NotBlank
     private String text;
-    @NotNull
     private OrganizationType organizationType;
     private List<News> newsList;
-    @NotNull
     private Boolean approved;
-    @Size(min=5, max=1000)
     private String comment;
     @NotNull @Min(0) 
     private int views;
-    @NotNull @Past
     private Date publication;
 
     @Column

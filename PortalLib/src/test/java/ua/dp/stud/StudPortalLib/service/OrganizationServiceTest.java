@@ -26,16 +26,12 @@ import static org.junit.Assert.*;
 @RunWith(SpringJUnit4ClassRunner.class)
 public class OrganizationServiceTest extends AbstractTransactionalJUnit4SpringContextTests {
 
-
     @Autowired
     private OrganizationService service;
     private static Organization org1;
     private static Organization org2;
     private static Organization org3;
     private OrganizationDao mockDao;
-     private static final String TEST_TEXT="TEST test TEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST test"
-    +"TEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST test"
-    +"TEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST testTEST test";
 
     @Before
     @Rollback(false)
@@ -57,6 +53,8 @@ public class OrganizationServiceTest extends AbstractTransactionalJUnit4SpringCo
         org3.setApproved(Boolean.TRUE);
         org3.setAuthor("test");
         org3.setTitle("test123");
+        String TEST_TEXT = "sadgfsdfhsflhkfsdkgnsdjfhgbsdjhgdasdfsdgfdhfgjsadgfsdfhsflhkfsdkgnsdjfhgbsdjhgdasdfsdgfdhfgjsadgfsdfhsflhkfsdkgnsdjfhgbsdjhgdasdfsdgfdhfgjsadgfsdfhsflhkfsdkgnsdjfhgbsdjhgdasdfsdgfdhfgjsadgfsdfhsflhkfsdkgnsdjfhgbsdjhgdasdfsdgfdhfgjsadgfsdfhsflhkfsdkgnsdjfhgbsdjhgdasdfsdgfdhfgjsadgfsdfhsflhkfsdkgnsdjfhgbsdjhgdasdfsdgfdhfgjsadgfsdfhsflhkfsdkgnsdjfhgbsdjhgdasdfsdgfdhfgjsadgfsdfhsflhkfsdkgnsdjfhgbsdjhgdasdfsdgfdhfgjsadgfsdfhsflhkfsdkgnsdjfhgbsdjhgdasdfsdgfdhfgjsadgfsdfhsflhkfsdkgnsdjfhgbsdjhgdasdfsdgfdhfgjsadgfsdfhsflhkfsdkgnsdjfhgbsdjhgdasdfsdgfdhfgjsadgfsdfhsflhkfsdkgnsdjfhgbsdjhgdasdfsdgfdhfgjsadgfsdfhsflhkfsdkgnsdjfhgbsdjhgdasdfsdgfdhfgjsadgfsdfhsflhkfsdkgnsdjfhgbsdjhgdasdfsdgfdhfgjsadgfsdf";
+
         org1.setText(TEST_TEXT);
         org2.setText(TEST_TEXT);
         org3.setText(TEST_TEXT);
@@ -154,14 +152,13 @@ public class OrganizationServiceTest extends AbstractTransactionalJUnit4SpringCo
         assertNull(service.getOrganizationsOnPage(1, 1, "type1", true));
     }
 
-   /* @Test
-    public void delete() {
-		service.addOrganization(org1);
-		Integer id = org1.getId();
-		service.deleteOrganization(org1);
-		verify(mockDao, times(1)).deleteOrganization(id);
-    }*/
-
+    /* @Test
+     public void delete() {
+     service.addOrganization(org1);
+     Integer id = org1.getId();
+     service.deleteOrganization(org1);
+     verify(mockDao, times(1)).deleteOrganization(id);
+     }*/
     @Test
     public void update() {
         Integer id = org1.getId();

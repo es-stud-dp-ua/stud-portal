@@ -1,24 +1,13 @@
 package ua.dp.stud.StudPortalLib.model;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.Table;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 /**
- *
  * @author Ольга
  */
 @Entity
@@ -27,6 +16,7 @@ public class Faculties implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+
     public Integer getId() {
         return id;
     }
@@ -34,17 +24,25 @@ public class Faculties implements Serializable {
     public void setId(Integer id) {
         this.id = id;
     }
-  
+
     public Faculties() {
     }
-   @OneToMany(cascade = CascadeType.ALL, mappedBy = "nameOfFaculties", fetch = FetchType.LAZY)
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "nameOfFaculties", fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
     private List<Specialties> special;
+
+    public List<Specialties> getSpecialties() {
+        return special;
+    }
+
+    public void setSpecialties(List<Specialties> specialties) {
+        this.special = specialties;
+    }
+
     @Column(name = "nameOfFaculties")
     private String nameOfFaculties;
-    @ManyToOne
-    @JoinColumn(name = "base")
-    private Studie base;
-     
+
     public void setNameOfFaculties(String nameOfFaculties) {
         this.nameOfFaculties = nameOfFaculties;
     }
@@ -53,20 +51,17 @@ public class Faculties implements Serializable {
         return nameOfFaculties;
     }
 
+    @ManyToOne
+    @JoinColumn(name = "base")
+    private Studie base;
+
+
     public void setBase(Studie base) {
-       this.base = base;
+        this.base = base;
     }
 
     public Studie getBase() {
         return base;
     }
-    
-     public List<Specialties> getSpecialties() {
-        return special;
-    }
 
-    public void setSpecialties(List<Specialties> specialties) {
-        this.special = specialties;
-    }
-    
 }

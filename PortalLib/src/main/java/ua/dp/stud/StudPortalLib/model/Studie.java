@@ -6,8 +6,6 @@ package ua.dp.stud.StudPortalLib.model;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -21,31 +19,354 @@ import java.util.List;
 @PrimaryKeyJoinColumn(name = "id", referencedColumnName = "id")
 public class Studie extends BaseImagesSupport implements Serializable {
 
-    private String title;  //название вуза
-    private String text;   // подробнее о вузе
-    private String city; //город
-    private Integer years; //год
-    private String status; //статус
-    private String accreditacion; //уровень аккредитации
-    private String formOfTraining; //форма обучения
-    private String qualificationLevel; //квалификационный уровень
-    private String adress; //адрес
-    private String phone; //телефон
-    private String phoneAdmissions; //телефон приемной коммисии
-    private String website; //сайт
-    private Boolean freeTrainig; //наличие бесплатного очубения
-    private Boolean paidTrainig; //наличие платного обучения
-    private Boolean militaryDepartment; //наличие военной кафедры
-    private Boolean hostel; //наличие общежития
-    private Boolean postgraduateEducation; //наличие последипломного образования
-    private Boolean postgraduateAndDoctoralStudies; //наличие аспирантуры и докторантуры
-    private Boolean preparatoryDepartment; //надичие подготовительных курсов
-    private Integer countOfStudents; //количество студентов
-    private Integer countOfTeachers;//количество преподавателей
-    private Integer countOfCandidates;//количество кандидатов наук
-    private Integer countOfProfessors;//количество докторов и проффесоров
-    private String enrollees;//информация аббитуриентам
+    /**
+     * Название вуза
+     */
+    private String title;
+
+    @Column(name = "title")
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    /**
+     * Подробнее о вузе
+     */
+    private String text;
     private static final int TEXT_LENGTH = 10000;
+
+    @Column(name = "text", length = TEXT_LENGTH)
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    /**
+     * Город
+     */
+    private String city;
+
+    @Column(name = "city")
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    /**
+     * Год
+     */
+    private Integer years;
+
+    @Column(name = "years")
+    public Integer getYears() {
+        return years;
+    }
+
+    public void setYears(Integer year) {
+        this.years = year;
+    }
+
+    /**
+     * Статус
+     */
+    private String status;
+
+    @Column(name = "status")
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    /**
+     * Уровень аккредитации
+     */
+    private String accreditacion;
+
+    @Column(name = "accreditacion")
+    public String getAccreditacion() {
+        return accreditacion;
+    }
+
+    public void setAccreditacion(String accreditacion) {
+        this.accreditacion = accreditacion;
+    }
+
+    /**
+     * Форма обучения
+     */
+    private String formOfTraining;
+
+    @Column(name = "formOfTraining")
+    public String getFormOfTraining() {
+        return formOfTraining;
+    }
+
+    public void setFormOfTraining(String formOfTraining) {
+        this.formOfTraining = formOfTraining;
+    }
+
+    /**
+     * Квалификационный уровень
+     */
+    private String qualificationLevel;
+
+    @Column(name = "qualificationLevel")
+    public String getQualificationLevel() {
+        return qualificationLevel;
+    }
+
+    public void setQualificationLevel(String qualificationLevel) {
+        this.qualificationLevel = qualificationLevel;
+    }
+
+    /**
+     * Адрес
+     */
+    private String adress;
+
+    @Column(name = "adress")
+    public String getAdress() {
+        return adress;
+    }
+
+    public void setAdress(String adress) {
+        this.adress = adress;
+    }
+
+    /**
+     * Телефон
+     */
+    private String phone;
+
+    @Column(name = "phone")
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    /**
+     * Телефон приемной комиссии
+     */
+    private String phoneAdmissions;
+
+    @Column(name = "phoneAdmissions")
+    public String getPhoneAdmissions() {
+        return phoneAdmissions;
+    }
+
+    public void setPhoneAdmissions(String phoneAdmissions) {
+        this.phoneAdmissions = phoneAdmissions;
+    }
+
+    /**
+     * Сайт
+     */
+    private String website;
+
+    @Column(name = "website")
+    public String getWebsite() {
+        return website;
+    }
+
+    public void setWebsite(String website) {
+        this.website = website;
+    }
+
+    /**
+     * Наличие бесплатного обучения
+     */
+    private Boolean freeTrainig;
+
+    @Column(name = "freeTrainig")
+    public Boolean getFreeTrainig() {
+        return freeTrainig;
+    }
+
+    public void setFreeTrainig(Boolean freeTrainig) {
+        this.freeTrainig = freeTrainig;
+    }
+
+    /**
+     * Наличие платного обучния
+     */
+    private Boolean paidTrainig;
+
+    @Column(name = "paidTrainig")
+    public Boolean getPaidTrainig() {
+        return paidTrainig;
+    }
+
+    public void setPaidTrainig(Boolean paidTrainig) {
+        this.paidTrainig = paidTrainig;
+    }
+
+    /**
+     * Наличие военной кафедры
+     */
+    private Boolean militaryDepartment;
+
+    @Column(name = "militaryDepartment")
+    public Boolean getMilitaryDepartment() {
+        return militaryDepartment;
+    }
+
+    public void setMilitaryDepartment(Boolean militaryDepartment) {
+        this.militaryDepartment = militaryDepartment;
+    }
+
+    /**
+     * Налчие общежития
+     */
+    private Boolean hostel;
+
+    @Column(name = "hostel")
+    public Boolean getHostel() {
+        return hostel;
+    }
+
+    public void setHostel(Boolean hostel) {
+        this.hostel = hostel;
+    }
+
+    /**
+     * Наличие последипломного образования
+     */
+    private Boolean postgraduateEducation;
+
+    @Column(name = "postgraduateEducation")
+    public Boolean getPostgraduateEducation() {
+        return postgraduateEducation;
+    }
+
+    public void setPostgraduateEducation(Boolean postgraduateEducation) {
+        this.postgraduateEducation = postgraduateEducation;
+    }
+
+    /**
+     * Наличие аспирантуры и докторантуры
+     */
+    private Boolean postgraduateAndDoctoralStudies;
+
+    @Column(name = "postgraduateAndDoctoralStudies")
+    public Boolean getPostgraduateAndDoctoralStudies() {
+        return postgraduateAndDoctoralStudies;
+    }
+
+    public void setPostgraduateAndDoctoralStudies(Boolean postgraduateAndDoctoralStudies) {
+        this.postgraduateAndDoctoralStudies = postgraduateAndDoctoralStudies;
+    }
+
+    /**
+     * Наличие подготовительных курсов
+     */
+    private Boolean preparatoryDepartment;
+
+    @Column(name = "preparatoryDepartment")
+    public Boolean getPreparatoryDepartment() {
+        return preparatoryDepartment;
+    }
+
+    public void setPreparatoryDepartment(Boolean preparatoryDepartment) {
+        this.preparatoryDepartment = preparatoryDepartment;
+    }
+
+    /**
+     * Кол-во студентов
+     */
+    private Integer countOfStudents;
+
+    @Column(name = "countOfStudents")
+    public Integer getCountOfStudents() {
+        return countOfStudents;
+    }
+
+    public void setCountOfStudents(Integer countOfStudents) {
+        this.countOfStudents = countOfStudents;
+    }
+
+    /**
+     * Кол-во преподователей
+     */
+    private Integer countOfTeachers;
+
+    @Column(name = "countOfTeachers")
+    public Integer getCountOfTeachers() {
+        return countOfTeachers;
+    }
+
+    public void setCountOfTeachers(Integer countOfTeachers) {
+        this.countOfTeachers = countOfTeachers;
+    }
+
+    /**
+     * Кол-во кандидатов наук
+     */
+    private Integer countOfCandidates;
+
+    @Column(name = "countOfCandidates")
+    public Integer getCountOfCandidates() {
+        return countOfCandidates;
+    }
+
+    public void setCountOfCandidates(Integer countOfCandidates) {
+        this.countOfCandidates = countOfCandidates;
+    }
+
+    /**
+     * Кол-во докторов и проффесоров
+     */
+    private Integer countOfProfessors;
+
+    @Column(name = "countOfProfessors")
+    public Integer getCountOfProfessors() {
+        return countOfProfessors;
+    }
+
+    public void setCountOfProfessors(Integer countOfProfessors) {
+        this.countOfProfessors = countOfProfessors;
+    }
+
+    private String onGraduation;
+
+    @Column
+    public String getOnGraduation() {
+        return onGraduation;
+    }
+
+    public void setOnGraduation(String onGraduation) {
+        this.onGraduation = onGraduation;
+    }
+
+    /**
+     * Информация абитуриентам
+     */
+    private String enrollees;
+
+    @Column(name = "enrollees", length = TEXT_LENGTH)
+    public String getEnrollees() {
+        return enrollees;
+    }
+
+    public void setEnrollees(String enrollees) {
+        this.enrollees = enrollees;
+    }
+
     private List<Faculties> faculties;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "base", fetch = FetchType.LAZY)
@@ -60,12 +381,40 @@ public class Studie extends BaseImagesSupport implements Serializable {
     public Studie() {
     }
 
+    /**
+     * конструктор с параметрами
+     *
+     * @param topic
+     * @param text
+     * @param city
+     * @param status
+     * @param year
+     * @param accreditacion
+     * @param formOfTraining
+     * @param qualificationLevel
+     * @param adress
+     * @param phone
+     * @param phoneAdmissions
+     * @param website
+     * @param freeTrainig
+     * @param paidTrainig
+     * @param militaryDepartment
+     * @param hostel
+     * @param postgraduateEducation
+     * @param postgraduateAndDoctoralStudies
+     * @param preparatoryDepartment
+     * @param countOfStudents
+     * @param countOfTeachers
+     * @param countOfCandidates
+     * @param countOfProfessors
+     * @param enrollees
+     */
     public Studie(String topic, String text, String city, String status, Integer year, String accreditacion,
-            String formOfTraining, String qualificationLevel, String adress, String phone, String phoneAdmissions,
-            String website, Boolean freeTrainig, Boolean paidTrainig, Boolean militaryDepartment, Boolean hostel,
-            Boolean postgraduateEducation, Boolean postgraduateAndDoctoralStudies, Boolean preparatoryDepartment,
-            Integer countOfStudents, Integer countOfTeachers, Integer countOfCandidates, Integer countOfProfessors,
-            String enrollees) {
+                  String formOfTraining, String qualificationLevel, String adress, String phone, String phoneAdmissions,
+                  String website, Boolean freeTrainig, Boolean paidTrainig, Boolean militaryDepartment, Boolean hostel,
+                  Boolean postgraduateEducation, Boolean postgraduateAndDoctoralStudies, Boolean preparatoryDepartment,
+                  Integer countOfStudents, Integer countOfTeachers, Integer countOfCandidates, Integer countOfProfessors,
+                  String enrollees) {
         this.title = topic;
         this.text = text;
         this.city = city;
@@ -92,221 +441,7 @@ public class Studie extends BaseImagesSupport implements Serializable {
         this.enrollees = enrollees;
     }
 
-    @Column(name = "title")
-    public String getTitle() {
-        return title;
-    }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    @Column(name = "text", length = TEXT_LENGTH)
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    @Column(name = "adress")
-    public String getAdress() {
-        return adress;
-    }
-
-    public void setAdress(String adress) {
-        this.adress = adress;
-    }
-
-    @Column(name = "city")
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    @Column(name = "years")
-    public Integer getYears() {
-        return years;
-    }
-
-    public void setYears(Integer year) {
-        this.years = year;
-    }
-
-    @Column(name = "status")
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    @Column(name = "accreditacion")
-    public String getAccreditacion() {
-        return accreditacion;
-    }
-
-    public void setAccreditacion(String accreditacion) {
-        this.accreditacion = accreditacion;
-    }
-
-    @Column(name = "formOfTraining")
-    public String getFormOfTraining() {
-        return formOfTraining;
-    }
-
-    public void setFormOfTraining(String formOfTraining) {
-        this.formOfTraining = formOfTraining;
-    }
-
-    @Column(name = "qualificationLevel")
-    public String getQualificationLevel() {
-        return qualificationLevel;
-    }
-
-    public void setQualificationLevel(String qualificationLevel) {
-        this.qualificationLevel = qualificationLevel;
-    }
-
-    @Column(name = "phone")
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    @Column(name = "phoneAdmissions")
-    public String getPhoneAdmissions() {
-        return phoneAdmissions;
-    }
-
-    public void setPhoneAdmissions(String phoneAdmissions) {
-        this.phoneAdmissions = phoneAdmissions;
-    }
-
-    @Column(name = "website")
-    public String getWebsite() {
-        return website;
-    }
-
-    public void setWebsite(String website) {
-        this.website = website;
-    }
-
-    @Column(name = "freeTrainig")
-    public Boolean getFreeTrainig() {
-        return freeTrainig;
-    }
-
-    public void setFreeTrainig(Boolean freeTrainig) {
-        this.freeTrainig = freeTrainig;
-    }
-
-    @Column(name = "paidTrainig")
-    public Boolean getPaidTrainig() {
-        return paidTrainig;
-    }
-
-    public void setPaidTrainig(Boolean paidTrainig) {
-        this.paidTrainig = paidTrainig;
-    }
-
-    @Column(name = "militaryDepartment")
-    public Boolean getMilitaryDepartment() {
-        return militaryDepartment;
-    }
-
-    public void setMilitaryDepartment(Boolean militaryDepartment) {
-        this.militaryDepartment = militaryDepartment;
-    }
-
-    @Column(name = "hostel")
-    public Boolean getHostel() {
-        return hostel;
-    }
-
-    public void setHostel(Boolean hostel) {
-        this.hostel = hostel;
-    }
-
-    @Column(name = "postgraduateEducation")
-    public Boolean getPostgraduateEducation() {
-        return postgraduateEducation;
-    }
-
-    public void setPostgraduateEducation(Boolean postgraduateEducation) {
-        this.postgraduateEducation = postgraduateEducation;
-    }
-
-    @Column(name = "postgraduateAndDoctoralStudies")
-    public Boolean getPostgraduateAndDoctoralStudies() {
-        return postgraduateAndDoctoralStudies;
-    }
-
-    public void setPostgraduateAndDoctoralStudies(Boolean postgraduateAndDoctoralStudies) {
-        this.postgraduateAndDoctoralStudies = postgraduateAndDoctoralStudies;
-    }
-
-    @Column(name = "preparatoryDepartment")
-    public Boolean getPreparatoryDepartment() {
-        return preparatoryDepartment;
-    }
-
-    public void setPreparatoryDepartment(Boolean preparatoryDepartment) {
-        this.preparatoryDepartment = preparatoryDepartment;
-    }
-
-    @Column(name = "countOfStudents")
-    public Integer getCountOfStudents() {
-        return countOfStudents;
-    }
-
-    public void setCountOfStudents(Integer countOfStudents) {
-        this.countOfStudents = countOfStudents;
-    }
-
-    @Column(name = "countOfTeachers")
-    public Integer getCountOfTeachers() {
-        return countOfTeachers;
-    }
-
-    public void setCountOfTeachers(Integer countOfTeachers) {
-        this.countOfTeachers = countOfTeachers;
-    }
-
-    @Column(name = "countOfCandidates")
-    public Integer getCountOfCandidates() {
-        return countOfCandidates;
-    }
-
-    public void setCountOfCandidates(Integer countOfCandidates) {
-        this.countOfCandidates = countOfCandidates;
-    }
-
-    @Column(name = "countOfProfessors")
-    public Integer getCountOfProfessors() {
-        return countOfProfessors;
-    }
-
-    public void setCountOfProfessors(Integer countOfProfessors) {
-        this.countOfProfessors = countOfProfessors;
-    }
-
-    @Column(name = "enrollees")
-    public String getEnrollees() {
-        return enrollees;
-    }
-
-    public void setEnrollees(String enrollees) {
-        this.enrollees = enrollees;
-    }
     private static final int START_HASH = 55;
     private static final int MULT_HASH = 77;
 

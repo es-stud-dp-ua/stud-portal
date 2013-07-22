@@ -90,12 +90,21 @@
             <div style="width: 450px;">
 
                 <div id="lup"></div>
-                <div id="mainPic"
-                     style="background: url(${pageContext.request.contextPath}/images/mainpic_443x253.png) no-repeat">
-                    <!-- Output for our douwnload Image-->
-                    <output id="list">
-                    </output>
-                </div>
+                 <% if (news.getMainImage() == null) { %>
+                        <div id="mainPic" style="vertical-align: top; z-index: 2;"
+                             style="background: url(${pageContext.request.contextPath}/images/mainpic_443x253.png) no-repeat">
+                            <!-- Output for our douwnload Image-->
+                            
+                            <output id="list"></output>
+                        </div>
+                        <% } else { %>
+
+                        <div id="mainPic" style="vertical-align: top; z-index: 2;">
+                            <img id="img" style="vertical-align: top; z-index: 1;" src="${mainImage}"/>
+                           <output id="list"></output>
+                        </div>
+                        <% } %>
+              
                 <div id="rdn"></div>
 
                 <div class="grayrect" style="margin-top: 283px;">
@@ -157,7 +166,7 @@
             };
             a();
         })(f);
-
+ document.getElementById('img').parentNode.removeChild(document.getElementById('img'));
         // Read in the image file as a data URL.
         reader.readAsDataURL(f);
         a();

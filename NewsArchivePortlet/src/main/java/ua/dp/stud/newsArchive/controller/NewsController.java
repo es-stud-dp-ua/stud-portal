@@ -393,7 +393,11 @@ public class NewsController {
         //apdate author for edit
         String author = news.getAuthor();
         //update fields for new news
-        if (updateNewsFields(mainImage, images, topic, text, inCalendar, onMainPage,
+         CommonsMultipartFile f = imageService.cropImage(mainImage, Integer.parseInt(actionRequest.getParameter("t")),
+                Integer.parseInt(actionRequest.getParameter("l")),
+                Integer.parseInt(actionRequest.getParameter("w")),
+                Integer.parseInt(actionRequest.getParameter("h")));
+        if (updateNewsFields(f, images, topic, text, inCalendar, onMainPage,
                 dateInCalendar, role, author, actionResponse, STR_FAIL, NO_IMAGE, news)) {
             newsService.updateNews(news);
             //close session
@@ -410,15 +414,25 @@ public class NewsController {
     public ModelAndView showEditNews(RenderRequest request, RenderResponse response) {
         ModelAndView model = new ModelAndView();
         String publicationInCalendar = "";
-        //getting news
+        //getting news   
         int newsID = Integer.valueOf(request.getParameter("newsId"));
         News news = newsService.getNewsById(newsID);
+        ImageImpl mImage = news.getMainImage();
+        String mainImageUrl;
+         Collection<ImageImpl> additionalImages = news.getAdditionalImages();
+        //organisation.getYearMonthUniqueFolder()
+        if (mImage == null) {
+            mainImageUrl = MAIN_IMAGE_MOCK_URL;
+        } else {
+            mainImageUrl = imageService.getPathToLargeImage(mImage, news);
+        }
         //set view for edit
         model.setViewName("editNews");
         if (news.getPublicationInCalendar() != null) {
             publicationInCalendar = news.getPublicationInCalendar().toString().split(" ")[0];
         }
-
+        model.addObject("mainImage", mainImageUrl);
+        model.addObject("additionalImages", additionalImages);
         model.addObject("pubDate", publicationInCalendar);
         model.addObject("news", news);
         return model;
