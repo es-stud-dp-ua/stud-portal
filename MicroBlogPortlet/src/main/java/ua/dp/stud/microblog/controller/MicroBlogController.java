@@ -56,6 +56,7 @@ public class MicroBlogController {
         long groupId = themeDisplay.getScopeGroupId();
         Long plid = 0l;
         try {
+            //todo: remove catch block and add throws part
             plid = LayoutLocalServiceUtil.getDefaultPlid(groupId, false, NEWS_ARCHIVE_REFERENCE_NAME);
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Exception: ", e);

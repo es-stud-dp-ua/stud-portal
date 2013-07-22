@@ -23,7 +23,7 @@ public class HumanServiceImpl implements HumanService {
     public void setHumanDao(HumanDao humanDao) {
         this.humanDao = humanDao;
     }
-
+    //todo: remove all @Override
     @Override
     @Transactional(readOnly = true)
     public Human getHumanById(Integer id) {

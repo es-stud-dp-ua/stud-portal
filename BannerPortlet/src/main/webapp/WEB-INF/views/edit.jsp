@@ -34,13 +34,13 @@
     <c:if test="${empty bannerImages}">
         <spring:message code="currentImages"/><br>
         <%for (BannerImage image : bannerImages) {%>
-        <form method="post" class="banner-form"
+        <form method="post" class="banner-form">
         <%=image.getId()%>" action='${actionLink}' enctype="multipart/form-data">
         <input type="hidden" name="id" value="<%=image.getId()%>">
         <table width="100%">
             <tr>
                 <td>
-                    <div><label cssClass="control-group" for="ban-mainImage"><spring:message
+                    <div><label cssClass="control-group" for="ban_mainImage"><spring:message
                             code="form.chooseImage"/></label></div>
                     <input type="file" id="ban_mainImage" name="ban_mainImage" accept="image/jpeg,image/png"/>
                     <img style="width: 100px"

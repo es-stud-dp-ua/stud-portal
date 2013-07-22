@@ -21,7 +21,7 @@
     String imagePath = new StringBuilder(themeDisplay.getPortalURL()).append('/')
             .append(themeDisplay.getPathImage()).append("/image_gallery?img_id=").toString();
     ImageService imageService = (ImageService) pageContext.findAttribute("imageService");
-
+    //todo: remove unused variables and replace pagination to controller
     int nearbyPages = 2; //number of pages to show to left and right of current
     int overallPages = 7; //overall number of pages
     int leftPageNumb = Math.max(1, currentPage - nearbyPages),

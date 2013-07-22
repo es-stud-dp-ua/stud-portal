@@ -76,6 +76,7 @@ public class BannerController {
         } else if (banner.getId() == null) {
             successUpload = false;
         }
+        //todo: instead of else branch use (banner.getId != null && seccessUpload)
         //success upload message
         if (successUpload) {
             actionResponse.setRenderParameter(SUCCESS, SUCCESS);
@@ -116,11 +117,13 @@ public class BannerController {
         BannerImage banner = new BannerImage();
         String url = actionRequest.getParameter("url");
         BannerImage other = bannerImageService.getByURL(url);
+        //todo: ask about this
         if (other == null) {
             if (this.updateBannerImage(mainImage, url, actionResponse, banner)) {
                 try {
                     bannerImageService.addBannerImage(banner);
                     sessionStatus.setComplete();
+                    //todo: remove try-catch
                 } catch (Exception unused) {
                     actionResponse.setRenderParameter(STR_FAIL, "error.unknown");
                 }
@@ -165,6 +168,7 @@ public class BannerController {
         try {
             bannerImageService.deleteBannerImage(banner);
         } catch (Exception ex) {
+            //todo: remove try-catch
             LOG.log(Level.SEVERE, "Exception: ", ex);
         }
         return showAddSuccess(request, response);

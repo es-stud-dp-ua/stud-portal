@@ -15,7 +15,7 @@ import java.util.Collection;
  */
 @Repository("humanDao")
 public class HumanDaoImpl implements HumanDao {
-
+    //todo: remove all @Override
     @Autowired
     private SessionFactory sessionFactory;
 
@@ -49,6 +49,7 @@ public class HumanDaoImpl implements HumanDao {
     }
 
     @Override
+    //todo: use List<Human>
     public Collection<Human> getAll() {
         return getSession().createCriteria(Human.class).list();
     }

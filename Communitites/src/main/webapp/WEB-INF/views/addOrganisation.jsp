@@ -15,6 +15,7 @@
     Locale locale = (Locale) request.getSession().getAttribute("org.apache.struts.action.LOCALE");
     String language = locale.getLanguage();
     String country = locale.getCountry();
+    //todo: remove res and type
     ResourceBundle res = ResourceBundle.getBundle("messages", new Locale(language, country));
     OrganizationType type = OrganizationType.ART;
 %>

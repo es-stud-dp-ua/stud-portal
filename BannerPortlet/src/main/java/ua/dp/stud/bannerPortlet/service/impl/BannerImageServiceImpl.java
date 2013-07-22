@@ -21,7 +21,7 @@ import java.util.Collection;
 public class BannerImageServiceImpl implements BannerImageService {
 
     private BannerImageDao dao;
-
+    //todo: remove all @Override
     @Transactional(readOnly = false)
     @Autowired
     @Qualifier(value = "bannerDao")

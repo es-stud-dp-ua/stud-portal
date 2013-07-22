@@ -15,7 +15,7 @@
     int pagesCount = (Integer) request.getAttribute("pagesCount");
     int currentPage = (Integer) request.getAttribute("currentPage");
     ImageService imageService = (ImageService) pageContext.findAttribute("imageService");
-
+    //todo: remove unused variables
     int nearbyPages = (Integer) request.getAttribute("nearbyPages"); //number of pages to show to left and right of current
     int overallPages = (Integer) request.getAttribute("overallPages"); //overall number of pages
     int leftPageNumb = (Integer) request.getAttribute("leftPageNumb"),

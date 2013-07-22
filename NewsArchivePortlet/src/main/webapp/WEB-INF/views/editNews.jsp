@@ -171,7 +171,7 @@
     }
 
     $(function () {
-        <%
+        <%  //todo: we always have russian locale
             if (russianLocaleEnabled){ %>
         $.datepicker.setDefaults($.datepicker.regional['ru']);
         <%}%>

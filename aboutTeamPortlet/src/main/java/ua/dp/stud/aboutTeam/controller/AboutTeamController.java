@@ -88,6 +88,7 @@ public class AboutTeamController {
         List<Human> testersTeam = getUsersFromLinkedIn(TESTER_URLS, photoUrl);
         List<Human> companyTeam = getUsersFromLinkedIn(COMPANY_URLS, photoUrl);
         //static members
+        //todo: also should be static
         List<Human> tnxTeam = Arrays.asList(new Human("Elena", "Onishenko", TESTER, contextPath + "/images/elena-onishenko.jpg", "http://vk.com/elenaonishhenk0"),
                 new Human("Tatyana", "Podgornaya", TESTER, contextPath + "/images/tanya-podgornaya.jpg", "http://www.facebook.com/tatyana.podgornaya.10"),
                 new Human("Oksana", "Schur", TESTER, contextPath + "/images/oksana-shur.jpg", "http://vk.com/id21246119"),
@@ -126,6 +127,7 @@ public class AboutTeamController {
                 }
             } else {
                 Long difference = now.getTime() - human.getDate().getTime();
+                //todo: use long
                 Integer days = (int) (difference / TOTAL_MS_PER_DAY);
                 if (days >= REFRESH_RATE) {
                     if (loadUser(human, urls.get(i), i, noImage)) {
@@ -147,6 +149,7 @@ public class AboutTeamController {
         try {
             NetUtil.downloadFile(url, file);
             // create Jerry, i.e. document context
+            //todo: remove assignment to null
             Jerry doc = null;
             doc = Jerry.jerry(FileUtil.readString(file));
             human.setFirstName(doc.$(".given-name").text());

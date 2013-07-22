@@ -189,6 +189,7 @@ public class OrganizationDaoImpl extends BaseDao implements OrganizationDao {
     }
 
     @Override
+    //todo: rename method
     public void incViews(Organization organization) {
         organization.setViews(organization.getViews() + 1);
         getSession().update(organization);

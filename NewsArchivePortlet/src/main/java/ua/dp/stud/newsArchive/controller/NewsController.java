@@ -40,6 +40,7 @@ import java.util.logging.Logger;
 public class NewsController {
 
     private static final Logger LOG = Logger.getLogger(NewsController.class.getName());
+    //todo: put image mock to images directory
     private static final String MAIN_IMAGE_MOCK_URL = "http://www.princetonmn.org/vertical/Sites/%7BF37F81E8-174B-4EDB-91E0-1A3D62050D16%7D/uploads/News.gif";
     private static final String STR_FAIL = "fail";
     private static final String NO_IMAGE = "no-images";
@@ -97,6 +98,7 @@ public class NewsController {
 
         Integer pagesCount = newsService.getPagesCount(NEWS_BY_PAGE);
         Integer currentPage;
+        //todo: use ternary operator
         if (request.getParameter(CURRENT_PAGE) != null) {
             currentPage = Integer.parseInt(request.getParameter(CURRENT_PAGE));
         } else {
@@ -186,7 +188,7 @@ public class NewsController {
 
         ImageImpl mImage = news.getMainImage();
         String mainImageUrl;
-
+        //todo: ternary operator
         if (mImage == null) {
             mainImageUrl = MAIN_IMAGE_MOCK_URL;
         } else {
@@ -360,7 +362,7 @@ public class NewsController {
                 //close session
                 sessionStatus.setComplete();
             } catch (Exception ex) {
-                //exception controller
+                //exception controller //todo: remove try-catch
                 LOG.log(Level.SEVERE, "Exception: ", ex);
                 actionResponse.setRenderParameter(STR_EXEPT, "");
             }
@@ -379,6 +381,7 @@ public class NewsController {
         String topic = actionRequest.getParameter("topic");
         String text = actionRequest.getParameter("text");
         String dateInCalendar = actionRequest.getParameter("startDate");
+        //todo: ternary operator
         String role = null;
         if (actionRequest.isUserInRole(ADMIN_ROLE)) {
             role = ADMIN_ROLE;
@@ -395,7 +398,7 @@ public class NewsController {
             newsService.updateNews(news);
             //close session
             sessionStatus.setComplete();
-        }
+        }        //todo: what if updateNewsFields(..) returns false?
     }
 
     @RenderMapping(params = "mode=add")

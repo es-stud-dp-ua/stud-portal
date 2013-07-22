@@ -71,6 +71,7 @@ public class StudieController {
     public ModelAndView showView(RenderRequest request, RenderResponse response) {
         ModelAndView model = new ModelAndView();
         Integer buttonId;
+        //todo: ternary operator
         if (request.getParameter(BUTTON_ID) == null) {
             buttonId = 0;
         } else {
@@ -86,6 +87,7 @@ public class StudieController {
     @RenderMapping(params = "studieID")
     public ModelAndView showSelectedSrudie(RenderRequest request, RenderResponse response) {
         int studieID = Integer.valueOf(request.getParameter("studieID"));
+        //todo: ternary operator
         Integer buttonId = 0;
         if (request.getParameter(BUTTON_ID) == null) {
             buttonId = 0;
@@ -109,7 +111,7 @@ public class StudieController {
         model.addObject(BUTTON_ID, buttonId);
         return model;
     }
-
+    //todo: remove unused parameters
     private boolean updateCommunityFields(CommonsMultipartFile mainImage, CommonsMultipartFile[] images,
                                           String frmTopic, String frmText, String frmFaculteDnevn, String frmFacultetZaoch, String adress,
                                           ActionResponse actionResponse, Studie somestudie)

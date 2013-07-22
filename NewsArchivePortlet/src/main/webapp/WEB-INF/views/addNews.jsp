@@ -26,6 +26,7 @@
 <body>
 
 <script language="javascript" type="text/javascript">
+    //todo: javascript to separate file or under one tag
     $(document).ready(function () {
         $.Placeholder.init({color: "#aaa"});
         <% if (russianLocaleEnabled){ %>

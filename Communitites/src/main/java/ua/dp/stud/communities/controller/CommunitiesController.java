@@ -44,6 +44,7 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+//todo: rename portlet to OrganizationPortket
 @Controller
 @RequestMapping(value = "view")
 public class CommunitiesController {
@@ -99,6 +100,7 @@ public class CommunitiesController {
         int pagesCount;
         int currentPage;
         OrganizationType type;
+        //todo: use ternary operator for currentPage and type variables
         if (request.getParameter(CURRENT_PAGE) != null) {
             currentPage = Integer.parseInt(request.getParameter(CURRENT_PAGE));
         } else {
@@ -247,12 +249,12 @@ public class CommunitiesController {
             response.setRenderParameter(TYPE, request.getParameter(TYPE));
         }
     }
-
+    //todo: remove @RequestParam and throws part
     private boolean updateCommunityFields(@RequestParam(MAIN_IMAGE) CommonsMultipartFile mainImage,
                                           @RequestParam("images") CommonsMultipartFile[] images,
                                           String frmTopic, String frmText, String frmRole, String role,
                                           ActionResponse actionResponse, Organization someorgs, OrganizationType type)
-            throws SystemException, PortalException {
+             throws SystemException, PortalException {
         boolean successUpload = true;
 //check the length of the title and text
         if (frmTopic.length() < MINTITLESYMBOLS || frmText.length() < MINTEXTSYMBOLS) {
@@ -277,6 +279,7 @@ public class CommunitiesController {
             }
         } catch (IOException ex) {
             successUpload = false;
+            //todo: why do you use StringWriter?
             StringWriter sw = new StringWriter();
             LOG.log(Level.SEVERE, STR_EXEPT, ex);
             actionResponse.setRenderParameter(STR_EXEPT, sw.toString());
