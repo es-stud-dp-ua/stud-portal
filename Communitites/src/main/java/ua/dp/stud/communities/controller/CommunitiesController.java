@@ -10,7 +10,6 @@ package ua.dp.stud.communities.controller;
  */
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.model.User;
@@ -40,24 +39,13 @@ import javax.portlet.RenderResponse;
 import java.io.*;
 import java.util.Collection;
 import java.util.Date;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.validation.Valid;
-import javax.validation.Validator;
-import org.springframework.context.MessageSource;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.support.ResourceBundleMessageSource;
-import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
-import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.support.WebBindingInitializer;
-import org.springframework.web.context.request.WebRequest;
 
 //todo: rename portlet to OrganizationPortket
 @Controller
@@ -75,7 +63,6 @@ public class CommunitiesController {
     private static final String MAIN_IMAGE = "mainImage";
     private static final String TYPE = "type";
     private static final String CURRENT_PAGE = "currentPage";
-    private static final String STR_BAD_INFO = "Bad title od text. Title must be between 5 to 100 symbols";
     private static final int MINTITLESYMBOLS = 4;
     private static final int MINTEXTSYMBOLS = 100;
     private static final int ORGS_BY_PAGE = 5;
@@ -265,6 +252,7 @@ public class CommunitiesController {
         }
     }
     //todo: remove @RequestParam and throws part
+
     private boolean updateCommunityFields(@RequestParam(MAIN_IMAGE) CommonsMultipartFile mainImage,
             @RequestParam("images") CommonsMultipartFile[] images,
             String frmTopic, String frmText, String frmRole, String role,
@@ -273,10 +261,6 @@ public class CommunitiesController {
         boolean successUpload = true;
 //check the length of the title and text
         //todo: remove this checking
-        if (frmTopic.length() < MINTITLESYMBOLS || frmText.length() < MINTEXTSYMBOLS) {
-            actionResponse.setRenderParameter(STR_FAIL, STR_FAIL);
-            return false;
-        }
         someorgs.setTitle(frmTopic);
         someorgs.setText(frmText);
         someorgs.setOrganizationType(type);
@@ -334,13 +318,7 @@ public class CommunitiesController {
             @RequestParam("images") CommonsMultipartFile[] images)
             throws SystemException, PortalException {
         if (bindingResult.hasFieldErrors()) {
-            //SessionErrors.add(action,"fuck the logic");
-            //todo: remove println
-            for (ObjectError oe : bindingResult.getAllErrors()) {
-                System.out.println(oe.getDefaultMessage());
-            }
             actionResponse.setRenderParameter(STR_FAIL, "asdasfsdf");
-            System.out.println("bugagag");
 
         } else {
 //path for main image is not empty
@@ -396,41 +374,51 @@ public class CommunitiesController {
 
     @ActionMapping(value = "editCommunity")
     public void editCommunity(@RequestParam(MAIN_IMAGE) CommonsMultipartFile mainImage,
-            @RequestParam("images") CommonsMultipartFile[] images,
+            @RequestParam("images") CommonsMultipartFile[] images, @ModelAttribute(value = "organization") @Valid Organization organization,
+            BindingResult bindingResult,
             ActionRequest actionRequest,
             ActionResponse actionResponse, SessionStatus sessionStatus)
             throws IOException, SystemException, PortalException {
 //getting current news
         int organisationID = Integer.valueOf(actionRequest.getParameter("orgsId"));
-        Organization organization = organizationService.getOrganizationById(organisationID);
+        Organization org = organizationService.getOrganizationById(organisationID);
 //getting all parameters from form
-        String topic = actionRequest.getParameter("topic");
-        String text = actionRequest.getParameter("text");
-        OrganizationType typeOrg = OrganizationType.valueOf(actionRequest.getParameter(TYPE));
-        CommonsMultipartFile croppedImage = imageService.cropImage(mainImage, Integer.parseInt(actionRequest.getParameter("t")),
-                Integer.parseInt(actionRequest.getParameter("l")),
-                Integer.parseInt(actionRequest.getParameter("w")),
-                Integer.parseInt(actionRequest.getParameter("h")));
-        if (croppedImage == null) {
-            actionResponse.setRenderParameter(STR_FAIL, STR_BAD_IMAGE);
-            return;
-        }
-        String role;
-        //todo: ternary operator
-        if (actionRequest.isUserInRole(ADMINISTRATOR_ROLE)) {
-            role = ADMINISTRATOR_ROLE;
+        if (bindingResult.hasFieldErrors()) {
+            actionResponse.setRenderParameter(STR_FAIL, " ");
         } else {
-            role = USER_ROLE;
-        }
-        User user = (User) actionRequest.getAttribute(WebKeys.USER);
-        String usRole = user.getScreenName();
+            String topic = organization.getTitle();
+            String text = organization.getText();
+            OrganizationType typeOrg = OrganizationType.valueOf(actionRequest.getParameter(TYPE));
+            CommonsMultipartFile croppedImage;
+            if (!actionRequest.getParameter("t").equals("")) {
+                croppedImage = imageService.cropImage(mainImage, Integer.parseInt(actionRequest.getParameter("t")),
+                        Integer.parseInt(actionRequest.getParameter("l")),
+                        Integer.parseInt(actionRequest.getParameter("w")),
+                        Integer.parseInt(actionRequest.getParameter("h")));
+            } else {
+                croppedImage = mainImage;
+            }
+            if (croppedImage == null) {
+                actionResponse.setRenderParameter(STR_FAIL, STR_BAD_IMAGE);
+                return;
+            }
+            String role;
+            //todo: ternary operator
+            if (actionRequest.isUserInRole(ADMINISTRATOR_ROLE)) {
+                role = ADMINISTRATOR_ROLE;
+            } else {
+                role = USER_ROLE;
+            }
+            User user = (User) actionRequest.getAttribute(WebKeys.USER);
+            String usRole = user.getScreenName();
 
-        if (updateCommunityFields(croppedImage, images, topic.trim(), text.trim(), role, usRole, actionResponse, organization, typeOrg)) {
-            organizationService.updateOrganization(organization);
+            if (updateCommunityFields(croppedImage, images, topic, text, role, usRole, actionResponse, org, typeOrg)) {
+                organizationService.updateOrganization(org);
 //close session
-            sessionStatus.setComplete();
-        } else {
-            actionResponse.setRenderParameter(STR_FAIL, STR_DUPLICAT_TOPIC);
+                sessionStatus.setComplete();
+            } else {
+                actionResponse.setRenderParameter(STR_FAIL, STR_DUPLICAT_TOPIC);
+            }
         }
     }
 
@@ -472,7 +460,7 @@ public class CommunitiesController {
 //set view for edit
         model.setViewName("editCommunity");
 //send current news in view
-        model.addObject("organisation", organisation);
+        model.addObject("organization", organisation);
         model.addObject(MAIN_IMAGE, mainImageUrl);
         model.addObject("additionalImages", additionalImages);
         return model;
