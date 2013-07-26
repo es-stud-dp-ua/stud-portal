@@ -20,8 +20,8 @@ import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import ua.dp.stud.StudPortalLib.model.ImageImpl;
-import ua.dp.stud.StudPortalLib.model.Studie;
-import ua.dp.stud.StudPortalLib.service.StudieService;
+import ua.dp.stud.studie.model.Studie;
+import ua.dp.stud.studie.service.StudieService;
 import ua.dp.stud.StudPortalLib.util.ImageService;
 
 import javax.portlet.ActionRequest;

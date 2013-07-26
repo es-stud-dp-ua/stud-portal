@@ -3,9 +3,9 @@
         "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
     <session-factory>
-        <mapping class="ua.dp.stud.StudPortalLib.model.Studie"/>
-        <mapping class="ua.dp.stud.StudPortalLib.model.Faculties"/>
-        <mapping class="ua.dp.stud.StudPortalLib.model.Specialties"/>
+        <mapping class="ua.dp.stud.studie.model.Studie"/>
+        <mapping class="ua.dp.stud.studie.model.Faculties"/>
+        <mapping class="ua.dp.stud.studie.model.Specialties"/>
         <mapping class="ua.dp.stud.StudPortalLib.model.BaseImagesSupport"/>
         <mapping class="ua.dp.stud.StudPortalLib.model.ImageImpl"/>
     </session-factory>

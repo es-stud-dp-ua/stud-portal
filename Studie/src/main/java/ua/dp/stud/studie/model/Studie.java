@@ -2,11 +2,11 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package ua.dp.stud.StudPortalLib.model;
+package ua.dp.stud.studie.model;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
-
+import ua.dp.stud.StudPortalLib.model.BaseImagesSupport;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;

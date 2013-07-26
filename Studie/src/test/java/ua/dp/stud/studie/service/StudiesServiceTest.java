@@ -1,8 +1,8 @@
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
- */
-package ua.dp.stud.StudPortalLib.service;
+
+package ua.dp.stud.studie.service;
 
 import java.util.ArrayList;
 
@@ -10,9 +10,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
-import ua.dp.stud.StudPortalLib.dao.StudieDao;
-import ua.dp.stud.StudPortalLib.model.Studie;
-import ua.dp.stud.StudPortalLib.service.impl.StudieServiceImpl;
+import ua.dp.stud.studie.dao.StudieDao;
+import ua.dp.stud.studie.model.Studie;
+import ua.dp.stud.studie.service.impl.StudieServiceImpl;
 import ua.dp.stud.StudPortalLib.model.ImageImpl;
 
 import java.util.Arrays;
@@ -21,11 +21,13 @@ import java.util.LinkedList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.*;
+import ua.dp.stud.studie.service.StudieService;
+import ua.dp.stud.studie.service.impl.StudieServiceImpl;
 
 
 /**
  * @author Ольга
- */
+
 @RunWith(MockitoJUnitRunner.class)
 public class StudiesServiceTest {
 
@@ -96,3 +98,4 @@ public class StudiesServiceTest {
     }
 
 }
+ */

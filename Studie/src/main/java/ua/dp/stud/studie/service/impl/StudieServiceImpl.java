@@ -2,14 +2,14 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package ua.dp.stud.StudPortalLib.service.impl;
+package ua.dp.stud.studie.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ua.dp.stud.StudPortalLib.dao.StudieDao;
-import ua.dp.stud.StudPortalLib.model.Studie;
-import ua.dp.stud.StudPortalLib.service.StudieService;
+import ua.dp.stud.studie.dao.StudieDao;
+import ua.dp.stud.studie.model.Studie;
+import ua.dp.stud.studie.service.StudieService;
 
 import java.util.*;
 

@@ -2,18 +2,19 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package ua.dp.stud.StudPortalLib.dao.impl;
+package ua.dp.stud.studie.dao.impl;
 
 
 import org.hibernate.Hibernate;
 import org.springframework.stereotype.Repository;
-import ua.dp.stud.StudPortalLib.dao.StudieDao;
+import ua.dp.stud.studie.dao.StudieDao;
+import ua.dp.stud.StudPortalLib.dao.impl.BaseDao;
 import ua.dp.stud.StudPortalLib.model.ImageImpl;
-import ua.dp.stud.StudPortalLib.model.Studie;
+import ua.dp.stud.studie.model.Studie;
 
 import java.util.Collection;
 import java.util.List;
-import ua.dp.stud.StudPortalLib.model.Faculties;
+import ua.dp.stud.studie.model.Faculties;
 
 /**
  * @author Ольга

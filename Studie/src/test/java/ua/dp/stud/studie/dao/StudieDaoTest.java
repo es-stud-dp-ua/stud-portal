@@ -1,8 +1,8 @@
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
- */
-package ua.dp.stud.StudPortalLib.dao.impl;
+
+package ua.dp.stud.studie.dao;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -13,19 +13,20 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
-import ua.dp.stud.StudPortalLib.dao.StudieDao;
-import ua.dp.stud.StudPortalLib.model.Studie;
+
 
 import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import ua.dp.stud.StudPortalLib.model.Faculties;
+import ua.dp.stud.studie.model.Faculties;
+import ua.dp.stud.studie.model.Studie;
 
 /**
  * @author Ольга
- */
+
+
 @ContextConfiguration(locations = {"classpath:/DaoTestContext.xml"})
 @TransactionConfiguration(defaultRollback = true)
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -98,3 +99,4 @@ public class StudieDaoTest extends AbstractTransactionalJUnit4SpringContextTests
         assertEquals(f, f2);
     }
 }
+*/

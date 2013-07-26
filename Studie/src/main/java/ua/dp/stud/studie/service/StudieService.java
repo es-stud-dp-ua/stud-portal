@@ -2,13 +2,13 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package ua.dp.stud.StudPortalLib.service;
+package ua.dp.stud.studie.service;
 
 
 import java.util.Collection;
 
 import ua.dp.stud.StudPortalLib.model.ImageImpl;
-import ua.dp.stud.StudPortalLib.model.Studie;
+import ua.dp.stud.studie.model.Studie;
 
 /**
  * @author Ольга

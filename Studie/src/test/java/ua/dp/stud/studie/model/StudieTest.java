@@ -1,8 +1,8 @@
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
- */
-package ua.dp.stud.StudPortalLib.model;
+
+package ua.dp.stud.studie.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +14,7 @@ import org.junit.Test;
 
 /**
  * @author Ольга
- */
+
 public class StudieTest {
     public StudieTest() {
     }
@@ -83,4 +83,4 @@ public class StudieTest {
         assertEquals(f, f2);
     }
 
-}
+} */

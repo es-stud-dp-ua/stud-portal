@@ -1,5 +1,6 @@
-package ua.dp.stud.StudPortalLib.model;
+package ua.dp.stud.studie.model;
 
+//import ua.dp.stud.studie.model.Faculties;
 import javax.persistence.*;
 import java.io.Serializable;
 
