@@ -1,19 +1,10 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="ua.dp.stud.StudPortalLib.model.Category" %>
-<%@ page import="ua.dp.stud.StudPortalLib.model.ImageImpl" %>
-<%@ page import="ua.dp.stud.StudPortalLib.model.Studie" %>
 <%@ page import="java.util.Collection" %>
 <%@ page import="java.util.Locale" %>
+<%@ page import="ua.dp.stud.StudPortalLib.model.ImageImpl" %>
 <%@ page import="java.util.ResourceBundle" %>
-<%@ page import="com.liferay.portal.theme.ThemeDisplay" %>
-<%@ page import="com.liferay.portal.kernel.util.WebKeys" %>
-<%@ page import="com.liferay.portal.kernel.servlet.ImageServletTokenUtil" %>
-<%@ taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<script type="text/javascript" src="js/jquery-1.5.2.min.js"></script>
-<script type="text/javascript" src="js/jquery.validate.min.js"></script>
-<script type="text/javascript" src="js/myscripts.js"></script>
+<%@ taglib uri="http://liferay.com/tld/aui" prefix="aui" %>
+<%@ taglib prefix="liferay-ui" uri="http://liferay.com/tld/ui" %>
 <%@include file="include.jsp" %>
 
 <%
@@ -22,17 +13,42 @@
     String country = locale.getCountry();
     ResourceBundle res = ResourceBundle.getBundle("messages", new Locale(language, country));
     Collection<ImageImpl> additionalImages = (Collection<ImageImpl>) request.getAttribute("additionalImages");
-    Studie studie = (Studie) request.getAttribute("studie");
 %>
 <portlet:defineObjects/>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-
 </head>
 <body>
 <script type="text/javascript">
+	function handleFileSelect(evt) {
+		var files = evt.target.files; // FileList object
 
+		// Loop through the FileList and render image files as thumbnails.
+		var f = files[files.length - 1];
+
+		// Only process im11age files.
+		document.getElementById('list').innerHTML = '';
+		var reader = new FileReader();
+
+		// Closure to capture the file information.
+		reader.onload = (function (theFile) {
+			return function (e) {
+				// Render thumbnail.
+				var span = document.createElement('span');
+				span.innerHTML = ['<img class="thumb" src="', e.target.result,
+					'" title="', escape(theFile.name), '"/>'].join('');
+				document.getElementById('list').insertBefore(span, null);
+			};
+		})(f);
+		document.getElementById('img').parentNode.removeChild(document.getElementById('img'));
+		// Read in the image file as a data URL.
+		reader.readAsDataURL(f);
+
+	}
+	$(document).ready(function () {
+	document.getElementById('mainImage').addEventListener('change', handleFileSelect, false);
+	});
     function isNotMax(e) {
         e = e || window.event;
         var target = e.target || e.srcElement;
@@ -71,23 +87,31 @@
         txt.style.cssText = 'float: left;';
         document.getElementById('facultetZ').appendChild(txt);
     }
+	function a() {
+                jQuery('#cropbox').Jcrop({onChange: setCoords, onSelect: setCoords, bgColor: 'black',
+                    bgOpacity: .4,
+                    setSelect: [100, 0, 253, 353],
+                    aspectRatio: 1});
+            }
+	function setCoords(c) {
+		jQuery('#x1').val(c.x);
+		jQuery('#y1').val(c.y);
+		jQuery('#x2').val(c.x2);
+		jQuery('#y2').val(c.y2);
+		jQuery('#w').val(c.w);
+		jQuery('#h').val(c.h);
+	}
 
 </script>
 
 <portlet:renderURL var="home"> </portlet:renderURL>
 
 <portlet:actionURL var="actionLink" name="editStudie"></portlet:actionURL>
-<div style="margin-right: 16px; float: right">
-    <a href="${home}"><spring:message code="form.back"/></a>
-</div>
-    <% if (request.isUserInRole("Administrator")) { %>
-<div style="margin-right: 16px; float: right">
-    <a style="float: right" href="<portlet:renderURL/>&studieId=<%=studie.getId()%>&mode=delete"
-       onclick='return confirm("<spring:message code="form.confDelete"/>")'>
-        <spring:message code="form.delete"/>
+<div class="portlet-content-controlpanel fs20">
+    <a href="${home}">
+        <div class="panelbtn panelbtn-right fs20 icon-pcparrow-left" aria-hidden="true"></div>
     </a>
 </div>
-    <%}%>
 
 <liferay-ui:error key="no-images" message='<%=res.getString("msg.noImages")%>'/>
 <liferay-ui:error key="dplTopic" message='<%=res.getString("msg.dplTopic")%>'/>
@@ -95,157 +119,214 @@
     ${exception}
 </c:if>
 
-<div width="100%" align="center">
-    <form method="POST" action="${actionLink}" enctype="multipart/form-data">
-        <script type="text/javascript">
-            function a() {
-                jQuery('#cropbox').Jcrop({onChange: setCoords, onSelect: setCoords, bgColor: 'black',
-                    bgOpacity: .4,
-                    setSelect: [100, 0, 253, 353],
-                    aspectRatio: 1});
-            }
-            function setCoords(c) {
-                jQuery('#x1').val(c.x);
-                jQuery('#y1').val(c.y);
-                jQuery('#x2').val(c.x2);
-                jQuery('#y2').val(c.y2);
-                jQuery('#w').val(c.w);
-                jQuery('#h').val(c.h);
-            }
-
-        </script>
-        <input type="hidden" size="0" id="x1" name="t"/>
+<div width="100%">
+	<form:form method="POST" commandName="study" action="${actionLink}" enctype="multipart/form-data">
+        <form:errors path="*" cssClass="errorblock" element="div" />
+		<form:input type="hidden" path="id"/>
+		<input type="hidden" size="0" id="x1" name="t"/>
         <input type="hidden" size="0" id="y1" name="l"/>
         <input type="hidden" size="0" id="w" name="w"/>
         <input type="hidden" size="0" id="h" name="h"/>
-        <table width="100%" margin-bottom="15px">
-            <input type="hidden" name="studieId" value="<%=studie.getId()%>">
+		<div style="width: 460px; float: right;">
+			 <form:textarea path="title" id="topicInput" cols="90" rows="2" maxlength="80" onkeyup="isNotMax(event, getAttribute('id'))"></form:textarea>
+			 <form:errors path="title" cssClass="error"/>
+			 <br/>
 
-            <table width="100%" margin-bottom="15px">
-                <tr align="top">
-                    <td width="50%" align="center" style="vertical-align: top;">
-                        <div id="lup">
-                        </div>
-                        <% if (studie.getMainImage() == null) { %>
-                        <div id="mainPic" style="vertical-align: top; z-index: 2;"
-                             style="background: url(${pageContext.request.contextPath}/images/mainpic_443x253.png) no-repeat">
-                            <!-- Output for our douwnload Image-->
-                            <input type="file" id="mainImage" name="mainImage"/>
-                            <output id="list"></output>
-                        </div>
-                        <% } else { %>
-
-                        <div id="mainPic" style="vertical-align: top; z-index: 2;">
-                            <img id="img" style="vertical-align: top; z-index: 1;" src="${mainImage}"/>
-                            <!-- Output for our douwnload Image-->
-                            <input type="file" id="mainImage" name="mainImage"/>
-                            <output id="list"></output>
-                        </div>
-                        <% } %>
-
-                        <div id="rdn">
-                        </div>
-                        <script>
-                            function handleFileSelect(evt) {
-                                var files = evt.target.files; // FileList object
-
-                                // Loop through the FileList and render image files as thumbnails.
-                                var f = files[files.length - 1];
-
-                                // Only process im11age files.
-                                document.getElementById('list').innerHTML = '';
-                                var reader = new FileReader();
-
-                                // Closure to capture the file information.
-                                reader.onload = (function (theFile) {
-                                    return function (e) {
-                                        // Render thumbnail.
-                                        var span = document.createElement('span');
-                                        span.innerHTML = ['<img class="thumb" src="', e.target.result,
-                                            '" title="', escape(theFile.name), '"/>'].join('');
-                                        document.getElementById('list').insertBefore(span, null);
-                                    };
-                                })(f);
-                                document.getElementById('img').parentNode.removeChild(document.getElementById('img'));
-                                // Read in the image file as a data URL.
-                                reader.readAsDataURL(f);
-
-                            }
-                            document.getElementById('mainImage').addEventListener('change', handleFileSelect, false);
-                        </script>
-                        <br/>
-
-                        <div id="imageLoader">
-                            <div id="imgloaderBtn">
-                                <input name="images" type="file" id="aui_3_2_0_11607"
-                                       accept="image/jpeg,image/png,image/gif"/ multiple>
-                                <div id="nt"><spring:message code="form.addPictures"/></div>
-                            </div>
-                        </div>
-                        <br/><br/>
-
-                        <div id="facultetD" style="float: left;">
-                            <label style="font-size:16px; font-weight: bold;"><spring:message
-                                    code="form.dnevn"/></label> <br/>
-                            <c:forEach items="${facultetDnevn}" var="fd">
-                                <textarea id="facultetInput" cols="60" rows="1" maxlength="1000" name="facultetDnevn"
-                                          style="float: left; margin-top: 15px;">${fd}</textarea>
-
-                            </c:forEach>
-                            <input type="button" id="plus1" name="plus1" value="+" onclick="Add()"
-                                   style="float: right; margin-top: 18px; margin-left: 3px; "/>
-                        </div>
-                        <br/> <br/>
-
-                        <div style="float: left;">
-                            <br/> <br/>
-                            <label style="font-size:16px; font-weight: bold;"><spring:message
-                                    code="form.adress"/></label> <br/>
-                            <textarea id="adressInput" cols="60" rows="1" maxlength="100" name="adress"
-                                      style="float: left; margin-top: 15px;">${adress}</textarea><br/><br/>
-                        </div>
-
-                    </td>
-                    <td rowspan=2 width="50%">
-                        <textarea id="topicInput" cols="90" rows="2" maxlength="80" onkeypress="return isNotMax(event)"
-                                  name="topic">${studie.title}
-                        </textarea><br/>
-
-                        <div style="width: 450px; float: bottom ;padding-left: 8px;">
-                            <textarea class="ckeditor" id="textInput" cols="60" rows="10" maxlength="8000"
-                                      onkeypress="return isNotMax(event)" name="text">${studie.text}
-                            </textarea><br/><br/>
-                        </div>
-                        <div id="facultetZ" style="float: left;">
-                            <label style="font-size:16px; font-weight: bold;"><spring:message
-                                    code="form.zaoch"/></label> <br/>
-                            <c:forEach items="${facultetZaoch}" var="fz">
-                                <textarea id="facultetInput" cols="60" rows="1" maxlength="1000" name="facultetZaoch"
-                                          style="float: left; margin-top: 15px;">${fz}</textarea>
-
-                            </c:forEach>
-                            <input type="button" id="plus2" name="plus1" value="+" onclick="Add2()"
-                                   style="float: right; margin-top: 18px; margin-left: 3px; "/>
-                        </div>
-                        <br/> <br/>
-
-                        <div id="sbm">
-                            <br/><br/>
-                            <input style="vertical-align: central; margin-top: 15px;" type="submit" value="<spring:message
-                                             code='<%=(request.isUserInRole("Administrator"))?"form.submit.save"
+			<div style="width: 450px; padding-left: 8px;">
+				<div><label><spring:message code="studie.text"/></label></div>
+				<form:errors path="text" cssClass="error"/>
+				<form:textarea path="text" class="ckeditor" id="textInput" cols="60" rows="10" maxlength="8000" onkeyup="isNotMax(event, getAttribute('id'))"></form:textarea>
+			</div>
+			<br/>
+			<div style="width: 450px; padding-left: 8px;">
+				<div><label><spring:message code="studie.enrollees"/></label></div>
+				<form:errors path="enrollees" cssClass="error"/>
+				<form:textarea path="enrollees" class="ckeditor" id="textInput" cols="60" rows="10" maxlength="8000" onkeyup="isNotMax(event, getAttribute('id'))"></form:textarea>
+			</div>
+		</div>
+		<div style="width: 460px;">
+			<div style="height: 300px;">
+				<div id="lup"></div>
+				<div id="mainPic"
+					 style="background: url(${pageContext.request.contextPath}/images/mainpic_443x253.png) no-repeat">
+					<!-- Output for our douwnload Image-->
+					<output id="list"></output>
+				</div>
+				<div id="rdn"></div>
+			</div>
+			<div id="mainImageLoader">
+				<div id="mainImgloaderBtn">
+					<input name="mainImage" type="file" id="mainImage" accept="image/jpeg,image/png,image/gif"/>
+					<div id="nt"><spring:message code="form.addPicture"/></div>
+				</div>
+			</div>
+			<div id="imageLoader">
+				<div id="imgloaderBtn">
+					<input name="images" type="file" id="aui_3_2_0_11607"
+						   accept="image/jpeg,image/png,image/gif"/ multiple>
+					<div id="nt"><spring:message code="form.addPictures"/></div>
+				</div>
+			</div>
+			<br/>
+			<div style="width: 230px; float: right;">
+				<div class="textBox">
+					<div><label cssClass="control-group" for="freeTrainig"><spring:message code="studie.FreeTrainig"/></label>
+					</div>
+					<form:checkbox path="freeTrainig" />
+					<form:errors path="freeTrainig" cssClass="error"/>
+				</div>
+				<div class="textBox">
+					<div><label cssClass="control-group" for="paidTrainig"><spring:message code="studie.PaidTrainig"/></label>
+					</div>
+					<form:checkbox path="paidTrainig" />
+					<form:errors path="paidTrainig" cssClass="error"/>
+				</div>
+				<div class="textBox">
+					<div><label cssClass="control-group" for="militaryDepartment"><spring:message code="studie.MilitaryDepartment"/></label>
+					</div>
+					<form:checkbox path="militaryDepartment" />
+					<form:errors path="militaryDepartment" cssClass="error"/>
+				</div>
+				<div class="textBox">
+					<div><label cssClass="control-group" for="hostel"><spring:message code="studie.Hostel"/></label>
+					</div>
+					<form:checkbox path="hostel" />
+					<form:errors path="hostel" cssClass="error"/>
+				</div>
+				<div class="textBox">
+					<div><label cssClass="control-group" for="postgraduateEducation"><spring:message code="studie.PostgraduateEducation"/></label>
+					</div>
+					<form:checkbox path="postgraduateEducation" />
+					<form:errors path="postgraduateEducation" cssClass="error"/>
+				</div>
+				<div class="textBox">
+					<div><label cssClass="control-group" for="postgraduateAndDoctoralStudies"><spring:message code="studie.PostgraduateAndDoctoralStudies"/></label>
+					</div>
+					<form:checkbox path="postgraduateAndDoctoralStudies" />
+					<form:errors path="postgraduateAndDoctoralStudies" cssClass="error"/>
+				</div>
+				<div class="textBox">
+					<div><label cssClass="control-group" for="preparatoryDepartment"><spring:message code="studie.PreparatoryDepartment"/></label>
+					</div>
+					<form:checkbox path="preparatoryDepartment" />
+					<form:errors path="preparatoryDepartment" cssClass="error"/>
+				</div>
+				<div class="textBox">
+					<div><label cssClass="control-group" for="countOfStudents"><spring:message code="studie.CountOfStudents"/></label>
+					</div>
+					<form:input path="countOfStudents" name="countOfStudents"/>
+					<form:errors path="countOfStudents" cssClass="error"/>
+				</div>
+				<div class="textBox">
+					<div><label cssClass="control-group" for="countOfTeachers"><spring:message code="studie.CountOfTeachers"/></label>
+					</div>
+					<form:input path="countOfTeachers" name="countOfTeachers"/>
+					<form:errors path="countOfTeachers" cssClass="error"/>
+				</div>
+				<div class="textBox">
+					<div><label cssClass="control-group" for="countOfCandidates"><spring:message code="studie.CountOfCandidates"/></label>
+					</div>
+					<form:input path="countOfCandidates" name="countOfCandidates"/>
+					<form:errors path="countOfCandidates" cssClass="error"/>
+				</div>
+				<div class="textBox">
+					<div><label cssClass="control-group" for="countOfProfessors"><spring:message code="studie.CountOfProfessors"/></label>
+					</div>
+					<form:input path="countOfProfessors" name="countOfProfessors"/>
+					<form:errors path="countOfProfessors" cssClass="error"/>
+				</div>
+			</div>
+			<div><div style="width: 230px;">
+				<div class="textBox">
+					<div><label cssClass="control-group" for="city"><spring:message code="studie.city"/></label>
+					</div>
+					<form:input path="city" name="city"/>
+					<form:errors path="city" cssClass="error"/>
+				</div>
+				<div class="textBox">
+					<div><label cssClass="control-group" for="years"><spring:message code="studie.years"/></label>
+					</div>
+					<form:select path="years">
+					   <form:option value="NONE" label="--- Select ---" />
+					   <form:options items="${yearsList}" />
+					</form:select>
+					<form:errors path="years" cssClass="error"/>
+				</div>
+				<div class="textBox">
+					<div><label cssClass="control-group" for="status"><spring:message code="studie.status"/></label>
+					</div>
+					<form:select path="status">
+					   <form:option value="NONE" label="--- Select ---" />
+					   <form:options items="${statusList}" />
+					</form:select>
+					<form:errors path="status" cssClass="error"/>
+				</div>
+				<div class="textBox">
+					<div><label cssClass="control-group" for="accreditacion"><spring:message code="studie.accreditacion"/></label>
+					</div>
+					<form:select path="accreditacion">
+					   <form:option value="NONE" label="--- Select ---" />
+					   <form:options items="${lvlAccredList}" />
+					</form:select>
+					<form:errors path="accreditacion" cssClass="error"/>
+				</div>
+				<div class="textBox">
+					<div><label cssClass="control-group" for="onGraduation"><spring:message code="studie.onGraduation"/></label>
+					</div>
+					<form:select path="onGraduation">
+					   <form:option value="NONE" label="--- Select ---" />
+					   <form:options items="${docList}" />
+					</form:select>
+					<form:errors path="onGraduation" cssClass="error"/>
+				</div>
+				<div class="textBox">
+					<div><label cssClass="control-group" for="formOfTraining"><spring:message code="studie.FormOfTraining"/></label>
+					</div>
+					<form:select path="formOfTraining" items="${trainigFormsList}"
+						multiple="true" />
+					<form:errors path="formOfTraining" cssClass="error"/>
+				</div>
+				<div class="textBox">
+					<div><label cssClass="control-group" for="qualificationLevel"><spring:message code="studie.QualificationLevel"/></label>
+					</div>
+					<form:select path="qualificationLevel" items="${lvlQualifList}"
+						multiple="true" />
+					<form:errors path="qualificationLevel" cssClass="error"/>
+				</div>
+				<div class="textBox">
+					<div><label cssClass="control-group" for="adress"><spring:message code="studie.Adress"/></label>
+					</div>
+					<form:input path="adress" name="adress"/>
+					<form:errors path="adress" cssClass="error"/>
+				</div>
+				<div class="textBox">
+					<div><label cssClass="control-group" for="phone"><spring:message code="studie.Phone"/></label>
+					</div>
+					<form:input path="phone" name="phone"/>
+					<form:errors path="phone" cssClass="error"/>
+				</div>
+				<div class="textBox">
+					<div><label cssClass="control-group" for="phoneAdmissions"><spring:message code="studie.PhoneAdmissions"/></label>
+					</div>
+					<form:input path="phoneAdmissions" name="phoneAdmissions"/>
+					<form:errors path="phoneAdmissions" cssClass="error"/>
+				</div>
+				<div class="textBox">
+					<div><label cssClass="control-group" for="website"><spring:message code="studie.Website"/></label>
+					</div>
+					<form:input path="website" name="website"/>
+					<form:errors path="website" cssClass="error"/>
+				</div>
+			</div>
+			
+			</div>
+			<div>
+			</div>
+		</div>
+        <input type="submit" style="vertical-align: central; margin-top: 15px; " value="<spring:message
+                                   code='<%=(request.isUserInRole("Administrator"))?"form.submit.admin"
                                                                                              :"form.submit.user"%>'/>"/>
-                        </div>
-                        <br/><br/>
-                    </td>
-                </tr>
-
-
-            </table>
-    </form>
+    </form:form>
 </div>
-
-
-</script>
-<
-/body>
-< /html>
+</body>
+</html>

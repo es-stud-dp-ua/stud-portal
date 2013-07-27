@@ -1,13 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="ua.dp.stud.StudPortalLib.model.Studie" %>
-<%@ page import="ua.dp.stud.StudPortalLib.model.Specialties" %>
-<%@ page import="ua.dp.stud.StudPortalLib.model.Faculties" %>
-<%@ page import="ua.dp.stud.StudPortalLib.service.StudieService" %>
-<%@ page import="ua.dp.stud.StudPortalLib.service.impl.StudieServiceImpl" %>
-<%@ page import="com.liferay.portal.kernel.language.LanguageUtil" %>
-<%@ page import="com.liferay.portal.theme.ThemeDisplay" %>
-<%@ page import="com.liferay.portal.kernel.util.WebKeys" %>
-<%@ page import="com.liferay.portal.theme.PortletDisplay" %>
+<%@ page import="ua.dp.stud.studie.model.Studie" %>
+<%@ page import="ua.dp.stud.studie.model.Specialties" %>
+<%@ page import="ua.dp.stud.studie.model.Faculties" %>
 <%@ page import="com.liferay.portal.model.Layout" %>
 <%@ page import="java.util.Collection" %>
 <%@ page import="ua.dp.stud.StudPortalLib.model.ImageImpl" %>

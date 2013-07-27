@@ -23,6 +23,8 @@ public interface StudieDao {
 
     Studie updateStudie(Studie studie);
 
+    void saveOrUpdate(Studie studie);
+
     Collection<Studie> getAllStudies();
 
     void deleteStudie(Integer id);

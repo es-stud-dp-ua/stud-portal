@@ -43,6 +43,11 @@ public class StudieDaoImpl extends BaseDao implements StudieDao {
     }
 
     @Override
+    public void saveOrUpdate(Studie studie) {
+        getSession().saveOrUpdate(studie);
+    }
+
+    @Override
     public Collection<Studie> getAllStudies() {
         return (Collection<Studie>) getSession().createQuery("From Studie studie  ORDER BY studie.id desc").list();
     }

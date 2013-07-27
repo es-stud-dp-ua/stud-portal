@@ -19,6 +19,8 @@ public interface StudieService {
 
     Studie getStudieById(Integer id);
 
+    void saveOrUpdate(Studie studie);
+
     Studie updateStudie(Studie studie);
 
     Collection<Studie> getAllStudies();

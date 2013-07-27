@@ -29,6 +29,10 @@ public class StudieServiceImpl implements StudieService {
         this.dao = dao;
     }
 
+    public void saveOrUpdate(Studie studie) {
+        dao.saveOrUpdate(studie);
+    }
+
     @Override
     public Studie addStudie(Studie studie) {
         dao.addStudie(studie);

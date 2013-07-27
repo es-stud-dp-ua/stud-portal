@@ -24,76 +24,74 @@
 <body>
 
 <script language="javascript" type="text/javascript">
+    function a() {
+        jQuery('#cropbox').Jcrop({onChange: setCoords, onSelect: setCoords, bgColor: 'black',
+            bgOpacity: .4,
+            setSelect: [100, 0, 253, 353],
+            aspectRatio: 1});
+    }
+    function setCoords(c) {
+        jQuery('#x1').val(c.x);
+        jQuery('#y1').val(c.y);
+        jQuery('#x2').val(c.x2);
+        jQuery('#y2').val(c.y2);
+        jQuery('#w').val(c.w);
+        jQuery('#h').val(c.h);
+    }
+    function Add() {
+        var txt = document.createElement('textarea');
+        txt.setAttribute("name", "facultetDnevn");
+        txt.setAttribute("cols", "60");
+        txt.setAttribute("rows", "1");
+        txt.setAttribute("id", "facultetInput");
+        txt.setAttribute("maxlength", "90");
+        txt.style.cssText = 'float: left;';
+        document.getElementById('facultetD').appendChild(txt);
+    }
+    function Add2() {
+        var txt = document.createElement('textarea');
+        txt.setAttribute("name", "facultetZaoch");
+        txt.setAttribute("cols", "60");
+        txt.setAttribute("rows", "1");
+        txt.setAttribute("id", "facultetInput");
+        txt.setAttribute("maxlength", "90");
+        txt.style.cssText = 'float: left;';
+        document.getElementById('facultetZ').appendChild(txt);
+    }
+    function handleFileSelect(evt) {
+        var files = evt.target.files; // FileList object
+
+        // Loop through the FileList and render image files as thumbnails.
+        var f = files[files.length - 1];
+
+        // Only process im11age files.
+        document.getElementById('list').innerHTML = '';
+        var reader = new FileReader();
+        // Closure to capture the file information.
+        reader.onload = (function (theFile) {
+            return function (e) {
+                // Render thumbnail.
+                var span = document.createElement('span');
+                span.innerHTML = ['<img id="cropbox" class="thumb" src="', e.target.result,
+                    '" title="', escape(theFile.name), '"/>'].join('');
+                document.getElementById('list').insertBefore(span, null);
+                a();
+            };
+            a();
+        })(f);
+        // Read in the image file as a data URL.
+        reader.readAsDataURL(f);
+        a();
+    }
     $(document).ready(function () {
         $.Placeholder.init({color: "#aaa"});
-		
-		function handleFileSelect(evt) {
-			var files = evt.target.files; // FileList object
-
-			// Loop through the FileList and render image files as thumbnails.
-			var f = files[files.length - 1];
-
-			// Only process im11age files.
-			document.getElementById('list').innerHTML = '';
-			var reader = new FileReader();
-			// Closure to capture the file information.
-			reader.onload = (function (theFile) {
-				return function (e) {
-					// Render thumbnail.
-					var span = document.createElement('span');
-					span.innerHTML = ['<img id="cropbox" class="thumb" src="', e.target.result,
-						'" title="', escape(theFile.name), '"/>'].join('');
-					document.getElementById('list').insertBefore(span, null);
-					a();
-				};
-				a();
-			})(f);
-			// Read in the image file as a data URL.
-			reader.readAsDataURL(f);
-			a();
-		}
-
 		document.getElementById('mainImage').addEventListener('change', handleFileSelect, false);
-		function Add() {
-			var txt = document.createElement('textarea');
-			txt.setAttribute("name", "facultetDnevn");
-			txt.setAttribute("cols", "60");
-			txt.setAttribute("rows", "1");
-			txt.setAttribute("id", "facultetInput");
-			txt.setAttribute("maxlength", "90");
-			txt.style.cssText = 'float: left;';
-			document.getElementById('facultetD').appendChild(txt);
-		}
-		function Add2() {
-			var txt = document.createElement('textarea');
-			txt.setAttribute("name", "facultetZaoch");
-			txt.setAttribute("cols", "60");
-			txt.setAttribute("rows", "1");
-			txt.setAttribute("id", "facultetInput");
-			txt.setAttribute("maxlength", "90");
-			txt.style.cssText = 'float: left;';
-			document.getElementById('facultetZ').appendChild(txt);
-		}
     });
 
     function isNotMax(e, id) {
         var validateValueTextArea = document.getElementById(id);
         validateValueTextArea.value = validateValueTextArea.value.substr(0, validateValueTextArea.getAttribute('maxlength'));
     }
-	function a() {
-		jQuery('#cropbox').Jcrop({onChange: setCoords, onSelect: setCoords, bgColor: 'black',
-			bgOpacity: .4,
-			setSelect: [100, 0, 253, 353],
-			aspectRatio: 1});
-	}
-	function setCoords(c) {
-		jQuery('#x1').val(c.x);
-		jQuery('#y1').val(c.y);
-		jQuery('#x2').val(c.x2);
-		jQuery('#y2').val(c.y2);
-		jQuery('#w').val(c.w);
-		jQuery('#h').val(c.h);
-	}
 </script>
 
 <portlet:renderURL var="home"> </portlet:renderURL>
@@ -307,25 +305,10 @@
 					<form:errors path="website" cssClass="error"/>
 				</div>
 			</div>
-				<div class="textBox">
-					<div><label cssClass="control-group" for="website"><spring:message code="studie.Website"/></label>
-					</div>
-					<spring:bind path = "study.faculties[0].nameOfFaculties">
-						<form:input name = "nameOfFaculties" path="nameOfFaculties"/>
-						<form:errors path="nameOfFaculties" cssClass="error"/>
-						<div class="textBox">
-							<div><label cssClass="control-group" for="website"><spring:message code="studie.Website"/></label>
-							</div>
-							<spring:bind path = "special[0].nameOfSpecialties">
-								<form:input path="nameOfSpecialties" name="nameOfSpecialties"/>
-								<form:errors path="nameOfSpecialties" cssClass="error"/>
-							</spring:bind>
-						</div>
-					</spring:bind>
-				</div>
+			
 			</div>
 			<div>
-			<div>
+			</div>
 		</div>
         <input type="submit" style="vertical-align: central; margin-top: 15px; " value="<spring:message
                                    code='<%=(request.isUserInRole("Administrator"))?"form.submit.admin"

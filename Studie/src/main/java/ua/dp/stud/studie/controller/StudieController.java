@@ -5,8 +5,6 @@ package ua.dp.stud.studie.controller;
  * @author Olga Ryzol
  */
 
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.servlet.SessionMessages;
 import org.joda.time.DateTime;
@@ -27,17 +25,15 @@ import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import ua.dp.stud.StudPortalLib.model.ImageImpl;
+import ua.dp.stud.StudPortalLib.util.ImageService;
 import ua.dp.stud.studie.model.Studie;
 import ua.dp.stud.studie.service.StudieService;
-import ua.dp.stud.StudPortalLib.util.ImageService;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.validation.Valid;
-import java.io.IOException;
-import java.io.StringWriter;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -159,20 +155,13 @@ public class StudieController {
     }
 
     private Boolean UpdateStudy(Studie newStudie, CommonsMultipartFile mainImage, CommonsMultipartFile[] images,
-                                ActionResponse actionResponse)
-    {
+                                ActionResponse actionResponse) {
         boolean successUpload = true;
         try {
             if (mainImage.getSize() > 0) {
-                try {
-                    imageService.saveMainImage(mainImage, newStudie);
-                } catch (Exception ex) {
-                    LOG.log(Level.SEVERE, STR_EXEPT, ex);
-                    successUpload = false;
-                }
+                imageService.saveMainImage(mainImage, newStudie);
             }
             if (images != null && images.length > 0) {
-
                 for (CommonsMultipartFile file : images) {
                     imageService.saveAdditionalImages(file, newStudie);
                 }
@@ -188,26 +177,20 @@ public class StudieController {
     @ActionMapping(value = "addStudie")
     public void addStudie(@ModelAttribute("study") @Valid Studie studie,
                           BindingResult bindingResult,
-						  ActionRequest actionRequest,
+                          ActionRequest actionRequest,
                           ActionResponse actionResponse,
                           SessionStatus sessionStatus,
                           @RequestParam("mainImage") CommonsMultipartFile mainImage,
                           @RequestParam("images") CommonsMultipartFile[] images) {
-        if (studie.getFaculties().size() > 0) {
-            System.out.println(studie.getFaculties().get(0).getNameOfFaculties());
-            if (studie.getFaculties().get(0).getSpecialties().size() > 0) {
-                System.out.println(studie.getFaculties().get(0).getSpecialties().get(0).getNameOfSpecialties());
-            }
-        }
         if (bindingResult.hasErrors()) {
             for (Object object : bindingResult.getAllErrors()) {
-                if(object instanceof FieldError) {
+                if (object instanceof FieldError) {
                     FieldError fieldError = (FieldError) object;
 
                     System.out.println(fieldError.toString());
                 }
 
-                if(object instanceof ObjectError) {
+                if (object instanceof ObjectError) {
                     ObjectError objectError = (ObjectError) object;
 
                     System.out.println(objectError.toString());
@@ -239,6 +222,51 @@ public class StudieController {
                            SessionStatus sessionStatus,
                            @RequestParam("mainImage") CommonsMultipartFile mainImage,
                            @RequestParam("images") CommonsMultipartFile[] images) {
+        if (bindingResult.hasErrors()) {
+            for (Object object : bindingResult.getAllErrors()) {
+                if (object instanceof FieldError) {
+                    FieldError fieldError = (FieldError) object;
+
+                    System.out.println(fieldError.toString());
+                }
+
+                if (object instanceof ObjectError) {
+                    ObjectError objectError = (ObjectError) object;
+
+                    System.out.println(objectError.toString());
+                }
+            }
+            actionResponse.setRenderParameter(STR_FAIL, "msg.fail");
+            return;
+        }
+        System.out.println(studie.getId());
+        /*Studie oldStudy = service.getStudieById(studie.getId());
+        oldStudy.setAccreditacion();
+        oldStudy.setAdress();
+        oldStudy.setCity();
+        oldStudy.setCountOfCandidates();
+        oldStudy.setCountOfProfessors();
+        oldStudy.setCountOfStudents();
+        oldStudy.setCountOfTeachers();
+        oldStudy.setEnrollees();
+        oldStudy.setFormOfTraining();
+        oldStudy.setFreeTrainig();
+        oldStudy.setHostel();
+        oldStudy.setMilitaryDepartment();
+        oldStudy.setOnGraduation();
+        oldStudy.setPaidTrainig();
+        oldStudy.set*/
+        if (!mainImage.getOriginalFilename().equals("")) {
+            //CommonsMultipartFile f = imageService.cropImage(mainImage, Integer.parseInt(actionRequest.getParameter("t")),
+            //        Integer.parseInt(actionRequest.getParameter("l")),
+            //        Integer.parseInt(actionRequest.getParameter("w")),
+            //        Integer.parseInt(actionRequest.getParameter("h")));
+        }
+        if (UpdateStudy(studie, mainImage, images, actionResponse)) {
+            service.saveOrUpdate(studie);
+            actionResponse.setRenderParameter("studieID", Integer.toString(studie.getId()));
+            sessionStatus.setComplete();
+        }
     }
 
     @RenderMapping(params = "mode=delImage")
@@ -263,9 +291,10 @@ public class StudieController {
             mainImageUrl = imageService.getPathToLargeImage(mImage, studie);
         }
         Collection<ImageImpl> additionalImages = studie.getAdditionalImages();
-        model.addObject("studie", studie);
+        model.getModelMap().addAttribute("study", studie);
         model.addObject(MAIN_IMAGE, mainImageUrl);
         model.addObject("additionalImages", additionalImages);
+        model.addAllObjects(FORM_PARAM_MAP);
         return model;
     }
 
