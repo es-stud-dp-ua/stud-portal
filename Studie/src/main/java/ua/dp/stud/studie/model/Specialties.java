@@ -1,7 +1,10 @@
 package ua.dp.stud.studie.model;
 
-//import ua.dp.stud.studie.model.Faculties;
+import org.hibernate.validator.constraints.NotBlank;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 /**
@@ -34,14 +37,16 @@ public class Specialties implements Serializable {
         return nameOfFaculties;
     }
 
-    @Column(name = "nameOfSpecialties")
+    @Size(min = 2, max = 100)
+    @NotNull
+    @NotBlank
     private String nameOfSpecialties;
-
 
     public void setNameOfSpecialties(String nameOfSpecialties) {
         this.nameOfSpecialties = nameOfSpecialties;
     }
 
+    @Column(name = "nameOfSpecialties")
     public String getNameOfSpecialties() {
         return nameOfSpecialties;
     }

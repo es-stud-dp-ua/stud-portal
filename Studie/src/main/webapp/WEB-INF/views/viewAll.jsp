@@ -1,4 +1,4 @@
-<%@ page import="ua.dp.stud.studie.model.Studie" %>
+<%@ page import="ua.dp.stud.StudPortalLib.model.Studie" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.liferay.portal.theme.ThemeDisplay" %>
 <%@ page import="com.liferay.portal.kernel.util.WebKeys" %>

@@ -1,7 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="ua.dp.stud.StudPortalLib.model.Category" %>
 <%@ page import="ua.dp.stud.StudPortalLib.model.ImageImpl" %>
-<%@ page import="ua.dp.stud.studie.model.Studie" %>
+<%@ page import="ua.dp.stud.StudPortalLib.model.Studie" %>
 <%@ page import="java.util.Collection" %>
 <%@ page import="java.util.Locale" %>
 <%@ page import="java.util.ResourceBundle" %>

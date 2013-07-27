@@ -1,10 +1,12 @@
 package ua.dp.stud.studie.model;
 
-import ua.dp.stud.studie.model.Studie;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.List;
 
@@ -41,13 +43,16 @@ public class Faculties implements Serializable {
         this.special = specialties;
     }
 
-    @Column(name = "nameOfFaculties")
+    @Size(min = 2, max = 100)
+    @NotNull
+    @NotBlank
     private String nameOfFaculties;
 
     public void setNameOfFaculties(String nameOfFaculties) {
         this.nameOfFaculties = nameOfFaculties;
     }
 
+    @Column(name = "nameOfFaculties")
     public String getNameOfFaculties() {
         return nameOfFaculties;
     }

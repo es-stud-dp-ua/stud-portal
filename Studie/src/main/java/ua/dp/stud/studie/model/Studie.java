@@ -6,8 +6,13 @@ package ua.dp.stud.studie.model;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.Range;
 import ua.dp.stud.StudPortalLib.model.BaseImagesSupport;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.List;
 
@@ -22,6 +27,8 @@ public class Studie extends BaseImagesSupport implements Serializable {
     /**
      * Название вуза
      */
+    @Size(min = 2, max = 100)
+    @NotEmpty
     private String title;
 
     @Column(name = "title")
@@ -36,6 +43,8 @@ public class Studie extends BaseImagesSupport implements Serializable {
     /**
      * Подробнее о вузе
      */
+    @Size(min = 100, max = TEXT_LENGTH)
+    @NotEmpty
     private String text;
     private static final int TEXT_LENGTH = 10000;
 
@@ -51,6 +60,8 @@ public class Studie extends BaseImagesSupport implements Serializable {
     /**
      * Город
      */
+    @Size(min = 2, max = 50)
+    @NotEmpty
     private String city;
 
     @Column(name = "city")
@@ -65,6 +76,8 @@ public class Studie extends BaseImagesSupport implements Serializable {
     /**
      * Год
      */
+    @NotNull
+    @Range(min = 1800)
     private Integer years;
 
     @Column(name = "years")
@@ -79,6 +92,8 @@ public class Studie extends BaseImagesSupport implements Serializable {
     /**
      * Статус
      */
+    @Size(min = 2, max = 100)
+    @NotEmpty
     private String status;
 
     @Column(name = "status")
@@ -93,6 +108,8 @@ public class Studie extends BaseImagesSupport implements Serializable {
     /**
      * Уровень аккредитации
      */
+    @Size(min = 1, max = 3)
+    @NotEmpty
     private String accreditacion;
 
     @Column(name = "accreditacion")
@@ -107,6 +124,8 @@ public class Studie extends BaseImagesSupport implements Serializable {
     /**
      * Форма обучения
      */
+    @Size(min = 1, max = 100)
+    @NotEmpty
     private String formOfTraining;
 
     @Column(name = "formOfTraining")
@@ -121,6 +140,8 @@ public class Studie extends BaseImagesSupport implements Serializable {
     /**
      * Квалификационный уровень
      */
+    @Size(min = 1, max = 100)
+    @NotEmpty
     private String qualificationLevel;
 
     @Column(name = "qualificationLevel")
@@ -135,6 +156,8 @@ public class Studie extends BaseImagesSupport implements Serializable {
     /**
      * Адрес
      */
+    @Size(min = 1, max = 100)
+    @NotEmpty
     private String adress;
 
     @Column(name = "adress")
@@ -149,6 +172,8 @@ public class Studie extends BaseImagesSupport implements Serializable {
     /**
      * Телефон
      */
+    @Size(min = 1, max = 100)
+    @NotEmpty
     private String phone;
 
     @Column(name = "phone")
@@ -163,6 +188,8 @@ public class Studie extends BaseImagesSupport implements Serializable {
     /**
      * Телефон приемной комиссии
      */
+    @Size(min = 1, max = 100)
+    @NotEmpty
     private String phoneAdmissions;
 
     @Column(name = "phoneAdmissions")
@@ -177,6 +204,8 @@ public class Studie extends BaseImagesSupport implements Serializable {
     /**
      * Сайт
      */
+    @Size(min = 1, max = 100)
+    @NotEmpty
     private String website;
 
     @Column(name = "website")
@@ -191,6 +220,7 @@ public class Studie extends BaseImagesSupport implements Serializable {
     /**
      * Наличие бесплатного обучения
      */
+    @NotNull
     private Boolean freeTrainig;
 
     @Column(name = "freeTrainig")
@@ -205,6 +235,7 @@ public class Studie extends BaseImagesSupport implements Serializable {
     /**
      * Наличие платного обучния
      */
+    @NotNull
     private Boolean paidTrainig;
 
     @Column(name = "paidTrainig")
@@ -219,6 +250,7 @@ public class Studie extends BaseImagesSupport implements Serializable {
     /**
      * Наличие военной кафедры
      */
+    @NotNull
     private Boolean militaryDepartment;
 
     @Column(name = "militaryDepartment")
@@ -233,6 +265,7 @@ public class Studie extends BaseImagesSupport implements Serializable {
     /**
      * Налчие общежития
      */
+    @NotNull
     private Boolean hostel;
 
     @Column(name = "hostel")
@@ -247,6 +280,7 @@ public class Studie extends BaseImagesSupport implements Serializable {
     /**
      * Наличие последипломного образования
      */
+    @NotNull
     private Boolean postgraduateEducation;
 
     @Column(name = "postgraduateEducation")
@@ -261,6 +295,7 @@ public class Studie extends BaseImagesSupport implements Serializable {
     /**
      * Наличие аспирантуры и докторантуры
      */
+    @NotNull
     private Boolean postgraduateAndDoctoralStudies;
 
     @Column(name = "postgraduateAndDoctoralStudies")
@@ -275,6 +310,7 @@ public class Studie extends BaseImagesSupport implements Serializable {
     /**
      * Наличие подготовительных курсов
      */
+    @NotNull
     private Boolean preparatoryDepartment;
 
     @Column(name = "preparatoryDepartment")
@@ -289,6 +325,8 @@ public class Studie extends BaseImagesSupport implements Serializable {
     /**
      * Кол-во студентов
      */
+    @NotNull
+    @Range(min = 1)
     private Integer countOfStudents;
 
     @Column(name = "countOfStudents")
@@ -303,6 +341,8 @@ public class Studie extends BaseImagesSupport implements Serializable {
     /**
      * Кол-во преподователей
      */
+    @NotNull
+    @Range(min = 1)
     private Integer countOfTeachers;
 
     @Column(name = "countOfTeachers")
@@ -317,6 +357,8 @@ public class Studie extends BaseImagesSupport implements Serializable {
     /**
      * Кол-во кандидатов наук
      */
+    @NotNull
+    @Range(min = 1)
     private Integer countOfCandidates;
 
     @Column(name = "countOfCandidates")
@@ -331,6 +373,8 @@ public class Studie extends BaseImagesSupport implements Serializable {
     /**
      * Кол-во докторов и проффесоров
      */
+    @NotNull
+    @Range(min = 1)
     private Integer countOfProfessors;
 
     @Column(name = "countOfProfessors")
@@ -342,6 +386,9 @@ public class Studie extends BaseImagesSupport implements Serializable {
         this.countOfProfessors = countOfProfessors;
     }
 
+    @NotNull
+    @NotEmpty
+    @Size(min = 1, max = 100)
     private String onGraduation;
 
     @Column
@@ -356,6 +403,8 @@ public class Studie extends BaseImagesSupport implements Serializable {
     /**
      * Информация абитуриентам
      */
+    @Size(min = 100, max = TEXT_LENGTH)
+    @NotEmpty
     private String enrollees;
 
     @Column(name = "enrollees", length = TEXT_LENGTH)

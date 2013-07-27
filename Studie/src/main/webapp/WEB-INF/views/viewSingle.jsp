@@ -1,9 +1,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="ua.dp.stud.studie.model.Studie" %>
-<%@ page import="ua.dp.stud.studie.model.Specialties" %>
-<%@ page import="ua.dp.stud.studie.model.Faculties" %>
-<%@ page import="ua.dp.stud.studie.service.StudieService" %>
-<%@ page import="ua.dp.stud.studie.service.impl.StudieServiceImpl" %>
+<%@ page import="ua.dp.stud.StudPortalLib.model.Studie" %>
+<%@ page import="ua.dp.stud.StudPortalLib.model.Specialties" %>
+<%@ page import="ua.dp.stud.StudPortalLib.model.Faculties" %>
+<%@ page import="ua.dp.stud.StudPortalLib.service.StudieService" %>
+<%@ page import="ua.dp.stud.StudPortalLib.service.impl.StudieServiceImpl" %>
 <%@ page import="com.liferay.portal.kernel.language.LanguageUtil" %>
 <%@ page import="com.liferay.portal.theme.ThemeDisplay" %>
 <%@ page import="com.liferay.portal.kernel.util.WebKeys" %>
@@ -140,7 +140,7 @@
 			<li><spring:message code="studie.years"/>&nbsp;<%=studie.getYears()%></li>
 			<li><spring:message code="studie.status"/>&nbsp;<%=studie.getStatus()%></li>
 			<li><spring:message code="studie.accreditacion"/>&nbsp;<%=studie.getAccreditacion()%></li>
-			<li><spring:message code="studie.city"/>&nbsp;<%=studie.getCity()%></li>
+			<li><spring:message code="studie.onGraduation"/>&nbsp;<%=studie.getOnGraduation()%></li>
 			<li><spring:message code="studie.FormOfTraining"/>&nbsp;<%=studie.getFormOfTraining()%></li>
 			<li><spring:message code="studie.QualificationLevel"/>&nbsp;<%=studie.getQualificationLevel()%></li>
 			<li><spring:message code="studie.Adress"/>&nbsp;<%=studie.getAdress()%></li>

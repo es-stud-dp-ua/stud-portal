@@ -3,6 +3,27 @@
     position: relative;
 }
 
+.error {
+	color: #ff0000;
+}
+
+.errorblock {
+	color: #000;
+	background-color: #ffEEEE;
+	border: 3px solid #ff0000;
+	padding: 8px;
+	margin: 16px;
+}
+
+select {
+    min-height: 26px;
+}
+
+.thumb {
+	height: 253px;
+	width: 443px;
+}
+
 .cmt-types {
     display: inline-block;
     float: left;
@@ -263,15 +284,12 @@
 
 /*multiple image loader*/
 #mainImageLoader {
-    position: absolute;
     border: 1px solid;
     border-color: rgb(231, 231, 231);
     height: 70px;
     width: 443px;
     padding: 0;
     margin-left: 12px;
-    position: absolute;
-    margin-top: 280px;
 
 }
 
@@ -311,8 +329,6 @@
     margin-top: 5px;
     margin-left: 12px;
     text-align: center;
-    position: absolute;
-    margin-top: 360px;
 }
 
 #imgloaderBtn {
