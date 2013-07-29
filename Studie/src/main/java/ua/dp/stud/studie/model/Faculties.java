@@ -2,16 +2,16 @@ package ua.dp.stud.studie.model;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
-import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.List;
 
 /**
  * @author Ольга
+ * @author Vladislav Pikus
  */
 @Entity
 @Table(name = "faculties")
@@ -32,20 +32,23 @@ public class Faculties implements Serializable {
     }
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "nameOfFaculties", fetch = FetchType.EAGER)
-    @Fetch(FetchMode.SUBSELECT)
-    private List<Specialties> special;
+    private List<Specialties> specialties;
 
     public List<Specialties> getSpecialties() {
-        return special;
+        return specialties;
     }
 
     public void setSpecialties(List<Specialties> specialties) {
-        this.special = specialties;
+        this.specialties = specialties;
+        for (Specialties spec : this.specialties) {
+            if (spec.getNameOfFaculties() == null) {
+                spec.setNameOfFaculties(this);
+            }
+        }
     }
 
     @Size(min = 2, max = 100)
-    @NotNull
-    @NotBlank
+    @NotEmpty
     private String nameOfFaculties;
 
     public void setNameOfFaculties(String nameOfFaculties) {

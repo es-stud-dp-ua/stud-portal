@@ -44,7 +44,7 @@ public class StudieDaoImpl extends BaseDao implements StudieDao {
 
     @Override
     public void saveOrUpdate(Studie studie) {
-        getSession().saveOrUpdate(studie);
+        getSession().merge(studie);
     }
 
     @Override

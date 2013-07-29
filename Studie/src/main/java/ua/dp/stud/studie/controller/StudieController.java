@@ -3,6 +3,7 @@ package ua.dp.stud.studie.controller;
 /**
  *
  * @author Olga Ryzol
+ * @author Vladislav Pikus
  */
 
 import com.liferay.portal.kernel.servlet.SessionErrors;
@@ -130,9 +131,9 @@ public class StudieController {
 
     static {
         ACCCRED_LEVELS = Arrays.asList("I", "II", "III", "IV");
-        TRAINING_FORMS = Arrays.asList("Дневная", "Заочная");
-        STATUS = Arrays.asList("Государственный", "Частный");
-        LVL_QUALIF = Arrays.asList("Бакалавр", "Специалист", "Магистр");
+        TRAINING_FORMS = Arrays.asList("дневная", "заочная");
+        STATUS = Arrays.asList("государственный", "частный");
+        LVL_QUALIF = Arrays.asList("бакалавр", "специалист", "магистр");
         DOC = Arrays.asList("док. гос. образца");
         YEARS = new ArrayList<String>();
         for (Integer i = 1850; i < DateTime.now().getYear(); i++) {
@@ -183,19 +184,6 @@ public class StudieController {
                           @RequestParam("mainImage") CommonsMultipartFile mainImage,
                           @RequestParam("images") CommonsMultipartFile[] images) {
         if (bindingResult.hasErrors()) {
-            for (Object object : bindingResult.getAllErrors()) {
-                if (object instanceof FieldError) {
-                    FieldError fieldError = (FieldError) object;
-
-                    System.out.println(fieldError.toString());
-                }
-
-                if (object instanceof ObjectError) {
-                    ObjectError objectError = (ObjectError) object;
-
-                    System.out.println(objectError.toString());
-                }
-            }
             actionResponse.setRenderParameter(STR_FAIL, "msg.fail");
             return;
         }
@@ -203,10 +191,10 @@ public class StudieController {
             actionResponse.setRenderParameter(STR_FAIL, STR_NO_IMAGE);
             return;
         }
-        //CommonsMultipartFile f = imageService.cropImage(mainImage, Integer.parseInt(actionRequest.getParameter("t")),
-        //        Integer.parseInt(actionRequest.getParameter("l")),
-        //        Integer.parseInt(actionRequest.getParameter("w")),
-        //        Integer.parseInt(actionRequest.getParameter("h")));
+        CommonsMultipartFile f = imageService.cropImage(mainImage, Integer.parseInt(actionRequest.getParameter("t")),
+                Integer.parseInt(actionRequest.getParameter("l")),
+                Integer.parseInt(actionRequest.getParameter("w")),
+                Integer.parseInt(actionRequest.getParameter("h")));
         if (UpdateStudy(studie, mainImage, images, actionResponse)) {
             service.addStudie(studie);
             actionResponse.setRenderParameter("studieID", Integer.toString(studie.getId()));
@@ -239,23 +227,10 @@ public class StudieController {
             actionResponse.setRenderParameter(STR_FAIL, "msg.fail");
             return;
         }
-        System.out.println(studie.getId());
-        /*Studie oldStudy = service.getStudieById(studie.getId());
-        oldStudy.setAccreditacion();
-        oldStudy.setAdress();
-        oldStudy.setCity();
-        oldStudy.setCountOfCandidates();
-        oldStudy.setCountOfProfessors();
-        oldStudy.setCountOfStudents();
-        oldStudy.setCountOfTeachers();
-        oldStudy.setEnrollees();
-        oldStudy.setFormOfTraining();
-        oldStudy.setFreeTrainig();
-        oldStudy.setHostel();
-        oldStudy.setMilitaryDepartment();
-        oldStudy.setOnGraduation();
-        oldStudy.setPaidTrainig();
-        oldStudy.set*/
+        Studie oldStudy = service.getStudieById(studie.getId());
+        studie.setMainImage(oldStudy.getMainImage());
+        studie.setAdditionalImages(oldStudy.getAdditionalImages());
+        studie.setYearMonthUniqueFolder(oldStudy.getYearMonthUniqueFolder());
         if (!mainImage.getOriginalFilename().equals("")) {
             //CommonsMultipartFile f = imageService.cropImage(mainImage, Integer.parseInt(actionRequest.getParameter("t")),
             //        Integer.parseInt(actionRequest.getParameter("l")),
@@ -263,7 +238,7 @@ public class StudieController {
             //        Integer.parseInt(actionRequest.getParameter("h")));
         }
         if (UpdateStudy(studie, mainImage, images, actionResponse)) {
-            service.saveOrUpdate(studie);
+            service.updateStudie(studie);
             actionResponse.setRenderParameter("studieID", Integer.toString(studie.getId()));
             sessionStatus.setComplete();
         }

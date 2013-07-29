@@ -1,12 +1,16 @@
-<%@ page import="java.util.Collection" %>
 <%@ page import="java.util.Locale" %>
 <%@ page import="ua.dp.stud.StudPortalLib.model.ImageImpl" %>
+<%@ page import="java.util.Collection" %>
 <%@ page import="java.util.ResourceBundle" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib uri="http://liferay.com/tld/aui" prefix="aui" %>
 <%@ taglib prefix="liferay-ui" uri="http://liferay.com/tld/ui" %>
 <%@include file="include.jsp" %>
-
+<script src="${pageContext.request.contextPath}/js/dynamic_list_helper.js" type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/js/dynamic_list_special.js" type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/js/main_edit.js" type="text/javascript"></script>
 <%
     Locale locale = (Locale) request.getSession().getAttribute("org.apache.struts.action.LOCALE");
     String language = locale.getLanguage();
@@ -15,94 +19,6 @@
     Collection<ImageImpl> additionalImages = (Collection<ImageImpl>) request.getAttribute("additionalImages");
 %>
 <portlet:defineObjects/>
-<html>
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-</head>
-<body>
-<script type="text/javascript">
-	function handleFileSelect(evt) {
-		var files = evt.target.files; // FileList object
-
-		// Loop through the FileList and render image files as thumbnails.
-		var f = files[files.length - 1];
-
-		// Only process im11age files.
-		document.getElementById('list').innerHTML = '';
-		var reader = new FileReader();
-
-		// Closure to capture the file information.
-		reader.onload = (function (theFile) {
-			return function (e) {
-				// Render thumbnail.
-				var span = document.createElement('span');
-				span.innerHTML = ['<img class="thumb" src="', e.target.result,
-					'" title="', escape(theFile.name), '"/>'].join('');
-				document.getElementById('list').insertBefore(span, null);
-			};
-		})(f);
-		document.getElementById('img').parentNode.removeChild(document.getElementById('img'));
-		// Read in the image file as a data URL.
-		reader.readAsDataURL(f);
-
-	}
-	$(document).ready(function () {
-	document.getElementById('mainImage').addEventListener('change', handleFileSelect, false);
-	});
-    function isNotMax(e) {
-        e = e || window.event;
-        var target = e.target || e.srcElement;
-        var code = e.keyCode ? e.keyCode : (e.which ? e.which : e.charCode)
-
-        switch (code) {
-            case 13:
-            case 8:
-            case 9:
-            case 46:
-            case 37:
-            case 38:
-            case 39:
-            case 40:
-                return true;
-        }
-        return target.value.length <= target.getAttribute('maxlength');
-    }
-    function Add() {
-        var txt = document.createElement('textarea');
-        txt.setAttribute("name", "facultetDnevn");
-        txt.setAttribute("cols", "60");
-        txt.setAttribute("rows", "1");
-        txt.setAttribute("id", "facultetInput");
-        txt.setAttribute("maxlength", "1000");
-        txt.style.cssText = 'float: left;';
-        document.getElementById('facultetD').appendChild(txt);
-    }
-    function Add2() {
-        var txt = document.createElement('textarea');
-        txt.setAttribute("name", "facultetZaoch");
-        txt.setAttribute("cols", "60");
-        txt.setAttribute("rows", "1");
-        txt.setAttribute("id", "facultetInput");
-        txt.setAttribute("maxlength", "1000");
-        txt.style.cssText = 'float: left;';
-        document.getElementById('facultetZ').appendChild(txt);
-    }
-	function a() {
-                jQuery('#cropbox').Jcrop({onChange: setCoords, onSelect: setCoords, bgColor: 'black',
-                    bgOpacity: .4,
-                    setSelect: [100, 0, 253, 353],
-                    aspectRatio: 1});
-            }
-	function setCoords(c) {
-		jQuery('#x1').val(c.x);
-		jQuery('#y1').val(c.y);
-		jQuery('#x2').val(c.x2);
-		jQuery('#y2').val(c.y2);
-		jQuery('#w').val(c.w);
-		jQuery('#h').val(c.h);
-	}
-
-</script>
 
 <portlet:renderURL var="home"> </portlet:renderURL>
 
@@ -122,6 +38,12 @@
 <div width="100%">
 	<form:form method="POST" commandName="study" action="${actionLink}" enctype="multipart/form-data">
         <form:errors path="*" cssClass="errorblock" element="div" />
+		<c:forEach items="${study.faculties}" var="Faculties" varStatus="i" begin="0" >
+			<form:input type="hidden" path="faculties[${i.index}].id"/>
+			<c:forEach items="${Faculties.specialties}" var="Specialties" varStatus="j" begin="0" >
+				<form:input type="hidden" path="faculties[${i.index}].specialties[${j.index}].id"/>
+			</c:forEach>
+		</c:forEach>
 		<form:input type="hidden" path="id"/>
 		<input type="hidden" size="0" id="x1" name="t"/>
         <input type="hidden" size="0" id="y1" name="l"/>
@@ -317,16 +239,46 @@
 					<form:input path="website" name="website"/>
 					<form:errors path="website" cssClass="error"/>
 				</div>
-			</div>
-			
-			</div>
-			<div>
-			</div>
+			</div></div>
+			<table style="width: 100%;">
+				<thead>
+					<th>Faculties</th>
+					<th>Spetial</th>
+					<th></th>
+				</thead>
+				<tbody id="facultiesListContainer">
+					<c:forEach items="${study.faculties}" var="Faculties" varStatus="i" begin="0" >
+                        <tr class="facultet">
+							<td class="faculIndex"><form:input path="faculties[${i.index}].nameOfFaculties" id="nameOfFaculties${i.index}" /></td>
+							<td>
+								<div class="specContainer">
+									<c:forEach items="${Faculties.specialties}" var="Specialties" varStatus="j" begin="0" >
+										<div class="specialty">
+										<form:input path="faculties[${i.index}].specialties[${j.index}].nameOfSpecialties" value="" />
+										<a href="#" class="removeSpecialty">Remove</a>
+									</div>	
+									</c:forEach>
+								</div>
+								<a href="#" class="addSpecialty">Add</a>
+							</td>
+							<td><a href="#" class="removeFaculties">Remove</a></td>
+						</tr>
+                    </c:forEach>
+					<c:if test="${empty study.faculties}">
+						<tr class="facultet defaultRow">
+							<td class="faculIndex"><input type="text" name="faculties[].nameOfFaculties" value="" /></td>
+							<td>
+								<div class="specContainer"></div>
+								<a href="#" class="addSpecialty">Add</a>
+							</td>
+							<td><a href="#" class="removeFaculties">Remove</a></td>
+						</tr>
+					</c:if>
+				</tbody>
+			</table>
+			<a href="#" id="addFaculties">Add</a>
 		</div>
         <input type="submit" style="vertical-align: central; margin-top: 15px; " value="<spring:message
                                    code='<%=(request.isUserInRole("Administrator"))?"form.submit.admin"
                                                                                              :"form.submit.user"%>'/>"/>
     </form:form>
-</div>
-</body>
-</html>

@@ -18,6 +18,7 @@ import java.util.List;
 
 /**
  * @author Ольга
+ * @author Vladislav Pikus
  */
 @Entity
 @Table(name = "studies_table")
@@ -425,6 +426,11 @@ public class Studie extends BaseImagesSupport implements Serializable {
 
     public void setFaculties(List<Faculties> faculties) {
         this.faculties = faculties;
+        for (Faculties facul : this.faculties) {
+            if (facul.getBase() == null) {
+                facul.setBase(this);
+            }
+        }
     }
 
     public Studie() {

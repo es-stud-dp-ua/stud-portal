@@ -1,14 +1,14 @@
 package ua.dp.stud.studie.model;
 
-import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 /**
  * @author Ольга
+ * @author Vladislav Pikus
  */
 @Entity
 @Table(name = "specialties")
@@ -38,8 +38,7 @@ public class Specialties implements Serializable {
     }
 
     @Size(min = 2, max = 100)
-    @NotNull
-    @NotBlank
+    @NotEmpty
     private String nameOfSpecialties;
 
     public void setNameOfSpecialties(String nameOfSpecialties) {
