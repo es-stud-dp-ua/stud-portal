@@ -16,8 +16,9 @@ import ua.dp.stud.StudPortalLib.model.ImageImpl;
  *
  * @author Ольга
  */
-public interface Base<E> {
-  public void setSessionFactory(SessionFactory sessionFactory);
+public interface BaseDao<E> {
+
+    public void setSessionFactory(SessionFactory sessionFactory);
 
     public Session getSession();
 
@@ -36,7 +37,8 @@ public interface Base<E> {
     public Collection<E> getAllObjects(Boolean approve, E object);
 
     public Integer getCount(Boolean approve, E object);
+
     public Collection<E> getObjectsOnPage(Boolean approved, Integer pageNumb, Integer newsByPage, E object);
-       
-     public Integer getCountByAuthor(String author, E object);
+
+    public Integer getCountByAuthor(String author, E object);
 }

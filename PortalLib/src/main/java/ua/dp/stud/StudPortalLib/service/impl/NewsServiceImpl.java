@@ -14,7 +14,7 @@ import ua.dp.stud.StudPortalLib.model.News;
 import ua.dp.stud.StudPortalLib.service.NewsService;
 
 import java.util.Collection;
-import ua.dp.stud.StudPortalLib.dao.impl.BaseDao;
+import ua.dp.stud.StudPortalLib.dao.impl.BaseDaoImpl;
 
 @Service("newsService")
 @Transactional

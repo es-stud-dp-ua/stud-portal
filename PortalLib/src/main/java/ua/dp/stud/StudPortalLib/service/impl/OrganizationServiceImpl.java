@@ -10,7 +10,7 @@ import ua.dp.stud.StudPortalLib.service.OrganizationService;
 import ua.dp.stud.StudPortalLib.util.OrganizationType;
 
 import java.util.Collection;
-import ua.dp.stud.StudPortalLib.dao.impl.BaseDao;
+import ua.dp.stud.StudPortalLib.dao.impl.BaseDaoImpl;
 
 @Service("organizationService")
 @Transactional

@@ -23,7 +23,7 @@ import java.util.List;
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 import org.springframework.beans.factory.annotation.Qualifier;
-import ua.dp.stud.StudPortalLib.dao.Base;
+import ua.dp.stud.StudPortalLib.dao.BaseDao;
 
 /**
  * @author Roman Lukash

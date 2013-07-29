@@ -17,7 +17,7 @@ import java.util.LinkedList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.*;
-import ua.dp.stud.StudPortalLib.dao.impl.BaseDao;
+import ua.dp.stud.StudPortalLib.dao.impl.BaseDaoImpl;
 
 @RunWith(MockitoJUnitRunner.class)
 public class NewsServiceTest {

@@ -7,7 +7,7 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
-import ua.dp.stud.StudPortalLib.dao.Base;
+import ua.dp.stud.StudPortalLib.dao.BaseDao;
 import ua.dp.stud.StudPortalLib.dao.NewsDao;
 import ua.dp.stud.StudPortalLib.dao.OrganizationDao;
 import ua.dp.stud.StudPortalLib.model.ImageImpl;
@@ -15,7 +15,7 @@ import ua.dp.stud.StudPortalLib.model.ImageImpl;
 /**
  * @author: Pikus Vladislav
  */
-public abstract class BaseDao<E> implements Base<E>{
+public abstract class BaseDaoImpl<E> implements BaseDao<E>{
 
     private SessionFactory sessionFactory;
 
