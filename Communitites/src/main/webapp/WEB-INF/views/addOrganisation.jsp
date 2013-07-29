@@ -5,9 +5,9 @@
 <%@ page import="java.util.Locale" %>
 <%@ page import="java.util.ResourceBundle" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<script type="text/javascript" src="js/jquery-1.5.2.min.js"></script>
+<!--<script type="text/javascript" src="js/jquery-1.5.2.min.js"></script>
 <script type="text/javascript" src="js/jquery.validate.min.js"></script>
-<script type="text/javascript" src="js/myscripts.js"></script>
+<script type="text/javascript" src="js/myscripts.js"></script>-->
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <%@include file="include.jsp" %>
@@ -18,7 +18,7 @@
     String country = locale.getCountry();
     //todo: remove res and type
     ResourceBundle res = ResourceBundle.getBundle("messages", new Locale(language, country));
-    %>
+%>
 <portlet:defineObjects/>
 <html>
     <head>
@@ -28,7 +28,6 @@
             .error {
                 color: #ff0000;
             }
-
             label.valid {
                 width: 24px;
                 height: 24px;
@@ -36,7 +35,6 @@
                 display: inline-block;
                 text-indent: -9999px;
             }
-
             label.error {
                 font-weight: bold;
                 color: red;
@@ -48,32 +46,29 @@
     <body>
         <script type="text/javascript">
             function a() {
-                jQuery('#cropbox').Jcrop({onChange: setCoords, onSelect: setCoords, bgColor: 'black',
+            jQuery('#cropbox').Jcrop({onChange: setCoords, onSelect: setCoords, bgColor: 'black',
                     bgOpacity: .4,
                     setSelect: [100, 0, 253, 353],
                     aspectRatio: 1});
             }
             function setCoords(c) {
-                jQuery('#x1').val(c.x);
-                jQuery('#y1').val(c.y);
-                jQuery('#x2').val(c.x2);
-                jQuery('#y2').val(c.y2);
-                jQuery('#w').val(c.w);
-                jQuery('#h').val(c.h);
+            jQuery('#x1').val(c.x);
+                    jQuery('#y1').val(c.y);
+                    jQuery('#x2').val(c.x2);
+                    jQuery('#y2').val(c.y2);
+                    jQuery('#w').val(c.w);
+                    jQuery('#h').val(c.h);
             }
-            ;
-        </script>
-
+            ;</script>
         <script language="javascript" type="text/javascript">
-            $(document).ready(function() {
-                $.Placeholder.init({color: "#aaa"});
+                    $(document).ready(function() {
             });
-
-            function isNotMax(e, id) {
-                var validateValueTextArea = document.getElementById(id);
-                validateValueTextArea.value = validateValueTextArea.value.substr(0, validateValueTextArea.getAttribute('maxlength'));
-            }
+                    function isNotMax(e, id) {
+                    var validateValueTextArea = document.getElementById(id);
+                            validateValueTextArea.value = validateValueTextArea.value.substr(0, validateValueTextArea.getAttribute('maxlength'));
+                    }
         </script>
+
 
     <portlet:renderURL var="home"> </portlet:renderURL>
 
@@ -92,8 +87,7 @@
     </c:if>
 
     <div width="100%" align="center">
-        <form:form method="post" action="${actionLink}"  enctype="multipart/form-data" commandName="organization" modelAttribute="organization">
-
+        <form:form method="post" id="jform" name="jform" action="${actionLink}"  enctype="multipart/form-data" commandName="organization" modelAttribute="organization">
             <input type="hidden" size="0" id="x1" name="t"/>
             <input type="hidden" size="0" id="y1" name="l"/>
             <input type="hidden" size="0" id="w" name="w"/>
@@ -101,13 +95,11 @@
             <table width="100%" margin-bottom="15px">
                 <tr>
                     <td width="50%" align="center">
-                        <!---->
                         <!--<input type="file" name="mainImage" accept="image/jpeg,image/png,image/gif" />-->
                         <style>
                             .thumb {
                                 height: 253px;
                                 width: 443px;
-
                             }
                         </style>
                         <div id="lup">
@@ -115,7 +107,6 @@
                         <div id="mainPic"
                              style="background: url(${pageContext.request.contextPath}/images/mainpic_443x253.png) no-repeat">
                             <!-- Output for our douwnload Image-->
-
                             <output id="list"></output>
                         </div>
                         <div id="rdn">
@@ -123,40 +114,34 @@
                         <div id="mainImageLoader">
                             <div id="mainImgloaderBtn">
                                 <input type="file" id="mainImage" name="mainImage">
-
                                 <div id="nt"><spring:message code="form.addMainPictures"/></div>
                             </div>
                         </div>
                         <script>
                             function handleFileSelect(evt) {
-                                var files = evt.target.files; // FileList object
-
-                                // Loop through the FileList and render image files as thumbnails.
-                                var f = files[files.length - 1];
-
-                                // Only process im11age files.
-                                document.getElementById('list').innerHTML = '';
-                                var reader = new FileReader();
-
-                                // Closure to capture the file information.
-                                reader.onload = (function(theFile) {
-                                    return function(e) {
-                                        // Render thumbnail.
-                                        var span = document.createElement('span');
-                                        span.innerHTML = ['<img id="cropbox" class="thumb" src="', e.target.result,
-                                            '" title="', escape(theFile.name), '"/>'].join('');
-                                        document.getElementById('list').insertBefore(span, null);
-                                        a();
-                                    };
+                            var files = evt.target.files; // FileList object
+                                    // Loop through the FileList and render image files as thumbnails.
+                                    var f = files[files.length - 1];
+                                    // Only process im11age files.
+                                    document.getElementById('list').innerHTML = '';
+                                    var reader = new FileReader();
+                                    // Closure to capture the file information.
+                                    reader.onload = (function(theFile) {
+                            return function(e) {
+                            // Render thumbnail.
+                            var span = document.createElement('span');
+                                    span.innerHTML = ['<img id="cropbox" class="thumb" src="', e.target.result,
+                                    '" title="', escape(theFile.name), '"/>'].join('');
+                                    document.getElementById('list').insertBefore(span, null);
                                     a();
-                                })(f);
-
-                                // Read in the image file as a data URL.
-                                reader.readAsDataURL(f);
-                                a();
+                            };
+                                    a();
+                            })(f);
+                                    // Read in the image file as a data URL.
+                                    reader.readAsDataURL(f);
+                                    a();
                             }
-                            document.getElementById('mainImage').addEventListener('change', handleFileSelect, false);
-                        </script>
+                            document.getElementById('mainImage').addEventListener('change', handleFileSelect, false);</script>
                         <br/>
                         <div id="imageLoader">
                             <div id="imgloaderBtn">
@@ -168,15 +153,13 @@
                         <br/>
                     </td>
                     <td rowspan=2 width="50%" align="left">
-                        <form:input path="title" id="topicInput" cols="90" rows="2" maxlength="100"
-                                    onkeyup="isNotMax(event, getAttribute('id'))" name="title"/>
+                        <form:input path="title" id="title" cols="90" rows="2" maxlength="100"  name="title"/>
                         <form:errors path="title" cssClass="error"></form:errors>
-                            <div style="width: 450px; float: bottom ;padding-left: 8px;">
-                            <textarea path="text" class="ckeditor" id="textInput" cols="60" rows="10" maxlength="8000"
-                                      onkeyup="isNotMax(event, getAttribute('id'))" name="text"></textarea>
-                            <form:errors path="text" cssClass="error" ></form:errors>
-                                <br/><br/>
-                            </div>
+                            <textarea path="text" class="ckeditor" id="text" cols="60" rows="10" maxlength="10000"
+                                      name="text" ></textarea>
+                            <textarea style="visibility: hidden;width: 0px;" id="text1" name="text1"></textarea>
+                        <form:errors path="text" cssClass="error" ></form:errors>
+                            <br/><br/>
                             <div id="sbm">
                                 <input type="submit" value="<spring:message
                                        code='<%=(request.isUserInRole("Administrator"))?"form.submit.admin"
@@ -255,8 +238,6 @@
                                         </tr>
                                     </table>
                                 </div>
-
-
                                 <br/>
                             </div>
                         </div>
@@ -264,6 +245,10 @@
                 </tr>
             </table>
         </form:form>
+        <script type="text/javascript">
+
+
+        </script>
     </div>
 </body>
 </html>

@@ -244,7 +244,7 @@ label.error {
 }
 
 /*add & edit news*/
-#topicInput {
+#title {
     overflow:  hidden;
     resize: none;
     margin-top: 15px;
@@ -454,3 +454,107 @@ span.cke_skin_kama {
     padding-left: 25px;
     margin-right: 5px
 }
+#jform .colunmBx {
+    float: left;
+    width: 270px;
+}
+
+#jform .rightCl {
+    margin-right: 5px;
+}
+
+#jform fieldset {
+    border: 0;
+}
+
+#jform .textBox {
+    margin-bottom: 5px;
+}
+
+#jform .error {
+    color: #ff0000;
+}
+
+#jform label.valid {
+    width: 24px;
+    height: 24px;
+    background: url(http://109.206.40.61:8080/stud-theme1/images/valid.png) center center no-repeat;
+    display: inline-block;
+    text-indent: -9999px;
+}
+
+#jform label.error {
+    font-weight: bold;
+    color: red;
+    padding: 2px 8px;
+    margin-top: 2px;
+}
+
+#jform .inpts {
+    width: 215px;
+}
+
+#jform #mainContent {
+    margin-top: 5px;
+    width: 600px;
+    margin: 0 auto;
+}
+
+#jform #formTitle {
+    font-size: 160%;
+}
+
+#jform .fieldReg {
+    margin-top: 15px;
+}
+
+#jform #titleLevel2 {
+    font-size: 130%;
+    width: 98%;
+    padding: 0;
+    border-bottom: 1px solid #CCC;
+    font-weight: bold;
+}
+
+#jform .splLink {
+    position: absolute;
+    right: 40px;
+    top: 288px;
+    width: 100%;
+    text-align: right;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+#jform a {
+    text-decoration: none;
+}
+
+#jform .bottomDiv {
+    padding-top: 15px;
+}
+
+#jform .LoadFoto {
+    margin-top: 15px;
+    padding: 0;
+    float: left;
+}
+
+#jform #submitButton {
+    text-align: center;
+    margin-top: 10px;
+}
+
+#registration-success {
+    background: url(http://109.206.40.61:8080/stud-theme1/images/messages/success.png) 6px 50% no-repeat rgb(244, 253, 239);
+    border: 1px solid rgb(172, 223, 167);
+    border-image: initial;
+    color: rgb(56, 79, 52);
+    display: block;
+    font-weight: normal;
+    margin: 5px auto;
+    padding: 6px 6px 6px 30px;
+    text-align: left;
+}
+
+    

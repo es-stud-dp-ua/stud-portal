@@ -134,14 +134,11 @@
                         <script>
             function handleFileSelect(evt) {
                 var files = evt.target.files; // FileList object
-
                 // Loop through the FileList and render image files as thumbnails.
                 var f = files[files.length - 1];
-
                 // Only process im11age files.
                 document.getElementById('list').innerHTML = '';
                 var reader = new FileReader();
-
                 // Closure to capture the file information.
                 reader.onload = (function(theFile) {
                     return function(e) {

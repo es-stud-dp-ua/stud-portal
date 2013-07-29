@@ -63,8 +63,6 @@ public class CommunitiesController {
     private static final String MAIN_IMAGE = "mainImage";
     private static final String TYPE = "type";
     private static final String CURRENT_PAGE = "currentPage";
-    private static final int MINTITLESYMBOLS = 4;
-    private static final int MINTEXTSYMBOLS = 100;
     private static final int ORGS_BY_PAGE = 5;
     private static final int NEARBY_PAGES = 2;
     private static final int OVERAL_PAGES = 7;
@@ -259,8 +257,6 @@ public class CommunitiesController {
             ActionResponse actionResponse, Organization someorgs, OrganizationType type)
             throws SystemException, PortalException {
         boolean successUpload = true;
-//check the length of the title and text
-        //todo: remove this checking
         someorgs.setTitle(frmTopic);
         someorgs.setText(frmText);
         someorgs.setOrganizationType(type);
@@ -269,15 +265,10 @@ public class CommunitiesController {
             someorgs.setApproved(true);
         } else if (frmRole.equals(USER_ROLE)) {
             someorgs.setAuthor(role);
-        }  //todo: one try-catch block
+        }  
         try {
             if (mainImage.getSize() > 0) {
-                try {
-                    imageService.saveMainImage(mainImage, someorgs);
-                } catch (Exception ex) {
-                    LOG.log(Level.SEVERE, STR_EXEPT, ex);
-                    successUpload = false;
-                }
+                imageService.saveMainImage(mainImage, someorgs);
             }
             if (images != null && images.length > 0) {
                 for (CommonsMultipartFile file : images) {
@@ -286,10 +277,8 @@ public class CommunitiesController {
             }
         } catch (IOException ex) {
             successUpload = false;
-            //todo: why do you use StringWriter?
-            StringWriter sw = new StringWriter();
             LOG.log(Level.SEVERE, STR_EXEPT, ex);
-            actionResponse.setRenderParameter(STR_EXEPT, sw.toString());
+            actionResponse.setRenderParameter(STR_EXEPT, "");
         }
 //success upload message
         if (successUpload) {
@@ -299,15 +288,15 @@ public class CommunitiesController {
         return false;
     }
 
-    @ModelAttribute("organization")
-    public Organization getCommandObject() {
-        return new Organization();
-    }
+        @ModelAttribute("organization")
+        public Organization getCommandObject() {
+            return new Organization();
+        }
 
-    @InitBinder
-    public void initBinder(WebDataBinder binder) {
-        binder.setDisallowedFields("mainImage");
-    }
+        @InitBinder
+        public void initBinder(WebDataBinder binder) {
+            binder.setDisallowedFields("mainImage");
+        }
 
     @InitBinder("organization")
     @ActionMapping(value = "addOrganisation")
@@ -318,15 +307,13 @@ public class CommunitiesController {
             @RequestParam("images") CommonsMultipartFile[] images)
             throws SystemException, PortalException {
         if (bindingResult.hasFieldErrors()) {
-            actionResponse.setRenderParameter(STR_FAIL, "asdasfsdf");
-
+            actionResponse.setRenderParameter(STR_FAIL, " ");
         } else {
 //path for main image is not empty
             if (mainImage.getOriginalFilename().equals("")) {
                 actionResponse.setRenderParameter(STR_FAIL, STR_NO_IMAGE);
                 return;
             }
-            //code
 //getting all parameters from form
             OrganizationType typeOrg = OrganizationType.valueOf(actionRequest.getParameter(TYPE));
 //crop main image
@@ -348,12 +335,7 @@ public class CommunitiesController {
                 }
             }
             String role;
-            //todo: ternary operator
-            if (actionRequest.isUserInRole(ADMINISTRATOR_ROLE)) {
-                role = ADMINISTRATOR_ROLE;
-            } else {
-                role = USER_ROLE;
-            }
+            role = actionRequest.isUserInRole(ADMINISTRATOR_ROLE) ? ADMINISTRATOR_ROLE : USER_ROLE;
             User user = (User) actionRequest.getAttribute(WebKeys.USER);
             String usRole = user.getScreenName();
 //try to update fields for new organisation
@@ -386,8 +368,6 @@ public class CommunitiesController {
         if (bindingResult.hasFieldErrors()) {
             actionResponse.setRenderParameter(STR_FAIL, " ");
         } else {
-            String topic = organization.getTitle();
-            String text = organization.getText();
             OrganizationType typeOrg = OrganizationType.valueOf(actionRequest.getParameter(TYPE));
             CommonsMultipartFile croppedImage;
             if (!actionRequest.getParameter("t").equals("")) {
@@ -403,16 +383,10 @@ public class CommunitiesController {
                 return;
             }
             String role;
-            //todo: ternary operator
-            if (actionRequest.isUserInRole(ADMINISTRATOR_ROLE)) {
-                role = ADMINISTRATOR_ROLE;
-            } else {
-                role = USER_ROLE;
-            }
+            role = actionRequest.isUserInRole(ADMINISTRATOR_ROLE) ? ADMINISTRATOR_ROLE : USER_ROLE;
             User user = (User) actionRequest.getAttribute(WebKeys.USER);
             String usRole = user.getScreenName();
-
-            if (updateCommunityFields(croppedImage, images, topic, text, role, usRole, actionResponse, org, typeOrg)) {
+            if (updateCommunityFields(croppedImage, images, organization.getTitle(), organization.getText(), role, usRole, actionResponse, org, typeOrg)) {
                 organizationService.updateOrganization(org);
 //close session
                 sessionStatus.setComplete();
@@ -449,13 +423,7 @@ public class CommunitiesController {
         Organization organisation = organizationService.getOrganizationById(organisationID);
         ImageImpl mImage = organisation.getMainImage();
         String mainImageUrl;
-        //organisation.getYearMonthUniqueFolder()
-        //todo: ternary operator
-        if (mImage == null) {
-            mainImageUrl = MAIN_IMAGE_MOCK_URL;
-        } else {
-            mainImageUrl = imageService.getPathToLargeImage(mImage, organisation);
-        }
+        mainImageUrl = (mImage == null) ? MAIN_IMAGE_MOCK_URL : imageService.getPathToLargeImage(mImage, organisation);
         Collection<ImageImpl> additionalImages = organisation.getAdditionalImages();
 //set view for edit
         model.setViewName("editCommunity");
@@ -489,7 +457,6 @@ public class CommunitiesController {
     @RenderMapping(params = "fail")
     public ModelAndView showAddFailed(RenderRequest request, RenderResponse response) {
         ModelAndView model = showAddOrgs(request, response);
-//        SessionErrors.add(request, request.getParameter(STR_FAIL));
         return model;
     }
 
