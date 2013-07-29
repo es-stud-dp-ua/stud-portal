@@ -14,6 +14,7 @@ import ua.dp.stud.StudPortalLib.model.News;
 import ua.dp.stud.StudPortalLib.service.NewsService;
 
 import java.util.Collection;
+import ua.dp.stud.StudPortalLib.dao.impl.BaseDao;
 
 @Service("newsService")
 @Transactional
@@ -22,8 +23,8 @@ public class NewsServiceImpl implements NewsService {
      * dao - Dao object
      */
     @Autowired
-    private NewsDao dao;
-
+    private NewsDao<News> dao;
+   
     /**
      * setter for NewsArchiveDAO
      *
@@ -33,7 +34,11 @@ public class NewsServiceImpl implements NewsService {
     public void setDao(NewsDao dao) {
         this.dao = dao;
     }
-
+ 
+    @Transactional(readOnly = false)
+    public void setBaseDao(NewsDao<News> dao) {
+        this.dao = dao;
+    }
     /**
      * adds news
      *
@@ -42,7 +47,7 @@ public class NewsServiceImpl implements NewsService {
     @Override
     @Transactional(readOnly = false)
     public void addNews(News newsToAdd) {
-        dao.addNews(newsToAdd);
+        dao.addObject(newsToAdd);
     }
 
     /**
@@ -53,7 +58,7 @@ public class NewsServiceImpl implements NewsService {
     @Override
     @Transactional(readOnly = false)
     public void updateNews(News news) {
-        dao.updateNews(news);
+        dao.updateObject(news);
     }
 
     /**
@@ -185,7 +190,7 @@ public class NewsServiceImpl implements NewsService {
     @Override
     @Transactional(readOnly = true)
     public Integer getPagesCountByAuthor(String author, Integer newsByPage) {
-        return dao.calcPages(dao.getCountByAuthor(author), newsByPage);
+        return dao.calcPages(dao.getCountByAuthor(author,new News()), newsByPage);
     }
 
     /**
@@ -251,7 +256,7 @@ public class NewsServiceImpl implements NewsService {
     @Override
     @Transactional(readOnly = true)
     public Collection<News> getAllNews(Boolean approved) {
-        return dao.getAllNews(approved);
+        return dao.getAllObjects(approved, new News());
     }
 
     /**
@@ -264,7 +269,7 @@ public class NewsServiceImpl implements NewsService {
     @Override
     @Transactional(readOnly = true)
     public Integer getPagesCount(Boolean approved, Integer newsByPage) {
-        return dao.calcPages(dao.getCount(approved), newsByPage);
+        return dao.calcPages(dao.getCount(approved,new News()), newsByPage);
     }
 
     /**
@@ -278,6 +283,6 @@ public class NewsServiceImpl implements NewsService {
     @Override
     @Transactional(readOnly = true)
     public Collection<News> getNewsOnPage(Boolean approved, Integer pageNumb, Integer newsByPage) {
-        return dao.getNewsOnPage(approved, pageNumb, newsByPage);
+        return dao.getObjectsOnPage(approved, pageNumb, newsByPage,new News());
     }
 }

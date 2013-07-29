@@ -10,6 +10,7 @@ import ua.dp.stud.StudPortalLib.service.OrganizationService;
 import ua.dp.stud.StudPortalLib.util.OrganizationType;
 
 import java.util.Collection;
+import ua.dp.stud.StudPortalLib.dao.impl.BaseDao;
 
 @Service("organizationService")
 @Transactional
@@ -17,11 +18,14 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     @Autowired
     private OrganizationDao dao;
+ 
 
     public void setDao(OrganizationDao dao) {
         this.dao = dao;
     }
-
+   public void setBaseDao(OrganizationDao dao) {
+        this.dao = dao;
+    }
     /**
      * persist organization in db
      *
@@ -30,7 +34,7 @@ public class OrganizationServiceImpl implements OrganizationService {
      */
     @Override
     public Organization addOrganization(Organization organization) {
-        dao.addOrganization(organization);
+        dao.addObject(organization);
         return organization;
     }
 
@@ -52,7 +56,7 @@ public class OrganizationServiceImpl implements OrganizationService {
      */
     @Override
     public Organization updateOrganization(Organization organization) {
-        return dao.updateOrganization(organization);
+        return (Organization)dao.updateObject(organization);
     }
 
     @Override
@@ -66,7 +70,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Transactional(readOnly = true)
     @Override
     public Collection<Organization> getAllOrganizations(Boolean approve) {
-        return dao.getAllOrganizations(approve);
+        return dao.getAllObjects(approve, new Organization());
     }
 
     /**
@@ -127,7 +131,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Override
     @Transactional(readOnly = true)
     public Integer getPagesCount(int orgsByPage) {
-        return dao.calcPages(dao.getCount(), orgsByPage);
+        return dao.calcPages(dao.getCount(true,new Organization()), orgsByPage);
     }
 
     @Override
@@ -144,7 +148,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Transactional(readOnly = true)
     @Override
     public Integer getCount() {
-        return dao.getCount();
+        return dao.getCount(true, new Organization());
     }
 
     /**
@@ -165,7 +169,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     @Override
     public Integer getPagesCountByAuthor(String author, Integer orgByPage) {
-        return dao.calcPages(dao.getCountByAuthor(author), orgByPage);
+        return dao.calcPages(dao.getCountByAuthor(author,new Organization()), orgByPage);
     }
 
     @Override
@@ -183,7 +187,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Override
     @Transactional(readOnly = true)
     public Collection<Organization> getOrganizationsOnPage(Boolean approved, Integer pageNumb, Integer orgByPage) {
-        return dao.getOrganizationsOnPage(approved, pageNumb, orgByPage);
+        return dao.getObjectsOnPage(approved, pageNumb, orgByPage, new Organization());
     }
 
     @Override

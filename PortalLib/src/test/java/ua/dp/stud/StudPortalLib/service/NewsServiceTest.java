@@ -17,6 +17,7 @@ import java.util.LinkedList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.*;
+import ua.dp.stud.StudPortalLib.dao.impl.BaseDao;
 
 @RunWith(MockitoJUnitRunner.class)
 public class NewsServiceTest {
@@ -56,14 +57,14 @@ public class NewsServiceTest {
     @Test
     public void getAllNewsByApprovedTest() {
         LinkedList<News> allNews = new LinkedList<News>(Arrays.asList(news2));
-        when(mockDao.getAllNews(false)).thenReturn(allNews);
+        when(mockDao.getAllObjects(false,new News())).thenReturn(allNews);
 
         assertEquals(allNews, service.getAllNews(false));
     }
 
     @Test
     public void getPagesCountByAuthorTest() {
-        when(mockDao.getCountByAuthor("author1")).thenReturn(10);
+        when(mockDao.getCountByAuthor("author1",new News())).thenReturn(10);
         when(mockDao.calcPages(10, 4)).thenReturn(3);
         Integer result = 3;
         Integer expResult = service.getPagesCountByAuthor("author1", 4);
@@ -72,7 +73,7 @@ public class NewsServiceTest {
 
     @Test
     public void getPagesCountByApprovedTest() {
-        when(mockDao.getCount(false)).thenReturn(10);
+        when(mockDao.getCount(false,new News())).thenReturn(10);
         when(mockDao.calcPages(10, 4)).thenReturn(3);
         Integer result = 3;
         Integer expResult = service.getPagesCount(false, 4);
@@ -89,7 +90,7 @@ public class NewsServiceTest {
     @Test
     public void getPagesNewsByApprovedTest() {
         LinkedList<News> allNews = new LinkedList<News>(Arrays.asList(news2));
-        when(mockDao.getNewsOnPage(false, 1, 4)).thenReturn(allNews);
+        when(mockDao.getObjectsOnPage(false, 1, 4, new News())).thenReturn(allNews);
         assertEquals(allNews, service.getNewsOnPage(false, 1, 4));
     }
 
@@ -160,7 +161,7 @@ public class NewsServiceTest {
     @Test
     public void testAddNews() {
         service.addNews(news1);
-        verify(mockDao, times(1)).addNews(news1);
+        verify(mockDao, times(1)).addObject(news1);
     }
 
     /**
@@ -169,7 +170,7 @@ public class NewsServiceTest {
     @Test
     public void testUpdateNews() {
         service.updateNews(news1);
-        verify(mockDao, times(1)).updateNews(news1);
+        verify(mockDao, times(1)).updateObject(news1);
     }
 
     /**

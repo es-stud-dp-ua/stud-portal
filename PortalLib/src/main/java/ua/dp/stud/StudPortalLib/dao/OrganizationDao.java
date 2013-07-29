@@ -7,7 +7,7 @@ import ua.dp.stud.StudPortalLib.util.OrganizationType;
 
 import java.util.Collection;
 
-public interface OrganizationDao {
+public interface OrganizationDao<E> extends Base<E> {
 
     /**
      * collection for organizations news by id
@@ -33,7 +33,7 @@ public interface OrganizationDao {
      * @param organization
      * @return
      */
-    Organization addOrganization(Organization organization);
+   // Organization addOrganization(Organization organization);
 
     /**
      * @param id
@@ -47,7 +47,7 @@ public interface OrganizationDao {
      * @param organization
      * @return
      */
-    Organization updateOrganization(Organization organization);
+    //Organization updateOrganization(Organization organization);
 
     /**
      * return all orgs, approved or not
@@ -55,7 +55,7 @@ public interface OrganizationDao {
      * @param approve
      * @return collection of all organizations
      */
-    Collection<Organization> getAllOrganizations(Boolean approve);
+  //  Collection<Organization> getAllOrganizations(Boolean approve);
 
     /**
      * increment of views for current organization
@@ -89,7 +89,7 @@ public interface OrganizationDao {
      *
      * @return
      */
-    Integer getCount();
+    //Integer getCount();
 
     Integer getCountOfType(OrganizationType type);
 
@@ -100,19 +100,19 @@ public interface OrganizationDao {
      */
     void deleteOrganization(Integer id);
 
-    void deleteImage(Long id);
+  //  void deleteImage(Long id);
 
-    ImageImpl getImageById(Long id);
+   // ImageImpl getImageById(Long id);
 
     Collection<Organization> getAllOrganizationByAuthor(String author);
 
-    Integer getCountByAuthor(String author);
+    //Integer getCountByAuthor(String author);
 
     Collection<Organization> getPagesOrganizationByAuthor(String author, Integer pageNumb, Integer organizationByPage);
 
     Integer getCountByApprove(Boolean approved);
 
-    Collection<Organization> getOrganizationsOnPage(Boolean approved, Integer pageNumb, Integer orgByPage);
+   // Collection<Organization> getOrganizationsOnPage(Boolean approved, Integer pageNumb, Integer orgByPage);
 
     Integer calcPages(Integer count, Integer perPage);
 }

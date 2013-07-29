@@ -12,6 +12,8 @@ import ua.dp.stud.StudPortalLib.model.ImageImpl;
 import ua.dp.stud.StudPortalLib.model.News;
 
 import java.util.Collection;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Class is used to work with the database
@@ -20,21 +22,23 @@ import java.util.Collection;
  * @author Vladislav Pikus
  */
 @Repository("newsDao")
-public class NewsDaoImpl extends BaseDao implements NewsDao {
+public class NewsDaoImpl extends BaseDao<News> implements NewsDao<News> {
     private static final String AUTHOR = "author";
     private static final String APPROVED = "approved";
+    
 
+    
     /**
      * Method add news to database
      *
      * @param news The news we want to add to the database
      * @return The news added to the database
      */
-    @Override
+  /*  @Override
     public News addNews(News news) {
         getSession().save(news);
         return news;
-    }
+    }*/
 
     /**
      * Method return news form database by id
@@ -45,7 +49,7 @@ public class NewsDaoImpl extends BaseDao implements NewsDao {
     @Override
     public News getNewsById(Integer id) {
         News news = (News) getSession().get(News.class, id);
-        Hibernate.initialize(news.getAdditionalImages());
+        Hibernate.initialize(news.getAdditionalImages()); 
         return news;
     }
 
@@ -54,11 +58,11 @@ public class NewsDaoImpl extends BaseDao implements NewsDao {
      *
      * @param news -news with new parameters
      */
-    @Override
+  /*  @Override
     public void updateNews(News news) {
         getSession().update(news);
     }
-
+*/
     /**
      * deleteNews
      *
@@ -99,23 +103,23 @@ public class NewsDaoImpl extends BaseDao implements NewsDao {
      *
      * @param image for adding
      */
-    @Override
+   /* @Override
     public void addImage(ImageImpl image) {
         getSession().save(image);
     }
-
+*/
     /**
      * addCategory
      *
      * @param cat
      * @return adding Category
      */
-    @Override
+   /* @Override
     public Category addCategory(Category cat) {
         getSession().save(cat);
         return cat;
     }
-
+*/
     /**
      * updateCategory
      *
@@ -183,7 +187,7 @@ public class NewsDaoImpl extends BaseDao implements NewsDao {
      *
      * @param id of image for delete
      */
-    @Override
+   /* @Override
     public void deleteImage(Long id) {
         //todo: find better approach
         ImageImpl image = getImageById(id);
@@ -191,17 +195,17 @@ public class NewsDaoImpl extends BaseDao implements NewsDao {
         image.setBase(null);
         getSession().delete(image);
     }
-
+*/
     /**
      * Returns image by id
      *
      * @param id image
      * @return image that is equals id
      */
-    @Override
+ /*   @Override
     public ImageImpl getImageById(Long id) {
         return (ImageImpl) getSession().get(ImageImpl.class, id);
-    }
+    }*/
 
     /**
      * Returns collection of news by author
@@ -220,11 +224,11 @@ public class NewsDaoImpl extends BaseDao implements NewsDao {
      * @param author of news
      * @return count of news by author
      */
-    @Override
+  /*  @Override
     public Integer getCountByAuthor(String author) {
         return ((Long) getSession().createQuery("Select Count(*) From News news  Where news.author = :author")
                 .setParameter(AUTHOR, author).uniqueResult()).intValue();
-    }
+    }*/
 
     /**
      * Returns collection of news on page by author
@@ -289,24 +293,24 @@ public class NewsDaoImpl extends BaseDao implements NewsDao {
      * @param approved of administrator
      * @return collection of news
      */
-    @Override
+   /* @Override
     public Collection<News> getAllNews(Boolean approved) {
         return getSession().getNamedQuery("News.getByApproved")
                 .setParameter(APPROVED, approved).list();
     }
-
+*/
     /**
      * Returns count of news by approved
      *
      * @param approved of administrator
      * @return returns count of approved news
      */
-    @Override
+    /*@Override
     public Integer getCount(Boolean approved) {
         return ((Long) getSession().createQuery("Select Count(*) From News news  Where news.approved = :approved and news.comment is null")
                 .setParameter(APPROVED, approved).uniqueResult()).intValue();
     }
-
+*/
     /**
      * Returns a collection of news per page for a set number
      *
@@ -315,11 +319,11 @@ public class NewsDaoImpl extends BaseDao implements NewsDao {
      * @param newsByPage count news by page
      * @return collection for current page number
      */
-    @Override
+   /* @Override
     public Collection<News> getNewsOnPage(Boolean approved, Integer pageNumb, Integer newsByPage) {
         int firstResult = (pageNumb - 1) * newsByPage;
         return getSession().getNamedQuery("News.getByApproved")
                 .setParameter(APPROVED, approved).setFirstResult(firstResult).setMaxResults(newsByPage).list();
-    }
+    }*/
 }
     
