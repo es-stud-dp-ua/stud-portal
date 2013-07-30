@@ -17,6 +17,7 @@ public class Specialties implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
+
     public Integer getId() {
         return id;
     }

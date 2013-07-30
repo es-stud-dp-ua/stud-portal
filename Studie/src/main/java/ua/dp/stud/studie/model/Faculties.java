@@ -1,7 +1,5 @@
 package ua.dp.stud.studie.model;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
@@ -16,6 +14,7 @@ import java.util.List;
 @Entity
 @Table(name = "faculties")
 public class Faculties implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;

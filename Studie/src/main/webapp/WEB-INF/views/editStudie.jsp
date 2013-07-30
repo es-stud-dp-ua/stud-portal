@@ -36,14 +36,8 @@
 </c:if>
 
 <div width="100%">
-	<form:form method="POST" commandName="study" action="${actionLink}" enctype="multipart/form-data">
+	<form:form method="POST" commandName="study" action="${actionLink}" enctype="multipart/form-data" id="studyForm">
         <form:errors path="*" cssClass="errorblock" element="div" />
-		<c:forEach items="${study.faculties}" var="Faculties" varStatus="i" begin="0" >
-			<form:input type="hidden" path="faculties[${i.index}].id"/>
-			<c:forEach items="${Faculties.specialties}" var="Specialties" varStatus="j" begin="0" >
-				<form:input type="hidden" path="faculties[${i.index}].specialties[${j.index}].id"/>
-			</c:forEach>
-		</c:forEach>
 		<form:input type="hidden" path="id"/>
 		<input type="hidden" size="0" id="x1" name="t"/>
         <input type="hidden" size="0" id="y1" name="l"/>
@@ -242,8 +236,8 @@
 			</div></div>
 			<table style="width: 100%;">
 				<thead>
-					<th>Faculties</th>
-					<th>Spetial</th>
+					<th><spring:message code="studie.fuck"/></th>
+					<th><spring:message code="studie.special"/></th>
 					<th></th>
 				</thead>
 				<tbody id="facultiesListContainer">
@@ -279,6 +273,7 @@
 			<a href="#" id="addFaculties">Add</a>
 		</div>
         <input type="submit" style="vertical-align: central; margin-top: 15px; " value="<spring:message
-                                   code='<%=(request.isUserInRole("Administrator"))?"form.submit.admin"
+                                   code='<%=(request.isUserInRole("Administrator"))?"form.submit.save"
                                                                                              :"form.submit.user"%>'/>"/>
     </form:form>
+</div>

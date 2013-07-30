@@ -232,8 +232,8 @@
 			</div></div>
 			<table style="width: 100%;">
 				<thead>
-					<th>Faculties</th>
-					<th>Spetial</th>
+					<th><spring:message code="studie.fuck"/></th>
+					<th><spring:message code="studie.special"/></th>
 					<th></th>
 				</thead>
 				<tbody id="facultiesListContainer">

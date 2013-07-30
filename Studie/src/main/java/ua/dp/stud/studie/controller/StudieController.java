@@ -11,6 +11,7 @@ import com.liferay.portal.kernel.servlet.SessionMessages;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -27,7 +28,10 @@ import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import ua.dp.stud.StudPortalLib.model.ImageImpl;
 import ua.dp.stud.StudPortalLib.util.ImageService;
+import ua.dp.stud.studie.model.Faculties;
+import ua.dp.stud.studie.model.Specialties;
 import ua.dp.stud.studie.model.Studie;
+import ua.dp.stud.studie.service.FacultiesService;
 import ua.dp.stud.studie.service.StudieService;
 
 import javax.portlet.ActionRequest;
@@ -54,10 +58,25 @@ public class StudieController {
 
     @Autowired
     @Qualifier(value = "studieService")
-    private StudieService service;
+    private StudieService studieService;
 
-    public void setService(StudieService service) {
-        this.service = service;
+    public void setStudieService(StudieService studieService) {
+        this.studieService = studieService;
+    }
+
+    @Autowired
+    private MessageSource messageSource;
+
+    public void setMessageSource(MessageSource messageSource) {
+        this.messageSource = messageSource;
+    }
+
+    @Autowired
+    @Qualifier(value = "facultiesService")
+    private FacultiesService facultiesService;
+
+    public void setService(FacultiesService facultiesService) {
+        this.facultiesService = facultiesService;
     }
 
     @Autowired
@@ -78,7 +97,7 @@ public class StudieController {
             buttonId = Integer.valueOf(request.getParameter(BUTTON_ID));
         }
         model.setViewName("viewAll");
-        Collection<Studie> studie = service.getAllStudies();
+        Collection<Studie> studie = studieService.getAllStudies();
         model.addObject("studie", studie);
         model.addObject(BUTTON_ID, buttonId);
         return model;
@@ -93,7 +112,7 @@ public class StudieController {
         } else {
             buttonId = Integer.valueOf(request.getParameter(BUTTON_ID));
         }
-        Studie studie = service.getStudieById(studieID);
+        Studie studie = studieService.getStudieById(studieID);
         ImageImpl mImage = studie.getMainImage();
         String mainImageUrl;
         if (mImage == null) {
@@ -122,23 +141,33 @@ public class StudieController {
     }
 
     private static final List<String> ACCCRED_LEVELS;
-    private static final List<String> TRAINING_FORMS;
-    private static final List<String> STATUS;
-    private static final List<String> LVL_QUALIF;
+    private List<String> TRAINING_FORMS;
+    private List<String> STATUS;
+    private List<String> LVL_QUALIF;
     private static final List<String> YEARS;
-    private static final List<String> DOC;
-    private static final Map<String, List<String>> FORM_PARAM_MAP;
+    private List<String> DOC = new ArrayList<String>();
+    private Map<String, List<String>> FORM_PARAM_MAP;
 
     static {
         ACCCRED_LEVELS = Arrays.asList("I", "II", "III", "IV");
-        TRAINING_FORMS = Arrays.asList("дневная", "заочная");
-        STATUS = Arrays.asList("государственный", "частный");
-        LVL_QUALIF = Arrays.asList("бакалавр", "специалист", "магистр");
-        DOC = Arrays.asList("док. гос. образца");
         YEARS = new ArrayList<String>();
         for (Integer i = 1850; i < DateTime.now().getYear(); i++) {
             YEARS.add(i.toString());
         }
+    }
+
+    private void setMap(RenderRequest request) {
+        TRAINING_FORMS = new ArrayList<String>();
+        STATUS = new ArrayList<String>();
+        LVL_QUALIF = new ArrayList<String>();
+        for (int i = 0; i < 2; i++) {
+            TRAINING_FORMS.add(messageSource.getMessage("form.TRAINING_FORMS" + i, null, request.getLocale()));
+            STATUS.add(messageSource.getMessage("form.STATUS" + i, null, request.getLocale()));
+        }
+        for (int i = 0; i < 3; i++) {
+            LVL_QUALIF.add(messageSource.getMessage("form.LVL_QUALIF" + i, null, request.getLocale()));
+        }
+        DOC = Arrays.asList(messageSource.getMessage("form.DOC", null, request.getLocale()));
         FORM_PARAM_MAP = new HashMap<String, List<String>>();
         FORM_PARAM_MAP.put("lvlAccredList", ACCCRED_LEVELS);
         FORM_PARAM_MAP.put("trainigFormsList", TRAINING_FORMS);
@@ -151,6 +180,7 @@ public class StudieController {
     @RenderMapping(params = "mode=add")
     public ModelAndView showAddStuds(RenderRequest request, RenderResponse response) {
         ModelAndView model = new ModelAndView("addStudie");
+        setMap(request);
         model.addAllObjects(FORM_PARAM_MAP);
         return model;
     }
@@ -171,6 +201,11 @@ public class StudieController {
             LOG.log(Level.SEVERE, STR_EXEPT, ex);
             actionResponse.setRenderParameter(STR_EXEPT, "error");
             successUpload = false;
+        }
+        for (Faculties faculties : newStudie.getFaculties()) {
+            for (Specialties specialties : faculties.getSpecialties()) {
+                specialties.setNameOfFaculties(faculties);
+            }
         }
         return successUpload;
     }
@@ -196,7 +231,7 @@ public class StudieController {
                 Integer.parseInt(actionRequest.getParameter("w")),
                 Integer.parseInt(actionRequest.getParameter("h")));
         if (UpdateStudy(studie, mainImage, images, actionResponse)) {
-            service.addStudie(studie);
+            studieService.addStudie(studie);
             actionResponse.setRenderParameter("studieID", Integer.toString(studie.getId()));
             sessionStatus.setComplete();
         }
@@ -211,34 +246,22 @@ public class StudieController {
                            @RequestParam("mainImage") CommonsMultipartFile mainImage,
                            @RequestParam("images") CommonsMultipartFile[] images) {
         if (bindingResult.hasErrors()) {
-            for (Object object : bindingResult.getAllErrors()) {
-                if (object instanceof FieldError) {
-                    FieldError fieldError = (FieldError) object;
-
-                    System.out.println(fieldError.toString());
-                }
-
-                if (object instanceof ObjectError) {
-                    ObjectError objectError = (ObjectError) object;
-
-                    System.out.println(objectError.toString());
-                }
-            }
             actionResponse.setRenderParameter(STR_FAIL, "msg.fail");
             return;
         }
-        Studie oldStudy = service.getStudieById(studie.getId());
+        Studie oldStudy = studieService.getStudieById(studie.getId());
         studie.setMainImage(oldStudy.getMainImage());
         studie.setAdditionalImages(oldStudy.getAdditionalImages());
         studie.setYearMonthUniqueFolder(oldStudy.getYearMonthUniqueFolder());
         if (!mainImage.getOriginalFilename().equals("")) {
-            //CommonsMultipartFile f = imageService.cropImage(mainImage, Integer.parseInt(actionRequest.getParameter("t")),
-            //        Integer.parseInt(actionRequest.getParameter("l")),
-            //        Integer.parseInt(actionRequest.getParameter("w")),
-            //        Integer.parseInt(actionRequest.getParameter("h")));
+            CommonsMultipartFile f = imageService.cropImage(mainImage, Integer.parseInt(actionRequest.getParameter("t")),
+                    Integer.parseInt(actionRequest.getParameter("l")),
+                    Integer.parseInt(actionRequest.getParameter("w")),
+                    Integer.parseInt(actionRequest.getParameter("h")));
         }
         if (UpdateStudy(studie, mainImage, images, actionResponse)) {
-            service.updateStudie(studie);
+            facultiesService.deleteList(oldStudy.getFaculties());
+            studieService.updateStudie(studie);
             actionResponse.setRenderParameter("studieID", Integer.toString(studie.getId()));
             sessionStatus.setComplete();
         }
@@ -247,9 +270,9 @@ public class StudieController {
     @RenderMapping(params = "mode=delImage")
     public ModelAndView delImage(RenderRequest request, RenderResponse response) {
         long imageID = Long.valueOf(request.getParameter("imageId"));
-        ImageImpl image = service.getImageById(imageID);
+        ImageImpl image = studieService.getImageById(imageID);
         imageService.deleteImage(image, image.getBase());
-        service.deleteImage(image);
+        studieService.deleteImage(image);
         return showAddSuccess(request, response);
     }
 
@@ -257,7 +280,7 @@ public class StudieController {
     public ModelAndView showEditNews(RenderRequest request, RenderResponse response) {
         ModelAndView model = new ModelAndView("editStudie");
         int studieID = Integer.valueOf(request.getParameter("studieId"));
-        Studie studie = service.getStudieById(studieID);
+        Studie studie = studieService.getStudieById(studieID);
         ImageImpl mImage = studie.getMainImage();
         String mainImageUrl;
         if (mImage == null) {
@@ -269,6 +292,7 @@ public class StudieController {
         model.getModelMap().addAttribute("study", studie);
         model.addObject(MAIN_IMAGE, mainImageUrl);
         model.addObject("additionalImages", additionalImages);
+        setMap(request);
         model.addAllObjects(FORM_PARAM_MAP);
         return model;
     }
@@ -276,9 +300,9 @@ public class StudieController {
     @RenderMapping(params = "mode=delete")
     public ModelAndView deleteOrganisation(RenderRequest request, RenderResponse response) {
         int studieID = Integer.valueOf(request.getParameter("studieId"));
-        Studie studie = service.getStudieById(studieID);
+        Studie studie = studieService.getStudieById(studieID);
         imageService.deleteDirectory(studie);
-        service.deleteStudie(studie);
+        studieService.deleteStudie(studie);
         return showAddSuccess(request, response);
     }
 
