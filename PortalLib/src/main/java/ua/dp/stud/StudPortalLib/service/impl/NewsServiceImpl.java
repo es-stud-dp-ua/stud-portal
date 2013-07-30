@@ -35,10 +35,7 @@ public class NewsServiceImpl implements NewsService {
         this.dao = dao;
     }
  
-    @Transactional(readOnly = false)
-    public void setBaseDao(NewsDao<News> dao) {
-        this.dao = dao;
-    }
+
     /**
      * adds news
      *
@@ -190,7 +187,7 @@ public class NewsServiceImpl implements NewsService {
     @Override
     @Transactional(readOnly = true)
     public Integer getPagesCountByAuthor(String author, Integer newsByPage) {
-        return dao.calcPages(dao.getCountByAuthor(author,new News()), newsByPage);
+        return dao.calcPages(dao.getCountByAuthor(author), newsByPage);
     }
 
     /**
@@ -256,7 +253,7 @@ public class NewsServiceImpl implements NewsService {
     @Override
     @Transactional(readOnly = true)
     public Collection<News> getAllNews(Boolean approved) {
-        return dao.getAllObjects(approved, new News());
+        return dao.getAllNews(approved);
     }
 
     /**
@@ -269,7 +266,7 @@ public class NewsServiceImpl implements NewsService {
     @Override
     @Transactional(readOnly = true)
     public Integer getPagesCount(Boolean approved, Integer newsByPage) {
-        return dao.calcPages(dao.getCount(approved,new News()), newsByPage);
+        return dao.calcPages(dao.getCount(), newsByPage);
     }
 
     /**
@@ -283,6 +280,6 @@ public class NewsServiceImpl implements NewsService {
     @Override
     @Transactional(readOnly = true)
     public Collection<News> getNewsOnPage(Boolean approved, Integer pageNumb, Integer newsByPage) {
-        return dao.getObjectsOnPage(approved, pageNumb, newsByPage,new News());
+        return dao.getNewsOnPage(approved, pageNumb, newsByPage);
     }
 }

@@ -33,6 +33,10 @@ public class OrganizationDaoImpl extends BaseDaoImpl<Organization> implements Or
                 .list();
     }
 
+      @Override
+    public Integer calcPages(Integer count, Integer perPage) {
+        return (count > 0) ? ((count - 1) / perPage + 1) : 0;
+    }
     /**
      * collection for all organizations news by id
      *
@@ -68,7 +72,22 @@ public class OrganizationDaoImpl extends BaseDaoImpl<Organization> implements Or
                 .add(Restrictions.eq("organizationType", type))
                 .addOrder(Order.desc("id")).list();
     }
-
+  @Override
+    public Integer getCountByAuthor(String author) {
+        return ((Long) getSession().createQuery("Select Count(*) From Organization organization  Where organization.author = :author")
+                .setParameter("author", author).uniqueResult()).intValue();
+    }
+  
+   @Override
+    public Integer getCount() {
+        return ((Long) getSession().createQuery("Select Count(*) From Organization WHERE approved= true")
+                .uniqueResult()).intValue();
+    }
+   
+      @Override
+    public Collection<Organization> getAllOrganizations(Boolean approve) {
+        return getSession().createCriteria(Organization.class).add(Restrictions.eq("approved", approve)).addOrder(Order.desc("id")).list();
+    }
     /**
      * @param pageNumb number of requested page
      * @param orgsPerPage number of organizations per page
@@ -90,6 +109,13 @@ public class OrganizationDaoImpl extends BaseDaoImpl<Organization> implements Or
 
     }
 
+       @Override
+    public Collection<Organization> getOrganizationsOnPage(Boolean approved, Integer pageNumb, Integer orgByPage) {
+        int firstResult = (pageNumb - 1) * orgByPage;
+        return getSession().createQuery("Select organization From Organization organization  Where organization.approved = :approved")
+                .setParameter("approved", approved).setFirstResult(firstResult).setMaxResults(orgByPage).list();
+    }
+       
     @Override
     public Integer getCountOfType(OrganizationType type) {
         return ((Long) getSession().createQuery("Select Count(*) From Organization WHERE organizationType= :type and approved=true")
@@ -135,4 +161,5 @@ public class OrganizationDaoImpl extends BaseDaoImpl<Organization> implements Or
         getSession().update(organization);
 
     }
+
 }

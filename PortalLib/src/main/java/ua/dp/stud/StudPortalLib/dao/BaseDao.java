@@ -22,8 +22,6 @@ public interface BaseDao<E> {
 
     public Session getSession();
 
-    public Integer calcPages(Integer count, Integer perPage);
-
     public E addObject(E object);
 
     public E updateObject(E object);
@@ -34,11 +32,9 @@ public interface BaseDao<E> {
 
     public void addImage(ImageImpl image);
 
-    public Collection<E> getAllObjects(Boolean approve, E object);
-
-    public Integer getCount(Boolean approve, E object);
-
-    public Collection<E> getObjectsOnPage(Boolean approved, Integer pageNumb, Integer newsByPage, E object);
-
-    public Integer getCountByAuthor(String author, E object);
+    public Integer getCount();
+    
+    public Collection<E> getAll();
+    
+    public E getById(Integer id);
 }

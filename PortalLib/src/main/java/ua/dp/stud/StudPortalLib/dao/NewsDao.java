@@ -13,6 +13,11 @@ import ua.dp.stud.StudPortalLib.dao.impl.BaseDaoImpl;
  */
 public interface NewsDao<E> extends BaseDao<E> {
 
+    public Integer getCountByAuthor(String author);
+    
+     public Collection<News> getAllNews(Boolean approved);
+     
+     public Collection<News> getNewsOnPage(Boolean approved, Integer pageNumb, Integer newsByPage);
     /**
      * getNewsById
      *

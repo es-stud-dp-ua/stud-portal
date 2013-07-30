@@ -70,7 +70,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Transactional(readOnly = true)
     @Override
     public Collection<Organization> getAllOrganizations(Boolean approve) {
-        return dao.getAllObjects(approve, new Organization());
+        return dao.getAllOrganizations(approve);
     }
 
     /**
@@ -131,7 +131,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Override
     @Transactional(readOnly = true)
     public Integer getPagesCount(int orgsByPage) {
-        return dao.calcPages(dao.getCount(true,new Organization()), orgsByPage);
+        return dao.calcPages(dao.getCount(), orgsByPage);
     }
 
     @Override
@@ -148,7 +148,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Transactional(readOnly = true)
     @Override
     public Integer getCount() {
-        return dao.getCount(true, new Organization());
+        return dao.getCount();
     }
 
     /**
@@ -169,7 +169,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     @Override
     public Integer getPagesCountByAuthor(String author, Integer orgByPage) {
-        return dao.calcPages(dao.getCountByAuthor(author,new Organization()), orgByPage);
+        return dao.calcPages(dao.getCountByAuthor(author), orgByPage);
     }
 
     @Override
@@ -187,7 +187,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Override
     @Transactional(readOnly = true)
     public Collection<Organization> getOrganizationsOnPage(Boolean approved, Integer pageNumb, Integer orgByPage) {
-        return dao.getObjectsOnPage(approved, pageNumb, orgByPage, new Organization());
+        return dao.getOrganizationsOnPage(approved, pageNumb, orgByPage);
     }
 
     @Override

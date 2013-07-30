@@ -82,9 +82,9 @@ private static final String TEST_TEXT="TEST test TEST testTEST testTEST testTEST
 
     @Test
     public void getCountByAuthorTest() {
-      ///  Integer result = 1;
-      //  Integer expResult = dao.getCountByAuthor("Автор1",new News());
-      //  assertEquals(result, expResult);
+        Integer result = 1;
+       Integer expResult = dao.getCountByAuthor("Автор1");
+      assertEquals(result, expResult);
     }
 
     @Test
@@ -97,7 +97,7 @@ private static final String TEST_TEXT="TEST test TEST testTEST testTEST testTEST
 
     @Test
     public void getAllNewsByApprovedTest() {
-        List<News> expResult = (List) dao.getAllObjects(false,new News());
+        List<News> expResult = (List) dao.getAllNews(false);
         assertFalse(expResult.size() == 2);
         assertEquals(1, expResult.size());
         assertEquals(n2.getAuthor(), expResult.get(0).getAuthor());
@@ -105,14 +105,14 @@ private static final String TEST_TEXT="TEST test TEST testTEST testTEST testTEST
 
     @Test
     public void getCountByApprovedTest() {
-        Integer result = 1;
-        Integer expResult = dao.getCount(false,new News());
+        Integer result = 2;
+        Integer expResult = dao.getCount();
         assertEquals(result, expResult);
     }
 
     @Test
     public void getPagesNewsByApprovedTest() {
-        List<News> expResult = (List) dao.getObjectsOnPage(false, 1, 4,new News());
+        List<News> expResult = (List) dao.getNewsOnPage(false, 1, 4);
         assertFalse(expResult.size() == 2);
         assertEquals(1, expResult.size());
         assertEquals(n2.getAuthor(), expResult.get(0).getAuthor());
@@ -128,8 +128,8 @@ private static final String TEST_TEXT="TEST test TEST testTEST testTEST testTEST
      */
     @Test
     public void testAddNews() {
-       // assertTrue(dao.addObject(n1).getId() == n1.getId());
-      //  assertTrue(dao.addObject(n2).getId() == n2.getId());
+     // assertTrue(dao.addObject(n1).getId() == n1.getId());
+     // assertTrue(dao.addObject(n2).getId() == n2.getId());
     }
 
     /**

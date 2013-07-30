@@ -8,7 +8,15 @@ import ua.dp.stud.StudPortalLib.util.OrganizationType;
 import java.util.Collection;
 
 public interface OrganizationDao<E> extends BaseDao<E> {
+    
+public Integer getCountByAuthor(String author);
 
+public Integer getCount();
+
+public Collection<Organization> getOrganizationsOnPage(Boolean approved, Integer pageNumb, Integer orgByPage);
+
+  public Collection<Organization> getAllOrganizations(Boolean approve);
+  
     /**
      * collection for organizations news by id
      *

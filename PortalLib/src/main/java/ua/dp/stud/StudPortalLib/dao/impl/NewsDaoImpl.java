@@ -39,7 +39,25 @@ public class NewsDaoImpl extends BaseDaoImpl<News> implements NewsDao<News> {
         Hibernate.initialize(news.getAdditionalImages());
         return news;
     }
-
+    
+   @Override
+    public Integer getCountByAuthor(String author) {
+        return ((Long) getSession().createQuery("Select Count(*) From News news  Where news.author = :author")
+                .setParameter(AUTHOR, author).uniqueResult()).intValue();
+    }
+ 
+    @Override
+    public Collection<News> getAllNews(Boolean approved) {
+        return getSession().getNamedQuery("News.getByApproved")
+                .setParameter(APPROVED, approved).list();
+    }
+    
+      @Override
+    public Collection<News> getNewsOnPage(Boolean approved, Integer pageNumb, Integer newsByPage) {
+        int firstResult = (pageNumb - 1) * newsByPage;
+        return getSession().getNamedQuery("News.getByApproved")
+                .setParameter(APPROVED, approved).setFirstResult(firstResult).setMaxResults(newsByPage).list();
+    }
     /**
      * deleteNews
      *
@@ -201,5 +219,10 @@ public class NewsDaoImpl extends BaseDaoImpl<News> implements NewsDao<News> {
         int firstResult = (pageNumb - 1) * newsByPage;
         return getSession().getNamedQuery("News.getByOrganization")
                 .setParameter(AUTHOR, author).setParameter(APPROVED, approved).setFirstResult(firstResult).setMaxResults(newsByPage).list();
+    }
+
+      @Override
+    public Integer calcPages(Integer count, Integer perPage) {
+        return (count > 0) ? ((count - 1) / perPage + 1) : 0;
     }
 }

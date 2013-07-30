@@ -121,7 +121,7 @@ public class OrganizationDaoTest extends AbstractTransactionalJUnit4SpringContex
 
     @Test
     public void getOrganizationsOnPageTest() {
-        List<Organization> expResult = (List) dao.getObjectsOnPage(true, 1, 4, new Organization());
+        List<Organization> expResult = (List) dao.getOrganizationsOnPage(true, 1, 4);
         assertFalse(expResult.size() == 1);
         assertEquals(2, expResult.size());
         assertEquals(org1.getAuthor(), expResult.get(0).getAuthor());
@@ -174,7 +174,7 @@ public class OrganizationDaoTest extends AbstractTransactionalJUnit4SpringContex
     @Test
     public void getAll() {
         Set<Organization> orgsList = new HashSet<Organization>(Arrays.asList(org1, org2));
-        Set<Organization> fromDao = new HashSet<Organization>(dao.getAllObjects(true, new Organization()));
+        Set<Organization> fromDao = new HashSet<Organization>(dao.getAllOrganizations(true));
 
         assertEquals(orgsList, fromDao);
         assertEquals(2, fromDao.size());
@@ -213,6 +213,6 @@ public class OrganizationDaoTest extends AbstractTransactionalJUnit4SpringContex
 
     @Test
     public void getCount() {
-        assertEquals(2, (int) dao.getCount(true, new Organization()));
+        assertEquals(2, (int) dao.getCount());
     }
 }

@@ -1,5 +1,6 @@
 package ua.dp.stud.StudPortalLib.dao.impl;
 
+import java.lang.reflect.ParameterizedType;
 import java.util.Collection;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -16,7 +17,17 @@ import ua.dp.stud.StudPortalLib.model.ImageImpl;
  * @author: Pikus Vladislav
  */
 public abstract class BaseDaoImpl<E> implements BaseDao<E>{
-
+  
+    private Class<E> persistentClass;
+ 
+   
+    public BaseDaoImpl() {
+        /**
+         * define a class
+         */
+        this.persistentClass = (Class<E>) ((ParameterizedType) getClass()
+                                .getGenericSuperclass()).getActualTypeArguments()[0];
+     }
     private SessionFactory sessionFactory;
 
     @Autowired
@@ -29,10 +40,6 @@ public abstract class BaseDaoImpl<E> implements BaseDao<E>{
         return this.sessionFactory.getCurrentSession();
     }
 
-    @Override
-    public Integer calcPages(Integer count, Integer perPage) {
-        return (count > 0) ? ((count - 1) / perPage + 1) : 0;
-    }
 
     @Override
     public E addObject(E object) {
@@ -64,26 +71,20 @@ public abstract class BaseDaoImpl<E> implements BaseDao<E>{
     public void addImage(ImageImpl image) {
         getSession().save(image);
     }
-
-    @Override
-    public Collection<E> getAllObjects(Boolean approve, E object) {
-        return getSession().createCriteria(object.getClass()).add(Restrictions.eq("approved", approve)).addOrder(Order.desc("id")).list();
-    }
-
-    @Override
-    public Integer getCount(Boolean approve, E object) {
-        return ((Long) getSession().createCriteria(object.getClass()).add(Restrictions.eq("approved", approve)).setProjection(Projections.rowCount())
-                .uniqueResult()).intValue();
-    }
-    @Override
-       public Collection<E> getObjectsOnPage(Boolean approved, Integer pageNumb, Integer newsByPage, E object) {
-        int firstResult = (pageNumb - 1) * newsByPage;
-        return getSession().createCriteria(object.getClass()).add(Restrictions.eq("approved", approved)).setFirstResult(firstResult).setMaxResults(newsByPage).list();
-    }
-       
-    @Override
-     public Integer getCountByAuthor(String author, E object) {
-        return ((Long) getSession().createCriteria(object.getClass())
-                .add(Restrictions.eq("author", author)).uniqueResult()).intValue();
-    }
+    
+        @Override
+   public Integer getCount(){
+        return ((Long) getSession().createCriteria(persistentClass).setProjection(Projections.rowCount())
+                .uniqueResult()).intValue(); 
+   }
+        
+   @Override      
+  public Collection<E> getAll(){
+        return getSession().createCriteria(persistentClass).addOrder(Order.desc("id")).list();
+   }
+   
+   @Override
+       public E getById(Integer id){
+       return (E) getSession().get(persistentClass, id);
+   }
 }
