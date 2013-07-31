@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import ua.dp.stud.StudPortalLib.dao.BaseDao;
 import ua.dp.stud.StudPortalLib.dao.NewsDao;
 import ua.dp.stud.StudPortalLib.dao.OrganizationDao;
+import ua.dp.stud.StudPortalLib.model.BaseImagesSupport;
 import ua.dp.stud.StudPortalLib.model.ImageImpl;
 
 /**
@@ -91,6 +92,12 @@ public abstract class BaseDaoImpl<E> implements BaseDao<E>{
      @Override
     public void deleteObject(Integer id) {
         E object = (E) getSession().get(persistentClass, id);
+           if (object instanceof BaseImagesSupport){
+            ImageImpl image = ((BaseImagesSupport)object).getMainImage();
+            if (image != null) {
+                getSession().delete(image);
+            }
+        }
         getSession().delete(object);
     }
 }
