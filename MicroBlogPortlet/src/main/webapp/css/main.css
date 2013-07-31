@@ -4,26 +4,19 @@
     font-weight: bold;
 }
 
-#microblig #newsTable {
-    width: 100%;
-    /*font-family: Tahoma, Geneva, sans-serif;*/
-}
-
-#microblig #newsContent {
-    clear: both;
+#microblig {
+    max-width: 900px;
 }
 
 #microblig .newsImage {
-    float: left;
     width: 100px;
     height: 100px;
-    margin: 0px 20px 10px 10px;
+    margin: 0px 10px 10px 10px;
 }
 
-#microblig .newsText {
-    font-size: 12pt;
-    text-align: justify;
-    margin-left: 5px;
+#microblig td {
+    width: 50%;
+    text-align: center;
 }
 
 #microblig .newsHeader {

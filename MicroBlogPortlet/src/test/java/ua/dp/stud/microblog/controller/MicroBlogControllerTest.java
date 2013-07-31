@@ -67,8 +67,7 @@ public class MicroBlogControllerTest {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-
-        assertEquals(news, model.getModel().get("news"));
+        assertEquals(news, model.getModel().get("newsList"));
         assertEquals(PAGE_ID, model.getModel().get("newsArchivePageID"));
         assertEquals("viewAll", model.getViewName());
     }

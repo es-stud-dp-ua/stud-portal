@@ -104,8 +104,9 @@ public class NewsDaoImpl extends BaseDaoImpl<News> implements NewsDao {
     @Override
     public Collection<News> getNewsOnMainPage() {
         return getSession().createCriteria(News.class).addOrder(Order.desc("publication")).
-                add(Restrictions.eq("onMainpage", true)).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
-                .setMaxResults(4).list();
+                add(Restrictions.eq("onMainpage", true)).add(Restrictions.isNull("comment"))
+                .add(Restrictions.eq("approved", true))
+                .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).setMaxResults(4).list();
     }
 
     /**

@@ -1,5 +1,7 @@
 package ua.dp.stud.microblog.controller;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.service.LayoutLocalServiceUtil;
 import com.liferay.portal.theme.ThemeDisplay;
@@ -15,7 +17,6 @@ import ua.dp.stud.StudPortalLib.service.NewsService;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import java.util.Collection;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -41,33 +42,29 @@ public class MicroBlogController {
      * @param request
      * @param response
      * @return
-     *
      */
     @RenderMapping
-    public ModelAndView showView(RenderRequest request, RenderResponse response) {
+    public ModelAndView showView(RenderRequest request, RenderResponse response)
+            throws PortalException, SystemException {
         return getMainView(request);
     }
 
-    private ModelAndView getMainView(RenderRequest request) {
+    private ModelAndView getMainView(RenderRequest request)
+            throws PortalException, SystemException {
         ModelAndView model = new ModelAndView("viewAll");
 
         Collection<News> news = newsService.getNewsOnMainPage();
         ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
         long groupId = themeDisplay.getScopeGroupId();
-        Long plid = 0l;
-        try {
-            //todo: remove catch block and add throws part
-            plid = LayoutLocalServiceUtil.getDefaultPlid(groupId, false, NEWS_ARCHIVE_REFERENCE_NAME);
-        } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "Exception: ", e);
-        }
-        model.addObject("news", news);
+        Long plid = LayoutLocalServiceUtil.getDefaultPlid(groupId, false, NEWS_ARCHIVE_REFERENCE_NAME);
+        model.addObject("newsList", news);
         model.addObject("newsArchivePageID", plid);
         return model;
     }
 
     @RenderMapping(params = "mode=remove")
-    public ModelAndView remove(RenderRequest request, RenderResponse response) {
+    public ModelAndView remove(RenderRequest request, RenderResponse response)
+            throws PortalException, SystemException  {
         Integer newsId = Integer.valueOf(request.getParameter("newsID"));
         News news = newsService.getNewsById(newsId);
         news.setOnMainpage(false);
