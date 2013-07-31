@@ -68,8 +68,6 @@
                             validateValueTextArea.value = validateValueTextArea.value.substr(0, validateValueTextArea.getAttribute('maxlength'));
                     }
         </script>
-
-
     <portlet:renderURL var="home"> </portlet:renderURL>
 
     <portlet:actionURL var="actionLink" name="addOrganisation"></portlet:actionURL>
@@ -153,11 +151,13 @@
                         <br/>
                     </td>
                     <td rowspan=2 width="50%" align="left">
-                        <form:input path="title" id="title" cols="90" rows="2" maxlength="100"  name="title"/>
-                        <form:errors path="title" cssClass="error"></form:errors>
+                        <div id="labels"><spring:message code="form.title"/></div><div id="redStar1">*</div>
+                            <form:input path="title" id="title" cols="90" rows="2" maxlength="100"  name="title"/>
+                            <form:errors path="title" cssClass="error"></form:errors>
+                            <div id="labels"><spring:message code="form.text"/></div><div id="redStar2">*</div>
                             <textarea path="text" class="ckeditor" id="text" cols="60" rows="10" maxlength="10000"
                                       name="text" ></textarea>
-                            <textarea style="visibility: hidden;width: 0px;" id="text1" name="text1"></textarea>
+                            <textarea style="visibility: hidden;width: 0px;" id="text1" name="text1"  ></textarea>
                         <form:errors path="text" cssClass="error" ></form:errors>
                             <br/><br/>
                             <div id="sbm">
@@ -172,8 +172,6 @@
                     <td width="50%" align="right">
                         <div id="eventSetting">
                             <div style="font-size:14px">
-
-
                                 <div style="float: right; margin-top: 30px; ">
                                     <table>
                                         <tr><label>
@@ -246,8 +244,53 @@
             </table>
         </form:form>
         <script type="text/javascript">
-
-
+                    function f(){
+                    window.setInterval("document.getElementById('text1').innerHTML = CKEDITOR.instances.text.getData(); if(document.getElementById('text').value!=CKEDITOR.instances.text.getData()) $('#jform').valid()", 500);
+                    }
+            window.onload = f;
+                    $(document).ready(function() {
+            $.validator.setDefaults({ ignore: [] });
+                    $('#jform').validate({
+            rules: {
+            title: {
+            required: true,
+                    minlength: 5,
+                    maxlength: 100
+            },
+                    text1: {
+            required: true,
+                    minlength: 500,
+                    maxlength: 10000
+            },
+                    mainImage:{
+            required: true
+            }
+            },
+                    messages: {
+            title: {
+            required: "<spring:message code="val.required"/>",
+                    minlength:  "<spring:message code="val.title.minlength"/>",
+                    maxlength:  "<spring:message code="val.title.maxlength"/>"
+            },
+                    text1: {
+            required: "<spring:message code="val.required"/>",
+                    minlength:  "<spring:message code="val.text.minlength"/>",
+                    maxlength:  "<spring:message code="val.text.maxlength"/>"
+            },
+                    mainImage:{
+            required: "<spring:message code="val.mainImage"/>",
+            }
+            },
+                    highlight: function(label) {
+            $(label).removeClass("invisiblevalid");
+                    $(label).closest('.control-group').addClass('error');
+            },
+                    success: function(label) {
+            $(label).removeClass("error");
+                    label.addClass("invisiblevalid");
+            }
+            });
+            });
         </script>
     </div>
 </body>

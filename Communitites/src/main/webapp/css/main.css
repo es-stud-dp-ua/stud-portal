@@ -247,7 +247,7 @@ label.error {
 #title {
     overflow:  hidden;
     resize: none;
-    margin-top: 15px;
+    margin-top: 5px;
     width: 430px;
     margin-left: 8px;
     font-size: large;
@@ -556,5 +556,26 @@ span.cke_skin_kama {
     padding: 6px 6px 6px 30px;
     text-align: left;
 }
-
-    
+#labels{
+    font-size: 14px;
+    color: gray;
+}
+#redStar1{
+    color: red;
+    position: absolute;
+    bottom: 91%;
+    right: 0%;
+}
+#redStar2{
+    color: red;
+    position: absolute;
+    bottom: 84%;
+    right: 0%;
+}
+label.invisiblevalid {
+display: none !important;
+}
+label.error[for=mainImage]{
+    position:absolute;
+    left: 15%;
+}
