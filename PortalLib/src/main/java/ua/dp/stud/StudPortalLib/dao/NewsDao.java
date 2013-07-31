@@ -11,13 +11,9 @@ import ua.dp.stud.StudPortalLib.dao.impl.BaseDaoImpl;
  * @author Lukash Roman
  * @author Vladislav Pikus
  */
-public interface NewsDao extends BaseDao<News> {
-
-    public Integer getCountByAuthor(String author);
+public interface NewsDao extends DaoForApprove<News> {
     
      public Collection<News> getAllNews(Boolean approved);
-     
-     public Collection<News> getNewsOnPage(Boolean approved, Integer pageNumb, Integer newsByPage);
 
     /**
      * getAllNews
@@ -75,16 +71,6 @@ public interface NewsDao extends BaseDao<News> {
     Collection<News> getAllNewsByAuthor(String author);
 
     /**
-     * Returns collection of news on page by author
-     *
-     * @param author
-     * @param pageNumb
-     * @param newsByPage
-     * @return
-     */
-    Collection<News> getPagesNewsByAuthor(String author, Integer pageNumb, Integer newsByPage);
-
-    /**
      * Returns collection of approved or not approved news by id organization
      *
      * @param idOrg organization
@@ -112,6 +98,4 @@ public interface NewsDao extends BaseDao<News> {
      * @return collection of news on page
      */
     Collection<News> getPagesNewsByOrgAuthor(String author, Boolean approved, Integer pageNumb, Integer newsByPage);
-
-    Integer calcPages(Integer count, Integer perPage);
 }

@@ -22,28 +22,15 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author Vladislav Pikus
  */
 @Repository("newsDao")
-public class NewsDaoImpl extends BaseDaoImpl<News> implements NewsDao {
+public class NewsDaoImpl extends DaoForApproveImpl<News> implements NewsDao {
 
     private static final String AUTHOR = "author";
     private static final String APPROVED = "approved";
-    
-   @Override
-    public Integer getCountByAuthor(String author) {
-        return ((Long) getSession().createQuery("Select Count(*) From News news  Where news.author = :author")
-                .setParameter(AUTHOR, author).uniqueResult()).intValue();
-    }
  
     @Override
     public Collection<News> getAllNews(Boolean approved) {
         return getSession().getNamedQuery("News.getByApproved")
                 .setParameter(APPROVED, approved).list();
-    }
-    
-      @Override
-    public Collection<News> getNewsOnPage(Boolean approved, Integer pageNumb, Integer newsByPage) {
-        int firstResult = (pageNumb - 1) * newsByPage;
-        return getSession().getNamedQuery("News.getByApproved")
-                .setParameter(APPROVED, approved).setFirstResult(firstResult).setMaxResults(newsByPage).list();
     }
 
     /**
@@ -131,21 +118,6 @@ public class NewsDaoImpl extends BaseDaoImpl<News> implements NewsDao {
     }
 
     /**
-     * Returns collection of news on page by author
-     *
-     * @param author
-     * @param pageNumb
-     * @param newsByPage
-     * @return
-     */
-    @Override
-    public Collection<News> getPagesNewsByAuthor(String author, Integer pageNumb, Integer newsByPage) {
-        int firstResult = (pageNumb - 1) * newsByPage;
-        return getSession().getNamedQuery("News.getByAuthor").setParameter(AUTHOR, author)
-                .setFirstResult(firstResult).setMaxResults(newsByPage).list();
-    }
-
-    /**
      * Returns collection of approved or not approved news by id organization
      *
      * @param idOrg organization
@@ -185,10 +157,5 @@ public class NewsDaoImpl extends BaseDaoImpl<News> implements NewsDao {
         int firstResult = (pageNumb - 1) * newsByPage;
         return getSession().getNamedQuery("News.getByOrganization")
                 .setParameter(AUTHOR, author).setParameter(APPROVED, approved).setFirstResult(firstResult).setMaxResults(newsByPage).list();
-    }
-
-      @Override
-    public Integer calcPages(Integer count, Integer perPage) {
-        return (count > 0) ? ((count - 1) / perPage + 1) : 0;
     }
 }

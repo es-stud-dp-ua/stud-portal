@@ -175,19 +175,19 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Override
     @Transactional(readOnly = true)
     public Collection<Organization> getPagesOrganizationByAuthor(String author, Integer pageNumb, Integer organizationByPage) {
-        return dao.getPagesOrganizationByAuthor(author, pageNumb, organizationByPage);
+        return dao.getPagesObjectByAuthor(author, pageNumb, organizationByPage);
     }
 
     @Override
     @Transactional(readOnly = true)
     public Integer getPagesCount(Boolean approved, int orgByPage) {
-        return dao.calcPages(dao.getCountByApprove(approved), orgByPage);
+        return dao.calcPages(dao.getCount(approved), orgByPage);
     }
 
     @Override
     @Transactional(readOnly = true)
     public Collection<Organization> getOrganizationsOnPage(Boolean approved, Integer pageNumb, Integer orgByPage) {
-        return dao.getOrganizationsOnPage(approved, pageNumb, orgByPage);
+        return dao.getObjectOnPage(approved, pageNumb, orgByPage);
     }
 
     @Override

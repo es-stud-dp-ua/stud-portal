@@ -13,7 +13,7 @@ import ua.dp.stud.StudPortalLib.util.OrganizationType;
 import java.util.Collection;
 
 @Repository("organizationDao")
-public class OrganizationDaoImpl extends BaseDaoImpl<Organization> implements OrganizationDao {
+public class OrganizationDaoImpl extends DaoForApproveImpl<Organization> implements OrganizationDao {
 
     /**
      * collection for organizations news by id
@@ -31,11 +31,6 @@ public class OrganizationDaoImpl extends BaseDaoImpl<Organization> implements Or
                 .setFirstResult(firstResult)
                 .setMaxResults(newsByPage)
                 .list();
-    }
-
-    @Override
-    public Integer calcPages(Integer count, Integer perPage) {
-        return (count > 0) ? ((count - 1) / perPage + 1) : 0;
     }
 
     /**
@@ -75,12 +70,6 @@ public class OrganizationDaoImpl extends BaseDaoImpl<Organization> implements Or
     }
 
     @Override
-    public Integer getCountByAuthor(String author) {
-        return ((Long) getSession().createQuery("Select Count(*) From Organization organization  Where organization.author = :author")
-                .setParameter("author", author).uniqueResult()).intValue();
-    }
-
-    @Override
     public Integer getCount() {
         return ((Long) getSession().createQuery("Select Count(*) From Organization WHERE approved= true")
                 .uniqueResult()).intValue();
@@ -113,13 +102,6 @@ public class OrganizationDaoImpl extends BaseDaoImpl<Organization> implements Or
     }
 
     @Override
-    public Collection<Organization> getOrganizationsOnPage(Boolean approved, Integer pageNumb, Integer orgByPage) {
-        int firstResult = (pageNumb - 1) * orgByPage;
-        return getSession().createQuery("Select organization From Organization organization  Where organization.approved = :approved")
-                .setParameter("approved", approved).setFirstResult(firstResult).setMaxResults(orgByPage).list();
-    }
-
-    @Override
     public Integer getCountOfType(OrganizationType type) {
         return ((Long) getSession().createQuery("Select Count(*) From Organization WHERE organizationType= :type and approved=true")
                 .setParameter("type", type).uniqueResult()).intValue();
@@ -129,19 +111,6 @@ public class OrganizationDaoImpl extends BaseDaoImpl<Organization> implements Or
     public Collection<Organization> getAllOrganizationByAuthor(String author) {
         return getSession().getNamedQuery("Organization.getByAuthor")
                 .setParameter("author", author).list();
-    }
-
-    @Override
-    public Collection<Organization> getPagesOrganizationByAuthor(String author, Integer pageNumb, Integer organizationByPage) {
-        int firstResult = (pageNumb - 1) * organizationByPage;
-        return getSession().getNamedQuery("Organization.getByAuthor")
-                .setParameter("author", author).setFirstResult(firstResult).setMaxResults(organizationByPage).list();
-    }
-
-    @Override
-    public Integer getCountByApprove(Boolean approved) {
-        return ((Long) getSession().createQuery("Select Count(*) From Organization organization  Where organization.approved = :approved and organization.comment is null")
-                .setParameter("approved", approved).uniqueResult()).intValue();
     }
 
     @Override

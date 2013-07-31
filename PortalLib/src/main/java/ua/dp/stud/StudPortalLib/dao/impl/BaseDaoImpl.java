@@ -21,7 +21,7 @@ import ua.dp.stud.StudPortalLib.model.ImageImpl;
  */
 public abstract class BaseDaoImpl<E> implements BaseDao<E> {
 
-    private Class<E> persistentClass;
+    protected Class<E> persistentClass;
 
 
     public BaseDaoImpl() {
@@ -57,25 +57,6 @@ public abstract class BaseDaoImpl<E> implements BaseDao<E> {
     }
 
     @Override
-    public void deleteImage(Long id) {
-        //todo: find better approach
-        ImageImpl image = getImageById(id);
-        image.getBase().getAdditionalImages().remove(image);
-        image.setBase(null);
-        getSession().delete(image);
-    }
-
-    @Override
-    public ImageImpl getImageById(Long id) {
-        return (ImageImpl) getSession().get(ImageImpl.class, id);
-    }
-
-    @Override
-    public void addImage(ImageImpl image) {
-        getSession().save(image);
-    }
-
-    @Override
     public Integer getCount() {
         return ((Long) getSession().createCriteria(persistentClass).setProjection(Projections.rowCount())
                 .uniqueResult()).intValue();
@@ -89,21 +70,12 @@ public abstract class BaseDaoImpl<E> implements BaseDao<E> {
     @Override
     public E getById(Integer id) {
         E object = (E) getSession().get(persistentClass, id);
-        if (object instanceof BaseImagesSupport) {
-            Hibernate.initialize(((BaseImagesSupport) object).getAdditionalImages());
-        }
         return object;
     }
 
     @Override
     public void delete(Integer id) {
         E object = (E) getSession().get(persistentClass, id);
-        if (object instanceof BaseImagesSupport) {
-            ImageImpl image = ((BaseImagesSupport) object).getMainImage();
-            if (image != null) {
-                getSession().delete(image);
-            }
-        }
         getSession().delete(object);
     }
 }

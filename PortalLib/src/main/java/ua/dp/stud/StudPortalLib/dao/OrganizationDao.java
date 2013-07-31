@@ -6,13 +6,9 @@ import ua.dp.stud.StudPortalLib.util.OrganizationType;
 
 import java.util.Collection;
 
-public interface OrganizationDao extends BaseDao<Organization> {
-
-    public Integer getCountByAuthor(String author);
+public interface OrganizationDao extends DaoForApprove<Organization> {
 
     public Integer getCount();
-
-    public Collection<Organization> getOrganizationsOnPage(Boolean approved, Integer pageNumb, Integer orgByPage);
 
     public Collection<Organization> getAllOrganizations(Boolean approve);
 
@@ -70,10 +66,4 @@ public interface OrganizationDao extends BaseDao<Organization> {
     Integer getCountOfType(OrganizationType type);
 
     Collection<Organization> getAllOrganizationByAuthor(String author);
-
-    Collection<Organization> getPagesOrganizationByAuthor(String author, Integer pageNumb, Integer organizationByPage);
-
-    Integer getCountByApprove(Boolean approved);
-
-    Integer calcPages(Integer count, Integer perPage);
 }

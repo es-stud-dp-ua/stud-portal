@@ -73,7 +73,7 @@ public class NewsServiceTest {
 
     @Test
     public void getPagesCountByApprovedTest() {
-        when(mockDao.getCount()).thenReturn(10);
+        when(mockDao.getCount(false)).thenReturn(10);
         when(mockDao.calcPages(10, 4)).thenReturn(3);
         Integer result = 3;
         Integer expResult = service.getPagesCount(false, 4);
@@ -83,14 +83,14 @@ public class NewsServiceTest {
     @Test
     public void getPagesNewsByAuthorTest() {
         LinkedList<News> allNews = new LinkedList<News>(Arrays.asList(news1));
-        when(mockDao.getPagesNewsByAuthor("author1", 1, 4)).thenReturn(allNews);
+        when(mockDao.getPagesObjectByAuthor("author1", 1, 4)).thenReturn(allNews);
         assertEquals(allNews, service.getPagesNewsByAuthor("author1", 1, 4));
     }
 
     @Test
     public void getPagesNewsByApprovedTest() {
         LinkedList<News> allNews = new LinkedList<News>(Arrays.asList(news2));
-        when(mockDao.getNewsOnPage(false, 1, 4)).thenReturn(allNews);
+        when(mockDao.getObjectOnPage(false, 1, 4)).thenReturn(allNews);
         assertEquals(allNews, service.getNewsOnPage(false, 1, 4));
     }
 

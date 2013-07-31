@@ -79,7 +79,7 @@ public class NewsDaoImplTest extends AbstractTransactionalJUnit4SpringContextTes
 
     @Test
     public void getPagesNewsByAuthorTest() {
-        List<News> expResult = (List) dao.getPagesNewsByAuthor("Автор1", 1, 4);
+        List<News> expResult = (List) dao.getPagesObjectByAuthor("Автор1", 1, 4);
         assertFalse(expResult.size() == 2);
         assertEquals(1, expResult.size());
         assertEquals(n1.getAuthor(), expResult.get(0).getAuthor());
@@ -102,7 +102,7 @@ public class NewsDaoImplTest extends AbstractTransactionalJUnit4SpringContextTes
 
     @Test
     public void getPagesNewsByApprovedTest() {
-        List<News> expResult = (List) dao.getNewsOnPage(false, 1, 4);
+        List<News> expResult = (List) dao.getObjectOnPage(false, 1, 4);
         assertFalse(expResult.size() == 2);
         assertEquals(1, expResult.size());
         assertEquals(n2.getAuthor(), expResult.get(0).getAuthor());

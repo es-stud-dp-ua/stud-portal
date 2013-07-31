@@ -24,12 +24,6 @@ public interface BaseDao<E> {
     
     public void delete(Integer id);
 
-    public void deleteImage(Long id);
-
-    public ImageImpl getImageById(Long id);
-
-    public void addImage(ImageImpl image);
-
     public Integer getCount();
     
     public Collection<E> getAll();

@@ -12,15 +12,11 @@ import ua.dp.stud.StudPortalLib.util.EventsType;
  *
  * @author Ольга
  */
-public interface EventsDao extends BaseDao<Events> {
+public interface EventsDao extends DaoForApprove<Events> {
 
     Collection<Events> getEventsByType(EventsType type);
 
     public Collection<Events> getEventsOfTypeOnPage(Integer pageNumb, Integer orgsPerPage, EventsType type, Boolean approve);
 
-    public Collection<Events> getEventsOnPage(Integer pageNumb, Integer orgsPerPage, Boolean approve);
-
     public Collection<Events> getAllEvents(Boolean approved);
-    
-    Integer calcPages(Integer count, Integer perPage);
 }

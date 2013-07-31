@@ -201,7 +201,7 @@ public class NewsServiceImpl implements NewsService {
     @Override
     @Transactional(readOnly = true)
     public Collection<News> getPagesNewsByAuthor(String author, Integer pageNumb, Integer newsByPage) {
-        return dao.getPagesNewsByAuthor(author, pageNumb, newsByPage);
+        return dao.getPagesObjectByAuthor(author, pageNumb, newsByPage);
     }
 
     /**
@@ -266,7 +266,7 @@ public class NewsServiceImpl implements NewsService {
     @Override
     @Transactional(readOnly = true)
     public Integer getPagesCount(Boolean approved, Integer newsByPage) {
-        return dao.calcPages(dao.getCount(), newsByPage);
+        return dao.calcPages(dao.getCount(approved), newsByPage);
     }
 
     /**
@@ -280,6 +280,6 @@ public class NewsServiceImpl implements NewsService {
     @Override
     @Transactional(readOnly = true)
     public Collection<News> getNewsOnPage(Boolean approved, Integer pageNumb, Integer newsByPage) {
-        return dao.getNewsOnPage(approved, pageNumb, newsByPage);
+        return dao.getObjectOnPage(approved, pageNumb, newsByPage);
     }
 }
