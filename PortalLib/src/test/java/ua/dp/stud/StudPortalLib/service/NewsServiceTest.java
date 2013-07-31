@@ -99,7 +99,7 @@ public class NewsServiceTest {
      */
     @Test
     public void testGetNewsById() {
-        when(mockDao.getNewsById(1)).thenReturn(news1);
+        when(mockDao.getById(1)).thenReturn(news1);
         assertEquals(news1, service.getNewsById(1));
 
         assertNull(service.getNewsById(0));
@@ -161,7 +161,7 @@ public class NewsServiceTest {
     @Test
     public void testAddNews() {
         service.addNews(news1);
-        verify(mockDao, times(1)).addObject(news1);
+        verify(mockDao, times(1)).save(news1);
     }
 
     /**
@@ -170,7 +170,7 @@ public class NewsServiceTest {
     @Test
     public void testUpdateNews() {
         service.updateNews(news1);
-        verify(mockDao, times(1)).updateObject(news1);
+        verify(mockDao, times(1)).update(news1);
     }
 
     /**
@@ -202,6 +202,6 @@ public class NewsServiceTest {
         service.addNews(news1);
         Integer id = news1.getId();
         service.deleteNews(news1);
-        verify(mockDao, times(1)).deleteNews(id);
+        verify(mockDao, times(1)).delete(id);
     }
 }

@@ -97,8 +97,8 @@ public class OrganizationDaoTest extends AbstractTransactionalJUnit4SpringContex
         news.add(n3);
         org1.setNewsList(news);
 
-        dao.addObject(org1);
-        dao.addObject(org2);
+        dao.save(org1);
+        dao.save(org2);
     }
 
     @Test
@@ -161,7 +161,7 @@ public class OrganizationDaoTest extends AbstractTransactionalJUnit4SpringContex
     public void AddOrg() {
         assertNull(org3.getId());
         org3.setAuthor("test");
-        dao.addObject(org3);
+        dao.save(org3);
         assertNotNull(org3.getId());
     }
 
@@ -191,7 +191,7 @@ public class OrganizationDaoTest extends AbstractTransactionalJUnit4SpringContex
     @Test
     public void pagination() {
 
-        dao.addObject(org3);
+        dao.save(org3);
         List<Organization> othersList = (List<Organization>) dao.getOrganizationsOnPage(1, 2, OrganizationType.OTHERS, true);
         assertTrue(othersList.contains(org3));
     }
@@ -206,7 +206,7 @@ public class OrganizationDaoTest extends AbstractTransactionalJUnit4SpringContex
     public void update() {
         Integer id = org1.getId();
         org1.setOrganizationType(OrganizationType.OTHERS);
-        dao.updateObject(org1);
+        dao.update(org1);
         Organization org = dao.getOrganizationById(id);
         assertEquals(OrganizationType.OTHERS, org.getOrganizationType());
     }

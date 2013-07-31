@@ -23,7 +23,7 @@ public class NewsServiceImpl implements NewsService {
      * dao - Dao object
      */
     @Autowired
-    private NewsDao<News> dao;
+    private NewsDao dao;
    
     /**
      * setter for NewsArchiveDAO
@@ -44,7 +44,7 @@ public class NewsServiceImpl implements NewsService {
     @Override
     @Transactional(readOnly = false)
     public void addNews(News newsToAdd) {
-        dao.addObject(newsToAdd);
+        dao.save(newsToAdd);
     }
 
     /**
@@ -55,7 +55,7 @@ public class NewsServiceImpl implements NewsService {
     @Override
     @Transactional(readOnly = false)
     public void updateNews(News news) {
-        dao.updateObject(news);
+        dao.update(news);
     }
 
     /**
@@ -66,7 +66,7 @@ public class NewsServiceImpl implements NewsService {
     @Override
     @Transactional(readOnly = false)
     public void deleteNews(News news) {
-        dao.deleteNews(news.getId());
+        dao.delete(news.getId());
     }
 
     /**
@@ -86,7 +86,7 @@ public class NewsServiceImpl implements NewsService {
     @Override
     @Transactional(readOnly = true)
     public News getNewsById(Integer id) {
-        return dao.getNewsById(id);
+        return dao.getById(id);
     }
 
     /**

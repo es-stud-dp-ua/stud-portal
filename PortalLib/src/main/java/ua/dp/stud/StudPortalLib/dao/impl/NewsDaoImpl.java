@@ -22,23 +22,10 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author Vladislav Pikus
  */
 @Repository("newsDao")
-public class NewsDaoImpl extends BaseDaoImpl<News> implements NewsDao<News> {
+public class NewsDaoImpl extends BaseDaoImpl<News> implements NewsDao {
 
     private static final String AUTHOR = "author";
     private static final String APPROVED = "approved";
-
-    /**
-     * Method return news form database by id
-     *
-     * @param id -ID of news that we want to get
-     * @return The news which ID = id;
-     */
-    @Override
-    public News getNewsById(Integer id) {
-        News news = (News) getSession().get(News.class, id);
-        Hibernate.initialize(news.getAdditionalImages());
-        return news;
-    }
     
    @Override
     public Integer getCountByAuthor(String author) {
@@ -58,18 +45,6 @@ public class NewsDaoImpl extends BaseDaoImpl<News> implements NewsDao<News> {
         return getSession().getNamedQuery("News.getByApproved")
                 .setParameter(APPROVED, approved).setFirstResult(firstResult).setMaxResults(newsByPage).list();
     }
-    /**
-     * deleteNews
-     *
-     * @param id of news
-     */
-    @Override
-    public void deleteNews(Integer id) {
-        News news = (News) getSession().get(News.class, id);
-        ImageImpl image = news.getMainImage();
-        getSession().delete(image);
-        getSession().delete(news);
-    }
 
     /**
      * getAllNews
@@ -79,17 +54,6 @@ public class NewsDaoImpl extends BaseDaoImpl<News> implements NewsDao<News> {
     @Override
     public Collection<News> getAllNews() {
         return getSession().createCriteria(News.class).addOrder(Order.desc("publication")).list();
-    }
-
-    /**
-     * getCount
-     *
-     * @return coutn of news
-     */
-    @Override
-    public Integer getCount() {
-        return ((Long) getSession().createCriteria(News.class).setProjection(Projections.rowCount())
-                .uniqueResult()).intValue();
     }
 
     /**
@@ -140,7 +104,8 @@ public class NewsDaoImpl extends BaseDaoImpl<News> implements NewsDao<News> {
     @Override
     public Collection<News> getNewsOnMainPage() {
         return getSession().createCriteria(News.class).addOrder(Order.desc("publication")).
-                add(Restrictions.eq("onMainpage", true)).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+                add(Restrictions.eq("onMainpage", true)).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
+                .setMaxResults(4).list();
     }
 
     /**

@@ -5,6 +5,7 @@
 package ua.dp.stud.StudPortalLib.service.impl;
 
 import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,80 +16,79 @@ import ua.dp.stud.StudPortalLib.service.EventsService;
 import ua.dp.stud.StudPortalLib.util.EventsType;
 
 /**
- *
  * @author Ольга
  */
 @Service("eventsService")
 @Transactional
-public class EventsServiceImpl implements EventsService{
+public class EventsServiceImpl implements EventsService {
     @Autowired
-    private EventsDao<Events> dao;
-    
-      @Transactional(readOnly = false)
+    private EventsDao dao;
+
+    @Transactional(readOnly = false)
     public void setDao(EventsDao dao) {
         this.dao = dao;
     }
-      
+
     @Override
     @Transactional(readOnly = false)
     public void addEvents(Events eventsToAdd) {
-        dao.addObject(eventsToAdd);
+        dao.save(eventsToAdd);
     }
-    
-      @Override
+
+    @Override
     @Transactional(readOnly = false)
     public void updateEvents(Events events) {
-        dao.updateObject(events);
+        dao.save(events);
     }
-      
-      @Override
+
+    @Override
     @Transactional(readOnly = false)
     public void deleteEvents(Events events) {
-        dao.deleteEvent(events.getId());
+        dao.delete(events.getId());
     }
-      
-        @Override
+
+    @Override
     @Transactional(readOnly = false)
     public void addImage(ImageImpl image) {
         dao.addImage(image);
     }
-        
-           @Override
+
+    @Override
     @Transactional(readOnly = true)
     public Events getEventsById(Integer id) {
-        return dao.getEventsById(id);
+        return dao.getById(id);
     }
-           
-             @Override
+
+    @Override
     @Transactional(readOnly = true)
     public Collection<Events> getAllEvents(Boolean approve) {
         return dao.getAllEvents(approve);
     }
-             
-              @Override
+
+    @Override
     @Transactional(readOnly = true)
     public Collection<Events> getEventsOnPage(Integer pageNumb, Integer eventsByPage, Boolean approve) {
-        return dao.getEventsOnPage(pageNumb, eventsByPage,approve );
+        return dao.getEventsOnPage(pageNumb, eventsByPage, approve);
     }
-              
+
     @Override
     @Transactional(readOnly = true)
     public Integer getPagesCount(Integer newsByPage) {
         return dao.calcPages(dao.getCount(), newsByPage);
     }
-    
-      @Override
+
+    @Override
     @Transactional(readOnly = false)
     public void deleteImage(ImageImpl image) {
         dao.deleteImage(image.getId());
     }
-      
-        @Override
+
+    @Override
     @Transactional(readOnly = true)
     public ImageImpl getImageById(Long id) {
         return dao.getImageById(id);
     }
-        
+
     @Transactional(readOnly = true)
     @Override
     public Collection<Events> getEventsByType(String type) {

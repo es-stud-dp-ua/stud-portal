@@ -12,13 +12,9 @@ import ua.dp.stud.StudPortalLib.util.EventsType;
  *
  * @author Ольга
  */
-public interface EventsDao<E> extends BaseDao<E> {
-
-    void deleteEvent(Integer id);
+public interface EventsDao extends BaseDao<Events> {
 
     Collection<Events> getEventsByType(EventsType type);
-
-    public Events getEventsById(Integer id);
 
     public Collection<Events> getEventsOfTypeOnPage(Integer pageNumb, Integer orgsPerPage, EventsType type, Boolean approve);
 

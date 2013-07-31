@@ -11,28 +11,13 @@ import ua.dp.stud.StudPortalLib.dao.impl.BaseDaoImpl;
  * @author Lukash Roman
  * @author Vladislav Pikus
  */
-public interface NewsDao<E> extends BaseDao<E> {
+public interface NewsDao extends BaseDao<News> {
 
     public Integer getCountByAuthor(String author);
     
      public Collection<News> getAllNews(Boolean approved);
      
      public Collection<News> getNewsOnPage(Boolean approved, Integer pageNumb, Integer newsByPage);
-    /**
-     * getNewsById
-     *
-     * @param id of news
-     * @return
-     */
-    News getNewsById(Integer id);
-
-    /**
-     * deleteNews
-     *
-     * @param id
-     * @return
-     */
-    void deleteNews(Integer id);
 
     /**
      * getAllNews
@@ -40,13 +25,6 @@ public interface NewsDao<E> extends BaseDao<E> {
      * @return
      */
     Collection<News> getAllNews();
-
-    /**
-     * getCount
-     *
-     * @return
-     */
-    Integer getCount();
 
     /**
      * updateCategory

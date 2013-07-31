@@ -1,27 +1,26 @@
 package ua.dp.stud.StudPortalLib.dao;
 
-import ua.dp.stud.StudPortalLib.model.ImageImpl;
 import ua.dp.stud.StudPortalLib.model.News;
 import ua.dp.stud.StudPortalLib.model.Organization;
 import ua.dp.stud.StudPortalLib.util.OrganizationType;
 
 import java.util.Collection;
 
-public interface OrganizationDao<E> extends BaseDao<E> {
-    
-public Integer getCountByAuthor(String author);
+public interface OrganizationDao extends BaseDao<Organization> {
 
-public Integer getCount();
+    public Integer getCountByAuthor(String author);
 
-public Collection<Organization> getOrganizationsOnPage(Boolean approved, Integer pageNumb, Integer orgByPage);
+    public Integer getCount();
 
-  public Collection<Organization> getAllOrganizations(Boolean approve);
-  
+    public Collection<Organization> getOrganizationsOnPage(Boolean approved, Integer pageNumb, Integer orgByPage);
+
+    public Collection<Organization> getAllOrganizations(Boolean approve);
+
     /**
      * collection for organizations news by id
      *
-     * @param id organizations id
-     * @param pageNumb page number
+     * @param id         organizations id
+     * @param pageNumb   page number
      * @param newsByPage news by page
      * @return collection of News for organization
      */
@@ -69,13 +68,6 @@ public Collection<Organization> getOrganizationsOnPage(Boolean approved, Integer
     Collection<Organization> getOrganizationsOnPage2(Integer pageNumb, Integer orgsPerPage, Boolean approve);
 
     Integer getCountOfType(OrganizationType type);
-
-    /**
-     * delete given organization from db
-     *
-     * @return
-     */
-    void deleteOrganization(Integer id);
 
     Collection<Organization> getAllOrganizationByAuthor(String author);
 

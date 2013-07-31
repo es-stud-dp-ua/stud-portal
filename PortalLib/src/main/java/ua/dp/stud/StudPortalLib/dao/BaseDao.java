@@ -18,15 +18,11 @@ import ua.dp.stud.StudPortalLib.model.ImageImpl;
  */
 public interface BaseDao<E> {
 
-    public void setSessionFactory(SessionFactory sessionFactory);
+    public E save(E object);
 
-    public Session getSession();
-
-    public E addObject(E object);
-
-    public E updateObject(E object);
+    public E update(E object);
     
-    public void deleteObject(Integer id);
+    public void delete(Integer id);
 
     public void deleteImage(Long id);
 
