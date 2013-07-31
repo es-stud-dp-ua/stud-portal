@@ -68,7 +68,7 @@ public class EventsServiceImpl implements EventsService {
     @Override
     @Transactional(readOnly = true)
     public Collection<Events> getEventsOnPage(Integer pageNumb, Integer eventsByPage, Boolean approve) {
-        return dao.getEventsOnPage(pageNumb, eventsByPage, approve);
+        return dao.getObjectOnPage(approve, pageNumb, eventsByPage);
     }
 
     @Override
