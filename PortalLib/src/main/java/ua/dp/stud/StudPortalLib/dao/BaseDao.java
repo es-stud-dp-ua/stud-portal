@@ -25,6 +25,8 @@ public interface BaseDao<E> {
     public E addObject(E object);
 
     public E updateObject(E object);
+    
+    public void deleteObject(Integer id);
 
     public void deleteImage(Long id);
 

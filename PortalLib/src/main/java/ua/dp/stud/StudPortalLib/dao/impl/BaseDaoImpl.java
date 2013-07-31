@@ -87,4 +87,10 @@ public abstract class BaseDaoImpl<E> implements BaseDao<E>{
        public E getById(Integer id){
        return (E) getSession().get(persistentClass, id);
    }
+   
+     @Override
+    public void deleteObject(Integer id) {
+        E object = (E) getSession().get(persistentClass, id);
+        getSession().delete(object);
+    }
 }
