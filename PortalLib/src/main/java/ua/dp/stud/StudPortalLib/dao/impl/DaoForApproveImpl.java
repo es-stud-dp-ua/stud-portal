@@ -1,5 +1,6 @@
 package ua.dp.stud.StudPortalLib.dao.impl;
 
+import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
@@ -63,14 +64,6 @@ public abstract class DaoForApproveImpl<E extends BaseImagesSupport> extends Bas
     }
 
     @Override
-    public Integer getCount(Boolean approved) {
-        return ((Long) getSession().createCriteria(persistentClass).setProjection(Projections.rowCount())
-                .add(Restrictions.isNull("comment"))
-                .add(Restrictions.eq("approved", approved))
-                .uniqueResult()).intValue();
-    }
-
-    @Override
     public Integer getCountByAuthor(String author) {
         return ((Long) getSession().createCriteria(persistentClass).setProjection(Projections.rowCount())
                 .add(Restrictions.eq("author", author))
@@ -81,8 +74,16 @@ public abstract class DaoForApproveImpl<E extends BaseImagesSupport> extends Bas
     public Collection<E> getPagesObjectByAuthor(String author, Integer pageNumb, Integer objByPage) {
         int firstResult = (pageNumb - 1) * objByPage;
         return getSession().createCriteria(persistentClass)
-                .add(Restrictions.eq("author", author)).add(Restrictions.isNull("comment"))
-                .addOrder(Order.desc("id")).setFirstResult(firstResult).setMaxResults(objByPage).list();
+                .add(Restrictions.eq("author", author))
+                .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).addOrder(Order.desc("id")).setFirstResult(firstResult).setMaxResults(objByPage).list();
+    }
+
+    @Override
+    public Integer getCount(Boolean approved) {
+        return ((Long) getSession().createCriteria(persistentClass).setProjection(Projections.rowCount())
+                .add(Restrictions.isNull("comment"))
+                .add(Restrictions.eq("approved", approved))
+                .uniqueResult()).intValue();
     }
 
     @Override
@@ -90,7 +91,7 @@ public abstract class DaoForApproveImpl<E extends BaseImagesSupport> extends Bas
         int firstResult = (pageNumb - 1) * objByPage;
         return getSession().createCriteria(persistentClass)
                 .add(Restrictions.eq("approved", approved))
-                .add(Restrictions.isNull("comment")).setFirstResult(firstResult)
-                .setMaxResults(objByPage).addOrder(Order.desc("id")).list();
+                .add(Restrictions.isNull("comment")).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
+                .setFirstResult(firstResult).setMaxResults(objByPage).addOrder(Order.desc("id")).list();
     }
 }

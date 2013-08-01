@@ -31,37 +31,33 @@ public class StudieServiceImpl implements StudieService {
         this.dao = dao;
     }
 
-    public void saveOrUpdate(Studie studie) {
-        dao.saveOrUpdate(studie);
-    }
-
     @Override
     public Studie addStudie(Studie studie) {
-        dao.addStudie(studie);
+        dao.save(studie);
         return studie;
     }
 
     @Transactional(readOnly = true)
     @Override
     public Studie getStudieById(Integer id) {
-        return dao.getStudieById(id);
+        return dao.getById(id);
     }
 
     @Override
     public Studie updateStudie(Studie studie) {
-        return dao.updateStudie(studie);
+        return dao.update(studie);
     }
 
     @Transactional(readOnly = true)
     @Override
     public Collection<Studie> getAllStudies() {
-        return dao.getAllStudies();
+        return dao.getAll();
     }
 
 
     @Override
     public void deleteStudie(Studie studie) {
-        dao.deleteStudie(studie.getId());
+        dao.delete(studie.getId());
     }
 
     @Override
