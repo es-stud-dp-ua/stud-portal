@@ -29,37 +29,31 @@ public class BannerImageServiceImpl implements BannerImageService {
         this.dao = dao;
     }
 
-    @Override
     @Transactional(readOnly = true)
     public BannerImage getBannerImageById(Integer id) {
-        return dao.getBannerImageById(id);
+        return dao.getById(id);
     }
 
-    @Override
     @Transactional(readOnly = false)
     public void addBannerImage(BannerImage banner) {
-        dao.addBannerImage(banner);
+        dao.save(banner);
     }
 
-    @Override
     @Transactional(readOnly = false)
     public void deleteBannerImage(BannerImage banner) {
-        dao.deleteBannerImage(banner.getId());
+        dao.delete(banner.getId());
     }
 
-    @Override
     @Transactional(readOnly = false)
     public void updateBannerImage(BannerImage banner) {
-        dao.updateBannerImage(banner);
+        dao.update(banner);
     }
 
-    @Override
     @Transactional(readOnly = true)
     public Collection<BannerImage> getAll() {
         return dao.getAll();
     }
 
-    @Override
     @Transactional(readOnly = true)
     public BannerImage getByURL(String url) {
         return dao.getByURL(url);

@@ -43,8 +43,8 @@ public class BannerImageDaoImpTest extends AbstractTransactionalJUnit4SpringCont
     public void setUp() {
         banner1 = new BannerImage("http://vk.com");
         banner2 = new BannerImage("http://stud.dp.ua");
-        bannerDao.addBannerImage(banner1);
-        bannerDao.addBannerImage(banner2);
+        bannerDao.save(banner1);
+        bannerDao.save(banner2);
     }
 
     @Test
@@ -56,7 +56,7 @@ public class BannerImageDaoImpTest extends AbstractTransactionalJUnit4SpringCont
     @Test
     public void updateBannerImageTest() {
         banner1.setUrl("http://google.com/");
-        bannerDao.updateBannerImage(banner1);
+        bannerDao.update(banner1);
     }
 
     @Test
@@ -67,14 +67,14 @@ public class BannerImageDaoImpTest extends AbstractTransactionalJUnit4SpringCont
 
     @Test
     public void getBannerImageByIdTest() {
-        BannerImage banner = bannerDao.getBannerImageById(banner2.getId());
+        BannerImage banner = bannerDao.getById(banner2.getId());
         assertEquals(banner, banner2);
     }
 
     @After
     @Rollback(false)
     public void clearTestDB() {
-        bannerDao.deleteBannerImage(banner1.getId());
-        bannerDao.deleteBannerImage(banner2.getId());
+        bannerDao.delete(banner1.getId());
+        bannerDao.delete(banner2.getId());
     }
 }

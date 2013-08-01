@@ -39,7 +39,7 @@ public class BannerImageServiceImplTest {
 
     @Test
     public void getBannerImageByIdTest() {
-        when(mockDao.getBannerImageById(1)).thenReturn(banner1);
+        when(mockDao.getById(1)).thenReturn(banner1);
         assertEquals(banner1, service.getBannerImageById(1));
         assertNull(service.getBannerImageById(10));
     }
@@ -61,18 +61,18 @@ public class BannerImageServiceImplTest {
     @Test
     public void addBannerImageTest() {
         service.addBannerImage(banner1);
-        verify(mockDao).addBannerImage(banner1);
+        verify(mockDao).save(banner1);
     }
 
     @Test
     public void deleteBannerImageTest() {
         service.deleteBannerImage(banner1);
-        verify(mockDao).deleteBannerImage(banner1.getId());
+        verify(mockDao).delete(banner1.getId());
     }
 
     @Test
     public void updateBannerImageTest() {
         service.updateBannerImage(banner1);
-        verify(mockDao).updateBannerImage(banner1);
+        verify(mockDao).update(banner1);
     }
 }
