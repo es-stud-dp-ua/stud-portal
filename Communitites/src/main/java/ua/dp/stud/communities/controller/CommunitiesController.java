@@ -315,20 +315,12 @@ public class CommunitiesController {
                 return;
             }
 //check the uniqueness of the name
-            //todo: use another approach
-            Collection<Organization> orgs = organizationService.getAllOrganizations(true);
-            Boolean isUnique = false;
-            for (Organization currentOrgs : orgs) {
-                if (currentOrgs.getTitle().trim().equalsIgnoreCase(organization.getTitle())) {
-                    isUnique = true;
-                }
-            }
             String role;
             role = actionRequest.isUserInRole(ADMINISTRATOR_ROLE) ? ADMINISTRATOR_ROLE : USER_ROLE;
             User user = (User) actionRequest.getAttribute(WebKeys.USER);
             String usRole = user.getScreenName();
 //try to update fields for new organisation
-            if (!isUnique) {
+            if (!organizationService.isUnique(organization)) { 
                 if (updateCommunityFields(croppedImage, images, organization.getTitle(), organization.getText(), role, usRole, organization, typeOrg)) {
                     Date date = new Date();
                     organization.setPublication(date);
