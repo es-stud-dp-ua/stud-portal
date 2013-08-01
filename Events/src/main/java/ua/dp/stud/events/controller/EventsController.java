@@ -93,7 +93,7 @@ public class EventsController {
         event.setType(type);
         event.setAuthor(role);
         if (frmRole.equals(ADMINISTRATOR_ROLE)) {
-            event.setApproved(true);
+            event.setApprove(true);
         }
         try {
             if (mainImage.getSize() > 0) {
@@ -109,8 +109,6 @@ public class EventsController {
             return false;
         }
 //success upload message
-        return true;
-
         return true;
     }
 
