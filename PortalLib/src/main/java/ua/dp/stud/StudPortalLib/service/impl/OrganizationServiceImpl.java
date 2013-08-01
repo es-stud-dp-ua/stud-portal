@@ -195,4 +195,20 @@ public class OrganizationServiceImpl implements OrganizationService {
     public ImageImpl getImageById(Long id) {
         return dao.getImageById(id);
     }
+    
+    /**
+     * 
+     * @param organization
+     * @return true if organization with this name is present
+     */
+    @Override
+    public Boolean isUnique(Organization organization){
+            Collection<Organization> orgs = getAllOrganizations(true);
+            for (Organization currentOrgs : orgs) {
+                if (currentOrgs.getTitle().trim().equalsIgnoreCase(organization.getTitle())) {
+                    return true;
+                }
+            }
+            return false;
+    }
 }

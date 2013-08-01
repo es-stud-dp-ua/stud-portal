@@ -99,4 +99,20 @@ public class EventsServiceImpl implements EventsService {
             return null;
         }
     }
+    
+    /**
+     * 
+     * @param events
+     * @return true if events with this name is present
+     */
+    @Override
+    public Boolean isUnique(Events events){
+            Collection<Events> n = getAllEvents(true);
+            for (Events currentEvents : n) {
+                if (currentEvents.getTitle().trim().equalsIgnoreCase(events.getTitle())) {
+                    return true;
+                }
+            }
+            return false;
+    }
 }

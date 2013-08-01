@@ -31,10 +31,41 @@ public class Events extends BaseImagesSupport implements Serializable {
     private String location;
     private String text;
     private EventsType type;
+    private Boolean approve;
+    private String comment;
+    private String author;
+    private Date publication;
 
     public Events() {
     }
 
+    @Column
+    public String getComment() {
+        return this.comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+    
+     @Column
+    public String getAuthor() {
+        return this.author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+    
+       @Column
+    public Boolean isApprove() {
+        return this.approve;
+    }
+
+    public void setApprove(Boolean approve) {
+        this.approve = approve;
+    }
+    
     @Column
     public String getTitle() {
         return this.title;
@@ -53,7 +84,17 @@ public class Events extends BaseImagesSupport implements Serializable {
     public void setEventDate(Date date) {
         this.eventDate = date;
     }
+    
+ @Column(name = "publication")
+    @Temporal(TemporalType.TIMESTAMP)
+    public Date getPublication() {
+        return this.publication;
+    }
 
+    public void setPublication(Date date) {
+        this.publication = date;
+    }
+    
     @Column
     @Temporal(TemporalType.TIMESTAMP)
     public Date getEventTime() {

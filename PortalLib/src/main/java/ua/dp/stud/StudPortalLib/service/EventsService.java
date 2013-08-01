@@ -35,4 +35,6 @@ public interface EventsService {
     public void updateEvents(Events events);
 
     public void addEvents(Events eventsToAdd);
+    
+    public Boolean isUnique(Events events);
 }

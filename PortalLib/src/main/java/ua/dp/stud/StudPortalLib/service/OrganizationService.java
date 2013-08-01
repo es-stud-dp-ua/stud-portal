@@ -17,6 +17,8 @@ public interface OrganizationService {
      */
     Organization addOrganization(Organization organization);
 
+    
+    Boolean isUnique(Organization organization);
     /**
      * @param id
      * @return organization by given ID

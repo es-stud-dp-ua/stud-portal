@@ -21,6 +21,7 @@ public interface NewsService {
      */
     Collection<News> getAllNews();
 
+    Boolean isUnique(News news);
     /**
      * For pagination
      *
