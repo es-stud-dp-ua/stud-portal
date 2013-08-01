@@ -289,12 +289,9 @@ public class NewsServiceImpl implements NewsService {
      */
       @Override
     public Boolean isUnique(News news){
-            Collection<News> n = getAllNews(true);
-            for (News currentNews : n) {
-                if (currentNews.getTopic().trim().equalsIgnoreCase(news.getTopic())) {
-                    return true;
-                }
-            }
-            return false;
+        if (dao.getNewsByName(news.getTopic())!=null){
+               return true;
+           }
+        return false; 
     }
 }

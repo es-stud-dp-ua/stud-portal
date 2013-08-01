@@ -203,12 +203,9 @@ public class OrganizationServiceImpl implements OrganizationService {
      */
     @Override
     public Boolean isUnique(Organization organization){
-            Collection<Organization> orgs = getAllOrganizations(true);
-            for (Organization currentOrgs : orgs) {
-                if (currentOrgs.getTitle().trim().equalsIgnoreCase(organization.getTitle())) {
-                    return true;
-                }
-            }
-            return false;
+              if (dao.getOrganizationByName(organization.getTitle())!=null){
+               return true;
+           }
+        return false; 
     }
 }

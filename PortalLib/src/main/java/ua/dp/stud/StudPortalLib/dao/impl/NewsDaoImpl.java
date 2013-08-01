@@ -33,6 +33,11 @@ public class NewsDaoImpl extends DaoForApproveImpl<News> implements NewsDao {
                 .setParameter(APPROVED, approved).list();
     }
 
+   @Override
+    public News getNewsByName(String topic) {
+        News news = (News) getSession().get(News.class, topic);
+        return news;
+    }
     /**
      * getAllNews
      *

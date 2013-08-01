@@ -57,6 +57,14 @@ public class OrganizationDaoImpl extends DaoForApproveImpl<Organization> impleme
         return org;
 
     }
+    
+    @Override
+    public Organization getOrganizationByName(String title) {
+        Organization org = (Organization) getSession().get(Organization.class, title);
+        Hibernate.initialize(org.getAdditionalImages());
+        Hibernate.initialize(org.getNewsList());
+        return org;
+    }
 
     /**
      * @param type Enumeration type of orgs

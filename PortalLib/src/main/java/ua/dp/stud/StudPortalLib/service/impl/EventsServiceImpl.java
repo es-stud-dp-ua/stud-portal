@@ -107,12 +107,9 @@ public class EventsServiceImpl implements EventsService {
      */
     @Override
     public Boolean isUnique(Events events){
-            Collection<Events> n = getAllEvents(true);
-            for (Events currentEvents : n) {
-                if (currentEvents.getTitle().trim().equalsIgnoreCase(events.getTitle())) {
-                    return true;
-                }
-            }
-            return false;
+           if (dao.getEventsByName(events.getTitle())!=null){
+               return true;
+           }
+        return false;       
     }
 }

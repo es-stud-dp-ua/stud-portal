@@ -41,4 +41,10 @@ public class EventsDaoImpl extends DaoForApproveImpl<Events> implements EventsDa
         return getSession().getNamedQuery("Events.getByApproved")
                 .setParameter("approved", approved).list();
     }
+    
+       @Override
+    public Events getEventsByName(String title) {
+        Events events = (Events) getSession().get(Events.class, title);
+        return events;
+    }
 }

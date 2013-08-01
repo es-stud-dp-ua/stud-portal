@@ -15,6 +15,7 @@ public interface NewsDao extends DaoForApprove<News> {
     
      public Collection<News> getAllNews(Boolean approved);
 
+     public News getNewsByName(String topic);
     /**
      * getAllNews
      *

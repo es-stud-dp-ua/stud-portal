@@ -12,6 +12,7 @@ public interface OrganizationDao extends DaoForApprove<Organization> {
 
     public Collection<Organization> getAllOrganizations(Boolean approve);
 
+    public Organization getOrganizationByName(String title);
     /**
      * collection for organizations news by id
      *
