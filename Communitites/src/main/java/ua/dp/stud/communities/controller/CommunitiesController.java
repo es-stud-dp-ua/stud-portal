@@ -249,23 +249,17 @@ public class CommunitiesController {
             response.setRenderParameter(TYPE, request.getParameter(TYPE));
         }
     }
-    //todo: remove @RequestParam and throws part
 
-    private boolean updateCommunityFields(@RequestParam(MAIN_IMAGE) CommonsMultipartFile mainImage,
-            @RequestParam("images") CommonsMultipartFile[] images,
+    private boolean updateCommunityFields(CommonsMultipartFile mainImage, CommonsMultipartFile[] images,
             String frmTopic, String frmText, String frmRole, String role,
-            ActionResponse actionResponse, Organization someorgs, OrganizationType type)
-            throws SystemException, PortalException {
-        boolean successUpload = true;
+            Organization someorgs, OrganizationType type) {
         someorgs.setTitle(frmTopic);
         someorgs.setText(frmText);
         someorgs.setOrganizationType(type);
+        someorgs.setAuthor(role);
         if (frmRole.equals(ADMINISTRATOR_ROLE)) {
-            someorgs.setAuthor(role);
             someorgs.setApproved(true);
-        } else if (frmRole.equals(USER_ROLE)) {
-            someorgs.setAuthor(role);
-        }  
+        } 
         try {
             if (mainImage.getSize() > 0) {
                 imageService.saveMainImage(mainImage, someorgs);
@@ -276,27 +270,22 @@ public class CommunitiesController {
                 }
             }
         } catch (IOException ex) {
-            successUpload = false;
             LOG.log(Level.SEVERE, STR_EXEPT, ex);
-            actionResponse.setRenderParameter(STR_EXEPT, "");
+            return false;
         }
 //success upload message
-        if (successUpload) {
             return true;
-        }
-        actionResponse.setRenderParameter(STR_FAIL, STR_NO_IMAGE);
-        return false;
     }
 
-        @ModelAttribute("organization")
-        public Organization getCommandObject() {
-            return new Organization();
-        }
+    @ModelAttribute("organization")
+    public Organization getCommandObject() {
+        return new Organization();
+    }
 
-        @InitBinder
-        public void initBinder(WebDataBinder binder) {
-            binder.setDisallowedFields("mainImage");
-        }
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        binder.setDisallowedFields("mainImage");
+    }
 
     @InitBinder("organization")
     @ActionMapping(value = "addOrganisation")
@@ -340,10 +329,9 @@ public class CommunitiesController {
             String usRole = user.getScreenName();
 //try to update fields for new organisation
             if (!isUnique) {
-                if (updateCommunityFields(croppedImage, images, organization.getTitle(), organization.getText(), role, usRole, actionResponse, organization, typeOrg)) {
+                if (updateCommunityFields(croppedImage, images, organization.getTitle(), organization.getText(), role, usRole, organization, typeOrg)) {
                     Date date = new Date();
                     organization.setPublication(date);
-
                     organization = organizationService.addOrganization(organization);
                     actionResponse.setRenderParameter("orgsID", Integer.toString(organization.getId()));
                     sessionStatus.setComplete();
@@ -386,7 +374,7 @@ public class CommunitiesController {
             role = actionRequest.isUserInRole(ADMINISTRATOR_ROLE) ? ADMINISTRATOR_ROLE : USER_ROLE;
             User user = (User) actionRequest.getAttribute(WebKeys.USER);
             String usRole = user.getScreenName();
-            if (updateCommunityFields(croppedImage, images, organization.getTitle(), organization.getText(), role, usRole, actionResponse, org, typeOrg)) {
+            if (updateCommunityFields(croppedImage, images, organization.getTitle(), organization.getText(), role, usRole, org, typeOrg)) {
                 organizationService.updateOrganization(org);
 //close session
                 sessionStatus.setComplete();
