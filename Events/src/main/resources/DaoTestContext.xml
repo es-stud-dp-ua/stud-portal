@@ -10,7 +10,7 @@
 
     <context:annotation-config/>
     <aop:config>
-        <aop:pointcut id="Daotest" expression="execution(* ua.dp.stud.communities.dao.*.* (..))"/>
+        <aop:pointcut id="Daotest" expression="execution(* ua.dp.stud.StudPortalLib.dao.*.* (..))"/>
         <aop:advisor pointcut-ref="Daotest" advice-ref="txAdvice"/>
     </aop:config>
 
@@ -50,9 +50,6 @@
                 <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
             </props>
         </property>
-    </bean>
-    <bean id="organizationDao" class="ua.dp.stud.newsArchive.dao.imp.OrganizationDaoImp">
-        <property name="sessionFactory" ref="SessionFactory"/>
     </bean>
 
 </beans>
