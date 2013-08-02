@@ -35,7 +35,7 @@
         <module>calendarPortlet</module>
         <module>MicroBlogPortlet</module>
         <module>NewsArchivePortlet</module>
-        <module>Communitites</module>
+        <module>Organisations</module>
         <module>createAccountPortlet</module>
         <module>eventPanelPortlet</module>
         <module>Studie</module>
