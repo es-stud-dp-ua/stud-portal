@@ -1,0 +1,52 @@
+/*---------------------------------------*/
+#about-wrapper {
+    margin-top: 10px;
+}
+
+.asection {
+    font-size: 130%;
+    width: 98%;
+    padding: 0;
+    border-bottom: 1px solid #CCC;
+    font-weight: bold;
+    margin-bottom: 10px;
+    margin-top: 15px;
+}
+
+.ahum-wrapper {
+    border: 1px solid;
+    border-color: #e7e7e7;
+    display: inline-block;
+    width: 48%;
+    max-width: 48%;
+}
+
+.aphoto {
+    width: 100px;
+    height: 100px;
+    display: inline-block;
+}
+
+.ainfo {
+    display: inline-block;
+}
+
+.atitle {
+    display: inline-block;
+}
+
+.atitle a {
+    text-decoration: none;
+    display: inline-block;
+}
+
+.astatus {
+    color: gray;
+    font-size: 18px;
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 200px;
+    border-bottom: none;
+}

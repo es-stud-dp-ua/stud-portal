@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+
+    #parse ($init)
+
+<html class="#language("lang.dir")" dir="#language("lang.dir")" lang="$w3c_language_id">
+
+<head>
+    <title>#language("Добро пожаловать")</title>
+    #js ("$javascript_folder/jquery-1.8.3.min.js")
+    #js ("$javascript_folder/jquery.validate.js")
+    #js ("$javascript_folder/jquery-ui.js")
+    #js ("$javascript_folder/jquery.fancybox-thumbs.js")
+    #js ("$javascript_folder/jquery.fancybox.js")
+    #js ("$javascript_folder/jquery.mousewheel-3.0.6.pack.js")
+    #js ("$javascript_folder/jquery.ui.datepicker-ru.js")
+    #js ("$javascript_folder/jquery-ui-1.10.1.custom.min.js")
+    #js ("$javascript_folder/ckeditor/ckeditor.js")
+    #js ("$javascript_folder/additional-methods.js")
+    #js ("$javascript_folder/jquery.qtip.js")
+    #js ("$javascript_folder/up.js")
+    #js ("$javascript_folder/jquery.carouFredSel-6.2.0-packed.js")
+
+    #js ("$javascript_folder/jquery.color.js")
+    #js ("$javascript_folder/jquery.Jcrop.min.js")
+
+    #css ("$css_folder/jquery-ui.css")
+    #css ("$css_folder/jquery.fancybox-thumbs.css")
+    #css ("$css_folder/jquery.fancybox.css")
+    #css ("$css_folder/jquery-ui-1.10.1.custom.min.css")
+    #css ("$css_folder/jquery.qtip.css")
+    #css ("$css_folder/carousel.css")
+
+    #css ("$css_folder/jquery.Jcrop.css")
+
+    $theme.include($top_head_include)
+</head>
+
+<body class="$css_class">
+
+    #if($is_signed_in)
+        #dockbar()
+    #end
+
+<div id="main">
+    <div id="header">
+
+        <a href="#main-content" id="skip-to-content">#language("")</a>
+        #if ($update_available_url)
+            <div class="popup-alert-notice">
+                <a class="update-available"
+                   href="$update_available_url">#language("updates-are-available-for-liferay")</a>
+            </div>
+        #end
+        $theme.runtime("eventPanel_WAR_studeventPanel")
+        $theme.runtime("BannerPortlet_WAR_studbanner")
+        $theme.runtime("calendarPortlet_WAR_studcalendar")
+
+    </div>
+    <div id="content">
+        <div id="user-wrapper">
+            <div id="userspace">
+
+                <div id="logo">
+                    <a href="/web/guest/home" id="aui_3_2_0_15619">
+                        <div id="logolinkarea"></div>
+                        <div id="doms"><b>Д</b>непропетровский <b>О</b>бластной <b>М</b>олодёжный <b>С</b>овет</div>
+                    </a>
+                </div>
+
+            </div>
+            <div id="corr">
+                #if(!$is_signed_in)
+                    <div id="login-wrapper">
+                                                <span>
+                                                    <a href="$sign_in_url" class="graystyle"
+                                                       rel="nofollow">$sign_in_text</a>
+                                                </span>
+                    </div>
+                #end
+            </div>
+        </div>
+        <div class="paper">
+            <!--menu-wrapper-->
+            #if ($has_navigation)
+                #parse ("$full_templates_path/navigation.vm")
+            #end
+            <!--main-content-->
+            #if ($selectable)
+                $theme.include($content_include)
+            #else
+                $portletDisplay.recycle()
+
+                $portletDisplay.setTitle($the_title)
+
+                $theme.wrapPortlet("portlet.vm", $content_include)
+            #end
+            <!--end-->
+        </div>
+        <div class="paper-bottom">
+        </div>
+    </div>
+    <div id="footer">
+        <div id="es" class="whitestyle">
+            <p><a href="http://www.exigenservices.com.ua" target="_blank">www.exigenservices.com.ua</a></p>
+
+            <p>All right reserved &#169 2013 Exigen Services<br>
+
+            <div class="eslogo"></div>
+            </p>
+            <p><a href="/team">stud.dp.ua team</a></p>
+        </div>
+        <a id="ask" href="/ask">?</a>
+
+        <div id="owners" class="whitestyle">
+            <p>outh.co.dp@gmail.com</p>
+
+            <p>063 461 04 26&emsp;063 477 37 66</p>
+        </div>
+    </div>
+</div>
+<div id="footerbg">
+    <div id="bgfooter">
+    </div>
+</div>
+
+<div id="top-link">
+    <a href="#top" id="top-link-a">
+        <div id="arrow-up">
+        </div>
+    </a>
+</div>
+</body>
+
+    $theme.include($bottom_include)
+
+</html>
