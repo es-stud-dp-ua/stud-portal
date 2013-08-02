@@ -10,6 +10,7 @@ import ua.dp.stud.StudPortalLib.service.OrganizationService;
 import ua.dp.stud.StudPortalLib.util.OrganizationType;
 
 import java.util.Collection;
+
 import ua.dp.stud.StudPortalLib.dao.impl.BaseDaoImpl;
 
 @Service("organizationService")
@@ -18,14 +19,16 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     @Autowired
     private OrganizationDao dao;
- 
+
 
     public void setDao(OrganizationDao dao) {
         this.dao = dao;
     }
-   public void setBaseDao(OrganizationDao dao) {
+
+    public void setBaseDao(OrganizationDao dao) {
         this.dao = dao;
     }
+
     /**
      * persist organization in db
      *
@@ -195,17 +198,13 @@ public class OrganizationServiceImpl implements OrganizationService {
     public ImageImpl getImageById(Long id) {
         return dao.getImageById(id);
     }
-    
+
     /**
-     * 
      * @param organization
      * @return true if organization with this name is present
      */
     @Override
-    public Boolean isUnique(Organization organization){
-              if (dao.getOrganizationByName(organization.getTitle())!=null){
-               return true;
-           }
-        return false; 
+    public Boolean isUnique(Organization organization) {
+        return dao.getOrganizationByName(organization.getTitle()) != null;
     }
 }

@@ -7,6 +7,7 @@ package ua.dp.stud.StudPortalLib.dao.impl;
 import java.util.Collection;
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Repository;
 import ua.dp.stud.StudPortalLib.dao.EventsDao;
 import ua.dp.stud.StudPortalLib.model.Events;
 import ua.dp.stud.StudPortalLib.model.ImageImpl;
+import ua.dp.stud.StudPortalLib.model.News;
 import ua.dp.stud.StudPortalLib.util.EventsType;
 
 
@@ -41,10 +43,16 @@ public class EventsDaoImpl extends DaoForApproveImpl<Events> implements EventsDa
         return getSession().getNamedQuery("Events.getByApproved")
                 .setParameter("approved", approved).list();
     }
-    
-       @Override
+
+    @Override
     public Events getEventsByName(String title) {
         Events events = (Events) getSession().get(Events.class, title);
         return events;
+    }
+
+    public Collection<Events> getOnMainPage() {
+        return getSession().createCriteria(Events.class).addOrder(Order.desc("publication"))
+                .add(Restrictions.isNull("comment")).add(Restrictions.eq("approved", true))
+                .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).setMaxResults(2).list();
     }
 }

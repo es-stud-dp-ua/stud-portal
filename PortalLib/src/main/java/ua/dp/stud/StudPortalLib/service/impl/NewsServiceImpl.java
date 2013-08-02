@@ -14,7 +14,6 @@ import ua.dp.stud.StudPortalLib.model.News;
 import ua.dp.stud.StudPortalLib.service.NewsService;
 
 import java.util.Collection;
-import ua.dp.stud.StudPortalLib.dao.impl.BaseDaoImpl;
 
 @Service("newsService")
 @Transactional
@@ -24,7 +23,7 @@ public class NewsServiceImpl implements NewsService {
      */
     @Autowired
     private NewsDao dao;
-   
+
     /**
      * setter for NewsArchiveDAO
      *
@@ -34,7 +33,7 @@ public class NewsServiceImpl implements NewsService {
     public void setDao(NewsDao dao) {
         this.dao = dao;
     }
- 
+
 
     /**
      * adds news
@@ -282,16 +281,13 @@ public class NewsServiceImpl implements NewsService {
     public Collection<News> getNewsOnPage(Boolean approved, Integer pageNumb, Integer newsByPage) {
         return dao.getObjectOnPage(approved, pageNumb, newsByPage);
     }
-    
+
     /**
      * @param news
-     * @return  true if news with this name is present
+     * @return true if news with this name is present
      */
-      @Override
-    public Boolean isUnique(News news){
-        if (dao.getNewsByName(news.getTopic())!=null){
-               return true;
-           }
-        return false; 
+    @Override
+    public Boolean isUnique(News news) {
+        return dao.getNewsByName(news.getTopic()) != null;
     }
 }

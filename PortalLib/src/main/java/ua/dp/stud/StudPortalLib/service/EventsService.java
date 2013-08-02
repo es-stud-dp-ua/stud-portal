@@ -14,27 +14,29 @@ import ua.dp.stud.StudPortalLib.model.ImageImpl;
  */
 public interface EventsService {
 
-    public Collection<Events> getEventsByType(String type);
+    Collection<Events> getEventsByType(String type);
 
-    public ImageImpl getImageById(Long id);
+    ImageImpl getImageById(Long id);
 
-    public void deleteImage(ImageImpl image);
+    void deleteImage(ImageImpl image);
 
-    public Integer getPagesCount(Integer newsByPage);
+    Integer getPagesCount(Integer newsByPage);
 
-    public Collection<Events> getEventsOnPage(Integer pageNumb, Integer eventsByPage, Boolean approve);
+    Collection<Events> getEventsOnPage(Integer pageNumb, Integer eventsByPage, Boolean approve);
 
-    public Collection<Events> getAllEvents(Boolean approve);
+    Collection<Events> getAllEvents(Boolean approve);
 
-    public Events getEventsById(Integer id);
+    Events getEventsById(Integer id);
 
-    public void addImage(ImageImpl image);
+    void addImage(ImageImpl image);
 
-    public void deleteEvents(Events events);
+    void deleteEvents(Events events);
 
-    public void updateEvents(Events events);
+    void updateEvents(Events events);
 
-    public void addEvents(Events eventsToAdd);
+    void addEvents(Events eventsToAdd);
     
-    public Boolean isUnique(Events events);
+    Boolean isUnique(Events events);
+
+    Collection<Events> getOnMainPage();
 }

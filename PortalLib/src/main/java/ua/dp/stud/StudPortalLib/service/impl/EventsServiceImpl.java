@@ -99,17 +99,18 @@ public class EventsServiceImpl implements EventsService {
             return null;
         }
     }
-    
+
     /**
-     * 
      * @param events
      * @return true if events with this name is present
      */
     @Override
-    public Boolean isUnique(Events events){
-           if (dao.getEventsByName(events.getTitle())!=null){
-               return true;
-           }
-        return false;       
+    public Boolean isUnique(Events events) {
+        return dao.getEventsByName(events.getTitle()) != null;
+    }
+
+    @Transactional(readOnly = true)
+    public Collection<Events> getOnMainPage() {
+        return dao.getOnMainPage();
     }
 }

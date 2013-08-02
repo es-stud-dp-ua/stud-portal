@@ -13,13 +13,14 @@ import ua.dp.stud.StudPortalLib.model.News;
 import java.util.Collection;
 
 /**
- * Created with IntelliJ IDEA.
- * User: VladB
- * Date: 31.07.13
- * Time: 23:15
- * To change this template use File | Settings | File Templates.
+ * @author Pikus Vladislav
  */
 public abstract class DaoForApproveImpl<E extends BaseImagesSupport> extends BaseDaoImpl<E> implements DaoForApprove<E> {
+    /**
+     * Delete image
+     *
+     * @param id image id
+     */
     @Override
     public void deleteImage(Long id) {
         //todo: find better approach
@@ -29,16 +30,32 @@ public abstract class DaoForApproveImpl<E extends BaseImagesSupport> extends Bas
         getSession().delete(image);
     }
 
+    /**
+     * Return image by id
+     *
+     * @param id image id
+     * @return founded object
+     */
     @Override
     public ImageImpl getImageById(Long id) {
         return (ImageImpl) getSession().get(ImageImpl.class, id);
     }
 
+    /**
+     * Save new image in DB
+     *
+     * @param image new image
+     */
     @Override
     public void addImage(ImageImpl image) {
         getSession().save(image);
     }
 
+    /**
+     * Deleting current object by id
+     *
+     * @param id object id
+     */
     @Override
     public void delete(Integer id) {
         E object = (E) getSession().get(persistentClass, id);
@@ -49,6 +66,12 @@ public abstract class DaoForApproveImpl<E extends BaseImagesSupport> extends Bas
         getSession().delete(object);
     }
 
+    /**
+     * Return object by id with initialization image list
+     *
+     * @param id object id
+     * @return founded object
+     */
     @Override
     public E getById(Integer id) {
         E object = (E) getSession().get(persistentClass, id);
@@ -58,11 +81,24 @@ public abstract class DaoForApproveImpl<E extends BaseImagesSupport> extends Bas
         return object;
     }
 
+    /**
+     * Calculate page
+     *
+     * @param count   page number
+     * @param perPage object per page
+     * @return calculated number
+     */
     @Override
     public Integer calcPages(Integer count, Integer perPage) {
         return (count > 0) ? ((count - 1) / perPage + 1) : 0;
     }
 
+    /**
+     * Return object count by author
+     *
+     * @param author author of the object
+     * @return object count
+     */
     @Override
     public Integer getCountByAuthor(String author) {
         return ((Long) getSession().createCriteria(persistentClass).setProjection(Projections.rowCount())
@@ -70,6 +106,14 @@ public abstract class DaoForApproveImpl<E extends BaseImagesSupport> extends Bas
                 .uniqueResult()).intValue();
     }
 
+    /**
+     * Return list of object ob current page by author
+     *
+     * @param author    author of the object
+     * @param pageNumb  page number
+     * @param objByPage object per page
+     * @return list of object
+     */
     @Override
     public Collection<E> getPagesObjectByAuthor(String author, Integer pageNumb, Integer objByPage) {
         int firstResult = (pageNumb - 1) * objByPage;
@@ -78,6 +122,12 @@ public abstract class DaoForApproveImpl<E extends BaseImagesSupport> extends Bas
                 .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).addOrder(Order.desc("id")).setFirstResult(firstResult).setMaxResults(objByPage).list();
     }
 
+    /**
+     * Return object count by approve
+     *
+     * @param approved approve
+     * @return object count
+     */
     @Override
     public Integer getCount(Boolean approved) {
         return ((Long) getSession().createCriteria(persistentClass).setProjection(Projections.rowCount())
@@ -86,6 +136,14 @@ public abstract class DaoForApproveImpl<E extends BaseImagesSupport> extends Bas
                 .uniqueResult()).intValue();
     }
 
+    /**
+     * Return list of object ob current page by approve
+     *
+     * @param approved  approve
+     * @param pageNumb  page number
+     * @param objByPage object per pag
+     * @return list of object
+     */
     @Override
     public Collection<E> getObjectOnPage(Boolean approved, Integer pageNumb, Integer objByPage) {
         int firstResult = (pageNumb - 1) * objByPage;
