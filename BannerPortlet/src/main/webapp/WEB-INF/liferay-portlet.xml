@@ -5,6 +5,7 @@
 <liferay-portlet-app>
     <portlet>
         <portlet-name>BannerPortlet</portlet-name>
-        <system>true</system>
+        <instanceable>false</instanceable>
+        <header-portlet-css>/css/styles.css</header-portlet-css>
     </portlet>
 </liferay-portlet-app>

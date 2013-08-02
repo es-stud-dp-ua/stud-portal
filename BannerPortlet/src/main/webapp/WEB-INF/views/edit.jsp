@@ -28,10 +28,10 @@
             <div class="panelbtn panelbtn-right fs20 icon-pcparrow-left" aria-hidden="true"></div>
         </a>
     </div>
-    <c:if test="${not empty bannerImages}">
+    <c:if test="${empty bannerImages}">
         <b><spring:message code="noImages"/></b><br>
     </c:if>
-    <c:if test="${empty bannerImages}">
+    <c:if test="${not empty bannerImages}">
         <spring:message code="currentImages"/><br>
         <%for (BannerImage image : bannerImages) {%>
         <form method="post" class="banner-form">

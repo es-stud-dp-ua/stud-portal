@@ -6,5 +6,6 @@
         <mapping class="ua.dp.stud.bannerPortlet.model.BannerImage"/>
         <mapping class="ua.dp.stud.StudPortalLib.model.BaseImagesSupport"/>
         <mapping class="ua.dp.stud.StudPortalLib.model.ImageImpl"/>
+        <mapping class="ua.dp.stud.StudPortalLib.model.Events"/>
     </session-factory>
 </hibernate-configuration>

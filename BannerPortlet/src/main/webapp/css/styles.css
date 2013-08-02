@@ -1,7 +1,7 @@
 .banner {
     position: relative;
     border: none;
-    width: 940px;
+    width: 450px;
     height: 263px;
     overflow: hidden;
     position: relative;
@@ -24,17 +24,22 @@
 }
 
 .banner a {
-    width: 940px;
+    width: 450px;
     height: 263px;
     float: left;
     display: inline-block;
     margin: 0px;
 }
 
+.eventLink{
+	font-weight: bold;
+	font-size: 13pt;
+}
+
 .banner a img {
     position: absolute;
     display: inline-block;
-    width: 940px;
+    width: 450px;
     height: 263px;
     margin: 0px;
     padding: 0px;

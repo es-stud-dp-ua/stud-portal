@@ -1,7 +1,7 @@
 $(document).ready(
     function () {
         var size = $(".images > a > img").length;
-        var slideWidth = 940;
+        var slideWidth = 450;
         var time = 15000;
         var currentSlide = 0;
 
