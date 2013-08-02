@@ -7,18 +7,18 @@ package ua.dp.stud.StudPortalLib.model;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.*;
+
 import ua.dp.stud.StudPortalLib.util.EventsType;
 
 /**
- *
  * @author Ольга
  */
 @NamedQueries(
         {
-    @NamedQuery(
-            name = "Events.getByApproved",
-            query = "Select events From Events events  Where events.approved = :approved and events.comment is null ORDER BY events.eventDate desc")
-})
+                @NamedQuery(
+                        name = "Events.getByApproved",
+                        query = "Select events From Events events  Where events.approved = :approved and events.comment is null ORDER BY events.eventDate desc")
+        })
 
 @Entity
 @Table(name = "events_table")
@@ -31,13 +31,12 @@ public class Events extends BaseImagesSupport implements Serializable {
     private String location;
     private String text;
     private EventsType type;
-    private Boolean approve;
+    private Boolean approved;
     private String comment;
     private String author;
     private Date publication;
 
-    public Events() {
-    }
+    public Events() { }
 
     @Column
     public String getComment() {
@@ -47,8 +46,8 @@ public class Events extends BaseImagesSupport implements Serializable {
     public void setComment(String comment) {
         this.comment = comment;
     }
-    
-     @Column
+
+    @Column
     public String getAuthor() {
         return this.author;
     }
@@ -56,16 +55,16 @@ public class Events extends BaseImagesSupport implements Serializable {
     public void setAuthor(String author) {
         this.author = author;
     }
-    
-       @Column
-    public Boolean isApprove() {
-        return this.approve;
+
+    @Column
+    public Boolean isApproved() {
+        return this.approved;
     }
 
-    public void setApprove(Boolean approve) {
-        this.approve = approve;
+    public void setApproved(Boolean approve) {
+        this.approved = approve;
     }
-    
+
     @Column
     public String getTitle() {
         return this.title;
@@ -84,8 +83,8 @@ public class Events extends BaseImagesSupport implements Serializable {
     public void setEventDate(Date date) {
         this.eventDate = date;
     }
-    
- @Column(name = "publication")
+
+    @Column(name = "publication")
     @Temporal(TemporalType.TIMESTAMP)
     public Date getPublication() {
         return this.publication;
@@ -94,7 +93,7 @@ public class Events extends BaseImagesSupport implements Serializable {
     public void setPublication(Date date) {
         this.publication = date;
     }
-    
+
     @Column
     @Temporal(TemporalType.TIMESTAMP)
     public Date getEventTime() {
