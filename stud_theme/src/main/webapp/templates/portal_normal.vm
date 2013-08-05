@@ -52,7 +52,6 @@
             </div>
         #end
         $theme.runtime("eventPanel_WAR_studeventPanel")
-        $theme.runtime("BannerPortlet_WAR_studbanner")
         $theme.runtime("calendarPortlet_WAR_studcalendar")
 
     </div>

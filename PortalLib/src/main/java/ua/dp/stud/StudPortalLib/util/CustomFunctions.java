@@ -12,6 +12,7 @@ import java.util.StringTokenizer;
 import java.util.regex.Pattern;
 
 import static org.apache.commons.lang.StringUtils.join;
+import static org.apache.commons.lang.StringUtils.remove;
 
 /**
  * @author Josby
@@ -39,9 +40,9 @@ public final class CustomFunctions {
     private static final Integer TOTAL_MS_PER_HOURS = 1000 * 60 * 60;
     private static final Integer TOTAL_MS_PER_MIN = 1000 * 60;
     private static final Integer TOTAL_MS = 1000;
-    private static final DateFormat hoursFormat = new SimpleDateFormat("HH:mm");
-    private static final DateFormat dayFormat = new SimpleDateFormat("dd.MM.yyyy");
-    private static final DateFormat dateFormat = new SimpleDateFormat("dd.MM");
+    private static final DateFormat HOURS_FORMAT = new SimpleDateFormat("HH:mm");
+    private static final DateFormat DAY_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
+    private static final DateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM");
 
     public static String getCreationDate(Date date) {
         StringBuilder outDate = new StringBuilder();
@@ -71,24 +72,24 @@ public final class CustomFunctions {
                             Integer day = nowCal.get(Calendar.DAY_OF_MONTH) - pubDateCal.get(Calendar.DAY_OF_MONTH);
                             if (day == 0) {
                                 outDate.append("сегодня в ")
-                                    .append(hoursFormat.format(pubDate));
+                                    .append(HOURS_FORMAT.format(pubDate));
                             } else {
                                 outDate.append("вчера в ")
-                                        .append(hoursFormat.format(pubDate));
+                                        .append(HOURS_FORMAT.format(pubDate));
                             }
                         } else {
                             Long day = difference / TOTAL_MS_PER_DAY;
                             if (day == 1) {
                                 outDate.append("вчера в ")
-                                        .append(hoursFormat.format(pubDate));
+                                        .append(HOURS_FORMAT.format(pubDate));
                             } else {
                                 Integer year = nowCal.get(Calendar.YEAR) - pubDateCal.get(Calendar.YEAR);
                                 if (year == 0) {
-                                    outDate.append(dateFormat.format(pubDate)).append(" в ")
-                                            .append(hoursFormat.format(pubDate));
+                                    outDate.append(DATE_FORMAT.format(pubDate)).append(" в ")
+                                            .append(HOURS_FORMAT.format(pubDate));
                                 } else {
-                                    outDate.append(dayFormat.format(pubDate)).append(" в ")
-                                            .append(hoursFormat.format(pubDate));
+                                    outDate.append(DAY_FORMAT.format(pubDate)).append(" в ")
+                                            .append(HOURS_FORMAT.format(pubDate));
                                 }
                             }
                         }
@@ -97,6 +98,27 @@ public final class CustomFunctions {
             }
         }
         return outDate.toString();
+    }
+
+    public static String getEventsDate(Date startDate, Date endDate) {
+        StringBuilder result = new StringBuilder();
+        Calendar startCal = Calendar.getInstance();
+        startCal.setTime(startDate);
+        Calendar endCal = Calendar.getInstance();
+        endCal.setTime(endDate);
+        Integer date1 = startCal.get(Calendar.DAY_OF_MONTH);
+        Integer date2 = endCal.get(Calendar.DAY_OF_MONTH);
+        result.append(date1.toString());
+        if (date1 < date2) {
+            result.append(" - ").append(date2.toString());
+        }
+        Integer month = endCal.get(Calendar.MONTH);
+        result.append(".");
+        if(month < 10) {
+            result.append("0");
+        }
+        result.append(endCal.get(Calendar.MONTH));
+        return result.toString();
     }
 
     public static String truncateHtml(String html, Integer length) {

@@ -1,7 +1,9 @@
 <%@ taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet" %>
 <%@ page import="java.util.Collection" %>
 <%@ page import="ua.dp.stud.StudPortalLib.util.ImageService" %>
+<%@ page import="ua.dp.stud.StudPortalLib.model.Events" %>
 <%@ page import="ua.dp.stud.bannerPortlet.model.BannerImage" %>
+<%@ page import="ua.dp.stud.StudPortalLib.util.CustomFunctions" %>
 <%@include file="include.jsp" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <portlet:defineObjects/>
@@ -34,13 +36,15 @@
         <b><spring:message code="empty.eventsList"/></b><br>
 		</c:if>
 		<c:if test="${not empty eventsList}">
+		    <h3><spring:message code="empty.unlost"/></h3><br>
 			<c:forEach items="${eventsList}" var="currentEvent">
 				<liferay-portlet:renderURL plid="${eventsPageID}" var="linkToSingle" portletName="Events_WAR_studevents">
 					<liferay-portlet:param name="newsID" value="${currentEvent.id}>"/>
 				</liferay-portlet:renderURL>
 				<div>
 					<div><a href="${linkToSingle}" class="eventLink">${currentEvent.title}</a></div>
-					<div>${currentEvent.eventDate}</div>
+					<%Events event = (Events) pageContext.getAttribute("currentEvent");%>
+					<div><%=CustomFunctions.getEventsDate(event.getEventDateStart(), event.getEventDateEnd())%></div>
 				</div>
 			</c:forEach>
 		</c:if>
