@@ -23,4 +23,6 @@ public interface EventsDao extends DaoForApprove<Events> {
     Events getEventsByName(String title);
 
     Collection<Events> getOnMainPage();
+    
+    Integer getCountOfType(EventsType type);
 }

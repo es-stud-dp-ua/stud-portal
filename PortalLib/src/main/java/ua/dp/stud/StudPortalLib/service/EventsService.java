@@ -7,6 +7,7 @@ package ua.dp.stud.StudPortalLib.service;
 import java.util.Collection;
 import ua.dp.stud.StudPortalLib.model.Events;
 import ua.dp.stud.StudPortalLib.model.ImageImpl;
+import ua.dp.stud.StudPortalLib.util.EventsType;
 
 /**
  *
@@ -39,4 +40,8 @@ public interface EventsService {
     Boolean isUnique(Events events);
 
     Collection<Events> getOnMainPage();
+    
+    Collection<Events> getEventsOfTypeByPage(Integer pageNumb, Integer eventsByPage,String type, Boolean approve);
+    
+    Integer getPagesCountOfType(int eByPage, EventsType type) ;
 }

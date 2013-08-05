@@ -110,7 +110,25 @@ public class EventsServiceImpl implements EventsService {
     }
 
     @Transactional(readOnly = true)
+    @Override
     public Collection<Events> getOnMainPage() {
         return dao.getOnMainPage();
+    }
+    
+ @Transactional(readOnly = true)
+    @Override
+    public Collection<Events> getEventsOfTypeByPage(Integer pageNumb, Integer eventsByPage, String type, Boolean approve) {
+     try {
+            EventsType eType = EventsType.valueOf(type);
+            return dao.getEventsOfTypeOnPage(pageNumb, eventsByPage, eType, approve);
+        } catch (Exception unused) {
+            return null;
+        }
+    }
+ 
+   @Override
+    @Transactional(readOnly = true)
+    public Integer getPagesCountOfType(int eByPage, EventsType type) {
+        return dao.calcPages(dao.getCountOfType(type), eByPage);
     }
 }

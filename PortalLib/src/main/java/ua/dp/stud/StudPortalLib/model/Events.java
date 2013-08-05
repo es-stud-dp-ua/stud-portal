@@ -26,7 +26,8 @@ import ua.dp.stud.StudPortalLib.util.EventsType;
 public class Events extends BaseImagesSupport implements Serializable {
 
     private String title;
-    private Date eventDate;
+    private Date eventDateStart;
+    private Date eventDateEnd;
     private Date eventTime;
     private String location;
     private String text;
@@ -74,14 +75,24 @@ public class Events extends BaseImagesSupport implements Serializable {
         this.title = title;
     }
 
-    @Column(name = "eventDate")
+    @Column(name = "eventDateStart")
     @Temporal(TemporalType.TIMESTAMP)
-    public Date getEventDate() {
-        return this.eventDate;
+    public Date getEventDateStart() {
+        return this.eventDateStart;
     }
 
-    public void setEventDate(Date date) {
-        this.eventDate = date;
+    public void setEventDateStart(Date date) {
+        this.eventDateStart = date;
+    }
+    
+     @Column(name = "eventDateEnd")
+    @Temporal(TemporalType.TIMESTAMP)
+    public Date getEventDateEnd() {
+        return this.eventDateEnd;
+    }
+
+    public void setEventDateEnd(Date date) {
+        this.eventDateEnd = date;
     }
 
     @Column(name = "publication")

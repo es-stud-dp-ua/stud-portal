@@ -50,9 +50,16 @@ public class EventsDaoImpl extends DaoForApproveImpl<Events> implements EventsDa
         return events;
     }
 
+    @Override
     public Collection<Events> getOnMainPage() {
         return getSession().createCriteria(Events.class).addOrder(Order.desc("publication"))
                 .add(Restrictions.isNull("comment")).add(Restrictions.eq("approved", true))
-                .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).setMaxResults(2).list();
+                .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).setMaxResults(5).list();
+    }
+    
+     @Override
+    public Integer getCountOfType(EventsType type) {
+        return ((Long) getSession().createQuery("Select Count(*) From Events WHERE eventsType= :type and approved=true")
+                .setParameter("type", type).uniqueResult()).intValue();
     }
 }
