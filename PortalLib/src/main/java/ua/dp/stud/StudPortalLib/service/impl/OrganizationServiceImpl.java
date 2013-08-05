@@ -63,8 +63,8 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
-    public void incViews(Organization organization) {
-        dao.incViews(organization);
+    public void incrementViews(Organization organization) {
+        dao.incrementViews(organization);
     }
 
     /**

@@ -1,7 +1,7 @@
-<%@ page import="ua.dp.stud.StudPortalLib.model.Organization" %>
-<%@ page import="ua.dp.stud.StudPortalLib.util.OrganizationType" %>
-<%@ page import="ua.dp.stud.StudPortalLib.service.OrganizationService" %>
-<%@ page import="ua.dp.stud.StudPortalLib.service.impl.OrganizationServiceImpl" %>
+<%@ page import="ua.dp.stud.StudPortalLib.model.Events" %>
+<%@ page import="ua.dp.stud.StudPortalLib.util.EventsType" %>
+<%@ page import="ua.dp.stud.StudPortalLib.service.EventsService" %>
+<%@ page import="ua.dp.stud.StudPortalLib.service.impl.EventsServiceImpl" %>
 <%@ page import="java.util.Collection" %>
 <%@ page import="com.liferay.portal.theme.ThemeDisplay" %>
 <%@ page import="com.liferay.portal.kernel.util.WebKeys" %>
@@ -16,20 +16,20 @@
 
 <portlet:defineObjects/>
 <%
-    Collection<Organization> orgs = (Collection) request.getAttribute("organisations");
+    Collection<Events> events = (Collection) request.getAttribute("events");
     Integer pagesCount = (Integer) request.getAttribute("pagesCount");
     Integer currentPage = (Integer) request.getAttribute("currentPage");
     int leftPageNumb = (Integer) request.getAttribute("leftPageNumb");
     int rightPageNumb = (Integer) request.getAttribute("rightPageNumb");
     boolean skippedBeginning = (Boolean) request.getAttribute("skippedBeginning");
     boolean skippedEnding = (Boolean) request.getAttribute("skippedEnding");
-    OrganizationType type = null;
+    EventsType type = null;
     if (request.getAttribute("type") != null)
-        type = (OrganizationType) request.getAttribute("type");
+        type = (EventsType) request.getAttribute("type");
     ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
     String imagePath = new StringBuilder(themeDisplay.getPortalURL()).append('/')
             .append(themeDisplay.getPathImage()).append("/image_gallery?img_id=").toString();
-    Collection<String> allTypes = (Collection) (OrganizationType.allTypes());
+    Collection<String> allTypes = (Collection) (EventsType.allTypes());
     String temp;
 %>
 
@@ -71,26 +71,26 @@
         </form>
     </div>
     <div id="newsTable">
-                <% if (!orgs.isEmpty()) {
-                 for (Organization currentOrgs : orgs){%>
+                <% if (!events.isEmpty()) {
+                 for (Events currentEvent : events){%>
                 <div width="100%">
-                    <img src="<%= imageService.getPathToMicroblogImage(currentOrgs.getMainImage(),currentOrgs) %>"
+                    <img src="<%= imageService.getPathToMicroblogImage(currentEvent.getMainImage(),currentEvent) %>"
                          class="newsImage">
 
                     <div class="newsHeader">
-                        <a href="<portlet:renderURL/>&orgsID=<%=currentOrgs.getId()%>">
-                            <%=currentOrgs.getTitle()%>
+                        <a href="<portlet:renderURL/>&orgsID=<%=currentEvent.getId()%>">
+                            <%=currentEvent.getTitle()%>
                         </a>
                     </div>
-                    <div class="newsText"><%= CustomFunctions.truncateHtml(currentOrgs.getText(), 700) %>
+                    <div class="newsText"><%= CustomFunctions.truncateHtml(currentEvent.getText(), 700) %>
                     </div>
                     <div class="reply_link_wrap">
-                        <span class="rel_author"><%=currentOrgs.getAuthor()%></span>
-                        <span class="rel_view"><%=currentOrgs.getViews()%></span>
-                        <span class="rel_date"><%=CustomFunctions.getCreationDate(currentOrgs.getPublication())%></span>
+                        <span class="rel_author"><%=currentEvent.getAuthor()%></span>
+                        <span class="rel_view"><%=currentEvent.getViews()%></span>
+                        <span class="rel_date"><%=CustomFunctions.getCreationDate(currentEvent.getPublication())%></span>
                     </div>
                     <% if (request.isUserInRole("Administrator")) { %>
-                    <a style="float: right" href="<portlet:renderURL/>&orgsId=<%=currentOrgs.getId()%>&mode=delete"
+                    <a style="float: right" href="<portlet:renderURL/>&orgsId=<%=currentEvent.getId()%>&mode=delete"
                        onclick='return confirm("<spring:message code="form.confDelete"/>")'>
                         <div class="panelbtn panelbtn-right fs20 icon-pcpremove" aria-hidden="true"></div>
                     </a>
@@ -187,7 +187,7 @@
             else
             {
         %>
-        ` <h1><b><spring:message code="orgs.empty"/></b></h1>
+        ` <h1><b><spring:message code="events.empty"/></b></h1>
         <%}%>
     </div>
 </div>

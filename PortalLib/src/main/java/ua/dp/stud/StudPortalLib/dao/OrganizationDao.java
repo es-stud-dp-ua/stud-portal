@@ -42,7 +42,7 @@ public interface OrganizationDao extends DaoForApprove<Organization> {
      *
      * @param organization
      */
-    void incViews(Organization organization);
+    void incrementViews(Organization organization);
 
     /**
      * return all organization with specified enum type

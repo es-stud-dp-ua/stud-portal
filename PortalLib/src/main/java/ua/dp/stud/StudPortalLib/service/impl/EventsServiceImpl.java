@@ -28,6 +28,11 @@ public class EventsServiceImpl implements EventsService {
     public void setDao(EventsDao dao) {
         this.dao = dao;
     }
+    
+    @Override
+    public void incrementViews(Events event) {
+        dao.incrementViews(event);
+    }
 
     @Override
     @Transactional(readOnly = false)

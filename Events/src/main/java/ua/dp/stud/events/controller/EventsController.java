@@ -56,6 +56,12 @@ public class EventsController {
     private static final String STR_EXEPT = "Exception";
     private static final String STR_DUPLICAT_TOPIC = "duplicating topic";
     private static final Logger LOG = Logger.getLogger(EventsController.class.getName());
+    private static final String TYPE = "type";
+    private static final String CURRENT_PAGE = "currentPage";
+    private static final int EVENTS_BY_PAGE = 5;
+    private static final int NEARBY_PAGES = 2;
+    private static final int OVERAL_PAGES = 7;
+    
     @Autowired
     @Qualifier(value = "eventsService")
     private EventsService eventsService;
@@ -63,12 +69,76 @@ public class EventsController {
     @Qualifier(value = "imageService")
     private ImageService imageService;
 
+    @RenderMapping
+    public ModelAndView showView(RenderRequest request, RenderResponse response) {
+        ModelAndView model = new ModelAndView();
+        model.setViewName("viewAll");
+
+        Collection<Events> events;
+        int pagesCount;
+        int currentPage;
+        EventsType type;
+        if (request.getParameter(CURRENT_PAGE) != null) {
+            currentPage = Integer.parseInt(request.getParameter(CURRENT_PAGE));
+        } else {
+            currentPage = 1;
+        }
+//PAGINATION 
+        if (request.getParameter(TYPE) != null) {
+            type = EventsType.valueOf(request.getParameter(TYPE));
+        } else {
+            type = null;
+        }
+        if (type == null) {
+            pagesCount = eventsService.getPagesCount(EVENTS_BY_PAGE);
+            events = eventsService.getEventsOnPage(currentPage, EVENTS_BY_PAGE, true);
+        } else {
+            pagesCount = eventsService.getPagesCountOfType(EVENTS_BY_PAGE, type);
+            events = eventsService.getEventsOfTypeByPage(currentPage, EVENTS_BY_PAGE, type.toString(), true);
+        }
+
+        int leftPageNumb = Math.max(1, currentPage - NEARBY_PAGES);
+        int rightPageNumb = Math.min(pagesCount, currentPage + NEARBY_PAGES);
+        boolean skippedBeginning = false;
+        boolean skippedEnding = false;
+
+        if (pagesCount <= OVERAL_PAGES) {
+            leftPageNumb = 1;
+            rightPageNumb = pagesCount;
+        } else {
+            if (currentPage > 2 + NEARBY_PAGES) {
+                skippedBeginning = true;
+            } else {
+                leftPageNumb = 1;
+                rightPageNumb = 2 + 2 * NEARBY_PAGES;
+            }
+            if (currentPage < pagesCount - (NEARBY_PAGES + 1)) {
+                skippedEnding = true;
+            } else {
+                leftPageNumb = (pagesCount - 1) - 2 * NEARBY_PAGES;
+                rightPageNumb = pagesCount;
+            }
+        }
+
+        model.addObject("leftPageNumb", leftPageNumb);
+        model.addObject("rightPageNumb", rightPageNumb);
+        model.addObject("skippedBeginning", skippedBeginning);
+        model.addObject("skippedEnding", skippedEnding);
+        model.addObject("events", events);
+        model.addObject(CURRENT_PAGE, currentPage);
+        model.addObject("pagesCount", pagesCount);
+        model.addObject(TYPE, type);
+        model.addObject("EventsByPage", EVENTS_BY_PAGE);
+        return model;
+    }
+
     @RenderMapping(params = "eventId")
     public ModelAndView showSelectedEvents(RenderRequest request, RenderResponse response) throws SystemException, PortalException {
         ModelAndView model = new ModelAndView();
         int eventsID = Integer.valueOf(request.getParameter("eventsID"));
         Events event = eventsService.getEventsById(eventsID);
         ImageImpl mImage = event.getMainImage();
+        eventsService.incrementViews(event);
         String mainImageUrl = imageService.getPathToLargeImage(mImage, event);
         Collection<ImageImpl> additionalImages = event.getAdditionalImages();
         model.setView("viewSingle");
@@ -188,8 +258,8 @@ public class EventsController {
             role = actionRequest.isUserInRole(ADMINISTRATOR_ROLE) ? ADMINISTRATOR_ROLE : USER_ROLE;
             User user = (User) actionRequest.getAttribute(WebKeys.USER);
             String usRole = user.getScreenName();
-            if (updateEventsFields(event, mainImage, images, role, usRole)) {
-                eventsService.updateEvents(event);
+            if (updateEventsFields(newEvent, mainImage, images, role, usRole)) {
+                eventsService.updateEvents(newEvent);
 //close session
                 sessionStatus.setComplete();
             } else {
@@ -197,8 +267,8 @@ public class EventsController {
             }
         }
     }
-    
-     @RenderMapping(params = "mode=add")
+
+    @RenderMapping(params = "mode=add")
     public ModelAndView showAddOrgs(RenderRequest request, RenderResponse response) {
         ModelAndView model = new ModelAndView();
 //set view for add

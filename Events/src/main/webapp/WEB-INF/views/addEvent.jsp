@@ -1,6 +1,5 @@
-<%@ page import="ua.dp.stud.StudPortalLib.model.Category" %>
-<%@ page import="ua.dp.stud.StudPortalLib.model.Organization" %>
-<%@ page import="ua.dp.stud.StudPortalLib.util.OrganizationType" %>
+<%@ page import="ua.dp.stud.StudPortalLib.model.Events" %>
+<%@ page import="ua.dp.stud.StudPortalLib.util.EventsType" %>
 <%@ page import="java.util.Collection" %>
 <%@ page import="java.util.Locale" %>
 <%@ page import="java.util.ResourceBundle" %>
@@ -63,7 +62,7 @@
         </script>
     <portlet:renderURL var="home"> </portlet:renderURL>
 
-    <portlet:actionURL var="actionLink" name="addOrganisation"></portlet:actionURL>
+    <portlet:actionURL var="actionLink" name="addEvents"></portlet:actionURL>
     <div class="portlet-content-controlpanel fs20">
         <a href="${home}">
             <!--<spring:message code="form.back"/>-->
@@ -145,21 +144,21 @@
                     </td>
                     <td rowspan=2 width="50%" align="left">
                         <div id="labels"><spring:message code="form.title"/></div><div id="redStar1">*</div>
-                            <form:input path="title" id="title" cols="90" rows="2" maxlength="100"  name="title"/>
-                            <form:errors path="title" cssClass="error"></form:errors>
-                            <div id="labels"><spring:message code="form.text"/></div><div id="redStar2">*</div>
-                            <textarea path="text" class="ckeditor" id="text" cols="60" rows="10" maxlength="10000"
-                                      name="text" ></textarea>
-                            <textarea style="visibility: hidden;width: 0px;" id="text1" name="text1"  ></textarea>
-                        <form:errors path="text" cssClass="error" ></form:errors>
-                            <br/><br/>
-                            <div id="sbm">
-                                <input type="submit" value="<spring:message
-                                       code='<%=(request.isUserInRole("Administrator"))?"form.submit.admin"
+                <form:input path="title" id="title" cols="90" rows="2" maxlength="100"  name="title"/>
+                <form:errors path="title" cssClass="error"></form:errors>
+                <div id="labels"><spring:message code="form.text"/></div><div id="redStar2">*</div>
+                <textarea path="text" class="ckeditor" id="text" cols="60" rows="10" maxlength="10000"
+                          name="text" ></textarea>
+                <textarea style="visibility: hidden;width: 0px;" id="text1" name="text1"  ></textarea>
+                <form:errors path="text" cssClass="error" ></form:errors>
+                <br/><br/>
+                <div id="sbm">
+                    <input type="submit" value="<spring:message
+                           code='<%=(request.isUserInRole("Administrator"))?"form.submit.admin"
                                                                                              :"form.submit.user"%>'/>"/>
-                        </div>
-                        <br/><br/>
-                    </td>
+                </div>
+                <br/><br/>
+                </td>
                 </tr>
                 <tr>
                     <td width="50%" align="right">
@@ -176,55 +175,47 @@
                                                 <div style="float: right; margin-right: 10px;"><spring:message
                                                         code="form.SPORTS"/></div>
                                             </td>
-                                            <td><input type="radio" name="type" value="<%= OrganizationType.SPORTS %>"
+                                            <td><input type="radio" name="type" value="<%= EventsType.SPORTS %>"
                                                        checked="" style="float: right;"/></td>
                                         </tr>
                                         <tr>
                                             <td>
                                                 <div style="float: right; margin-right: 10px; "><spring:message
-                                                        code="form.YOUNGSTERS"/></div>
+                                                        code="form.MUSIC"/></div>
                                             </td>
-                                            <td><input type="radio" name="type" value="<%= OrganizationType.YOUNGSTERS %>"
+                                            <td><input type="radio" name="type" value="<%= EventsType.MUSIC %>"
                                                        style="float: right;"/></td>
                                         </tr>
                                         <tr>
                                             <td>
                                                 <div style="float: right; margin-right: 10px;"><spring:message
-                                                        code="form.VOLUNTEERING"/></div>
+                                                        code="form.VACANCY"/></div>
                                             </td>
-                                            <td><input type="radio" name="type" value="<%= OrganizationType.VOLUNTEERING %>"
+                                            <td><input type="radio" name="type" value="<%= EventsType.VACANCY %>"
                                                        style="float: right;"/></td>
                                         </tr>
                                         <tr>
                                             <td>
                                                 <div style="float: right; margin-right: 10px;"><spring:message
-                                                        code="form.CHARITY"/></div>
+                                                        code="form.CONFERENCE"/></div>
                                             </td>
-                                            <td><input type="radio" name="type" value="<%= OrganizationType.CHARITY %>"
+                                            <td><input type="radio" name="type" value="<%= EventsType.CONFERENCE %>"
                                                        style="float: right;"/></td>
                                         </tr>
                                         <tr>
                                             <td>
                                                 <div style="float: right; margin-right: 10px;"><spring:message
-                                                        code="form.INT_ORGS"/></div>
+                                                        code="form.WEBINAR"/></div>
                                             </td>
-                                            <td><input type="radio" name="type" value="<%= OrganizationType.INT_ORGS %>"
+                                            <td><input type="radio" name="type" value="<%= OrganizationType.WEBINAR %>"
                                                        style="float: right;"/></td>
                                         </tr>
                                         <tr>
                                             <td>
                                                 <div style="float: right; margin-right: 10px;"><spring:message
-                                                        code="form.ART"/></div>
+                                                        code="form.THEATRE"/></div>
                                             </td>
-                                            <td><input type="radio" name="type" value="<%= OrganizationType.ART %>"
-                                                       style="float: right;"/></td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div style="float: right; margin-right: 10px;"><spring:message
-                                                        code="form.OTHERS"/></div>
-                                            </td>
-                                            <td><input type="radio" name="type" value="<%= OrganizationType.OTHERS %>"
+                                            <td><input type="radio" name="type" value="<%= OrganizationType.THEATRE %>"
                                                        style="float: right;"/></td>
                                         </tr>
                                     </table>

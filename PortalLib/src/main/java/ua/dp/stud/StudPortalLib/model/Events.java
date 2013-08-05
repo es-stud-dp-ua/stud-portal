@@ -7,7 +7,6 @@ package ua.dp.stud.StudPortalLib.model;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.*;
-
 import ua.dp.stud.StudPortalLib.util.EventsType;
 
 /**
@@ -15,11 +14,10 @@ import ua.dp.stud.StudPortalLib.util.EventsType;
  */
 @NamedQueries(
         {
-                @NamedQuery(
-                        name = "Events.getByApproved",
-                        query = "Select events From Events events  Where events.approved = :approved and events.comment is null ORDER BY events.eventDate desc")
-        })
-
+    @NamedQuery(
+            name = "Events.getByApproved",
+            query = "Select events From Events events  Where events.approved = :approved and events.comment is null ORDER BY events.eventDateStart desc")
+})
 @Entity
 @Table(name = "events_table")
 @PrimaryKeyJoinColumn(name = "id", referencedColumnName = "id")
@@ -36,8 +34,10 @@ public class Events extends BaseImagesSupport implements Serializable {
     private String comment;
     private String author;
     private Date publication;
+    private int views;
 
-    public Events() { }
+    public Events() {
+    }
 
     @Column
     public String getComment() {
@@ -58,7 +58,7 @@ public class Events extends BaseImagesSupport implements Serializable {
     }
 
     @Column
-    public Boolean isApproved() {
+    public Boolean getApproved() {
         return this.approved;
     }
 
@@ -84,8 +84,8 @@ public class Events extends BaseImagesSupport implements Serializable {
     public void setEventDateStart(Date date) {
         this.eventDateStart = date;
     }
-    
-     @Column(name = "eventDateEnd")
+
+    @Column(name = "eventDateEnd")
     @Temporal(TemporalType.TIMESTAMP)
     public Date getEventDateEnd() {
         return this.eventDateEnd;
@@ -140,5 +140,14 @@ public class Events extends BaseImagesSupport implements Serializable {
 
     public void setType(EventsType type) {
         this.type = type;
+    }
+
+    @Column
+    public int getViews() {
+        return views;
+    }
+
+    public void setViews(int views) {
+        this.views = views;
     }
 }

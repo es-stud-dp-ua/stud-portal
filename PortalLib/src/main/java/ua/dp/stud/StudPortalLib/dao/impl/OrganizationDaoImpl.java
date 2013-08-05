@@ -122,8 +122,7 @@ public class OrganizationDaoImpl extends DaoForApproveImpl<Organization> impleme
     }
 
     @Override
-    //todo: rename method
-    public void incViews(Organization organization) {
+    public void incrementViews(Organization organization) {
         organization.setViews(organization.getViews() + 1);
         getSession().update(organization);
 

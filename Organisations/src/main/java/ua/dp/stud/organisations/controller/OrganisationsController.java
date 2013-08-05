@@ -171,7 +171,7 @@ public class OrganisationsController {
 
         int orgsID = Integer.valueOf(request.getParameter("orgsID"));
         Organization organisation = organizationService.getOrganizationById(orgsID);
-        organizationService.incViews(organisation);
+        organizationService.incrementViews(organisation);
         ImageImpl mImage = organisation.getMainImage();
         String mainImageUrl;
 

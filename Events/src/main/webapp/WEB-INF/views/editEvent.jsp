@@ -18,9 +18,9 @@
 <%@include file="include.jsp" %>
 
 <%
-    Collection<String> allTypes = (Collection) (OrganizationType.allTypes());
+    Collection<String> allTypes = (Collection) (EventsType.allTypes());
     String temp;
-    Organization orgs = (Organization) request.getAttribute("organization");
+    Events event = (Events) request.getAttribute(event");
 %>
 <portlet:defineObjects/>
 <html>
@@ -66,7 +66,7 @@
             }
         </script>
     <portlet:renderURL var="home"> </portlet:renderURL>
-    <portlet:actionURL var="actionLink" name="editCommunity"></portlet:actionURL>
+    <portlet:actionURL var="actionLink" name="editEvent"></portlet:actionURL>
     <div class="portlet-content-controlpanel fs20">
         <a href="${home}">
             <!--<spring:message code="form.back"/>-->
@@ -74,7 +74,7 @@
         </a>
         <% if (request.isUserInRole("Administrator")) { %>
 
-        <a style="margin-left: 10px;" href="<portlet:renderURL/>&orgsId=<%=orgs.getId()%>&mode=delete"
+        <a style="margin-left: 10px;" href="<portlet:renderURL/>&orgsId=<%=event.getId()%>&mode=delete"
            onclick='return confirm("<spring:message code="form.confDelete"/>")'>
             <!--<spring:message code="form.delete"/>-->
             <div class="panelbtn panelbtn-right fs20 icon-pcpremove" aria-hidden="true"></div>
@@ -87,12 +87,12 @@
         ${exception}
     </c:if>
     <div width="100%" align="center">
-        <form:form method="post" action="${actionLink}"  enctype="multipart/form-data" commandName="organization" modelAttribute="organization">
+        <form:form method="post" action="${actionLink}"  enctype="multipart/form-data" commandName="event" modelAttribute="event">
             <input type="hidden" size="0" id="x1" name="t"/>
             <input type="hidden" size="0" id="y1" name="l"/>
             <input type="hidden" size="0" id="w" name="w"/>
             <input type="hidden" size="0" id="h" name="h"/>
-            <input type="hidden" name="orgsId" value="<%=orgs.getId()%>">
+            <input type="hidden" name="eventId" value="<%=event.getId()%>">
 
             <table width="100%" margin-bottom="15px">
                 <tr>
@@ -105,7 +105,7 @@
                         </style>
                         <div id="lup">
                         </div>
-                        <% if (orgs.getMainImage() == null) { %>
+                        <% if (event.getMainImage() == null) { %>
                         <div id="mainPic" style="vertical-align: top; z-index: 2;"
                              style="background: url(${pageContext.request.contextPath}/images/mainpic_443x253.png) no-repeat">
                             <!-- Output for our douwnload Image-->
@@ -171,11 +171,11 @@
                         <br/>
                     </td>
                     <td rowspan=2 width="50%" align="left">
-                        <form:input title="${organisation.title}" path="title" id="topicInput" cols="90" rows="2" maxlength="100" onkeypress="return isNotMax(event)"
+                        <form:input title="${event.title}" path="title" id="topicInput" cols="90" rows="2" maxlength="100" onkeypress="return isNotMax(event)"
                                     name="title"/>
                         <form:errors path="title" cssClass="error"></form:errors>
                             <div style="width: 450px; float: bottom ;padding-left: 8px;">
-                            <form:textarea path="text" title="${organisation.text}" class="ckeditor" id="textInput" cols="60" rows="10" maxlength="8000"
+                            <form:textarea path="text" title="${event.text}" class="ckeditor" id="textInput" cols="60" rows="10" maxlength="8000"
                                            onkeypress="return isNotMax(event)" name="text"/>
                             <form:errors path="text" cssClass="error" ></form:errors>
                                 <br/><br/>
@@ -197,7 +197,7 @@
                                     <table>
                                         <tr><label>
                                             <div style="font-weight: bold; "><spring:message
-                                                    code="addOrganisation.type"/></div>
+                                                    code="addEvent.type"/></div>
                                         </label></tr>
                                         <% for (String currentType : allTypes) {
                                         temp = new String("form." + currentType);%>
@@ -207,7 +207,7 @@
                                                         code="<%=temp%>"/></div>
                                             </td>
                                             <td>
-                                                <% if (orgs.getOrganizationType().toString() == currentType) {%>
+                                                <% if (event.getType().toString() == currentType) {%>
                                                 <input type="radio" name="type" value="<%=currentType%>" checked=""
                                                        style="float: right;"/>
                                                 <%} else { %>

@@ -24,7 +24,6 @@
         </portlet-preferences>
 
         <resource-bundle>resources.messages</resource-bundle>
-        <supported-locale>en</supported-locale>
         <supported-locale>ru</supported-locale>
     </portlet>
 

@@ -62,4 +62,11 @@ public class EventsDaoImpl extends DaoForApproveImpl<Events> implements EventsDa
         return ((Long) getSession().createQuery("Select Count(*) From Events WHERE eventsType= :type and approved=true")
                 .setParameter("type", type).uniqueResult()).intValue();
     }
+     
+     @Override
+    public void incrementViews(Events event) {
+        event.setViews(event.getViews() + 1);
+        getSession().update(event);
+
+    }
 }

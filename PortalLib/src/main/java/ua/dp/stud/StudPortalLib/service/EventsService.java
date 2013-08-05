@@ -36,12 +36,14 @@ public interface EventsService {
     void updateEvents(Events events);
 
     void addEvents(Events eventsToAdd);
-    
+
     Boolean isUnique(Events events);
 
     Collection<Events> getOnMainPage();
-    
-    Collection<Events> getEventsOfTypeByPage(Integer pageNumb, Integer eventsByPage,String type, Boolean approve);
-    
-    Integer getPagesCountOfType(int eByPage, EventsType type) ;
+
+    Collection<Events> getEventsOfTypeByPage(Integer pageNumb, Integer eventsByPage, String type, Boolean approve);
+
+    Integer getPagesCountOfType(int eByPage, EventsType type);
+
+    void incrementViews(Events organization);
 }
