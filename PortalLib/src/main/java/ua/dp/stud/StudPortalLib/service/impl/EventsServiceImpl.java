@@ -123,12 +123,7 @@ public class EventsServiceImpl implements EventsService {
  @Transactional(readOnly = true)
     @Override
     public Collection<Events> getEventsOfTypeByPage(Integer pageNumb, Integer eventsByPage, String type, Boolean approve) {
-     try {
-            EventsType eType = EventsType.valueOf(type);
-            return dao.getEventsOfTypeOnPage(pageNumb, eventsByPage, eType, approve);
-        } catch (Exception unused) {
-            return null;
-        }
+            return dao.getEventsOfTypeOnPage(pageNumb, eventsByPage, type, approve);
     }
  
    @Override

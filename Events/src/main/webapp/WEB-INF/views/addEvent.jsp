@@ -4,9 +4,6 @@
 <%@ page import="java.util.Locale" %>
 <%@ page import="java.util.ResourceBundle" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<!--<script type="text/javascript" src="js/jquery-1.5.2.min.js"></script>
-<script type="text/javascript" src="js/jquery.validate.min.js"></script>
-<script type="text/javascript" src="js/myscripts.js"></script>-->
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <%@include file="include.jsp" %>
@@ -65,7 +62,6 @@
     <portlet:actionURL var="actionLink" name="addEvents"></portlet:actionURL>
     <div class="portlet-content-controlpanel fs20">
         <a href="${home}">
-            <!--<spring:message code="form.back"/>-->
             <div class="panelbtn panelbtn-right fs20 icon-pcparrow-left" aria-hidden="true"></div>
         </a>
     </div>
@@ -85,7 +81,6 @@
             <table width="100%" margin-bottom="15px">
                 <tr>
                     <td width="50%" align="center">
-                        <!--<input type="file" name="mainImage" accept="image/jpeg,image/png,image/gif" />-->
                         <style>
                             .thumb {
                                 height: 253px;
@@ -168,7 +163,7 @@
                                     <table>
                                         <tr><label>
                                             <div style="font-weight: bold; "><spring:message
-                                                    code="addOrganisation.type"/></div>
+                                                    code="addEvent.type"/></div>
                                         </label></tr>
                                         <tr>
                                             <td>
@@ -207,7 +202,7 @@
                                                 <div style="float: right; margin-right: 10px;"><spring:message
                                                         code="form.WEBINAR"/></div>
                                             </td>
-                                            <td><input type="radio" name="type" value="<%= OrganizationType.WEBINAR %>"
+                                            <td><input type="radio" name="type" value="<%= EventsType.WEBINAR %>"
                                                        style="float: right;"/></td>
                                         </tr>
                                         <tr>
@@ -215,7 +210,7 @@
                                                 <div style="float: right; margin-right: 10px;"><spring:message
                                                         code="form.THEATRE"/></div>
                                             </td>
-                                            <td><input type="radio" name="type" value="<%= OrganizationType.THEATRE %>"
+                                            <td><input type="radio" name="type" value="<%= EventsType.THEATRE %>"
                                                        style="float: right;"/></td>
                                         </tr>
                                     </table>

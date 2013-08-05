@@ -23,6 +23,7 @@ import ua.dp.stud.StudPortalLib.util.EventsType;
 @PrimaryKeyJoinColumn(name = "id", referencedColumnName = "id")
 public class Events extends BaseImagesSupport implements Serializable {
 
+    private static final int TEXT_LENGTH = 10000;
     private String title;
     private Date eventDateStart;
     private Date eventDateEnd;
@@ -124,7 +125,7 @@ public class Events extends BaseImagesSupport implements Serializable {
         this.location = location;
     }
 
-    @Column
+    @Column(length = TEXT_LENGTH)
     public String getText() {
         return this.text;
     }

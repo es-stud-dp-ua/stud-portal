@@ -33,9 +33,10 @@ public class EventsDaoImpl extends DaoForApproveImpl<Events> implements EventsDa
     }
 
     @Override
-    public Collection<Events> getEventsOfTypeOnPage(Integer pageNumb, Integer orgsPerPage, EventsType type, Boolean approve) {
-        int firstResult = (pageNumb - 1) * orgsPerPage;
-        return (Collection<Events>) getSession().createQuery("From Events events WHERE events.eventsType= :type and events.approved=:approve_ and events.comment is null ORDER BY events.id desc").setParameter("type", type).setParameter("approve_", approve).setFirstResult(firstResult).setMaxResults(orgsPerPage).list();
+    public Collection<Events> getEventsOfTypeOnPage(Integer pageNumb, Integer eventsPerPage, String type, Boolean approve) {
+        int firstResult = (pageNumb - 1) * eventsPerPage;
+        EventsType type2=EventsType.valueOf(type);
+        return (Collection<Events>) getSession().createQuery("From Events events WHERE events.type= :type2 and events.approved=:approve_ and events.comment is null ORDER BY events.id desc").setParameter("type2", type2).setParameter("approve_", approve).setFirstResult(firstResult).setMaxResults(eventsPerPage).list();
     }
 
     @Override
@@ -58,9 +59,9 @@ public class EventsDaoImpl extends DaoForApproveImpl<Events> implements EventsDa
     }
     
      @Override
-    public Integer getCountOfType(EventsType type) {
-        return ((Long) getSession().createQuery("Select Count(*) From Events WHERE eventsType= :type and approved=true")
-                .setParameter("type", type).uniqueResult()).intValue();
+    public Integer getCountOfType(EventsType type2) {
+        return ((Long) getSession().createQuery("Select Count(*) From Events WHERE type= :type2 and approved=true")
+                .setParameter("type2", type2).uniqueResult()).intValue();
     }
      
      @Override

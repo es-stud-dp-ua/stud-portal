@@ -16,7 +16,7 @@ public interface EventsDao extends DaoForApprove<Events> {
 
     Collection<Events> getEventsByType(EventsType type);
 
-    Collection<Events> getEventsOfTypeOnPage(Integer pageNumb, Integer orgsPerPage, EventsType type, Boolean approve);
+    Collection<Events> getEventsOfTypeOnPage(Integer pageNumb, Integer orgsPerPage, String type, Boolean approve);
 
     Collection<Events> getAllEvents(Boolean approved);
     

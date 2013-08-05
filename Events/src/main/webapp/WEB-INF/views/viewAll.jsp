@@ -29,7 +29,7 @@
     ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
     String imagePath = new StringBuilder(themeDisplay.getPortalURL()).append('/')
             .append(themeDisplay.getPathImage()).append("/image_gallery?img_id=").toString();
-    Collection<String> allTypes = (Collection) (EventsType.allTypes());
+    Collection<String> allTypes = (Collection) EventsType.allTypes();
     String temp;
 %>
 
@@ -78,7 +78,7 @@
                          class="newsImage">
 
                     <div class="newsHeader">
-                        <a href="<portlet:renderURL/>&orgsID=<%=currentEvent.getId()%>">
+                        <a href="<portlet:renderURL/>&eventID=<%=currentEvent.getId()%>">
                             <%=currentEvent.getTitle()%>
                         </a>
                     </div>
@@ -90,7 +90,7 @@
                         <span class="rel_date"><%=CustomFunctions.getCreationDate(currentEvent.getPublication())%></span>
                     </div>
                     <% if (request.isUserInRole("Administrator")) { %>
-                    <a style="float: right" href="<portlet:renderURL/>&orgsId=<%=currentEvent.getId()%>&mode=delete"
+                    <a style="float: right" href="<portlet:renderURL/>&eventID=<%=currentEvent.getId()%>&mode=delete"
                        onclick='return confirm("<spring:message code="form.confDelete"/>")'>
                         <div class="panelbtn panelbtn-right fs20 icon-pcpremove" aria-hidden="true"></div>
                     </a>

@@ -95,6 +95,9 @@ public class EventsController {
         } else {
             pagesCount = eventsService.getPagesCountOfType(EVENTS_BY_PAGE, type);
             events = eventsService.getEventsOfTypeByPage(currentPage, EVENTS_BY_PAGE, type.toString(), true);
+            System.out.println(events);
+            System.out.println(type.toString());
+            System.out.println(currentPage);
         }
 
         int leftPageNumb = Math.max(1, currentPage - NEARBY_PAGES);
@@ -132,18 +135,18 @@ public class EventsController {
         return model;
     }
 
-    @RenderMapping(params = "eventId")
+    @RenderMapping(params = "eventID")
     public ModelAndView showSelectedEvents(RenderRequest request, RenderResponse response) throws SystemException, PortalException {
         ModelAndView model = new ModelAndView();
-        int eventsID = Integer.valueOf(request.getParameter("eventsID"));
-        Events event = eventsService.getEventsById(eventsID);
+        int eventID = Integer.valueOf(request.getParameter("eventID"));
+        Events event = eventsService.getEventsById(eventID);
         ImageImpl mImage = event.getMainImage();
         eventsService.incrementViews(event);
-        String mainImageUrl = imageService.getPathToLargeImage(mImage, event);
+        String mainImage = imageService.getPathToLargeImage(mImage, event);
         Collection<ImageImpl> additionalImages = event.getAdditionalImages();
         model.setView("viewSingle");
         model.addObject("additionalImages", additionalImages);
-        model.addObject("mainImageUrl", mainImageUrl);
+        model.addObject("mainImage", mainImage);
         model.addObject("event", event);
         return model;
     }
@@ -212,7 +215,7 @@ public class EventsController {
             User user = (User) actionRequest.getAttribute(WebKeys.USER);
             String usRole = user.getScreenName();
 //try to update fields for new organisation
-            if (!eventsService.isUnique(event)) {
+//            if (!eventsService.isUnique(event)) {
                 if (updateEventsFields(event, mainImage, images, role, usRole)) {
                     Date date = new Date();
                     event.setPublication(date);
@@ -220,7 +223,8 @@ public class EventsController {
                     actionResponse.setRenderParameter("eventID", Integer.toString(event.getId()));
                     sessionStatus.setComplete();
                 }
-            } else {
+//            } else 
+                {
                 actionResponse.setRenderParameter(STR_FAIL, STR_DUPLICAT_TOPIC);
             }
 
@@ -235,7 +239,7 @@ public class EventsController {
             ActionResponse actionResponse, SessionStatus sessionStatus)
             throws IOException, SystemException, PortalException {
 //getting current news
-        int eventID = Integer.valueOf(actionRequest.getParameter("eventId"));
+        int eventID = Integer.valueOf(actionRequest.getParameter("eventID"));
         Events newEvent = eventsService.getEventsById(eventID);
 //getting all parameters from form
         if (bindingResult.hasFieldErrors()) {
@@ -269,10 +273,10 @@ public class EventsController {
     }
 
     @RenderMapping(params = "mode=add")
-    public ModelAndView showAddOrgs(RenderRequest request, RenderResponse response) {
+    public ModelAndView showAddEvent(RenderRequest request, RenderResponse response) {
         ModelAndView model = new ModelAndView();
 //set view for add
-        model.setViewName("addOrganisation");
+        model.setViewName("addEvent");
         return model;
     }
 
@@ -291,14 +295,15 @@ public class EventsController {
     public ModelAndView showEditEvent(RenderRequest request, RenderResponse response) {
         ModelAndView model = new ModelAndView();
 //getting event
-        int eventID = Integer.valueOf(request.getParameter("eventId"));
+        int eventID = Integer.valueOf(request.getParameter("eventID"));
         Events event = eventsService.getEventsById(eventID);
         ImageImpl mImage = event.getMainImage();
         String mainImageUrl;
         mainImageUrl = imageService.getPathToLargeImage(mImage, event);
         Collection<ImageImpl> additionalImages = event.getAdditionalImages();
 //set view for edit
-        model.setViewName("editEvent");
+        model.setView("editEvent");
+        System.out.println("sdfdfdsfg");
 //send current event in view
         model.addObject("event", event);
         model.addObject(MAIN_IMAGE, mainImageUrl);
@@ -307,9 +312,9 @@ public class EventsController {
     }
 
     @RenderMapping(params = "mode=delete")
-    public ModelAndView deleteOrganisation(RenderRequest request, RenderResponse response) {
+    public ModelAndView deleteEvent(RenderRequest request, RenderResponse response) {
 //getting current events
-        int eventID = Integer.valueOf(request.getParameter("eventId"));
+        int eventID = Integer.valueOf(request.getParameter("eventID"));
         Events event = eventsService.getEventsById(eventID);
 //delete chosen organization's image from folder
         imageService.deleteDirectory(event);
@@ -328,13 +333,13 @@ public class EventsController {
 
     @RenderMapping(params = "fail")
     public ModelAndView showAddFailed(RenderRequest request, RenderResponse response) {
-        ModelAndView model = showAddOrgs(request, response);
+        ModelAndView model = showAddEvent(request, response);
         return model;
     }
 
     @RenderMapping(params = "exception")
     public ModelAndView showAddException(RenderRequest request, RenderResponse response) {
-        ModelAndView model = showAddOrgs(request, response);
+        ModelAndView model = showAddEvent(request, response);
         model.addObject(STR_EXEPT, request.getParameter(STR_EXEPT));
         return model;
     }
