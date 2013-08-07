@@ -9,11 +9,12 @@
 <%@ page import="java.util.Locale" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.ResourceBundle" %>
+<%@ page import="java.text.SimpleDateFormat" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet" %>
 <%@include file="include.jsp" %>
 
-
+ 
 <portlet:defineObjects/>
 <%
     Collection<Events> events = (Collection) request.getAttribute("events");
@@ -31,6 +32,7 @@
             .append(themeDisplay.getPathImage()).append("/image_gallery?img_id=").toString();
     Collection<String> allTypes = (Collection) EventsType.allTypes();
     String temp;
+    SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
 %>
 
 <html>
@@ -76,19 +78,27 @@
                 <div width="100%">
                     <img src="<%= imageService.getPathToMicroblogImage(currentEvent.getMainImage(),currentEvent) %>"
                          class="newsImage">
-
+                    <div style="color: #363636">
+                        <% if (currentEvent.getEventDateStart()!=currentEvent.getEventDateEnd()){ %>
+                        <%=dateFormat.format(currentEvent.getEventDateStart())%> - <%=dateFormat.format(currentEvent.getEventDateEnd())%>
+                        <% } else { %>
+                        <%=dateFormat.format(currentEvent.getEventDateStart())%>  <%}%>
+                        &nbsp &nbsp &nbsp
+                        <%=currentEvent.getLocation()%>
+                    </div>
+                  
                     <div class="newsHeader">
                         <a href="<portlet:renderURL/>&eventID=<%=currentEvent.getId()%>">
                             <%=currentEvent.getTitle()%>
                         </a>
                     </div>
-                    <div class="newsText"><%= CustomFunctions.truncateHtml(currentEvent.getText(), 700) %>
+                    <div class="newsText"><%= CustomFunctions.truncateHtml(currentEvent.getText(), 300) %>
                     </div>
-                    <div class="reply_link_wrap">
+               <%--  <div class="reply_link_wrap"> 
                         <span class="rel_author"><%=currentEvent.getAuthor()%></span>
                         <span class="rel_view"><%=currentEvent.getViews()%></span>
                         <span class="rel_date"><%=CustomFunctions.getCreationDate(currentEvent.getPublication())%></span>
-                    </div>
+                    </div> --%>
                     <% if (request.isUserInRole("Administrator")) { %>
                     <a style="float: right" href="<portlet:renderURL/>&eventID=<%=currentEvent.getId()%>&mode=delete"
                        onclick='return confirm("<spring:message code="form.confDelete"/>")'>
@@ -149,7 +159,7 @@
                     <%}%>
                     <%-- SHOWING CURRENT PAGE NEAREST FROM LEFT AND RIGHT --%>
                     <%
-                        for (int pageNumb = leftPageNumb; pageNumb <= rightPageNumb; ++pageNumb) {
+                        for (int pageNumb = leftPageNumb; pageNumb <= rightPageNumb; pageNumb++) {
                             if (pageNumb != currentPage) {%>
                     <a href="<portlet:actionURL name="pagination"><portlet:param name="pageNumber" value="<%=String.valueOf(pageNumb)%>"/>
                         <% if (type!=null) {%><portlet:param name="type" value="<%=String.valueOf(type)%>"/><%} %>
@@ -187,7 +197,7 @@
             else
             {
         %>
-        ` <h1><b><spring:message code="events.empty"/></b></h1>
+        <h1><b>&nbsp &nbsp &nbsp<spring:message code="events.empty"/></b></h1>
         <%}%>
     </div>
 </div>

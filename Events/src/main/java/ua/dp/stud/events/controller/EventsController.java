@@ -16,6 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
+import javax.portlet.Event;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.validation.Valid;
@@ -33,6 +34,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
+import ua.dp.stud.StudPortalLib.model.BaseImagesSupport;
 import ua.dp.stud.StudPortalLib.model.Events;
 import ua.dp.stud.StudPortalLib.model.ImageImpl;
 import ua.dp.stud.StudPortalLib.service.EventsService;
@@ -62,19 +64,30 @@ public class EventsController {
     private static final int NEARBY_PAGES = 2;
     private static final int OVERAL_PAGES = 7;
     
+
     @Autowired
     @Qualifier(value = "eventsService")
     private EventsService eventsService;
+    
+      public void setEventsService(EventsService eventsService) {
+        this.eventsService = eventsService;
+    }  
+      
     @Autowired
     @Qualifier(value = "imageService")
     private ImageService imageService;
 
+     public void setImageService(ImageService imageService) {
+        this.imageService = imageService;
+    }
+     
     @RenderMapping
     public ModelAndView showView(RenderRequest request, RenderResponse response) {
         ModelAndView model = new ModelAndView();
         model.setViewName("viewAll");
 
         Collection<Events> events;
+
         int pagesCount;
         int currentPage;
         EventsType type;
@@ -84,6 +97,7 @@ public class EventsController {
             currentPage = 1;
         }
 //PAGINATION 
+
         if (request.getParameter(TYPE) != null) {
             type = EventsType.valueOf(request.getParameter(TYPE));
         } else {
@@ -122,7 +136,7 @@ public class EventsController {
                 rightPageNumb = pagesCount;
             }
         }
-
+     
         model.addObject("leftPageNumb", leftPageNumb);
         model.addObject("rightPageNumb", rightPageNumb);
         model.addObject("skippedBeginning", skippedBeginning);
