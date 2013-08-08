@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.web.portlet.ModelAndView;
+import ua.dp.stud.StudPortalLib.service.EventsService;
 import ua.dp.stud.StudPortalLib.service.NewsService;
 import ua.dp.stud.StudPortalLib.service.OrganizationService;
 import ua.dp.stud.eventPanel.util.states.*;
@@ -13,11 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created with IntelliJ IDEA.
- * User: VladB
- * Date: 06.08.13
- * Time: 19:09
- * To change this template use File | Settings | File Templates.
+ * @author Pikus Vladislav
  */
 @Component("eventPanelHelper")
 public class EventPanelHelper {
@@ -44,6 +41,18 @@ public class EventPanelHelper {
 
     public NewsService getNewsService() {
         return newsService;
+    }
+
+    @Autowired
+    @Qualifier(value = "eventsService")
+    private EventsService eventsService;
+
+    public void setEventsService(EventsService eventsService) {
+        this.eventsService = eventsService;
+    }
+
+    public EventsService getEventsService() {
+        return eventsService;
     }
 
     private String userName;
@@ -129,6 +138,7 @@ public class EventPanelHelper {
 
     protected static final String NEWS_ARCHIVE_REFERENCE_NAME = "NewsArchive_WAR_studnewsArchive";
     protected static final String COMMUNITIES_REFERENCE_NAME = "Communities_WAR_studcommunity";
+    private static final String EVENTS_REFERENCE_NAME = "Events_WAR_studevents";
     private State state;
     Map<String, State> stateMap;
 
@@ -136,9 +146,11 @@ public class EventPanelHelper {
         stateMap = new HashMap<String, State>();
         stateMap.put("myNews", new MyNews(this, "myNewsSize", NEWS_ARCHIVE_REFERENCE_NAME));
         stateMap.put("myCommunity", new MyCommunity(this, "myOrgSize", COMMUNITIES_REFERENCE_NAME));
+        stateMap.put("myEvents", new MyEvents(this, "myEventsSize", EVENTS_REFERENCE_NAME));
         stateMap.put("newsInMyComm", new NewsInMyComm(this, "newsInMyComm", COMMUNITIES_REFERENCE_NAME));
         stateMap.put("adminNews", new AdminNews(this, "adminNewsSize", NEWS_ARCHIVE_REFERENCE_NAME));
         stateMap.put("adminCommunity", new AdminCommunity(this, "adminOrgSize", COMMUNITIES_REFERENCE_NAME));
+        stateMap.put("adminEvents", new AdminEvents(this, "adminEventsSize", EVENTS_REFERENCE_NAME));
     }
 
     public ModelAndView getObjectsByPage() {

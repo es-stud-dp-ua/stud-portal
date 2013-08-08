@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ua.dp.stud.StudPortalLib.dao.EventsDao;
 import ua.dp.stud.StudPortalLib.model.Events;
 import ua.dp.stud.StudPortalLib.model.ImageImpl;
+import ua.dp.stud.StudPortalLib.model.News;
 import ua.dp.stud.StudPortalLib.service.EventsService;
 import ua.dp.stud.StudPortalLib.util.EventsType;
 
@@ -23,6 +24,16 @@ import ua.dp.stud.StudPortalLib.util.EventsType;
 public class EventsServiceImpl implements EventsService {
     @Autowired
     private EventsDao dao;
+
+    @Transactional(readOnly = true)
+    public Integer getPagesCountByAuthor(String author, Integer eventsPerPage) {
+        return dao.calcPages(dao.getCountByAuthor(author), eventsPerPage);
+    }
+
+    @Transactional(readOnly = true)
+    public Collection<Events> getPagesEventsByAuthor(String author, Integer pageNumb, Integer eventsPerPage) {
+        return dao.getPagesObjectByAuthor(author, pageNumb, eventsPerPage);
+    }
 
     @Transactional(readOnly = false)
     public void setDao(EventsDao dao) {
@@ -80,6 +91,12 @@ public class EventsServiceImpl implements EventsService {
     @Transactional(readOnly = true)
     public Integer getPagesCount(Integer newsByPage) {
         return dao.calcPages(dao.getCount(), newsByPage);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Integer getPagesCount(Boolean approved, Integer newsPerPage) {
+        return dao.calcPages(dao.getCount(approved), newsPerPage);
     }
 
     @Override

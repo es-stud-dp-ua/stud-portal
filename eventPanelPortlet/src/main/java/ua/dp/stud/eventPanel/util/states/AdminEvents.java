@@ -1,8 +1,8 @@
 package ua.dp.stud.eventPanel.util.states;
 
 import org.springframework.web.portlet.ModelAndView;
-import ua.dp.stud.StudPortalLib.model.News;
-import ua.dp.stud.StudPortalLib.service.NewsService;
+import ua.dp.stud.StudPortalLib.model.Events;
+import ua.dp.stud.StudPortalLib.service.EventsService;
 import ua.dp.stud.eventPanel.util.EventPanelHelper;
 
 import java.util.Collection;
@@ -10,26 +10,26 @@ import java.util.Collection;
 /**
  * @author Pikus Vladislav
  */
-public class AdminNews extends State {
-    public AdminNews(EventPanelHelper helper, String cntDesc, String portletName) {
+public class AdminEvents  extends State {
+    public AdminEvents(EventPanelHelper helper, String cntDesc, String portletName) {
         super(helper, cntDesc, portletName);
     }
 
     @Override
     public Integer getPagesCount() {
-        NewsService service = helper.getNewsService();
+        EventsService service = helper.getEventsService();
         return service.getPagesCount(false, 1);
     }
 
     @Override
     public ModelAndView getObjectByPage() {
-        NewsService service = helper.getNewsService();
+        EventsService service = helper.getEventsService();
         ModelAndView model = helper.getModel();
         Integer pageCount = service.getPagesCount(false, PER_PAGE);
         Integer newCurrentPage = setPage(pageCount);
-        Collection<News> newsList = service.getNewsOnPage(false, newCurrentPage, PER_PAGE);
-        model.addObject("newsList", newsList);
-        model.addObject(TYPE, "News");
+        Collection<Events> eventsList = service.getEventsOnPage(newCurrentPage, PER_PAGE, false);
+        model.addObject("eventsList", eventsList);
+        model.addObject(TYPE, "Events");
         model.addObject(PAGE_COUNT, pageCount);
         model.addObject(CURRENT_PAGE, newCurrentPage);
         setPlid();
@@ -38,13 +38,13 @@ public class AdminNews extends State {
 
     @Override
     public void Approve() {
-        NewsService service = helper.getNewsService();
-        News currentNews = service.getNewsById(helper.getObjectId());
+        EventsService service = helper.getEventsService();
+        Events currentEvent = service.getEventsById(helper.getObjectId());
         String comment = helper.getComment();
         if (comment.length() > 0) {
-            currentNews.setComment(comment);
+            currentEvent.setComment(comment);
         }
-        currentNews.setApproved(helper.getApproved());
-        service.updateNews(currentNews);
+        currentEvent.setApproved(helper.getApproved());
+        service.updateEvents(currentEvent);
     }
 }

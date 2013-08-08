@@ -46,4 +46,10 @@ public interface EventsService {
     Integer getPagesCountOfType(int eByPage, EventsType type);
 
     void incrementViews(Events organization);
+
+    Integer getPagesCountByAuthor(String author, Integer eventsPerPage);
+
+    Collection<Events> getPagesEventsByAuthor(String author, Integer pageNumb, Integer eventsPerPage);
+
+    Integer getPagesCount(Boolean approved, Integer newsPerPage);
 }

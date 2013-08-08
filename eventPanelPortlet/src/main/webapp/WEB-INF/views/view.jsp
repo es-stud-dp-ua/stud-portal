@@ -1,4 +1,5 @@
 <%@ page import="ua.dp.stud.StudPortalLib.model.News" %>
+<%@ page import="ua.dp.stud.StudPortalLib.model.Events" %>
 <%@ page import="ua.dp.stud.StudPortalLib.model.Organization" %>
 <%@ page import="java.util.Collection" %>
 <%@ page import="java.util.ArrayList" %>
@@ -30,7 +31,6 @@
         int pageCount = (Integer) request.getAttribute("pageCount");
         int currentPage = (Integer) request.getAttribute("currentPage");
         ImageService imageService = (ImageService) pageContext.findAttribute("imageService");
-        ;
         String className = (String) request.getAttribute("class");
 %>
 <div style="display: none;">

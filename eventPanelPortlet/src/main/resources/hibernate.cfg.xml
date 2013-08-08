@@ -8,5 +8,6 @@
         <mapping class="ua.dp.stud.StudPortalLib.model.ImageImpl"/>
         <mapping class="ua.dp.stud.StudPortalLib.model.News"/>
         <mapping class="ua.dp.stud.StudPortalLib.model.Category"/>
+        <mapping class="ua.dp.stud.StudPortalLib.model.Events"/>
     </session-factory>
 </hibernate-configuration>

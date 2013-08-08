@@ -10,11 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Created with IntelliJ IDEA.
- * User: VladB
- * Date: 06.08.13
- * Time: 19:11
- * To change this template use File | Settings | File Templates.
+ * @author Pikus Vladislav
  */
 public abstract class State {
     private static final Logger LOG = Logger.getLogger(State.class.getName());
