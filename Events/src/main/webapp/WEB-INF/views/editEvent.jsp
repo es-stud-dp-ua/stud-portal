@@ -18,7 +18,7 @@
 <%
     Collection<String> allTypes = (Collection) (EventsType.allTypes());
     String temp;
-    Events event = (Events) request.getAttribute(event");
+    Events event = (Events) request.getAttribute("event");
 %>
 <portlet:defineObjects/>
 <html>

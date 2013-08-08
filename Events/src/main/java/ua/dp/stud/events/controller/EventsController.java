@@ -10,6 +10,8 @@ import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.model.User;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 import java.util.logging.Level;
@@ -20,6 +22,7 @@ import javax.portlet.Event;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.validation.Valid;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -63,24 +66,21 @@ public class EventsController {
     private static final int EVENTS_BY_PAGE = 5;
     private static final int NEARBY_PAGES = 2;
     private static final int OVERAL_PAGES = 7;
-    
-
     @Autowired
     @Qualifier(value = "eventsService")
     private EventsService eventsService;
-    
-      public void setEventsService(EventsService eventsService) {
+
+    public void setEventsService(EventsService eventsService) {
         this.eventsService = eventsService;
-    }  
-      
+    }
     @Autowired
     @Qualifier(value = "imageService")
     private ImageService imageService;
 
-     public void setImageService(ImageService imageService) {
+    public void setImageService(ImageService imageService) {
         this.imageService = imageService;
     }
-     
+
     @RenderMapping
     public ModelAndView showView(RenderRequest request, RenderResponse response) {
         ModelAndView model = new ModelAndView();
@@ -136,7 +136,7 @@ public class EventsController {
                 rightPageNumb = pagesCount;
             }
         }
-     
+
         model.addObject("leftPageNumb", leftPageNumb);
         model.addObject("rightPageNumb", rightPageNumb);
         model.addObject("skippedBeginning", skippedBeginning);
@@ -219,6 +219,24 @@ public class EventsController {
                     Integer.parseInt(actionRequest.getParameter("l")),
                     Integer.parseInt(actionRequest.getParameter("w")),
                     Integer.parseInt(actionRequest.getParameter("h")));
+            Date dateStart = new Date(Date.parse(actionRequest.getParameter("EventDateStart")));
+            if (!"".equals(actionRequest.getParameter("startTime"))) {
+                String time = actionRequest.getParameter("startTime");
+                dateStart.setHours(Integer.parseInt(time.substring(0, 2)));
+                dateStart.setMinutes(Integer.parseInt(time.substring(3, 5)));
+            }
+            event.setEventDateStart(dateStart);
+            if (!"".equals(actionRequest.getParameter("EventDateEnd"))) {
+                Date dateEnd = new Date(Date.parse(actionRequest.getParameter("EventDateEnd")));
+                if (!"".equals(actionRequest.getParameter("endTime"))) {
+                    String time = actionRequest.getParameter("endTime");
+                    dateEnd.setHours(Integer.parseInt(time.substring(0, 2)));
+                    dateEnd.setMinutes(Integer.parseInt(time.substring(3, 5)));
+                    event.setEventDateEnd(dateEnd);
+                }
+            }
+
+
             if (croppedImage == null) {
                 actionResponse.setRenderParameter(STR_FAIL, STR_BAD_IMAGE);
                 return;
@@ -230,16 +248,16 @@ public class EventsController {
             String usRole = user.getScreenName();
 //try to update fields for new organisation
 //            if (!eventsService.isUnique(event)) {
-                if (updateEventsFields(event, mainImage, images, role, usRole)) {
-                    Date date = new Date();
-                    event.setPublication(date);
-                    eventsService.addEvents(event);
-                    actionResponse.setRenderParameter("eventID", Integer.toString(event.getId()));
-                    sessionStatus.setComplete();
-                }
+            if (updateEventsFields(event, mainImage, images, role, usRole)) {
+                Date date = new Date();
+                event.setPublication(date);
+                eventsService.addEvents(event);
+                actionResponse.setRenderParameter("eventID", Integer.toString(event.getId()));
+                sessionStatus.setComplete();
+            }
 //            } else 
-                {
-                actionResponse.setRenderParameter(STR_FAIL, STR_DUPLICAT_TOPIC);
+            {
+//                actionResponse.setRenderParameter(STR_FAIL, STR_DUPLICAT_TOPIC);
             }
 
         }
@@ -247,7 +265,9 @@ public class EventsController {
 
     @ActionMapping(value = "editEvent")
     public void editEvent(@RequestParam(MAIN_IMAGE) CommonsMultipartFile mainImage,
-            @RequestParam("images") CommonsMultipartFile[] images, @ModelAttribute(value = "event") @Valid Events event,
+            @RequestParam("images") CommonsMultipartFile[] images,
+            @ModelAttribute(value = "event")
+            @Valid Events event,
             BindingResult bindingResult,
             ActionRequest actionRequest,
             ActionResponse actionResponse, SessionStatus sessionStatus)
@@ -309,12 +329,12 @@ public class EventsController {
     public ModelAndView showEditEvent(RenderRequest request, RenderResponse response) {
         ModelAndView model = new ModelAndView();
 //getting event
-        int eventID = Integer.valueOf(request.getParameter("eventID"));
+        int eventID = Integer.valueOf(request.getParameter("eventId"));
         Events event = eventsService.getEventsById(eventID);
         ImageImpl mImage = event.getMainImage();
-        String mainImageUrl;
-        mainImageUrl = imageService.getPathToLargeImage(mImage, event);
+        String mainImageUrl = imageService.getPathToLargeImage(mImage, event);
         Collection<ImageImpl> additionalImages = event.getAdditionalImages();
+        System.out.println(eventID);
 //set view for edit
         model.setView("editEvent");
         System.out.println("sdfdfdsfg");

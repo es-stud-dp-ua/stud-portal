@@ -11,8 +11,13 @@
 <portlet:defineObjects/>
 <html>
     <head>
+        <script>
+                    $(function() {
+            $("#datepicker1").datepicker();
+                    $("#datepicker2").datepicker();
+            });</script>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-
+        <% Boolean russianLocaleEnabled = request.getLocale().getLanguage().equals("ru");  %>
         <style type="text/css">
             .error {
                 color: #ff0000;
@@ -33,13 +38,18 @@
         </style>
     </head>
     <body>
+
         <script type="text/javascript">
-            function a() {
-            jQuery('#cropbox').Jcrop({onChange: setCoords, onSelect: setCoords, bgColor: 'black',
-                    bgOpacity: .4,
-                    setSelect: [100, 0, 253, 353],
-                    aspectRatio: 1});
-            }
+                    $('#defaultEntry').timeEntry().change(function() {
+            var log = $('#log');
+                    log.val(log.val() + ($('#defaultEntry').val() || 'blank') + '\n');
+            });
+                    function a() {
+                    jQuery('#cropbox').Jcrop({onChange: setCoords, onSelect: setCoords, bgColor: 'black',
+                            bgOpacity: .4,
+                            setSelect: [100, 0, 253, 353],
+                            aspectRatio: 1});
+                    }
             function setCoords(c) {
             jQuery('#x1').val(c.x);
                     jQuery('#y1').val(c.y);
@@ -139,25 +149,28 @@
                     </td>
                     <td rowspan=2 width="50%" align="left">
                         <div id="labels"><spring:message code="form.title"/></div><div id="redStar1">*</div>
-                <form:input path="title" id="title" cols="90" rows="2" maxlength="100"  name="title"/>
-                <form:errors path="title" cssClass="error"></form:errors>
-                <div id="labels"><spring:message code="form.text"/></div><div id="redStar2">*</div>
-                <textarea path="text" class="ckeditor" id="text" cols="60" rows="10" maxlength="10000"
-                          name="text" ></textarea>
-                <textarea style="visibility: hidden;width: 0px;" id="text1" name="text1"  ></textarea>
-                <form:errors path="text" cssClass="error" ></form:errors>
-                <br/><br/>
-                <div id="sbm">
-                    <input type="submit" value="<spring:message
-                           code='<%=(request.isUserInRole("Administrator"))?"form.submit.admin"
+                            <form:input path="title" id="title" cols="90" rows="2" maxlength="100"  name="title"/>
+                            <form:errors path="title" cssClass="error"></form:errors>
+                            <div id="labels"><spring:message code="form.text"/></div><div id="redStar2">*</div>
+                            <textarea path="text" class="ckeditor" id="text" cols="60" rows="10" maxlength="10000"
+                                      name="text" ></textarea>
+                            <textarea style="visibility: hidden;width: 0px;" id="text1" name="text1"  ></textarea>
+                        <form:errors path="text" cssClass="error" ></form:errors>
+                            <br/><br/>
+                            <div id="sbm">
+                                <input type="submit" value="<spring:message
+                                       code='<%=(request.isUserInRole("Administrator"))?"form.submit.admin"
                                                                                              :"form.submit.user"%>'/>"/>
-                </div>
-                <br/><br/>
-                </td>
+                        </div>
+                        <br/><br/>
+                    </td>
                 </tr>
                 <tr>
                     <td width="50%" align="right">
                         <div id="eventSetting">
+                            <div style="margin-right: 10px; margin-top: 55px;"><spring:message code="form.dateStart"/><div id="redStar4">*</div></div><input type="text" name="EventDateStart" id="datepicker1"/><input type="text" placeholder="HH:mm" maxlength="5" style="width: 15%;margin-left: 1%;" name="startTime" id="defaultEntry"/>
+                            <div style="margin-right: 10px;"><spring:message code="form.dateEnd"/></div><input type="text" name="EventDateEnd" id="datepicker2"/><input type="text" placeholder="HH:mm" maxlength="5" style="width: 15%;margin-left: 1%;" name="endTime" id="endTime"/>
+                            <div style="margin-right: 10px;"><spring:message code="form.location"/><div id="redStar3">*</div></div> <form:input path="location" id="location" cols="60" rows="2" maxlength="100"  name="location"/>
                             <div style="font-size:14px">
                                 <div style="float: right; margin-top: 30px; ">
                                     <table>
@@ -216,6 +229,7 @@
                                     </table>
                                 </div>
                                 <br/>
+
                             </div>
                         </div>
                     </td>

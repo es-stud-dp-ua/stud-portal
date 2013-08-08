@@ -172,7 +172,16 @@ label.error {
     text-align: justify;
     margin-left: 5px;
 }
+#datepicker1 {
+    width: 156px;
+    border-width: thin;
+}
+#datepicker2 {
+    width: 156px;
+    border-width: thin;
+    margin-right: 3px;
 
+}
 #newsTable .newsHeader {
 
     margin-top: 5px;
@@ -253,7 +262,9 @@ label.error {
     font-size: large;
     padding-left: 5px;
 }
-
+#location{
+    width: 60%;
+}
 #textInput {
     resize: none;
     width: 430px;
@@ -572,8 +583,20 @@ span.cke_skin_kama {
     bottom: 84%;
     right: 0%;
 }
+#redStar3{
+    color: red;
+    position: absolute;
+    margin-top: -2%;
+    margin-left: 49%;
+}
+#redStar4{
+    color: red;
+    position: absolute;
+    margin-left: 49%;
+    margin-top: -2%;
+}
 label.invisiblevalid {
-display: none !important;
+    display: none !important;
 }
 label.error[for=mainImage]{
     position:absolute;

@@ -123,7 +123,7 @@
             <!--<spring:message code="form.delete"/>-->
         </a>
         <%}%>
-        <a style="float: right" href="<portlet:renderURL/>&eventID=<%=event.getId()%>&mode=edit">
+        <a style="float: right" href="<portlet:renderURL/>&eventId=<%=event.getId()%>&mode=edit">
             <!--<spring:message code="viewSingle.Edit"/>-->
             <div class="panelbtn panelbtn-right icon-pcppencil" aria-hidden="true"></div>
         </a>
