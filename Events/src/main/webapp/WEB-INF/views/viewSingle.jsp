@@ -5,6 +5,7 @@
 <%@ page import="com.liferay.portal.theme.PortletDisplay" %>
 <%@ page import="com.liferay.portal.model.Layout" %>
 <%@ page import="java.util.Collection" %>
+<%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="ua.dp.stud.StudPortalLib.model.ImageImpl" %>
 <%@ taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -13,7 +14,8 @@
 <portlet:defineObjects/>
 <%
     Events event = (Events) request.getAttribute("event");
-    Collection<ImageImpl> additionalImages = (Collection<ImageImpl>) request.getAttribute("additionalImages");
+    SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+    SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
 %>
 <html>
 <head>
@@ -129,53 +131,34 @@
         </a>
             <%}%>
     </div>
+
     <div class="newsHeader">
         <img src="${mainImage}" alt=""/>
         ${event.title}
     </div>
     <br/>
-
+    <div style="color: #363636">
+        <spring:message code="form.date"/> &nbsp &nbsp
+         <% if (event.getEventDateStart()!=event.getEventDateEnd()){ %>
+                        <%=dateFormat.format(event.getEventDateStart())%> - <%=dateFormat.format(event.getEventDateEnd())%>
+                        <% } else { %>
+                        <%=dateFormat.format(event.getEventDateStart())%>  <%}%>
+         <br/>
+         <spring:message code="form.time"/> &nbsp &nbsp
+          <%=timeFormat.format(event.getEventTime())%>
+          <br/>
+          <spring:message code="form.location"/> &nbsp &nbsp 
+          ${event.location}
+    </div>
+    <br/>
     <div class="newsText">
         ${event.text}
     </div>
     <div class="reply_link_wrap">
-        <span class="rel_author">${event.author}</span>
         <span class="rel_view">${event.views}</span>
-        <span class="rel_date"><%=CustomFunctions.getCreationDate(event.getPublication())%></span>
     </div>
 </div>
 <br/>
-<%
-    boolean carusel = false;
-    if (additionalImages != null) {
-        carusel = true;
-%>
-<div style="text-align: center; font-weight: bold; font-size: 16px; margin-top: 200px;"><spring:message code="form.photo"/></div>
-<div class="image_carousel" style="width: 639px; margin-left: 120px;">
-    <a href="javascript:" class="carousel-control next pagination-right right" rel="next"></a>
-    <a href="javascript:" class="carousel-control prev pagination-left left" rel="prev"></a>
-
-    <div class="middle" style="width: 557px;">
-        <div class="singleGelery" id="inner">
-            <%
-                for (ImageImpl image : additionalImages) {
-                    if (!image.equals(event.getMainImage())) {
-            %>
-            <div class="ownGelery" style="margin-left: 5px;">
-                <a class="fancybox-thumbs" data-fancybox-group="thumb"
-                   href="<%=imageService.getPathToLargeImage(image, event) %>"
-                   <% if (request.isUserInRole("Administrator")) { %>title='<a href="<portlet:renderURL/>&imageId=<%=image.getId()%>&mode=delImage" onclick="return ConfirmImage()"> <spring:message code="form.delete"/></a>'<%}%>>
-                    <img src="<%=imageService.getPathToSmallImage(image, event) %>" alt=""/>
-                </a>
-            </div>
-            <%
-                    }
-                }
-            %>
-        </div>
-    </div>
-</div>
-<%}%>
 <div id="Social_networks_Likes">
     <div id="fb-root"></div>
     <script>
