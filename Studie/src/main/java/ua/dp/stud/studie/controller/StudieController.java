@@ -33,6 +33,7 @@ import ua.dp.stud.studie.model.Specialties;
 import ua.dp.stud.studie.model.Studie;
 import ua.dp.stud.studie.service.FacultiesService;
 import ua.dp.stud.studie.service.StudieService;
+import ua.dp.stud.studie.util.StudyValidator;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -141,11 +142,7 @@ public class StudieController {
     }
 
     private static final List<String> ACCCRED_LEVELS;
-    private List<String> TRAINING_FORMS;
-    private List<String> STATUS;
-    private List<String> LVL_QUALIF;
     private static final List<String> YEARS;
-    private List<String> DOC = new ArrayList<String>();
     private Map<String, List<String>> FORM_PARAM_MAP;
 
     static {
@@ -157,9 +154,9 @@ public class StudieController {
     }
 
     private void setMap(RenderRequest request) {
-        TRAINING_FORMS = new ArrayList<String>();
-        STATUS = new ArrayList<String>();
-        LVL_QUALIF = new ArrayList<String>();
+        List<String> TRAINING_FORMS = new ArrayList<String>();
+        List<String> STATUS = new ArrayList<String>();
+        List<String> LVL_QUALIF = new ArrayList<String>();
         for (int i = 0; i < 2; i++) {
             TRAINING_FORMS.add(messageSource.getMessage("form.TRAINING_FORMS" + i, null, request.getLocale()));
             STATUS.add(messageSource.getMessage("form.STATUS" + i, null, request.getLocale()));
@@ -167,7 +164,7 @@ public class StudieController {
         for (int i = 0; i < 3; i++) {
             LVL_QUALIF.add(messageSource.getMessage("form.LVL_QUALIF" + i, null, request.getLocale()));
         }
-        DOC = Arrays.asList(messageSource.getMessage("form.DOC", null, request.getLocale()));
+        List<String> DOC = Arrays.asList(messageSource.getMessage("form.DOC", null, request.getLocale()));
         FORM_PARAM_MAP = new HashMap<String, List<String>>();
         FORM_PARAM_MAP.put("lvlAccredList", ACCCRED_LEVELS);
         FORM_PARAM_MAP.put("trainigFormsList", TRAINING_FORMS);
@@ -210,6 +207,14 @@ public class StudieController {
         return successUpload;
     }
 
+    @Autowired
+    @Qualifier(value = "studyValidator")
+    private StudyValidator studyValidator;
+
+    public void setStudyValidator(StudyValidator studyValidator) {
+        this.studyValidator = studyValidator;
+    }
+
     @ActionMapping(value = "addStudie")
     public void addStudie(@ModelAttribute("study") @Valid Studie studie,
                           BindingResult bindingResult,
@@ -218,6 +223,7 @@ public class StudieController {
                           SessionStatus sessionStatus,
                           @RequestParam("mainImage") CommonsMultipartFile mainImage,
                           @RequestParam("images") CommonsMultipartFile[] images) {
+        studyValidator.validate(studie, bindingResult);
         if (bindingResult.hasErrors()) {
             actionResponse.setRenderParameter(STR_FAIL, "msg.fail");
             return;
@@ -230,7 +236,7 @@ public class StudieController {
                 Integer.parseInt(actionRequest.getParameter("l")),
                 Integer.parseInt(actionRequest.getParameter("w")),
                 Integer.parseInt(actionRequest.getParameter("h")));
-        if (UpdateStudy(studie, mainImage, images, actionResponse)) {
+        if (UpdateStudy(studie, f, images, actionResponse)) {
             studieService.addStudie(studie);
             actionResponse.setRenderParameter("studieID", Integer.toString(studie.getId()));
             sessionStatus.setComplete();
@@ -245,6 +251,7 @@ public class StudieController {
                            SessionStatus sessionStatus,
                            @RequestParam("mainImage") CommonsMultipartFile mainImage,
                            @RequestParam("images") CommonsMultipartFile[] images) {
+        studyValidator.validate(studie, bindingResult);
         if (bindingResult.hasErrors()) {
             actionResponse.setRenderParameter(STR_FAIL, "msg.fail");
             return;
@@ -254,7 +261,7 @@ public class StudieController {
         studie.setAdditionalImages(oldStudy.getAdditionalImages());
         studie.setYearMonthUniqueFolder(oldStudy.getYearMonthUniqueFolder());
         if (!mainImage.getOriginalFilename().equals("")) {
-            CommonsMultipartFile f = imageService.cropImage(mainImage, Integer.parseInt(actionRequest.getParameter("t")),
+            mainImage = imageService.cropImage(mainImage, Integer.parseInt(actionRequest.getParameter("t")),
                     Integer.parseInt(actionRequest.getParameter("l")),
                     Integer.parseInt(actionRequest.getParameter("w")),
                     Integer.parseInt(actionRequest.getParameter("h")));
