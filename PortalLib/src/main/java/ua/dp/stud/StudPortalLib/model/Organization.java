@@ -52,6 +52,16 @@ public class Organization extends BaseImagesSupport implements Serializable {
     @NotNull @Min(0) 
     private int views;
     private Date publication;
+    private String contacts;
+    
+    @Column
+    public String getContacts(){
+        return contacts;
+    }
+    
+    public void setContacts(String contacts){
+        this.contacts=contacts;
+    }
 
     @Column
     public String getComment() {
