@@ -48,9 +48,11 @@ public class EventsDaoImpl extends DaoForApproveImpl<Events> implements EventsDa
     @Override
     public Events getEventsByName(String title) {
         Events events = (Events) getSession().get(Events.class, title);
+         Hibernate.initialize(events.getTags());
         return events;
     }
 
+    
     @Override
     public Collection<Events> getOnMainPage() {
         return getSession().createCriteria(Events.class).addOrder(Order.desc("publication"))
@@ -70,4 +72,11 @@ public class EventsDaoImpl extends DaoForApproveImpl<Events> implements EventsDa
         getSession().update(event);
 
     }
+     
+     @Override
+     public  Events getEventsById(Integer id){
+        Events events = (Events) getSession().get(Events.class, id);
+        Hibernate.initialize(events.getTags());
+        return events;  
+     }
 }

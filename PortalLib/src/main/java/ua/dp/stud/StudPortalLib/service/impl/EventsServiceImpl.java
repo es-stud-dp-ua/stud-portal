@@ -72,7 +72,7 @@ public class EventsServiceImpl implements EventsService {
     @Override
     @Transactional(readOnly = true)
     public Events getEventsById(Integer id) {
-        return dao.getById(id);
+        return dao.getEventsById(id);
     }
 
     @Override

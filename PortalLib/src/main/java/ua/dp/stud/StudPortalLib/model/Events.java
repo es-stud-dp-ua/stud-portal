@@ -6,6 +6,7 @@ package ua.dp.stud.StudPortalLib.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.*;
 import ua.dp.stud.StudPortalLib.util.EventsType;
 
@@ -37,6 +38,18 @@ public class Events extends BaseImagesSupport implements Serializable {
     private Date publication;
     private int views;
 
+ 
+    private List<Tags> tags;
+    
+   @ManyToMany(mappedBy = "events") 
+   public List<Tags> getTags(){
+       return this.tags; 
+    }
+    
+    public void setTags(List<Tags> tags){
+        this.tags=tags;
+    }
+    
     public Events() {
     }
 
