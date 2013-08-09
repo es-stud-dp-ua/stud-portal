@@ -146,7 +146,7 @@
                         <%=dateFormat.format(event.getEventDateStart())%>  <%}%>
          <br/>
          <spring:message code="form.time"/> &nbsp &nbsp
-          <%=timeFormat.format(event.getEventTime())%>
+          <%=timeFormat.format(event.getEventDateStart())%> - <%=timeFormat.format(event.getEventDateEnd())%>
           <br/>
           <spring:message code="form.location"/> &nbsp &nbsp 
           ${event.location}
