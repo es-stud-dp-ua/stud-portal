@@ -12,8 +12,10 @@ import com.liferay.portal.model.User;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.portlet.ActionRequest;
@@ -40,7 +42,9 @@ import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import ua.dp.stud.StudPortalLib.model.BaseImagesSupport;
 import ua.dp.stud.StudPortalLib.model.Events;
 import ua.dp.stud.StudPortalLib.model.ImageImpl;
+import ua.dp.stud.StudPortalLib.model.Tags;
 import ua.dp.stud.StudPortalLib.service.EventsService;
+import ua.dp.stud.StudPortalLib.service.TagsService;
 import ua.dp.stud.StudPortalLib.util.EventsType;
 import ua.dp.stud.StudPortalLib.util.ImageService;
 
@@ -73,6 +77,15 @@ public class EventsController {
     public void setEventsService(EventsService eventsService) {
         this.eventsService = eventsService;
     }
+    
+     @Autowired
+    @Qualifier(value = "tagsService")
+    private TagsService tagsService;
+
+    public void setTagsService(TagsService tagsService) {
+        this.tagsService = tagsService;
+    }
+    
     @Autowired
     @Qualifier(value = "imageService")
     private ImageService imageService;
@@ -149,6 +162,59 @@ public class EventsController {
         return model;
     }
 
+    @RenderMapping(params = "tagID")
+       public ModelAndView showTagView(RenderRequest request, RenderResponse response) {
+        ModelAndView model = new ModelAndView();
+        model.setViewName("viewAll");
+        int tagID = Integer.valueOf(request.getParameter("tagID"));
+        Tags tag=tagsService.getTagById(tagID); 
+        
+        Collection<Events> events = tag.getEvents();
+
+        int pagesCount;
+        int currentPage;
+        if (request.getParameter(CURRENT_PAGE) != null) {
+            currentPage = Integer.parseInt(request.getParameter(CURRENT_PAGE));
+        } else {
+            currentPage = 1;
+        }
+   
+        pagesCount = eventsService.getPagesCount(EVENTS_BY_PAGE);
+
+        int leftPageNumb = Math.max(1, currentPage - NEARBY_PAGES);
+        int rightPageNumb = Math.min(pagesCount, currentPage + NEARBY_PAGES);
+        boolean skippedBeginning = false;
+        boolean skippedEnding = false;
+
+        if (pagesCount <= OVERAL_PAGES) {
+            leftPageNumb = 1;
+            rightPageNumb = pagesCount;
+        } else {
+            if (currentPage > 2 + NEARBY_PAGES) {
+                skippedBeginning = true;
+            } else {
+                leftPageNumb = 1;
+                rightPageNumb = 2 + 2 * NEARBY_PAGES;
+            }
+            if (currentPage < pagesCount - (NEARBY_PAGES + 1)) {
+                skippedEnding = true;
+            } else {
+                leftPageNumb = (pagesCount - 1) - 2 * NEARBY_PAGES;
+                rightPageNumb = pagesCount;
+            }
+        }
+
+        model.addObject("leftPageNumb", leftPageNumb);
+        model.addObject("rightPageNumb", rightPageNumb);
+        model.addObject("skippedBeginning", skippedBeginning);
+        model.addObject("skippedEnding", skippedEnding);
+        model.addObject("events", events);
+        model.addObject(CURRENT_PAGE, currentPage);
+        model.addObject("pagesCount", pagesCount);
+        model.addObject("EventsByPage", EVENTS_BY_PAGE);
+        return model;
+    }
+    
     @RenderMapping(params = "eventID")
     public ModelAndView showSelectedEvents(RenderRequest request, RenderResponse response) throws SystemException, PortalException {
         ModelAndView model = new ModelAndView();
@@ -156,10 +222,15 @@ public class EventsController {
         Events event = eventsService.getEventsById(eventID);
         ImageImpl mImage = event.getMainImage();
         eventsService.incrementViews(event);
+        List<Tags> tags=new ArrayList<Tags>();
+        Tags t=new Tags();
+        t.setName("ololo");
+        tags.add(t); 
+        tags.add(t);
+        tagsService.setTag(t);
+        event.setTags(tags); 
         String mainImage = imageService.getPathToLargeImage(mImage, event);
-        Collection<ImageImpl> additionalImages = event.getAdditionalImages();
         model.setView("viewSingle");
-        model.addObject("additionalImages", additionalImages);
         model.addObject("mainImage", mainImage);
         model.addObject("event", event);
         return model;

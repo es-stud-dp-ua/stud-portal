@@ -1,3 +1,4 @@
+<%@page import="ua.dp.stud.StudPortalLib.model.Tags"%>
 <%@ page import="ua.dp.stud.StudPortalLib.model.Events" %>
 <%@ page import="com.liferay.portal.kernel.language.LanguageUtil" %>
 <%@ page import="com.liferay.portal.theme.ThemeDisplay" %>
@@ -156,6 +157,14 @@
     </div>
     <div class="reply_link_wrap">
         <span class="rel_view">${event.views}</span>
+    </div>
+    <div style="color: #363636">
+          <% Collection<Tags> tags=event.getTags();
+             if (tags!=null){ %>
+              <spring:message code="form.tags"/> &nbsp &nbsp
+              <%for (Tags tag: tags){%>
+              <a href="<portlet:renderURL/>&tagID=<%=tag.getId()%>"><%= tag.getName() %></a> &nbsp
+     <%} }%>
     </div>
 </div>
 <br/>
