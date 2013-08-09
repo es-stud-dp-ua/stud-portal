@@ -6,14 +6,13 @@ package ua.dp.stud.StudPortalLib.dao;
 
 import java.util.Collection;
 import ua.dp.stud.StudPortalLib.model.Events;
+import ua.dp.stud.StudPortalLib.model.Tags;
 
 /**
  *
  * @author Ольга
  */
-public interface TagsDao {
-    
-   Collection<Events> getAllEvents();
-   
-   
+public interface TagsDao extends BaseDao<Tags>{
+       
+   Tags getTagById(Integer id); 
 }
