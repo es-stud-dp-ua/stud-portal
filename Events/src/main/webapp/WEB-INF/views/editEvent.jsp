@@ -4,6 +4,7 @@
 <%@ page import="java.util.Locale" %>
 <%@ page import="java.util.ResourceBundle" %>
 <%@ page import="com.liferay.portal.theme.ThemeDisplay" %>
+<%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="com.liferay.portal.kernel.util.WebKeys" %>
 <%@ page import="com.liferay.portal.kernel.servlet.ImageServletTokenUtil" %>
 <%@ taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet" %>
@@ -19,11 +20,18 @@
     Collection<String> allTypes = (Collection) (EventsType.allTypes());
     String temp;
     Events event = (Events) request.getAttribute("event");
+SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
 %>
 <portlet:defineObjects/>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <script>
+            $(function() {
+                $("#datepicker1").datepicker();
+                $("#datepicker2").datepicker();
+            });</script>
     </head>
     <body>
         <script type="text/javascript">
@@ -90,7 +98,7 @@
             <input type="hidden" size="0" id="y1" name="l"/>
             <input type="hidden" size="0" id="w" name="w"/>
             <input type="hidden" size="0" id="h" name="h"/>
-            <input type="hidden" name="eventId" value="<%=event.getId()%>">
+            <input type="hidden" name="eventID" value="<%=event.getId()%>">
 
             <table width="100%" margin-bottom="15px">
                 <tr>
@@ -128,7 +136,6 @@
                                 <div id="nt"><spring:message code="form.addMainPictures"/></div>
                             </div>
                         </div>
-
                         <script>
             function handleFileSelect(evt) {
                 var files = evt.target.files; // FileList object
@@ -169,7 +176,7 @@
                         <br/>
                     </td>
                     <td rowspan=2 width="50%" align="left">
-                        <form:input title="${event.title}" path="title" id="topicInput" cols="90" rows="2" maxlength="100" onkeypress="return isNotMax(event)"
+                        <form:input title="${event.title}" path="title" style="margin-left:5%;width:95%;" id="topicInput" cols="90" rows="2" maxlength="100" onkeypress="return isNotMax(event)"
                                     name="title"/>
                         <form:errors path="title" cssClass="error"></form:errors>
                             <div style="width: 450px; float: bottom ;padding-left: 8px;">
@@ -190,8 +197,11 @@
                 <tr>
                     <td width="50%" align="right">
                         <div id="eventSetting">
+                            <div style="margin-right: 10px; margin-top: 155px;"><spring:message code="form.dateStart"/><div id="redStar4">*</div></div><input type="text" name="EventDateStart" value="<%=dateFormat.format(event.getEventDateStart()) %>" id="datepicker1"/><input type="text" value="<%=timeFormat.format(event.getEventDateStart())%>" placeholder="HH:mm" maxlength="5" style="width: 15%;margin-left: 1%;" name="startTime" id="defaultEntry"/>
+                            <div style="margin-right: 10px;"><spring:message code="form.dateEnd"/></div><input type="text" name="EventDateEnd" id="datepicker2" value="<%= dateFormat.format(event.getEventDateEnd()) %>"/><input type="text" placeholder="HH:mm" value="<%=timeFormat.format(event.getEventDateEnd())%>" maxlength="5" style="width: 15%;margin-left: 1%;" name="endTime" id="endTime"/>
+                            <div style="margin-right: 10px;"><spring:message code="form.location"/><div id="redStar3">*</div></div> <form:input path="location" title="<%=event.getLocation()%>"id="location" cols="60" rows="2" maxlength="100"  name="location"/>
                             <div style="font-size:14px">
-                                <div style="float: right; margin-top: 140px; ">
+                                <div style="float: right;  ">
                                     <table>
                                         <tr><label>
                                             <div style="font-weight: bold; "><spring:message

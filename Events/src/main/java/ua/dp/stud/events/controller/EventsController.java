@@ -180,7 +180,6 @@ public class EventsController {
         }
    
         pagesCount = eventsService.getPagesCount(EVENTS_BY_PAGE);
-
         int leftPageNumb = Math.max(1, currentPage - NEARBY_PAGES);
         int rightPageNumb = Math.min(pagesCount, currentPage + NEARBY_PAGES);
         boolean skippedBeginning = false;
@@ -233,6 +232,9 @@ public class EventsController {
         model.setView("viewSingle");
         model.addObject("mainImage", mainImage);
         model.addObject("event", event);
+        model.addObject("startTime",event.getEventDateStart().getHours()+":"+event.getEventDateStart().getMinutes());
+        if(event.getEventDateEnd()!=null)
+        model.addObject("endTime",event.getEventDateEnd().getHours()+":"+event.getEventDateEnd().getMinutes());
         return model;
     }
 
@@ -347,9 +349,9 @@ public class EventsController {
         int eventID = Integer.valueOf(actionRequest.getParameter("eventID"));
         Events newEvent = eventsService.getEventsById(eventID);
 //getting all parameters from form
-        if (bindingResult.hasFieldErrors()) {
-            actionResponse.setRenderParameter(STR_FAIL, " ");
-        } else {
+//        if (bindingResult.hasFieldErrors()) {
+//            actionResponse.setRenderParameter(STR_FAIL, " ");
+//        } else {
             CommonsMultipartFile croppedImage;
             if (!actionRequest.getParameter("t").equals("")) {
                 croppedImage = imageService.cropImage(mainImage, Integer.parseInt(actionRequest.getParameter("t")),
@@ -363,10 +365,27 @@ public class EventsController {
                 actionResponse.setRenderParameter(STR_FAIL, STR_BAD_IMAGE);
                 return;
             }
+             Date dateStart = new Date(Date.parse(actionRequest.getParameter("EventDateStart")));
+            if (!"".equals(actionRequest.getParameter("startTime"))) {
+                String time = actionRequest.getParameter("startTime");
+                dateStart.setHours(Integer.parseInt(time.substring(0, 2)));
+                dateStart.setMinutes(Integer.parseInt(time.substring(3, 5)));
+            }
+            newEvent.setEventDateStart(dateStart);
+            if (!"".equals(actionRequest.getParameter("EventDateEnd"))) {
+                Date dateEnd = new Date(Date.parse(actionRequest.getParameter("EventDateEnd")));
+                if (!"".equals(actionRequest.getParameter("endTime"))) {
+                    String time = actionRequest.getParameter("endTime");
+                    dateEnd.setHours(Integer.parseInt(time.substring(0, 2)));
+                    dateEnd.setMinutes(Integer.parseInt(time.substring(3, 5)));
+                    newEvent.setEventDateEnd(dateEnd);
+                }
+            }
             String role;
             role = actionRequest.isUserInRole(ADMINISTRATOR_ROLE) ? ADMINISTRATOR_ROLE : USER_ROLE;
             User user = (User) actionRequest.getAttribute(WebKeys.USER);
             String usRole = user.getScreenName();
+//                newEvent.getAdditionalImages().clear();
             if (updateEventsFields(newEvent, mainImage, images, role, usRole)) {
                 eventsService.updateEvents(newEvent);
 //close session
@@ -374,7 +393,7 @@ public class EventsController {
             } else {
                 actionResponse.setRenderParameter(STR_FAIL, STR_DUPLICAT_TOPIC);
             }
-        }
+//        }
     }
 
     @RenderMapping(params = "mode=add")
@@ -405,10 +424,8 @@ public class EventsController {
         ImageImpl mImage = event.getMainImage();
         String mainImageUrl = imageService.getPathToLargeImage(mImage, event);
         Collection<ImageImpl> additionalImages = event.getAdditionalImages();
-        System.out.println(eventID);
 //set view for edit
         model.setView("editEvent");
-        System.out.println("sdfdfdsfg");
 //send current event in view
         model.addObject("event", event);
         model.addObject(MAIN_IMAGE, mainImageUrl);

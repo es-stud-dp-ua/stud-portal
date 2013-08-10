@@ -5,7 +5,6 @@
 package ua.dp.stud.StudPortalLib.dao.impl;
 
 import java.util.Collection;
-import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
@@ -14,8 +13,6 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 import ua.dp.stud.StudPortalLib.dao.EventsDao;
 import ua.dp.stud.StudPortalLib.model.Events;
-import ua.dp.stud.StudPortalLib.model.ImageImpl;
-import ua.dp.stud.StudPortalLib.model.News;
 import ua.dp.stud.StudPortalLib.util.EventsType;
 
 

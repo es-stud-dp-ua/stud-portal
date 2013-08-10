@@ -54,7 +54,7 @@ public class EventsServiceImpl implements EventsService {
     @Override
     @Transactional(readOnly = false)
     public void updateEvents(Events events) {
-        dao.save(events);
+        dao.update(events);
     }
 
     @Override
