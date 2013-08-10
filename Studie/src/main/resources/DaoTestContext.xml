@@ -51,11 +51,8 @@
             </props>
         </property>
     </bean>
-    <bean id="studieDao" class="ua.dp.stud.studie.dao.impl.StudieDaoImp">
-        <property name="sessionFactory" ref="SessionFactory"/>
-    </bean>
-     <context:component-scan base-package="ua.dp.stud.studie.dao.impl"/>
-    <context:component-scan base-package="ua.dp.stud.studie.service.impl"/>
+    <context:component-scan base-package="ua.dp.stud.studie"/>
+    <context:component-scan base-package="ua.dp.stud.StudPortalLib"/>
 
 </beans>
 

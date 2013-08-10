@@ -1,7 +1,7 @@
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
-
+ */
 package ua.dp.stud.studie.service;
 
 import java.util.ArrayList;
@@ -27,7 +27,7 @@ import ua.dp.stud.studie.service.impl.StudieServiceImpl;
 
 /**
  * @author Ольга
-
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class StudiesServiceTest {
 
@@ -51,51 +51,10 @@ public class StudiesServiceTest {
 
     @Test
     public void testGetStudieById() {
-        when(mockDao.getStudieById(1)).thenReturn(stud1);
+        when(mockDao.getById(1)).thenReturn(stud1);
         assertEquals(stud1, service.getStudieById(1));
 
         assertNull(service.getStudieById(0));
     }
 
-
-    @Test
-    public void testGetAllStudies() {
-        ArrayList<Studie> allStudies = new ArrayList<Studie>(Arrays.asList(stud1, stud2));
-        when(mockDao.getAllStudies()).thenReturn(allStudies);
-        assertEquals(allStudies, service.getAllStudies());
-
-        when(mockDao.getAllStudies()).thenReturn(null);
-        assertNull(service.getAllStudies());
-    }
-
-    @Test
-    public void testAddStudie() {
-        service.addStudie(stud1);
-        verify(mockDao, times(1)).addStudie(stud1);
-    }
-
-
-    @Test
-    public void testUpdateStudie() {
-        service.updateStudie(stud1);
-        verify(mockDao, times(1)).updateStudie(stud1);
-    }
-
-    @Test
-    public void testAddImage() {
-        ImageImpl image = new ImageImpl();
-        service.addImage(image);
-        verify(mockDao, times(1)).addImage(image);
-    }
-
-
-    @Test
-    public void testDeleteStudie() {
-        service.addStudie(stud1);
-        Integer id = stud1.getId();
-        service.deleteStudie(stud1);
-        verify(mockDao, times(1)).deleteStudie(id);
-    }
-
 }
- */
