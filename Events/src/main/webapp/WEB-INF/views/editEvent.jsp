@@ -234,8 +234,5 @@ SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
             </table>
         </form:form>
     </div>
-
-
-
 </body>
 </html>
