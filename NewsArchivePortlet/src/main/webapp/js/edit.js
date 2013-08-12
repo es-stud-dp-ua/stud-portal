@@ -19,7 +19,8 @@ function handleFileSelect(evt) {
             };
             a();
         })(f);
- document.getElementById('img').parentNode.removeChild(document.getElementById('img'));
+		if(document.getElementById('img') != null)
+			document.getElementById('img').parentNode.removeChild(document.getElementById('img'));
         // Read in the image file as a data URL.
         reader.readAsDataURL(f);
         a();
