@@ -15,6 +15,7 @@
 %>
 <%if (request.isUserInRole("Administrator") || request.isUserInRole("User")) { %>
 <script id="" src="${pageContext.request.contextPath}/js/cropbox.js" type="text/javascript"></script>
+<script id="" src="${pageContext.request.contextPath}/js/edit.js" type="text/javascript"></script>
 
 
 <portlet:defineObjects/>
@@ -24,23 +25,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 </head>
 <body>
-
-<script language="javascript" type="text/javascript">
-    //todo: javascript to separate file or under one tag
-    $(document).ready(function () {
-        $.Placeholder.init({color: "#aaa"});
-        <% if (russianLocaleEnabled){ %>
-        $.datepicker.setDefaults($.datepicker.regional['ru']);
-        <%}%>
-
-        $("#calendarDate").datepicker({dateFormat: 'yy-mm-dd'});
-    });
-
-    function isNotMax(e, id) {
-        var validateValueTextArea = document.getElementById(id);
-        validateValueTextArea.value = validateValueTextArea.value.substr(0, validateValueTextArea.getAttribute('maxlength'));
-    }
-</script>
 
 <portlet:renderURL var="home">
     <portlet:param name="nAction" value="home"/>
@@ -83,7 +67,7 @@
         </div>
         <div style="width: 450px; float: bottom">
 
-
+			<div style="min-height: 270px">
             <div id="lup"></div>
             <div id="mainPic"
                  style="background: url(${pageContext.request.contextPath}/images/mainpic_443x253.png) no-repeat">
@@ -91,51 +75,15 @@
                 <output id="list">
                 </output>
             </div>
-            <div id="rdn"></div>
+            <div id="rdn"></div></div>
 
-            <div class="grayrect" style="margin-top: 283px;">
+            <div class="grayrect">
                 <div class="greenbtn">
                     <spring:message code="form.addMainPicture"/>
                 </div>
                 <input name="mainImage" id="mainImage" type="file" class="nphotos"/>
             </div>
-
-
-            <script>
-                function handleFileSelect(evt) {
-                    var files = evt.target.files; // FileList object
-
-                    // Loop through the FileList and render image files as thumbnails.
-                    var f = files[files.length - 1];
-
-                    // Only process im11age files.
-                    document.getElementById('list').innerHTML = '';
-                    var reader = new FileReader();
-
-                    // Closure to capture the file information.
-                    reader.onload = (function (theFile) {
-                        return function (e) {
-                            // Render thumbnail.
-                            var span = document.createElement('span');
-                            span.innerHTML = ['<img id="cropbox" class="thumb" src="', e.target.result,
-                                '" title="', escape(theFile.name), '"/>'].join('');
-                            document.getElementById('list').insertBefore(span, null);
-                            a();
-                        };
-                        a();
-                    })(f);
-
-                    // Read in the image file as a data URL.
-                    reader.readAsDataURL(f);
-                    a();
-                }
-
-
-                document.getElementById('mainImage').addEventListener('change', handleFileSelect, false);
-            </script>
-
-
-            <div class="grayrect" style="margin-top: 371px;">
+            <div class="grayrect">
                 <div class="greenbtn">
                     <spring:message code="form.addPictures"/>
                 </div>

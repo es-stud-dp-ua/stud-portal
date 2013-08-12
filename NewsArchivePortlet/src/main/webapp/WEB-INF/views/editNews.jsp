@@ -14,6 +14,7 @@
 
 <%if (request.isUserInRole("Administrator") || request.isUserInRole("User")) {%>
 <script id="" src="${pageContext.request.contextPath}/js/cropbox.js" type="text/javascript"></script>
+<script id="" src="${pageContext.request.contextPath}/js/edit.js" type="text/javascript"></script>
 
 <%
     ImageService imageService = (ImageService) pageContext.findAttribute("imageService");
@@ -34,14 +35,12 @@
 <portlet:actionURL var="actionLink" name="editNews"></portlet:actionURL>
 <div class="portlet-content-controlpanel fs20">
     <a href="${home}">
-        <!--<spring:message code="form.back"/>-->
         <div class="panelbtn panelbtn-right fs20 icon-pcparrow-left" aria-hidden="true"></div>
     </a>
     <% if (request.isUserInRole("Administrator")) { %>
     <a style="margin-left: 10px;"
        href='<portlet:renderURL><portlet:param name="newsId" value="<%=news.getId().toString()%>"/><portlet:param name="mode" value="delete" /></portlet:renderURL>'
        onclick='return confirm("<spring:message code="form.confDelete"/>")'>
-        <!--<spring:message code="form.delete"/>-->
         <div class="panelbtn panelbtn-right fs20 icon-pcpremove" aria-hidden="true"></div>
     </a>
     <%}%>
@@ -89,7 +88,7 @@
             </div>
             <div style="width: 450px;">
 
-                <div id="lup"></div>
+                <div style="min-height: 270px"><div id="lup"></div>
                  <% if (news.getMainImage() == null) { %>
                         <div id="mainPic" style="vertical-align: top; z-index: 2;"
                              style="background: url(${pageContext.request.contextPath}/images/mainpic_443x253.png) no-repeat">
@@ -105,15 +104,15 @@
                         </div>
                         <% } %>
               
-                <div id="rdn"></div>
+                <div id="rdn"></div></div>
 
-                <div class="grayrect" style="margin-top: 283px;">
+                <div class="grayrect">
                     <div class="greenbtn">
                         <spring:message code="form.addMainPicture"/>
                     </div>
                     <input name="mainImage" id="mainImage" type="file" class="nphotos"/>
                 </div>
-                <div class="grayrect" style="margin-top: 371px;">
+                <div class="grayrect">
                     <div class="greenbtn">
                         <spring:message code="form.addPictures"/>
                     </div>
@@ -144,50 +143,6 @@
         </div>
     </form>
 </div>
-<script>
-    function handleFileSelect(evt) {
-        var files = evt.target.files; // FileList object
-        // Loop through the FileList and render image files as thumbnails.
-        var f = files[files.length - 1];
-
-        // Only process im11age files.
-        document.getElementById('list').innerHTML = '';
-        var reader = new FileReader();
-
-        // Closure to capture the file information.
-        reader.onload = (function (theFile) {
-            return function (e) {
-                // Render thumbnail.
-                var span = document.createElement('span');
-                span.innerHTML = ['<img id="cropbox" class="thumb" src="', e.target.result,
-                    '" title="', escape(theFile.name), '"/>'].join('');
-                document.getElementById('list').insertBefore(span, null);
-                a();
-            };
-            a();
-        })(f);
- document.getElementById('img').parentNode.removeChild(document.getElementById('img'));
-        // Read in the image file as a data URL.
-        reader.readAsDataURL(f);
-        a();
-    }
-
-
-    document.getElementById('mainImage').addEventListener('change', handleFileSelect, false);
-    function isNotMax(e, id) {
-        var validateValueTextArea = document.getElementById(id);
-        validateValueTextArea.value = validateValueTextArea.value.substr(0, validateValueTextArea.getAttribute('maxlength'));
-    }
-
-    $(function () {
-        <%  //todo: we always have russian locale
-            if (russianLocaleEnabled){ %>
-        $.datepicker.setDefaults($.datepicker.regional['ru']);
-        <%}%>
-
-        $("#calendarDate").datepicker({dateFormat: 'yy-mm-dd'});
-    });
-</script>
 </body>
 </html>
 <%}%>
