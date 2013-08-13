@@ -221,6 +221,7 @@ public class EventsController {
         ImageImpl mImage = event.getMainImage();
         eventsService.incrementViews(event);
         String mainImage = imageService.getPathToLargeImage(mImage, event);
+        System.out.println(event.getTags());
         model.setView("viewSingle");
         model.addObject("mainImage", mainImage);
         model.addObject("event", event);
@@ -303,17 +304,11 @@ public class EventsController {
             }
             List<Tags> tags = new ArrayList<Tags>();
             String tag=actionRequest.getParameter("tags");
-            System.out.println(tag);
             StringTokenizer tokens=new StringTokenizer(tag,",.; ");
-            while(tokens.hasMoreTokens())
-            {
-                Tags tempTags=new Tags();
-                tempTags.setName(tokens.nextToken());
-                tempTags.setEvents(null);
-                tags.add(tempTags);
-                tagsService.setTag(tempTags);
-            }
-            event.setTags(tags);
+           
+            System.out.println(event.getTags());
+            System.out.println(tags);
+            System.out.println(tag);
             if (croppedImage == null) {
                 actionResponse.setRenderParameter(STR_FAIL, STR_BAD_IMAGE);
                 return;
@@ -323,12 +318,24 @@ public class EventsController {
             role = actionRequest.isUserInRole(ADMINISTRATOR_ROLE) ? ADMINISTRATOR_ROLE : USER_ROLE;
             User user = (User) actionRequest.getAttribute(WebKeys.USER);
             String usRole = user.getScreenName();
-//try to update fields for new organisation
+//try to update fields for new event
 //            if (!eventsService.isUnique(event)) {
             if (updateEventsFields(event, mainImage, images, role, usRole)) {
                 Date date = new Date();
                 event.setPublication(date);
                 eventsService.addEvents(event);
+                 ArrayList<Events> events=new ArrayList<Events>();
+                      events.add(event);
+                while(tokens.hasMoreTokens())
+                {
+                    Tags tempTags=new Tags();
+                    tempTags.setName(tokens.nextToken());
+                    tempTags.setEvents(events);
+                    tags.add(tempTags);
+                    tagsService.setTag(tempTags);
+                }
+                event.setTags(tags);
+                eventsService.updateEvents(event);
                 actionResponse.setRenderParameter("eventID", Integer.toString(event.getId()));
                 sessionStatus.setComplete();
             }
@@ -389,7 +396,6 @@ public class EventsController {
         role = actionRequest.isUserInRole(ADMINISTRATOR_ROLE) ? ADMINISTRATOR_ROLE : USER_ROLE;
         User user = (User) actionRequest.getAttribute(WebKeys.USER);
         String usRole = user.getScreenName();
-//                newEvent.getAdditionalImages().clear();
         if (updateEventsFields(newEvent, mainImage, images, role, usRole)) {
             eventsService.updateEvents(newEvent);
 //close session
