@@ -14,8 +14,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -55,6 +53,8 @@ public class StudieController {
     private static final String STR_EXEPT = "Exception ";
     private static final String MAIN_IMAGE = "mainImage";
     private static final String BUTTON_ID = "buttonId";
+    private static final String STUDY_ID = "studieID";
+    private static final String STUDY = "study";
     private static final Logger LOG = Logger.getLogger(StudieController.class.getName());
 
     @Autowired
@@ -104,9 +104,9 @@ public class StudieController {
         return model;
     }
 
-    @RenderMapping(params = "studieID")
+    @RenderMapping(params = STUDY_ID)
     public ModelAndView showSelectedSrudie(RenderRequest request, RenderResponse response) {
-        int studieID = Integer.valueOf(request.getParameter("studieID"));
+        int studieID = Integer.valueOf(request.getParameter(STUDY_ID));
         Integer buttonId = 0;
         if (request.getParameter(BUTTON_ID) == null) {
             buttonId = 0;
@@ -131,58 +131,60 @@ public class StudieController {
         return model;
     }
 
-    @ModelAttribute(value = "study")
+    @ModelAttribute(value = STUDY)
     public Studie getCommandObject() {
         return new Studie();
     }
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {
-        binder.setDisallowedFields("mainImage");
+        binder.setDisallowedFields(MAIN_IMAGE);
     }
 
     private static final List<String> ACCCRED_LEVELS;
     private static final List<String> YEARS;
-    private Map<String, List<String>> FORM_PARAM_MAP;
+    private Map<String, List<String>> formParamMap;
+    private static final Integer MIN_AGE = 1850;
+    private static final Integer THREE = 3;
 
     static {
         ACCCRED_LEVELS = Arrays.asList("I", "II", "III", "IV");
         YEARS = new ArrayList<String>();
-        for (Integer i = 1850; i < DateTime.now().getYear(); i++) {
+        for (Integer i = MIN_AGE; i < DateTime.now().getYear(); i++) {
             YEARS.add(i.toString());
         }
     }
 
     private void setMap(RenderRequest request) {
-        List<String> TRAINING_FORMS = new ArrayList<String>();
-        List<String> STATUS = new ArrayList<String>();
-        List<String> LVL_QUALIF = new ArrayList<String>();
+        List<String> trainingForms = new ArrayList<String>();
+        List<String> status = new ArrayList<String>();
+        List<String> lvlQualif = new ArrayList<String>();
         for (int i = 0; i < 2; i++) {
-            TRAINING_FORMS.add(messageSource.getMessage("form.TRAINING_FORMS" + i, null, request.getLocale()));
-            STATUS.add(messageSource.getMessage("form.STATUS" + i, null, request.getLocale()));
+            trainingForms.add(messageSource.getMessage("form.TRAINING_FORMS" + i, null, request.getLocale()));
+            status.add(messageSource.getMessage("form.STATUS" + i, null, request.getLocale()));
         }
-        for (int i = 0; i < 3; i++) {
-            LVL_QUALIF.add(messageSource.getMessage("form.LVL_QUALIF" + i, null, request.getLocale()));
+        for (int i = 0; i < THREE; i++) {
+            lvlQualif.add(messageSource.getMessage("form.LVL_QUALIF" + i, null, request.getLocale()));
         }
-        List<String> DOC = Arrays.asList(messageSource.getMessage("form.DOC", null, request.getLocale()));
-        FORM_PARAM_MAP = new HashMap<String, List<String>>();
-        FORM_PARAM_MAP.put("lvlAccredList", ACCCRED_LEVELS);
-        FORM_PARAM_MAP.put("trainigFormsList", TRAINING_FORMS);
-        FORM_PARAM_MAP.put("statusList", STATUS);
-        FORM_PARAM_MAP.put("lvlQualifList", LVL_QUALIF);
-        FORM_PARAM_MAP.put("yearsList", YEARS);
-        FORM_PARAM_MAP.put("docList", DOC);
+        List<String> doc = Arrays.asList(messageSource.getMessage("form.DOC", null, request.getLocale()));
+        formParamMap = new HashMap<String, List<String>>();
+        formParamMap.put("lvlAccredList", ACCCRED_LEVELS);
+        formParamMap.put("trainigFormsList", trainingForms);
+        formParamMap.put("statusList", status);
+        formParamMap.put("lvlQualifList", lvlQualif);
+        formParamMap.put("yearsList", YEARS);
+        formParamMap.put("docList", doc);
     }
 
     @RenderMapping(params = "mode=add")
     public ModelAndView showAddStuds(RenderRequest request, RenderResponse response) {
         ModelAndView model = new ModelAndView("addStudie");
         setMap(request);
-        model.addAllObjects(FORM_PARAM_MAP);
+        model.addAllObjects(formParamMap);
         return model;
     }
 
-    private Boolean UpdateStudy(Studie newStudie, CommonsMultipartFile mainImage, CommonsMultipartFile[] images,
+    private Boolean updateStudy(Studie newStudie, CommonsMultipartFile mainImage, CommonsMultipartFile[] images,
                                 ActionResponse actionResponse) {
         boolean successUpload = true;
         try {
@@ -216,12 +218,12 @@ public class StudieController {
     }
 
     @ActionMapping(value = "addStudie")
-    public void addStudie(@ModelAttribute("study") @Valid Studie studie,
+    public void addStudie(@ModelAttribute(STUDY) @Valid Studie studie,
                           BindingResult bindingResult,
                           ActionRequest actionRequest,
                           ActionResponse actionResponse,
                           SessionStatus sessionStatus,
-                          @RequestParam("mainImage") CommonsMultipartFile mainImage,
+                          @RequestParam(MAIN_IMAGE) CommonsMultipartFile mainImage,
                           @RequestParam("images") CommonsMultipartFile[] images) {
         studyValidator.validate(studie, bindingResult);
         if (bindingResult.hasErrors()) {
@@ -236,9 +238,9 @@ public class StudieController {
                 Integer.parseInt(actionRequest.getParameter("l")),
                 Integer.parseInt(actionRequest.getParameter("w")),
                 Integer.parseInt(actionRequest.getParameter("h")));
-        if (UpdateStudy(studie, f, images, actionResponse)) {
+        if (updateStudy(studie, f, images, actionResponse)) {
             studieService.addStudie(studie);
-            actionResponse.setRenderParameter("studieID", Integer.toString(studie.getId()));
+            actionResponse.setRenderParameter(STUDY_ID, Integer.toString(studie.getId()));
             sessionStatus.setComplete();
         }
     }
@@ -249,7 +251,7 @@ public class StudieController {
                            ActionRequest actionRequest,
                            ActionResponse actionResponse,
                            SessionStatus sessionStatus,
-                           @RequestParam("mainImage") CommonsMultipartFile mainImage,
+                           @RequestParam(MAIN_IMAGE) CommonsMultipartFile mainImage,
                            @RequestParam("images") CommonsMultipartFile[] images) {
         studyValidator.validate(studie, bindingResult);
         if (bindingResult.hasErrors()) {
@@ -266,10 +268,10 @@ public class StudieController {
                     Integer.parseInt(actionRequest.getParameter("w")),
                     Integer.parseInt(actionRequest.getParameter("h")));
         }
-        if (UpdateStudy(studie, mainImage, images, actionResponse)) {
+        if (updateStudy(studie, mainImage, images, actionResponse)) {
             facultiesService.deleteList(oldStudy.getFaculties());
             studieService.updateStudie(studie);
-            actionResponse.setRenderParameter("studieID", Integer.toString(studie.getId()));
+            actionResponse.setRenderParameter(STUDY_ID, Integer.toString(studie.getId()));
             sessionStatus.setComplete();
         }
     }
@@ -286,7 +288,7 @@ public class StudieController {
     @RenderMapping(params = "mode=edit")
     public ModelAndView showEditNews(RenderRequest request, RenderResponse response) {
         ModelAndView model = new ModelAndView("editStudie");
-        int studieID = Integer.valueOf(request.getParameter("studieId"));
+        int studieID = Integer.valueOf(request.getParameter(STUDY_ID));
         Studie studie = studieService.getStudieById(studieID);
         ImageImpl mImage = studie.getMainImage();
         String mainImageUrl;
@@ -296,17 +298,17 @@ public class StudieController {
             mainImageUrl = imageService.getPathToLargeImage(mImage, studie);
         }
         Collection<ImageImpl> additionalImages = studie.getAdditionalImages();
-        model.getModelMap().addAttribute("study", studie);
+        model.getModelMap().addAttribute(STUDY, studie);
         model.addObject(MAIN_IMAGE, mainImageUrl);
         model.addObject("additionalImages", additionalImages);
         setMap(request);
-        model.addAllObjects(FORM_PARAM_MAP);
+        model.addAllObjects(formParamMap);
         return model;
     }
 
     @RenderMapping(params = "mode=delete")
     public ModelAndView deleteOrganisation(RenderRequest request, RenderResponse response) {
-        int studieID = Integer.valueOf(request.getParameter("studieId"));
+        int studieID = Integer.valueOf(request.getParameter(STUDY_ID));
         Studie studie = studieService.getStudieById(studieID);
         imageService.deleteDirectory(studie);
         studieService.deleteStudie(studie);

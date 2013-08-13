@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import ua.dp.stud.eventPanel.util.EventPanelHelper;
-import ua.dp.stud.eventPanel.util.states.State;
+import ua.dp.stud.eventPanel.util.State;
 
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
@@ -103,7 +103,7 @@ public class EventPanelController {
         helper.setObjectId(objectId);
         helper.setComment(comment);
         helper.setApproved(appr);
-        helper.Approve();
+        helper.approve();
         return pagination(request, response, currentPage, direction, modelView);
     }
 

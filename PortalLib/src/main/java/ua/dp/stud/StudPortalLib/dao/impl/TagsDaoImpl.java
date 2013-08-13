@@ -4,14 +4,9 @@
  */
 package ua.dp.stud.StudPortalLib.dao.impl;
 
-import java.util.Collection;
 import org.hibernate.Hibernate;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
-import ua.dp.stud.StudPortalLib.dao.BaseDao;
 import ua.dp.stud.StudPortalLib.dao.TagsDao;
-import ua.dp.stud.StudPortalLib.model.Events;
 import ua.dp.stud.StudPortalLib.model.Tags;
 
 /**

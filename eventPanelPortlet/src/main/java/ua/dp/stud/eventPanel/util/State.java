@@ -1,10 +1,9 @@
-package ua.dp.stud.eventPanel.util.states;
+package ua.dp.stud.eventPanel.util;
 
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.service.LayoutLocalServiceUtil;
 import com.liferay.portal.theme.ThemeDisplay;
 import org.springframework.web.portlet.ModelAndView;
-import ua.dp.stud.eventPanel.util.EventPanelHelper;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -82,6 +81,6 @@ public abstract class State {
 
     public abstract ModelAndView getObjectByPage();
 
-    public void Approve() {
+    public void approve() {
     }
 }

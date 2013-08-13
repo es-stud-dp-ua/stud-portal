@@ -1,7 +1,6 @@
 package ua.dp.stud.StudPortalLib.util;
 
 import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -12,7 +11,6 @@ import java.util.StringTokenizer;
 import java.util.regex.Pattern;
 
 import static org.apache.commons.lang.StringUtils.join;
-import static org.apache.commons.lang.StringUtils.remove;
 
 /**
  * @author Josby
@@ -43,6 +41,10 @@ public final class CustomFunctions {
     private static final DateFormat HOURS_FORMAT = new SimpleDateFormat("HH:mm");
     private static final DateFormat DAY_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
     private static final DateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM");
+    private static final Integer FOUR = 4;
+    private static final Integer TEN = 10;
+    private static final Integer TWENTY_FOUR = 24;
+    private static final Integer SIXTY = 60;
 
     public static String getCreationDate(Date date) {
         StringBuilder outDate = new StringBuilder();
@@ -54,21 +56,21 @@ public final class CustomFunctions {
         pubDateCal.setTime(date);
         Long difference = now.getTime() - date.getTime();
         Long seconds = difference / TOTAL_MS;
-        if (seconds < 10) {
+        if (seconds < TEN) {
             outDate.append("только что");
         } else {
-            if (seconds < 60) {
+            if (seconds < SIXTY) {
                 outDate.append(seconds).append(" секунд назад");
             } else {
                 Long minutes = difference / TOTAL_MS_PER_MIN;
-                if (minutes < 60) {
+                if (minutes < SIXTY) {
                     outDate.append(minutes).append(" минут назад");
                 } else {
                     Long hours = difference / TOTAL_MS_PER_HOURS;
-                    if (hours < 4) {
+                    if (hours < FOUR) {
                         outDate.append(hours).append(" час(а) назад");
                     } else {
-                        if (hours < 24) {
+                        if (hours < TWENTY_FOUR) {
                             Integer day = nowCal.get(Calendar.DAY_OF_MONTH) - pubDateCal.get(Calendar.DAY_OF_MONTH);
                             if (day == 0) {
                                 outDate.append("сегодня в ")
@@ -114,7 +116,7 @@ public final class CustomFunctions {
         }
         Integer month = endCal.get(Calendar.MONTH);
         result.append(".");
-        if(month < 10) {
+        if(month < TEN) {
             result.append("0");
         }
         result.append(endCal.get(Calendar.MONTH));

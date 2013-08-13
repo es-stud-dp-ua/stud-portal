@@ -8,7 +8,6 @@ import org.hibernate.criterion.Restrictions;
 import ua.dp.stud.StudPortalLib.dao.DaoForApprove;
 import ua.dp.stud.StudPortalLib.model.BaseImagesSupport;
 import ua.dp.stud.StudPortalLib.model.ImageImpl;
-import ua.dp.stud.StudPortalLib.model.News;
 
 import java.util.Collection;
 

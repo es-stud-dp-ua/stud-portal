@@ -1,9 +1,8 @@
-package ua.dp.stud.eventPanel.util.states;
+package ua.dp.stud.eventPanel.util;
 
 import org.springframework.web.portlet.ModelAndView;
 import ua.dp.stud.StudPortalLib.model.News;
 import ua.dp.stud.StudPortalLib.service.NewsService;
-import ua.dp.stud.eventPanel.util.EventPanelHelper;
 
 import java.util.Collection;
 
@@ -37,7 +36,7 @@ public class AdminNews extends State {
     }
 
     @Override
-    public void Approve() {
+    public void approve() {
         NewsService service = helper.getNewsService();
         News currentNews = service.getNewsById(helper.getObjectId());
         String comment = helper.getComment();

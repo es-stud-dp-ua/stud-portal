@@ -1,19 +1,14 @@
 package ua.dp.stud.StudPortalLib.dao.impl;
 
 import org.hibernate.Criteria;
-import org.hibernate.Hibernate;
 import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 import ua.dp.stud.StudPortalLib.dao.NewsDao;
 import ua.dp.stud.StudPortalLib.model.Category;
-import ua.dp.stud.StudPortalLib.model.ImageImpl;
 import ua.dp.stud.StudPortalLib.model.News;
 
 import java.util.Collection;
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Class is used to work with the database
@@ -35,8 +30,7 @@ public class NewsDaoImpl extends DaoForApproveImpl<News> implements NewsDao {
 
    @Override
     public News getNewsByName(String topic) {
-        News news = (News) getSession().get(News.class, topic);
-        return news;
+        return (News) getSession().get(News.class, topic);
     }
     /**
      * getAllNews
@@ -87,7 +81,7 @@ public class NewsDaoImpl extends DaoForApproveImpl<News> implements NewsDao {
                 .setFirstResult(firstResult).setMaxResults(newsByPage).list();
 
     }
-
+    private static final Integer FOUR = 4;
     /**
      * gets news for main page
      *
@@ -98,7 +92,7 @@ public class NewsDaoImpl extends DaoForApproveImpl<News> implements NewsDao {
         return getSession().createCriteria(News.class).addOrder(Order.desc("publication")).
                 add(Restrictions.eq("onMainpage", true)).add(Restrictions.isNull("comment"))
                 .add(Restrictions.eq("approved", true))
-                .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).setMaxResults(4).list();
+                .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).setMaxResults(FOUR).list();
     }
 
     /**

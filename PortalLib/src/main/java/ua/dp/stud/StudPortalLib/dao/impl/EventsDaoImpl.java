@@ -48,13 +48,13 @@ public class EventsDaoImpl extends DaoForApproveImpl<Events> implements EventsDa
          Hibernate.initialize(events.getTags());
         return events;
     }
-
+    private static final Integer FIVE = 5;
     
     @Override
     public Collection<Events> getOnMainPage() {
         return getSession().createCriteria(Events.class).addOrder(Order.desc("publication"))
                 .add(Restrictions.isNull("comment")).add(Restrictions.eq("approved", true))
-                .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).setMaxResults(5).list();
+                .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).setMaxResults(FIVE).list();
     }
     
      @Override

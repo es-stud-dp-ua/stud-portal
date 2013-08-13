@@ -72,7 +72,7 @@ public class News extends BaseImagesSupport implements Serializable {
     @NotNull
     @NotBlank
     private String topic;
-    @Size(min = 100, max = 1000)
+    @Size(min = 100, max = 10000)
     @NotNull
     @NotBlank
     private String text;
@@ -93,7 +93,7 @@ public class News extends BaseImagesSupport implements Serializable {
     private Category category;
     private Boolean orgApproved;
     private Organization baseOrg;
-    @Size(min = 5, max = 1000)
+    @Size(min = 5, max = 10000)
     private String comment;
     @NotNull
     @Min(0)

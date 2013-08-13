@@ -7,6 +7,10 @@
     padding: 0;
 }
 
+select {
+	min-height:26px;
+}
+
 html {
     height: 100%;
 }

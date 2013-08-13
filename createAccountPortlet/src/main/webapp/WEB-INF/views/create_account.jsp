@@ -15,12 +15,84 @@
 <body>
 
 <script type="text/javascript">
-
+	jQuery.validator.addMethod('regexp',
+            function (value, element, regexp) {
+                var re = new RegExp(regexp);
+                return this.optional(element) || re.test(value);
+            }, "Please check your input."
+    );
     $(document).ready(function () {
-        $('.splLink').click(function () {
-            $(this).parent().children('div.splCont').toggle('normal');
-            $(this).html(($(this).html() == "+") ? "-" : "+");
-            return false;
+        $(".splLink").click(function () {
+			$(this).parent().children("div.splCont").toggle("normal");
+			var a = $(this).children("span#spoiler");
+			a.html((a.html() == "+") ? "-" : "+");
+			return false
+		});
+		$('#registration-form').validate({
+            rules: {
+                lastName: {
+                    required: true,
+                    minlength: 2,
+                    maxlength: 30,
+                    regexp: "<spring:message code="regexp.name"/>"
+                },
+                firstName: {
+                    required: true,
+                    minlength: 2,
+                    maxlength: 30,
+                    regexp: "<spring:message code="regexp.name"/>"
+                },
+                emailAddress: {
+                    required: true,
+                    email: true
+                },
+                password1: {
+                    required: true,
+                    rangelength: [6, 24],
+                    regexp: '^[a-z0-9_-]+$'
+                },
+                password2: {
+                    required: true,
+                    equalTo: "#password1"
+                },
+                rules: "required"
+            },
+            messages: {
+                lastName: {
+                    required: "<spring:message code="js.required"/>",
+                    minlength: "<spring:message code="js.minlength"/>",
+                    maxlength: "<spring:message code="js.maxlength"/>",
+                    regexp: "<spring:message code="js.Name.regexp"/>"
+                },
+                firstName: {
+                    required: "<spring:message code="js.required"/>",
+                    minlength: "<spring:message code="js.minlength"/>",
+                    maxlength: "<spring:message code="js.maxlength"/>",
+                    regexp: "<spring:message code="js.Name.regexp"/>"
+                },
+                emailAddress: {
+                    required: "<spring:message code="js.required"/>",
+                    email: "<spring:message code="js.email"/>"
+                },
+                password1: {
+                    required: "<spring:message code="js.required"/>",
+                    rangelength: "<spring:message code="js.rangelength"/>",
+                    regexp: "<spring:message code="js.password1.regexp"/>"
+                },
+                password2: {
+                    required: "<spring:message code="js.required"/>",
+                    equalTo: "<spring:message code="js.password"/>"
+                },
+                rules: "<spring:message code="js.rules.required"/>"
+            },
+            highlight: function (label) {
+                $(label).closest('.control-group').addClass('error');
+            },
+            success: function (label) {
+                label
+                        .text('OK!').addClass('valid')
+                        .closest('.control-group').addClass('success');
+            }
         });
     });
     $(function () {
@@ -113,9 +185,10 @@
             </div>
         </fieldset>
         <fieldset class="fieldReg">
-            <div id="titleLevel2"><spring:message code="reg-not-ness-field"/></div>
-            <a href="#" onсlick="" class="splLink">+</a>
-
+            <div id="titleLevel2" class="splLink">
+				<span id="spoiler">+</span>
+				<span style="margin-left: 15px;">Эти поля вы можете заполнить позже</span>
+			</div>
             <div class="splCont" style="display:none;">
                 <div class="colunmBx rightCl bottomDiv">
                     <div class="textBox">
@@ -168,88 +241,5 @@
         </div>
     </fieldset>
 </form:form>
-
-<script type="text/javascript">
-
-    jQuery.validator.addMethod(
-            'regexp',
-            function (value, element, regexp) {
-                var re = new RegExp(regexp);
-                return this.optional(element) || re.test(value);
-            },
-            "Please check your input."
-    );
-
-    $(document).ready(function () {
-        $('#registration-form').validate({
-            rules: {
-                lastName: {
-                    required: true,
-                    minlength: 2,
-                    maxlength: 30,
-                    regexp: "<spring:message code="regexp.name"/>"
-                },
-                firstName: {
-                    required: true,
-                    minlength: 2,
-                    maxlength: 30,
-                    regexp: "<spring:message code="regexp.name"/>"
-                },
-                emailAddress: {
-                    required: true,
-                    email: true
-                },
-                password1: {
-                    required: true,
-                    rangelength: [6, 24],
-                    regexp: '^[a-z0-9_-]+$'
-                },
-                password2: {
-                    required: true,
-                    equalTo: "#password1"
-                },
-                rules: "required"
-            },
-            messages: {
-                lastName: {
-                    required: "<spring:message code="js.required"/>",
-                    minlength: "<spring:message code="js.minlength"/>",
-                    maxlength: "<spring:message code="js.maxlength"/>",
-                    regexp: "<spring:message code="js.Name.regexp"/>"
-                },
-                firstName: {
-                    required: "<spring:message code="js.required"/>",
-                    minlength: "<spring:message code="js.minlength"/>",
-                    maxlength: "<spring:message code="js.maxlength"/>",
-                    regexp: "<spring:message code="js.Name.regexp"/>"
-                },
-                emailAddress: {
-                    required: "<spring:message code="js.required"/>",
-                    email: "<spring:message code="js.email"/>"
-                },
-                password1: {
-                    required: "<spring:message code="js.required"/>",
-                    rangelength: "<spring:message code="js.rangelength"/>",
-                    regexp: "<spring:message code="js.password1.regexp"/>"
-                },
-                password2: {
-                    required: "<spring:message code="js.required"/>",
-                    equalTo: "<spring:message code="js.password"/>"
-                },
-                rules: "<spring:message code="js.rules.required"/>"
-            },
-            highlight: function (label) {
-                $(label).closest('.control-group').addClass('error');
-            },
-            success: function (label) {
-                label
-                        .text('OK!').addClass('valid')
-                        .closest('.control-group').addClass('success');
-            }
-        });
-
-    });
-</script>
-
 </body>
 </html>

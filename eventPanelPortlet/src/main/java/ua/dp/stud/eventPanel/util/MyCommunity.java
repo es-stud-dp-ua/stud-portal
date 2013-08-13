@@ -1,37 +1,36 @@
-package ua.dp.stud.eventPanel.util.states;
+package ua.dp.stud.eventPanel.util;
 
 import org.springframework.web.portlet.ModelAndView;
-import ua.dp.stud.StudPortalLib.model.News;
-import ua.dp.stud.StudPortalLib.service.NewsService;
-import ua.dp.stud.eventPanel.util.EventPanelHelper;
+import ua.dp.stud.StudPortalLib.model.Organization;
+import ua.dp.stud.StudPortalLib.service.OrganizationService;
 
 import java.util.Collection;
 
 /**
  * @author Pikus Vladislav
  */
-public class MyNews extends State {
-
-    public MyNews(EventPanelHelper helper, String cntDesc, String portletName) {
-       super(helper, cntDesc, portletName);
+public class MyCommunity extends State {
+    public MyCommunity(EventPanelHelper helper, String cntDesc, String portletName) {
+        super(helper, cntDesc, portletName);
     }
 
     @Override
     public Integer getPagesCount() {
-        NewsService service = helper.getNewsService();
+        OrganizationService service = helper.getOrganizationService();
         return service.getPagesCountByAuthor(helper.getUserName(), 1);
     }
 
     @Override
     public ModelAndView getObjectByPage() {
-        NewsService service = helper.getNewsService();
+        OrganizationService service = helper.getOrganizationService();
         String userName = helper.getUserName();
         ModelAndView model = helper.getModel();
         Integer pageCount = service.getPagesCountByAuthor(userName, PER_PAGE);
         Integer newCurrentPage = setPage(pageCount);
-        Collection<News> newsList = service.getPagesNewsByAuthor(userName, newCurrentPage, PER_PAGE);
-        model.addObject("newsList", newsList);
-        model.addObject(TYPE, "News");
+        Collection<Organization> orgList = service.getPagesOrganizationByAuthor(userName, newCurrentPage,
+                PER_PAGE);
+        model.addObject("orgList", orgList);
+        model.addObject(TYPE, "Organization");
         model.addObject(PAGE_COUNT, pageCount);
         model.addObject(CURRENT_PAGE, newCurrentPage);
         setPlid();

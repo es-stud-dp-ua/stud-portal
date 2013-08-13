@@ -7,7 +7,6 @@ import org.springframework.web.portlet.ModelAndView;
 import ua.dp.stud.StudPortalLib.service.EventsService;
 import ua.dp.stud.StudPortalLib.service.NewsService;
 import ua.dp.stud.StudPortalLib.service.OrganizationService;
-import ua.dp.stud.eventPanel.util.states.*;
 
 import javax.portlet.RenderRequest;
 import java.util.HashMap;
@@ -140,7 +139,7 @@ public class EventPanelHelper {
     protected static final String COMMUNITIES_REFERENCE_NAME = "Communities_WAR_studcommunity";
     private static final String EVENTS_REFERENCE_NAME = "Events_WAR_studevents";
     private State state;
-    Map<String, State> stateMap;
+    private Map<String, State> stateMap;
 
     public EventPanelHelper() {
         stateMap = new HashMap<String, State>();
@@ -164,8 +163,8 @@ public class EventPanelHelper {
         return model;
     }
 
-    public void Approve() {
-        state.Approve();
+    public void approve() {
+        state.approve();
     }
 
     public void setState(String name) {

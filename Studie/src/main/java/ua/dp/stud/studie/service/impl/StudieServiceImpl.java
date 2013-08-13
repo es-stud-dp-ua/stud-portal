@@ -7,15 +7,12 @@ package ua.dp.stud.studie.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ua.dp.stud.StudPortalLib.model.ImageImpl;
 import ua.dp.stud.studie.dao.StudieDao;
-import ua.dp.stud.studie.model.Faculties;
-import ua.dp.stud.studie.model.Specialties;
 import ua.dp.stud.studie.model.Studie;
 import ua.dp.stud.studie.service.StudieService;
 
-import java.util.*;
-
-import ua.dp.stud.StudPortalLib.model.ImageImpl;
+import java.util.Collection;
 
 /**
  * @author Ольга

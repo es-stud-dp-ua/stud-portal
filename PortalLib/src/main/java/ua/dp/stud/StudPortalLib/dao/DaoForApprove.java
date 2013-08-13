@@ -2,8 +2,6 @@ package ua.dp.stud.StudPortalLib.dao;
 
 import ua.dp.stud.StudPortalLib.model.BaseImagesSupport;
 import ua.dp.stud.StudPortalLib.model.ImageImpl;
-import ua.dp.stud.StudPortalLib.model.News;
-import ua.dp.stud.StudPortalLib.model.Organization;
 
 import java.util.Collection;
 

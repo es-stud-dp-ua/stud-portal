@@ -1,3 +1,7 @@
+.ui-datepicker-month,.ui-datepicker-year {
+    height: 31px;
+}
+
 #registration-form .colunmBx {
     float: left;
     width: 270px;
@@ -16,7 +20,7 @@
 }
 
 #registration-form .error {
-    color: #ff0000;
+    color: #f00;
 }
 
 #registration-form label.valid {
@@ -60,14 +64,10 @@
     font-weight: bold;
 }
 
-#registration-form .splLink {
+#registration-form #spoiler {
     position: absolute;
-    right: 40px;
-    top: 288px;
-    width: 100%;
-    text-align: right;
-    font-weight: bold;
-    font-size: 16px;
+    color: #28477c;
+    font-weight: normal;
 }
 
 #registration-form a {
@@ -90,15 +90,13 @@
 }
 
 #registration-success {
-    background: url(http://109.206.40.61:8080/stud-theme1/images/messages/success.png) 6px 50% no-repeat rgb(244, 253, 239);
-    border: 1px solid rgb(172, 223, 167);
+    background: url(http://109.206.40.61:8080/stud-theme1/images/messages/success.png) 6px 50% no-repeat #f4fdef;
+    border: 1px solid #acdfa7;
     border-image: initial;
-    color: rgb(56, 79, 52);
+    color: #384f34;
     display: block;
     font-weight: normal;
     margin: 5px auto;
     padding: 6px 6px 6px 30px;
     text-align: left;
-}
-
-    }
+}}

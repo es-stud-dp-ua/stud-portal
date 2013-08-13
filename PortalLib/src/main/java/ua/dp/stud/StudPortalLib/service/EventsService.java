@@ -4,10 +4,11 @@
  */
 package ua.dp.stud.StudPortalLib.service;
 
-import java.util.Collection;
 import ua.dp.stud.StudPortalLib.model.Events;
 import ua.dp.stud.StudPortalLib.model.ImageImpl;
 import ua.dp.stud.StudPortalLib.util.EventsType;
+
+import java.util.Collection;
 
 /**
  *

@@ -1,11 +1,9 @@
 package ua.dp.stud.StudPortalLib.dao;
 
 import ua.dp.stud.StudPortalLib.model.Category;
-import ua.dp.stud.StudPortalLib.model.ImageImpl;
 import ua.dp.stud.StudPortalLib.model.News;
 
 import java.util.Collection;
-import ua.dp.stud.StudPortalLib.dao.impl.BaseDaoImpl;
 
 /**
  * @author Lukash Roman
@@ -13,9 +11,9 @@ import ua.dp.stud.StudPortalLib.dao.impl.BaseDaoImpl;
  */
 public interface NewsDao extends DaoForApprove<News> {
     
-     public Collection<News> getAllNews(Boolean approved);
+     Collection<News> getAllNews(Boolean approved);
 
-     public News getNewsByName(String topic);
+     News getNewsByName(String topic);
     /**
      * getAllNews
      *

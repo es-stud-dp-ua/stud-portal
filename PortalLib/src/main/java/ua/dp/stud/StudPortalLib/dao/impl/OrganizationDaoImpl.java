@@ -5,7 +5,6 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 import ua.dp.stud.StudPortalLib.dao.OrganizationDao;
-import ua.dp.stud.StudPortalLib.model.ImageImpl;
 import ua.dp.stud.StudPortalLib.model.News;
 import ua.dp.stud.StudPortalLib.model.Organization;
 import ua.dp.stud.StudPortalLib.util.OrganizationType;

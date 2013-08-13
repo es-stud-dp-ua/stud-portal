@@ -11,8 +11,6 @@ import ua.dp.stud.StudPortalLib.util.OrganizationType;
 
 import java.util.Collection;
 
-import ua.dp.stud.StudPortalLib.dao.impl.BaseDaoImpl;
-
 @Service("organizationService")
 @Transactional
 public class OrganizationServiceImpl implements OrganizationService {

@@ -4,17 +4,16 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.validator.constraints.NotBlank;
+import ua.dp.stud.StudPortalLib.util.OrganizationType;
 
 import javax.persistence.*;
-import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import org.hibernate.validator.constraints.NotBlank;
-
-import ua.dp.stud.StudPortalLib.util.OrganizationType;
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
 
 @NamedQueries(
         {
@@ -40,27 +39,33 @@ public class Organization extends BaseImagesSupport implements Serializable {
 
     //Fields//
     private static final int TEXT_LENGTH = 10000;
+
     private String author;
-    @Size(min=5, max=100)  @NotNull @NotBlank
+    @Size(min = 5, max = 100)
+    @NotNull
+    @NotBlank
     private String title;
-    @Size(min=500, max=10000) @NotNull @NotBlank
+    @Size(min = 500, max = 10000)
+    @NotNull
+    @NotBlank
     private String text;
     private OrganizationType organizationType;
     private List<News> newsList;
     private Boolean approved;
     private String comment;
-    @NotNull @Min(0) 
+    @NotNull
+    @Min(0)
     private int views;
     private Date publication;
     private String contacts;
-    
+
     @Column
-    public String getContacts(){
+    public String getContacts() {
         return contacts;
     }
-    
-    public void setContacts(String contacts){
-        this.contacts=contacts;
+
+    public void setContacts(String contacts) {
+        this.contacts = contacts;
     }
 
     @Column

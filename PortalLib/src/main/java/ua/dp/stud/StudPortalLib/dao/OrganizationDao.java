@@ -8,11 +8,11 @@ import java.util.Collection;
 
 public interface OrganizationDao extends DaoForApprove<Organization> {
 
-    public Integer getCount();
+    Integer getCount();
 
-    public Collection<Organization> getAllOrganizations(Boolean approve);
+    Collection<Organization> getAllOrganizations(Boolean approve);
 
-    public Organization getOrganizationByName(String title);
+    Organization getOrganizationByName(String title);
     /**
      * collection for organizations news by id
      *

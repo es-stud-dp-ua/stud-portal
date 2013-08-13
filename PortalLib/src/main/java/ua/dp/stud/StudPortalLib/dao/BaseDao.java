@@ -18,15 +18,15 @@ import ua.dp.stud.StudPortalLib.model.ImageImpl;
  */
 public interface BaseDao<E> {
 
-    public E save(E object);
+    E save(E object);
 
-    public E update(E object);
+    E update(E object);
     
-    public void delete(Integer id);
+    void delete(Integer id);
 
-    public Integer getCount();
+    Integer getCount();
     
-    public Collection<E> getAll();
+    Collection<E> getAll();
     
-    public E getById(Integer id);
+    E getById(Integer id);
 }
