@@ -288,7 +288,7 @@ public class StudieController {
     @RenderMapping(params = "mode=edit")
     public ModelAndView showEditNews(RenderRequest request, RenderResponse response) {
         ModelAndView model = new ModelAndView("editStudie");
-        int studieID = Integer.valueOf(request.getParameter(STUDY_ID));
+        int studieID = Integer.valueOf(request.getParameter("studieId"));
         Studie studie = studieService.getStudieById(studieID);
         ImageImpl mImage = studie.getMainImage();
         String mainImageUrl;
@@ -308,7 +308,7 @@ public class StudieController {
 
     @RenderMapping(params = "mode=delete")
     public ModelAndView deleteOrganisation(RenderRequest request, RenderResponse response) {
-        int studieID = Integer.valueOf(request.getParameter(STUDY_ID));
+        int studieID = Integer.valueOf(request.getParameter("studieId"));
         Studie studie = studieService.getStudieById(studieID);
         imageService.deleteDirectory(studie);
         studieService.deleteStudie(studie);

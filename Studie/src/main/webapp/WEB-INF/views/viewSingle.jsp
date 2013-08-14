@@ -243,7 +243,7 @@
     </table>
 </div>
 <%--commentz support--%>
-<!--div id="mc-container"></div-->
+<div id="mc-container"></div>
 <script type="text/javascript">
 
     // init  gallery images
@@ -255,11 +255,9 @@
             'overlayShow': true,
             'overlayColor': '#000',
             'overlayOpacity': 0.8,
-
             closeBtn: true,
             arrows: true,
             nextClick: true,
-
             helpers: {
                 thumbs: {},
                 title: {
@@ -268,7 +266,8 @@
             }
         });
     });
-    var mcChannel = "${news.id}";
+
+    var mcChannel = "${studie.id}";
     // will return en   or   ru
     var mcLocale = "<%= request.getLocale().getLanguage() %>";
     var mcSite = '13747';
@@ -281,6 +280,10 @@
         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(mc);
     })();
 </script>
+<a href="http://cackle.me" id="mc-link"><spring:message code="viewSingle.copyright"/> <b style="color:#4FA3DA">CACKL</b><b
+        style="color:#F65077">E</b></a>
+<%--commentz support--%>
+<br/><br/>
 
 <br/><br/>
 </body>

@@ -290,7 +290,7 @@ select {
     width: 443px;
     padding: 0;
     margin-left: 12px;
-
+	text-align: center;
 }
 
 #mainImgloaderBtn {
@@ -360,7 +360,7 @@ select {
 
 #nt {
     cursor: pointer;
-
+	padding-top: 3px;
 }
 
 #nt2 {
