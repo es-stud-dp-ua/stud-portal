@@ -10,9 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.dp.stud.StudPortalLib.dao.EventsDao;
+import ua.dp.stud.StudPortalLib.dao.TagsDao;
 import ua.dp.stud.StudPortalLib.model.Events;
 import ua.dp.stud.StudPortalLib.model.ImageImpl;
 import ua.dp.stud.StudPortalLib.model.News;
+import ua.dp.stud.StudPortalLib.model.Tags;
 import ua.dp.stud.StudPortalLib.service.EventsService;
 import ua.dp.stud.StudPortalLib.util.EventsType;
 
@@ -24,7 +26,10 @@ import ua.dp.stud.StudPortalLib.util.EventsType;
 public class EventsServiceImpl implements EventsService {
     @Autowired
     private EventsDao dao;
-
+    
+    @Autowired
+    private TagsDao tagsDao;
+    
     @Transactional(readOnly = true)
     public Integer getPagesCountByAuthor(String author, Integer eventsPerPage) {
         return dao.calcPages(dao.getCountByAuthor(author), eventsPerPage);
@@ -127,8 +132,9 @@ public class EventsServiceImpl implements EventsService {
      * @return true if events with this name is present
      */
     @Override
-    public Boolean isUnique(Events events) {
-        return dao.getEventsByName(events.getTitle()) != null;
+    public Boolean isUnique(String name) {
+        
+        return dao.getEventsByName(name) == null;
     }
 
     @Transactional(readOnly = true)
@@ -148,4 +154,36 @@ public class EventsServiceImpl implements EventsService {
     public Integer getPagesCountOfType(int eByPage, EventsType type) {
         return dao.calcPages(dao.getCountOfType(type), eByPage);
     }
+   
+   /**TAGS */
+   @Transactional(readOnly = false)
+    public void setDao(TagsDao dao) {
+        this.tagsDao = dao;
+    }
+     
+    @Override
+    public Tags getTagById(Integer id) {
+        return tagsDao.getTagById(id);
+    }
+
+    @Override
+    public void setTag(Tags tag) {
+       tagsDao.save(tag);
+    }
+
+    @Override
+    public Collection<Tags> getAllTags() {
+        return tagsDao.getAll();
+    }
+
+    @Override
+    public void deleteTags(Tags tags) {
+        tagsDao.delete(tags.getId());
+    }
+
+    @Override
+    public void updateTags(Tags tag) {
+        tagsDao.update(tag);
+    }
+   
 }

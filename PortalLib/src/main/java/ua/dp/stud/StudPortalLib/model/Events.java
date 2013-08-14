@@ -6,7 +6,10 @@ package ua.dp.stud.StudPortalLib.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.*;
 import ua.dp.stud.StudPortalLib.util.EventsType;
 
@@ -25,6 +28,7 @@ import ua.dp.stud.StudPortalLib.util.EventsType;
 public class Events extends BaseImagesSupport implements Serializable {
 
     private static final int TEXT_LENGTH = 10000;
+    @PrimaryKeyJoinColumn(name="title" ,referencedColumnName = "title")
     private String title;
     private Date eventDateStart;
     private Date eventDateEnd;
@@ -37,19 +41,24 @@ public class Events extends BaseImagesSupport implements Serializable {
     private String author;
     private Date publication;
     private int views;
-
  
-    private List<Tags> tags;
     
-   @ManyToMany(mappedBy = "events") 
-   public List<Tags> getTags(){
-       return this.tags; 
+    
+    
+    private List<Tags> tags=new LinkedList<Tags>();
+
+    @ManyToMany(cascade = {CascadeType.ALL})
+    @JoinTable(name="event_tags", 
+                joinColumns={@JoinColumn(name="tagId")}, 
+                inverseJoinColumns={@JoinColumn(name="id")})
+    public List<Tags> getTags() {
+        return this.tags;
     }
-    
-    public void setTags(List<Tags> tags){
-        this.tags=tags;
+
+    public void setTags(List<Tags> tags) {
+        this.tags = tags;
     }
-    
+
     public Events() {
     }
 

@@ -1,14 +1,20 @@
 package ua.dp.stud.StudPortalLib.dao.impl;
 
+import java.lang.reflect.ParameterizedType;
+import java.util.Collection;
+
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import ua.dp.stud.StudPortalLib.dao.BaseDao;
-
-import java.lang.reflect.ParameterizedType;
-import java.util.Collection;
+import ua.dp.stud.StudPortalLib.dao.NewsDao;
+import ua.dp.stud.StudPortalLib.dao.OrganizationDao;
+import ua.dp.stud.StudPortalLib.model.BaseImagesSupport;
+import ua.dp.stud.StudPortalLib.model.ImageImpl;
 
 /**
  * @author: Pikus Vladislav
@@ -63,7 +69,8 @@ public abstract class BaseDaoImpl<E> implements BaseDao<E> {
 
     @Override
     public E getById(Integer id) {
-        return (E) getSession().get(persistentClass, id);
+        E object = (E) getSession().get(persistentClass, id);
+        return object;
     }
 
     @Override

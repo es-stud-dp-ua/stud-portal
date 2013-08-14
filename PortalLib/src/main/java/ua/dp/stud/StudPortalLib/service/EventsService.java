@@ -4,11 +4,11 @@
  */
 package ua.dp.stud.StudPortalLib.service;
 
+import java.util.Collection;
 import ua.dp.stud.StudPortalLib.model.Events;
 import ua.dp.stud.StudPortalLib.model.ImageImpl;
+import ua.dp.stud.StudPortalLib.model.Tags;
 import ua.dp.stud.StudPortalLib.util.EventsType;
-
-import java.util.Collection;
 
 /**
  *
@@ -38,7 +38,7 @@ public interface EventsService {
 
     void addEvents(Events eventsToAdd);
 
-    Boolean isUnique(Events events);
+    Boolean isUnique(String name);
 
     Collection<Events> getOnMainPage();
 
@@ -53,4 +53,15 @@ public interface EventsService {
     Collection<Events> getPagesEventsByAuthor(String author, Integer pageNumb, Integer eventsPerPage);
 
     Integer getPagesCount(Boolean approved, Integer newsPerPage);
+    
+    //** TAGS */
+    Tags getTagById(Integer id);
+    
+    void setTag(Tags tag);
+    
+    Collection<Tags> getAllTags();
+    
+    void deleteTags(Tags tags);
+    
+    void updateTags(Tags tag);
 }

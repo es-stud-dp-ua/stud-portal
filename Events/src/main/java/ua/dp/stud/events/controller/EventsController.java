@@ -45,7 +45,6 @@ import ua.dp.stud.StudPortalLib.model.Events;
 import ua.dp.stud.StudPortalLib.model.ImageImpl;
 import ua.dp.stud.StudPortalLib.model.Tags;
 import ua.dp.stud.StudPortalLib.service.EventsService;
-import ua.dp.stud.StudPortalLib.service.TagsService;
 import ua.dp.stud.StudPortalLib.util.EventsType;
 import ua.dp.stud.StudPortalLib.util.ImageService;
 
@@ -78,13 +77,7 @@ public class EventsController {
     public void setEventsService(EventsService eventsService) {
         this.eventsService = eventsService;
     }
-    @Autowired
-    @Qualifier(value = "tagsService")
-    private TagsService tagsService;
-
-    public void setTagsService(TagsService tagsService) {
-        this.tagsService = tagsService;
-    }
+    
     @Autowired
     @Qualifier(value = "imageService")
     private ImageService imageService;
@@ -166,7 +159,7 @@ public class EventsController {
         ModelAndView model = new ModelAndView();
         model.setViewName("viewAll");
         int tagID = Integer.valueOf(request.getParameter("tagID"));
-        Tags tag = tagsService.getTagById(tagID);
+        Tags tag = eventsService.getTagById(tagID);
 
         Collection<Events> events = tag.getEvents();
 
@@ -319,29 +312,25 @@ public class EventsController {
             User user = (User) actionRequest.getAttribute(WebKeys.USER);
             String usRole = user.getScreenName();
 //try to update fields for new event
-//            if (!eventsService.isUnique(event)) {
-            if (updateEventsFields(event, mainImage, images, role, usRole)) {
+            if (eventsService.isUnique(event.getTitle())) {
+            if (updateEventsFields(event, croppedImage, images, role, usRole)) {
                 Date date = new Date();
                 event.setPublication(date);
-                eventsService.addEvents(event);
-                 ArrayList<Events> events=new ArrayList<Events>();
-                      events.add(event);
                 while(tokens.hasMoreTokens())
                 {
                     Tags tempTags=new Tags();
                     tempTags.setName(tokens.nextToken());
-                    tempTags.setEvents(events);
+                    tempTags.addEvent(event);
                     tags.add(tempTags);
-                    tagsService.setTag(tempTags);
                 }
                 event.setTags(tags);
-                eventsService.updateEvents(event);
+                eventsService.addEvents(event);
                 actionResponse.setRenderParameter("eventID", Integer.toString(event.getId()));
                 sessionStatus.setComplete();
             }
-//            } else 
+            } else 
             {
-//                actionResponse.setRenderParameter(STR_FAIL, STR_DUPLICAT_TOPIC);
+                actionResponse.setRenderParameter(STR_FAIL, STR_DUPLICAT_TOPIC);
             }
 
 //        }
@@ -466,6 +455,7 @@ public class EventsController {
     @RenderMapping(params = "fail")
     public ModelAndView showAddFailed(RenderRequest request, RenderResponse response) {
         ModelAndView model = showAddEvent(request, response);
+        model.addObject(STR_EXEPT, request.getParameter(STR_FAIL));
         return model;
     }
 

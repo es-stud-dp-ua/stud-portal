@@ -1,9 +1,22 @@
 
 package ua.dp.stud.StudPortalLib.model;
 
-import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.Table;
 
 /**
  *
@@ -11,16 +24,14 @@ import java.util.List;
  */
 @Entity
 @Table(name = "tags_table")
+@PrimaryKeyJoinColumn(name = "id", referencedColumnName = "id")
 public class Tags implements Serializable{
     
     public Tags(){       
     }
     
-    @ManyToMany(cascade = {CascadeType.ALL})
-    @JoinTable(name="events_tags",
-               joinColumns={@JoinColumn(name="tagId")},
-               inverseJoinColumns={@JoinColumn(name="id")})
-    private List<Events> events;
+   @ManyToMany(mappedBy = "tags")
+   private List<Events> events=new LinkedList<Events>();
     
     private String name;
     
@@ -44,6 +55,10 @@ public class Tags implements Serializable{
     
     public void setEvents(List<Events> events){
         this.events=events;
+    }
+    
+    public void addEvent(Events event){
+        this.events.add(event);
     }
     
     @Column(name="name")

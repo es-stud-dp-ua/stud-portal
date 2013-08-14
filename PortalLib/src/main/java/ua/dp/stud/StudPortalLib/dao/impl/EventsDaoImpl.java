@@ -5,6 +5,7 @@
 package ua.dp.stud.StudPortalLib.dao.impl;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
@@ -41,20 +42,23 @@ public class EventsDaoImpl extends DaoForApproveImpl<Events> implements EventsDa
         return getSession().getNamedQuery("Events.getByApproved")
                 .setParameter("approved", approved).list();
     }
-
+   
+    
     @Override
     public Events getEventsByName(String title) {
-        Events events = (Events) getSession().get(Events.class, title);
-         Hibernate.initialize(events.getTags());
-        return events;
+        List<Events> events =(List<Events>)getSession().createQuery("From Events event WHERE event.title= :title2").setParameter("title2", title).setMaxResults(1).list();
+        if(!events.isEmpty()){
+        Hibernate.initialize(events.get(0).getTags());
+        return events.get(0);}
+        else
+            return null;
     }
-    private static final Integer FIVE = 5;
-    
+ 
     @Override
     public Collection<Events> getOnMainPage() {
         return getSession().createCriteria(Events.class).addOrder(Order.desc("publication"))
                 .add(Restrictions.isNull("comment")).add(Restrictions.eq("approved", true))
-                .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).setMaxResults(FIVE).list();
+                .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).setMaxResults(5).list();
     }
     
      @Override
