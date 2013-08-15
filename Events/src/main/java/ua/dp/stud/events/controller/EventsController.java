@@ -10,11 +10,13 @@ import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.model.User;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
@@ -77,7 +79,6 @@ public class EventsController {
     public void setEventsService(EventsService eventsService) {
         this.eventsService = eventsService;
     }
-    
     @Autowired
     @Qualifier(value = "imageService")
     private ImageService imageService;
@@ -161,22 +162,20 @@ public class EventsController {
         int tagID = Integer.valueOf(request.getParameter("tagID"));
         Tags tag = eventsService.getTagById(tagID);
 
-        Collection<Events> events = tag.getEvents();
-
+        List<Events> events = tag.getEvents();
         int pagesCount;
         int currentPage;
+
         if (request.getParameter(CURRENT_PAGE) != null) {
             currentPage = Integer.parseInt(request.getParameter(CURRENT_PAGE));
         } else {
             currentPage = 1;
         }
-
-        pagesCount = eventsService.getPagesCount(EVENTS_BY_PAGE);
+        pagesCount = (events.size() > 0) ? ((events.size() - 1) / EVENTS_BY_PAGE + 1) : 0;
         int leftPageNumb = Math.max(1, currentPage - NEARBY_PAGES);
         int rightPageNumb = Math.min(pagesCount, currentPage + NEARBY_PAGES);
         boolean skippedBeginning = false;
         boolean skippedEnding = false;
-
         if (pagesCount <= OVERAL_PAGES) {
             leftPageNumb = 1;
             rightPageNumb = pagesCount;
@@ -205,7 +204,60 @@ public class EventsController {
         model.addObject("EventsByPage", EVENTS_BY_PAGE);
         return model;
     }
+    /**
+     * Pagination handling
+     *
+     * @param request
+     * @param response
+     */
+    @ActionMapping(value = "pagination")
+    public void showPage(ActionRequest request, ActionResponse response) {
+        int currentPage = Integer.valueOf(request.getParameter("pageNumber"));
+        response.setRenderParameter(CURRENT_PAGE, String.valueOf(currentPage));
+        if (request.getParameter(TYPE) != null) {
+            response.setRenderParameter(TYPE, request.getParameter(TYPE));
+        }
+    }
 
+    /**
+     * Pagination handling
+     *
+     * @param request
+     * @param response
+     */
+    @ActionMapping(value = "pagination", params = "direction=next")
+    public void showNextPage(ActionRequest request, ActionResponse response) {
+        int currentPage = Integer.valueOf(request.getParameter("pageNumber"));
+        if (request.getParameter(TYPE) == null) {
+            if (currentPage < eventsService.getPagesCount(EVENTS_BY_PAGE)) {
+                currentPage += 1;
+            }
+        } else if (currentPage < eventsService.getPagesCountOfType(EVENTS_BY_PAGE, EventsType.valueOf(request.getParameter(TYPE)))) {
+            currentPage += 1;
+        }
+        response.setRenderParameter(CURRENT_PAGE, String.valueOf(currentPage));
+        if (request.getParameter(TYPE) != null) {
+            response.setRenderParameter(TYPE, request.getParameter(TYPE));
+        }
+    }
+
+    /**
+     * Pagination handling
+     *
+     * @param request
+     * @param response
+     */
+    @ActionMapping(value = "pagination", params = "direction=prev")
+    public void showPrevPage(ActionRequest request, ActionResponse response) {
+        int currentPage = Integer.valueOf(request.getParameter("pageNumber"));
+        if (currentPage > 1) {
+            currentPage -= 1;
+        }
+        response.setRenderParameter(CURRENT_PAGE, String.valueOf(currentPage));
+        if (request.getParameter(TYPE) != null) {
+            response.setRenderParameter(TYPE, request.getParameter(TYPE));
+        }
+    }
     @RenderMapping(params = "eventID")
     public ModelAndView showSelectedEvents(RenderRequest request, RenderResponse response) throws SystemException, PortalException {
         ModelAndView model = new ModelAndView();
@@ -269,56 +321,55 @@ public class EventsController {
 //            actionResponse.setRenderParameter(STR_FAIL, " ");
 //        } else {
 //path for main image is not empty
-            if (mainImage.getOriginalFilename().equals("")) {
-                actionResponse.setRenderParameter(STR_FAIL, STR_NO_IMAGE);
-            }
+        if (mainImage.getOriginalFilename().equals("")) {
+            actionResponse.setRenderParameter(STR_FAIL, STR_NO_IMAGE);
+        }
 //getting all parameters from form
 //            EventsType type = EventsType.valueOf(actionRequest.getParameter("type"));
 //crop main image
-            CommonsMultipartFile croppedImage = imageService.cropImage(mainImage, Integer.parseInt(actionRequest.getParameter("t")),
-                    Integer.parseInt(actionRequest.getParameter("l")),
-                    Integer.parseInt(actionRequest.getParameter("w")),
-                    Integer.parseInt(actionRequest.getParameter("h")));
-            Date dateStart = new Date(Date.parse(actionRequest.getParameter("EventDateStart")));
-            if (!"".equals(actionRequest.getParameter("startTime"))) {
-                String time = actionRequest.getParameter("startTime");
-                dateStart.setHours(Integer.parseInt(time.substring(0, 2)));
-                dateStart.setMinutes(Integer.parseInt(time.substring(3, 5)));
+        CommonsMultipartFile croppedImage = imageService.cropImage(mainImage, Integer.parseInt(actionRequest.getParameter("t")),
+                Integer.parseInt(actionRequest.getParameter("l")),
+                Integer.parseInt(actionRequest.getParameter("w")),
+                Integer.parseInt(actionRequest.getParameter("h")));
+        Date dateStart = new Date(Date.parse(actionRequest.getParameter("EventDateStart")));
+        if (!"".equals(actionRequest.getParameter("startTime"))) {
+            String time = actionRequest.getParameter("startTime");
+            dateStart.setHours(Integer.parseInt(time.substring(0, 2)));
+            dateStart.setMinutes(Integer.parseInt(time.substring(3, 5)));
+        }
+        event.setEventDateStart(dateStart);
+        if (!"".equals(actionRequest.getParameter("EventDateEnd"))) {
+            Date dateEnd = new Date(Date.parse(actionRequest.getParameter("EventDateEnd")));
+            if (!"".equals(actionRequest.getParameter("endTime"))) {
+                String time = actionRequest.getParameter("endTime");
+                dateEnd.setHours(Integer.parseInt(time.substring(0, 2)));
+                dateEnd.setMinutes(Integer.parseInt(time.substring(3, 5)));
+                event.setEventDateEnd(dateEnd);
             }
-            event.setEventDateStart(dateStart);
-            if (!"".equals(actionRequest.getParameter("EventDateEnd"))) {
-                Date dateEnd = new Date(Date.parse(actionRequest.getParameter("EventDateEnd")));
-                if (!"".equals(actionRequest.getParameter("endTime"))) {
-                    String time = actionRequest.getParameter("endTime");
-                    dateEnd.setHours(Integer.parseInt(time.substring(0, 2)));
-                    dateEnd.setMinutes(Integer.parseInt(time.substring(3, 5)));
-                    event.setEventDateEnd(dateEnd);
-                }
-            }
-            List<Tags> tags = new ArrayList<Tags>();
-            String tag=actionRequest.getParameter("tags");
-            StringTokenizer tokens=new StringTokenizer(tag,",.; ");
-           
-            System.out.println(event.getTags());
-            System.out.println(tags);
-            System.out.println(tag);
-            if (croppedImage == null) {
-                actionResponse.setRenderParameter(STR_FAIL, STR_BAD_IMAGE);
-                return;
-            }
+        }
+        List<Tags> tags = new ArrayList<Tags>();
+        String tag = actionRequest.getParameter("tags");
+        StringTokenizer tokens = new StringTokenizer(tag, ",.; ");
+
+        System.out.println(event.getTags());
+        System.out.println(tags);
+        System.out.println(tag);
+        if (croppedImage == null) {
+            actionResponse.setRenderParameter(STR_FAIL, STR_BAD_IMAGE);
+            return;
+        }
 //check the uniqueness of the name
-            String role;
-            role = actionRequest.isUserInRole(ADMINISTRATOR_ROLE) ? ADMINISTRATOR_ROLE : USER_ROLE;
-            User user = (User) actionRequest.getAttribute(WebKeys.USER);
-            String usRole = user.getScreenName();
+        String role;
+        role = actionRequest.isUserInRole(ADMINISTRATOR_ROLE) ? ADMINISTRATOR_ROLE : USER_ROLE;
+        User user = (User) actionRequest.getAttribute(WebKeys.USER);
+        String usRole = user.getScreenName();
 //try to update fields for new event
-            if (eventsService.isUnique(event.getTitle())) {
+        if (eventsService.isUnique(event.getTitle())) {
             if (updateEventsFields(event, croppedImage, images, role, usRole)) {
                 Date date = new Date();
                 event.setPublication(date);
-                while(tokens.hasMoreTokens())
-                {
-                    Tags tempTags=new Tags();
+                while (tokens.hasMoreTokens()) {
+                    Tags tempTags = new Tags();
                     tempTags.setName(tokens.nextToken());
                     tempTags.addEvent(event);
                     tags.add(tempTags);
@@ -328,10 +379,9 @@ public class EventsController {
                 actionResponse.setRenderParameter("eventID", Integer.toString(event.getId()));
                 sessionStatus.setComplete();
             }
-            } else 
-            {
-                actionResponse.setRenderParameter(STR_FAIL, STR_DUPLICAT_TOPIC);
-            }
+        } else {
+            actionResponse.setRenderParameter(STR_FAIL, STR_DUPLICAT_TOPIC);
+        }
 
 //        }
     }
