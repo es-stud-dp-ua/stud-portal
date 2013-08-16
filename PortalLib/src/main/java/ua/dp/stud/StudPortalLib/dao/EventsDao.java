@@ -5,7 +5,9 @@
 package ua.dp.stud.StudPortalLib.dao;
 
 import java.util.Collection;
+import java.util.List;
 import ua.dp.stud.StudPortalLib.model.Events;
+import ua.dp.stud.StudPortalLib.model.Tags;
 import ua.dp.stud.StudPortalLib.util.EventsType;
 
 /**
@@ -29,4 +31,6 @@ public interface EventsDao extends DaoForApprove<Events> {
     Integer getCountOfType(EventsType type);
     
     Events getEventsById(Integer id);
+    
+    Events save(Events event,List<Tags> tags);
 }

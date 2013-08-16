@@ -16,6 +16,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -204,6 +205,7 @@ public class EventsController {
         model.addObject("EventsByPage", EVENTS_BY_PAGE);
         return model;
     }
+
     /**
      * Pagination handling
      *
@@ -258,6 +260,7 @@ public class EventsController {
             response.setRenderParameter(TYPE, request.getParameter(TYPE));
         }
     }
+
     @RenderMapping(params = "eventID")
     public ModelAndView showSelectedEvents(RenderRequest request, RenderResponse response) throws SystemException, PortalException {
         ModelAndView model = new ModelAndView();
@@ -347,13 +350,11 @@ public class EventsController {
                 event.setEventDateEnd(dateEnd);
             }
         }
-        List<Tags> tags = new ArrayList<Tags>();
+        HashSet<String> names = new HashSet<String>();
+        ArrayList<Tags> tags = new ArrayList<Tags>();
         String tag = actionRequest.getParameter("tags");
         StringTokenizer tokens = new StringTokenizer(tag, ",.; ");
 
-        System.out.println(event.getTags());
-        System.out.println(tags);
-        System.out.println(tag);
         if (croppedImage == null) {
             actionResponse.setRenderParameter(STR_FAIL, STR_BAD_IMAGE);
             return;
@@ -369,13 +370,17 @@ public class EventsController {
                 Date date = new Date();
                 event.setPublication(date);
                 while (tokens.hasMoreTokens()) {
+                    names.add(tokens.nextToken());
+                }
+                for (String tagName : names) {
                     Tags tempTags = new Tags();
-                    tempTags.setName(tokens.nextToken());
+                    tempTags.setName(tagName);
                     tempTags.addEvent(event);
                     tags.add(tempTags);
                 }
+                System.out.println(tags);
                 event.setTags(tags);
-                eventsService.addEvents(event);
+                eventsService.addEvents(event, event.getTags());
                 actionResponse.setRenderParameter("eventID", Integer.toString(event.getId()));
                 sessionStatus.setComplete();
             }

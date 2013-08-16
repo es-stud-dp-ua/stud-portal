@@ -58,6 +58,11 @@ public class Events extends BaseImagesSupport implements Serializable {
     public void setTags(List<Tags> tags) {
         this.tags = tags;
     }
+    
+    public void addTag(Tags tag){
+        this.tags.add(tag);
+    }
+            
 
     public Events() {
     }

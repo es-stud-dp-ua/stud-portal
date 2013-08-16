@@ -5,6 +5,7 @@
 package ua.dp.stud.StudPortalLib.service.impl;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,7 +14,6 @@ import ua.dp.stud.StudPortalLib.dao.EventsDao;
 import ua.dp.stud.StudPortalLib.dao.TagsDao;
 import ua.dp.stud.StudPortalLib.model.Events;
 import ua.dp.stud.StudPortalLib.model.ImageImpl;
-import ua.dp.stud.StudPortalLib.model.News;
 import ua.dp.stud.StudPortalLib.model.Tags;
 import ua.dp.stud.StudPortalLib.service.EventsService;
 import ua.dp.stud.StudPortalLib.util.EventsType;
@@ -54,6 +54,11 @@ public class EventsServiceImpl implements EventsService {
     @Transactional(readOnly = false)
     public void addEvents(Events eventsToAdd) {
         dao.save(eventsToAdd);
+    }
+    @Override
+    @Transactional(readOnly = false)
+    public void addEvents(Events eventsToAdd,List<Tags> tags) {
+        dao.save(eventsToAdd,tags);
     }
 
     @Override

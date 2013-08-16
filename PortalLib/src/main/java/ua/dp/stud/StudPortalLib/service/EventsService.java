@@ -5,6 +5,7 @@
 package ua.dp.stud.StudPortalLib.service;
 
 import java.util.Collection;
+import java.util.List;
 import ua.dp.stud.StudPortalLib.model.Events;
 import ua.dp.stud.StudPortalLib.model.ImageImpl;
 import ua.dp.stud.StudPortalLib.model.Tags;
@@ -37,6 +38,8 @@ public interface EventsService {
     void updateEvents(Events events);
 
     void addEvents(Events eventsToAdd);
+    
+    void addEvents(Events eventsToAdd,List<Tags> tags) ;
 
     Boolean isUnique(String name);
 
