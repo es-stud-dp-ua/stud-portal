@@ -9,6 +9,10 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Range;
 import ua.dp.stud.StudPortalLib.model.BaseImagesSupport;
+import ua.dp.stud.studie.validation.constraints.OnlyCharacters;
+import ua.dp.stud.studie.validation.constraints.Phone;
+import ua.dp.stud.studie.validation.constraints.PhoneList;
+import ua.dp.stud.studie.validation.constraints.Website;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -63,6 +67,7 @@ public class Studie extends BaseImagesSupport implements Serializable {
      */
     @Size(min = 2, max = 50)
     @NotEmpty
+    @OnlyCharacters
     private String city;
 
     @Column(name = "city")
@@ -78,7 +83,7 @@ public class Studie extends BaseImagesSupport implements Serializable {
      * Год
      */
     @NotNull
-    @Range(min = 1800)
+    @Range(min = 1800, max = 2100)
     private Integer years;
 
     @Column(name = "years")
@@ -175,6 +180,7 @@ public class Studie extends BaseImagesSupport implements Serializable {
      */
     @Size(min = 1, max = 100)
     @NotEmpty
+    @Phone
     private String phone;
 
     @Column(name = "phone")
@@ -191,6 +197,7 @@ public class Studie extends BaseImagesSupport implements Serializable {
      */
     @Size(min = 1, max = 100)
     @NotEmpty
+    @PhoneList(duplicate = false)
     private String phoneAdmissions;
 
     @Column(name = "phoneAdmissions")
@@ -207,6 +214,7 @@ public class Studie extends BaseImagesSupport implements Serializable {
      */
     @Size(min = 1, max = 100)
     @NotEmpty
+    @Website
     private String website;
 
     @Column(name = "website")

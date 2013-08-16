@@ -46,7 +46,7 @@ public class StudieDaoImplTest extends AbstractTransactionalJUnit4SpringContextT
     @Rollback(false)
     public void setUpClass() {
         stud1 = new Studie("New new new",STR , "Dnipropetrovsk",
-                "status", 1900, "IV", "new new new", "new new new", "new new new", "0562585632", "805662569856",
+                "status", 1900, "IV", "new new new", "new new new", "new new new", "0562585632", "805662569856, 805662568856",
                 "http://dnu.dp.ua", true, true, true, true, true, true, true, 100, 100, 100, 100, STR);
         stud1.setOnGraduation("11212 121 ");
         dao.save(stud1);

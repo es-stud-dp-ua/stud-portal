@@ -31,7 +31,7 @@ import ua.dp.stud.studie.model.Specialties;
 import ua.dp.stud.studie.model.Studie;
 import ua.dp.stud.studie.service.FacultiesService;
 import ua.dp.stud.studie.service.StudieService;
-import ua.dp.stud.studie.util.StudyValidator;
+import ua.dp.stud.studie.validation.StudyValidator;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;

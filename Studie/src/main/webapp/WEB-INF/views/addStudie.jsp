@@ -159,7 +159,7 @@
 					<div><label cssClass="control-group" for="years"><spring:message code="studie.years"/></label>
 					</div>
 					<form:select path="years">
-					   <form:option value="NONE" label="--- Select ---" />
+					   <form:option value="0" label="--- Select ---" />
 					   <form:options items="${yearsList}" />
 					</form:select>
 					<form:errors path="years" cssClass="error"/>
