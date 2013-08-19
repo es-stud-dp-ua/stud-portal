@@ -166,14 +166,6 @@ SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
             document.getElementById('mainImage').addEventListener('change', handleFileSelect, false);
                         </script>
                         <br/>
-                        <div id="imageLoader">
-                            <div id="imgloaderBtn">
-                                <input name="images" type="file" id="aui_3_2_0_11607"
-                                       accept="image/jpeg,image/png,image/gif"/ multiple>
-                                       <div id="nt"><spring:message code="form.addPictures"/></div>
-                            </div>
-                        </div>
-                        <br/>
                     </td>
                     <td rowspan=2 width="50%" align="left">
                         <form:input title="${event.title}" path="title" style="margin-left:5%;width:95%;" id="topicInput" cols="90" rows="2" maxlength="100" onkeypress="return isNotMax(event)"

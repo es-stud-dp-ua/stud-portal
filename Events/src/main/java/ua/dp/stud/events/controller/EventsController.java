@@ -28,6 +28,7 @@ import javax.portlet.Event;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.validation.Valid;
+import org.apache.commons.fileupload.FileItem;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -63,14 +64,13 @@ public class EventsController {
     private static final String ADMINISTRATOR_ROLE = "Administrator";
     private static final String USER_ROLE = "User";
     private static final String STR_FAIL = "fail";
-    private static final String STR_NO_IMAGE = "no images";
     private static final String STR_BAD_IMAGE = "Failed to load image";
     private static final String STR_EXEPT = "Exception";
     private static final String STR_DUPLICAT_TOPIC = "duplicating topic";
     private static final Logger LOG = Logger.getLogger(EventsController.class.getName());
     private static final String TYPE = "type";
     private static final String CURRENT_PAGE = "currentPage";
-    private static final int EVENTS_BY_PAGE = 5;
+    private static final int EVENTS_BY_PAGE = 10;
     private static final int NEARBY_PAGES = 2;
     private static final int OVERAL_PAGES = 7;
     @Autowired
@@ -267,9 +267,9 @@ public class EventsController {
         int eventID = Integer.valueOf(request.getParameter("eventID"));
         Events event = eventsService.getEventsById(eventID);
         ImageImpl mImage = event.getMainImage();
+        System.out.println(event+"  "+eventID);
         eventsService.incrementViews(event);
         String mainImage = imageService.getPathToLargeImage(mImage, event);
-        System.out.println(event.getTags());
         model.setView("viewSingle");
         model.addObject("mainImage", mainImage);
         model.addObject("event", event);
@@ -290,19 +290,14 @@ public class EventsController {
         binder.setDisallowedFields("mainImage");
     }
 
-    public Boolean updateEventsFields(Events event, CommonsMultipartFile mainImage, CommonsMultipartFile[] images, String frmRole, String role) {
+    public Boolean updateEventsFields(Events event, CommonsMultipartFile mainImage, String frmRole, String role) {
         event.setAuthor(role);
         if (frmRole.equals(ADMINISTRATOR_ROLE)) {
             event.setApproved(true);
         }
         try {
-            if (mainImage.getSize() > 0) {
+            if (mainImage!=null&&mainImage.getSize() > 0) {
                 imageService.saveMainImage(mainImage, event);
-            }
-            if (images != null && images.length > 0) {
-                for (CommonsMultipartFile file : images) {
-                    imageService.saveAdditionalImages(file, event);
-                }
             }
         } catch (IOException ex) {
             LOG.log(Level.SEVERE, STR_EXEPT, ex);
@@ -317,23 +312,20 @@ public class EventsController {
     public void addEvent(@ModelAttribute(value = "event") @Valid Events event,
             BindingResult bindingResult,
             ActionRequest actionRequest,
-            ActionResponse actionResponse, SessionStatus sessionStatus, @RequestParam(MAIN_IMAGE) CommonsMultipartFile mainImage,
-            @RequestParam("images") CommonsMultipartFile[] images)
+            ActionResponse actionResponse, SessionStatus sessionStatus, @RequestParam(MAIN_IMAGE) CommonsMultipartFile mainImage)
             throws SystemException, PortalException {
 //        if (bindingResult.hasFieldErrors()) {
 //            actionResponse.setRenderParameter(STR_FAIL, " ");
 //        } else {
-//path for main image is not empty
-        if (mainImage.getOriginalFilename().equals("")) {
-            actionResponse.setRenderParameter(STR_FAIL, STR_NO_IMAGE);
-        }
-//getting all parameters from form
 //            EventsType type = EventsType.valueOf(actionRequest.getParameter("type"));
 //crop main image
-        CommonsMultipartFile croppedImage = imageService.cropImage(mainImage, Integer.parseInt(actionRequest.getParameter("t")),
+        CommonsMultipartFile croppedImage=null;
+        if (!actionRequest.getParameter("t").equals("")) {
+         croppedImage= imageService.cropImage(mainImage, Integer.parseInt(actionRequest.getParameter("t")),
                 Integer.parseInt(actionRequest.getParameter("l")),
                 Integer.parseInt(actionRequest.getParameter("w")),
                 Integer.parseInt(actionRequest.getParameter("h")));
+        }
         Date dateStart = new Date(Date.parse(actionRequest.getParameter("EventDateStart")));
         if (!"".equals(actionRequest.getParameter("startTime"))) {
             String time = actionRequest.getParameter("startTime");
@@ -354,11 +346,6 @@ public class EventsController {
         ArrayList<Tags> tags = new ArrayList<Tags>();
         String tag = actionRequest.getParameter("tags");
         StringTokenizer tokens = new StringTokenizer(tag, ",.; ");
-
-        if (croppedImage == null) {
-            actionResponse.setRenderParameter(STR_FAIL, STR_BAD_IMAGE);
-            return;
-        }
 //check the uniqueness of the name
         String role;
         role = actionRequest.isUserInRole(ADMINISTRATOR_ROLE) ? ADMINISTRATOR_ROLE : USER_ROLE;
@@ -366,7 +353,7 @@ public class EventsController {
         String usRole = user.getScreenName();
 //try to update fields for new event
         if (eventsService.isUnique(event.getTitle())) {
-            if (updateEventsFields(event, croppedImage, images, role, usRole)) {
+            if (updateEventsFields(event, croppedImage, role, usRole)) {
                 Date date = new Date();
                 event.setPublication(date);
                 while (tokens.hasMoreTokens()) {
@@ -378,7 +365,6 @@ public class EventsController {
                     tempTags.addEvent(event);
                     tags.add(tempTags);
                 }
-                System.out.println(tags);
                 event.setTags(tags);
                 eventsService.addEvents(event, event.getTags());
                 actionResponse.setRenderParameter("eventID", Integer.toString(event.getId()));
@@ -393,7 +379,6 @@ public class EventsController {
 
     @ActionMapping(value = "editEvent")
     public void editEvent(@RequestParam(MAIN_IMAGE) CommonsMultipartFile mainImage,
-            @RequestParam("images") CommonsMultipartFile[] images,
             @ModelAttribute(value = "event")
             @Valid Events event,
             BindingResult bindingResult,
@@ -407,18 +392,12 @@ public class EventsController {
 //        if (bindingResult.hasFieldErrors()) {
 //            actionResponse.setRenderParameter(STR_FAIL, " ");
 //        } else {
-        CommonsMultipartFile croppedImage;
+        CommonsMultipartFile croppedImage=null;
         if (!actionRequest.getParameter("t").equals("")) {
             croppedImage = imageService.cropImage(mainImage, Integer.parseInt(actionRequest.getParameter("t")),
                     Integer.parseInt(actionRequest.getParameter("l")),
                     Integer.parseInt(actionRequest.getParameter("w")),
                     Integer.parseInt(actionRequest.getParameter("h")));
-        } else {
-            croppedImage = mainImage;
-        }
-        if (croppedImage == null) {
-            actionResponse.setRenderParameter(STR_FAIL, STR_BAD_IMAGE);
-            return;
         }
         Date dateStart = new Date(Date.parse(actionRequest.getParameter("EventDateStart")));
         if (!"".equals(actionRequest.getParameter("startTime"))) {
@@ -440,7 +419,7 @@ public class EventsController {
         role = actionRequest.isUserInRole(ADMINISTRATOR_ROLE) ? ADMINISTRATOR_ROLE : USER_ROLE;
         User user = (User) actionRequest.getAttribute(WebKeys.USER);
         String usRole = user.getScreenName();
-        if (updateEventsFields(newEvent, mainImage, images, role, usRole)) {
+        if (updateEventsFields(newEvent, croppedImage,  role, usRole)) {
             eventsService.updateEvents(newEvent);
 //close session
             sessionStatus.setComplete();
