@@ -51,9 +51,6 @@
 	</div>
 	<c:if test="${ not empty bannerImages}">
 		<div style="max-width: 450px;">
-			<img id="left-top" src="${pageContext.request.contextPath}/images/frame2.png">
-			<img id="left-bottom" src="${pageContext.request.contextPath}/images/frame1.png">
-			<img id="right-top" src="${pageContext.request.contextPath}/images/frame1.png">
 			<div class="banner"><div align="left" class="images">
 					<%for (BannerImage image : bannerImages) {%>
 					<a href="<%=image.getUrl()%>">
