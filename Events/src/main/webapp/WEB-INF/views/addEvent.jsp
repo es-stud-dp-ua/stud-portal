@@ -136,7 +136,7 @@
                                     reader.readAsDataURL(f);
                                     a();
                             }
-                            document.getElementById('mainImage').addEventListener('change', handleFileSelect, false);                        </script>
+                            document.getElementById('mainImage').addEventListener('change', handleFileSelect, false);</script>
 
                         <br/>
                     </td>
@@ -150,20 +150,16 @@
                             <textarea style="visibility: hidden;width: 0px;height:0px;" id="text1" name="text1"  ></textarea>
                         <form:errors path="text" cssClass="error" ></form:errors>
                             <br/><br/>
-                            <div id="sbm">
-                                <input type="submit" value="<spring:message
-                                       code='<%=(request.isUserInRole("Administrator"))?"form.submit.admin"
-                                                                                             :"form.submit.user"%>'/>"/>
-                        </div>
-                        <br/><br/>
-                    </td>
-                </tr>
-                <tr>
-                    <td width="50%" align="right">
-                        <div id="eventSetting">
-                            <div style="margin-right: 10px; margin-top: 25px;"><spring:message code="form.dateStart"/><div id="redStar4">*</div></div><input type="text" style="width: 40%;" name="EventDateStart" id="datepicker1"/><input type="text" placeholder="HH:mm" maxlength="5" style="width: 15%;margin-left: 1%; text-align: center;" name="startTime" id="defaultEntry"/>
-                            <div style="margin-right: 10px;"><spring:message code="form.dateEnd"/></div><input type="text" style="width: 40%;" name="EventDateEnd" id="datepicker2"/><input type="text" placeholder="HH:mm" maxlength="5" style="width: 15%;margin-left: 1%;text-align: center;" name="endTime" id="endTime"/>
-                            <div style="margin-right: 10px;"><spring:message code="form.location"/><div id="redStar3">*</div></div> <form:input path="location" id="location" cols="60" rows="2" maxlength="100"  name="location"/>
+
+                            <br/><br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="50%" align="right">
+                            <div id="eventSetting">
+                                <div style="margin-right: 10px; margin-top: 25px;"><spring:message code="form.dateStart"/><div id="redStar4">*</div></div><input type="text" style="width: 40%;" name="EventDateStart" id="datepicker1"/><input type="text" placeholder="HH:mm" maxlength="5" style="width: 15%;margin-left: 1%; text-align: center;" name="startTime" id="defaultEntry"/>
+                                <div style="margin-right: 10px;"><spring:message code="form.dateEnd"/></div><input type="text" style="width: 40%;" name="EventDateEnd" id="datepicker2"/><input type="text" placeholder="HH:mm" maxlength="5" style="width: 15%;margin-left: 1%;text-align: center;" name="endTime" id="endTime"/>
+                                <div style="margin-right: 10px;"><spring:message code="form.location"/><div id="redStar3">*</div></div> <form:input path="location" id="location" cols="60" rows="2" maxlength="100"  name="location"/>
                             <div style="margin-right: 10px;"><spring:message code="form.tags"/></div><input type="text" id="tags" name="tags" style="width:60%;text-align: center;" placeholder="<spring:message code='form.tags.placeholder'/>" />
                             <div style="font-size:14px">
                                 <div style="float: right; margin-top: 0px; ">
@@ -229,6 +225,11 @@
                     </td>
                 </tr>
             </table>
+                                                       <div id="sbm">
+            <input type="submit" value="<spring:message
+                   code='<%=(request.isUserInRole("Administrator"))?"form.submit.admin"
+                                                                                             :"form.submit.user"%>'/>"/>
+        </div>
         </form:form>
         <script type="text/javascript">
                     function f(){
@@ -274,6 +275,7 @@
             });
             });
         </script>
+        
     </div>
 </body>
 </html>

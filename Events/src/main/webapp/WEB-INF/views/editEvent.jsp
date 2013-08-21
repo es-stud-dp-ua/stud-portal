@@ -168,7 +168,7 @@ SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
                         <br/>
                     </td>
                     <td rowspan=2 width="50%" align="left">
-                        <form:input title="${event.title}" path="title" style="margin-left:5%;width:95%;" id="topicInput" cols="90" rows="2" maxlength="100" onkeypress="return isNotMax(event)"
+                        <form:input title="${event.title}" path="title" style="margin-left:2%;width:95%;" id="topicInput" cols="90" rows="2" maxlength="100" onkeypress="return isNotMax(event)"
                                     name="title"/>
                         <form:errors path="title" cssClass="error"></form:errors>
                             <div style="width: 450px; float: bottom ;padding-left: 8px;">
@@ -189,8 +189,8 @@ SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
                 <tr>
                     <td width="50%" align="right">
                         <div id="eventSetting">
-                            <div style="margin-right: 10px; margin-top: 155px;"><spring:message code="form.dateStart"/><div id="redStar4">*</div></div><input type="text" name="EventDateStart" value="<%=dateFormat.format(event.getEventDateStart()) %>" id="datepicker1"/><input type="text" value="<%=timeFormat.format(event.getEventDateStart())%>" placeholder="HH:mm" maxlength="5" style="width: 15%;margin-left: 1%;" name="startTime" id="defaultEntry"/>
-                            <div style="margin-right: 10px;"><spring:message code="form.dateEnd"/></div><input type="text" name="EventDateEnd" id="datepicker2" value="<%= dateFormat.format(event.getEventDateEnd()) %>"/><input type="text" placeholder="HH:mm" value="<%=timeFormat.format(event.getEventDateEnd())%>" maxlength="5" style="width: 15%;margin-left: 1%;" name="endTime" id="endTime"/>
+                            <div style="margin-right: 10px; margin-top: 55px;"><spring:message code="form.dateStart"/><div id="redStar4">*</div></div><input type="text" name="EventDateStart" value="<%=dateFormat.format(event.getEventDateStart()) %>" id="datepicker1"/><input type="text" value="<%=timeFormat.format(event.getEventDateStart())%>" placeholder="HH:mm" maxlength="5" style="width: 15%;margin-left: 1%;" name="startTime" id="defaultEntry"/>
+                            <div style="margin-right: 10px;"><spring:message code="form.dateEnd"/></div><input type="text" name="EventDateEnd" id="datepicker2" <%if(event.getEventDateEnd()!=null){%>value="<%= dateFormat.format(event.getEventDateEnd()) %>"<%}%>/><input type="text" placeholder="HH:mm" <%if(event.getEventDateEnd()!=null){%>value="<%=timeFormat.format(event.getEventDateEnd())%>"<%}%> maxlength="5" style="width: 15%;margin-left: 1%;" name="endTime" id="endTime"/>
                             <div style="margin-right: 10px;"><spring:message code="form.location"/><div id="redStar3">*</div></div> <form:input path="location" title="<%=event.getLocation()%>"id="location" cols="60" rows="2" maxlength="100"  name="location"/>
                             <div style="font-size:14px">
                                 <div style="float: right;  ">

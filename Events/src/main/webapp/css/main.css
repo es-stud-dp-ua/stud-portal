@@ -348,7 +348,7 @@ label.error {
     height: 69px;
     width: 65px;
     position: absolute;
-    z-index: 2;
+    z-index: 1;
 }
 
 #rdn {
@@ -358,7 +358,7 @@ label.error {
     margin-top: 215px;
     margin-left: 397px;
     position: absolute;
-    z-index: 2;
+    z-index: 1;
 }
 
 #list {

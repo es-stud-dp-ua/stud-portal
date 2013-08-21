@@ -9,7 +9,11 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.model.User;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -29,6 +33,8 @@ import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.validation.Valid;
 import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.disk.DiskFileItem;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -267,8 +273,8 @@ public class EventsController {
         int eventID = Integer.valueOf(request.getParameter("eventID"));
         Events event = eventsService.getEventsById(eventID);
         ImageImpl mImage = event.getMainImage();
-        System.out.println(event+"  "+eventID);
         eventsService.incrementViews(event);
+        request.getPortletSession().getPortletContext();
         String mainImage = imageService.getPathToLargeImage(mImage, event);
         model.setView("viewSingle");
         model.addObject("mainImage", mainImage);
@@ -296,7 +302,7 @@ public class EventsController {
             event.setApproved(true);
         }
         try {
-            if (mainImage!=null&&mainImage.getSize() > 0) {
+            if (mainImage != null && mainImage.getSize() > 0) {
                 imageService.saveMainImage(mainImage, event);
             }
         } catch (IOException ex) {
@@ -319,12 +325,14 @@ public class EventsController {
 //        } else {
 //            EventsType type = EventsType.valueOf(actionRequest.getParameter("type"));
 //crop main image
-        CommonsMultipartFile croppedImage=null;
+        CommonsMultipartFile croppedImage = null;
         if (!actionRequest.getParameter("t").equals("")) {
-         croppedImage= imageService.cropImage(mainImage, Integer.parseInt(actionRequest.getParameter("t")),
-                Integer.parseInt(actionRequest.getParameter("l")),
-                Integer.parseInt(actionRequest.getParameter("w")),
-                Integer.parseInt(actionRequest.getParameter("h")));
+            croppedImage = imageService.cropImage(mainImage, Integer.parseInt(actionRequest.getParameter("t")),
+                    Integer.parseInt(actionRequest.getParameter("l")),
+                    Integer.parseInt(actionRequest.getParameter("w")),
+                    Integer.parseInt(actionRequest.getParameter("h")));
+        } else {
+            croppedImage = imageService.getDefaultImage(actionRequest.getPortletSession().getPortletContext().getRealPath("\\"));
         }
         Date dateStart = new Date(Date.parse(actionRequest.getParameter("EventDateStart")));
         if (!"".equals(actionRequest.getParameter("startTime"))) {
@@ -392,7 +400,7 @@ public class EventsController {
 //        if (bindingResult.hasFieldErrors()) {
 //            actionResponse.setRenderParameter(STR_FAIL, " ");
 //        } else {
-        CommonsMultipartFile croppedImage=null;
+        CommonsMultipartFile croppedImage = null;
         if (!actionRequest.getParameter("t").equals("")) {
             croppedImage = imageService.cropImage(mainImage, Integer.parseInt(actionRequest.getParameter("t")),
                     Integer.parseInt(actionRequest.getParameter("l")),
@@ -419,7 +427,7 @@ public class EventsController {
         role = actionRequest.isUserInRole(ADMINISTRATOR_ROLE) ? ADMINISTRATOR_ROLE : USER_ROLE;
         User user = (User) actionRequest.getAttribute(WebKeys.USER);
         String usRole = user.getScreenName();
-        if (updateEventsFields(newEvent, croppedImage,  role, usRole)) {
+        if (updateEventsFields(newEvent, croppedImage, role, usRole)) {
             eventsService.updateEvents(newEvent);
 //close session
             sessionStatus.setComplete();

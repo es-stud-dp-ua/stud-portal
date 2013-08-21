@@ -140,13 +140,16 @@
     <br/>
     <div style="color: #363636">
         <spring:message code="form.date"/> &nbsp &nbsp
-         <% if (event.getEventDateStart()!=event.getEventDateEnd()){ %>
+         <% if (event.getEventDateEnd()!=null&&event.getEventDateStart()!=event.getEventDateEnd()){ %>
                         <%=dateFormat.format(event.getEventDateStart())%> - <%=dateFormat.format(event.getEventDateEnd())%>
                         <% } else { %>
                         <%=dateFormat.format(event.getEventDateStart())%>  <%}%>
          <br/>
          <spring:message code="form.time"/> &nbsp &nbsp
-          <%=timeFormat.format(event.getEventDateStart())%> - <%=timeFormat.format(event.getEventDateEnd())%>
+         <% if (event.getEventDateEnd()!=null&&event.getEventDateStart()!=event.getEventDateEnd()){ %>
+                        <%=timeFormat.format(event.getEventDateStart())%> - <%=timeFormat.format(event.getEventDateEnd())%>
+                        <% } else { %>
+                        <%=timeFormat.format(event.getEventDateStart())%>  <%}%>
           <br/>
           <spring:message code="form.location"/> &nbsp &nbsp 
           ${event.location}
