@@ -270,7 +270,7 @@ public class ImageService {
     }
 
     private void saveToDiskScaled(CommonsMultipartFile file, String pathToImagesFolder, String outputFilePrefix,
-                                  Integer width, Integer height) throws IOException {
+            Integer width, Integer height) throws IOException {
 
         StringBuilder sb;
         BufferedImage sourceImage = ImageIO.read(file.getInputStream());
@@ -406,5 +406,24 @@ public class ImageService {
         }
 
         return croppedImage;
+    }
+
+    public CommonsMultipartFile getDefaultImage(String portletPath) {
+        CommonsMultipartFile Image=null;
+        try {
+            File tempFile = new File(portletPath+"\\images\\defaultImage.png");
+            DiskFileItem fileItem = (DiskFileItem) new DiskFileItemFactory().createItem("fileData", "image/jpeg", true, tempFile.getName());
+            InputStream input = new FileInputStream(tempFile);
+            OutputStream os = fileItem.getOutputStream();
+            int ret = input.read();
+            while (ret != -1) {
+                os.write(ret);
+                ret = input.read();
+            }
+            os.flush();
+            Image = new CommonsMultipartFile(fileItem);
+        } catch (IOException ex) {
+        }
+        return Image;
     }
 }
