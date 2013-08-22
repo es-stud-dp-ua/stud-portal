@@ -177,21 +177,16 @@ SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
                             <form:errors path="text" cssClass="error" ></form:errors>
                                 <br/><br/>
                             </div>
-                            <div id="sbm">
 
-                                <input style="width: 100px;" type="submit" value="<spring:message
-                                       code='<%=(request.isUserInRole("Administrator"))?"form.submit.save"
-                                                                                             :"form.submit.user"%>'/>"/>
-                        </div>
-                        <br/><br/>
-                    </td>
-                </tr>
-                <tr>
-                    <td width="50%" align="right">
-                        <div id="eventSetting">
-                            <div style="margin-right: 10px; margin-top: 55px;"><spring:message code="form.dateStart"/><div id="redStar4">*</div></div><input type="text" name="EventDateStart" value="<%=dateFormat.format(event.getEventDateStart()) %>" id="datepicker1"/><input type="text" value="<%=timeFormat.format(event.getEventDateStart())%>" placeholder="HH:mm" maxlength="5" style="width: 15%;margin-left: 1%;" name="startTime" id="defaultEntry"/>
+                            <br/><br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="50%" align="right">
+                            <div id="eventSetting">
+                                <div style="margin-right: 10px; margin-top: 55px;"><spring:message code="form.dateStart"/><div id="redStar4">*</div></div><input type="text" name="EventDateStart" value="<%=dateFormat.format(event.getEventDateStart()) %>" id="datepicker1"/><input type="text" value="<%=timeFormat.format(event.getEventDateStart())%>" placeholder="HH:mm" maxlength="5" style="width: 15%;margin-left: 1%;" name="startTime" id="defaultEntry"/>
                             <div style="margin-right: 10px;"><spring:message code="form.dateEnd"/></div><input type="text" name="EventDateEnd" id="datepicker2" <%if(event.getEventDateEnd()!=null){%>value="<%= dateFormat.format(event.getEventDateEnd()) %>"<%}%>/><input type="text" placeholder="HH:mm" <%if(event.getEventDateEnd()!=null){%>value="<%=timeFormat.format(event.getEventDateEnd())%>"<%}%> maxlength="5" style="width: 15%;margin-left: 1%;" name="endTime" id="endTime"/>
-                            <div style="margin-right: 10px;"><spring:message code="form.location"/><div id="redStar3">*</div></div> <form:input path="location" title="<%=event.getLocation()%>"id="location" cols="60" rows="2" maxlength="100"  name="location"/>
+                            <div style="margin-right: 10px;"><spring:message code="form.location"/></div> <form:input path="location" title="<%=event.getLocation()%>"id="location" cols="60" rows="2" maxlength="100"  name="location"/>
                             <div style="font-size:14px">
                                 <div style="float: right;  ">
                                     <table>
@@ -224,6 +219,11 @@ SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
                     </td>
                 </tr>
             </table>
+            <div id="sbm">
+                <input style="width: 100px;" type="submit" value="<spring:message
+                       code='<%=(request.isUserInRole("Administrator"))?"form.submit.save"
+                                                                                             :"form.submit.user"%>'/>"/>
+            </div>
         </form:form>
     </div>
 </body>

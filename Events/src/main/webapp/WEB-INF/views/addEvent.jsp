@@ -145,9 +145,11 @@
                             <form:input path="title" id="title" cols="90" rows="2" maxlength="100"  name="title"/>
                             <form:errors path="title" cssClass="error"></form:errors>
                             <div id="labels"><spring:message code="form.text"/></div><div id="redStar2">*</div>
+                            <div style="margin-left: 5px;">
                             <textarea path="text" class="ckeditor" id="text" cols="60" rows="10" maxlength="10000"
                                       name="text" ></textarea>
                             <textarea style="visibility: hidden;width: 0px;height:0px;" id="text1" name="text1"  ></textarea>
+                            </div>
                         <form:errors path="text" cssClass="error" ></form:errors>
                             <br/><br/>
 
@@ -157,9 +159,9 @@
                     <tr>
                         <td width="50%" align="right">
                             <div id="eventSetting">
-                                <div style="margin-right: 10px; margin-top: 25px;"><spring:message code="form.dateStart"/><div id="redStar4">*</div></div><input type="text" style="width: 40%;" name="EventDateStart" id="datepicker1"/><input type="text" placeholder="HH:mm" maxlength="5" style="width: 15%;margin-left: 1%; text-align: center;" name="startTime" id="defaultEntry"/>
+                                <div style="margin-right: 10px; margin-top: 115px;"><spring:message code="form.dateStart"/><div id="redStar4">*</div></div><input type="text" style="width: 40%;" name="EventDateStart" id="datepicker1"/><input type="text" placeholder="HH:mm" maxlength="5" style="width: 15%;margin-left: 1%; text-align: center;" name="startTime" id="defaultEntry"/>
                                 <div style="margin-right: 10px;"><spring:message code="form.dateEnd"/></div><input type="text" style="width: 40%;" name="EventDateEnd" id="datepicker2"/><input type="text" placeholder="HH:mm" maxlength="5" style="width: 15%;margin-left: 1%;text-align: center;" name="endTime" id="endTime"/>
-                                <div style="margin-right: 10px;"><spring:message code="form.location"/><div id="redStar3">*</div></div> <form:input path="location" id="location" cols="60" rows="2" maxlength="100"  name="location"/>
+                                <div style="margin-right: 10px;"><spring:message code="form.location"/></div> <form:input path="location" id="location" cols="60" rows="2" maxlength="100"  name="location"/>
                             <div style="margin-right: 10px;"><spring:message code="form.tags"/></div><input type="text" id="tags" name="tags" style="width:60%;text-align: center;" placeholder="<spring:message code='form.tags.placeholder'/>" />
                             <div style="font-size:14px">
                                 <div style="float: right; margin-top: 0px; ">
