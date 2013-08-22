@@ -31,11 +31,13 @@ public class EventsServiceImpl implements EventsService {
     private TagsDao tagsDao;
     
     @Transactional(readOnly = true)
+    @Override
     public Integer getPagesCountByAuthor(String author, Integer eventsPerPage) {
         return dao.calcPages(dao.getCountByAuthor(author), eventsPerPage);
     }
 
     @Transactional(readOnly = true)
+    @Override
     public Collection<Events> getPagesEventsByAuthor(String author, Integer pageNumb, Integer eventsPerPage) {
         return dao.getPagesObjectByAuthor(author, pageNumb, eventsPerPage);
     }

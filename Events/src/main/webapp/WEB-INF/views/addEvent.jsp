@@ -146,9 +146,9 @@
                             <form:errors path="title" cssClass="error"></form:errors>
                             <div id="labels"><spring:message code="form.text"/></div><div id="redStar2">*</div>
                             <div style="margin-left: 5px;">
-                            <textarea path="text" class="ckeditor" id="text" cols="60" rows="10" maxlength="10000"
-                                      name="text" ></textarea>
-                            <textarea style="visibility: hidden;width: 0px;height:0px;" id="text1" name="text1"  ></textarea>
+                                <textarea path="text" class="ckeditor" id="text" cols="60" rows="10" maxlength="10000"
+                                          name="text" ></textarea>
+                                <textarea style="visibility: hidden;width: 0px;height:0px;" id="text1" name="text1"  ></textarea>
                             </div>
                         <form:errors path="text" cssClass="error" ></form:errors>
                             <br/><br/>
@@ -227,11 +227,11 @@
                     </td>
                 </tr>
             </table>
-                                                       <div id="sbm">
-            <input type="submit" value="<spring:message
-                   code='<%=(request.isUserInRole("Administrator"))?"form.submit.admin"
+            <div id="sbm">
+                <input type="submit" value="<spring:message
+                       code='<%=(request.isUserInRole("Administrator"))?"form.submit.admin"
                                                                                              :"form.submit.user"%>'/>"/>
-        </div>
+            </div>
         </form:form>
         <script type="text/javascript">
                     function f(){
@@ -277,7 +277,7 @@
             });
             });
         </script>
-        
+
     </div>
 </body>
 </html>

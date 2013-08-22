@@ -157,4 +157,6 @@ public class NewsDaoImpl extends DaoForApproveImpl<News> implements NewsDao {
         return getSession().getNamedQuery("News.getByOrganization")
                 .setParameter(AUTHOR, author).setParameter(APPROVED, approved).setFirstResult(firstResult).setMaxResults(newsByPage).list();
     }
+    
+    
 }

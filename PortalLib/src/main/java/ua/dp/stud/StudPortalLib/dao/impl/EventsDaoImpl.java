@@ -6,6 +6,7 @@ package ua.dp.stud.StudPortalLib.dao.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Criteria;
@@ -34,8 +35,22 @@ public class EventsDaoImpl extends DaoForApproveImpl<Events> implements EventsDa
     @Override
     public Collection<Events> getEventsOfTypeOnPage(Integer pageNumb, Integer eventsPerPage, String type, Boolean approve) {
         int firstResult = (pageNumb - 1) * eventsPerPage;
-        EventsType type2 = EventsType.valueOf(type);
-        return (Collection<Events>) getSession().createQuery("From Events events WHERE events.type= :type2 and events.approved=:approve_ and events.comment is null ORDER BY events.id desc").setParameter("type2", type2).setParameter("approve_", approve).setFirstResult(firstResult).setMaxResults(eventsPerPage).list();
+        //получаем все события до Этого момента времени, упорядоченые по невозрастанию
+        Collection<Events> nearesEvents = getSession().createCriteria(persistentClass)
+                .add(Restrictions.eq("approved", approve))
+                .add(Restrictions.eq("eventsType", type))
+                .add(Restrictions.ge("eventDateStart", new Date()))
+                .add(Restrictions.isNull("comment")).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
+                .setFirstResult(firstResult).setMaxResults(eventsPerPage).addOrder(Order.asc("eventDateStart")).list();
+        //получаем события, которые прошли уже
+        Collection<Events> endedEvents = getSession().createCriteria(persistentClass)
+                .add(Restrictions.eq("approved", approve))
+                .add(Restrictions.eq("eventsType", type))
+                .add(Restrictions.le("eventDateStart", new Date()))
+                .add(Restrictions.isNull("comment")).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
+                .setFirstResult(firstResult).setMaxResults(eventsPerPage - nearesEvents.size()).addOrder(Order.desc("eventDateStart")).list();
+        nearesEvents.addAll(endedEvents);
+        return nearesEvents;
     }
 
     @Override
@@ -45,21 +60,21 @@ public class EventsDaoImpl extends DaoForApproveImpl<Events> implements EventsDa
     }
 
     @Override
-    public Events save(Events event,List<Tags> tagsToAdd) {
-        tagsToAdd=(ArrayList<Tags>)tagsToAdd;
-        for (int i=0;i<tagsToAdd.size();i++) {//для каждого тэга из тэгов переданного ивента
+    public Events save(Events event, List<Tags> tagsToAdd) {
+        tagsToAdd = (ArrayList<Tags>) tagsToAdd;
+        for (int i = 0; i < tagsToAdd.size(); i++) {//для каждого тэга из тэгов переданного ивента
             Tags tag = (Tags) getSession().createQuery("From Tags tag WHERE tag.name= :nameParam").setParameter("nameParam", tagsToAdd.get(i).getName()).uniqueResult();
             if (tag != null) {//для  одинакового тэга:
-                    tagsToAdd.get(i).setEvents(tag.getEvents()); //забираем его ивенты в тэг из переданного ивента
-                    for (Events curEvent : tag.getEvents()) {//для каждого забраного ивента
-                        curEvent.getTags().remove(tag);                    //У каждого ивета удаляем старый тэг
-                        curEvent.addTag(tagsToAdd.get(i));                 //добавляем тэг из переданного ивента(новый тэг)
-                    }
-                    tag.setEvents(null);
-                    getSession().delete(tag);            //удаляем один повторяющийся тэг
+                tagsToAdd.get(i).setEvents(tag.getEvents()); //забираем его ивенты в тэг из переданного ивента
+                for (Events curEvent : tag.getEvents()) {//для каждого забраного ивента
+                    curEvent.getTags().remove(tag);                    //У каждого ивета удаляем старый тэг
+                    curEvent.addTag(tagsToAdd.get(i));                 //добавляем тэг из переданного ивента(новый тэг)
+                }
+                tag.setEvents(null);
+                getSession().delete(tag);            //удаляем один повторяющийся тэг
             }
         }
-         getSession().save(event);                           //сохраняем ивент
+        getSession().save(event);                           //сохраняем ивент
         return event;
     }
 
@@ -99,5 +114,24 @@ public class EventsDaoImpl extends DaoForApproveImpl<Events> implements EventsDa
         Events events = (Events) getSession().get(Events.class, id);
         Hibernate.initialize(events.getTags());
         return events;
+    }
+
+    @Override
+    public Collection<Events> getObjectOnPage(Boolean approved, Integer pageNumb, Integer objByPage) {
+        int firstResult = (pageNumb - 1) * objByPage;
+        //получаем все события до Этого момента времени, упорядоченые по невозрастанию
+        Collection<Events> nearesEvents = getSession().createCriteria(persistentClass)
+                .add(Restrictions.eq("approved", approved))
+                .add(Restrictions.ge("eventDateStart", new Date()))
+                .add(Restrictions.isNull("comment")).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
+                .setFirstResult(firstResult).setMaxResults(objByPage).addOrder(Order.asc("eventDateStart")).list();
+        //получаем события, которые прошли уже
+        Collection<Events> endedEvents = getSession().createCriteria(persistentClass)
+                .add(Restrictions.eq("approved", approved))
+                .add(Restrictions.le("eventDateStart", new Date()))
+                .add(Restrictions.isNull("comment")).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
+                .setFirstResult(firstResult).setMaxResults(objByPage - nearesEvents.size()).addOrder(Order.desc("eventDateStart")).list();
+        nearesEvents.addAll(endedEvents);
+        return nearesEvents;
     }
 }

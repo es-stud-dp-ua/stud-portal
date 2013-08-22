@@ -84,7 +84,7 @@ public class OrganizationDaoImpl extends DaoForApproveImpl<Organization> impleme
 
     @Override
     public Collection<Organization> getAllOrganizations(Boolean approve) {
-        return getSession().createCriteria(Organization.class).add(Restrictions.eq("approved", approve)).addOrder(Order.desc("id")).list();
+        return getSession().createCriteria(Organization.class).add(Restrictions.eq("approved", approve)).addOrder(Order.asc("title")).list();
     }
 
     /**
@@ -96,7 +96,7 @@ public class OrganizationDaoImpl extends DaoForApproveImpl<Organization> impleme
     @Override
     public Collection<Organization> getOrganizationsOnPage(Integer pageNumb, Integer orgsPerPage, OrganizationType type, Boolean approve) {
         int firstResult = (pageNumb - 1) * orgsPerPage;
-        return (Collection<Organization>) getSession().createQuery("From Organization organization WHERE organization.organizationType= :type and organization.approved=:approve_ and organization.comment is null ORDER BY organization.id desc").setParameter("type", type).setParameter("approve_", approve).setFirstResult(firstResult).setMaxResults(orgsPerPage).list();
+        return (Collection<Organization>) getSession().createQuery("From Organization organization WHERE organization.organizationType= :type and organization.approved=:approve_ and organization.comment is null ORDER BY organization.title asc").setParameter("type", type).setParameter("approve_", approve).setFirstResult(firstResult).setMaxResults(orgsPerPage).list();
 
 
     }
@@ -104,7 +104,7 @@ public class OrganizationDaoImpl extends DaoForApproveImpl<Organization> impleme
     @Override
     public Collection<Organization> getOrganizationsOnPage2(Integer pageNumb, Integer orgsPerPage, Boolean approve) {
         int firstResult = (pageNumb - 1) * orgsPerPage;
-        return (Collection<Organization>) getSession().createQuery("From Organization a WHERE a.approved=:approve_ ORDER BY a.id desc").setParameter("approve_", approve).setFirstResult(firstResult).setMaxResults(orgsPerPage).list();
+        return (Collection<Organization>) getSession().createQuery("From Organization a WHERE a.approved=:approve_ ORDER BY a.title asc").setParameter("approve_", approve).setFirstResult(firstResult).setMaxResults(orgsPerPage).list();
 
     }
 
@@ -126,5 +126,6 @@ public class OrganizationDaoImpl extends DaoForApproveImpl<Organization> impleme
         getSession().update(organization);
 
     }
+
 
 }

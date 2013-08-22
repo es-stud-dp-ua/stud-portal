@@ -33,4 +33,8 @@ public interface EventsDao extends DaoForApprove<Events> {
     Events getEventsById(Integer id);
     
     Events save(Events event,List<Tags> tags);
+    
+    @Override
+    Collection<Events> getObjectOnPage(Boolean approved, Integer pageNumb, Integer objByPage);
+        
 }

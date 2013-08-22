@@ -411,7 +411,7 @@ public class ImageService {
     public CommonsMultipartFile getDefaultImage(String portletPath) {
         CommonsMultipartFile Image=null;
         try {
-            File tempFile = new File(portletPath+"\\images\\defaultImage.png");
+            File tempFile = new File(portletPath+File.separator+"images"+File.separator+"defaultImage.png");
             DiskFileItem fileItem = (DiskFileItem) new DiskFileItemFactory().createItem("fileData", "image/jpeg", true, tempFile.getName());
             InputStream input = new FileInputStream(tempFile);
             OutputStream os = fileItem.getOutputStream();

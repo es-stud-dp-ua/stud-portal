@@ -101,15 +101,17 @@ public final class CustomFunctions {
         }
         return outDate.toString();
     }
-
+    //ЕСТЬ ПОДОЗРЕНИЕ ЧТО ЭТА ФУНКЦИЯ ЛИШНЯЯ( ВЛАД ПОСМОТРИ)
     public static String getEventsDate(Date startDate, Date endDate) {
         StringBuilder result = new StringBuilder();
         Calendar startCal = Calendar.getInstance();
         startCal.setTime(startDate);
         Calendar endCal = Calendar.getInstance();
         endCal.setTime(endDate);
+        
         Integer date1 = startCal.get(Calendar.DAY_OF_MONTH);
         Integer date2 = endCal.get(Calendar.DAY_OF_MONTH);
+        
         result.append(date1.toString());
         if (date1 < date2) {
             result.append(" - ").append(date2.toString());
