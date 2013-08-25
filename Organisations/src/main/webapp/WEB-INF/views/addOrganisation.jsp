@@ -148,7 +148,7 @@
                             <form:input path="title" id="title" cols="90" rows="2" maxlength="100"  name="title"/>
                             <form:errors path="title" cssClass="error"></form:errors>
                             <div id="labels"><spring:message code="form.text"/></div><div id="redStar2">*</div>
-                            <textarea path="text" class="ckeditor" id="text" cols="60" rows="10" maxlength="10000"
+                            <textarea path="text" class="ckeditor" id="text" cols="65" rows="10" maxlength="10000"
                                       name="text" ></textarea>
                             <textarea style="visibility: hidden;width: 0px;" id="text1" name="text1"  ></textarea>
                         <form:errors path="text" cssClass="error" ></form:errors>
@@ -227,12 +227,16 @@
                                             <td><input type="radio" name="type" value="<%= OrganizationType.OTHERS %>"
                                                        style="float: right;"/></td>
                                         </tr>
-                                    </table>
+                                    </table>                                                      
                                 </div>
                                 <br/>
                             </div>
                         </div>
                     </td>
+                    <td>
+                   <spring:message code="form.contacts"/> 
+                  <form:input path="contacts" id="contacts" cols="150" rows="5" maxlength="500"  name="contacts"/>
+                   </td>
                 </tr>
             </table>
         </form:form>
