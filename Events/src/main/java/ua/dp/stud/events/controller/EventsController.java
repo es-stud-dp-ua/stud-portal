@@ -111,10 +111,10 @@ public class EventsController {
             type = null;
         }
         if (type == null) {
-            pagesCount = eventsService.getPagesCount(EVENTS_BY_PAGE);
+            pagesCount = eventsService.getPagesCount(true,EVENTS_BY_PAGE,true);
             events = eventsService.getEventsOnPage(currentPage, EVENTS_BY_PAGE, true);
         } else {
-            pagesCount = eventsService.getPagesCountOfType(EVENTS_BY_PAGE, type);
+            pagesCount = eventsService.getPagesCountOfType(EVENTS_BY_PAGE, type,true,true);
             events = eventsService.getEventsOfTypeByPage(currentPage, EVENTS_BY_PAGE, type.toString(), true);
             System.out.println(events);
             System.out.println(type.toString());
@@ -234,7 +234,7 @@ public class EventsController {
             if (currentPage < eventsService.getPagesCount(EVENTS_BY_PAGE)) {
                 currentPage += 1;
             }
-        } else if (currentPage < eventsService.getPagesCountOfType(EVENTS_BY_PAGE, EventsType.valueOf(request.getParameter(TYPE)))) {
+        } else if (currentPage < eventsService.getPagesCountOfType(EVENTS_BY_PAGE, EventsType.valueOf(request.getParameter(TYPE)),true,true)) {
             currentPage += 1;
         }
         response.setRenderParameter(CURRENT_PAGE, String.valueOf(currentPage));

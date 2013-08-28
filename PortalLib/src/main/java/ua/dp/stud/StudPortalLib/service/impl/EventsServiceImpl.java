@@ -107,8 +107,8 @@ public class EventsServiceImpl implements EventsService {
 
     @Override
     @Transactional(readOnly = true)
-    public Integer getPagesCount(Boolean approved, Integer newsPerPage) {
-        return dao.calcPages(dao.getCount(approved), newsPerPage);
+    public Integer getPagesCount(Boolean approved, Integer newsPerPage, Boolean futureEvents) {
+        return dao.calcPages(dao.getCount(approved,futureEvents), newsPerPage);
     }
 
     @Override
@@ -158,8 +158,8 @@ public class EventsServiceImpl implements EventsService {
  
    @Override
     @Transactional(readOnly = true)
-    public Integer getPagesCountOfType(int eByPage, EventsType type) {
-        return dao.calcPages(dao.getCountOfType(type), eByPage);
+    public Integer getPagesCountOfType(int eByPage, EventsType type,Boolean approved, Boolean futureEvents) {
+        return dao.calcPages(dao.getCountOfType(type,approved,futureEvents), eByPage);
     }
    
    /**TAGS */

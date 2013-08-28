@@ -47,7 +47,7 @@ public interface EventsService {
 
     Collection<Events> getEventsOfTypeByPage(Integer pageNumb, Integer eventsByPage, String type, Boolean approve);
 
-    Integer getPagesCountOfType(int eByPage, EventsType type);
+    Integer getPagesCountOfType(int eByPage, EventsType type,Boolean approved,Boolean futureEvents);
 
     void incrementViews(Events organization);
 
@@ -55,7 +55,7 @@ public interface EventsService {
 
     Collection<Events> getPagesEventsByAuthor(String author, Integer pageNumb, Integer eventsPerPage);
 
-    Integer getPagesCount(Boolean approved, Integer newsPerPage);
+    Integer getPagesCount(Boolean approved, Integer newsPerPage,Boolean futureEvents);
     
     //** TAGS */
     Tags getTagById(Integer id);

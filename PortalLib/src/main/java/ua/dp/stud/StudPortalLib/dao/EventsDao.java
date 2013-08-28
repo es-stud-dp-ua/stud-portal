@@ -28,7 +28,9 @@ public interface EventsDao extends DaoForApprove<Events> {
     
     void incrementViews(Events event);
     
-    Integer getCountOfType(EventsType type);
+    Integer getCountOfType(EventsType type,Boolean approved,Boolean futureEvents);
+    
+    Integer getCount(Boolean Approved,Boolean futureEvents);
     
     Events getEventsById(Integer id);
     
