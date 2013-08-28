@@ -24,8 +24,8 @@ function bindPopups() {
                 return getOutput(eventHolder)
             })(),
             position: {
-                my: 'bottom middle',
-                at: 'top middle'
+                my: 'top middle',
+                at: 'bottom middle'
             },
             hide: {
                 fixed: true,
