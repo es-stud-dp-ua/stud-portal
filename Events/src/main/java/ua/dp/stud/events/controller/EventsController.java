@@ -292,7 +292,7 @@ public class EventsController {
 
     public Boolean updateEventsFields(Events event, CommonsMultipartFile mainImage, String frmRole, String role) {
         event.setAuthor(role);
-		event.setApproved(frmRole.equals(ADMINISTRATOR_ROLE);
+        event.setApproved(frmRole.equals(ADMINISTRATOR_ROLE));
         try {
             if (mainImage != null && mainImage.getSize() > 0) {
                 imageService.saveMainImage(mainImage, event);
