@@ -204,7 +204,7 @@ public class OrganizationServiceImpl implements OrganizationService {
      * @return true if organization with this name is present
      */
     @Override
-    public Boolean isUnique(Organization organization) {
-        return dao.getOrganizationByName(organization.getTitle()) != null;
+    public Boolean isUnique(String name) {
+        return dao.getOrganizationByName(name) == null;
     }
 }

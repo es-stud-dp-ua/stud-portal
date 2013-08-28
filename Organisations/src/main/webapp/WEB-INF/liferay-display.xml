@@ -3,6 +3,6 @@
 
 <display>
     <category name="Stud Portal">
-        <portlet id="Communities"/>
+        <portlet id="Organisations"/>
     </category>
 </display>

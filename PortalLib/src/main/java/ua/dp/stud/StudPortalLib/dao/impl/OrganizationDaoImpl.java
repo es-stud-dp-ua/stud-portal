@@ -10,6 +10,7 @@ import ua.dp.stud.StudPortalLib.model.Organization;
 import ua.dp.stud.StudPortalLib.util.OrganizationType;
 
 import java.util.Collection;
+import java.util.List;
 
 @Repository("organizationDao")
 public class OrganizationDaoImpl extends DaoForApproveImpl<Organization> implements OrganizationDao {
@@ -17,8 +18,8 @@ public class OrganizationDaoImpl extends DaoForApproveImpl<Organization> impleme
     /**
      * collection for organizations news by id
      *
-     * @param id         organizations id
-     * @param pageNumb   page number
+     * @param id organizations id
+     * @param pageNumb page number
      * @param newsByPage news by page
      * @return collection of News for organization
      */
@@ -56,13 +57,17 @@ public class OrganizationDaoImpl extends DaoForApproveImpl<Organization> impleme
         return org;
 
     }
-    
+
     @Override
     public Organization getOrganizationByName(String title) {
-        Organization org = (Organization) getSession().get(Organization.class, title);
-        Hibernate.initialize(org.getAdditionalImages());
-        Hibernate.initialize(org.getNewsList());
-        return org;
+        List<Organization> org = (List<Organization>) getSession().createQuery("From Organization org WHERE org.title= :title2").setParameter("title2", title).setMaxResults(1).list();
+        if (!org.isEmpty()) {
+            Hibernate.initialize(org.get(0).getAdditionalImages());
+            Hibernate.initialize(org.get(0).getNewsList());
+            return org.get(0);
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -88,9 +93,9 @@ public class OrganizationDaoImpl extends DaoForApproveImpl<Organization> impleme
     }
 
     /**
-     * @param pageNumb    number of requested page
+     * @param pageNumb number of requested page
      * @param orgsPerPage number of organizations per page
-     * @param type        Enumeration type of org
+     * @param type Enumeration type of org
      * @return
      */
     @Override
@@ -126,6 +131,4 @@ public class OrganizationDaoImpl extends DaoForApproveImpl<Organization> impleme
         getSession().update(organization);
 
     }
-
-
 }

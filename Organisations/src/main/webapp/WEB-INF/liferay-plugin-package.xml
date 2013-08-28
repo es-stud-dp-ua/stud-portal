@@ -3,8 +3,8 @@
         "http://www.liferay.com/dtd/liferay-plugin-package_6_0_0.dtd">
 
 <plugin-package>
-    <name>stud-community</name>
-    <module-id>liferay/community/6.0.6.1/wae</module-id>
+    <name>stud-organisations</name>
+    <module-id>liferay/organisations/6.0.6.1/wae</module-id>
     <types>
         <type>portlet</type>
     </types>
@@ -20,5 +20,5 @@
     <liferay-versions>
         <liferay-version>6.0.6+</liferay-version>
     </liferay-versions>
-    <recommended-deployment-context>stud-community</recommended-deployment-context>
+    <recommended-deployment-context>stud-organisations</recommended-deployment-context>
 </plugin-package>

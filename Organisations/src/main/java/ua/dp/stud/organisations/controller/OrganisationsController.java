@@ -320,7 +320,7 @@ public class OrganisationsController {
             User user = (User) actionRequest.getAttribute(WebKeys.USER);
             String usRole = user.getScreenName();
 //try to update fields for new organisation
-            if (!organizationService.isUnique(organization)) { 
+            if (organizationService.isUnique(organization.getTitle())) { 
                 if (updateCommunityFields(croppedImage, images, organization.getTitle(), organization.getText(), role, usRole, organization, typeOrg)) {
                     Date date = new Date();
                     organization.setPublication(date);

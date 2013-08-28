@@ -4,7 +4,7 @@
 
 <liferay-portlet-app>
     <portlet>
-        <portlet-name>Communities</portlet-name>
+        <portlet-name>Organisations</portlet-name>
         <instanceable>false</instanceable>
         <header-portlet-css>/css/main.css</header-portlet-css>
     </portlet>
