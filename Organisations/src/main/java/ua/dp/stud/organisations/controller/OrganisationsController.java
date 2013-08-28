@@ -63,7 +63,7 @@ public class OrganisationsController {
     private static final String MAIN_IMAGE = "mainImage";
     private static final String TYPE = "type";
     private static final String CURRENT_PAGE = "currentPage";
-    private static final int ORGS_BY_PAGE = 5;
+    private static final int ORGS_BY_PAGE = 10;
     private static final int NEARBY_PAGES = 2;
     private static final int OVERAL_PAGES = 7;
     private static final Logger LOG = Logger.getLogger(OrganisationsController.class.getName());
