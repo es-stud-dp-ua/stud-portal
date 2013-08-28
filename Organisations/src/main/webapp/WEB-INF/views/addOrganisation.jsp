@@ -231,11 +231,11 @@
                                 </div>
                                 <br/>
                             </div>
-                        </div>
-                    </td>
-                    <td>
-                   <spring:message code="form.contacts"/> 
+                         <spring:message code="form.contacts"/> 
                   <form:input path="contacts" id="contacts" cols="150" rows="5" maxlength="500"  name="contacts"/>
+                        </div>
+                   
+                  
                    </td>
                 </tr>
             </table>
