@@ -178,7 +178,11 @@
                             <form:textarea path="text" title="${organisation.text}" class="ckeditor" id="textInput" cols="60" rows="10" maxlength="8000"
                                            onkeypress="return isNotMax(event)" name="text"/>
                             <form:errors path="text" cssClass="error" ></form:errors>
-                                <br/><br/>
+                                    <spring:message code="form.contacts"/> 
+                                  <br/>
+                  <form:input path="contacts" id="contacts" cols="150" rows="5" maxlength="500"  name="contacts"/>
+                       
+                      <br/><br/>
                             </div>
                             <div id="sbm">
 

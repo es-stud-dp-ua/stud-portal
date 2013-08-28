@@ -406,7 +406,7 @@ public class OrganisationsController {
         mainImageUrl = (mImage == null) ? MAIN_IMAGE_MOCK_URL : imageService.getPathToLargeImage(mImage, organisation);
         Collection<ImageImpl> additionalImages = organisation.getAdditionalImages();
 //set view for edit
-        model.setViewName("editCommunity");
+        model.setViewName("editOrganisation");
 //send current news in view
         model.addObject("organization", organisation);
         model.addObject(MAIN_IMAGE, mainImageUrl);

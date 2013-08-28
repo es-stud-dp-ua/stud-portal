@@ -579,3 +579,8 @@ label.error[for=mainImage]{
     position:absolute;
     left: 15%;
 }
+
+#contacts{
+    width:450px;
+    height: 40px;
+}

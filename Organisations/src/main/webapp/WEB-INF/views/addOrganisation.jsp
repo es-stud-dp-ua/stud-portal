@@ -152,7 +152,12 @@
                                       name="text" ></textarea>
                             <textarea style="visibility: hidden;width: 0px;" id="text1" name="text1"  ></textarea>
                         <form:errors path="text" cssClass="error" ></form:errors>
-                            <br/><br/>
+                           
+                                  <spring:message code="form.contacts"/> 
+                                  <br/>
+                  <form:input path="contacts" id="contacts" cols="150" rows="5" maxlength="500"  name="contacts"/>
+                       
+                      <br/><br/>
                             <div id="sbm">
                                 <input type="submit" value="<spring:message
                                        code='<%=(request.isUserInRole("Administrator"))?"form.submit.admin"
@@ -231,10 +236,8 @@
                                 </div>
                                 <br/>
                             </div>
-                         <spring:message code="form.contacts"/> 
-                  <form:input path="contacts" id="contacts" cols="150" rows="5" maxlength="500"  name="contacts"/>
-                        </div>
-                   
+                     
+                     </div>
                   
                    </td>
                 </tr>

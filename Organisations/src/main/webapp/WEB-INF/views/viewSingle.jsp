@@ -141,7 +141,10 @@
         ${organization.title}
     </div>
     <br/>
-
+   <div>
+        ${organization.contacts}
+    </div>
+    <br/>
     <div class="newsText">
         ${organization.text}
     </div>
