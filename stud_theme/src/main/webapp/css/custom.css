@@ -665,7 +665,7 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
 }
 
 #content {
-    margin: 0 0px;
+    margin-top: -340px;
     padding: 0px 0px 0px 0px;
     height: auto;
 }
