@@ -22,7 +22,7 @@
     boolean showCreateAccountIcon = false;
 
     if (!strutsAction.equals("/login/create_account") && company.isStrangers()) {
-        showCreateAccountIcon = true;
+        
     }
 
     boolean showFacebookConnectIcon = false;
@@ -40,7 +40,7 @@
     boolean showOpenIdIcon = false;
 
     if (!strutsAction.equals("/login/open_id") && OpenIdUtil.isEnabled(company.getCompanyId())) {
-        showOpenIdIcon = true;
+        
     }
 
     boolean showSignInIcon = false;
