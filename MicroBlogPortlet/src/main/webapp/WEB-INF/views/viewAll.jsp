@@ -16,7 +16,7 @@
 				<c:if test="${i.index eq 2}"></tr><tr></c:if>
 				<td><div>
 					<liferay-portlet:renderURL plid="${newsArchivePageID}" var="linkToSingle" portletName="NewsArchive_WAR_studnewsArchive">
-						<liferay-portlet:param name="newsID" value="${currentNews.id}>"/>
+						<liferay-portlet:param name="newsID" value="${currentNews.id}"/>
 					</liferay-portlet:renderURL>
 					<a href="${linkToSingle}">
 						<img src="<%=imageService.getPathToMicroblogImage(currentNews.getMainImage(),currentNews)%>" class="newsImage">
