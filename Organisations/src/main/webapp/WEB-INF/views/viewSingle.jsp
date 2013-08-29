@@ -149,18 +149,19 @@
         ${organization.text}
     </div>
     </div>
-<br/>
 <%
     boolean carusel = false;
     if (additionalImages != null) {
         carusel = true;
+    if (additionalImages.size()>1){
 %>
-<div style="text-align: center; font-weight: bold; font-size: 16px; margin-top: 200px;"><spring:message code="form.photo"/></div>
-<div class="image_carousel" style="width: 639px; margin-left: 120px;">
+<div style="text-align: center; font-weight: bold; font-size: 16px;"><spring:message code="form.photo"/></div>
+<%}%>
+<div class="image_carousel" style="width: 900px;">
     <a href="javascript:" class="carousel-control next pagination-right right" rel="next"></a>
     <a href="javascript:" class="carousel-control prev pagination-left left" rel="prev"></a>
 
-    <div class="middle" style="width: 557px;">
+    <div class="middle" style="width: 800px;">
         <div class="singleGelery" id="inner">
             <%
                 for (ImageImpl image : additionalImages) {
