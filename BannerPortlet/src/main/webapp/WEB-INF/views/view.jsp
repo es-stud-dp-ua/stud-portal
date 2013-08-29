@@ -41,7 +41,7 @@ SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
                 <h3><spring:message code="empty.unlost"/></h3><br>
                 <c:forEach items="${eventsList}" var="currentEvent">
                     <liferay-portlet:renderURL plid="${eventsPageID}" var="linkToSingle" portletName="Events_WAR_studevents">
-                        <liferay-portlet:param name="newsID" value="${currentEvent.id}>"/>
+                        <liferay-portlet:param name="eventID" value="${currentEvent.id}"/>
                     </liferay-portlet:renderURL>
                     <div>
                         <div><a href="${linkToSingle}" class="eventLink">${currentEvent.title}</a></div>

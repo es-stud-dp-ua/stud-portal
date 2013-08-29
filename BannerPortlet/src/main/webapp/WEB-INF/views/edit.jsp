@@ -35,7 +35,6 @@
         <spring:message code="currentImages"/><br>
         <%for (BannerImage image : bannerImages) {%>
         <form method="post" class="banner-form">
-        <%=image.getId()%>" action='${actionLink}' enctype="multipart/form-data">
         <input type="hidden" name="id" value="<%=image.getId()%>">
         <table width="100%">
             <tr>
