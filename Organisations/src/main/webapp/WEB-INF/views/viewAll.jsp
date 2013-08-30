@@ -125,6 +125,7 @@
             </table>
         </div>
         <%}%>
+        <%if(orgs.size()>9){%>
         <table width="90%">
             <tr>
                 <td width="80" align="left">
@@ -183,7 +184,8 @@
             </td>
             </tr>
         </table>
-        <%
+           
+        <%}
             }
             else
             {

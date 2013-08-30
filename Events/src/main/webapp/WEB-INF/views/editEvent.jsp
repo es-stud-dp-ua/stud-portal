@@ -29,6 +29,7 @@ SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <script>
             $(function() {
+                $.datepicker.setDefaults($.datepicker.regional['ru']);
                 $("#datepicker1").datepicker();
                 $("#datepicker2").datepicker();
             });</script>

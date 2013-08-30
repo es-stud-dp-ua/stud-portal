@@ -136,8 +136,9 @@
                 <%}%>
                 <table width="90%">
                     <tr>
+                        <%if(events.size()>9){%>
                         <td width="80" align="left">
-                    <portlet:actionURL name="pagination" var="pagPrev">
+                        <portlet:actionURL name="pagination" var="pagPrev">
                         <portlet:param name="direction" value="prev"/>
                         <portlet:param name="pageNumber" value="<%=String.valueOf(currentPage)%>"/>
                         <% if (type != null) {%><portlet:param name="type" value="<%=String.valueOf(type)%>"/><%} %>
@@ -147,7 +148,6 @@
                              src="${pageContext.request.contextPath}/images/pagin-left.png"/>
                     </a>
                     </td>
-
                     <td width="150" align="center" valign="center">
                         <%-- PAGINATION --%>
                         <%if (skippedBeginning) {%>
@@ -190,6 +190,7 @@
                              src="${pageContext.request.contextPath}/images/pagin-right.png"/>
                     </a>
                     </td>
+                    <%}%>
                     </tr>
                 </table>
                 <%

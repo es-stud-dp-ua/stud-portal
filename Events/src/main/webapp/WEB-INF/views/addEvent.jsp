@@ -13,7 +13,8 @@
     <head>
         <script>
             $(function() {
-            $("#datepicker1").datepicker();
+            $.datepicker.setDefaults($.datepicker.regional['ru']);
+                    $("#datepicker1").datepicker();
                     $("#datepicker2").datepicker();
             });</script>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">

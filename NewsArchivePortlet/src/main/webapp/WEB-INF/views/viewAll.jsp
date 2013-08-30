@@ -107,7 +107,7 @@
                     <%}%>
             </div>
         </c:if>
-
+            <%if(news.size()>9){%>
         <table width="90%">
             <tr>
                 <td width="80" align="left">
@@ -161,6 +161,7 @@
             </td>
             </tr>
         </table>
+            <%}%>
     </div>
 </body>
 </html>
