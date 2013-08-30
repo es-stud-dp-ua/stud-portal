@@ -72,135 +72,134 @@
                 <%}%>
             </form>
         </div>
-        <div id="newsTable">
-            <% if (!events.isEmpty()) {
+            <div id="newsTable">
+                <% if (!events.isEmpty()) {
                  for (Events currentEvent : events){%>
-            <div width="100%">
-                <img src="<%= imageService.getPathToMicroblogImage(currentEvent.getMainImage(),currentEvent) %>"
-                     class="newsImage">
-                <div style="color: #363636">
-                    <% if (currentEvent.getEventDateEnd()!=null&&currentEvent.getEventDateStart()!=currentEvent.getEventDateEnd()){ %>
-                    <%=dateFormat.format(currentEvent.getEventDateStart())%> - <%=dateFormat.format(currentEvent.getEventDateEnd())%>
-                    <% } else { %>
-                    <%=dateFormat.format(currentEvent.getEventDateStart())%>  <%}%>
-                    &nbsp &nbsp &nbsp
-                    <%=currentEvent.getLocation()%>
-                </div>
-
-                <div class="newsHeader">
-                    <a href="<portlet:renderURL/>&eventID=<%=currentEvent.getId()%>">
-                        <%=currentEvent.getTitle()%>
-                    </a>
-                </div>
-                <div class="newsText"><%= CustomFunctions.truncateHtml(currentEvent.getText(), 300) %>
-                </div>
-                <% if (request.isUserInRole("Administrator")) { %>
-                <div class="portlet-content-controlpanel fs20"style="width: 8.6%;float: right;">
-                    <a style="float: right" href="<portlet:renderURL/>&eventID=<%=currentEvent.getId()%>&mode=delete"
-                       onclick='return confirm("<spring:message code="form.confDelete"/>")'>
-                        <div class="panelbtn panelbtn-right fs20 icon-pcpremove"  aria-hidden="true"></div>
-                    </a>
-                    <a style="float: right" href="<portlet:renderURL/>&eventId=<%=currentEvent.getId()%>&mode=edit">
-                        <!--<spring:message code="viewSingle.Edit"/>-->
-                        <div class="panelbtn panelbtn-right icon-pcppencil" aria-hidden="true"></div>
-                    </a>
-                        </div>
+                <div width="100%">
+                    <img src="<%= imageService.getPathToMicroblogImage(currentEvent.getMainImage(),currentEvent) %>"
+                         class="newsImage">
+                    <div style="color: #363636">
+                        <% if (currentEvent.getEventDateEnd()!=null&&currentEvent.getEventDateStart()!=currentEvent.getEventDateEnd()){ %>
+                        <%=dateFormat.format(currentEvent.getEventDateStart())%> - <%=dateFormat.format(currentEvent.getEventDateEnd())%>
+                        <% } else { %>
+                        <%=dateFormat.format(currentEvent.getEventDateStart())%>  <%}%>
+                        &nbsp &nbsp &nbsp
+                        <%=currentEvent.getLocation()%>
+                    </div>
+                    <div class="newsHeader">
+                        <a href='<portlet:renderURL><portlet:param name="eventID" value="<%=currentEvent.getId().toString()%>"/></portlet:renderURL>'>
+                            <%=currentEvent.getTitle()%>
+                        </a>
+                    </div>
+                    <div class="newsText"><%= CustomFunctions.truncateHtml(currentEvent.getText(), 300) %>
+                    </div>
+                    <% if (request.isUserInRole("Administrator")) { %>
+                    <div class="portlet-content-controlpanel fs20"style="width: 8.6%;float: right;">
+                        <a style="float: right" href='<portlet:renderURL><portlet:param name="eventID" value="<%=currentEvent.getId().toString()%>"/><portlet:param name="mode" value="delete" /></portlet:renderURL>'
+                           onclick='return confirm("<spring:message code="form.confDelete"/>")'>
+                            <div class="panelbtn panelbtn-right fs20 icon-pcpremove"  aria-hidden="true"></div>
+                        </a>
+                        <a style="float: right" href='<portlet:renderURL><portlet:param name="eventID" value="<%=currentEvent.getId().toString()%>"/><portlet:param name="mode" value="edit" /></portlet:renderURL>'>
+                            <!--<spring:message code="viewSingle.Edit"/>-->
+                            <div class="panelbtn panelbtn-right icon-pcppencil" aria-hidden="true"></div>
+                        </a>
+                    </div>
                     <%}%>
-                
-            </div>
-            <div width="100%" align="right">
+
+                </div>
+                <div width="100%" align="right">
+                    <table width="90%">
+                        <tr>
+                            <td width="60">
+                                <img width="60" class="newsDecorImage"
+                                     src="${pageContext.request.contextPath}/images/news-decor-line-left-end.png"/>
+                            </td>
+                            <td width="auto" align="left">
+                                <img width="100%" class="newsDecorImage"
+                                     src="${pageContext.request.contextPath}/images/news-decor-line.png"/>
+                            </td>
+                            <td width="52">
+                                <img width="52" class="newsDecorImage"
+                                     src="${pageContext.request.contextPath}/images/news-decor-center.png"/>
+                            </td>
+                            <td width="auto" align="right">
+                                <img width="100%" class="newsDecorImage"
+                                     src="${pageContext.request.contextPath}/images/news-decor-line.png"/>
+                            </td>
+                            <td width="50">
+                                <img width="50" class="newsDecorImage"
+                                     src="${pageContext.request.contextPath}/images/news-decor-line-right-end.png"/>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <%}%>
                 <table width="90%">
                     <tr>
-                        <td width="60">
-                            <img width="60" class="newsDecorImage"
-                                 src="${pageContext.request.contextPath}/images/news-decor-line-left-end.png"/>
-                        </td>
-                        <td width="auto" align="left">
-                            <img width="100%" class="newsDecorImage"
-                                 src="${pageContext.request.contextPath}/images/news-decor-line.png"/>
-                        </td>
-                        <td width="52">
-                            <img width="52" class="newsDecorImage"
-                                 src="${pageContext.request.contextPath}/images/news-decor-center.png"/>
-                        </td>
-                        <td width="auto" align="right">
-                            <img width="100%" class="newsDecorImage"
-                                 src="${pageContext.request.contextPath}/images/news-decor-line.png"/>
-                        </td>
-                        <td width="50">
-                            <img width="50" class="newsDecorImage"
-                                 src="${pageContext.request.contextPath}/images/news-decor-line-right-end.png"/>
-                        </td>
+                        <td width="80" align="left">
+                    <portlet:actionURL name="pagination" var="pagPrev">
+                        <portlet:param name="direction" value="prev"/>
+                        <portlet:param name="pageNumber" value="<%=String.valueOf(currentPage)%>"/>
+                        <% if (type != null) {%><portlet:param name="type" value="<%=String.valueOf(type)%>"/><%} %>
+                    </portlet:actionURL>
+                    <a href="${pagPrev}">
+                        <img class="paginationImage"
+                             src="${pageContext.request.contextPath}/images/pagin-left.png"/>
+                    </a>
+                    </td>
+
+                    <td width="150" align="center" valign="center">
+                        <%-- PAGINATION --%>
+                        <%if (skippedBeginning) {%>
+                        <%-- HIDING FIRST PAGES --%>
+                        <a href="<portlet:actionURL name="pagination"><portlet:param name="pageNumber" value="1"/>
+                            <% if (type!=null) {%><portlet:param name="type" value="<%=String.valueOf(type)%>"/><%} %>
+                            </portlet:actionURL>">1</a>
+                        <label> ... </label>
+                        <%}%>
+                        <%-- SHOWING CURRENT PAGE NEAREST FROM LEFT AND RIGHT --%>
+                        <%
+                            for (int pageNumb = leftPageNumb; pageNumb <= rightPageNumb; pageNumb++) {
+                                if (pageNumb != currentPage) {%>
+                        <a href="<portlet:actionURL name="pagination"><portlet:param name="pageNumber" value="<%=String.valueOf(pageNumb)%>"/>
+                            <% if (type!=null) {%><portlet:param name="type" value="<%=String.valueOf(type)%>"/><%} %>
+                            </portlet:actionURL>"><%=pageNumb%>
+                        </a>
+                        <%} else {%>
+                        <label style="color: #28477C; font-size: 40px;"><%=pageNumb%>
+                        </label>
+                        <%}%>
+                        <%}%>
+                        <%if (skippedEnding) {%>
+                        <%-- HIDING LAST PAGES --%>
+                        <label> ... </label>
+                        <a href='  <portlet:actionURL name="pagination">  <portlet:param name="pageNumber" value="<%=String.valueOf(pagesCount)%>"/>
+                           <% if (type!=null) {%><portlet:param name="type" value="<%=String.valueOf(type)%>"/><%}%> </portlet:actionURL>'>
+                            <%=String.valueOf(pagesCount)%>
+                        </a>
+                        <%}%>
+                    </td>
+                    <td width="80" align="right">
+                    <portlet:actionURL name="pagination" var="pagNext">
+                        <portlet:param name="direction" value="next"/>
+                        <portlet:param name="pageNumber" value="<%=String.valueOf(currentPage)%>"/>
+                        <% if (type != null) {%><portlet:param name="type" value="<%=String.valueOf(type)%>"/><%} %>
+                    </portlet:actionURL>
+                    <a href="${pagNext}">
+                        <img class="paginationImage"
+                             src="${pageContext.request.contextPath}/images/pagin-right.png"/>
+                    </a>
+                    </td>
                     </tr>
                 </table>
+                <%
+                    }
+                    else
+                    {
+                %>
+                <h1><b>&nbsp &nbsp &nbsp<spring:message code="events.empty"/></b></h1>
+                    <%}%>
             </div>
-            <%}%>
-            <table width="90%">
-                <tr>
-                    <td width="80" align="left">
-                <portlet:actionURL name="pagination" var="pagPrev">
-                    <portlet:param name="direction" value="prev"/>
-                    <portlet:param name="pageNumber" value="<%=String.valueOf(currentPage)%>"/>
-                    <% if (type != null) {%><portlet:param name="type" value="<%=String.valueOf(type)%>"/><%} %>
-                </portlet:actionURL>
-                <a href="${pagPrev}">
-                    <img class="paginationImage"
-                         src="${pageContext.request.contextPath}/images/pagin-left.png"/>
-                </a>
-                </td>
-
-                <td width="150" align="center" valign="center">
-                    <%-- PAGINATION --%>
-                    <%if (skippedBeginning) {%>
-                    <%-- HIDING FIRST PAGES --%>
-                    <a href="<portlet:actionURL name="pagination"><portlet:param name="pageNumber" value="1"/>
-                        <% if (type!=null) {%><portlet:param name="type" value="<%=String.valueOf(type)%>"/><%} %>
-                        </portlet:actionURL>">1</a>
-                    <label> ... </label>
-                    <%}%>
-                    <%-- SHOWING CURRENT PAGE NEAREST FROM LEFT AND RIGHT --%>
-                    <%
-                        for (int pageNumb = leftPageNumb; pageNumb <= rightPageNumb; pageNumb++) {
-                            if (pageNumb != currentPage) {%>
-                    <a href="<portlet:actionURL name="pagination"><portlet:param name="pageNumber" value="<%=String.valueOf(pageNumb)%>"/>
-                        <% if (type!=null) {%><portlet:param name="type" value="<%=String.valueOf(type)%>"/><%} %>
-                        </portlet:actionURL>"><%=pageNumb%>
-                    </a>
-                    <%} else {%>
-                    <label style="color: #28477C; font-size: 40px;"><%=pageNumb%>
-                    </label>
-                    <%}%>
-                    <%}%>
-                    <%if (skippedEnding) {%>
-                    <%-- HIDING LAST PAGES --%>
-                    <label> ... </label>
-                    <a href="<portlet:actionURL name="pagination"><portlet:param name="pageNumber" value="<%=String.valueOf(pagesCount)%>"/>
-                        <% if (type!=null) {%><portlet:param name="type" value="<%=String.valueOf(type)%>"/><%} %>
-                        </portlet:actionURL>"><%=String.valueOf(pagesCount)%>
-                    </a>
-                    <%}%>
-                </td>
-                <td width="80" align="right">
-                <portlet:actionURL name="pagination" var="pagNext">
-                    <portlet:param name="direction" value="next"/>
-                    <portlet:param name="pageNumber" value="<%=String.valueOf(currentPage)%>"/>
-                    <% if (type != null) {%><portlet:param name="type" value="<%=String.valueOf(type)%>"/><%} %>
-                </portlet:actionURL>
-                <a href="${pagNext}">
-                    <img class="paginationImage"
-                         src="${pageContext.request.contextPath}/images/pagin-right.png"/>
-                </a>
-                </td>
-                </tr>
-            </table>
-            <%
-                }
-                else
-                {
-            %>
-            <h1><b>&nbsp &nbsp &nbsp<spring:message code="events.empty"/></b></h1>
-                <%}%>
         </div>
-    </div>
 </body>
 </html>

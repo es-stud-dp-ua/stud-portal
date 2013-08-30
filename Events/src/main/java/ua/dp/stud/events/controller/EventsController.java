@@ -10,18 +10,11 @@ import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.model.User;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
@@ -92,7 +85,7 @@ public class EventsController {
     public ModelAndView showView(RenderRequest request, RenderResponse response) {
         ModelAndView model = new ModelAndView();
         model.setViewName("viewAll");
-
+        
         Collection<Events> events;
 
         int pagesCount;
@@ -104,7 +97,6 @@ public class EventsController {
             currentPage = 1;
         }
 //PAGINATION 
-
         if (request.getParameter(TYPE) != null) {
             type = EventsType.valueOf(request.getParameter(TYPE));
         } else {
@@ -116,9 +108,6 @@ public class EventsController {
         } else {
             pagesCount = eventsService.getPagesCountOfType(EVENTS_BY_PAGE, type,true,true);
             events = eventsService.getEventsOfTypeByPage(currentPage, EVENTS_BY_PAGE, type.toString(), true);
-            System.out.println(events);
-            System.out.println(type.toString());
-            System.out.println(currentPage);
         }
 
         int leftPageNumb = Math.max(1, currentPage - NEARBY_PAGES);
@@ -194,7 +183,6 @@ public class EventsController {
                 rightPageNumb = pagesCount;
             }
         }
-
         model.addObject("leftPageNumb", leftPageNumb);
         model.addObject("rightPageNumb", rightPageNumb);
         model.addObject("skippedBeginning", skippedBeginning);
@@ -218,6 +206,7 @@ public class EventsController {
         response.setRenderParameter(CURRENT_PAGE, String.valueOf(currentPage));
         if (request.getParameter(TYPE) != null) {
             response.setRenderParameter(TYPE, request.getParameter(TYPE));
+            
         }
     }
 
