@@ -249,13 +249,13 @@
 									<c:forEach items="${Faculties.specialties}" var="Specialties" varStatus="j" begin="0" >
 										<div class="specialty">
 										<form:input path="faculties[${i.index}].specialties[${j.index}].nameOfSpecialties" value="" />
-										<a href="#" class="removeSpecialty">Remove</a>
+										<a href="#" class="removeSpecialty"><spring:message code="form.removeSpecialty"/></a>
 									</div>	
 									</c:forEach>
 								</div>
-								<a href="#" class="addSpecialty">Add</a>
+								<a href="#" class="addSpecialty"><spring:message code="form.addSpecialty"/></a>
 							</td>
-							<td><a href="#" class="removeFaculties">Remove</a></td>
+							<td><a href="#" class="removeFaculties"><spring:message code="form.removeSpecialty"/></a></td>
 						</tr>
                     </c:forEach>
 					<c:if test="${empty study.faculties}">
@@ -263,14 +263,14 @@
 							<td class="faculIndex"><input type="text" name="faculties[].nameOfFaculties" value="" /></td>
 							<td>
 								<div class="specContainer"></div>
-								<a href="#" class="addSpecialty">Add</a>
+								<a href="#" class="addSpecialty"><spring:message code="form.addSpecialty"/></a>
 							</td>
-							<td><a href="#" class="removeFaculties">Remove</a></td>
+							<td><a href="#" class="removeFaculties"><spring:message code="form.removeSpecialty"/></a></td>
 						</tr>
 					</c:if>
 				</tbody>
 			</table>
-			<a href="#" id="addFaculties">Add</a>
+			<a href="#" id="addFaculties"><spring:message code="form.addSpecialty"/></a>
 		</div>
         <input type="submit" style="vertical-align: central; margin-top: 15px; " value="<spring:message
                                    code='<%=(request.isUserInRole("Administrator"))?"form.submit.save"
