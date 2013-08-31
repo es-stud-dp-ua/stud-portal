@@ -87,15 +87,18 @@
 						</a></td>
 						<td>
 							<a href="${linkToSingle}" style="font-weight: bold; font-size: 14px;"><%=currStudy.getTitle()%></a>
-							<% if (request.isUserInRole("Administrator")) { %>
-								<portlet:renderURL var="removeLink">
-									<portlet:param name="studieId" value="<%=currStudy.getId().toString()%>"/>
-									<portlet:param name="mode" value="delete"/>
-								</portlet:renderURL>
-								<a href="${removeLink}" style="float: right;" onclick='return confirm("<spring:message code="form.confDelete"/>")'>
-									<div class="panelbtn panelbtn-right fs20 icon-pcpremove" aria-hidden="true"></div>
-								</a>
-							<%}%>
+		<% if (request.isUserInRole("Administrator")) { %>
+		<div class="portlet-content-controlpanel fs20"style="width: 10.15%;float: right;">
+                <a style="float: right" href="<portlet:renderURL/>&orgsId=<%=currStudy.getId()%>&mode=delete"
+                   onclick='return confirm("<spring:message code="form.confDelete"/>")'>
+                    <div class="panelbtn panelbtn-right fs20 icon-pcpremove" aria-hidden="true"></div>
+                </a>
+                <a style="float: right" href="<portlet:renderURL/>&eventId=<%=currStudy.getId()%>&mode=edit">
+                    <!--<spring:message code="viewSingle.Edit"/>-->
+                    <div class="panelbtn panelbtn-right icon-pcppencil" aria-hidden="true"></div>
+                </a>
+            </div>                
+		<%}%>
 						</td>
 						<tr></tbody></table>
 				</div>
