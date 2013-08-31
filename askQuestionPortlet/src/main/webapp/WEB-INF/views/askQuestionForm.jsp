@@ -30,8 +30,7 @@
         <form:textarea cols="60" path="text" cssClass="control-group" style="resize: vertical; min-height: 100px;"/>
         <form:errors path="text" cssClass="error"/>
         <br/><br/>
-        <input class="btn" type="submit" value=
-            <spring:message code="form.btSend"/>/>
+        <input class="btn" type="submit" value="<spring:message code="form.btSend"/>" />
     </form:form>
 </div>
 
