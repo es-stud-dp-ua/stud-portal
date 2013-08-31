@@ -341,7 +341,7 @@
         });
     });
 
-    var mcChannel = "${news.id}";
+    var mcChannel = "${organization.id}";
     // will return en   or   ru
     var mcLocale = "<%= request.getLocale().getLanguage() %>";
     var mcSite = '13747';
@@ -354,9 +354,10 @@
         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(mc);
     })();
 </script>
-<a href="http://cackle.me" id="mc-link"><spring:message code="viewSingle.copyright"/> <b style="color:#4FA3DA">CACKL</b><b
-        style="color:#F65077">E</b></a>
 <%--commentz support--%>
-<br/><br/>
+<div id="mc-container"></div>
+<!--<a href="http://cackle.me" id="mc-link"><spring:message code="viewSingle.copyright"/> <b style="color:#4FA3DA">CACKL</b><b
+        style="color:#F65077">E</b></a>-->
+<%--commentz support--%><br/>
 </body>
 </html>
