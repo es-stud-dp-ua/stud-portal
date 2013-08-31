@@ -254,7 +254,7 @@
         });
     });
 
-    var mcChannel = "${news.id}";
+    var mcChannel = "${event.id}";
     // will return en   or   ru
     var mcLocale = "<%= request.getLocale().getLanguage() %>";
     var mcSite = '13747';
