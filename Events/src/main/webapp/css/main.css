@@ -601,3 +601,21 @@ label.error[for=mainImage]{
     position:absolute;
     left: 15%;
 }
+.ui-datepicker-close{
+    position: absolute;
+bottom: 10px;
+left: 265px;
+width: 32px;
+height: 30px;
+background:url("../images/close.jpg") no-repeat;
+color: red;
+}
+.ui-datepicker-current{
+    visibility: hidden;
+}
+.ui-datepicker-buttonpane{
+    height: 1px;
+}
+.ui-datepicker{
+    z-index: 888;
+}

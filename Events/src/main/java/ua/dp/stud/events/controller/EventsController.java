@@ -17,13 +17,15 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.StringTokenizer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+//import java.util.logging.Level;
+//import java.util.logging.Logger;
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.validation.Valid;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -85,9 +87,7 @@ public class EventsController {
     public ModelAndView showView(RenderRequest request, RenderResponse response) {
         ModelAndView model = new ModelAndView();
         model.setViewName("viewAll");
-        
         Collection<Events> events;
-
         int pagesCount;
         int currentPage;
         EventsType type;
@@ -103,10 +103,10 @@ public class EventsController {
             type = null;
         }
         if (type == null) {
-            pagesCount = eventsService.getPagesCount(true,EVENTS_BY_PAGE,true);
+            pagesCount = eventsService.getPagesCount(true, EVENTS_BY_PAGE, true);
             events = eventsService.getEventsOnPage(currentPage, EVENTS_BY_PAGE, true);
         } else {
-            pagesCount = eventsService.getPagesCountOfType(EVENTS_BY_PAGE, type,true,true);
+            pagesCount = eventsService.getPagesCountOfType(EVENTS_BY_PAGE, type, true, true);
             events = eventsService.getEventsOfTypeByPage(currentPage, EVENTS_BY_PAGE, type.toString(), true);
         }
 
@@ -206,7 +206,7 @@ public class EventsController {
         response.setRenderParameter(CURRENT_PAGE, String.valueOf(currentPage));
         if (request.getParameter(TYPE) != null) {
             response.setRenderParameter(TYPE, request.getParameter(TYPE));
-            
+
         }
     }
 
@@ -223,7 +223,7 @@ public class EventsController {
             if (currentPage < eventsService.getPagesCount(EVENTS_BY_PAGE)) {
                 currentPage += 1;
             }
-        } else if (currentPage < eventsService.getPagesCountOfType(EVENTS_BY_PAGE, EventsType.valueOf(request.getParameter(TYPE)),true,true)) {
+        } else if (currentPage < eventsService.getPagesCountOfType(EVENTS_BY_PAGE, EventsType.valueOf(request.getParameter(TYPE)), true, true)) {
             currentPage += 1;
         }
         response.setRenderParameter(CURRENT_PAGE, String.valueOf(currentPage));
@@ -287,7 +287,7 @@ public class EventsController {
                 imageService.saveMainImage(mainImage, event);
             }
         } catch (IOException ex) {
-            LOG.log(Level.SEVERE, STR_EXEPT, ex);
+            LOG.log(Level.FATAL, STR_EXEPT, ex);
             return false;
         }
 //success upload message
@@ -307,13 +307,16 @@ public class EventsController {
 //            EventsType type = EventsType.valueOf(actionRequest.getParameter("type"));
 //crop main image
         CommonsMultipartFile croppedImage = null;
-        if (!actionRequest.getParameter("t").equals("")) {
+        System.out.println(mainImage.getFileItem().getName());
+        System.out.println(actionRequest.getParameter("t"));
+        if (!actionRequest.getParameter("t").equals("") || !"".equals(mainImage.getFileItem().getName())) {
             croppedImage = imageService.cropImage(mainImage, Integer.parseInt(actionRequest.getParameter("t")),
                     Integer.parseInt(actionRequest.getParameter("l")),
                     Integer.parseInt(actionRequest.getParameter("w")),
                     Integer.parseInt(actionRequest.getParameter("h")));
         } else {
             croppedImage = imageService.getDefaultImage(actionRequest.getPortletSession().getPortletContext().getRealPath(File.separator));
+
         }
         Date dateStart = new Date(Date.parse(actionRequest.getParameter("EventDateStart")));
         if (!"".equals(actionRequest.getParameter("startTime"))) {

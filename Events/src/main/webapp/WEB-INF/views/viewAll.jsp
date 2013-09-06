@@ -136,7 +136,7 @@
                 <%}%>
                 <table width="90%">
                     <tr>
-                        <%if(events.size()>9){%>
+                        <%if(events.size()>9||currentPage>1){%>
                         <td width="80" align="left">
                         <portlet:actionURL name="pagination" var="pagPrev">
                         <portlet:param name="direction" value="prev"/>

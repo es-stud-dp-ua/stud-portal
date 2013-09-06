@@ -14,8 +14,9 @@
         <script>
             $(function() {
             $.datepicker.setDefaults($.datepicker.regional['ru']);
-                    $("#datepicker1").datepicker();
-                    $("#datepicker2").datepicker();
+                    $("#datepicker1").datepicker({ dateFormat: "mm/dd/yy" ,showAnim:'slide',showButtonPanel:true});
+                    $("#datepicker2").datepicker({ dateFormat: "mm/dd/yy" ,showAnim:'slide',showButtonPanel:true});
+                    
             });</script>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <% Boolean russianLocaleEnabled = request.getLocale().getLanguage().equals("ru");  %>
@@ -85,10 +86,10 @@
 
     <div width="100%" align="center">
         <form:form method="post" id="jform" name="jform" action="${actionLink}"  enctype="multipart/form-data" commandName="event" modelAttribute="event">
-            <input type="hidden" size="0" id="x1" name="t"/>
-            <input type="hidden" size="0" id="y1" name="l"/>
-            <input type="hidden" size="0" id="w" name="w"/>
-            <input type="hidden" size="0" id="h" name="h"/>
+            <input type="hidden" size="0" id="x1" name="t" />
+            <input type="hidden" size="0" id="y1" name="l" />
+            <input type="hidden" size="0" id="w" name="w" />
+            <input type="hidden" size="0" id="h" name="h" />
             <table width="100%" margin-bottom="15px">
                 <tr>
                     <td width="50%" align="center">
@@ -126,7 +127,7 @@
                             return function(e) {
                             // Render thumbnail.
                             var span = document.createElement('span');
-                                    span.innerHTML = ['<img id="cropbox" class="thumb" src="', e.target.result,
+                                    span.innerHTML = ['<img id="cropbox" width="453px"  class="thumb" src="', e.target.result,
                                     '" title="', escape(theFile.name), '"/>'].join('');
                                     document.getElementById('list').insertBefore(span, null);
                                     a();

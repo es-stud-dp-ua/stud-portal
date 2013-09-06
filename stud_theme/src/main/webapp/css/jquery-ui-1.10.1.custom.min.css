@@ -5,7 +5,7 @@
 * Copyright (c) 2013 jQuery Foundation and other contributors Licensed MIT */
 
 ui-datepicker-div {
-    z-index: 2 !important;
+    z-index: 999 !important;
 }
 
 .ui-helper-hidden {
