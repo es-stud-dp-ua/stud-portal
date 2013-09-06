@@ -125,7 +125,7 @@
             </table>
         </div>
         <%}%>
-        <%if(orgs.size()>9){%>
+        <%if(orgs.size()>9||currentPage>1){%>
         <table width="90%">
             <tr>
                 <td width="80" align="left">
