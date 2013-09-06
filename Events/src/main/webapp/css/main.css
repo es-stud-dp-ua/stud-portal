@@ -617,5 +617,5 @@ color: red;
     height: 1px;
 }
 .ui-datepicker{
-    z-index: 888;
+    z-index: 888 !important;
 }
