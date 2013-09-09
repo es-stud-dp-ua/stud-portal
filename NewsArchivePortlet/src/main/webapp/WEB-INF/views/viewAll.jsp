@@ -44,42 +44,41 @@
         <c:if test="${not empty news}">
             <div id="newsTable">
                 <%for (News currentNews : news) {%>
-                <div><div width="100%">
-                        <a href='<portlet:renderURL><portlet:param name="newsID" value="<%=currentNews.getId().toString()%>"/></portlet:renderURL>'>
+				<portlet:renderURL var="newsSingleLink">
+					<portlet:param name="newsID" value="<%=currentNews.getId().toString()%>"/>
+				</portlet:renderURL>
+                <div>
+					<div style="height: 210px;">
+						<div style="min-height: 200px; width: 680px; float: right;">
+							<% if (request.isUserInRole("Administrator")) { %>
+							<div class="portlet-content-controlpanel fs20"style="width: 9.5%;float: right;">
+							<a style="float: right"
+							   href='<portlet:renderURL><portlet:param name="newsId" value="<%=currentNews.getId().toString()%>"/><portlet:param name="mode" value="delete" /></portlet:renderURL>'
+							   onclick='return confirm("<spring:message code="form.confDelete"/>")'>
+								<div class="panelbtn panelbtn-right fs20 icon-pcpremove" aria-hidden="true"></div>
+							</a>
+							<a style="float: right" href="<portlet:renderURL/>&newsId=<%=currentNews.getId()%>&mode=edit">
+								<!--<spring:message code="viewSingle.Edit"/>-->
+								<div class="panelbtn panelbtn-right icon-pcppencil" aria-hidden="true"></div>
+							</a>
+							</div>
+							<%}%>
+							<div class="newsHeader" style="width: 90%"><a href='${newsSingleLink}'><%=currentNews.getTopic()%></a></div>
+							<div class="reply_link_wrap">
+								<span class="rel_author"><%=currentNews.getAuthor()%></span>
+								<span class="rel_view"><%=currentNews.getNumberOfViews()%></span>
+								<span class="rel_date"><%=CustomFunctions.getCreationDate(currentNews.getPublication())%></span>
+							</div>
+							<div class="newsText"><%= CustomFunctions.truncateHtml(currentNews.getText(), 700) %></div>
+							<div><a href='${newsSingleLink}'><spring:message code="readMore"/></a></div>
+                        </div>
+						<div style="width: 200px;"><a href='${newsSingleLink}'>
                             <img src="<%= imageService.getPathToMicroblogImage(currentNews.getMainImage(),currentNews) %>"
                                  class="newsImage">
-                        </a>
-                        <div class="newsHeader">
-                            <a href='<portlet:renderURL><portlet:param name="newsID" value="<%=currentNews.getId().toString()%>"/></portlet:renderURL>'>
-                                <%=currentNews.getTopic()%>
-
-                            </a>
-                        </div>
-                        <div class="newsText">
-                            <%--50 as said Anton--%>
-                            <%= CustomFunctions.truncateHtml(currentNews.getText(), 700) %>
-                        </div>
-                    </div>
-                    <div class="reply_link_wrap">
-                        <span class="rel_author"><%=currentNews.getAuthor()%></span>
-                        <span class="rel_view"><%=currentNews.getNumberOfViews()%></span>
-                        <span class="rel_date"><%=CustomFunctions.getCreationDate(currentNews.getPublication())%></span>
-                    </div>
-                    <% if (request.isUserInRole("Administrator")) { %>
-                        <div class="portlet-content-controlpanel fs20"style="width: 7.5%;float: right;">
-                        <a style="float: right"
-                           href='<portlet:renderURL><portlet:param name="newsId" value="<%=currentNews.getId().toString()%>"/><portlet:param name="mode" value="delete" /></portlet:renderURL>'
-                           onclick='return confirm("<spring:message code="form.confDelete"/>")'>
-                            <div class="panelbtn panelbtn-right fs20 icon-pcpremove" aria-hidden="true"></div>
-                        </a>
-                        <a style="float: right" href="<portlet:renderURL/>&newsId=<%=currentNews.getId()%>&mode=edit">
-                            <!--<spring:message code="viewSingle.Edit"/>-->
-                            <div class="panelbtn panelbtn-right icon-pcppencil" aria-hidden="true"></div>
-                        </a>
-                        </div>
-                        <%}%>
+                        </a></div>
+					</div>
                     <div width="100%" align="right">
-                        <table width="90%">
+                        <table width="100%">
                             <tr>
                                 <td width="60">
                                     <img width="60" class="newsDecorImage"

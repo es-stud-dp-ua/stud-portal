@@ -19,9 +19,8 @@
 }
 
 #newsTable .newsImage {
-    float: left;
-    width: 100px;
-    height: 100px;
+    width: 200px;
+    height: 200px;
     margin: 0px 20px 10px 10px;
 }
 
@@ -37,6 +36,10 @@
     font-size: 12pt;
     text-align: justify;
     margin-left: 5px;
+	max-height: 150px;
+	white-space: pre-line;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 #mainImageLoader {
@@ -105,11 +108,15 @@
 #newsTable .newsHeader {
     margin-top: 5px;
     margin-bottom: 10px;
+	width: 700px;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis
 }
 
 #newsTable .newsHeader>a {
     font-weight: bold;
-    font-size: 13pt;
+    font-size: 18pt;
 }
 
 #newsTable .newsDecorImage {
@@ -280,7 +287,6 @@ span.cke_skin_kama {
 
 /*footer of news*/
 .reply_link_wrap {
-    background: #eee;
     width: 100%;
     margin-top: 10px;
 	clear: both;
