@@ -619,3 +619,46 @@ color: red;
 .ui-datepicker{
     z-index: 888 !important;
 }
+.Archive {
+	-moz-box-shadow:inset 0px 0px 0px 0px #fcfcfc;
+	-webkit-box-shadow:inset 0px 0px 0px 0px #fcfcfc;
+	box-shadow:inset 0px 0px 0px 0px #fcfcfc;
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #13b5f0), color-stop(1, #020fc2) );
+	background:-moz-linear-gradient( center top, #13b5f0 5%, #020fc2 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#13b5f0', endColorstr='#020fc2');
+	background-color:#13b5f0;
+	-webkit-border-top-left-radius:16px;
+	-moz-border-radius-topleft:16px;
+	border-top-left-radius:16px;
+	-webkit-border-top-right-radius:0px;
+	-moz-border-radius-topright:0px;
+	border-top-right-radius:0px;
+	-webkit-border-bottom-right-radius:16px;
+	-moz-border-radius-bottomright:16px;
+	border-bottom-right-radius:16px;
+	-webkit-border-bottom-left-radius:0px;
+	-moz-border-radius-bottomleft:0px;
+	border-bottom-left-radius:0px;
+	text-indent:0px;
+	display:inline-block;
+	color:#f0f0f0;
+	font-family:Arial;
+	font-size:15px;
+	font-weight:bold;
+	font-style:normal;
+	height:30px;
+	line-height:30px;
+	width:100px;
+	text-decoration:none;
+	text-align:center;
+	text-shadow:1px 1px 0px #050401;
+}
+.Archive:hover {
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #020fc2), color-stop(1, #13b5f0) );
+	background:-moz-linear-gradient( center top, #020fc2 5%, #13b5f0 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#020fc2', endColorstr='#13b5f0');
+	background-color:#020fc2;
+}.Archive:active {
+	position:relative;
+	top:1px;
+}

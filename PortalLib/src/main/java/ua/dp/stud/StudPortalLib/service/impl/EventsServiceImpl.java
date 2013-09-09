@@ -95,8 +95,8 @@ public class EventsServiceImpl implements EventsService {
 
     @Override
     @Transactional(readOnly = true)
-    public Collection<Events> getEventsOnPage(Integer pageNumb, Integer eventsByPage, Boolean approve) {
-        return dao.getObjectOnPage(approve, pageNumb, eventsByPage);
+    public Collection<Events> getEventsOnPage(Integer pageNumb, Integer eventsByPage, Boolean approve,Boolean future) {
+        return dao.getObjectOnPage(approve, pageNumb, eventsByPage,future);
     }
 
     @Override
@@ -152,8 +152,8 @@ public class EventsServiceImpl implements EventsService {
     
  @Transactional(readOnly = true)
     @Override
-    public Collection<Events> getEventsOfTypeByPage(Integer pageNumb, Integer eventsByPage, String type, Boolean approve) {
-            return dao.getEventsOfTypeOnPage(pageNumb, eventsByPage, type, approve);
+    public Collection<Events> getEventsOfTypeByPage(Integer pageNumb, Integer eventsByPage, String type, Boolean approve,Boolean future) {
+            return dao.getEventsOfTypeOnPage(pageNumb, eventsByPage, type, approve,future);
     }
  
    @Override

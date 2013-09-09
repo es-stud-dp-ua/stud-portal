@@ -33,21 +33,26 @@ public class EventsDaoImpl extends DaoForApproveImpl<Events> implements EventsDa
     }
 
     @Override
-    public Collection<Events> getEventsOfTypeOnPage(Integer pageNumb, Integer eventsPerPage, String type, Boolean approve) {
+    public Collection<Events> getEventsOfTypeOnPage(Integer pageNumb, Integer eventsPerPage, String type, Boolean approve, Boolean future) {
         int firstResult = (pageNumb - 1) * eventsPerPage;
-        Collection<Events> nearesEvents = getSession().createCriteria(Events.class)
-                .add(Restrictions.eq("approved", approve))
-                .add(Restrictions.eq("type", EventsType.valueOf(type)))
-                .add(Restrictions.ge("eventDateStart", new Date()))
-                .add(Restrictions.isNull("comment")).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
-                .setFirstResult(firstResult).setMaxResults(eventsPerPage).addOrder(Order.asc("eventDateStart")).list();
-        /*Collection<Events> endedEvents = getSession().createCriteria(persistentClass)
-                .add(Restrictions.eq("approved", approve))
-                .add(Restrictions.eq("eventsType", type))
-                .add(Restrictions.le("eventDateStart", new Date()))
-                .add(Restrictions.isNull("comment")).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
-                .setFirstResult(firstResult).setMaxResults(eventsPerPage - nearesEvents.size()).addOrder(Order.desc("eventDateStart")).list();
-        nearesEvents.addAll(endedEvents);*/
+        Collection<Events> nearesEvents = null;
+        if (future) {
+            nearesEvents = getSession().createCriteria(Events.class)
+                    .add(Restrictions.eq("approved", approve))
+                    .add(Restrictions.eq("type", EventsType.valueOf(type)))
+                    .add(Restrictions.ge("eventDateStart", new Date()))
+                    .add(Restrictions.isNull("comment")).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
+                    .setFirstResult(firstResult).setMaxResults(eventsPerPage).addOrder(Order.asc("eventDateStart")).list();
+        } else {
+            nearesEvents = getSession().createCriteria(Events.class)
+                    .add(Restrictions.eq("approved", approve))
+                    .add(Restrictions.eq("type", EventsType.valueOf(type)))
+                    .add(Restrictions.le("eventDateStart", new Date()))
+                    .add(Restrictions.isNull("comment")).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
+                    .setFirstResult(firstResult).setMaxResults(eventsPerPage).addOrder(Order.asc("eventDateStart")).list();
+        }
+
+
         return nearesEvents;
     }
 
@@ -95,30 +100,35 @@ public class EventsDaoImpl extends DaoForApproveImpl<Events> implements EventsDa
     }
 
     @Override
-    public Integer getCountOfType(EventsType type2,Boolean approved, Boolean futureEvents) {
-        if(futureEvents){
-        return ((Long) getSession().createQuery("Select Count(*) From Events WHERE type= :type2 and approved=true and eventDateStart>=:dateNow")
-                .setParameter("dateNow",new Date())
-                .setParameter("type2", type2).uniqueResult()).intValue();
-        }else{
-        return ((Long) getSession().createQuery("Select Count(*) From Events WHERE type= :type2 and approved=true and eventDateStart<=:dateNow")
-                .setParameter("dateNow",new Date())
-                .setParameter("type2", type2).uniqueResult()).intValue();
+    public Integer getCountOfType(EventsType type2, Boolean approved, Boolean futureEvents) {
+        if (futureEvents) {
+            return ((Long) getSession().createQuery("Select Count(*) From Events WHERE type= :type2 and approved=true and eventDateStart>=:dateNow")
+                    .setParameter("dateNow", new Date())
+                    .setParameter("type2", type2).uniqueResult()).intValue();
+        } else {
+            return ((Long) getSession().createQuery("Select Count(*) From Events WHERE type= :type2 and approved=true and eventDateStart<=:dateNow")
+                    .setParameter("dateNow", new Date())
+                    .setParameter("type2", type2).uniqueResult()).intValue();
         }
-            
+
     }
+
     @Override
-    public Integer getCount(Boolean approved,Boolean futureEvents){
-       if(futureEvents){
-        return ((Long) getSession().createQuery("Select Count(*) From Events WHERE  approved=:approve and eventDateStart>=:dateNow")
-                .setParameter("dateNow",new Date())
-                .setParameter("approve", approved).uniqueResult()).intValue();
-        }else{
-        return ((Long) getSession().createQuery("Select Count(*) From Events WHERE  approved=:approve and eventDateStart<=:dateNow")
-                .setParameter("dateNow",new Date())
-                .setParameter("approve", approved).uniqueResult()).intValue();
-        } 
+    public Integer getCount(Boolean approved, Boolean futureEvents) {
+        if (futureEvents == null) {
+            return ((Long) getSession().createQuery("Select Count(*) From Events WHERE  approved=:approve")
+                    .setParameter("approve", approved).uniqueResult()).intValue();
+        } else if (futureEvents) {
+            return ((Long) getSession().createQuery("Select Count(*) From Events WHERE  approved=:approve and eventDateStart>=:dateNow")
+                    .setParameter("dateNow", new Date())
+                    .setParameter("approve", approved).uniqueResult()).intValue();
+        } else {
+            return ((Long) getSession().createQuery("Select Count(*) From Events WHERE  approved=:approve and eventDateStart<=:dateNow")
+                    .setParameter("dateNow", new Date())
+                    .setParameter("approve", approved).uniqueResult()).intValue();
+        }
     }
+
     @Override
     public void incrementViews(Events event) {
         event.setViews(event.getViews() + 1);
@@ -134,19 +144,31 @@ public class EventsDaoImpl extends DaoForApproveImpl<Events> implements EventsDa
     }
 
     @Override
-    public Collection<Events> getObjectOnPage(Boolean approved, Integer pageNumb, Integer objByPage) {
+    public Collection<Events> getObjectOnPage(Boolean approved, Integer pageNumb, Integer objByPage, Boolean future) {
         int firstResult = (pageNumb - 1) * objByPage;
-        Collection<Events> nearesEvents = getSession().createCriteria(persistentClass)
-                .add(Restrictions.eq("approved", approved))
-                .add(Restrictions.ge("eventDateStart", new Date()))
-                .add(Restrictions.isNull("comment")).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
-                .setFirstResult(firstResult).setMaxResults(objByPage).addOrder(Order.asc("eventDateStart")).list();
-/*        Collection<Events> endedEvents = getSession().createCriteria(persistentClass)
-                .add(Restrictions.eq("approved", approved))
-                .add(Restrictions.le("eventDateStart", new Date()))
-                .add(Restrictions.isNull("comment")).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
-                .setFirstResult(firstResult).setMaxResults(objByPage - nearesEvents.size()).addOrder(Order.desc("eventDateStart")).list();
-        nearesEvents.addAll(endedEvents);*/
+        Collection<Events> nearesEvents = null;
+        //return all events (for event panel)
+        if(future==null){   
+            nearesEvents = getSession().createCriteria(persistentClass)
+                    .add(Restrictions.eq("approved", approved))
+                    .add(Restrictions.isNull("comment")).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
+                    .setFirstResult(firstResult).setMaxResults(objByPage).addOrder(Order.asc("eventDateStart")).list();
+        }else
+            //return future events
+        if (future) { 
+            nearesEvents = getSession().createCriteria(persistentClass)
+                    .add(Restrictions.eq("approved", approved))
+                    .add(Restrictions.ge("eventDateStart", new Date()))
+                    .add(Restrictions.isNull("comment")).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
+                    .setFirstResult(firstResult).setMaxResults(objByPage).addOrder(Order.asc("eventDateStart")).list();
+            //return old events
+        } else {
+            nearesEvents = getSession().createCriteria(persistentClass)
+                    .add(Restrictions.eq("approved", approved))
+                    .add(Restrictions.le("eventDateStart", new Date()))
+                    .add(Restrictions.isNull("comment")).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
+                    .setFirstResult(firstResult).setMaxResults(objByPage).addOrder(Order.asc("eventDateStart")).list();
+        }
         return nearesEvents;
     }
 }

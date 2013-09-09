@@ -18,7 +18,7 @@ public interface EventsDao extends DaoForApprove<Events> {
 
     Collection<Events> getEventsByType(EventsType type);
 
-    Collection<Events> getEventsOfTypeOnPage(Integer pageNumb, Integer orgsPerPage, String type, Boolean approve);
+    Collection<Events> getEventsOfTypeOnPage(Integer pageNumb, Integer orgsPerPage, String type, Boolean approve,Boolean future);
 
     Collection<Events> getAllEvents(Boolean approved);
     
@@ -36,7 +36,6 @@ public interface EventsDao extends DaoForApprove<Events> {
     
     Events save(Events event,List<Tags> tags);
     
-    @Override
-    Collection<Events> getObjectOnPage(Boolean approved, Integer pageNumb, Integer objByPage);
+    Collection<Events> getObjectOnPage(Boolean approved, Integer pageNumb, Integer objByPage,Boolean future);
         
 }

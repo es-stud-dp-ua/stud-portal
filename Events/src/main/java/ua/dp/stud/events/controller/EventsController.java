@@ -17,8 +17,6 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.StringTokenizer;
-//import java.util.logging.Level;
-//import java.util.logging.Logger;
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.RenderRequest;
@@ -91,6 +89,7 @@ public class EventsController {
         int pagesCount;
         int currentPage;
         EventsType type;
+        Boolean future;
         if (request.getParameter(CURRENT_PAGE) != null) {
             currentPage = Integer.parseInt(request.getParameter(CURRENT_PAGE));
         } else {
@@ -102,12 +101,20 @@ public class EventsController {
         } else {
             type = null;
         }
-        if (type == null) {
-            pagesCount = eventsService.getPagesCount(true, EVENTS_BY_PAGE, true);
-            events = eventsService.getEventsOnPage(currentPage, EVENTS_BY_PAGE, true);
+        if ("true".equals(request.getParameter("archive")) || (request.getParameter("archive")) == null) {
+            future = true;
+            model.addObject("archive", future);
         } else {
-            pagesCount = eventsService.getPagesCountOfType(EVENTS_BY_PAGE, type, true, true);
-            events = eventsService.getEventsOfTypeByPage(currentPage, EVENTS_BY_PAGE, type.toString(), true);
+            future = false;
+            model.addObject("archive", future);
+        }
+
+        if (type == null) {
+            pagesCount = eventsService.getPagesCount(true, EVENTS_BY_PAGE, future);
+            events = eventsService.getEventsOnPage(currentPage, EVENTS_BY_PAGE, true, future);
+        } else {
+            pagesCount = eventsService.getPagesCountOfType(EVENTS_BY_PAGE, type, true, future);
+            events = eventsService.getEventsOfTypeByPage(currentPage, EVENTS_BY_PAGE, type.toString(), true, future);
         }
 
         int leftPageNumb = Math.max(1, currentPage - NEARBY_PAGES);
@@ -206,8 +213,11 @@ public class EventsController {
         response.setRenderParameter(CURRENT_PAGE, String.valueOf(currentPage));
         if (request.getParameter(TYPE) != null) {
             response.setRenderParameter(TYPE, request.getParameter(TYPE));
-
         }
+        if (request.getParameter("archive") != null) {
+            response.setRenderParameter("archive", request.getParameter("archive"));
+        }
+
     }
 
     /**
@@ -223,12 +233,15 @@ public class EventsController {
             if (currentPage < eventsService.getPagesCount(EVENTS_BY_PAGE)) {
                 currentPage += 1;
             }
-        } else if (currentPage < eventsService.getPagesCountOfType(EVENTS_BY_PAGE, EventsType.valueOf(request.getParameter(TYPE)), true, true)) {
+        } else if (currentPage < eventsService.getPagesCountOfType(EVENTS_BY_PAGE, EventsType.valueOf(request.getParameter(TYPE)), true,Boolean.valueOf(request.getParameter("archive")))) {
             currentPage += 1;
         }
         response.setRenderParameter(CURRENT_PAGE, String.valueOf(currentPage));
         if (request.getParameter(TYPE) != null) {
             response.setRenderParameter(TYPE, request.getParameter(TYPE));
+        }
+        if (request.getParameter("archive") != null) {
+            response.setRenderParameter("archive", request.getParameter("archive"));
         }
     }
 
@@ -247,6 +260,9 @@ public class EventsController {
         response.setRenderParameter(CURRENT_PAGE, String.valueOf(currentPage));
         if (request.getParameter(TYPE) != null) {
             response.setRenderParameter(TYPE, request.getParameter(TYPE));
+        }
+        if (request.getParameter("archive") != null) {
+            response.setRenderParameter("archive", request.getParameter("archive"));
         }
     }
 
@@ -307,8 +323,6 @@ public class EventsController {
 //            EventsType type = EventsType.valueOf(actionRequest.getParameter("type"));
 //crop main image
         CommonsMultipartFile croppedImage = null;
-        System.out.println(mainImage.getFileItem().getName());
-        System.out.println(actionRequest.getParameter("t"));
         if (!actionRequest.getParameter("t").equals("") || !"".equals(mainImage.getFileItem().getName())) {
             croppedImage = imageService.cropImage(mainImage, Integer.parseInt(actionRequest.getParameter("t")),
                     Integer.parseInt(actionRequest.getParameter("l")),

@@ -25,7 +25,7 @@ public interface EventsService {
 
     Integer getPagesCount(Integer newsByPage);
 
-    Collection<Events> getEventsOnPage(Integer pageNumb, Integer eventsByPage, Boolean approve);
+    Collection<Events> getEventsOnPage(Integer pageNumb, Integer eventsByPage, Boolean approve,Boolean future);
 
     Collection<Events> getAllEvents(Boolean approve);
 
@@ -45,7 +45,7 @@ public interface EventsService {
 
     Collection<Events> getOnMainPage();
 
-    Collection<Events> getEventsOfTypeByPage(Integer pageNumb, Integer eventsByPage, String type, Boolean approve);
+    Collection<Events> getEventsOfTypeByPage(Integer pageNumb, Integer eventsByPage, String type, Boolean approve,Boolean future);
 
     Integer getPagesCountOfType(int eByPage, EventsType type,Boolean approved,Boolean futureEvents);
 

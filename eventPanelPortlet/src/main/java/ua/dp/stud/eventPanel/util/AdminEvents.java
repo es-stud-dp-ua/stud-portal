@@ -17,16 +17,16 @@ public class AdminEvents  extends State {
     @Override
     public Integer getPagesCount() {
         EventsService service = helper.getEventsService();
-        return service.getPagesCount(false, 1);
+        return service.getPagesCount(false, 1,null);
     }
 
     @Override
     public ModelAndView getObjectByPage() {
         EventsService service = helper.getEventsService();
         ModelAndView model = helper.getModel();
-        Integer pageCount = service.getPagesCount(false, PER_PAGE);
+        Integer pageCount = service.getPagesCount(false, PER_PAGE,null);
         Integer newCurrentPage = setPage(pageCount);
-        Collection<Events> eventsList = service.getEventsOnPage(newCurrentPage, PER_PAGE, false);
+        Collection<Events> eventsList = service.getEventsOnPage(newCurrentPage, PER_PAGE, false,null);
         model.addObject("eventsList", eventsList);
         model.addObject(TYPE, "Events");
         model.addObject(PAGE_COUNT, pageCount);
