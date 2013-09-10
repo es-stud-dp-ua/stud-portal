@@ -36,7 +36,7 @@
             }
         </style>
     </head>
-    <body>
+    <body >
         <script type="text/javascript">
             function a() {
             jQuery('#cropbox').Jcrop({onChange: setCoords, onSelect: setCoords, bgColor: 'black',
@@ -121,7 +121,7 @@
                             return function(e) {
                             // Render thumbnail.
                             var span = document.createElement('span');
-                                    span.innerHTML = ['<img id="cropbox" class="thumb" src="', e.target.result,
+                                    span.innerHTML = ['<img id="cropbox" class="thumb" width="453px" src="', e.target.result,
                                     '" title="', escape(theFile.name), '"/>'].join('');
                                     document.getElementById('list').insertBefore(span, null);
                                     a();
@@ -149,39 +149,30 @@
                             <form:errors path="title" cssClass="error"></form:errors>
                             <div id="labels"><spring:message code="form.text"/></div><div id="redStar2">*</div>
                             <textarea path="text" class="ckeditor" id="text" cols="65" rows="10" maxlength="10000"
-                                      name="text" ></textarea>
+                                      name="text" style="margin-left: 8px;" ></textarea>
                             <textarea style="visibility: hidden;width: 0px;" id="text1" name="text1"  ></textarea>
                         <form:errors path="text" cssClass="error" ></form:errors>
-                           
-                                  <spring:message code="form.contacts"/> 
-                                  <br/>
-                  <form:input path="contacts" id="contacts" cols="150" rows="5" maxlength="500"  name="contacts"/>
-                       
-                      <br/><br/>
-                            <div id="sbm">
-                                <input type="submit" value="<spring:message
-                                       code='<%=(request.isUserInRole("Administrator"))?"form.submit.admin"
-                                                                                             :"form.submit.user"%>'/>"/>
-                        </div>
-                        <br/><br/>
-                    </td>
-                </tr>
-                <tr>
-                    <td width="50%" align="right">
-                        <div id="eventSetting">
-                            <div style="font-size:14px">
-                                <div style="float: right; margin-top: 30px; ">
-                                    <table>
-                                        <tr><label>
-                                            <div style="font-weight: bold; "><spring:message
-                                                    code="addOrganisation.type"/></div>
-                                        </label></tr>
-                                        <tr>
-                                            <td>
-                                                <div style="float: right; margin-right: 10px;"><spring:message
-                                                        code="form.SPORTS"/></div>
-                                            </td>
-                                            <td><input type="radio" name="type" value="<%= OrganizationType.SPORTS %>"
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="50%" align="right">
+                            <div id="eventSetting">
+                                <div style="font-size:14px;margin-top: 120px;">
+                                    <div style="font-weight: bold;"><spring:message code="form.contacts"/> </div>
+                                <textarea path="contacts" id="contacts" cols="150" rows="5" maxlength="3000"  name="contacts"></textarea>
+                                <form:errors path="contacts" cssClass="error"></form:errors>
+                                    <div style="float: right;  ">
+                                        <table>
+                                            <tr><label>
+                                                <div style="font-weight: bold; "><spring:message
+                                                        code="addOrganisation.type"/></div>
+                                            </label></tr>
+                                            <tr>
+                                                <td>
+                                                    <div style="float: right; margin-right: 10px;"><spring:message
+                                                            code="form.SPORTS"/></div>
+                                                </td>
+                                                <td><input type="radio" name="type" value="<%= OrganizationType.SPORTS %>"
                                                        checked="" style="float: right;"/></td>
                                         </tr>
                                         <tr>
@@ -236,12 +227,17 @@
                                 </div>
                                 <br/>
                             </div>
-                     
-                     </div>
-                  
-                   </td>
+
+                        </div>
+
+                    </td>
                 </tr>
             </table>
+            <div id="sbm">
+                <input type="submit" value="<spring:message
+                       code='<%=(request.isUserInRole("Administrator"))?"form.submit.admin"
+                                                                                             :"form.submit.user"%>'/>"/>
+            </div>
         </form:form>
         <script type="text/javascript">
                     function f(){
@@ -262,8 +258,10 @@
                     minlength: 500,
                     maxlength: 10000
             },
-                    mainImage:{
-            required: true
+                    contacts:{
+            required:true,
+                    minlength:300,
+                    maxlength:3000
             }
             },
                     messages: {
@@ -277,8 +275,10 @@
                     minlength:  "<spring:message code="val.text.minlength"/>",
                     maxlength:  "<spring:message code="val.text.maxlength"/>"
             },
-                    mainImage:{
-            required: "<spring:message code="val.mainImage"/>",
+                    contacts: {
+            required: "<spring:message code="val.required"/>",
+                    minlength:  "<spring:message code="val.contacts.minlength"/>",
+                    maxlength:  "<spring:message code="val.contacts.maxlength"/>"
             }
             },
                     highlight: function(label) {

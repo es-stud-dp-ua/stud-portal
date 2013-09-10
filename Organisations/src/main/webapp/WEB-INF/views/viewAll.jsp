@@ -86,11 +86,11 @@
                 </div>
                 <% if (request.isUserInRole("Administrator")) { %>
                 <div class="portlet-content-controlpanel fs20"style="width: 8.6%;float: right;">
-                <a style="float: right" href="<portlet:renderURL/>&orgsId=<%=currentOrgs.getId()%>&mode=delete"
+                <a style="float: right" href="<portlet:renderURL/>&orgsID=<%=currentOrgs.getId()%>&mode=delete"
                    onclick='return confirm("<spring:message code="form.confDelete"/>")'>
                     <div class="panelbtn panelbtn-right fs20 icon-pcpremove" aria-hidden="true"></div>
                 </a>
-                <a style="float: right" href="<portlet:renderURL/>&eventId=<%=currentOrgs.getId()%>&mode=edit">
+                <a style="float: right" href="<portlet:renderURL/>&orgsID=<%=currentOrgs.getId()%>&mode=edit"
                     <!--<spring:message code="viewSingle.Edit"/>-->
                     <div class="panelbtn panelbtn-right icon-pcppencil" aria-hidden="true"></div>
                 </a>

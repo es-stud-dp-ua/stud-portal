@@ -558,7 +558,7 @@ span.cke_skin_kama {
 }
 #labels{
     font-size: 14px;
-    color: gray;
+    font-weight: bold;
 }
 #redStar1{
     color: red;
@@ -581,6 +581,9 @@ label.error[for=mainImage]{
 }
 
 #contacts{
-    width:450px;
-    height: 40px;
+    width:430px;
+    height: 80px;
+}
+#cke_text{
+    margin-left: 5px;
 }

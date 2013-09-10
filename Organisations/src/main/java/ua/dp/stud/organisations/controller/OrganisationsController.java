@@ -166,12 +166,11 @@ public class OrganisationsController {
      * @param response
      * @return model
      */
-    @RenderMapping(params = "orgsID")
+    @RenderMapping(params = "orgsId")
     public ModelAndView showSelectedOrgs(RenderRequest request, RenderResponse response) throws SystemException, PortalException {
 
         int orgsID = Integer.valueOf(request.getParameter("orgsID"));
         Organization organisation = organizationService.getOrganizationById(orgsID);
-        organizationService.incrementViews(organisation);
         ImageImpl mImage = organisation.getMainImage();
         String mainImageUrl;
 
@@ -259,7 +258,7 @@ public class OrganisationsController {
         someorgs.setAuthor(role);
         if (frmRole.equals(ADMINISTRATOR_ROLE)) {
             someorgs.setApproved(true);
-        } 
+        }
         try {
             if (mainImage.getSize() > 0) {
                 imageService.saveMainImage(mainImage, someorgs);
@@ -274,7 +273,7 @@ public class OrganisationsController {
             return false;
         }
 //success upload message
-            return true;
+        return true;
     }
 
     @ModelAttribute("organization")
@@ -298,21 +297,17 @@ public class OrganisationsController {
         if (bindingResult.hasFieldErrors()) {
             actionResponse.setRenderParameter(STR_FAIL, " ");
         } else {
-//path for main image is not empty
-            if (mainImage.getOriginalFilename().equals("")) {
-                actionResponse.setRenderParameter(STR_FAIL, STR_NO_IMAGE);
-                return;
-            }
 //getting all parameters from form
             OrganizationType typeOrg = OrganizationType.valueOf(actionRequest.getParameter(TYPE));
 //crop main image
-            CommonsMultipartFile croppedImage = imageService.cropImage(mainImage, Integer.parseInt(actionRequest.getParameter("t")),
-                    Integer.parseInt(actionRequest.getParameter("l")),
-                    Integer.parseInt(actionRequest.getParameter("w")),
-                    Integer.parseInt(actionRequest.getParameter("h")));
-            if (croppedImage == null) {
-                actionResponse.setRenderParameter(STR_FAIL, STR_BAD_IMAGE);
-                return;
+            CommonsMultipartFile croppedImage = null;
+            if (!actionRequest.getParameter("t").equals("") || !"".equals(mainImage.getFileItem().getName())) {
+                croppedImage = imageService.cropImage(mainImage, Integer.parseInt(actionRequest.getParameter("t")),
+                        Integer.parseInt(actionRequest.getParameter("l")),
+                        Integer.parseInt(actionRequest.getParameter("w")),
+                        Integer.parseInt(actionRequest.getParameter("h")));
+            } else {
+                croppedImage = imageService.getDefaultImage(actionRequest.getPortletSession().getPortletContext().getRealPath(File.separator));
             }
 //check the uniqueness of the name
             String role;
@@ -320,7 +315,7 @@ public class OrganisationsController {
             User user = (User) actionRequest.getAttribute(WebKeys.USER);
             String usRole = user.getScreenName();
 //try to update fields for new organisation
-            if (organizationService.isUnique(organization.getTitle())) { 
+            if (organizationService.isUnique(organization.getTitle())) {
                 if (updateCommunityFields(croppedImage, images, organization.getTitle(), organization.getText(), role, usRole, organization, typeOrg)) {
                     Date date = new Date();
                     organization.setPublication(date);
@@ -334,7 +329,7 @@ public class OrganisationsController {
         }
     }
 
-    @ActionMapping(value = "editOrgamisation")
+    @ActionMapping(value = "editCommunity")
     public void editCommunity(@RequestParam(MAIN_IMAGE) CommonsMultipartFile mainImage,
             @RequestParam("images") CommonsMultipartFile[] images, @ModelAttribute(value = "organization") @Valid Organization organization,
             BindingResult bindingResult,
@@ -342,21 +337,21 @@ public class OrganisationsController {
             ActionResponse actionResponse, SessionStatus sessionStatus)
             throws IOException, SystemException, PortalException {
 //getting current news
-        int organisationID = Integer.valueOf(actionRequest.getParameter("orgsId"));
+        int organisationID = Integer.valueOf(actionRequest.getParameter("orgsID"));
         Organization org = organizationService.getOrganizationById(organisationID);
 //getting all parameters from form
         if (bindingResult.hasFieldErrors()) {
             actionResponse.setRenderParameter(STR_FAIL, " ");
         } else {
             OrganizationType typeOrg = OrganizationType.valueOf(actionRequest.getParameter(TYPE));
-            CommonsMultipartFile croppedImage;
-            if (!actionRequest.getParameter("t").equals("")) {
+            CommonsMultipartFile croppedImage = null;
+            if (!actionRequest.getParameter("t").equals("") || !"".equals(mainImage.getFileItem().getName())) {
                 croppedImage = imageService.cropImage(mainImage, Integer.parseInt(actionRequest.getParameter("t")),
                         Integer.parseInt(actionRequest.getParameter("l")),
                         Integer.parseInt(actionRequest.getParameter("w")),
                         Integer.parseInt(actionRequest.getParameter("h")));
             } else {
-                croppedImage = mainImage;
+                croppedImage = imageService.getDefaultImage(actionRequest.getPortletSession().getPortletContext().getRealPath(File.separator));
             }
             if (croppedImage == null) {
                 actionResponse.setRenderParameter(STR_FAIL, STR_BAD_IMAGE);
@@ -399,7 +394,7 @@ public class OrganisationsController {
     public ModelAndView showEditNews(RenderRequest request, RenderResponse response) {
         ModelAndView model = new ModelAndView();
 //getting news
-        int organisationID = Integer.valueOf(request.getParameter("orgsId"));
+        int organisationID = Integer.valueOf(request.getParameter("orgsID"));
         Organization organisation = organizationService.getOrganizationById(organisationID);
         ImageImpl mImage = organisation.getMainImage();
         String mainImageUrl;
@@ -417,7 +412,7 @@ public class OrganisationsController {
     @RenderMapping(params = "mode=delete")
     public ModelAndView deleteOrganisation(RenderRequest request, RenderResponse response) {
 //getting current news
-        int organisationID = Integer.valueOf(request.getParameter("orgsId"));
+        int organisationID = Integer.valueOf(request.getParameter("orgsID"));
         Organization organisation = organizationService.getOrganizationById(organisationID);
 //delete chosen organization's image from folder
         imageService.deleteDirectory(organisation);

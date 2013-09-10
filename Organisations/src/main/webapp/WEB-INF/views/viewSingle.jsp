@@ -114,7 +114,7 @@
     </script>
 </head>
 
-<body>
+<body >
 <portlet:renderURL var="home"> </portlet:renderURL>
 <div id="singleView">
     <div class="portlet-content-controlpanel fs20">
