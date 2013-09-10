@@ -52,14 +52,17 @@ public class OrganizationDaoTest extends AbstractTransactionalJUnit4SpringContex
         org1.setTitle("Sport org");
         org1.setText("We are sport!");
         org1.setAuthor("author1");
+        org1.setContacts("blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla ");
         org2.setOrganizationType(OrganizationType.OTHERS);
         org2.setTitle("Other org");
         org2.setText("We are other!");
         org2.setAuthor("author1");
+        org2.setContacts("blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla ");
         org3.setOrganizationType(OrganizationType.OTHERS);
         org3.setApproved(Boolean.TRUE);
         org3.setAuthor("test");
         org3.setTitle("test123");
+        org3.setContacts("blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla ");
         String TEST_TEXT = "sadgfsdfhsflhkfsdkgnsdjfhgbsdjhgdasdfsdgfdhfgjsadgfsdfhsflhkfsdkgnsdjfhgbsdjhgdasdfsdgfdhfgjsadgfsdfhsflhkfsdkgnsdjfhgbsdjhgdasdfsdgfdhfgjsadgfsdfhsflhkfsdkgnsdjfhgbsdjhgdasdfsdgfdhfgjsadgfsdfhsflhkfsdkgnsdjfhgbsdjhgdasdfsdgfdhfgjsadgfsdfhsflhkfsdkgnsdjfhgbsdjhgdasdfsdgfdhfgjsadgfsdfhsflhkfsdkgnsdjfhgbsdjhgdasdfsdgfdhfgjsadgfsdfhsflhkfsdkgnsdjfhgbsdjhgdasdfsdgfdhfgjsadgfsdfhsflhkfsdkgnsdjfhgbsdjhgdasdfsdgfdhfgjsadgfsdfhsflhkfsdkgnsdjfhgbsdjhgdasdfsdgfdhfgjsadgfsdfhsflhkfsdkgnsdjfhgbsdjhgdasdfsdgfdhfgjsadgfsdfhsflhkfsdkgnsdjfhgbsdjhgdasdfsdgfdhfgjsadgfsdfhsflhkfsdkgnsdjfhgbsdjhgdasdfsdgfdhfgjsadgfsdfhsflhkfsdkgnsdjfhgbsdjhgdasdfsdgfdhfgjsadgfsdfhsflhkfsdkgnsdjfhgbsdjhgdasdfsdgfdhfgjsadgfsdf";
         org1.setText(TEST_TEXT);
         org2.setText(TEST_TEXT);
@@ -137,9 +140,9 @@ public class OrganizationDaoTest extends AbstractTransactionalJUnit4SpringContex
 
     @Test
     public void getCountByAuthorTest() {
-       // Integer result = 2;
-      //  Integer expResult = dao.getCountByAuthor("author1", new Organization());
-      //  assertEquals(result, expResult);
+        // Integer result = 2;
+        //  Integer expResult = dao.getCountByAuthor("author1", new Organization());
+        //  assertEquals(result, expResult);
     }
 
     @Test
