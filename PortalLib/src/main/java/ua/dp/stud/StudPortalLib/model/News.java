@@ -11,6 +11,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * Entity class instances of which will be stored in DB
@@ -69,20 +71,17 @@ public class News extends BaseImagesSupport implements Serializable {
     }
     //Fields//
     @Size(min = 5, max = 100)
-    @NotNull
-    @NotBlank
+    @NotEmpty
     private String topic;
     @Size(min = 100, max = 10000)
-    @NotNull
-    @NotBlank
+    @NotEmpty
     private String text;
     @Size(min = 2, max = 30)
-    @NotNull
-    @NotBlank
+    @NotEmpty
     private String author;
     @NotNull
-    @Past
     private Date publication;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date publicationInCalendar;
     @NotNull
     private Boolean inCalendar;
