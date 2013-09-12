@@ -1,6 +1,6 @@
 #contentDiv {
     margin-left: 1%;
-	width:100%;
+    width:100%;
 }
 
 .fancybox-custom .fancybox-skin {
@@ -36,10 +36,10 @@
     font-size: 12pt;
     text-align: justify;
     margin-left: 5px;
-	max-height: 150px;
-	white-space: pre-line;
-	overflow: hidden;
-	text-overflow: ellipsis;
+    max-height: 150px;
+    white-space: pre-line;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 #mainImageLoader {
@@ -108,10 +108,10 @@
 #newsTable .newsHeader {
     margin-top: 5px;
     margin-bottom: 10px;
-	width: 700px;
-	overflow: hidden;
-	white-space: nowrap;
-	text-overflow: ellipsis
+    width: 700px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis
 }
 
 #newsTable .newsHeader>a {
@@ -127,6 +127,12 @@
     max-width: none;
     width: 80px;
     height: 65px;
+}
+input:focus::-webkit-input-placeholder {
+    color: transparent;
+}
+textarea:focus::-webkit-input-placeholder {
+    color: transparent;
 }
 
 #contentDiv td>a, #contentDiv td>label {
@@ -182,7 +188,7 @@
 /*add & edit news*/
 #topicInput {
     overflow:  hidden;
-	resize: none;
+    resize: none;
     margin-top: 15px;
     width: 430px;
     font-size: large;
@@ -289,7 +295,7 @@ span.cke_skin_kama {
 .reply_link_wrap {
     width: 100%;
     margin-top: 10px;
-	clear: both;
+    clear: both;
 }
 
 .rel_date {

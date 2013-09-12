@@ -14,9 +14,8 @@
         <script>
             $(function() {
             $.datepicker.setDefaults($.datepicker.regional['ru']);
-                    $("#datepicker1").datepicker({ dateFormat: "mm/dd/yy" ,showAnim:'slide',showButtonPanel:true});
-                    $("#datepicker2").datepicker({ dateFormat: "mm/dd/yy" ,showAnim:'slide',showButtonPanel:true});
-                    
+                    $("#datepicker1").datepicker({ dateFormat: "mm/dd/yy", showAnim:'slide', showButtonPanel:true});
+                    $("#datepicker2").datepicker({ dateFormat: "mm/dd/yy", showAnim:'slide', showButtonPanel:true});
             });</script>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <% Boolean russianLocaleEnabled = request.getLocale().getLanguage().equals("ru");  %>

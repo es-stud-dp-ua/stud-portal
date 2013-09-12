@@ -662,3 +662,9 @@ color: red;
 	position:relative;
 	top:1px;
 }
+input:focus::-webkit-input-placeholder {
+    color: transparent;
+}
+textarea:focus::-webkit-input-placeholder {
+    color: transparent;
+}
