@@ -330,7 +330,6 @@ public class EventsController {
                     Integer.parseInt(actionRequest.getParameter("h")));
         } else {
             croppedImage = imageService.getDefaultImage(actionRequest.getPortletSession().getPortletContext().getRealPath(File.separator));
-
         }
         Date dateStart = new Date(Date.parse(actionRequest.getParameter("EventDateStart")));
         if (!"".equals(actionRequest.getParameter("startTime"))) {
@@ -392,7 +391,7 @@ public class EventsController {
             ActionResponse actionResponse, SessionStatus sessionStatus)
             throws IOException, SystemException, PortalException {
 //getting current news
-        int eventID = Integer.valueOf(actionRequest.getParameter("eventID"));
+        int eventID = Integer.valueOf(actionRequest.getParameter("eventId"));
         Events newEvent = eventsService.getEventsById(eventID);
 //getting all parameters from form
 //        if (bindingResult.hasFieldErrors()) {
