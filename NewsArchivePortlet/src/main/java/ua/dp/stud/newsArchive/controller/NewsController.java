@@ -6,7 +6,15 @@ import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.validation.Validator;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.support.SessionStatus;
@@ -20,11 +28,13 @@ import ua.dp.stud.StudPortalLib.model.Organization;
 import ua.dp.stud.StudPortalLib.service.NewsService;
 import ua.dp.stud.StudPortalLib.service.OrganizationService;
 import ua.dp.stud.StudPortalLib.util.ImageService;
+import ua.dp.stud.newsArchive.validation.NewsValidation;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
+import javax.validation.Valid;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
@@ -250,6 +260,23 @@ public class NewsController {
         response.setRenderParameter(CURRENT_PAGE, String.valueOf(currentPage));
     }
 
+    @ModelAttribute(value = "news")
+    public News getCommandObject() {
+        return new News();
+    }
+
+    @Autowired
+    private NewsValidation newsValidation;
+
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        dateFormat.setLenient(true);
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
+        binder.setDisallowedFields("mainImage");
+        binder.setValidator(newsValidation);
+    }
+
     /**
      * * Update all fields for parameter somenews
      *
@@ -324,85 +351,107 @@ public class NewsController {
         }
     }
 
+    private boolean updateNews(News news, CommonsMultipartFile mainImage, boolean role,
+                               String screenName, ActionResponse actionResponse, BindingResult bindingResult) {
+        boolean successUpload = true;
+        news.setApproved(role);
+        news.setAuthor(screenName);
+        //main image uploading
+        try {
+            if (mainImage.getSize() > 0) {
+                imageService.saveMainImage(mainImage, news);
+            }
+        } catch (Exception ex) {
+            successUpload = false;
+            LOG.log(Level.SEVERE, "Exception: ", ex);
+        }
+        //success upload message
+        if (successUpload) {
+            actionResponse.setRenderParameter("success", "success-add");
+            return true;
+        } else {
+            actionResponse.setRenderParameter(STR_FAIL, NO_IMAGE);
+            return false;
+        }
+    }
+
     @ActionMapping(value = ADD_NEWS)
-    public void addNews(@RequestParam("mainImage") CommonsMultipartFile mainImage,
-                        @RequestParam("images") CommonsMultipartFile[] images,
+    public void addNews(@ModelAttribute("news") @Valid News news,
+                        BindingResult bindingResult,
                         ActionRequest actionRequest,
-                        ActionResponse actionResponse, SessionStatus sessionStatus) {
+                        ActionResponse actionResponse,
+                        @RequestParam("mainImage") CommonsMultipartFile mainImage,
+                        SessionStatus sessionStatus) {
+        //newsValidation.validate(news, bindingResult);
+        if (bindingResult.hasErrors()) {
+
+            for(ObjectError error : bindingResult.getAllErrors()) {
+                System.out.println(error.toString());
+                System.out.println();
+            }
+            actionResponse.setRenderParameter(STR_FAIL, "msg.fail");
+            return;
+        }
         //path for main image is not empty
         if (mainImage.getOriginalFilename().equals("")) {
             actionResponse.setRenderParameter(STR_FAIL, NO_IMAGE);
             return;
         }
-        //create new object News
-        News news = new News();
-        //getting all parameters from form
-        String topic = actionRequest.getParameter("topic");
-        String text = actionRequest.getParameter("text");
-        String dateInCalendar = actionRequest.getParameter("startDate");
-        String role;
 
         CommonsMultipartFile f = imageService.cropImage(mainImage, Integer.parseInt(actionRequest.getParameter("t")),
                 Integer.parseInt(actionRequest.getParameter("l")),
                 Integer.parseInt(actionRequest.getParameter("w")),
                 Integer.parseInt(actionRequest.getParameter("h")));
 
-        role = actionRequest.isUserInRole(ADMIN_ROLE) ? ADMIN_ROLE : USER_ROLE;
+        boolean role = actionRequest.isUserInRole(ADMIN_ROLE);
         User user = (User) actionRequest.getAttribute(WebKeys.USER);
-        String usRole = user.getScreenName();
-        Boolean inCalendar = actionRequest.getParameter("inCalendar") != null;
-        Boolean onMainPage = actionRequest.getParameter("onMainPage") != null;
+        String screenName = user.getScreenName();
         //update fields for new news
-        if (updateNewsFields(f, images, topic, text, inCalendar, onMainPage,
-                dateInCalendar, role, usRole, actionResponse, STR_FAIL, NO_IMAGE, news)) {
+        if (updateNews(news, f, role, screenName, actionResponse, bindingResult)) {
             news.setPublication(new Date());
             //updating info about loaded news images
-            try {
-                newsService.addNews(news);
-                //close session
-                sessionStatus.setComplete();
-            } catch (Exception ex) {
-                //exception controller //todo: remove try-catch
-                LOG.log(Level.SEVERE, "Exception: ", ex);
-                actionResponse.setRenderParameter(STR_EXEPT, "");
-            }
+            newsService.addNews(news);
+            //close session
+            sessionStatus.setComplete();
         }
     }
 
     @ActionMapping(value = "editNews")
-    public void editNews(@RequestParam("mainImage") CommonsMultipartFile mainImage,
-                         @RequestParam("images") CommonsMultipartFile[] images,
+    public void editNews(@ModelAttribute("news") @Valid News news,
+                         BindingResult bindingResult,
                          ActionRequest actionRequest,
-                         ActionResponse actionResponse, SessionStatus sessionStatus) {
-        //getting current news
-        int newsID = Integer.valueOf(actionRequest.getParameter("newsId"));
-        News news = newsService.getNewsById(newsID);
-        //getting all parameters from form
-        String topic = actionRequest.getParameter("topic");
-        String text = actionRequest.getParameter("text");
-        String dateInCalendar = actionRequest.getParameter("startDate");
-        //todo: ternary operator
-        String role = null;
-        if (actionRequest.isUserInRole(ADMIN_ROLE)) {
-            role = ADMIN_ROLE;
-        } else {
-            role = USER_ROLE;
+                         ActionResponse actionResponse,
+                         @RequestParam("mainImage") CommonsMultipartFile mainImage,
+                         SessionStatus sessionStatus) {
+        if (bindingResult.hasErrors()) {
+            for(ObjectError error : bindingResult.getAllErrors()) {
+                System.out.println(error.toString());
+                System.out.println();
+            }
+            actionResponse.setRenderParameter(STR_FAIL, "msg.fail");
+            return;
         }
-        Boolean inCalendar = actionRequest.getParameter("inCalendar") != null;
-        Boolean onMainPage = actionRequest.getParameter("onMainPage") != null;
+        News oldNews = newsService.getNewsById(news.getId());
+        oldNews.setText(news.getText());
+        oldNews.setTopic(news.getTopic());
+        oldNews.setPublicationInCalendar(news.getPublicationInCalendar());
+        oldNews.setOnMainpage(news.getOnMainpage());
+        oldNews.setInCalendar(news.getInCalendar());
+        boolean role = oldNews.getApproved();
         //apdate author for edit
-        String author = news.getAuthor();
+        String author = oldNews.getAuthor();
         //update fields for new news
-         CommonsMultipartFile f = imageService.cropImage(mainImage, Integer.parseInt(actionRequest.getParameter("t")),
+        if (!mainImage.getOriginalFilename().equals("")) {
+            mainImage = imageService.cropImage(mainImage, Integer.parseInt(actionRequest.getParameter("t")),
                 Integer.parseInt(actionRequest.getParameter("l")),
                 Integer.parseInt(actionRequest.getParameter("w")),
                 Integer.parseInt(actionRequest.getParameter("h")));
-        if (updateNewsFields(f, images, topic, text, inCalendar, onMainPage,
-                dateInCalendar, role, author, actionResponse, STR_FAIL, NO_IMAGE, news)) {
-            newsService.updateNews(news);
+        }
+        if (updateNews(oldNews, mainImage, role, author, actionResponse, bindingResult)) {
+            newsService.updateNews(oldNews);
             //close session
             sessionStatus.setComplete();
-        }        //todo: what if updateNewsFields(..) returns false?
+        }
     }
 
     @RenderMapping(params = "mode=add")
@@ -412,29 +461,14 @@ public class NewsController {
 
     @RenderMapping(params = "mode=edit")
     public ModelAndView showEditNews(RenderRequest request, RenderResponse response) {
-        ModelAndView model = new ModelAndView();
-        String publicationInCalendar = "";
+        ModelAndView model = new ModelAndView("editNews");
         //getting news   
         int newsID = Integer.valueOf(request.getParameter("newsId"));
         News news = newsService.getNewsById(newsID);
         ImageImpl mImage = news.getMainImage();
-        String mainImageUrl;
-         Collection<ImageImpl> additionalImages = news.getAdditionalImages();
-        //organisation.getYearMonthUniqueFolder()
-        if (mImage == null) {
-            mainImageUrl = MAIN_IMAGE_MOCK_URL;
-        } else {
-            mainImageUrl = imageService.getPathToLargeImage(mImage, news);
-        }
-        //set view for edit
-        model.setViewName("editNews");
-        if (news.getPublicationInCalendar() != null) {
-            publicationInCalendar = news.getPublicationInCalendar().toString().split(" ")[0];
-        }
+        String mainImageUrl = (mImage == null) ? MAIN_IMAGE_MOCK_URL : imageService.getPathToLargeImage(mImage, news);
+        model.getModelMap().addAttribute("news", news);
         model.addObject("mainImage", mainImageUrl);
-        model.addObject("additionalImages", additionalImages);
-        model.addObject("pubDate", publicationInCalendar);
-        model.addObject("news", news);
         return model;
     }
 

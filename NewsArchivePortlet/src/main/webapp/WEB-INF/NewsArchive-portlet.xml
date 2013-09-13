@@ -44,6 +44,21 @@
             </props>
         </property>
     </bean>
+
+    <mvc:annotation-driven validator="validator" />
+
+    <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
+
+    <bean id="annotationMethodHandlerAdapter" class="org.springframework.web.portlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+        <property name="webBindingInitializer">
+            <bean id="configurableWebBindingInitializer" class="org.springframework.web.bind.support.ConfigurableWebBindingInitializer">
+                <property name="validator">
+                    <ref bean="validator"/>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
     <tx:annotation-driven transaction-manager="transactionManager"/>
     <bean id="transactionManager"
           class="org.springframework.orm.hibernate3.HibernateTransactionManager">

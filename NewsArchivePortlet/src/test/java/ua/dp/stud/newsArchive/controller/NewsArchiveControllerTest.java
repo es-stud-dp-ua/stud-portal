@@ -276,7 +276,7 @@ public class NewsArchiveControllerTest {
         SessionErrors.add(request, "message");
     }
 
-    @Test
+    /*@Test
     public void testAddNewsNoMainImage() {
         ActionRequest request = mock(ActionRequest.class);
         ActionResponse response = mock(ActionResponse.class);
@@ -289,7 +289,7 @@ public class NewsArchiveControllerTest {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-    }
+    }*/
 
 //    @Test
 //    public void testAddNewsNoAdditionalImages(){
