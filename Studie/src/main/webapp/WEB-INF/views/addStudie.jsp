@@ -34,7 +34,7 @@
 </div>
 <div width="100%">
     <form:form method="POST" commandName="study" action="${actionLink}" enctype="multipart/form-data" id="studyForm">
-        <form:errors path="*" cssClass="errorblock" element="div" />
+        
         <input type="hidden" size="0" id="x1" name="t"/>
         <input type="hidden" size="0" id="y1" name="l"/>
         <input type="hidden" size="0" id="w" name="w"/>
@@ -46,8 +46,9 @@
 
             <div style="width: 450px; padding-left: 8px;">
                 <div><label><spring:message code="studie.text"/></label></div>
-                    <form:errors path="text" cssClass="error"/>
                     <form:textarea path="text" class="ckeditor" id="textInput" cols="60" rows="10" maxlength="8000" onkeyup="isNotMax(event, getAttribute('id'))"></form:textarea>
+                                    <form:errors path="text" cssClass="error"/>
+
                 </div>
                 <br/>
                 <div style="width: 450px; padding-left: 8px;">
@@ -127,25 +128,25 @@
                     <div><label cssClass="control-group" for="countOfStudents"><spring:message code="studie.CountOfStudents"/></label>
                     </div>
                     <form:input path="countOfStudents" name="countOfStudents"/>
-                    <form:errors path="countOfStudents" cssClass="error"/>
+                    <p/><form:errors path="countOfStudents" cssClass="error"/>
                 </div>
                 <div class="textBox">
                     <div><label cssClass="control-group" for="countOfTeachers"><spring:message code="studie.CountOfTeachers"/></label>
                     </div>
                     <form:input path="countOfTeachers" name="countOfTeachers"/>
-                    <form:errors path="countOfTeachers" cssClass="error"/>
+                    <p/><form:errors path="countOfTeachers" cssClass="error"/>
                 </div>
                 <div class="textBox">
                     <div><label cssClass="control-group" for="countOfCandidates"><spring:message code="studie.CountOfCandidates"/></label>
                     </div>
                     <form:input path="countOfCandidates" name="countOfCandidates"/>
-                    <form:errors path="countOfCandidates" cssClass="error"/>
+                    <p/><form:errors path="countOfCandidates" cssClass="error"/>
                 </div>
                 <div class="textBox">
                     <div><label cssClass="control-group" for="countOfProfessors"><spring:message code="studie.CountOfProfessors"/></label>
                     </div>
                     <form:input path="countOfProfessors" name="countOfProfessors"/>
-                    <form:errors path="countOfProfessors" cssClass="error"/>
+                    <p/><form:errors path="countOfProfessors" cssClass="error"/>
                 </div>
             </div>
             <div><div style="width: 230px;">
@@ -153,7 +154,7 @@
                         <div><label cssClass="control-group" for="city"><spring:message code="studie.city"/></label>
                         </div>
                         <form:input path="city" name="city"/>
-                        <form:errors path="city" cssClass="error"/>
+                        <p/><form:errors path="city" cssClass="error"/>
                     </div>
                     <div class="textBox">
                         <div><label cssClass="control-group" for="years"><spring:message code="studie.years"/></label>
@@ -162,7 +163,7 @@
                             <form:option value="0" label="--- Select ---" />
                             <form:options items="${yearsList}" />
                         </form:select>
-                        <form:errors path="years" cssClass="error"/>
+                        <p/><form:errors path="years" cssClass="error"/>
                     </div>
                     <div class="textBox">
                         <div><label cssClass="control-group" for="status"><spring:message code="studie.status"/></label>
@@ -171,7 +172,7 @@
                             <form:option value="NONE" label="--- Select ---" />
                             <form:options items="${statusList}" />
                         </form:select>
-                        <form:errors path="status" cssClass="error"/>
+                        <p/><form:errors path="status" cssClass="error"/>
                     </div>
                     <div class="textBox">
                         <div><label cssClass="control-group" for="accreditacion"><spring:message code="studie.accreditacion"/></label>
@@ -180,7 +181,7 @@
                             <form:option value="NONE" label="--- Select ---" />
                             <form:options items="${lvlAccredList}" />
                         </form:select>
-                        <form:errors path="accreditacion" cssClass="error"/>
+                        <p/><form:errors path="accreditacion" cssClass="error"/>
                     </div>
                     <div class="textBox">
                         <div><label cssClass="control-group" for="onGraduation"><spring:message code="studie.onGraduation"/></label>
@@ -189,45 +190,45 @@
                             <form:option value="NONE" label="--- Select ---" />
                             <form:options items="${docList}" />
                         </form:select>
-                        <form:errors path="onGraduation" cssClass="error"/>
+                        <p/><form:errors path="onGraduation" cssClass="error"/>
                     </div>
                     <div class="textBox">
                         <div><label cssClass="control-group" for="formOfTraining"><spring:message code="studie.FormOfTraining"/></label>
                         </div>
                         <form:select path="formOfTraining" items="${trainigFormsList}"
                                      multiple="true" />
-                        <form:errors path="formOfTraining" cssClass="error"/>
+                        <p/><form:errors path="formOfTraining" cssClass="error"/>
                     </div>
                     <div class="textBox">
                         <div><label cssClass="control-group" for="qualificationLevel"><spring:message code="studie.QualificationLevel"/></label>
                         </div>
                         <form:select path="qualificationLevel" items="${lvlQualifList}"
                                      multiple="true" />
-                        <form:errors path="qualificationLevel" cssClass="error"/>
+                        <p/><form:errors path="qualificationLevel" cssClass="error"/>
                     </div>
                     <div class="textBox">
                         <div><label cssClass="control-group" for="adress"><spring:message code="studie.Adress"/></label>
                         </div>
                         <form:input path="adress" name="adress"/>
-                        <form:errors path="adress" cssClass="error"/>
+                        <p/><form:errors path="adress" cssClass="error"/>
                     </div>
                     <div class="textBox">
                         <div><label cssClass="control-group" for="phone"><spring:message code="studie.Phone"/></label>
                         </div>
                         <form:input path="phone" name="phone"/>
-                        <form:errors path="phone" cssClass="error"/>
+                        <p/><form:errors path="phone" cssClass="error"/>
                     </div>
                     <div class="textBox">
                         <div><label cssClass="control-group" for="phoneAdmissions"><spring:message code="studie.PhoneAdmissions"/></label>
                         </div>
                         <form:input path="phoneAdmissions" name="phoneAdmissions"/>
-                        <form:errors path="phoneAdmissions" cssClass="error"/>
+                        <p/><form:errors path="phoneAdmissions" cssClass="error"/>
                     </div>
                     <div class="textBox">
                         <div><label cssClass="control-group" for="website"><spring:message code="studie.Website"/></label>
                         </div>
                         <form:input path="website" name="website"/>
-                        <form:errors path="website" cssClass="error"/>
+                        <p/><form:errors path="website" cssClass="error"/>
                     </div>
                 </div></div>
             <table style="width: 100%;">
