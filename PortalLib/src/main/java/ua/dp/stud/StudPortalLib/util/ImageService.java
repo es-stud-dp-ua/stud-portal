@@ -79,7 +79,7 @@ public class ImageService {
             saveToDiskScaled(file, pathToImagesFolder, MICROBLOG_IMAGE_PREFIX, MICROBLOG_IMAGE_WIDTH, MICROBLOG_IMAGE_HEIGHT);
 
             ImageImpl image = new ImageImpl();
-            image.setBase(base);
+            //image.setBase(base);
             image.setOriginalImageName(file.getOriginalFilename());
             base.setMainImage(image);
         }

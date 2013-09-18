@@ -167,13 +167,12 @@ public class OrganisationsController {
      * @return model
      */
     @RenderMapping(params = "orgsId")
-    public ModelAndView showSelectedOrgs(RenderRequest request, RenderResponse response) throws SystemException, PortalException {
+    public ModelAndView showSelectedOrgs(RenderRequest request, RenderResponse response, SessionStatus sessionStatus) throws SystemException, PortalException {
 
-        int orgsID = Integer.valueOf(request.getParameter("orgsID"));
+        int orgsID = Integer.valueOf(request.getParameter("orgsId"));
         Organization organisation = organizationService.getOrganizationById(orgsID);
         ImageImpl mImage = organisation.getMainImage();
         String mainImageUrl;
-
         if (mImage == null) {
             mainImageUrl = MAIN_IMAGE_MOCK_URL;
         } else {
@@ -184,6 +183,7 @@ public class OrganisationsController {
         ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
         long groupId = themeDisplay.getScopeGroupId();
         long plid = LayoutLocalServiceUtil.getDefaultPlid(groupId, false, "NewsArchive_WAR_NewsArchivePortlet101");
+
         ModelAndView model = new ModelAndView();
         model.setViewName("viewSingle");
         model.addObject("organization", organisation);
