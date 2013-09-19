@@ -124,13 +124,13 @@
             </a>
             <%if (request.isUserInRole("Administrator") || request.isUserInRole("User")) { %>
             <% if (request.isUserInRole("Administrator")) { %>
-            <a style="float: right" href="<portlet:renderURL/>&orgsId=<%=organization.getId()%>&mode=delete"
+            <a style="float: right" href="<portlet:renderURL/>&orgsID=<%=organization.getId()%>&mode=delete"
                onclick='return confirm("<spring:message code="form.confDelete"/>")'>
                 <div class="panelbtn panelbtn-right icon-pcpremove" aria-hidden="true"></div>
                 <!--<spring:message code="form.delete"/>-->
             </a>
             <%}%>
-            <a style="float: right" href="<portlet:renderURL/>&orgsId=<%=organization.getId()%>&mode=edit">
+            <a style="float: right" href="<portlet:renderURL/>&orgsID=<%=organization.getId()%>&mode=edit">
                 <!--<spring:message code="viewSingle.Edit"/>-->
                 <div class="panelbtn panelbtn-right icon-pcppencil" aria-hidden="true"></div>
             </a>

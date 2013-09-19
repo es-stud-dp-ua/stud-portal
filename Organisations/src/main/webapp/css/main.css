@@ -573,7 +573,7 @@ span.cke_skin_kama {
     right: 0%;
 }
 label.invisiblevalid {
-display: none !important;
+    display: none !important;
 }
 label.error[for=mainImage]{
     position:absolute;
@@ -586,4 +586,9 @@ label.error[for=mainImage]{
 }
 #cke_text{
     margin-left: 5px;
+}
+.defImage{
+    margin-left: auto;
+    left: 21%;
+    position: absolute;
 }

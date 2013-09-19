@@ -36,6 +36,7 @@ import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
+
 import java.io.*;
 import java.util.Collection;
 import java.util.Date;
@@ -250,8 +251,8 @@ public class OrganisationsController {
     }
 
     private boolean updateCommunityFields(CommonsMultipartFile mainImage, CommonsMultipartFile[] images,
-            String frmTopic, String frmText, String frmRole, String role,
-            Organization someorgs, OrganizationType type) {
+                                          String frmTopic, String frmText, String frmRole, String role,
+                                          Organization someorgs, OrganizationType type,Boolean changeImage) {
         someorgs.setTitle(frmTopic);
         someorgs.setText(frmText);
         someorgs.setOrganizationType(type);
@@ -260,7 +261,8 @@ public class OrganisationsController {
             someorgs.setApproved(true);
         }
         try {
-            if (mainImage.getSize() > 0) {
+            if (mainImage!=null &&mainImage.getSize() > 0) {
+                if(changeImage)
                 imageService.saveMainImage(mainImage, someorgs);
             }
             if (images != null && images.length > 0) {
@@ -268,7 +270,8 @@ public class OrganisationsController {
                     imageService.saveAdditionalImages(file, someorgs);
                 }
             }
-        } catch (IOException ex) {
+        }
+        catch (IOException ex) {
             LOG.log(Level.SEVERE, STR_EXEPT, ex);
             return false;
         }
@@ -289,10 +292,10 @@ public class OrganisationsController {
     @InitBinder("organization")
     @ActionMapping(value = "addOrganisation")
     public void addOrganisation(@ModelAttribute(value = "organization") @Valid Organization organization,
-            BindingResult bindingResult,
-            ActionRequest actionRequest,
-            ActionResponse actionResponse, SessionStatus sessionStatus, @RequestParam(MAIN_IMAGE) CommonsMultipartFile mainImage,
-            @RequestParam("images") CommonsMultipartFile[] images)
+                                BindingResult bindingResult,
+                                ActionRequest actionRequest,
+                                ActionResponse actionResponse, SessionStatus sessionStatus, @RequestParam(MAIN_IMAGE) CommonsMultipartFile mainImage,
+                                @RequestParam("images") CommonsMultipartFile[] images)
             throws SystemException, PortalException {
         if (bindingResult.hasFieldErrors()) {
             actionResponse.setRenderParameter(STR_FAIL, " ");
@@ -303,9 +306,9 @@ public class OrganisationsController {
             CommonsMultipartFile croppedImage = null;
             if (!actionRequest.getParameter("t").equals("") || !"".equals(mainImage.getFileItem().getName())) {
                 croppedImage = imageService.cropImage(mainImage, Integer.parseInt(actionRequest.getParameter("t")),
-                        Integer.parseInt(actionRequest.getParameter("l")),
-                        Integer.parseInt(actionRequest.getParameter("w")),
-                        Integer.parseInt(actionRequest.getParameter("h")));
+                                                      Integer.parseInt(actionRequest.getParameter("l")),
+                                                      Integer.parseInt(actionRequest.getParameter("w")),
+                                                      Integer.parseInt(actionRequest.getParameter("h")));
             } else {
                 croppedImage = imageService.getDefaultImage(actionRequest.getPortletSession().getPortletContext().getRealPath(File.separator));
             }
@@ -316,7 +319,7 @@ public class OrganisationsController {
             String usRole = user.getScreenName();
 //try to update fields for new organisation
             if (organizationService.isUnique(organization.getTitle())) {
-                if (updateCommunityFields(croppedImage, images, organization.getTitle(), organization.getText(), role, usRole, organization, typeOrg)) {
+                if (updateCommunityFields(croppedImage, images, organization.getTitle(), organization.getText(), role, usRole, organization, typeOrg,true)) {
                     Date date = new Date();
                     organization.setPublication(date);
                     organization = organizationService.addOrganization(organization);
@@ -331,11 +334,12 @@ public class OrganisationsController {
 
     @ActionMapping(value = "editCommunity")
     public void editCommunity(@RequestParam(MAIN_IMAGE) CommonsMultipartFile mainImage,
-            @RequestParam("images") CommonsMultipartFile[] images, @ModelAttribute(value = "organization") @Valid Organization organization,
-            BindingResult bindingResult,
-            ActionRequest actionRequest,
-            ActionResponse actionResponse, SessionStatus sessionStatus)
+                              @RequestParam("images") CommonsMultipartFile[] images, @ModelAttribute(value = "organization") @Valid Organization organization,
+                              BindingResult bindingResult,
+                              ActionRequest actionRequest,
+                              ActionResponse actionResponse, SessionStatus sessionStatus)
             throws IOException, SystemException, PortalException {
+
 //getting current news
         int organisationID = Integer.valueOf(actionRequest.getParameter("orgsID"));
         Organization org = organizationService.getOrganizationById(organisationID);
@@ -345,23 +349,26 @@ public class OrganisationsController {
         } else {
             OrganizationType typeOrg = OrganizationType.valueOf(actionRequest.getParameter(TYPE));
             CommonsMultipartFile croppedImage = null;
-            if (!actionRequest.getParameter("t").equals("") || !"".equals(mainImage.getFileItem().getName())) {
+            Boolean defImage=Boolean.valueOf( actionRequest.getParameter("defaultImage"));
+            Boolean changeImage=true;
+            if (defImage==false) {
+                if (!actionRequest.getParameter("t").equals("") || !"".equals(mainImage.getFileItem().getName())){
                 croppedImage = imageService.cropImage(mainImage, Integer.parseInt(actionRequest.getParameter("t")),
-                        Integer.parseInt(actionRequest.getParameter("l")),
-                        Integer.parseInt(actionRequest.getParameter("w")),
-                        Integer.parseInt(actionRequest.getParameter("h")));
+                                                      Integer.parseInt(actionRequest.getParameter("l")),
+                                                      Integer.parseInt(actionRequest.getParameter("w")),
+                                                      Integer.parseInt(actionRequest.getParameter("h")));
+                }else{
+                    changeImage=false;
+                }
+                    
             } else {
                 croppedImage = imageService.getDefaultImage(actionRequest.getPortletSession().getPortletContext().getRealPath(File.separator));
-            }
-            if (croppedImage == null) {
-                actionResponse.setRenderParameter(STR_FAIL, STR_BAD_IMAGE);
-                return;
             }
             String role;
             role = actionRequest.isUserInRole(ADMINISTRATOR_ROLE) ? ADMINISTRATOR_ROLE : USER_ROLE;
             User user = (User) actionRequest.getAttribute(WebKeys.USER);
             String usRole = user.getScreenName();
-            if (updateCommunityFields(croppedImage, images, organization.getTitle(), organization.getText(), role, usRole, org, typeOrg)) {
+            if (updateCommunityFields(croppedImage, images, organization.getTitle(), organization.getText(), role, usRole, org, typeOrg, changeImage)) {
                 organizationService.updateOrganization(org);
 //close session
                 sessionStatus.setComplete();

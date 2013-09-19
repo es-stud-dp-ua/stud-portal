@@ -15,12 +15,13 @@
     Collection<String> allTypes = (Collection) (OrganizationType.allTypes());
     String temp;
     Organization orgs = (Organization) request.getAttribute("organization");
+    Boolean flag=true;
 %>
 <portlet:defineObjects/>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-         <style type="text/css">
+        <style type="text/css">
             .error {
                 color: #ff0000;
             }
@@ -134,9 +135,12 @@
                         </div>
                         <div id="mainImageLoader">
                             <div id="mainImgloaderBtn">
-                                <input type="file" id="mainImage" name="mainImage">
+                                <input type="file" value="<%=imageService.getPathToLargeImage(orgs.getMainImage(), orgs)%>" id="mainImage" name="mainImage">
 
                                 <div id="nt"><spring:message code="form.addMainPictures"/></div>
+                            </div>
+                            <div class="defImage"><spring:message  code='form.useDefaultImage'/>
+                                <input type="checkbox" name="defaultImage" id="defaultImage" value="<%=flag.toString()%>" onclick="<%if(flag) flag=false; else flag=true;%>" style="margin-left: 3px;" title="<spring:message code='form.useDefaultImageTitle'/>"/>
                             </div>
                         </div>
 
@@ -167,7 +171,9 @@
                             reader.readAsDataURL(f);
                             a();
                     }
-            document.getElementById('mainImage').addEventListener('change', handleFileSelect, false);</script>
+            document.getElementById('mainImage').addEventListener('change', handleFileSelect, false);
+                        
+                        </script>
                         <br/>
                         <div id="imageLoader">
                             <div id="imgloaderBtn">
@@ -232,8 +238,8 @@
                                                                                              :"form.submit.user"%>'/>"/>
             </div>
         </form:form>
-            <script type="text/javascript">
-                     function f(){
+        <script type="text/javascript">
+                    function f(){
                     window.setInterval("document.getElementById('text1').innerHTML = CKEDITOR.instances.text.getData(); if(document.getElementById('text').value!=CKEDITOR.instances.text.getData()) $('#jform').valid()", 500);
                     }
             window.onload = f;
@@ -284,8 +290,8 @@
             }
             });
             });
-    </script>
+        </script>
     </div>
-    
+
 </body>
 </html>
