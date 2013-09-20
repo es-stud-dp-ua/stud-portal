@@ -668,3 +668,8 @@ input:focus::-webkit-input-placeholder {
 textarea:focus::-webkit-input-placeholder {
     color: transparent;
 }
+.defImage{
+    margin-left: auto;
+    left: 21%;
+    position: absolute;
+}

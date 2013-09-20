@@ -22,6 +22,7 @@
     Events event = (Events) request.getAttribute("event");
 SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
 SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+    Boolean flag=true;
 %>
 <portlet:defineObjects/>
 <html>
@@ -81,7 +82,7 @@ SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
         </a>
         <% if (request.isUserInRole("Administrator")) { %>
 
-        <a style="margin-left: 10px;" href="<portlet:renderURL/>&orgsId=<%=event.getId()%>&mode=delete"
+        <a style="margin-left: 10px;" href="<portlet:renderURL/>&eventId=<%=event.getId()%>&mode=delete"
            onclick='return confirm("<spring:message code="form.confDelete"/>")'>
             <!--<spring:message code="form.delete"/>-->
             <div class="panelbtn panelbtn-right fs20 icon-pcpremove" aria-hidden="true"></div>
@@ -99,7 +100,7 @@ SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
             <input type="hidden" size="0" id="y1" name="l"/>
             <input type="hidden" size="0" id="w" name="w"/>
             <input type="hidden" size="0" id="h" name="h"/>
-            <input type="hidden" name="eventID" value="<%=event.getId()%>">
+            <input type="hidden" name="eventId" value="<%=event.getId()%>">
 
             <table width="100%" margin-bottom="15px">
                 <tr>
@@ -133,8 +134,10 @@ SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
                         <div id="mainImageLoader">
                             <div id="mainImgloaderBtn">
                                 <input type="file" id="mainImage" name="mainImage">
-
                                 <div id="nt"><spring:message code="form.addMainPictures"/></div>
+                            </div>
+                            <div class="defImage"><spring:message  code='form.useDefaultImage'/>
+                                <input type="checkbox" name="defaultImage" id="defaultImage" value="<%=flag.toString()%>" onclick="<%if(flag) flag=false; else flag=true;%>" style="margin-left: 3px;" title="<spring:message code='form.useDefaultImageTitle'/>"/>
                             </div>
                         </div>
                         <script>
@@ -150,7 +153,7 @@ SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
                     return function(e) {
                         // Render thumbnail.
                         var span = document.createElement('span');
-                        span.innerHTML = ['<img id="cropbox" class="thumb" src="', e.target.result,
+                        span.innerHTML = ['<img id="cropbox"  width="453px"  class="thumb" src="', e.target.result,
                             '" title="', escape(theFile.name), '"/>'].join('');
                         document.getElementById('list').insertBefore(span, null);
                         a();
