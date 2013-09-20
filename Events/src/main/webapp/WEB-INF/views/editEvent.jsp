@@ -228,7 +228,8 @@ SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
                        position: absolute;
                        bottom: 3%;
                        right: 40%;" type="submit" value="<spring:message
-                       code='<%=(request.isUserInRole("Administrator"))?"form.submit.save":"form.submit.user"%>'/>"/>
+                       code='<%=(request.isUserInRole("Administrator"))?"form.submit.save"
+                                                                                             :"form.submit.user"%>'/>"/>
             </div>
         </form:form>
     </div>
