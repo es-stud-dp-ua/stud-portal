@@ -38,7 +38,7 @@ html {
 }
 
 #header {
-    height: 485px;
+    height: 150px;
 }
 
 #header, #content, #footer {
@@ -665,7 +665,7 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
 }
 
 #content {
-    margin-top: -340px;
+    margin-top: 0px;
     padding: 0px 0px 0px 0px;
     height: auto;
 }
