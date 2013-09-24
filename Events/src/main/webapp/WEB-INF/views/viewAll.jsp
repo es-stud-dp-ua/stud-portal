@@ -56,7 +56,7 @@
                 <div class="Archive" aria-hidden="true"><spring:message code="form.archive"/></div>
             </a>
             <%}%>
-            <a style="float: right" href="<portlet:renderURL/>&mode=add">
+            <a style="float: right" href='<portlet:renderURL><portlet:param name="mode" value="add"/></portlet:renderURL>'>
                 <div class="panelbtn panelbtn-right icon-pcpfile" aria-hidden="true"></div>
             </a>
 

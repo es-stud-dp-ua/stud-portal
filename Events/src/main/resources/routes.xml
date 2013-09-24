@@ -19,11 +19,11 @@
         <implicit-parameter name="mode">viewAll</implicit-parameter>
     </route>
     <route>
-        <pattern>/delete/{eventID:\d+}</pattern>
+        <pattern>/delete/{eventId:\d+}</pattern>
         <implicit-parameter name="mode">delete</implicit-parameter>
     </route>
     <route>
-        <pattern>/edit/{eventID:\d+}</pattern>
+        <pattern>/edit/{eventId:\d+}</pattern>
         <implicit-parameter name="mode">edit</implicit-parameter>
     </route>
     <route>
