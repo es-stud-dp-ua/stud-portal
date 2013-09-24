@@ -41,7 +41,7 @@
     <div id="contentDiv">
         <%if (request.isUserInRole("Administrator") || request.isUserInRole("User")) { %>
         <div class="portlet-content-controlpanel fs20">
-            <a style="float: right" href="<portlet:renderURL/>&mode=add">
+            <a style="float: right" href='<portlet:renderURL><portlet:param name="mode" value="add"/></portlet:renderURL>'>
                 <div class="panelbtn panelbtn-right icon-pcpfile" aria-hidden="true"></div>
             </a>
         </div>
@@ -78,7 +78,7 @@
                      class="newsImage">
 
                 <div class="newsHeader">
-                    <a href="<portlet:renderURL/>&orgsID=<%=currentOrgs.getId()%>">
+                    <a href='<portlet:renderURL><portlet:param name="orgsId" value="<%=currentOrgs.getId().toString()%>"/></portlet:renderURL>' >
                         <%=currentOrgs.getTitle()%>
                     </a>
                 </div>
@@ -86,11 +86,11 @@
                 </div>
                 <% if (request.isUserInRole("Administrator")) { %>
                 <div class="portlet-content-controlpanel fs20"style="width: 8.6%;float: right;">
-                <a style="float: right" href="<portlet:renderURL/>&orgsID=<%=currentOrgs.getId()%>&mode=delete"
+                <a style="float: right" href='<portlet:renderURL><portlet:param name="orgsID" value="<%=currentOrgs.getId().toString()%>"/><portlet:param name="mode" value="delete" /></portlet:renderURL>'
                    onclick='return confirm("<spring:message code="form.confDelete"/>")'>
                     <div class="panelbtn panelbtn-right fs20 icon-pcpremove" aria-hidden="true"></div>
                 </a>
-                <a style="float: right" href="<portlet:renderURL/>&orgsID=<%=currentOrgs.getId()%>&mode=edit"
+                <a style="float: right" href='<portlet:renderURL><portlet:param name="orgsID" value="<%=currentOrgs.getId().toString()%>"/><portlet:param name="mode" value="edit" /></portlet:renderURL>'
                     <!--<spring:message code="viewSingle.Edit"/>-->
                     <div class="panelbtn panelbtn-right icon-pcppencil" aria-hidden="true"></div>
                 </a>
