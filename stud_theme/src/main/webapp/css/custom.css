@@ -38,7 +38,7 @@ html {
 }
 
 #header {
-    height: 150px;
+    height: 180px;
 }
 
 #header, #content, #footer {
@@ -735,8 +735,18 @@ panelbtn a {
 /*------------login link----------------------*/
 #login-wrapper {
     width: 83px;
-    float: right;
+    height: 60px;
+    margin-left: 500px;
+    margin-top: 12px;
     font-size: 25px;
+}
+
+#vertical_line{
+    background: url(../images/line.png) no-repeat right; 
+    margin-top: -60px;
+    margin-right: -80px;
+    margin-bottom: -30px;
+    height: 80px;
 }
 
 .whitestyle a {
@@ -1089,7 +1099,7 @@ ul.child-menu li.menu_item a {
     filter: Shadow(Color = #000000, Direction = 10, Strength = 4);
 }
 
-#ask a {
+/* #ask a {
     font-size: 50px;
     text-decoration: none;
 }
@@ -1097,11 +1107,11 @@ ul.child-menu li.menu_item a {
 #ask:hover {
     text-shadow: 1px 1px 2px black, 0 0 7px #000;
     filter: Shadow(Color = #000000, Direction = 10, Strength = 4);
-}
+}*/
 
 #ask {
     float: right;
-    background-color: whitesmoke;
+   /* background-color: whitesmoke;
     width: 58px;
     color: #28477C;
     height: 40px;
@@ -1109,8 +1119,9 @@ ul.child-menu li.menu_item a {
     text-align: center;
     border-radius: 50%;
     font-size: 55px;
-    text-decoration: none;
-    margin-right: 52px;
+    text-decoration: none;*/
+    margin-right: -340px;
+    margin-top: -44px;
 }
 
 /* -------- footer section -------- */
