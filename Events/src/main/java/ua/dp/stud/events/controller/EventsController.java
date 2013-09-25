@@ -275,7 +275,14 @@ public class EventsController {
         eventsService.incrementViews(event);
         request.getPortletSession().getPortletContext();
         String mainImage = imageService.getPathToLargeImage(mImage, event);
+        int currentPage;
         model.setView("viewSingle");
+        if (request.getParameter(CURRENT_PAGE) != null) {
+            currentPage = Integer.parseInt(request.getParameter(CURRENT_PAGE));
+        } else {
+            currentPage = 1;
+        }
+        model.addObject(CURRENT_PAGE, currentPage);
         model.addObject("mainImage", mainImage);
         model.addObject("event", event);
         model.addObject("startTime", event.getEventDateStart().getHours() + ":" + event.getEventDateStart().getMinutes());
@@ -490,6 +497,7 @@ public class EventsController {
 //delete chosen organization's image from folder
         imageService.deleteDirectory(event);
 //delete chosen news
+        
         eventsService.deleteEvents(event);
         return showAddSuccess(request, response);
     }
@@ -498,6 +506,13 @@ public class EventsController {
     public ModelAndView showAddSuccess(RenderRequest request, RenderResponse response) {
         ModelAndView model = showView(request, response);
         String strSuccess = "success";
+        int currentPage;
+        if (request.getParameter(CURRENT_PAGE) != null) {
+            currentPage = Integer.parseInt(request.getParameter(CURRENT_PAGE));
+        } else {
+            currentPage = 1;
+        }
+        model.addObject(CURRENT_PAGE, currentPage);
         SessionMessages.add(request, request.getParameter(strSuccess));
         return model;
     }

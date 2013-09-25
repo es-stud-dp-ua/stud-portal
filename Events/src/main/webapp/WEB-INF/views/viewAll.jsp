@@ -100,7 +100,7 @@
                     <%=currentEvent.getLocation()%>
                 </div>
                 <div class="newsHeader">
-                    <a href='<portlet:renderURL><portlet:param name="eventID" value="<%=currentEvent.getId().toString()%>"/></portlet:renderURL>'>
+                    <a href='<portlet:renderURL><portlet:param name="eventID" value="<%=currentEvent.getId().toString()%>"/><portlet:param name="currentPage" value="<%=currentPage.toString()%>"/></portlet:renderURL>'>
                         <%=currentEvent.getTitle()%>
                     </a>
                 </div>
@@ -108,7 +108,7 @@
                 </div>
                 <% if (request.isUserInRole("Administrator")) { %>
                 <div class="portlet-content-controlpanel fs20"style="width: 8.6%;float: right;">
-                    <a style="float: right" href='<portlet:renderURL><portlet:param name="eventID" value="<%=currentEvent.getId().toString()%>"/><portlet:param name="mode" value="delete" /></portlet:renderURL>'
+                    <a style="float: right" href='<portlet:renderURL><portlet:param name="eventID" value="<%=currentEvent.getId().toString()%>"/><portlet:param name="currentPage" value="<%=currentPage.toString()%>"/><portlet:param name="mode" value="delete" /></portlet:renderURL>'
                        onclick='return confirm("<spring:message code="form.confDelete"/>")'>
                         <div class="panelbtn panelbtn-right fs20 icon-pcpremove"  aria-hidden="true"></div>
                     </a>
