@@ -16,6 +16,7 @@
     Organization organization = (Organization) request.getAttribute("organization");
     Collection<ImageImpl> additionalImages = (Collection<ImageImpl>) request.getAttribute("additionalImages");
     Collection<News> newsList = (Collection<News>) request.getAttribute("newsList");
+    Integer currentPage = (Integer) request.getAttribute("currentPage");
 %>
 <html>
     <head>
@@ -115,7 +116,7 @@
     </head>
 
     <body >
-    <portlet:renderURL var="home"> </portlet:renderURL>
+    <portlet:renderURL var="home"><portlet:param name="currentPage" value="<%=currentPage.toString()%>"/>  </portlet:renderURL>
     <div id="singleView">
         <div class="portlet-content-controlpanel fs20">
             <a href="${home}">
@@ -124,7 +125,7 @@
             </a>
             <%if (request.isUserInRole("Administrator") || request.isUserInRole("User")) { %>
             <% if (request.isUserInRole("Administrator")) { %>
-            <a style="float: right" href='<portlet:renderURL><portlet:param name="orgsID" value="<%=organization.getId().toString()%>"/><portlet:param name="mode" value="delete" /></portlet:renderURL>'
+            <a style="float: right" href='<portlet:renderURL><portlet:param name="orgsID" value="<%=organization.getId().toString()%>"/><portlet:param name="currentPage" value="1"/><portlet:param name="mode" value="delete" /></portlet:renderURL>'
                onclick='return confirm("<spring:message code="form.confDelete"/>")'>
                 <div class="panelbtn panelbtn-right icon-pcpremove" aria-hidden="true"></div>
                 <!--<spring:message code="form.delete"/>-->

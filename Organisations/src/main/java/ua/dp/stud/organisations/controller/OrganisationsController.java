@@ -184,10 +184,16 @@ public class OrganisationsController {
         ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
         long groupId = themeDisplay.getScopeGroupId();
         long plid = LayoutLocalServiceUtil.getDefaultPlid(groupId, false, "NewsArchive_WAR_NewsArchivePortlet101");
-
+        int currentPage;
+        if (request.getParameter(CURRENT_PAGE) != null) {
+            currentPage = Integer.parseInt(request.getParameter(CURRENT_PAGE));
+        } else {
+            currentPage = 1;
+        }
         ModelAndView model = new ModelAndView();
         model.setViewName("viewSingle");
         model.addObject("organization", organisation);
+        model.addObject(CURRENT_PAGE, currentPage);
         model.addObject(MAIN_IMAGE, mainImageUrl);
         model.addObject("additionalImages", additionalImages);
         model.addObject("newsList", newsList);
@@ -252,7 +258,7 @@ public class OrganisationsController {
 
     private boolean updateCommunityFields(CommonsMultipartFile mainImage, CommonsMultipartFile[] images,
                                           String frmTopic, String frmText, String frmRole, String role,
-                                          Organization someorgs, OrganizationType type,Boolean changeImage) {
+                                          Organization someorgs, OrganizationType type, Boolean changeImage) {
         someorgs.setTitle(frmTopic);
         someorgs.setText(frmText);
         someorgs.setOrganizationType(type);
@@ -261,9 +267,10 @@ public class OrganisationsController {
             someorgs.setApproved(true);
         }
         try {
-            if (mainImage!=null &&mainImage.getSize() > 0) {
-                if(changeImage)
-                imageService.saveMainImage(mainImage, someorgs);
+            if (mainImage != null && mainImage.getSize() > 0) {
+                if (changeImage) {
+                    imageService.saveMainImage(mainImage, someorgs);
+                }
             }
             if (images != null && images.length > 0) {
                 for (CommonsMultipartFile file : images) {
@@ -319,7 +326,7 @@ public class OrganisationsController {
             String usRole = user.getScreenName();
 //try to update fields for new organisation
             if (organizationService.isUnique(organization.getTitle())) {
-                if (updateCommunityFields(croppedImage, images, organization.getTitle(), organization.getText(), role, usRole, organization, typeOrg,true)) {
+                if (updateCommunityFields(croppedImage, images, organization.getTitle(), organization.getText(), role, usRole, organization, typeOrg, true)) {
                     Date date = new Date();
                     organization.setPublication(date);
                     organization = organizationService.addOrganization(organization);
@@ -349,18 +356,18 @@ public class OrganisationsController {
         } else {
             OrganizationType typeOrg = OrganizationType.valueOf(actionRequest.getParameter(TYPE));
             CommonsMultipartFile croppedImage = null;
-            Boolean defImage=Boolean.valueOf( actionRequest.getParameter("defaultImage"));
-            Boolean changeImage=true;
-            if (defImage==false) {
-                if (!actionRequest.getParameter("t").equals("") || !"".equals(mainImage.getFileItem().getName())){
-                croppedImage = imageService.cropImage(mainImage, Integer.parseInt(actionRequest.getParameter("t")),
-                                                      Integer.parseInt(actionRequest.getParameter("l")),
-                                                      Integer.parseInt(actionRequest.getParameter("w")),
-                                                      Integer.parseInt(actionRequest.getParameter("h")));
-                }else{
-                    changeImage=false;
+            Boolean defImage = Boolean.valueOf(actionRequest.getParameter("defaultImage"));
+            Boolean changeImage = true;
+            if (defImage == false) {
+                if (!actionRequest.getParameter("t").equals("") || !"".equals(mainImage.getFileItem().getName())) {
+                    croppedImage = imageService.cropImage(mainImage, Integer.parseInt(actionRequest.getParameter("t")),
+                                                          Integer.parseInt(actionRequest.getParameter("l")),
+                                                          Integer.parseInt(actionRequest.getParameter("w")),
+                                                          Integer.parseInt(actionRequest.getParameter("h")));
+                } else {
+                    changeImage = false;
                 }
-                    
+
             } else {
                 croppedImage = imageService.getDefaultImage(actionRequest.getPortletSession().getPortletContext().getRealPath(File.separator));
             }
@@ -424,6 +431,7 @@ public class OrganisationsController {
 //delete chosen organization's image from folder
         imageService.deleteDirectory(organisation);
 //delete chosen news
+
         organizationService.deleteOrganization(organisation);
         return showAddSuccess(request, response);
     }
@@ -432,6 +440,13 @@ public class OrganisationsController {
     public ModelAndView showAddSuccess(RenderRequest request, RenderResponse response) {
         ModelAndView model = showView(request, response);
         String strSuccess = "success";
+        int currentPage;
+        if (request.getParameter(CURRENT_PAGE) != null) {
+            currentPage = Integer.parseInt(request.getParameter(CURRENT_PAGE));
+        } else {
+            currentPage = 1;
+        }
+        model.addObject(CURRENT_PAGE, currentPage);
         SessionMessages.add(request, request.getParameter(strSuccess));
         return model;
     }
