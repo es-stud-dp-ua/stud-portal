@@ -249,17 +249,17 @@
                     $('#jform').validate({
             rules: {
             title: {
-            required: true,
+            		required: true,
                     minlength: 5,
                     maxlength: 100
             },
                     text1: {
-            required: true,
-                    minlength: 500,
-                    maxlength: 10000
+            		required: true,
+                    minlength: 300,
+                    maxlength: 3000
             },
                     contacts:{
-            required:true,
+            		required:true,
                     minlength:300,
                     maxlength:3000
             }

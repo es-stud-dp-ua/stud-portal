@@ -42,7 +42,7 @@ public class Organization extends BaseImagesSupport implements Serializable {
     @NotNull
     @NotBlank
     private String title;
-    @Size(min = 500, max = 10000)
+    @Size(min = 300, max = 3000)
     @NotNull
     @NotBlank
     private String text;
