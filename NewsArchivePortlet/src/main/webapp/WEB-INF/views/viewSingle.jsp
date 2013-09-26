@@ -10,7 +10,7 @@
 <%
     ImageService imgService = (ImageService) pageContext.findAttribute("imageService");
     News news = (News) request.getAttribute("news");
-
+    Integer currentPage = (Integer) request.getAttribute("currentPage");
     Collection<ImageImpl> additionalImages = (Collection<ImageImpl>) request.getAttribute("additionalImages");
 %>
 <html>
@@ -107,7 +107,7 @@
 
 <body>
 <portlet:renderURL var="home">
-    <portlet:param name="nAction" value="home"/>
+    <portlet:param name="currentPage" value="<%=currentPage.toString()%>"/> 
 </portlet:renderURL>
 <div id="singleView">
     <div class="portlet-content-controlpanel fs20">
@@ -117,7 +117,7 @@
         <%if (request.isUserInRole("Administrator") || request.isUserInRole("User")) { %>
         <% if (request.isUserInRole("Administrator")) { %>
         <a style="float: right"
-           href="<portlet:renderURL><portlet:param name="newsId" value="<%=news.getId().toString()%>"/><portlet:param name="mode" value="delete" /></portlet:renderURL>"
+           href="<portlet:renderURL><portlet:param name="newsId" value="<%=news.getId().toString()%>"/><portlet:param name="mode" value="delete" /><portlet:param name="currentPage" value="1"/> </portlet:renderURL>"
            onclick='return confirm("<spring:message code="form.confDelete"/>")'>
             <div class="panelbtn panelbtn-right icon-pcpremove" aria-hidden="true"></div>
         </a>

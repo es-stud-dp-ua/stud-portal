@@ -1,27 +1,28 @@
 .error {
-	color: #ff0000;
+    color: #ff0000;
 }
 
 .errorblock {
-	color: #000;
-	background-color: #ffEEEE;
-	border: 3px solid #ff0000;
-	padding: 8px;
-	margin: 16px;
+    color: #000;
+    background-color: #ffEEEE;
+    border: 3px solid #ff0000;
+    padding: 8px;
+    margin: 16px;
 }
 
 #sbm {
-	margin: 0 auto;
-	width: 100px;
+    margin: 0 auto;
+    width: 100px;
 }
 
 label.valid {
     width: 24px;
     height: 24px;
     background: url(${pageContext.request.contextPath}/images/valid.png) center center no-repeat;
-    display: inline-block;
-    text-indent: -9999px;
+display: inline-block;
+text-indent: -9999px;
 }
+
 label.error {
     font-weight: bold;
     color: red;
@@ -31,7 +32,7 @@ label.error {
 
 #contentDiv {
     margin-left: 1%;
-	width:100%;
+    width:100%;
 }
 
 .fancybox-custom .fancybox-skin {
@@ -67,10 +68,10 @@ label.error {
     font-size: 12pt;
     text-align: justify;
     margin-left: 5px;
-	max-height: 150px;
-	white-space: pre-line;
-	overflow: hidden;
-	text-overflow: ellipsis;
+    max-height: 150px;
+    white-space: pre-line;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 #mainImageLoader {
@@ -139,10 +140,10 @@ label.error {
 #newsTable .newsHeader {
     margin-top: 5px;
     margin-bottom: 10px;
-	width: 700px;
-	overflow: hidden;
-	white-space: nowrap;
-	text-overflow: ellipsis
+    width: 700px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis
 }
 
 #newsTable .newsHeader>a {
@@ -172,6 +173,10 @@ label.error {
 #singleView {
     width: 100%;
     text-align: left;
+}
+.thumb {
+    height: 253px;
+    width: 443px;
 }
 
 #singleView .newsHeader {
@@ -213,7 +218,7 @@ label.error {
 /*add & edit news*/
 #topicInput {
     overflow:  hidden;
-	resize: none;
+    resize: none;
     margin-top: 15px;
     width: 430px;
     font-size: large;
@@ -320,7 +325,7 @@ span.cke_skin_kama {
 .reply_link_wrap {
     width: 100%;
     margin-top: 10px;
-	clear: both;
+    clear: both;
 }
 
 .rel_date {

@@ -13,7 +13,7 @@
 <%
     Collection<News> news = (Collection) request.getAttribute("news");
     int pagesCount = (Integer) request.getAttribute("pagesCount");
-    int currentPage = (Integer) request.getAttribute("currentPage");
+    Integer currentPage = (Integer) request.getAttribute("currentPage");
     ImageService imageService = (ImageService) pageContext.findAttribute("imageService");
     //todo: remove unused variables
     int nearbyPages = (Integer) request.getAttribute("nearbyPages"); //number of pages to show to left and right of current
@@ -46,6 +46,7 @@
                 <%for (News currentNews : news) {%>
 				<portlet:renderURL var="newsSingleLink">
 					<portlet:param name="newsID" value="<%=currentNews.getId().toString()%>"/>
+                                        <portlet:param name="currentPage" value="<%=currentPage.toString()%>"/> 
 				</portlet:renderURL>
                 <div>
 					<div style="height: 210px;">
@@ -53,7 +54,7 @@
 							<% if (request.isUserInRole("Administrator")) { %>
 							<div class="portlet-content-controlpanel fs20"style="width: 9.5%;float: right;">
 							<a style="float: right"
-							   href='<portlet:renderURL><portlet:param name="newsId" value="<%=currentNews.getId().toString()%>"/><portlet:param name="mode" value="delete" /></portlet:renderURL>'
+							   href='<portlet:renderURL><portlet:param name="newsId" value="<%=currentNews.getId().toString()%>"/><portlet:param name="mode" value="delete" /><portlet:param name="currentPage" value="<%=currentPage.toString()%>"/> </portlet:renderURL>'
 							   onclick='return confirm("<spring:message code="form.confDelete"/>")'>
 								<div class="panelbtn panelbtn-right fs20 icon-pcpremove" aria-hidden="true"></div>
 							</a>

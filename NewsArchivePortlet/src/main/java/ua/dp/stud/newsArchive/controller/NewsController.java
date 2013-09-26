@@ -72,7 +72,6 @@ public class NewsController {
     public void setNewsService(NewsService newsService) {
         this.newsService = newsService;
     }
-
     @Autowired
     @Qualifier(value = "organizationService")
     private OrganizationService organizationService;
@@ -80,7 +79,6 @@ public class NewsController {
     public void setServiceOrg(OrganizationService organizationService) {
         this.organizationService = organizationService;
     }
-
     @Autowired
     @Qualifier(value = "imageService")
     private ImageService imageService;
@@ -172,7 +170,7 @@ public class NewsController {
     @RenderMapping(params = "newsID")
     public ModelAndView showSelectedNews(RenderRequest request, RenderResponse response) {
         int newsID = Integer.valueOf(request.getParameter("newsID"));
-        return getNews(newsID);
+        return getNews(newsID,request, response);
     }
 
     /**
@@ -193,7 +191,7 @@ public class NewsController {
         return model;
     }
 
-    private ModelAndView getNews(Integer id) {
+    private ModelAndView getNews(Integer id,RenderRequest request, RenderResponse response) {
         News news = newsService.getNewsById(id);
 
         ImageImpl mImage = news.getMainImage();
@@ -206,13 +204,19 @@ public class NewsController {
         }
         Collection<ImageImpl> additionalImages = news.getAdditionalImages();
         Integer numberView = news.getNumberOfViews();
-
+        int currentPage;
+        if (request.getParameter(CURRENT_PAGE) != null) {
+            currentPage = Integer.parseInt(request.getParameter(CURRENT_PAGE));
+        } else {
+            currentPage = 1;
+        }
         news.setNumberOfViews(((numberView == null) ? 0 : numberView) + 1);
         newsService.updateNews(news);
         ModelAndView model = new ModelAndView("viewSingle");
         model.addObject("news", news);
         String mainImagePar = "mainImage";
         model.addObject(mainImagePar, mainImageUrl);
+        model.addObject(CURRENT_PAGE, currentPage);
         model.addObject("additionalImages", additionalImages);
         return model;
     }
@@ -264,7 +268,6 @@ public class NewsController {
     public News getCommandObject() {
         return new News();
     }
-
     @Autowired
     private NewsValidation newsValidation;
 
@@ -287,7 +290,8 @@ public class NewsController {
             if (mainImage.getSize() > 0) {
                 imageService.saveMainImage(mainImage, news);
             }
-        } catch (Exception ex) {
+        }
+        catch (Exception ex) {
             successUpload = false;
             LOG.log(Level.SEVERE, "Exception: ", ex);
         }
@@ -311,7 +315,7 @@ public class NewsController {
         //newsValidation.validate(news, bindingResult);
         if (bindingResult.hasErrors()) {
 
-            for(ObjectError error : bindingResult.getAllErrors()) {
+            for (ObjectError error : bindingResult.getAllErrors()) {
                 System.out.println(error.toString());
                 System.out.println();
             }
@@ -325,10 +329,9 @@ public class NewsController {
         }
 
         CommonsMultipartFile f = imageService.cropImage(mainImage, Integer.parseInt(actionRequest.getParameter("t")),
-                Integer.parseInt(actionRequest.getParameter("l")),
-                Integer.parseInt(actionRequest.getParameter("w")),
-                Integer.parseInt(actionRequest.getParameter("h")));
-
+                                                        Integer.parseInt(actionRequest.getParameter("l")),
+                                                        Integer.parseInt(actionRequest.getParameter("w")),
+                                                        Integer.parseInt(actionRequest.getParameter("h")));
         boolean role = actionRequest.isUserInRole(ADMIN_ROLE);
         User user = (User) actionRequest.getAttribute(WebKeys.USER);
         String screenName = user.getScreenName();
@@ -350,7 +353,7 @@ public class NewsController {
                          @RequestParam("mainImage") CommonsMultipartFile mainImage,
                          SessionStatus sessionStatus) {
         if (bindingResult.hasErrors()) {
-            for(ObjectError error : bindingResult.getAllErrors()) {
+            for (ObjectError error : bindingResult.getAllErrors()) {
                 System.out.println(error.toString());
                 System.out.println();
             }
@@ -369,9 +372,9 @@ public class NewsController {
         //update fields for new news
         if (!mainImage.getOriginalFilename().equals("")) {
             mainImage = imageService.cropImage(mainImage, Integer.parseInt(actionRequest.getParameter("t")),
-                Integer.parseInt(actionRequest.getParameter("l")),
-                Integer.parseInt(actionRequest.getParameter("w")),
-                Integer.parseInt(actionRequest.getParameter("h")));
+                                               Integer.parseInt(actionRequest.getParameter("l")),
+                                               Integer.parseInt(actionRequest.getParameter("w")),
+                                               Integer.parseInt(actionRequest.getParameter("h")));
         }
         if (updateNews(oldNews, mainImage, role, author, actionResponse, bindingResult)) {
             newsService.updateNews(oldNews);
@@ -418,13 +421,20 @@ public class NewsController {
         imageService.deleteImage(image, image.getBase());
         //delete image from data base
         newsService.deleteImage(image);
-        return getNews(newsID);
+        return getNews(newsID, request, response);
     }
 
     @RenderMapping(params = "success")
     public ModelAndView showAddSuccess(RenderRequest request, RenderResponse response) {
         ModelAndView model = getMainView(request);
         String strSuccess = "success";
+        int currentPage;
+        if (request.getParameter(CURRENT_PAGE) != null) {
+            currentPage = Integer.parseInt(request.getParameter(CURRENT_PAGE));
+        } else {
+            currentPage = 1;
+        }
+        model.addObject(CURRENT_PAGE, currentPage);
         SessionMessages.add(request, request.getParameter(strSuccess));
         return model;
     }
