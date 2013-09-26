@@ -157,7 +157,7 @@
                     return function(e) {
                     // Render thumbnail.
                     var span = document.createElement('span');
-                            span.innerHTML = ['<img id="cropbox" width="453px" class="thumb" src="', e.target.result,
+                            span.innerHTML = ['<img id="cropbox" width="443px" class="thumb" src="', e.target.result,
                             '" title="', escape(theFile.name), '"/>'].join('');
                             document.getElementById('list').insertBefore(span, null);
                             a();
@@ -254,8 +254,8 @@
             },
                     text1: {
             required: true,
-                    minlength: 300,
-                    maxlength: 3000
+                    minlength: 500,
+                    maxlength: 10000
             },
                     contacts:{
             required:true,
