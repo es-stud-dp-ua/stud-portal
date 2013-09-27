@@ -1,4 +1,4 @@
-<%@ page import="java.util.Locale" %>
+﻿<%@ page import="java.util.Locale" %>
 <%@ page import="ua.dp.stud.StudPortalLib.model.ImageImpl" %>
 <%@ page import="java.util.Collection" %>
 <%@ page import="java.util.ResourceBundle" %>
@@ -164,7 +164,7 @@
                         <div><label cssClass="control-group" for="years"><spring:message code="studie.years"/></label>
                         </div>
                         <form:select path="years">
-                            <form:option value="0" label="--- Select ---" />
+                            <form:option value="0" label="--- Выбрать ---" />
                             <form:options items="${yearsList}" />
                         </form:select>
                         <p/><form:errors path="years" cssClass="error"/>
@@ -173,7 +173,7 @@
                         <div><label cssClass="control-group" for="status"><spring:message code="studie.status"/></label>
                         </div>
                         <form:select path="status">
-                            <form:option value="NONE" label="--- Select ---" />
+                            <form:option value="NONE" label="--- Выбрать ---" />
                             <form:options items="${statusList}" />
                         </form:select>
                         <p/><form:errors path="status" cssClass="error"/>
@@ -182,7 +182,7 @@
                         <div><label cssClass="control-group" for="accreditacion"><spring:message code="studie.accreditacion"/></label>
                         </div>
                         <form:select path="accreditacion">
-                            <form:option value="NONE" label="--- Select ---" />
+                            <form:option value="NONE" label="--- Выбрать ---" />
                             <form:options items="${lvlAccredList}" />
                         </form:select>
                         <p/><form:errors path="accreditacion" cssClass="error"/>
@@ -191,7 +191,7 @@
                         <div><label cssClass="control-group" for="onGraduation"><spring:message code="studie.onGraduation"/></label>
                         </div>
                         <form:select path="onGraduation">
-                            <form:option value="NONE" label="--- Select ---" />
+                            <form:option value="NONE" label="--- Выбрать ---" />
                             <form:options items="${docList}" />
                         </form:select>
                         <p/><form:errors path="onGraduation" cssClass="error"/>
