@@ -1,7 +1,6 @@
-<%@ page import="java.util.List" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="portlet" uri="http://liferay.com/tld/portlet" %>
-s<%--
+<%--
   Created by IntelliJ IDEA.
   User: kostya
   Date: 05.09.13
@@ -9,24 +8,9 @@ s<%--
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-    <title></title>
-</head>
-<body>
-    <%
-        List<String> lines = (List<String>) request.getAttribute("lines");
-
-    %>
-    <portlet:actionURL var="actionLink"></portlet:actionURL>
-    <form action="${actionLink}" method="POST">
-        <input name="linesNumber" type="text"     value=""/>
-        <input type="submit" value="Submit"/>
-    </form>
-
-    <%for (String line : lines){%>
-    <%= line%>
-    <%}%>
-
-</body>
-</html>
+<portlet:actionURL var="actionLink"></portlet:actionURL>
+<form action="${actionLink}" method="POST">
+    <input name="linesNumber" type="text"     value=""/>
+    <input type="submit" value="Submit"/>
+</form>
+<div>${lines}</div>

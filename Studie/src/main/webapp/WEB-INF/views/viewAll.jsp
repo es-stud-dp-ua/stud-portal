@@ -33,7 +33,7 @@
 
 <portlet:renderURL var="home"> </portlet:renderURL>
 <div id="contentDiv">
-	<%if (request.isUserInRole("Administrator") || request.isUserInRole("User")) { %>
+	<%if (request.isUserInRole("Administrator")){ %>
 		<portlet:renderURL var="addLink">
 			<portlet:param name="mode" value="add"/>
 		</portlet:renderURL>

@@ -60,7 +60,6 @@
         <a href="${home}">
             <div class="panelbtn panelbtn-right fs20 icon-pcparrow-left" aria-hidden="true"></div>
         </a>
-        <%if (request.isUserInRole("Administrator") || request.isUserInRole("User")) { %>
         <% if (request.isUserInRole("Administrator")) { %>
 		<portlet:renderURL var="deleteLink">
 			<portlet:param name="studieId" value="<%=studie.getId().toString()%>"/>
@@ -70,7 +69,6 @@
            onclick='return confirm("<spring:message code="form.confDelete"/>")'>
             <div class="panelbtn panelbtn-right icon-pcpremove" aria-hidden="true"></div>
         </a>
-        <%}%>
 		<portlet:renderURL var="editLink">
 			<portlet:param name="studieId" value="<%=studie.getId().toString()%>"/>
 			<portlet:param name="mode" value="edit"/>
