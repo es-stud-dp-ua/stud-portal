@@ -749,6 +749,14 @@ panelbtn a {
     height: 80px;
 }
 
+#vertical_line2{
+    background: url(../images/line.png) no-repeat right; 
+    margin-top: 25px;
+    margin-right: -80px;
+    margin-bottom: -30px;
+    height: 80px;
+}
+
 .whitestyle a {
     color: white;
     text-decoration: underline;
