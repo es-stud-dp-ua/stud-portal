@@ -229,7 +229,7 @@ select {
     height: 253px;
     overflow: hidden;
     float: left;
-    z-index: 1;
+    
 }
 
 #facultetInput {
@@ -264,8 +264,9 @@ select {
     background: url("../images/L_69x65.png") no-repeat;
     height: 69px;
     width: 65px;
-    position: absolute;
     z-index: 2;
+	position: absolute;
+    
 }
 
 #rdn {
@@ -275,7 +276,7 @@ select {
     margin-top: 215px;
     margin-left: 397px;
     position: absolute;
-    z-index: 2;
+    
 }
 
 #list {
