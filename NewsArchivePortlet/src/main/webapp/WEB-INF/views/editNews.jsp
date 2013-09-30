@@ -110,15 +110,15 @@
                 <div id="lup"></div>
                 <div id="mainPic"
                     <% if (news.getMainImage() == null) { %>
-                        <div id="mainPic" style="vertical-align: top; z-index: 2;"
+                        <div id="mainPic" style="vertical-align: top;"
                              style="background: url(${pageContext.request.contextPath}/images/mainpic_443x253.png) no-repeat">
                             <!-- Output for our douwnload Image-->
                             <output id="list"></output>
                         </div>
                         <% } else { %>
 
-                        <div id="mainPic" style="vertical-align: top; z-index: 2;">
-                            <img id="img" style="vertical-align: top; z-index: 1;" src="${mainImage}"/>
+                        <div id="mainPic" style="vertical-align: top; ">
+                            <img id="img" style="vertical-align: top; " src="${mainImage}"/>
                             <output id="list"></output>
                         </div>
                         <% } %>
