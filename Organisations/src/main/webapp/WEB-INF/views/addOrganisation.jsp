@@ -255,8 +255,8 @@
             },
                     text1: {
             required: true,
-                    minlength: 500,
-                    maxlength: 10000
+                    minlength: 300,
+                    maxlength: 3000
             },
                     contacts:{
             required:true,
