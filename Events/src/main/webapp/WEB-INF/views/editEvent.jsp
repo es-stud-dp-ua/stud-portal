@@ -22,7 +22,12 @@
     Events event = (Events) request.getAttribute("event");
 SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
 SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+    Integer currentPage = (Integer) request.getAttribute("currentPage");
     Boolean flag=true;
+    Boolean archive=true;
+    if (request.getAttribute("archive") != null){
+        archive = (Boolean) request.getAttribute("archive");
+    }
 %>
 <portlet:defineObjects/>
 <html>
@@ -73,8 +78,15 @@ SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
                 return target.value.length <= target.getAttribute('maxlength');
             }
         </script>
-    <portlet:renderURL var="home"> </portlet:renderURL>
-    <portlet:actionURL var="actionLink" name="editEvent"></portlet:actionURL>
+    <portlet:renderURL var="home">
+        <portlet:param name="archive" value="<%=archive.toString()%>"/>
+        <portlet:param name="currentPage" value="<%=currentPage.toString()%>"/>
+    </portlet:renderURL>
+
+    <portlet:actionURL var="actionLink" name="editEvent">
+        <portlet:param name="archive" value="<%=archive.toString()%>"/>
+        <portlet:param name="currentPage" value="<%=currentPage.toString()%>"/>
+    </portlet:actionURL>
     <div class="portlet-content-controlpanel fs20">
         <a href="${home}">
             <!--<spring:message code="form.back"/>-->
@@ -187,7 +199,7 @@ SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
                     </tr>
                     <tr>
                         <td width="50%" align="right">
-                            <div id="eventSetting">
+                            <div id="eventSetting" style="margin-top: -115px;">
                                 <div style="margin-right: 10px; margin-top: 55px;"><spring:message code="form.dateStart"/><div id="redStar4">*</div></div><input type="text" name="EventDateStart" value="<%=dateFormat.format(event.getEventDateStart()) %>" id="datepicker1"/><input type="text" value="<%=timeFormat.format(event.getEventDateStart())%>" placeholder="HH:mm" maxlength="5" style="width: 15%;margin-left: 1%;" name="startTime" id="defaultEntry"/>
                             <div style="margin-right: 10px;"><spring:message code="form.dateEnd"/></div><input type="text" name="EventDateEnd" id="datepicker2" <%if(event.getEventDateEnd()!=null){%>value="<%= dateFormat.format(event.getEventDateEnd()) %>"<%}%>/><input type="text" placeholder="HH:mm" <%if(event.getEventDateEnd()!=null){%>value="<%=timeFormat.format(event.getEventDateEnd())%>"<%}%> maxlength="5" style="width: 15%;margin-left: 1%;" name="endTime" id="endTime"/>
                             <div style="margin-right: 10px;"><spring:message code="form.location"/></div> <form:input path="location" title="<%=event.getLocation()%>"id="location" cols="60" rows="2" maxlength="100"  name="location"/>
@@ -226,7 +238,7 @@ SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
             <div id="sbm">
                 <input style="width: 190px;
                        position: absolute;
-                       bottom: 3%;
+                       bottom: 1%;
                        right: 40%;" type="submit" value="<spring:message
                        code='<%=(request.isUserInRole("Administrator"))?"form.submit.save"
                                                                                              :"form.submit.user"%>'/>"/>

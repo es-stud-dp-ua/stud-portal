@@ -18,6 +18,10 @@
     SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
     SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
     Integer currentPage = (Integer) request.getAttribute("currentPage");
+        Boolean archive=true;
+    if (request.getAttribute("archive") != null){
+        archive = (Boolean) request.getAttribute("archive");
+        }
 %>
 <html>
     <head>
@@ -112,7 +116,12 @@
     </head>
 
     <body>
-    <portlet:renderURL var="home"><portlet:param name="currentPage" value="<%=currentPage.toString()%>"/> </portlet:renderURL>
+        
+    <portlet:renderURL var="home">
+        <portlet:param name="currentPage" value="<%=currentPage.toString()%>"/> 
+        <portlet:param name="archive" value="<%=archive.toString()%>"/>
+    </portlet:renderURL>
+    
     <div id="singleView">
         <div class="portlet-content-controlpanel fs20">
             <a href="${home}">
@@ -121,13 +130,13 @@
             </a>
             <%if (request.isUserInRole("Administrator") || request.isUserInRole("User")) { %>
             <% if (request.isUserInRole("Administrator")) { %>
-            <a style="float: right" href='<portlet:renderURL><portlet:param name="eventID" value="<%=event.getId().toString()%>"/><portlet:param name="currentPage" value="1"/><portlet:param name="mode" value="delete" /></portlet:renderURL>'
+            <a style="float: right" href='<portlet:renderURL><portlet:param name="eventID" value="<%=event.getId().toString()%>"/><portlet:param name="currentPage" value="1"/><portlet:param name="mode" value="delete" /><portlet:param name="archive" value="<%=archive.toString()%>"/></portlet:renderURL>'
                onclick='return confirm("<spring:message code="form.confDelete"/>")'>
                 <div class="panelbtn panelbtn-right icon-pcpremove" aria-hidden="true"></div>
                 <!--<spring:message code="form.delete"/>-->
             </a>
             <%}%>
-            <a style="float: right" href='<portlet:renderURL><portlet:param name="eventId" value="<%=event.getId().toString()%>"/><portlet:param name="mode" value="edit" /></portlet:renderURL>'>
+            <a style="float: right" href='<portlet:renderURL><portlet:param name="eventId" value="<%=event.getId().toString()%>"/><portlet:param name="mode" value="edit" /><portlet:param name="archive" value="<%=archive.toString()%>"/></portlet:renderURL>'>
                 <!--<spring:message code="viewSingle.Edit"/>-->
                 <div class="panelbtn panelbtn-right icon-pcppencil" aria-hidden="true"></div>
             </a>
