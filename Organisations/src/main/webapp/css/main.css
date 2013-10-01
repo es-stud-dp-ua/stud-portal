@@ -336,8 +336,9 @@ label.error {
     background: url("../images/L_69x65.png") no-repeat;
     height: 69px;
     width: 65px;
-    position: absolute;
-    z-index: 2;
+    z-index: 1;
+	position: absolute;
+    
 }
 
 #rdn {
@@ -347,7 +348,7 @@ label.error {
     margin-top: 215px;
     margin-left: 397px;
     position: absolute;
-    z-index: 2;
+    
 }
 
 #list {

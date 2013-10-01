@@ -140,7 +140,7 @@ public class NewsController {
                 //shows all first pages
                 leftPageNumb = 1;
                 //#1 + nearby pages + current + nearby pages
-                rightPageNumb = 2 + 2 * NEARBY_PAGES;
+                rightPageNumb = currentPage+NEARBY_PAGES;
             }
             //if farther then nearby + '...' + last
             if (currentPage < pagesCount - (NEARBY_PAGES + 1)) {
@@ -148,7 +148,7 @@ public class NewsController {
                 skippedEnding = true;
             } else {
                 //shows all last pages:
-                leftPageNumb = (pagesCount - 1) - 2 * NEARBY_PAGES;
+                leftPageNumb = currentPage  -  NEARBY_PAGES;
                 rightPageNumb = pagesCount;
             }
         }

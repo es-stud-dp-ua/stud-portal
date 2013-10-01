@@ -43,19 +43,24 @@
 
 <div id="main">
     <div id="header">
-                #if(!$is_signed_in)
+               
                     <div id="login-wrapper">
-                                                <span>
+                                             #if(!$is_signed_in)   
+                                             <span>
                                                     <a href="$sign_in_url" class="graystyle"
                                                        rel="nofollow">$sign_in_text</a>
                                                    <br/><br/>
                                                      <a href="registration" class="graystyle"
                                                        rel="nofollow">Registration</a>
-                                                </span>
-                        <div id="vertical_line"> </div>
+                                                </span> 
+                                              <div id="vertical_line"> </div>
                         <a class="graystyle" id="ask" rel="nofollow" href="/ask">Contact administrator</a>
+                                             #else
+                                             <div id="vertical_line2"> </div>
+                        <a class="graystyle" id="ask" rel="nofollow" href="/ask">Contact administrator</a>  
+                                             #end
                     </div>
-                #end
+             
         <a href="#main-content" id="skip-to-content">#language("")</a>
         #if ($update_available_url)
             <div class="popup-alert-notice">
