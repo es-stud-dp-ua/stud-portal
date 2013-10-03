@@ -6,6 +6,7 @@ import java.util.Date;
 /**
  * Author: Nazarenko K.V
  * Date: 03.10.13
+ * 1
  */
 
 @Entity
