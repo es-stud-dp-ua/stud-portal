@@ -28,7 +28,7 @@
     <head>
     </head>
     <body>
-        <%if (request.isUserInRole("Administrator") || request.isUserInRole("User")) { %>
+        <%if (request.isUserInRole("Administrator")) { %>
     <portlet:renderURL var="addNewsUrl">
         <portlet:param name="mode" value="add"/>
     </portlet:renderURL>

@@ -12,7 +12,7 @@
     Author     : Tradunsky V.V.
 --%>
 
-<%if (request.isUserInRole("Administrator") || request.isUserInRole("User")) {%>
+<%if (request.isUserInRole("Administrator")) {%>
 <script id="" src="${pageContext.request.contextPath}/js/cropbox.js" type="text/javascript"></script>
 <script id="" src="${pageContext.request.contextPath}/js/edit.js" type="text/javascript"></script>
 
