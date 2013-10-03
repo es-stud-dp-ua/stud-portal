@@ -5,7 +5,7 @@ import ua.dp.stud.studie.model.Course;
 import java.util.Collection;
 
 /**
- * 1
+ *
  */
 public interface CourseDao {
 

@@ -11,7 +11,7 @@ import ua.dp.stud.studie.model.Course;
 import java.util.Collection;
 
 /**
- *1
+ *
  */
 
 @Repository("courseDao")
