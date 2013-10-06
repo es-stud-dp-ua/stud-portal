@@ -1,13 +1,17 @@
 package ua.dp.stud.studie.model;
 
-import javax.persistence.*;
-import java.util.Date;
+import org.hibernate.validator.constraints.NotEmpty;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.util.Date;
+import java.awt.Image;
 /**
  * Author: Nazarenko K.V
  * Date: 03.10.13
  *
  */
+enum CoursesType {Company,Tutor,Online}
 
 @Entity
 @Table(name = "course_table")
@@ -18,54 +22,48 @@ public class Course {
     private Integer id;
 
     @Column
-    private String name;
+    @NotEmpty
+    private String courseName;
 
     @Column
-    private String user;
+    @NotEmpty
+    private String authorslogin;
 
     @Column
-    private String address;
+    private String courseAdress;
 
     @Column
-    private String phone;
+    private String coursesPhoneNum;
 
     @Column
-    private String url;
+    private String courcesUrl;
 
     @Column
-    private String photoUrl;
+    private Image photoUrl;
 
     @Column
-    private String info;
+    private String coursesDescription;
 
     @Column
     @Temporal(TemporalType.DATE)
-    private Date date;
+    private Date addDate;
 
     @Column
-    private String kind;
+    @NotEmpty
+    @ManyToOne
+    private KindOfCourse kindOfCourse;
 
     @Column
-    private Boolean state;
+    private Boolean addState;
 
     @Column
-    private String type;
+    private  CoursesType coursesType;
 
-    public Course() {
-    }
+    public Course()
+    {
+        this.addDate=new Date();
+        this.addState = false;
 
-    public Course(String name, String user, String address, String phone, String url, String photoUrl, String info, String kind, String type) {
-        this.name = name;
-        this.user = user;
-        this.address = address;
-        this.phone = phone;
-        this.url = url;
-        this.photoUrl = photoUrl;
-        this.info = info;
-        this.date = new Date();
-        this.kind = kind;
-        this.state = false;
-        this.type = type;
     }
 
     public Integer getId() {
@@ -76,92 +74,109 @@ public class Course {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getCourseName() {
+        return courseName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
     }
 
-    public String getUser() {
-        return user;
+    public String getAuthorslogin() {
+        return authorslogin;
     }
 
-    public void setUser(String user) {
-        this.user = user;
+    public void setAuthorslogin(String authorslogin) {
+        this.authorslogin = authorslogin;
     }
 
-    public String getAddress() {
-        return address;
+    public String getCourseAdress() {
+        return courseAdress;
     }
 
-    public void setAddress(String adress) {
-        this.address = adress;
+    public void setCourseAdress(String courseAdress) {
+        this.courseAdress = courseAdress;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getCoursesPhoneNum() {
+        return coursesPhoneNum;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setCoursesPhoneNum(String coursesPhoneNum) {
+        this.coursesPhoneNum = coursesPhoneNum;
     }
 
-    public String getUrl() {
-        return url;
+    public String getCourcesUrl() {
+        return courcesUrl;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setCourcesUrl(String courcesUrl) {
+        this.courcesUrl = courcesUrl;
     }
 
-    public String getPhotoUrl() {
+    public Image getPhotoUrl() {
         return photoUrl;
     }
 
-    public void setPhotoUrl(String photoUrl) {
+    public void setPhotoUrl(Image photoUrl) {
         this.photoUrl = photoUrl;
     }
 
-    public String getInfo() {
-        return info;
+    public String getCoursesDescription() {
+        return coursesDescription;
     }
 
-    public void setInfo(String info) {
-        this.info = info;
+    public void setCoursesDescription(String coursesDescription) {
+        this.coursesDescription = coursesDescription;
     }
 
-    public Date getDate() {
-        return date;
+    public Date getAddDate() {
+        return addDate;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setAddDate(Date addDate) {
+        this.addDate = addDate;
     }
 
-    public String getKind() {
-        return kind;
+
+    public Boolean getAddState() {
+        return addState;
     }
 
-    public void setKind(String kind) {
-        this.kind = kind;
+    public void setAddState(Boolean addState) {
+        this.addState = addState;
     }
 
-    public Boolean getState() {
-        return state;
+
+
+    public CoursesType getCoursesType() {
+        return coursesType;
     }
 
-    public void setState(Boolean state) {
-        this.state = state;
+    public void setCoursesType(CoursesType coursesType) {
+        this.coursesType = coursesType;
     }
 
-    public String getType() {
-        return type;
+    public KindOfCourse getKindOfCourse() {
+        return kindOfCourse;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setKindOfCourse(KindOfCourse kindOfCourse) {
+        this.kindOfCourse = kindOfCourse;
+    }
+
+    public Course(String courseName, String authorslogin, String courseAdress, String coursesPhoneNum, String courcesUrl, Image photoUrl, String coursesDescription, KindOfCourse kindOfCourse, CoursesType coursesType) {
+        this.courseName = courseName;
+        this.authorslogin = authorslogin;
+        this.courseAdress = courseAdress;
+        this.coursesPhoneNum = coursesPhoneNum;
+        this.courcesUrl = courcesUrl;
+        this.photoUrl = photoUrl;
+        this.addState=false;
+        this.coursesDescription = coursesDescription;
+        this.addDate = new Date();
+        this.kindOfCourse = kindOfCourse;
+        this.coursesType = coursesType;
     }
 
     @Override
@@ -171,54 +186,44 @@ public class Course {
 
         Course course = (Course) o;
 
-        if (address != null ? !address.equals(course.address) : course.address != null) return false;
-        if (date != null ? !date.equals(course.date) : course.date != null) return false;
-        if (!id.equals(course.id)) return false;
-        if (info != null ? !info.equals(course.info) : course.info != null) return false;
-        if (kind != null ? !kind.equals(course.kind) : course.kind != null) return false;
-        if (name != null ? !name.equals(course.name) : course.name != null) return false;
-        if (phone != null ? !phone.equals(course.phone) : course.phone != null) return false;
+        if (addDate != null ? !addDate.equals(course.addDate) : course.addDate != null) return false;
+        if (addState != null ? !addState.equals(course.addState) : course.addState != null) return false;
+        if (authorslogin != null ? !authorslogin.equals(course.authorslogin) : course.authorslogin != null)
+            return false;
+        if (courcesUrl != null ? !courcesUrl.equals(course.courcesUrl) : course.courcesUrl != null) return false;
+        if (courseAdress != null ? !courseAdress.equals(course.courseAdress) : course.courseAdress != null)
+            return false;
+        if (courseName != null ? !courseName.equals(course.courseName) : course.courseName != null) return false;
+        if (coursesDescription != null ? !coursesDescription.equals(course.coursesDescription) : course.coursesDescription != null)
+            return false;
+        if (coursesPhoneNum != null ? !coursesPhoneNum.equals(course.coursesPhoneNum) : course.coursesPhoneNum != null)
+            return false;
+        if (coursesType != course.coursesType) return false;
+        if (id != null ? !id.equals(course.id) : course.id != null) return false;
+        if (kindOfCourse != null ? !kindOfCourse.equals(course.kindOfCourse) : course.kindOfCourse != null)
+            return false;
         if (photoUrl != null ? !photoUrl.equals(course.photoUrl) : course.photoUrl != null) return false;
-        if (state != null ? !state.equals(course.state) : course.state != null) return false;
-        if (type != null ? !type.equals(course.type) : course.type != null) return false;
-        if (url != null ? !url.equals(course.url) : course.url != null) return false;
-        if (user != null ? !user.equals(course.user) : course.user != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = id.hashCode();
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (user != null ? user.hashCode() : 0);
-        result = 31 * result + (address != null ? address.hashCode() : 0);
-        result = 31 * result + (phone != null ? phone.hashCode() : 0);
-        result = 31 * result + (url != null ? url.hashCode() : 0);
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (courseName != null ? courseName.hashCode() : 0);
+        result = 31 * result + (authorslogin != null ? authorslogin.hashCode() : 0);
+        result = 31 * result + (courseAdress != null ? courseAdress.hashCode() : 0);
+        result = 31 * result + (coursesPhoneNum != null ? coursesPhoneNum.hashCode() : 0);
+        result = 31 * result + (courcesUrl != null ? courcesUrl.hashCode() : 0);
         result = 31 * result + (photoUrl != null ? photoUrl.hashCode() : 0);
-        result = 31 * result + (info != null ? info.hashCode() : 0);
-        result = 31 * result + (date != null ? date.hashCode() : 0);
-        result = 31 * result + (kind != null ? kind.hashCode() : 0);
-        result = 31 * result + (state != null ? state.hashCode() : 0);
-        result = 31 * result + (type != null ? type.hashCode() : 0);
+        result = 31 * result + (coursesDescription != null ? coursesDescription.hashCode() : 0);
+        result = 31 * result + (addDate != null ? addDate.hashCode() : 0);
+        result = 31 * result + (kindOfCourse != null ? kindOfCourse.hashCode() : 0);
+        result = 31 * result + (addState != null ? addState.hashCode() : 0);
+        result = 31 * result + (coursesType != null ? coursesType.hashCode() : 0);
         return result;
     }
-
-    @Override
-    public String toString() {
-        return "Course{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", user='" + user + '\'' +
-                ", address='" + address + '\'' +
-                ", phone='" + phone + '\'' +
-                ", url='" + url + '\'' +
-                ", photoUrl='" + photoUrl + '\'' +
-                ", info='" + info + '\'' +
-                ", date=" + date +
-                ", kind='" + kind + '\'' +
-                ", state=" + state +
-                ", type='" + type + '\'' +
-                '}';
-    }
 }
+
+
+

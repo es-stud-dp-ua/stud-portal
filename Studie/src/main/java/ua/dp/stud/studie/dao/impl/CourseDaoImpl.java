@@ -11,7 +11,7 @@ import ua.dp.stud.studie.model.Course;
 import java.util.Collection;
 
 /**
- *
+ *           @author Nazarenko K.V.
  */
 
 @Repository("courseDao")
@@ -50,7 +50,7 @@ public class CourseDaoImpl implements CourseDao {
     }
 
     @Override
-    //todo: use List<Human>
+
     public Collection<Course> getAll() {
         return getSession().createCriteria(Course.class).list();
     }

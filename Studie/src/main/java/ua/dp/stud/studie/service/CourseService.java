@@ -1,15 +1,15 @@
-package ua.dp.stud.studie.dao;
+package ua.dp.stud.studie.service;
 
 import ua.dp.stud.studie.model.Course;
 
 import java.util.Collection;
 
 /**
- * @author Nazarenko K.V.
+ * @author Nazarenko Alexandra
  */
-public interface CourseDao {
+public interface CourseService {
 
-    Course getCourseById(Integer id);
+    Course getCourseByID(Integer id);
 
     void addCourse(Course course);
 
