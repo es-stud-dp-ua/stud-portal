@@ -44,6 +44,9 @@ public class LogsController {
             if (line == null) {
                 break;
             }
+            if(line.indexOf("No theme found for specified theme id") > -1) {
+                continue;
+            }
             sb.insert(0, line + "<br>");
         }
         ModelAndView mav = new ModelAndView("aaa");
