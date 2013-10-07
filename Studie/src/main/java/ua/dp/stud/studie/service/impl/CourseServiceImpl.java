@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.dp.stud.studie.dao.CourseDao;
 import ua.dp.stud.studie.model.Course;
+import ua.dp.stud.studie.model.KindOfCourse;
 import ua.dp.stud.studie.service.CourseService;
 
 import java.util.Collection;
@@ -54,5 +55,35 @@ public class CourseServiceImpl implements CourseService {
     @Transactional(readOnly = true)
     public Collection<Course> getAll() {
         return dao.getAll();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public KindOfCourse getKindOfCourseById(Integer id) {
+        return dao.getKindOfCourseById(id);
+    }
+
+    @Override
+    @Transactional(readOnly = false)
+    public  void addKindOfCourse(KindOfCourse kindOfCourse) {
+        dao.addKindOfCourse(kindOfCourse);
+    }
+
+    @Override
+    @Transactional(readOnly = false)
+    public void  deleteKindOfCourse(Integer id){
+        dao.deleteKindOfCourse(id);
+    }
+
+    @Override
+    @Transactional(readOnly = false)
+    public void updateKindOfCourse(KindOfCourse kindOfCourse) {
+        dao.updateKindOfCourse(kindOfCourse);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public  Collection<KindOfCourse> getAllKindOfCourse() {
+        return dao.getAllKindOfCourse();
     }
 }
