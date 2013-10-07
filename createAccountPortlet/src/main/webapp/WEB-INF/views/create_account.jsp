@@ -187,7 +187,7 @@
         <fieldset class="fieldReg">
             <div id="titleLevel2" class="splLink">
 				<span id="spoiler">+</span>
-				<span style="margin-left: 15px;">Эти поля вы можете заполнить позже</span>
+				<span style="margin-left: 15px;"><spring:message code="reg-not-ness-field"/></span>
 			</div>
             <div class="splCont" style="display:none;">
                 <div class="colunmBx rightCl bottomDiv">
