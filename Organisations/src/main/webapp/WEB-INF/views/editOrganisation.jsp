@@ -20,6 +20,7 @@
 <portlet:defineObjects/>
 <html>
     <head>
+        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <style type="text/css">
             .error {
@@ -79,7 +80,7 @@
                     }
         </script>
     <portlet:renderURL var="home"> </portlet:renderURL>
-    <portlet:actionURL var="actionLink" name="editCommunity"></portlet:actionURL>
+    <portlet:actionURL var="actionLink" name="editOrganisation"></portlet:actionURL>
     <div class="portlet-content-controlpanel fs20">
         <a href="${home}">
             <!--<spring:message code="form.back"/>-->
@@ -105,7 +106,7 @@
             <input type="hidden" size="0" id="y1" name="l"/>
             <input type="hidden" size="0" id="w" name="w"/>
             <input type="hidden" size="0" id="h" name="h"/>
-            <input type="hidden" name="orgsID" value="<%=orgs.getId()%>">
+            <form:input type="hidden" path="id" />
 
             <table width="100%" margin-bottom="15px">
                 <tr>
@@ -214,6 +215,7 @@
                                             <div style="float: right; margin-right: 10px;"><spring:message
                                                     code="<%=temp%>"/></div>
                                         </td>
+
                                         <td>
                                             <% if (orgs.getOrganizationType().toString() == currentType) {%>
                                             <input type="radio" name="type" value="<%=currentType%>" checked=""
@@ -232,6 +234,7 @@
                     </td>
                 </tr>
             </table>
+            <%@include file="otdelnaya.jsp" %>
             <div id="sbm">
                 <input style="width: 200px;margin-top:5px;" type="submit" value="<spring:message
                        code='<%=(request.isUserInRole("Administrator"))?"form.submit.save"
@@ -258,8 +261,6 @@
                     maxlength: 3000
             },
                     contacts:{
-            required:true,
-                    minlength:300,
                     maxlength:3000
             }
             },
@@ -292,6 +293,9 @@
             });
         </script>
     </div>
-
+     <script defer="defer">
+        lat = ${organization.lat} ;
+         lng = ${organization.lng};
+      </script>
 </body>
 </html>

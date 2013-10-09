@@ -11,5 +11,6 @@
         <friendly-url-routes>/routes.xml</friendly-url-routes>
         <instanceable>false</instanceable>
         <header-portlet-css>/css/main.css</header-portlet-css>
+        <footer-portlet-javascript>/js/javascript.js</footer-portlet-javascript>
     </portlet>
 </liferay-portlet-app>
