@@ -14,7 +14,7 @@ import java.util.Collection;
  * @author Nazarenko Alexandra
  */
 
-@Service("courceService")
+@Service("courseService")
 @Transactional
 public class CourseServiceImpl implements CourseService {
 
