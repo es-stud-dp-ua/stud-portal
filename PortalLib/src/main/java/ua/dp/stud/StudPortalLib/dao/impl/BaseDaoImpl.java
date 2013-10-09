@@ -52,7 +52,7 @@ public abstract class BaseDaoImpl<E> implements BaseDao<E> {
 
     @Override
     public E update(E object) {
-        getSession().update(object);
+        getSession().saveOrUpdate(object);
         return object;
     }
 

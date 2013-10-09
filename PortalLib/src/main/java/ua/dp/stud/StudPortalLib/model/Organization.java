@@ -37,6 +37,8 @@ public class Organization extends BaseImagesSupport implements Serializable {
     }
     //Fields//
     private static final int TEXT_LENGTH = 10000;
+    private static final int START_HASH = 3;
+    private static final int MULT_HASH = 89;
     private String author;
     @Size(min = 5, max = 100)
     @NotNull
@@ -54,11 +56,29 @@ public class Organization extends BaseImagesSupport implements Serializable {
     @Min(0)
     private int views;
     private Date publication;
-    
-    @Size(min = 300, max = 3000)
-    @NotNull
-    @NotBlank
+
+    @Size(max = 300)
     private String contacts;
+    private String lat;
+    private String lng;
+
+    public String getLat() {
+        return lat;
+    }
+
+    public String getLng() {
+        return lng;
+    }
+
+    public void setLat(String lat) {
+        this.lat = lat;
+    }
+
+    public void setLng(String lng) {
+        this.lng = lng;
+    }
+
+
 
     @Column(length = TEXT_LENGTH)
     public String getContacts() {
@@ -158,8 +178,7 @@ public class Organization extends BaseImagesSupport implements Serializable {
     public void setApproved(Boolean approved) {
         this.approved = approved;
     }
-    private static final int START_HASH = 3;
-    private static final int MULT_HASH = 89;
+
 
     @Override
     public int hashCode() {

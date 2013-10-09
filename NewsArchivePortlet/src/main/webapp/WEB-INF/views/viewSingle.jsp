@@ -114,7 +114,7 @@
         <a href="${home}">
             <div class="panelbtn panelbtn-right fs20 icon-pcparrow-left" aria-hidden="true"></div>
         </a>
-        <%if (request.isUserInRole("Administrator") || request.isUserInRole("User")) { %>
+        <%if (request.isUserInRole("Administrator")) { %>
         <% if (request.isUserInRole("Administrator")) { %>
         <a style="float: right"
            href="<portlet:renderURL><portlet:param name="newsId" value="<%=news.getId().toString()%>"/><portlet:param name="mode" value="delete" /><portlet:param name="currentPage" value="1"/> </portlet:renderURL>"
