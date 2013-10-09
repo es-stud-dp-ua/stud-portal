@@ -2,7 +2,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
-<%@ page contentType="text/html" isELIgnored="false" %>
+<%@ page isELIgnored="false" %>
 <%@ page import="ua.dp.stud.StudPortalLib.util.ImageService" %>
+<%@ page contentType="text/html" %>
 
 <% ImageService imageService = (ImageService) pageContext.findAttribute("imageService"); %>

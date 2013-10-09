@@ -6,6 +6,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.awt.Image;
+//import ua.dp.stud.StudPortalLib.model.ImageImpl;
+//import ua.dp.stud.StudPortalLib.util.ImageService;
 /**
  * Author: Nazarenko K.V
  * Date: 03.10.13
@@ -15,7 +17,7 @@ enum CoursesType {Company,Tutor,Online}
 
 @Entity
 @Table(name = "course_table")
-public class Course {
+public class Course{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -40,6 +42,7 @@ public class Course {
 
     @Column
     private Image photoUrl;
+    //private ImageImpl photoUrl;
 
     @Column
     private String coursesDescription;
