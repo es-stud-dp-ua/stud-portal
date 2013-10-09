@@ -41,13 +41,18 @@ public class UserInfoValidator extends Validator {
             errors.rejectValue("emailAddress", "NotEmpty.user.Mail");
         }
         Pattern pattern = Pattern.compile("^[а-яА-ЯёЁa-zA-Z.-]+$");
+        Pattern pattern2 = Pattern.compile("^[0-9а-яА-ЯёЁa-zA-Z.-]+$");
         Matcher matcherFirstName = pattern.matcher(userInfo.getFirstName());
         Matcher matcherLastName = pattern.matcher(userInfo.getLastName());
-        if ((!matcherLastName.matches()) || (!matcherFirstName.matches())) {
+        Matcher matcherPhoneNumber = pattern2.matcher(userInfo.getPhoneNumber());
+        if ((!matcherLastName.matches()) || (!matcherFirstName.matches()) ) {
             errors.rejectValue("firstName", strNOTEMPTYNECESSARYFIELDS);
         }
+         if (!matcherPhoneNumber.matches()){
+        	 errors.rejectValue("phoneNumber", strNOTEMPTYNECESSARYFIELDS);
+         }
 
-        if ((!isPassword(userInfo.getPassword1())) || (!isPassword(userInfo.getPassword2()))) {
+         if ((!isPassword(userInfo.getPassword1())) || (!isPassword(userInfo.getPassword2()))) {
             errors.rejectValue("password1", strNOTEMPTYPASSWORD);
             errors.rejectValue("password2", strNOTEMPTYPASSWORD);
         } else {

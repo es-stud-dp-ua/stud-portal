@@ -67,7 +67,7 @@ public class AccountController {
     private static String strExcept = "exception";
     private static final Logger LOG = Logger.getLogger(AccountController.class.getName());
     //index of rules
-    private static final int RULESACEPT = 6;
+    private static final int RULESACEPT = 1;
     private static final int DEFAULT_ROLE_ID = 10142;
     private static final String EXEPTION = "Exception: ";
 
@@ -88,20 +88,7 @@ public class AccountController {
         return "success_page";
     }
 
-    @RenderMapping(params = "mode=activate")
-    public ModelAndView showAddUser(RenderRequest request, RenderResponse response)
-            throws PortalException, IOException, SystemException {
-        ModelAndView model = new ModelAndView();
-        //choose activation result
-        if (confirmNewUser(request)) {
-            model.setViewName("activation");
-        } else {
-            model.setViewName("activationFail");
-        }
-        //set view for user activation result
-        return model;
-    }
-
+    
     /**
      * Exception rendering messege
      *
@@ -155,11 +142,11 @@ public class AccountController {
         //activation link setup
         HttpServletRequest request = PortalUtil.getHttpServletRequest(actionRequest);
         ThemeDisplay themeDisplay = (ThemeDisplay) actionRequest.getAttribute(THEME_DISPLAY);
-        String portletId = (String) actionRequest.getAttribute(WebKeys.PORTLET_ID);
+    
         request = PortalUtil.getOriginalServletRequest(request);
         //Retrieve layout id of another portlet
-        long plid = PortalUtil.getPlidFromPortletId(themeDisplay.getScopeGroupId(), portletId);
-        PortletURL activationURL = PortletURLFactoryUtil.create(request, portletId, plid, PortletRequest.RENDER_PHASE);
+    
+    
         //sets other fields
         boolean autoPassword = false;
         boolean autoScreenName = true;
@@ -168,7 +155,7 @@ public class AccountController {
         long[] organizationIds = null;
         long[] roleIds = {DEFAULT_ROLE_ID};
         long[] userGroupIds = null;
-        boolean sendEmail = true;
+        boolean sendEmail = false;
         //create variable for user expando fields
         Map<String, String> hashOfUserExpando = new HashMap<String, String>();
 
@@ -192,12 +179,7 @@ public class AccountController {
         ServiceContext serviceContext = ServiceContextFactory.getInstance(User.class.getName(), actionRequest);
 
         //save expando
-        hashOfUserExpando.put("placeOfStudy", userInfo.getPlaceOfStudy());
-        hashOfUserExpando.put("faculty", userInfo.getFaculty());
-        hashOfUserExpando.put("group", userInfo.getGroup());
-        hashOfUserExpando.put("vkUid", userInfo.getVkontakteId());
-        hashOfUserExpando.put("faceBook", userInfo.getFacebookId());
-        hashOfUserExpando.put("about", userInfo.getAboutMe());
+        hashOfUserExpando.put("phoneNumber", userInfo.getPhoneNumber());
         hashOfUserExpando.put("rules", (userInfo.isRules()) ? "true" : "false");
         User user = null;
 
@@ -212,7 +194,7 @@ public class AccountController {
                     calendar.get(Calendar.YEAR), "", groupIds, organizationIds,
                     roleIds, userGroupIds, sendEmail, serviceContext);
             //user unactivated
-            UserLocalServiceUtil.updateActive(user.getUserId(), false);
+            UserLocalServiceUtil.updateActive(user.getUserId(), true);
             //set backup for current PermissionChecker
             PermissionChecker permissionCheckerBackup = PermissionThreadLocal.getPermissionChecker();
             //set new PermissionChecker
@@ -242,25 +224,8 @@ public class AccountController {
         } catch (Exception ex) {
             /* when error happen while upload image then dont do nothing! because user is all ready created*/
         }
-        //activation url for encryption
-        StringBuilder hashStr = new StringBuilder();
-        hashStr.append("id=").append(String.valueOf(user.getUserId()))
-                .append("&emailAddress=").append(user.getEmailAddress());
-        Hash hash = new Hash();
-        String hashedStr = hash.getCrypt(hashStr.toString());
-        if (hashedStr.isEmpty()) {
-            actionResponse.setRenderParameter(strExcept, "error.global");
-            return;
-        }
-        //rendering setting
-        activationURL.setParameter("hash", hashedStr);
-        //rendering params
-        activationURL.setParameter("mode", "activate");
-        //send activation message on new user mail
-        synchronized (mailer) {
-            mailer.sendActivationMail(userInfo.getEmailAddress(),
-                    activationURL.toString());
-        }
+        
+       
         //complete session
         sessionStatus.setComplete();
         //send success message
@@ -268,42 +233,12 @@ public class AccountController {
     }
 
     //helper methods
-    private boolean confirmNewUser(RenderRequest actionRequest)
-            throws IOException, SystemException, PortalException {
-        //hash functions object
-        Hash hash = new Hash();
-        //get activation hash
-        String hashStr = hash.getDecrypt(ParamUtil.getString(actionRequest, "hash"));
-        //split activation hash
-        String[] hashSplit = hashStr.split("&");
-        //create variable for attributes
-        Map<String, String> hashMap = new HashMap<String, String>();
-        //get all attributes
-        for (String hashObj : hashSplit) {
-            String[] buff = hashObj.split("=");
-            hashMap.put(buff[0], buff[1]);
-        }
-        //get new user id
-        int userId = Integer.parseInt(hashMap.get("id"));
-        //try to active new user
-        try {
-            UserLocalServiceUtil.updateActive(userId, true);
-        } catch (Exception ex) {
-            LOG.log(Level.SEVERE, EXEPTION, ex);
-            return false;
-        }
-        return true;
-    }
-
+    
     private boolean createExpandoFields(ExpandoBridge userExpandoBridge) {
         //columns name
-        String[] expandoColumn = new String[]{"placeOfStudy",
-                "faculty",
-                "group",
-                "vkUid",
-                "faceBook",
-                "about",
-                "rules"};
+        String[] expandoColumn = new String[]{
+        		"phoneNumber",
+        		"rules"};
         //columns type
         int type = ExpandoColumnConstants.STRING;
         //for not empty bridge
@@ -330,13 +265,9 @@ public class AccountController {
 
     private void setExpandoFields(ExpandoBridge userExpandoBridge, Map mapOfExpFields) {
         //columns name
-        String[] expandoColumn = new String[]{"placeOfStudy",
-                "faculty",
-                "group",
-                "vkUid",
-                "faceBook",
-                "about",
-                "rules"};
+        String[] expandoColumn = new String[]{
+        		"phoneNumber",
+        		"rules"};
         //column of rules
         boolean rules;
         //for not empty bridge

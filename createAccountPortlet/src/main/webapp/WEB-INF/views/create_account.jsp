@@ -22,13 +22,7 @@
             }, "Please check your input."
     );
     $(document).ready(function () {
-        $(".splLink").click(function () {
-			$(this).parent().children("div.splCont").toggle("normal");
-			var a = $(this).children("span#spoiler");
-			a.html((a.html() == "+") ? "-" : "+");
-			return false
-		});
-		$('#registration-form').validate({
+        	$('#registration-form').validate({
             rules: {
                 lastName: {
                     required: true,
@@ -54,6 +48,10 @@
                 password2: {
                     required: true,
                     equalTo: "#password1"
+                },
+                phoneNumber: {
+                    required: true,
+                    regexp: '^[0-9/+]'
                 },
                 rules: "required"
             },
@@ -82,6 +80,10 @@
                 password2: {
                     required: "<spring:message code="js.required"/>",
                     equalTo: "<spring:message code="js.password"/>"
+                },
+                phoneNumber: {
+                    required: "<spring:message code="js.required"/>",
+                    regexp: "<spring:message code="js.phoneNumber.regexp"/>"
                 },
                 rules: "<spring:message code="js.rules.required"/>"
             },
@@ -149,7 +151,7 @@
         </center>
         <fieldset class="fieldReg">
             <legend cssClass="control-group" id="titleLevel2"><spring:message code="reg-ness-field"/></legend>
-            <div class="colunmBx rightCl">
+            <div class="colunmBx">
                 <div class="textBox">
                     <div><label cssClass="control-group" for="lastNameBx"><spring:message code="last-name"/></label>
                     </div>
@@ -162,8 +164,12 @@
                     <form:input path="firstName" class="inpts" type="text"/>
                     <form:errors path="firstName" cssClass="error"/>
                 </div>
-            </div>
-            <div class="colunmBx">
+                <div class="textBox">
+                        <div><label cssClass="control-group" for="phoneNumber"><spring:message code="phone-number"/></label>
+                        </div>
+                        <form:input path="phoneNumber" class="inpts" type="text"/>
+                    	<form:errors path="phoneNumber" cssClass="error"/>
+                    </div>
                 <div class="textBox">
                     <div><label cssClass="control-group" for="emailAddress"><spring:message
                             code="email-address"/></label></div>
@@ -182,56 +188,25 @@
                     <form:input path="password2" class="inpts" type="password"/>
                     <form:errors path="password2" cssClass="error"/>
                 </div>
+         </div>
+            <div>
+	            <p><spring:message code="if-log-in"/></p>
+				<a cssClass="control-group" href="/web/guest/home?p_p_id=58&p_p_lifecycle=0&p_p_state=maximized&p_p_mode=view&saveLastPath=0&_58_struts_action=%2Flogin%2Flogin">
+            	<spring:message code="log-in"/></a>
             </div>
         </fieldset>
-        <fieldset class="fieldReg">
-            <div id="titleLevel2" class="splLink">
-				<span id="spoiler">+</span>
-				<span style="margin-left: 15px;">Эти поля вы можете заполнить позже</span>
-			</div>
+    <fieldset class="fieldReg">
             <div class="splCont" style="display:none;">
-                <div class="colunmBx rightCl bottomDiv">
-                    <div class="textBox">
-                        <div><label for="placeOfStudy"><spring:message code="place-of-study"/></label></div>
-                        <form:input path="placeOfStudy" class="inpts" name="placeOfStudy" type="text"/>
-                    </div>
-                    <div class="textBox">
-                        <div><label for="faculty"><spring:message code="faculty"/></label></div>
-                        <form:input path="faculty" class="inpts" name="faculty" type="text"/>
-                    </div>
-                    <div class="textBox">
-                        <div><label for="group"><spring:message code="group"/></label></div>
-                        <form:input path="group" class="inpts" name="group" type="text"/>
-                    </div>
-                </div>
-                <div class="colunmBx bottomDiv">
-                    <div class="textBox">
-                        <div><label for="vkontakteId"><spring:message code="vk-uid"/></label></div>
-                        <form:input path="vkontakteId" class="inpts" name="vkontakteId" type="text"/>
-                    </div>
-                    <div class="textBox">
-                        <div><label for="facebookId"><spring:message code="face-book"/></label></div>
-                        <form:input path="facebookId" class="inpts" name="facebookId" type="text"/>
-                    </div>
-                    <div class="textBox">
-                        <div><label for="birthday"><spring:message code="birthday"/></label></div>
-                        <input type="text" id="datepicker" name="birthday" class="inpts"/>
-                    </div>
-                </div>
                 <div class="LoadFoto">
                     <div class="textBox">
                         <div><label for="image"><spring:message code="image"/></label></div>
                         <input type="file" id="portret" name="portret" accept="image/jpeg,image/png,image/gif"/>
                     </div>
-                    <div class="textBox">
-                        <div><label for="aboutMe"><spring:message code="about"/></label></div>
-                        <form:textarea path="aboutMe" cols="60"
-                                       style="width: 503px; height: 100px; max-width: 503px; max-height: 100px;"
-                                       name="aboutMe"/>
-                    </div>
+                    
                 </div>
             </div>
         </fieldset>
+        
         <fieldset style="padding: 7px;">
             <input path="rules" type="checkbox" name="rules">&nbsp;<spring:message code="rules"/></input>
             <form:errors path="rules" cssClass="error"/>
