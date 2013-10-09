@@ -1,5 +1,6 @@
 package ua.dp.stud.askQuestionPortlet.controller;
 
+import org.apache.commons.lang.exception.NestableException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -50,7 +51,7 @@ public class AskQuestionController {
      */
     @ActionMapping
     public void doPost(@Valid @ModelAttribute("question") Question question, BindingResult bindingResult,
-                       ActionResponse response, SessionStatus sessionStatus) {
+                       ActionResponse response, SessionStatus sessionStatus) throws Exception {
         Validator validator = new QuestionValidator();
         validator.validate(question, bindingResult);
         if (bindingResult.hasErrors()) {
@@ -60,7 +61,9 @@ public class AskQuestionController {
                 mailer.sendMail(
                         question.getSentFrom(),
                         question.getSubject(),
-                        question.getText());
+                        question.getText(),
+                        question.getSentFromName(),
+                        question.getSentFromMobile());
             }
             sessionStatus.setComplete();
             response.setRenderParameter("result", "success");
