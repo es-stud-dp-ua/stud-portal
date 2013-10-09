@@ -7,11 +7,12 @@ import org.springframework.stereotype.Repository;
 
 import ua.dp.stud.studie.dao.CourseDao;
 import ua.dp.stud.studie.model.Course;
+import ua.dp.stud.studie.model.KindOfCourse;
 
 import java.util.Collection;
 
 /**
- *
+ *           @author Nazarenko K.V.
  */
 
 @Repository("courseDao")
@@ -50,9 +51,36 @@ public class CourseDaoImpl implements CourseDao {
     }
 
     @Override
-    //todo: use List<Human>
+
     public Collection<Course> getAll() {
         return getSession().createCriteria(Course.class).list();
+    }
+
+    @Override
+    public KindOfCourse getKindOfCourseById(Integer id) {
+        return (KindOfCourse) getSession().get(KindOfCourse.class, id);
+
+    }
+
+    @Override
+    public void addKindOfCourse(KindOfCourse kindOfCourse) {
+        getSession().save(kindOfCourse);
+    }
+
+    @Override
+    public void deleteKindOfCourse(Integer id) {
+        KindOfCourse kindOfCourse = (KindOfCourse) getSession().get(KindOfCourse.class, id);
+        getSession().delete(kindOfCourse);
+    }
+
+    @Override
+    public void updateKindOfCourse(KindOfCourse kindOfCourse) {
+        getSession().update(kindOfCourse);
+    }
+
+    @Override
+    public Collection<KindOfCourse> getAllKindOfCourse() {
+        return getSession().createCriteria(KindOfCourse.class).list();
     }
 
 

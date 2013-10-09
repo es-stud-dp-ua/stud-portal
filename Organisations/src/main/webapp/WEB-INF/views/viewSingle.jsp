@@ -20,99 +20,10 @@
 %>
 <html>
     <head>
-        <style type="text/css">
-            .scroll-content {
-                width: <%=newsList.size() * 122%>px;
-                float: left;
-            }
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
 
-            label.valid {
-                width: 24px;
-                height: 24px;
-                background: url(${pageContext.request.contextPath}/images/valid.png) center center no-repeat;
-                display: inline-block;
-                text-indent: -9999px;
-            }
-        </style>
-        <script>
-            function ConfirmImage() {
-                return confirm("<spring:message code="form.confDeleteImg"/>");
-            }
-            $(function() {
-                //scrollpane parts
-                var scrollPane = $(".scroll-pane"),
-                        scrollContent = $(".scroll-content");
 
-                //build slider
-                var scrollbar = $(".scroll-bar").slider({
-                    slide: function(event, ui) {
-                        if (scrollContent.width() > scrollPane.width()) {
-                            scrollContent.css("margin-left", Math.round(
-                                    ui.value / 100 * (scrollPane.width() - scrollContent.width())
-                                    ) + "px");
-                        } else {
-                            scrollContent.css("margin-left", 0);
-                        }
-                    }
-                });
 
-                //append icon to handle
-                var handleHelper = scrollbar.find(".ui-slider-handle")
-                        .mousedown(function() {
-                    scrollbar.width(handleHelper.width());
-                })
-                        .mouseup(function() {
-                    scrollbar.width("100%");
-                })
-                        .append("<span class='ui-icon ui-icon-grip-dotted-vertical'></span>")
-                        .wrap("<div class='ui-handle-helper-parent'></div>").parent();
-
-                //change overflow to hidden now that slider handles the scrolling
-                scrollPane.css("overflow", "hidden");
-
-                //size scrollbar and handle proportionally to scroll distance
-                function sizeScrollbar() {
-                    var remainder = scrollContent.width() - scrollPane.width();
-                    var proportion = remainder / scrollContent.width();
-                    var handleSize = scrollPane.width() - (proportion * scrollPane.width());
-                    scrollbar.find(".ui-slider-handle").css({
-                        width: handleSize,
-                        "margin-left": -handleSize / 2
-                    });
-                    handleHelper.width("").width(scrollbar.width() - handleSize);
-                }
-
-                //reset slider value based on scroll content position
-                function resetValue() {
-                    var remainder = scrollPane.width() - scrollContent.width();
-                    var leftVal = scrollContent.css("margin-left") === "auto" ? 0 :
-                            parseInt(scrollContent.css("margin-left"));
-                    var percentage = Math.round(leftVal / remainder * 100);
-                    scrollbar.slider("value", percentage);
-                }
-
-                //if the slider is 100% and window gets larger, reveal content
-                function reflowContent() {
-                    var showing = scrollContent.width() + parseInt(scrollContent.css("margin-left"), 10);
-                    var gap = scrollPane.width() - showing;
-                    if (gap > 0) {
-                        scrollContent.css("margin-left", parseInt(scrollContent.css("margin-left"), 10) + gap);
-                    }
-                }
-
-                //change handle position on window resize
-                $(window).resize(function() {
-                    resetValue();
-                    sizeScrollbar();
-                    reflowContent();
-                });
-                //init scrollbar size
-                setTimeout(sizeScrollbar, 10);//safari wants a timeout
-            });
-            $(function() {
-                $('#inner1').tooltip();
-            });
-        </script>
     </head>
 
     <body >
@@ -313,8 +224,9 @@
                 </td>
             </tr>
         </table>
-    </div>
 
+    </div>
+     <div id="map-canvas" style="width:300x; height:250px"></div>
     <%--commentz support--%>
     <div id="mc-container"></div>
     <script type="text/javascript">
@@ -353,10 +265,99 @@
             (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(mc);
         })();
     </script>
+
     <%--commentz support--%>
     <div id="mc-container"></div>
     <!--<a href="http://cackle.me" id="mc-link"><spring:message code="viewSingle.copyright"/> <b style="color:#4FA3DA">CACKL</b><b
             style="color:#F65077">E</b></a>-->
     <%--commentz support--%><br/>
+    <script>
+
+
+
+                function ConfirmImage() {
+                    return confirm("<spring:message code="form.confDeleteImg"/>");
+                }
+                $(function() {
+                    //scrollpane parts
+                    var scrollPane = $(".scroll-pane"),
+                            scrollContent = $(".scroll-content");
+
+                    //build slider
+                    var scrollbar = $(".scroll-bar").slider({
+                        slide: function(event, ui) {
+                            if (scrollContent.width() > scrollPane.width()) {
+                                scrollContent.css("margin-left", Math.round(
+                                        ui.value / 100 * (scrollPane.width() - scrollContent.width())
+                                        ) + "px");
+                            } else {
+                                scrollContent.css("margin-left", 0);
+                            }
+                        }
+                    });
+
+                    //append icon to handle
+                    var handleHelper = scrollbar.find(".ui-slider-handle")
+                            .mousedown(function() {
+                        scrollbar.width(handleHelper.width());
+                    })
+                            .mouseup(function() {
+                        scrollbar.width("100%");
+                    })
+                            .append("<span class='ui-icon ui-icon-grip-dotted-vertical'></span>")
+                            .wrap("<div class='ui-handle-helper-parent'></div>").parent();
+
+                    //change overflow to hidden now that slider handles the scrolling
+                    scrollPane.css("overflow", "hidden");
+
+                    //size scrollbar and handle proportionally to scroll distance
+                    function sizeScrollbar() {
+                        var remainder = scrollContent.width() - scrollPane.width();
+                        var proportion = remainder / scrollContent.width();
+                        var handleSize = scrollPane.width() - (proportion * scrollPane.width());
+                        scrollbar.find(".ui-slider-handle").css({
+                            width: handleSize,
+                            "margin-left": -handleSize / 2
+                        });
+                        handleHelper.width("").width(scrollbar.width() - handleSize);
+                    }
+
+                    //reset slider value based on scroll content position
+                    function resetValue() {
+                        var remainder = scrollPane.width() - scrollContent.width();
+                        var leftVal = scrollContent.css("margin-left") === "auto" ? 0 :
+                                parseInt(scrollContent.css("margin-left"));
+                        var percentage = Math.round(leftVal / remainder * 100);
+                        scrollbar.slider("value", percentage);
+                    }
+
+                    //if the slider is 100% and window gets larger, reveal content
+                    function reflowContent() {
+                        var showing = scrollContent.width() + parseInt(scrollContent.css("margin-left"), 10);
+                        var gap = scrollPane.width() - showing;
+                        if (gap > 0) {
+                            scrollContent.css("margin-left", parseInt(scrollContent.css("margin-left"), 10) + gap);
+                        }
+                    }
+
+                    //change handle position on window resize
+                    $(window).resize(function() {
+                        resetValue();
+                        sizeScrollbar();
+                        reflowContent();
+                    });
+                    //init scrollbar size
+                    setTimeout(sizeScrollbar, 10);//safari wants a timeout
+                });
+                $(function() {
+                    $('#inner1').tooltip();
+                });
+            </script>
+             <script defer="defer">
+                            lat = "${organization.lat}" ;
+                            lng = "${organization.lng}";
+
+
+              </script>
 </body>
 </html>

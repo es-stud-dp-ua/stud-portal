@@ -195,7 +195,15 @@
             	<spring:message code="log-in"/></a>
             </div>
         </fieldset>
+<<<<<<< HEAD
     <fieldset class="fieldReg">
+=======
+        <fieldset class="fieldReg">
+            <div id="titleLevel2" class="splLink">
+				<span id="spoiler">+</span>
+				<span style="margin-left: 15px;"><spring:message code="reg-not-ness-field"/></span>
+			</div>
+>>>>>>> dd6c868f628f6e94f8f3f2e8ab821e9cee45bfe7
             <div class="splCont" style="display:none;">
                 <div class="LoadFoto">
                     <div class="textBox">
