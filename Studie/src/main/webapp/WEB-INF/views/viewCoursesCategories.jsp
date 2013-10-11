@@ -9,7 +9,7 @@
 
 <portlet:defineObjects/>
 <%
-    List<KindOfCourse> coursescategories = (List) request.getAttribute("coursescategories");
+    List<KindOfCourse> cs = (List) request.getAttribute("KOC");
 %>
 
 <html>
@@ -19,8 +19,8 @@
 </head>
 <body>
     <div id="newsTable">
-	    <c:if test="${not empty coursescategories}">
-		    <%for (KindOfCourse currCategoria : coursescategories){%>
+	    <c:if test="${not empty KOC}">
+		    <%for (KindOfCourse currCategoria : cs){%>
 			    <div id="singleStd">
 				    <table width="100%">
                         <tbody>
