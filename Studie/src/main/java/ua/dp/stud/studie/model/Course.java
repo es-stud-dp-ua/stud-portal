@@ -39,7 +39,6 @@ public class Course extends BaseImagesSupport{
     private Date addDate;
 
     @Column
-    @NotEmpty
     @ManyToOne
     private KindOfCourse kindOfCourse;
 
