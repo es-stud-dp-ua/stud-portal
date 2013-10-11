@@ -48,10 +48,13 @@ public class CoursesController {
     @Qualifier(value = "courseService")
     private CourseService courseService;
 
+
     public void setCourseService(CourseService courseService)
     {
         this.courseService = courseService;
     }
+
+
 
 
     @Autowired
@@ -79,8 +82,24 @@ public class CoursesController {
 		//return "viewAllCourses";
 	}
 
+    public void InitKindOfCourses()
+    {
+        KindOfCourse kindOfCourse1= new KindOfCourse("Английский язык");
+        KindOfCourse kindOfCourse2= new KindOfCourse("Китайский язык");
+        KindOfCourse kindOfCourse4= new KindOfCourse("Карате");
+        KindOfCourse kindOfCourse3= new KindOfCourse("Стриптиз");
+
+        courseService.addKindOfCourse(kindOfCourse1);
+        courseService.addKindOfCourse(kindOfCourse2);
+        courseService.addKindOfCourse(kindOfCourse3);
+        courseService.addKindOfCourse(kindOfCourse4);
+
+    }
+
 	@RenderMapping(params="add=course")
-	public ModelAndView addCourse(RenderRequest request, RenderResponse response) {
+	public ModelAndView addCourse(RenderRequest request, RenderResponse response)
+    {
+        InitKindOfCourses();
         ModelAndView model=new ModelAndView("addCourse");
         Collection<KindOfCourse> kindOfCourses= courseService.getAllKindOfCourse() ;
         model.addObject("kindOfCourses",kindOfCourses);
