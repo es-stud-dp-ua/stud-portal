@@ -2,7 +2,7 @@ package ua.dp.stud.studie.model;
 
 import org.hibernate.validator.constraints.NotEmpty;
 import ua.dp.stud.StudPortalLib.model.BaseImagesSupport;
-
+import ua.dp.stud.studie.model.KindOfCourse;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
@@ -12,7 +12,7 @@ import java.awt.Image;
  * Date: 03.10.13
  *
  */
-enum CoursesType {Company,Tutor,Online}
+enum CoursesType {Компания,Репетитор,Онлайн}
 
 @Entity
 @Table(name = "course_table")
@@ -39,7 +39,7 @@ public class Course extends BaseImagesSupport{
     private Date addDate;
 
     @Column
-    @ManyToOne
+    @NotEmpty
     private KindOfCourse kindOfCourse;
 
     @Column
@@ -116,6 +116,8 @@ public class Course extends BaseImagesSupport{
         this.coursesType = coursesType;
     }
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="typeId", nullable = true)
     public KindOfCourse getKindOfCourse() {
         return kindOfCourse;
     }

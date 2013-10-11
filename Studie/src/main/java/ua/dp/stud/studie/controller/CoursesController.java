@@ -53,6 +53,9 @@ public class CoursesController {
         this.courseService = courseService;
     }
 
+
+
+
     @Autowired
     @Qualifier(value = "imageService")
     private ImageService imageService;
@@ -78,26 +81,24 @@ public class CoursesController {
 		//return "viewAllCourses";
 	}
 
-    @RenderMapping(params="view=coursescategories")
-    public ModelAndView viewCoursesCategories(RenderRequest request, RenderResponse response) {
-        ModelAndView model = new ModelAndView();
-        /*Integer buttonId;
-        if (request.getParameter(BUTTON_ID) == null) {
-            buttonId = 0;
-        } else {
-            buttonId = Integer.valueOf(request.getParameter(BUTTON_ID));
-        }       */
-        model.setViewName("viewCoursesCategories");
-        Collection<KindOfCourse> coursescategories = courseService.getAllKindOfCourse();
-        model.addObject("coursescategories", coursescategories);
-        //model.addObject(BUTTON_ID, buttonId);
-        return model;
-        //return "viewAllCourses";
+    public void InitKindOfCourses()
+    {
+        KindOfCourse kindOfCourse1= new KindOfCourse("Английский язык");
+        KindOfCourse kindOfCourse2= new KindOfCourse("Китайский язык");
+        KindOfCourse kindOfCourse4= new KindOfCourse("Карате");
+        KindOfCourse kindOfCourse3= new KindOfCourse("Стриптиз");
+
+        courseService.addKindOfCourse(kindOfCourse1);
+        courseService.addKindOfCourse(kindOfCourse2);
+        courseService.addKindOfCourse(kindOfCourse3);
+        courseService.addKindOfCourse(kindOfCourse4);
+
     }
-    
+
 	@RenderMapping(params="add=course")
 	public ModelAndView addCourse(RenderRequest request, RenderResponse response)
     {
+        InitKindOfCourses();
         ModelAndView model=new ModelAndView("addCourse");
         Collection<KindOfCourse> kindOfCourses= courseService.getAllKindOfCourse() ;
         model.addObject("kindOfCourses",kindOfCourses);
