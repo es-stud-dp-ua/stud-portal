@@ -53,7 +53,6 @@ public class CoursesController {
         this.courseService = courseService;
     }
 
-
     @Autowired
     @Qualifier(value = "imageService")
     private ImageService imageService;
@@ -63,7 +62,7 @@ public class CoursesController {
     }
 
     @RenderMapping(params="view=allcourses")
-	public ModelAndView viewAllCourses(RenderRequest request, RenderResponse response) {
+    public ModelAndView viewAllCourses(RenderRequest request, RenderResponse response) {
         ModelAndView model = new ModelAndView();
         Integer buttonId;
         if (request.getParameter(BUTTON_ID) == null) {
@@ -76,8 +75,25 @@ public class CoursesController {
         model.addObject("course", courses);
         model.addObject(BUTTON_ID, buttonId);
         return model;
-		//return "viewAllCourses";
-	}
+        //return "viewAllCourses";
+    }
+
+    @RenderMapping(params="view=coursescategories")
+    public ModelAndView viewCoursesCategories(RenderRequest request, RenderResponse response) {
+        ModelAndView model = new ModelAndView();
+        /*Integer buttonId;
+        if (request.getParameter(BUTTON_ID) == null) {
+            buttonId = 0;
+        } else {
+            buttonId = Integer.valueOf(request.getParameter(BUTTON_ID));
+        }       */
+        model.setViewName("viewCoursesCategories");
+        Collection<KindOfCourse> coursescategories = courseService.getAllKindOfCourse();
+        model.addObject("coursescategories", coursescategories);
+        //model.addObject(BUTTON_ID, buttonId);
+        return model;
+        //return "viewAllCourses";
+    }
 
 	@RenderMapping(params="add=course")
 	public ModelAndView addCourse(RenderRequest request, RenderResponse response) {
@@ -102,7 +118,6 @@ public class CoursesController {
 	@ActionMapping(value="saveCourse")
 	public void saveCourse(){
 	}
-
 
     private Boolean updateCourse(Course newCourse, CommonsMultipartFile mainImage,
                                 ActionResponse actionResponse) {

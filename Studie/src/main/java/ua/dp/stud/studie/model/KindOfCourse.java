@@ -26,6 +26,10 @@ private String kindOfCourse;
         this.kindOfCourse = kindOfCourse;
     }
 
+    public String getKindOfCourse() {
+        return this.kindOfCourse;
+    }
+
     public KindOfCourse()
     {}
 

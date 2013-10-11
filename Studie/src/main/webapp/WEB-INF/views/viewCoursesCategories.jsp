@@ -1,3 +1,4 @@
+<%@ page import="ua.dp.stud.studie.model.KindOfCourse" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.liferay.portal.theme.ThemeDisplay" %>
 <%@ page import="com.liferay.portal.kernel.util.WebKeys" %>
@@ -6,25 +7,36 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@include file="include.jsp" %>
 
+<portlet:defineObjects/>
+<%
+    List<KindOfCourse> coursescategories = (List) request.getAttribute("coursescategories");
+%>
+
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
 </head>
 <body>
-View all courses page
-<portlet:renderURL var="LinkAddCourse">
-			<portlet:param name="add" value="course"/>
-</portlet:renderURL>
-<div class="portlet-content-controlpanel fs20"style="width: 10.15%;float: right;">
-                <!--<a style="float: right" href="${deleteLink}"
-                   onclick='return confirm("<spring:message code="form.confDelete"/>")'>
-                    <div class="panelbtn panelbtn-right fs20 icon-pcpremove" aria-hidden="true"></div>
-                </a>-->
-                <a style="float: right" href="${LinkAddCourse}">
-                    <!--<spring:message code="viewSingle.Edit"/>-->
-                    <div class="panelbtn panelbtn-right icon-pcppencil" aria-hidden="true"></div>
-                </a>
-            </div>
+    <div id="newsTable">
+	    <c:if test="${not empty coursescategories}">
+		    <%for (KindOfCourse currCategoria : coursescategories){%>
+			    <div id="singleStd">
+				    <table width="100%">
+                        <tbody>
+						    <tr>
+						        <td style="width: 110px;">
+						            <a href="">111</a>
+						        </td>
+						        <td>
+						            <a href=""><%=currCategoria.getKindOfCourse()%></a>
+						        </td>
+						    </tr>
+						</tbody>
+				    </table>
+				</div>
+			<%}%>
+		</c:if>
+	</div>
  </body>
 </html>

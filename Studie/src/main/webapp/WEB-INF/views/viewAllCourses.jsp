@@ -14,8 +14,9 @@
 <body>
 View all courses page
 <portlet:renderURL var="LinkAddCourse">
-			<portlet:param name="add" value="course"/>
+			<portlet:param name="view" value="coursescategories"/>
 </portlet:renderURL>
+<a href="${LinkAddCourse}">dfsdfsdf</a>
 <div class="portlet-content-controlpanel fs20"style="width: 10.15%;float: right;">
                 <!--<a style="float: right" href="${deleteLink}"
                    onclick='return confirm("<spring:message code="form.confDelete"/>")'>

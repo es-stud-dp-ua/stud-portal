@@ -51,7 +51,6 @@ public class Mailer {
         InternetAddress fr = new InternetAddress(sentFrom);
         Properties sessionProperties = MailEngine.getSession().getProperties();
         String adminMail = sessionProperties.getProperty("mail.smtp.user").equals("") ? sessionProperties.getProperty("mail.smtps.user") : sessionProperties.getProperty("mail.smtp.user");
-        //String adminMail = "studdpuasender@gmail.com";
         InternetAddress to = new InternetAddress(adminMail);
         MailEngine.send(fr, to, subject, message1.toString());
     }
