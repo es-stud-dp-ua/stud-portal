@@ -2,7 +2,7 @@ package ua.dp.stud.studie.model;
 
 import org.hibernate.validator.constraints.NotEmpty;
 import ua.dp.stud.StudPortalLib.model.BaseImagesSupport;
-
+import ua.dp.stud.studie.model.KindOfCourse;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
@@ -40,7 +40,6 @@ public class Course extends BaseImagesSupport{
 
     @Column
     @NotEmpty
-    @ManyToOne
     private KindOfCourse kindOfCourse;
 
     @Column
@@ -117,6 +116,8 @@ public class Course extends BaseImagesSupport{
         this.coursesType = coursesType;
     }
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="typeId", nullable = true)
     public KindOfCourse getKindOfCourse() {
         return kindOfCourse;
     }
