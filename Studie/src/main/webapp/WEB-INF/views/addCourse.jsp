@@ -27,6 +27,9 @@
         </style>
 </head>
 <body >
+<script src="${pageContext.request.contextPath}/js/dynamic_list_helper.js" type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/js/dynamic_list_special.js" type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/js/main_edit.js" type="text/javascript"></script>
         <script type="text/javascript">
             function a() {
             jQuery('#cropbox').Jcrop({onChange: setCoords, onSelect: setCoords, bgColor: 'black',
@@ -75,7 +78,7 @@
 
                     <form:textarea path="courseName" id="topicInput" cols="90" rows="2" maxlength="80" onkeyup="isNotMax(event, getAttribute('id'))"></form:textarea>
                                 <form:errors path="courseName" cssClass="error"/>
-                    <br/>
+
                     <div id="labels" style="width: 150px; font-size: 12pt">
                                             <spring:message code="course.TLogo"/>
                                             </div>
@@ -96,7 +99,14 @@
                                                         <div id="labels" style="width: 150px; font-size: 12pt">
                                                                                 <spring:message code="course.Ttype"/>
                                                                                 </div>
-                                                                                <br/>
+                                              <div class="textBox">
+                                               <form:select path="coursesType">
+                                                   <form:option value="NONE" label="--- Выбрать ---" />
+                                                   <form:options items="${statusList}" />
+                                               </form:select>
+                                               <p/><form:errors path="coursesType" cssClass="error"/>
+                                           </div>
+
                                                         <div id="labels" style="width: 150px; font-size: 12pt">
                                                                                 <spring:message code="course.Tkind"/>
                                                                                 </div>
@@ -104,6 +114,8 @@
                                                         <div id="labels" style="width: 150px; font-size: 12pt">
                                                                                 <spring:message code="course.Tinfo"/>
                                                                                 </div>
+                        <textarea style="height: 124px; width: 436px" path="coursesContact" id="contact" maxlength="300"  name="contacts"></textarea>
+
                                                                                 <br/>
                                                         <div id="labels" style="width: 150px; font-size: 12pt">
                                                                                 <spring:message code="course.TDesc"/>
@@ -111,7 +123,13 @@
                                                                                 <br/>
 
                         <form:errors path="coursesDescription" cssClass="error"/>
-                        <form:textarea path="coursesDescription" class="ckeditor" id="textInput" cols="60" rows="10" maxlength="8000" onkeyup="isNotMax(event, getAttribute('id'))"></form:textarea>
+                        <form:textarea path="coursesDescription" class="ckeditor" id="textInput" cols="60" rows="8" maxlength="8000" onkeyup="isNotMax(event, getAttribute('id'))"></form:textarea>
+                         <br/>
+                                <div id="sbm">
+                                    <input type="submit" value="<spring:message
+                                           code='<%=(request.isUserInRole("Administrator"))?"form.submit.admin"
+                                                                                                                 :"form.submit.user"%>'/>"/>
+                                </div>
                     </div>
             </div>
 

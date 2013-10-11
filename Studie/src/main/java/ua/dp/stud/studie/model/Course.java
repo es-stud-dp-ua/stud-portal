@@ -12,7 +12,7 @@ import java.awt.Image;
  * Date: 03.10.13
  *
  */
-enum CoursesType {Company,Tutor,Online}
+enum CoursesType {Компания,Репетитор,Онлайн}
 
 @Entity
 @Table(name = "course_table")
