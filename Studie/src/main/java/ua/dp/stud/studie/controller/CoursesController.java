@@ -54,7 +54,10 @@ public class CoursesController {
         this.courseService = courseService;
     }
 
-
+    @ModelAttribute(value = COURSE)
+    public Course getCommandObject() {
+        return new Course();
+    }
 
 
 
@@ -107,10 +110,42 @@ public class CoursesController {
 		return  model;
 		// return "addCourse";
 	}
+
 	@RenderMapping(params="edit=course")
-	public String editCourse() {
-		return "editCourse";
+	public void editCourse(@ModelAttribute(COURSE)  Course course,
+                             //BindingResult bindingResult,
+                             ActionRequest actionRequest,
+                             ActionResponse actionResponse,
+                             SessionStatus sessionStatus,
+                             @RequestParam(MAIN_IMAGE) CommonsMultipartFile mainImage)
+    {
+
+         /*    if (bindingResult.hasErrors()) {
+            actionResponse.setRenderParameter(STR_FAIL, "msg.fail");
+            return;
+        }     */
+
+        Course oldCourse = courseService.getCourseByID(course.getId());
+        course.setMainImage(oldCourse.getMainImage());
+        if(!mainImage.getOriginalFilename().equals(""))
+        {
+            mainImage=imageService.cropImage(mainImage,
+                    Integer.parseInt(actionRequest.getParameter("t")),
+                    Integer.parseInt(actionRequest.getParameter("l")),
+                    Integer.parseInt(actionRequest.getParameter("w")),
+                    Integer.parseInt(actionRequest.getParameter("h"))  );
+        }
+        if (updateCourse(course, mainImage, actionResponse))
+        {
+            courseService.deleteKindOfCourse(oldCourse.getKindOfCourse().gettypeId());
+            courseService.updateCourse(course);
+            actionResponse.setRenderParameter(COURSE_ID, Integer.toString(course.getId()));
+            sessionStatus.setComplete();
+        }
+
 	}
+
+
 	@RenderMapping(params="view=course")
 	public String viewCourse() {
 		return "viewCourse";
@@ -143,7 +178,7 @@ public class CoursesController {
 
 	@ActionMapping(value="saveNewCourse")
 	public void saveNewCourse(@ModelAttribute(COURSE)  Course course,
-                              BindingResult bindingResult,
+                              //BindingResult bindingResult,
                               ActionRequest actionRequest,
                               ActionResponse actionResponse,
                               SessionStatus sessionStatus,
@@ -151,10 +186,10 @@ public class CoursesController {
     {
 
 
-        if (bindingResult.hasErrors()) {
+    /*    if (bindingResult.hasErrors()) {
             actionResponse.setRenderParameter(STR_FAIL, "msg.fail");
             return;
-        }
+        }     */
         if (mainImage.getOriginalFilename().equals("")) {
             actionResponse.setRenderParameter(STR_FAIL, STR_NO_IMAGE);
             return;
@@ -172,9 +207,6 @@ public class CoursesController {
 
     }
 
-    @ModelAttribute(value = COURSE)
-    public Course getCommandObject() {
-        return new Course();
-    }
+
 
 }
