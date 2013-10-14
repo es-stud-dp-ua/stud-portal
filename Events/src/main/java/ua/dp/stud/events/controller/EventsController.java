@@ -103,10 +103,8 @@ public class EventsController {
         }
         if ("true".equals(request.getParameter("archive")) || (request.getParameter("archive")) == null) {
             future = true;
-            model.addObject("archive", future);
         } else {
             future = false;
-            model.addObject("archive", future);
         }
 
         if (type == null) {
@@ -139,7 +137,7 @@ public class EventsController {
                 rightPageNumb = pagesCount;
             }
         }
-
+        model.addObject("archive", future);
         model.addObject("leftPageNumb", leftPageNumb);
         model.addObject("rightPageNumb", rightPageNumb);
         model.addObject("skippedBeginning", skippedBeginning);
@@ -276,12 +274,21 @@ public class EventsController {
         request.getPortletSession().getPortletContext();
         String mainImage = imageService.getPathToLargeImage(mImage, event);
         int currentPage;
+        Boolean future;
         model.setView("viewSingle");
         if (request.getParameter(CURRENT_PAGE) != null) {
             currentPage = Integer.parseInt(request.getParameter(CURRENT_PAGE));
         } else {
             currentPage = 1;
         }
+        if ("true".equals(request.getParameter("archive")) || (request.getParameter("archive")) == null) {
+            future = true;
+        } else {
+            future = false;
+        }
+
+        model.setView("viewSingle");
+        model.addObject("archive", future);
         model.addObject(CURRENT_PAGE, currentPage);
         model.addObject("mainImage", mainImage);
         model.addObject("event", event);
@@ -410,6 +417,7 @@ public class EventsController {
         CommonsMultipartFile croppedImage = null;
         Boolean defImage = Boolean.valueOf(actionRequest.getParameter("defaultImage"));
         Boolean changeImage = true;
+
         if (defImage == false) {
             if (!actionRequest.getParameter("t").equals("")) {
                 croppedImage = imageService.cropImage(mainImage, Integer.parseInt(actionRequest.getParameter("t")),
@@ -480,9 +488,23 @@ public class EventsController {
         ImageImpl mImage = event.getMainImage();
         String mainImageUrl = imageService.getPathToLargeImage(mImage, event);
         Collection<ImageImpl> additionalImages = event.getAdditionalImages();
-//set view for edit
+        int currentPage;
+        if (request.getParameter(CURRENT_PAGE) != null) {
+            currentPage = Integer.parseInt(request.getParameter(CURRENT_PAGE));
+        } else {
+            currentPage = 1;
+        }
+        Boolean future;
+        if ("true".equals(request.getParameter("archive")) || (request.getParameter("archive")) == null) {
+            future = true;
+        } else {
+            future = false;
+        }
+        //set view for edit
         model.setView("editEvent");
 //send current event in view
+        model.addObject(CURRENT_PAGE, currentPage);
+        model.addObject("archive", future);
         model.addObject("event", event);
         model.addObject(MAIN_IMAGE, mainImageUrl);
         model.addObject("additionalImages", additionalImages);
@@ -497,7 +519,7 @@ public class EventsController {
 //delete chosen organization's image from folder
         imageService.deleteDirectory(event);
 //delete chosen news
-        
+
         eventsService.deleteEvents(event);
         return showAddSuccess(request, response);
     }
@@ -512,6 +534,14 @@ public class EventsController {
         } else {
             currentPage = 1;
         }
+        Boolean future;
+        if ("true".equals(request.getParameter("archive")) || (request.getParameter("archive")) == null) {
+            future = true;
+        } else {
+            future = false;
+        }
+//send current event in view
+        model.addObject("archive", future);
         model.addObject(CURRENT_PAGE, currentPage);
         SessionMessages.add(request, request.getParameter(strSuccess));
         return model;

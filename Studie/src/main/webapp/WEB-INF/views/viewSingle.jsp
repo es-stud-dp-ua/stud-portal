@@ -138,7 +138,7 @@
 			<li><spring:message code="studie.Adress"/>&nbsp;<%=studie.getAdress()%></li>
 			<li><spring:message code="studie.Phone"/>&nbsp;<%=studie.getPhone()%></li>
 			<li><spring:message code="studie.PhoneAdmissions"/>&nbsp;<%=studie.getPhoneAdmissions()%></li>
-			<li><spring:message code="studie.Website"/>&nbsp;<a href="<%=studie.getWebsite()%>" target="_blank"><%=studie.getWebsite()%></a></li>
+			<li><spring:message code="studie.Website"/>&nbsp;<a href="<%=studie.getWebsite().startsWith("http")? studie.getWebsite() : "//"+studie.getWebsite()%>" target="_blank"><%=studie.getWebsite()%></a></li>
 		<ul></div>
 	</div>
 	<br><h2><spring:message code="studie.facul"/></h2>

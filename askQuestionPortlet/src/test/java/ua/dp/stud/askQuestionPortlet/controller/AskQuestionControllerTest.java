@@ -2,6 +2,7 @@ package ua.dp.stud.askQuestionPortlet.controller;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.apache.commons.lang.exception.NestableException;
 import org.springframework.mock.web.portlet.MockActionResponse;
 import org.springframework.mock.web.portlet.MockRenderResponse;
 import org.springframework.validation.BindException;
@@ -35,8 +36,10 @@ public class AskQuestionControllerTest {
     }
 
     @Test
-    public void doPostValidateCorrectValues() {
+    public void doPostValidateCorrectValues() throws Exception{
         question.setSentFrom("gainwardoleg@gmail.com");
+        question.setSentFromName("Test Test");
+        question.setSentFromMobile("380000000000");
         question.setText("test");
         question.setSubject("subject");
         MockActionResponse actionResponse = new MockActionResponse();
@@ -46,8 +49,10 @@ public class AskQuestionControllerTest {
     }
 
     @Test
-    public void doPostValidateIncorrectValues() {
+    public void doPostValidateIncorrectValues() throws Exception{
         question.setSentFrom("dude");
+        question.setSentFromName("");
+        question.setSentFromMobile("");
         question.setText("");
         question.setSubject("");
         MockActionResponse actionResponse = new MockActionResponse();

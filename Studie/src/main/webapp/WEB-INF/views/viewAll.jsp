@@ -21,7 +21,7 @@
     String imagePath = new StringBuilder(themeDisplay.getPortalURL()).append('/')
             .append(themeDisplay.getPathImage()).append("/image_gallery?img_id=").toString();
     String temp;
-    String[] type = {"studie", "StudentCouncil", "schedule", "Courses", "OnlineCourses", "grants"};
+    String[] type = {"studie", "StudentCouncil", "schedule", "Courses", "grants"};
 %>
 
 <html>
@@ -30,7 +30,6 @@
 </head>
 
 <body>
-
 <portlet:renderURL var="home"> </portlet:renderURL>
 <div id="contentDiv">
 	<%if (request.isUserInRole("Administrator")){ %>
@@ -45,34 +44,61 @@
 	<%} %>
 
 	<div style="margin-left: -10px;" class="cmt-types">
-		<form method="post" action="<portlet:renderURL/>">
-		<% for (int i = 0; i < 6; i++) {
-			if (buttonId == i) {
-				temp = new String("form.".concat(type[i]));%>
+	<portlet:renderURL var="LinkStudie">
+		</portlet:renderURL>
 		<div class="ribbon-wrapper">
-			<button class="btnselected"
+			<a class="btnselected" href="${LinkStudie}"
 					style=" width: 150px; height: 40px;  margin-left: -10px;  background-color: rgba(0, 122, 255, 0.47); border-color: rgba(68, 115, 185, 0);"
-					name="buttonId" value="<%=i%>">
-				<spring:message code="<%=temp%>"/></button>
+					name="buttonId">
+				<spring:message code="form.studie"/></a>
 			<div class="ribbon-edge-topleft"></div>
 			<div class="ribbon-edge-bottomleft"></div>
 		</div>
-		<%
-		} else {
-			temp = new String("form.".concat(type[i]));
-		%>
+		<portlet:renderURL var="LinkStudentCouncil">
+			<portlet:param name="" value=""/>
+		</portlet:renderURL>
 		<div class="ribbon-wrapper">
-			<button class="btntype"
-					style=" width: 150px; height: 40px;  background:  #4473B9; margin-left: -10px;  border-color: #4473B9;"
-					name="buttonId" value="<%=i%>">
-				<spring:message code="<%=temp%>"/></button>
+			<a class="btnselected" href="${LinkStudentCouncil}"
+					style=" width: 150px; height: 40px;  margin-left: -10px;  background-color: rgba(0, 122, 255, 0.47); border-color: rgba(68, 115, 185, 0);"
+					name="buttonId">
+				<spring:message code="form.StudentCouncil"/></a>
 			<div class="ribbon-edge-topleft"></div>
 			<div class="ribbon-edge-bottomleft"></div>
 		</div>
-		<%}%>
-		<br/>
-		<% }%>
-	</form>
+		<portlet:renderURL var="LinkSchedule">
+			<portlet:param name="" value=""/>
+		</portlet:renderURL>
+		<div class="ribbon-wrapper">
+			<a class="btnselected" href="${LinkSchedule}"
+					style=" width: 150px; height: 40px;  margin-left: -10px;  background-color: rgba(0, 122, 255, 0.47); border-color: rgba(68, 115, 185, 0);"
+					name="buttonId" value="">
+				<spring:message code="form.schedule"/></a>
+			<div class="ribbon-edge-topleft"></div>
+			<div class="ribbon-edge-bottomleft"></div>
+		</div>
+		<portlet:renderURL var="LinkCourses">
+			<portlet:param name="view" value="allcourses"/>
+		</portlet:renderURL>
+		<div class="ribbon-wrapper">
+			<a class="btnselected" href="${LinkCourses}"
+					style=" width: 150px; height: 40px;  margin-left: -10px;  background-color: rgba(0, 122, 255, 0.47); border-color: rgba(68, 115, 185, 0);"
+					name="buttonId">
+				<spring:message code="form.Courses"/></a>
+			<div class="ribbon-edge-topleft"></div>
+			<div class="ribbon-edge-bottomleft"></div>
+		</div>
+
+		<portlet:renderURL var="LinkGrants">
+			<portlet:param name="" value=""/>
+		</portlet:renderURL>
+		<div class="ribbon-wrapper">
+			<a class="btnselected" href="${LinkGrants}"
+					style=" width: 150px; height: 40px;  margin-left: -10px;  background-color: rgba(0, 122, 255, 0.47); border-color: rgba(68, 115, 185, 0);"
+					name="buttonId">
+				<spring:message code="form.grants"/></a>
+			<div class="ribbon-edge-topleft"></div>
+			<div class="ribbon-edge-bottomleft"></div>
+		</div>
 	</div>
 	<div id="newsTable">
 		<c:if test="${not empty studie}">
@@ -88,12 +114,20 @@
 						<td>
 							<a href="${linkToSingle}" style="font-weight: bold; font-size: 14px;"><%=currStudy.getTitle()%></a>
 		<% if (request.isUserInRole("Administrator")) { %>
+		<portlet:renderURL var="deleteLink">
+			<portlet:param name="studieId" value="<%=currStudy.getId().toString()%>"/>
+			<portlet:param name="mode" value="delete"/>
+		</portlet:renderURL>
+		<portlet:renderURL var="editLink">
+			<portlet:param name="studieId" value="<%=currStudy.getId().toString()%>"/>
+			<portlet:param name="mode" value="edit"/>
+		</portlet:renderURL>
 		<div class="portlet-content-controlpanel fs20"style="width: 10.15%;float: right;">
-                <a style="float: right" href="<portlet:renderURL/>&orgsId=<%=currStudy.getId()%>&mode=delete"
+                <a style="float: right" href="${deleteLink}"
                    onclick='return confirm("<spring:message code="form.confDelete"/>")'>
                     <div class="panelbtn panelbtn-right fs20 icon-pcpremove" aria-hidden="true"></div>
                 </a>
-                <a style="float: right" href="<portlet:renderURL/>&eventId=<%=currStudy.getId()%>&mode=edit">
+                <a style="float: right" href="${editLink}">
                     <!--<spring:message code="viewSingle.Edit"/>-->
                     <div class="panelbtn panelbtn-right icon-pcppencil" aria-hidden="true"></div>
                 </a>

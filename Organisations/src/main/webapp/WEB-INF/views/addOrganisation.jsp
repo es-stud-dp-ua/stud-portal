@@ -15,6 +15,7 @@
 <portlet:defineObjects/>
 <html>
     <head>
+        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
         <style type="text/css">
@@ -37,6 +38,7 @@
         </style>
     </head>
     <body >
+
         <script type="text/javascript">
             function a() {
             jQuery('#cropbox').Jcrop({onChange: setCoords, onSelect: setCoords, bgColor: 'black',
@@ -52,6 +54,7 @@
                     jQuery('#w').val(c.w);
                     jQuery('#h').val(c.h);
             }
+
             ;</script>
         <script language="javascript" type="text/javascript">
                     $(document).ready(function() {
@@ -159,7 +162,7 @@
                             <div id="eventSetting">
                                 <div style="font-size:14px;margin-top: 120px;">
                                     <div style="font-weight: bold;"><spring:message code="form.contacts"/> </div>
-                                <textarea path="contacts" id="contacts" cols="150" rows="5" maxlength="3000"  name="contacts"></textarea>
+                                <textarea path="contacts" id="contacts" cols="150" rows="5" maxlength="300"  name="contacts"></textarea>
                                 <form:errors path="contacts" cssClass="error"></form:errors>
                                     <div style="float: right;  ">
                                         <table>
@@ -233,6 +236,7 @@
                     </td>
                 </tr>
             </table>
+            <%@include file="otdelnaya.jsp" %>
             <div id="sbm">
                 <input type="submit" value="<spring:message
                        code='<%=(request.isUserInRole("Administrator"))?"form.submit.admin"
@@ -255,13 +259,11 @@
             },
                     text1: {
             required: true,
-                    minlength: 500,
-                    maxlength: 10000
+                    minlength: 300,
+                    maxlength: 3000
             },
                     contacts:{
-            required:true,
-                    minlength:300,
-                    maxlength:3000
+                    maxlength:300
             }
             },
                     messages: {
@@ -276,8 +278,7 @@
                     maxlength:  "<spring:message code="val.text.maxlength"/>"
             },
                     contacts: {
-            required: "<spring:message code="val.required"/>",
-                    minlength:  "<spring:message code="val.contacts.minlength"/>",
+
                     maxlength:  "<spring:message code="val.contacts.maxlength"/>"
             }
             },
@@ -293,5 +294,6 @@
             });
         </script>
     </div>
+
 </body>
 </html>

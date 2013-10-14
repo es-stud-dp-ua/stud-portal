@@ -28,7 +28,7 @@
     <head>
     </head>
     <body>
-        <%if (request.isUserInRole("Administrator") || request.isUserInRole("User")) { %>
+        <%if (request.isUserInRole("Administrator")) { %>
     <portlet:renderURL var="addNewsUrl">
         <portlet:param name="mode" value="add"/>
     </portlet:renderURL>
@@ -134,18 +134,40 @@
                     for (int pageNumb = leftPageNumb; pageNumb <= rightPageNumb; ++pageNumb) {
                         if (pageNumb != currentPage) {
                 %>
-                <a href="<portlet:actionURL name="pagination"><portlet:param name="pageNumber" value="<%=String.valueOf(pageNumb)%>"/></portlet:actionURL>"><%=pageNumb%>
+                <a href="<portlet:actionURL name="pagination">
+                <portlet:param name="pageNumber" value="<%=String.valueOf(pageNumb)%>"/>
+                </portlet:actionURL>"><%=pageNumb%>
                 </a>
+                <%if(pageNumb>0){ %>
+                <label>  </label>
+                <%}%>
+                <%if(pageNumb>9){ %>
+                <label>  </label>
+                <%}%>
+                <%if(pageNumb>99){ %>
+                <label>  </label>
+                <%}%>
                 <%} else {%>
                 <label style="color: #28477C; font-size: 40px;"><%=pageNumb%>
                 </label>
+                <%if(pageNumb>0){ %>
+                <label>  </label>
+                <%}%>
+                <%if(pageNumb>9){ %>
+                <label>  </label>
+                <%}%>
+                <%if(pageNumb>99){ %>
+                <label>  </label>
+                <%}%>                
                 <%}%>
                 <%}%>
 
                 <%if (skippedEnding) {%>
                 <%-- HIDING LAST PAGES --%>
                 <label> ... </label>
-                <a href="<portlet:actionURL name="pagination"><portlet:param name="pageNumber" value="<%=String.valueOf(pagesCount)%>"/></portlet:actionURL>"><%=pagesCount%>
+                <a href="<portlet:actionURL name="pagination">
+                <portlet:param name="pageNumber" value="<%=String.valueOf(pagesCount)%>"/>
+                </portlet:actionURL>"><%=pagesCount%>
                 </a>
                 <%}%>
             </td>

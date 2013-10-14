@@ -14,13 +14,8 @@ public class UserInfo implements Serializable {
     private String emailAddress;
     private String password1;
     private String password2;
-    private String placeOfStudy;
-    private String faculty;
-    private String group;
-    private String vkontakteId;
-    private String facebookId;
-    private String aboutMe;
-    private boolean rules;
+    private String phoneNumber;
+   private boolean rules;
 
     //constructors
 
@@ -39,49 +34,22 @@ public class UserInfo implements Serializable {
      * @param emailAddress email address
      * @param password1    Password
      * @param password2    Confirm password
-     * @param rules        Acept rules
+     * @param phoneNumber  Phone number
+     * @param rules        Accept rules
      */
     public UserInfo(String lastName, String firstName,
                     String emailAddress, String password1,
-                    String password2, Boolean rules) {
+                    String password2,String phoneNumber, Boolean rules) {
         this.lastName = lastName;
         this.firstName = firstName;
         this.emailAddress = emailAddress;
         this.password1 = password1;
         this.password2 = password2;
+        this.phoneNumber = phoneNumber;
         this.rules = rules;
     }
 
-    /**
-     * Constructor for new user all fields
-     *
-     * @param lastName     Last name
-     * @param firstName    First name
-     * @param emailAddress email address
-     * @param password1    Password
-     * @param password2    Confirm password
-     * @param rules        Acept rules
-     * @param placeOfStudy Place of study
-     * @param group        Group
-     * @param vkontakteId  russian social networking id
-     * @param facebookId   american social networking id
-     * @param aboutMe      something about new user
-     */
-    public UserInfo(String lastName, String firstName,
-                    String emailAddress, String password1,
-                    String password2, Boolean rules,
-                    String placeOfStudy, String group,
-                    String vkontakteId, String facebookId,
-                    String aboutMe
-    ) {
-        this(lastName, firstName, emailAddress, password1, password2, rules);
-        this.placeOfStudy = placeOfStudy;
-        this.group = group;
-        this.vkontakteId = vkontakteId;
-        this.facebookId = facebookId;
-        this.aboutMe = aboutMe;
-    }
-
+  
     //getters & setter
     public String getLastName() {
         return lastName;
@@ -123,39 +91,15 @@ public class UserInfo implements Serializable {
         this.password2 = password2;
     }
 
-    public String getPlaceOfStudy() {
-        return placeOfStudy;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setPlaceOfStudy(String placeOfStudy) {
-        this.placeOfStudy = placeOfStudy;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
-
-    public String getGroup() {
-        return group;
-    }
-
-    public void setGroup(String group) {
-        this.group = group;
-    }
-
-    public String getVkontakteId() {
-        return vkontakteId;
-    }
-
-    public void setVkontakteId(String vkontakteId) {
-        this.vkontakteId = vkontakteId;
-    }
-
-    public String getFacebookId() {
-        return facebookId;
-    }
-
-    public void setFacebookId(String facebookId) {
-        this.facebookId = facebookId;
-    }
-
-    public boolean isRules() {
+    
+      public boolean isRules() {
         return rules;
     }
 
@@ -163,19 +107,4 @@ public class UserInfo implements Serializable {
         this.rules = rules;
     }
 
-    public String getAboutMe() {
-        return aboutMe;
-    }
-
-    public void setAboutMe(String aboutMe) {
-        this.aboutMe = aboutMe;
-    }
-
-    public String getFaculty() {
-        return faculty;
-    }
-
-    public void setFaculty(String faculty) {
-        this.faculty = faculty;
-    }
 }

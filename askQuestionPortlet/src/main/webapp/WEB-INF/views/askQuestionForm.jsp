@@ -18,6 +18,18 @@
         <form:input path="sentFrom" cssClass="control-group"/>
         <form:errors path="sentFrom" cssClass="error"/>
         <br/>
+        <label for="sentFromName"><spring:message code="form.sentFromName"/></label>
+
+        <div></div>
+        <form:input path="sentFromName" cssClass="control-group"/>
+        <form:errors path="sentFromName" cssClass="error"/>
+        <br/>
+        <label for="sentFromPhone"><spring:message code="form.sentFromMobile"/></label>
+
+        <div></div>
+        <form:input path="sentFromMobile" cssClass="control-group"/>
+        <form:errors path="sentFromMobile" cssClass="error"/>
+        <br/>
         <label for="subject"><spring:message code="form.subject"/></label>
 
         <div></div>

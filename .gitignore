@@ -3,3 +3,5 @@
 *.iml
 *.war
 **/target/
+.settings/
+**/.settings/

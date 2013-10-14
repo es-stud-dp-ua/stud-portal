@@ -1,4 +1,4 @@
-.error {
+﻿.error {
     color: #ff0000;
 }
 
@@ -245,7 +245,7 @@ label.error {
     height: 253px;
     overflow: hidden;
     float: left;
-    z-index: 1;
+  
 }
 
 #mainPic input {
@@ -261,8 +261,9 @@ label.error {
     background: url("../images/L_69x65.png") no-repeat;
     height: 69px;
     width: 65px;
+    z-index: 1;
     position: absolute;
-    z-index: 2;
+
 }
 
 #rdn {
@@ -272,7 +273,7 @@ label.error {
     margin-top: 215px;
     margin-left: 397px;
     position: absolute;
-    z-index: 2;
+
 }
 
 #list {

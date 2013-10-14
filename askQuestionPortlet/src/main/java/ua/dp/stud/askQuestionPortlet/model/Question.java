@@ -9,6 +9,8 @@ import java.io.Serializable;
  */
 public class Question implements Serializable {
     private String sentFrom;
+    private String sentFromName;
+    private String sentFromMobile;
     private String subject;
     private String text;
 
@@ -52,6 +54,42 @@ public class Question implements Serializable {
      */
     public void setSubject(String subject) {
         this.subject = subject;
+    }
+
+    /**
+     * gets SentFromName of mail
+     *
+     * @return
+     */
+    public String getSentFromName() {
+        return sentFromName;
+    }
+
+    /**
+     * Sets sentFromName of mail
+     *
+     * @param sentFromName
+     */
+    public void setSentFromName(String sentFromName) {
+        this.sentFromName = sentFromName;
+    }
+
+    /**
+     * gets SentFromMobile of mail
+     *
+     * @return
+     */
+    public String getSentFromMobile() {
+        return sentFromMobile;
+    }
+
+    /**
+     * Sets sentFromMobile of mail
+     *
+     * @param sentFromMobile
+     */
+    public void setSentFromMobile(String sentFromMobile) {
+        this.sentFromMobile = sentFromMobile;
     }
 
     /**
