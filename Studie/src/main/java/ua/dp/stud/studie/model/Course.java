@@ -52,7 +52,6 @@ public class Course extends BaseImagesSupport{
     {
         this.addDate=new Date();
         this.addState = false;
-
     }
 
 

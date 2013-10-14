@@ -1,3 +1,27 @@
+<<<<<<< HEAD
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<portlet:defineObjects/>
+<%
+    Collection<Organization> orgs = (Collection) request.getAttribute("organisations");
+    Integer pagesCount = (Integer) request.getAttribute("pagesCount");
+    Integer currentPage = (Integer) request.getAttribute("currentPage");
+    int leftPageNumb = (Integer) request.getAttribute("leftPageNumb");
+    int rightPageNumb = (Integer) request.getAttribute("rightPageNumb");
+    boolean skippedBeginning = (Boolean) request.getAttribute("skippedBeginning");
+    boolean skippedEnding = (Boolean) request.getAttribute("skippedEnding");
+    OrganizationType type = null;
+    if (request.getAttribute("type") != null)
+        type = (OrganizationType) request.getAttribute("type");
+    ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+    String imagePath = new StringBuilder(themeDisplay.getPortalURL()).append('/')
+            .append(themeDisplay.getPathImage()).append("/image_gallery?img_id=").toString();
+    Collection<String> allTypes = (Collection) (OrganizationType.allTypes());
+    String temp;
+%>
+=======
 <%@ page import="java.util.List" %>
 <%@ page import="com.liferay.portal.theme.ThemeDisplay" %>
 <%@ page import="com.liferay.portal.kernel.util.WebKeys" %>
@@ -6,6 +30,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@include file="include.jsp" %>
 
+>>>>>>> 11a42c660eddf484dc51cb2964aeb794a3ead75e
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
@@ -26,5 +51,17 @@ View all courses page
                     <div class="panelbtn panelbtn-right icon-pcppencil" aria-hidden="true"></div>
                 </a>
             </div>
- </body>
+<div class="textBox">
+	<select style="width: 30%;">
+	<c:forEach var="kind" items="${kindOfCourses}">
+		<option value="${kind.typeId}">${kind.kindOfCourse}</option>
+	</c:forEach>
+	</select>
+	<!-- <select style="width: 30%;">
+	<c:forEach var="type" items="${coursesType}">
+		<option value="${type.name}">${type.name}</option>
+	</c:forEach>
+	</select>-->
+</div>
+</body>
 </html>

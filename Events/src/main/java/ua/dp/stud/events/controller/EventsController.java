@@ -417,6 +417,7 @@ public class EventsController {
         CommonsMultipartFile croppedImage = null;
         Boolean defImage = Boolean.valueOf(actionRequest.getParameter("defaultImage"));
         Boolean changeImage = true;
+
         if (defImage == false) {
             if (!actionRequest.getParameter("t").equals("")) {
                 croppedImage = imageService.cropImage(mainImage, Integer.parseInt(actionRequest.getParameter("t")),

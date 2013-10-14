@@ -2,6 +2,7 @@ package ua.dp.stud.studie.controller;
 
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.servlet.SessionMessages;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -18,8 +19,10 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
+
 import ua.dp.stud.StudPortalLib.util.ImageService;
 import ua.dp.stud.studie.model.Course;
+import ua.dp.stud.studie.model.CoursesType;
 import ua.dp.stud.studie.model.KindOfCourse;
 import ua.dp.stud.studie.service.CourseService;
 import ua.dp.stud.studie.service.StudieService;
@@ -31,6 +34,10 @@ import javax.portlet.RenderResponse;
 import javax.validation.Valid;
 import java.text.SimpleDateFormat;
 import java.util.*;
+
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -48,6 +55,7 @@ public class CoursesController {
     private static final Logger LOG = Logger.getLogger(StudieController.class.getName());
     private static final String COURSE_ID = "courseID";
     private static final String STR_EXEPT = "Exception ";
+    private static List<CoursesType> coursesType = Arrays.asList(CoursesType.values());
 
     @Autowired
     @Qualifier(value = "courseService")
@@ -83,15 +91,19 @@ public class CoursesController {
         } else {
             buttonId = Integer.valueOf(request.getParameter(BUTTON_ID));
         }
+        //InitKindOfCourses();
+        List<KindOfCourse> kindOfCourses = courseService.getAllKindOfCourse();
         model.setViewName("viewAllCourses");
-        Collection<Course> courses = courseService.getAll();
+        model.addObject("kindOfCourses", kindOfCourses);
+        model.addObject("coursesType", coursesType);
+        List<Course> courses = courseService.getAll();
         model.addObject("course", courses);
         model.addObject(BUTTON_ID, buttonId);
         return model;
 		//return "viewAllCourses";
 	}
 
-    /*public void InitKindOfCourses()
+    public void InitKindOfCourses()
     {
         KindOfCourse kindOfCourse1= new KindOfCourse("Английский язык");
         KindOfCourse kindOfCourse2= new KindOfCourse("Китайский язык");
@@ -203,13 +215,13 @@ public class CoursesController {
 
 	@ActionMapping(value="saveNewCourse")
 	public void saveNewCourse(@ModelAttribute(COURSE)  Course course,
-                              BindingResult bindingResult,
+                              //BindingResult bindingResult,
                               ActionRequest actionRequest,
                               ActionResponse actionResponse,
                               SessionStatus sessionStatus,
                               @RequestParam(MAIN_IMAGE) CommonsMultipartFile mainImage)
     {
-        if (bindingResult.hasErrors()) {
+    /*    if (bindingResult.hasErrors()) {
             for (ObjectError error : bindingResult.getAllErrors()) {
                 System.out.println(error.toString());
                 System.out.println();
@@ -218,7 +230,7 @@ public class CoursesController {
         if (bindingResult.hasErrors()) {
             actionResponse.setRenderParameter(STR_FAIL, "msg.fail");
             return;
-        }
+        }     */
         if (mainImage.getOriginalFilename().equals("")) {
             actionResponse.setRenderParameter(STR_FAIL, STR_NO_IMAGE);
             return;
@@ -244,5 +256,6 @@ public class CoursesController {
         binder.setDisallowedFields("mainImage");
 
     }
+
 
 }
