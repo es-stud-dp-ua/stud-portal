@@ -1,5 +1,6 @@
 package ua.dp.stud.studie.model;
 
+
 import org.hibernate.validator.constraints.NotEmpty;
 import ua.dp.stud.StudPortalLib.model.BaseImagesSupport;
 import ua.dp.stud.studie.model.KindOfCourse;
@@ -12,6 +13,7 @@ import java.awt.Image;
  * Date: 03.10.13
  *
  */
+
 enum CoursesType {Компания,Репетитор,Онлайн}
 
 @Entity
@@ -72,11 +74,11 @@ public class Course extends BaseImagesSupport{
         this.authorslogin = authorslogin;
     }
 
-    public String getCourcesContact() {
+    public String getCoursesContact() {
         return coursesContact;
     }
 
-    public void setCourcesContact(String coursesContact) {
+    public void setCoursesContact(String coursesContact) {
         this.coursesContact = coursesContact;
     }
 
@@ -175,7 +177,3 @@ public class Course extends BaseImagesSupport{
         return result;
     }
 }
-
-
-
-
