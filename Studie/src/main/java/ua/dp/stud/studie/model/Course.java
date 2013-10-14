@@ -14,8 +14,6 @@ import java.awt.Image;
  *
  */
 
-enum CoursesType {Компания,Репетитор,Онлайн}
-
 @Entity
 @Table(name = "course_table")
 @PrimaryKeyJoinColumn(name = "id", referencedColumnName = "id")
@@ -54,7 +52,6 @@ public class Course extends BaseImagesSupport{
     {
         this.addDate=new Date();
         this.addState = false;
-
     }
 
 

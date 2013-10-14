@@ -3,12 +3,14 @@ package ua.dp.stud.studie.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import ua.dp.stud.studie.dao.CourseDao;
 import ua.dp.stud.studie.model.Course;
 import ua.dp.stud.studie.model.KindOfCourse;
 import ua.dp.stud.studie.service.CourseService;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * @author Nazarenko Alexandra
@@ -53,7 +55,7 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     @Transactional(readOnly = true)
-    public Collection<Course> getAll() {
+    public List<Course> getAll() {
         return dao.getAll();
     }
 
@@ -83,7 +85,7 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     @Transactional(readOnly = true)
-    public  Collection<KindOfCourse> getAllKindOfCourse() {
+    public  List<KindOfCourse> getAllKindOfCourse() {
         return dao.getAllKindOfCourse();
     }
 }
