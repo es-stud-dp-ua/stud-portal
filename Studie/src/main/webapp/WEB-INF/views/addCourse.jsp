@@ -28,22 +28,27 @@
 </head>
 <body>
 
-        <script type="text/javascript">
-            function a() {
-            jQuery('#cropbox').Jcrop({onChange: setCoords, onSelect: setCoords, bgColor: 'black',
-                    bgOpacity: .4,
-                    setSelect: [100, 0, 253, 353],
-                    aspectRatio: 1});
-            }
-            function setCoords(c) {
-            jQuery('#x1').val(c.x);
-                    jQuery('#y1').val(c.y);
-                    jQuery('#x2').val(c.x2);
-                    jQuery('#y2').val(c.y2);
-                    jQuery('#w').val(c.w);
-                    jQuery('#h').val(c.h);
-            };
-            function handleFileSelect(evt) {
+
+        <script language="javascript" type="text/javascript">
+                    $(document).ready(function() {
+            });
+                    function isNotMax(e, id) {
+                    var validateValueTextArea = document.getElementById(id);
+                            validateValueTextArea.value = validateValueTextArea.value.substr(0, validateValueTextArea.getAttribute('maxlength'));
+                    }
+
+        </script>
+
+<portlet:actionURL var="add" name="saveNewCourse"></portlet:actionURL>
+<form:form method="POST" commandName="course" action="${add}" enctype="multipart/form-data" id="courseForm">
+
+             <input type="hidden" size="0" id="x1" name="t" value="0"/>
+             <input type="hidden" size="0" id="y1" name="l" value="0"/>
+             <input type="hidden" size="0" id="w" name="w" value="100"/>
+             <input type="hidden" size="0" id="h" name="h" value="100"/>
+
+<script>
+                    function handleFileSelect(evt) {
                     var files = evt.target.files; // FileList object
 
                     // Loop through the FileList and render image files as thumbnails.
@@ -67,28 +72,30 @@
                     // Read in the image file as a data URL.
                     reader.readAsDataURL(f);
                     a();
-                }
-            </script>
-        <script language="javascript" type="text/javascript">
-                    $(document).ready(function() {
-            });
-                    function isNotMax(e, id) {
-                    var validateValueTextArea = document.getElementById(id);
-                            validateValueTextArea.value = validateValueTextArea.value.substr(0, validateValueTextArea.getAttribute('maxlength'));
                     }
 
-        </script>
+                function a() {
+                            jQuery('#cropbox').Jcrop({onChange: setCoords, onSelect: setCoords, bgColor: 'black',
+                                    bgOpacity: .4,
+                                    setSelect: [100, 0, 253, 353],
+                                    aspectRatio: 1});
+                            }
 
-<portlet:actionURL var="add" name="saveNewCourse"></portlet:actionURL>
-<script src="${pageContext.request.contextPath}/js/dynamic_list_helper.js" type="text/javascript"></script>
-<script src="${pageContext.request.contextPath}/js/dynamic_list_special.js" type="text/javascript"></script>
-<form:form method="POST" commandName="course" action="${add}" enctype="multipart/form-data" id="courseForm">
+                function setCoords(c) {
+                            jQuery('#x1').val(c.x);
+                                    jQuery('#y1').val(c.y);
+                                    jQuery('#x2').val(c.x2);
+                                    jQuery('#y2').val(c.y2);
+                                    jQuery('#w').val(c.w);
+                                    jQuery('#h').val(c.h);
+                            }
 
-        <input type="hidden" size="0" id="x1" name="t"/>
-        <input type="hidden" size="0" id="y1" name="l"/>
-        <input type="hidden" size="0" id="w" name="w"/>
-        <input type="hidden" size="0" id="h" name="h"/>
-     <div style="padding-left: 230px">
+                            $(document).ready(function () {
+                		    document.getElementById('mainImage').addEventListener('change', handleFileSelect, false);
+                    })
+            </script>
+
+       <div style="padding-left: 230px">
 
             <br/>
             <div id="labels" style="width: 150px; font-size: 12pt">
@@ -129,21 +136,21 @@
 
                         <br/>
                         <br/>
-                                                        <div id="labels" style="width: 150px; font-size: 12pt; padding-left: 125px">
+                                                        <div id="labels" style="width: 150px; font-size: 12pt; padding-left: 130px">
                                                                                 <spring:message code="course.Ttype"/>
                                                                                 </div>
-                                              <div class="textBox" style="padding-left: 125px">
+                                              <div class="textBox" style="padding-left: 130px">
                                                <form:select path="coursesType">
                                                    <form:option value="NONE" label="--- Выбрать ---" />
                                                    <form:options items="${statusList}" />
                                                </form:select>
                                                <p/><form:errors path="coursesType" cssClass="error"/>
                                            </div>
-                                                        <div id="labels" style="width: 150px; font-size: 12pt; padding-left: 125px">
+                                                        <div id="labels" style="width: 150px; font-size: 12pt; padding-left: 130px">
                                                                                 <spring:message code="course.Tkind"/>
                                                                                 </div>
                                                                                 <br/>
-                                             <div class="textBox" style="padding-left: 125px">
+                                             <div class="textBox" style="padding-left: 130px">
                                                        <form:select path="kindOfCourse">
                                                           <form:option value="NONE" label="--- Выбрать ---" />
                                                            <form:options items="${kindOfCourses}" />

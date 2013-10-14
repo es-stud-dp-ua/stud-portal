@@ -3,6 +3,9 @@ package ua.dp.stud.studie.controller;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.servlet.SessionMessages;
 
+import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.portal.model.User;
+import com.liferay.portal.theme.ThemeDisplay;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -123,7 +126,7 @@ public class CoursesController {
 
 
     static {
-        status = Arrays.asList("Компания", "Репетирор", "Онлайн");
+        status = Arrays.asList("COMPANY", "ONLINE", "TUTOR");
 
     }
 
@@ -136,7 +139,8 @@ public class CoursesController {
     {
         //InitKindOfCourses();
         ModelAndView model=new ModelAndView("addCourse");
-        Collection<KindOfCourse> kindOfCourses= courseService.getAllKindOfCourse() ;
+
+        Collection<KindOfCourse> kindOfCourses = courseService.getAllKindOfCourse() ;
         for (KindOfCourse u : kindOfCourses)
         {
             types.add(u.toString());
@@ -234,6 +238,15 @@ public class CoursesController {
             actionResponse.setRenderParameter(STR_FAIL, STR_NO_IMAGE);
             return;
         }
+
+        boolean role = actionRequest.isUserInRole("Administrator");
+        User user = (User) actionRequest.getAttribute(WebKeys.USER);
+        String screenName = user.getScreenName();
+
+
+        course.setAuthorslogin(screenName);
+
+
         CommonsMultipartFile f = imageService.cropImage(mainImage,
                 Integer.parseInt(actionRequest.getParameter("t")),
                 Integer.parseInt(actionRequest.getParameter("l")),
