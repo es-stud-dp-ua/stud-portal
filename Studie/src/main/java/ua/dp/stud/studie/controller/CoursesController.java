@@ -86,12 +86,13 @@ public class CoursesController {
             buttonId = Integer.valueOf(request.getParameter(BUTTON_ID));
         }
         //InitKindOfCourses();
+        //InitCourseName();
         List<KindOfCourse> kindOfCourses = courseService.getAllKindOfCourse();
         model.setViewName("viewAllCourses");
         model.addObject("kindOfCourses", kindOfCourses);
         model.addObject("coursesType", coursesType);
         List<Course> courses = courseService.getAll();
-        model.addObject("course", courses);
+        model.addObject("courses", courses);
         model.addObject(BUTTON_ID, buttonId);
         return model;
 		//return "viewAllCourses";
@@ -108,6 +109,18 @@ public class CoursesController {
         courseService.addKindOfCourse(kindOfCourse2);
         courseService.addKindOfCourse(kindOfCourse3);
         courseService.addKindOfCourse(kindOfCourse4);
+
+    }
+    
+    public void InitCourseName()
+    {
+        Course course1= new Course("bla1");
+        Course course2= new Course("bla2");
+        Course course3= new Course("bla3");
+
+        courseService.addCourse(course1);
+        courseService.addCourse(course2);
+        courseService.addCourse(course3);
 
     }
 
@@ -161,6 +174,7 @@ public class CoursesController {
 	public String viewCourse() {
 		return "viewCourse";
 	}
+	
 	@RenderMapping(params="delete=course")
 	public String deleteCourse() {
 		return "viewAllCourse";
