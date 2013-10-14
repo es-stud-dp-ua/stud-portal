@@ -25,19 +25,24 @@ View all courses page
                     <!--<spring:message code="viewSingle.Edit"/>-->
                     <div class="panelbtn panelbtn-right icon-pcpplus" aria-hidden="true"></div>
                 </a>
-            </div>
+</div>
 <div class="textBox">
 	<select style="width: 30%;">
 	<c:forEach var="kind" items="${kindOfCourses}">
 		<option value="${kind.typeId}">${kind.kindOfCourse}</option>
 	</c:forEach>
 	</select>
-	
 	<select style="width: 30%;">	
 		<c:forEach var="type" items="${coursesType}">
 		<option value="${type}">${type}</option>
 		</c:forEach>		
 	</select>
+	<input type=button name="Sort" value="Sort" onclick=""/>
+</div>
+<div>
+	<c:forEach var="course" items="${courses}">
+		<p><a href='<portlet:renderURL><portlet:param name="courseId" value="${course.id}"/><portlet:param name="view" value="course"/></portlet:renderURL>'>${course.courseName}</a>
+	</c:forEach>
 </div>
 </body>
 </html>

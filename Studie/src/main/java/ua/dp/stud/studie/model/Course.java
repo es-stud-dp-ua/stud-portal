@@ -50,6 +50,10 @@ public class Course extends BaseImagesSupport{
     {
         this.addDate=new Date();
         this.addState = false;
+        
+    }
+    public Course(String coursesName){
+    	this.setCourseName(coursesName);
     }
 
 
