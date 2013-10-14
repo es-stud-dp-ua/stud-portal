@@ -51,5 +51,17 @@ View all courses page
                     <div class="panelbtn panelbtn-right icon-pcppencil" aria-hidden="true"></div>
                 </a>
             </div>
- </body>
+<div class="textBox">
+	<select style="width: 30%;">
+	<c:forEach var="kind" items="${kindOfCourses}">
+		<option value="${kind.typeId}">${kind.kindOfCourse}</option>
+	</c:forEach>
+	</select>
+	<!-- <select style="width: 30%;">
+	<c:forEach var="type" items="${coursesType}">
+		<option value="${type.name}">${type.name}</option>
+	</c:forEach>
+	</select>-->
+</div>
+</body>
 </html>

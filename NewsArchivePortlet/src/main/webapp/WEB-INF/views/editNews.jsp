@@ -108,7 +108,7 @@
 
             <div style="min-height: 270px">
                 <div id="lup"></div>
-                <div id="mainPic"
+                <div id="mainPic">
                     <% if (news.getMainImage() == null) { %>
                         <div id="mainPic" style="vertical-align: top;"
                              style="background: url(${pageContext.request.contextPath}/images/mainpic_443x253.png) no-repeat">
