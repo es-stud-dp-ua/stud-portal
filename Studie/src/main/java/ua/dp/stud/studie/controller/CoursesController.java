@@ -85,7 +85,7 @@ public class CoursesController {
         } else {
             buttonId = Integer.valueOf(request.getParameter(BUTTON_ID));
         }
-        InitKindOfCourses();
+        //InitKindOfCourses();
         List<KindOfCourse> kindOfCourses = courseService.getAllKindOfCourse();
         model.setViewName("viewAllCourses");
         model.addObject("kindOfCourses", kindOfCourses);
