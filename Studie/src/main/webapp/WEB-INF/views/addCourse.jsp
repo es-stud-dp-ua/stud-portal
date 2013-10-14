@@ -88,7 +88,7 @@
         <input type="hidden" size="0" id="y1" name="l"/>
         <input type="hidden" size="0" id="w" name="w"/>
         <input type="hidden" size="0" id="h" name="h"/>
-     <div style="width: 460px; ">
+     <div style="padding-left: 230px">
 
             <br/>
             <div id="labels" style="width: 150px; font-size: 12pt">
@@ -98,20 +98,29 @@
 
 
 
-            <div style="width: 450px; padding-center: 8px;">
+            <div style="left: 30%; width: 450px; padding-center: 8px;">
 
                     <form:textarea path="courseName" id="topicInput" cols="90" rows="2" maxlength="80" onkeyup="isNotMax(event, getAttribute('id'))"></form:textarea>
                                 <form:errors path="courseName" cssClass="error"/>
 
-                    <div id="labels" style="width: 150px; font-size: 12pt">
+                    <div id="labels" style="width: 150px; font-size: 12pt; left: 30%;">
                                             <spring:message code="course.TLogo"/>
                                             </div>
 
 
                     <div style="width: 450px; padding-center: 20px;">
 
+                        <div style="left: 30%;" style="width: 460px;">
+                                        <div style="height: 300px;">
+                                            <div id="lup"></div>
+                                            <div id="mainPic"
+                                                 style="background: url(${pageContext.request.contextPath}/images/mainpic_443x253.png) no-repeat">
+                                            <output id="list"></output>
+                                            </div>
+                                        </div>
+                        </div>
+                        <div style="left: 30%;" id="mainImageLoader">
 
-                        <div id="mainImageLoader">
                                                    <div id="mainImgloaderBtn">
                                                        <input type="file" id="mainImage" name="mainImage" accept="image/jpeg,image/png,image/gif"/>
                                                        <div id="nt"><spring:message code="form.addPicture"/></div>
@@ -120,21 +129,21 @@
 
                         <br/>
                         <br/>
-                                                        <div id="labels" style="width: 150px; font-size: 12pt">
+                                                        <div id="labels" style="width: 150px; font-size: 12pt; padding-left: 125px">
                                                                                 <spring:message code="course.Ttype"/>
                                                                                 </div>
-                                              <div class="textBox">
+                                              <div class="textBox" style="padding-left: 125px">
                                                <form:select path="coursesType">
                                                    <form:option value="NONE" label="--- Выбрать ---" />
                                                    <form:options items="${statusList}" />
                                                </form:select>
                                                <p/><form:errors path="coursesType" cssClass="error"/>
                                            </div>
-                                                        <div id="labels" style="width: 150px; font-size: 12pt">
+                                                        <div id="labels" style="width: 150px; font-size: 12pt; padding-left: 125px">
                                                                                 <spring:message code="course.Tkind"/>
                                                                                 </div>
                                                                                 <br/>
-                                             <div class="textBox">
+                                             <div class="textBox" style="padding-left: 125px">
                                                        <form:select path="kindOfCourse">
                                                           <form:option value="NONE" label="--- Выбрать ---" />
                                                            <form:options items="${kindOfCourses}" />
@@ -155,7 +164,7 @@
                         <form:errors path="coursesDescription" cssClass="error"/>
                         <form:textarea path="coursesDescription" class="ckeditor" id="textInput" cols="60" rows="8" maxlength="8000" onkeyup="isNotMax(event, getAttribute('id'))"></form:textarea>
                          <br/>
-                                <div id="sbm">
+                                <div id="sbm" style="padding-left: 125px">
                                     <input type="submit" value="<spring:message
                                            code='<%=(request.isUserInRole("Administrator"))?"form.submit.admin"
                                                                                                                  :"form.submit.user"%>'/>"/>

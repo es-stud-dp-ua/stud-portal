@@ -129,7 +129,6 @@ public class CoursesController {
 
     private void setMap(RenderRequest request) {
         formParamMap = new HashMap<String, List<String>>();
-      //  formParamMap.put("statusList", status);
     }
 
 	@RenderMapping(params="add=course")
