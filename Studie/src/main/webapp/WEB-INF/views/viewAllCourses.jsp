@@ -23,7 +23,7 @@ View all courses page
                 </a>-->
                 <a style="float: right" href="${LinkAddCourse}">
                     <!--<spring:message code="viewSingle.Edit"/>-->
-                    <div class="panelbtn panelbtn-right icon-pcppencil" aria-hidden="true"></div>
+                    <div class="panelbtn panelbtn-right icon-pcpplus" aria-hidden="true"></div>
                 </a>
 </div>
 <div class="textBox">

@@ -43,7 +43,7 @@ public class Course extends BaseImagesSupport{
     private Boolean addState;
 
     @Column
-    private  CoursesType coursesType;
+    private  String coursesType;
 
     public Course()
     {
@@ -108,11 +108,11 @@ public class Course extends BaseImagesSupport{
 
 
 
-    public CoursesType getCoursesType() {
+    public String getCoursesType() {
         return coursesType;
     }
 
-    public void setCoursesType(CoursesType coursesType) {
+    public void setCoursesType(String coursesType) {
         this.coursesType = coursesType;
     }
 
@@ -126,7 +126,7 @@ public class Course extends BaseImagesSupport{
         this.kindOfCourse = kindOfCourse;
     }
 
-    public Course(String courseName, String authorslogin, String coursesContact, String coursesDescription, KindOfCourse kindOfCourse, CoursesType coursesType) {
+    public Course(String courseName, String authorslogin, String coursesContact, String coursesDescription, KindOfCourse kindOfCourse, String coursesType) {
         this.courseName = courseName;
         this.authorslogin = authorslogin;
         this.coursesContact = coursesContact;
