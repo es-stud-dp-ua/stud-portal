@@ -2,7 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-
+<!--
 <portlet:defineObjects/>
 <%
     Collection<Organization> orgs = (Collection) request.getAttribute("organisations");
@@ -31,9 +31,9 @@
 <%@include file="include.jsp" %>
 
 >>>>>>> 11a42c660eddf484dc51cb2964aeb794a3ead75e
+-->
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
 </head>
 <body>
@@ -51,6 +51,7 @@ View all courses page
                     <div class="panelbtn panelbtn-right icon-pcppencil" aria-hidden="true"></div>
                 </a>
             </div>
+<!--
 <div class="textBox">
 	<select style="width: 30%;">
 	<c:forEach var="kind" items="${kindOfCourses}">
@@ -62,6 +63,6 @@ View all courses page
 		<option value="${type.name}">${type.name}</option>
 	</c:forEach>
 	</select>-->
-</div>
+</div> -->
 </body>
 </html>
