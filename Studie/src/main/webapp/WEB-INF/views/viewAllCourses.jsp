@@ -37,7 +37,7 @@ View all courses page
 
                     <div class="panelbtn panelbtn-right icon-pcppencil" aria-hidden="true"></div>
                 </a>
-            </div>
+</div>
 
 
 
