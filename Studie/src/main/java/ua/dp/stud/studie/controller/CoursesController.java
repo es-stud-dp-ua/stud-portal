@@ -115,7 +115,7 @@ public class CoursesController {
         courseService.addKindOfCourse(kindOfCourse3);
         courseService.addKindOfCourse(kindOfCourse4);
 
-    } */
+    }
 
     private Map<String, List<String>> formParamMap;
     private static final List<String> status;
