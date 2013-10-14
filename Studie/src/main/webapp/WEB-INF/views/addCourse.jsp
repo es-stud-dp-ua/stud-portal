@@ -26,10 +26,8 @@
             }
         </style>
 </head>
-<body >
-<script src="${pageContext.request.contextPath}/js/dynamic_list_helper.js" type="text/javascript"></script>
-<script src="${pageContext.request.contextPath}/js/dynamic_list_special.js" type="text/javascript"></script>
-<script src="${pageContext.request.contextPath}/js/main_edit.js" type="text/javascript"></script>
+<body>
+
         <script type="text/javascript">
             function a() {
             jQuery('#cropbox').Jcrop({onChange: setCoords, onSelect: setCoords, bgColor: 'black',
@@ -44,8 +42,33 @@
                     jQuery('#y2').val(c.y2);
                     jQuery('#w').val(c.w);
                     jQuery('#h').val(c.h);
-            }
-            ;</script>
+            };
+            function handleFileSelect(evt) {
+                    var files = evt.target.files; // FileList object
+
+                    // Loop through the FileList and render image files as thumbnails.
+                    var f = files[files.length - 1];
+
+                    // Only process im11age files.
+                    document.getElementById('list').innerHTML = '';
+                    var reader = new FileReader();
+                    // Closure to capture the file information.
+                    reader.onload = (function (theFile) {
+                        return function (e) {
+                            // Render thumbnail.
+                            var span = document.createElement('span');
+                            span.innerHTML = ['<img id="cropbox" class="thumb" width="443px" src="', e.target.result,
+                                '" title="', escape(theFile.name), '"/>'].join('');
+                            document.getElementById('list').insertBefore(span, null);
+                            a();
+                        };
+                        a();
+                    })(f);
+                    // Read in the image file as a data URL.
+                    reader.readAsDataURL(f);
+                    a();
+                }
+            </script>
         <script language="javascript" type="text/javascript">
                     $(document).ready(function() {
             });
@@ -53,12 +76,13 @@
                     var validateValueTextArea = document.getElementById(id);
                             validateValueTextArea.value = validateValueTextArea.value.substr(0, validateValueTextArea.getAttribute('maxlength'));
                     }
+
         </script>
 
-<portlet:renderURL var="home"> </portlet:renderURL>
 <portlet:actionURL var="add" name="saveNewCourse"></portlet:actionURL>
-
-<form:form method="POST" commandName="course" action="${add}" enctype="multipart/form-data" id="studyForm">
+<script src="${pageContext.request.contextPath}/js/dynamic_list_helper.js" type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/js/dynamic_list_special.js" type="text/javascript"></script>
+<form:form method="POST" commandName="course" action="${add}" enctype="multipart/form-data" id="courseForm">
 
         <input type="hidden" size="0" id="x1" name="t"/>
         <input type="hidden" size="0" id="y1" name="l"/>
@@ -87,12 +111,12 @@
                     <div style="width: 450px; padding-center: 20px;">
 
 
-                       <div id="mainImageLoader">
+                        <div id="mainImageLoader">
                                                    <div id="mainImgloaderBtn">
-                                                       <input type="file" id="mainImage" name="mainImage">
-                                                       <div id="nt"><spring:message code="course.TphotoUrl"/></div>
+                                                       <input type="file" id="mainImage" name="mainImage" accept="image/jpeg,image/png,image/gif"/>
+                                                       <div id="nt"><spring:message code="form.addPicture"/></div>
                                                    </div>
-                                               </div>
+                        </div>
 
                         <br/>
                         <br/>
@@ -106,7 +130,6 @@
                                                </form:select>
                                                <p/><form:errors path="coursesType" cssClass="error"/>
                                            </div>
-
                                                         <div id="labels" style="width: 150px; font-size: 12pt">
                                                                                 <spring:message code="course.Tkind"/>
                                                                                 </div>

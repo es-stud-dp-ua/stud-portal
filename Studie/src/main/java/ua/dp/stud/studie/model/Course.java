@@ -1,5 +1,6 @@
 package ua.dp.stud.studie.model;
 
+
 import org.hibernate.validator.constraints.NotEmpty;
 import ua.dp.stud.StudPortalLib.model.BaseImagesSupport;
 import ua.dp.stud.studie.model.KindOfCourse;
@@ -12,7 +13,6 @@ import java.awt.Image;
  * Date: 03.10.13
  *
  */
-enum CoursesType {Компания,Репетитор,Онлайн}
 
 @Entity
 @Table(name = "course_table")
@@ -46,7 +46,7 @@ public class Course extends BaseImagesSupport{
     private Boolean addState;
 
     @Column
-    private  CoursesType coursesType;
+    private  String coursesType;
 
     public Course()
     {
@@ -72,11 +72,11 @@ public class Course extends BaseImagesSupport{
         this.authorslogin = authorslogin;
     }
 
-    public String getCourcesContact() {
+    public String getCoursesContact() {
         return coursesContact;
     }
 
-    public void setCourcesContact(String coursesContact) {
+    public void setCoursesContact(String coursesContact) {
         this.coursesContact = coursesContact;
     }
 
@@ -108,11 +108,11 @@ public class Course extends BaseImagesSupport{
 
 
 
-    public CoursesType getCoursesType() {
+    public String getCoursesType() {
         return coursesType;
     }
 
-    public void setCoursesType(CoursesType coursesType) {
+    public void setCoursesType(String coursesType) {
         this.coursesType = coursesType;
     }
 
@@ -126,7 +126,7 @@ public class Course extends BaseImagesSupport{
         this.kindOfCourse = kindOfCourse;
     }
 
-    public Course(String courseName, String authorslogin, String coursesContact, String coursesDescription, KindOfCourse kindOfCourse, CoursesType coursesType) {
+    public Course(String courseName, String authorslogin, String coursesContact, String coursesDescription, KindOfCourse kindOfCourse, String coursesType) {
         this.courseName = courseName;
         this.authorslogin = authorslogin;
         this.coursesContact = coursesContact;
@@ -175,7 +175,3 @@ public class Course extends BaseImagesSupport{
         return result;
     }
 }
-
-
-
-
