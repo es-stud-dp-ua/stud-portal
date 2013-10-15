@@ -150,6 +150,7 @@
                         <div id="labels"><spring:message code="form.title"/></div><div id="redStar1">*</div>
                             <form:input path="title" id="title" cols="90" rows="2" maxlength="100"  name="title"/>
                             <form:errors path="title" cssClass="error"></form:errors>
+                            
                             <div id="labels"><spring:message code="form.text"/></div><div id="redStar2">*</div>
                             <textarea path="text" class="ckeditor" id="text" cols="65" rows="10" maxlength="10000"
                                       name="text" style="margin-left: 8px;" ></textarea>
