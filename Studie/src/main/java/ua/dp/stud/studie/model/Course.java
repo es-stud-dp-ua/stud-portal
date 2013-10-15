@@ -21,11 +21,9 @@ public class Course extends BaseImagesSupport{
 
 
     @Column
-    @NotEmpty
     private String courseName;
 
     @Column
-    @NotEmpty
     private String authorslogin;
 
     @Column
@@ -39,19 +37,23 @@ public class Course extends BaseImagesSupport{
     private Date addDate;
 
     @Column
-    @NotEmpty
     private KindOfCourse kindOfCourse;
 
     @Column
     private Boolean addState;
 
     @Column
+    @Enumerated
     private  CoursesType coursesType;
 
     public Course()
     {
         this.addDate=new Date();
         this.addState = false;
+        
+    }
+    public Course(String coursesName){
+    	this.setCourseName(coursesName);
     }
 
 

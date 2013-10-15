@@ -3,10 +3,17 @@ package ua.dp.stud.studie.controller;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.servlet.SessionMessages;
 
+import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.portal.model.User;
+import com.liferay.portal.theme.ThemeDisplay;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,6 +35,8 @@ import javax.portlet.ActionResponse;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.validation.Valid;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -85,13 +94,14 @@ public class CoursesController {
         } else {
             buttonId = Integer.valueOf(request.getParameter(BUTTON_ID));
         }
-        InitKindOfCourses();
+        //InitKindOfCourses();
+        //InitCourseName();
         List<KindOfCourse> kindOfCourses = courseService.getAllKindOfCourse();
         model.setViewName("viewAllCourses");
         model.addObject("kindOfCourses", kindOfCourses);
         model.addObject("coursesType", coursesType);
         List<Course> courses = courseService.getAll();
-        model.addObject("course", courses);
+        model.addObject("courses", courses);
         model.addObject(BUTTON_ID, buttonId);
         return model;
 		//return "viewAllCourses";
@@ -110,16 +120,48 @@ public class CoursesController {
         courseService.addKindOfCourse(kindOfCourse4);
 
     }
+    
+    public void InitCourseName()
+    {
+        Course course1= new Course("bla1");
+        Course course2= new Course("bla2");
+        Course course3= new Course("bla3");
+
+        courseService.addCourse(course1);
+        courseService.addCourse(course2);
+        courseService.addCourse(course3);
+
+    }
+
+    private Map<String, List<String>> formParamMap;
+    private static final List<String> status;
+    private static final List<String> types = new ArrayList<String>();
+
+
+    static {
+        status = Arrays.asList("COMPANY", "ONLINE", "TUTOR");
+
+    }
+
+    private void setMap(RenderRequest request) {
+        formParamMap = new HashMap<String, List<String>>();
+    }
 
 	@RenderMapping(params="add=course")
 	public ModelAndView addCourse(RenderRequest request, RenderResponse response)
     {
         //InitKindOfCourses();
         ModelAndView model=new ModelAndView("addCourse");
-        Collection<KindOfCourse> kindOfCourses= courseService.getAllKindOfCourse() ;
-        model.addObject("kindOfCourses",kindOfCourses);
+
+        Collection<KindOfCourse> kindOfCourses = courseService.getAllKindOfCourse() ;
+        for (KindOfCourse u : kindOfCourses)
+        {
+            types.add(u.toString());
+        }
+        model.addObject("kindOfCourses",types);
+        model.addObject("statusList", status);
+        setMap(request);
 		return  model;
-		// return "addCourse";
 	}
 
 	@RenderMapping(params="edit=course")
@@ -161,6 +203,7 @@ public class CoursesController {
 	public String viewCourse() {
 		return "viewCourse";
 	}
+	
 	@RenderMapping(params="delete=course")
 	public String deleteCourse() {
 		return "viewAllCourse";
@@ -195,9 +238,13 @@ public class CoursesController {
                               SessionStatus sessionStatus,
                               @RequestParam(MAIN_IMAGE) CommonsMultipartFile mainImage)
     {
-
-
     /*    if (bindingResult.hasErrors()) {
+            for (ObjectError error : bindingResult.getAllErrors()) {
+                System.out.println(error.toString());
+                System.out.println();
+            }
+        }
+        if (bindingResult.hasErrors()) {
             actionResponse.setRenderParameter(STR_FAIL, "msg.fail");
             return;
         }     */
@@ -205,6 +252,15 @@ public class CoursesController {
             actionResponse.setRenderParameter(STR_FAIL, STR_NO_IMAGE);
             return;
         }
+
+        boolean role = actionRequest.isUserInRole("Administrator");
+        User user = (User) actionRequest.getAttribute(WebKeys.USER);
+        String screenName = user.getScreenName();
+
+
+        course.setAuthorslogin(screenName);
+
+
         CommonsMultipartFile f = imageService.cropImage(mainImage,
                 Integer.parseInt(actionRequest.getParameter("t")),
                 Integer.parseInt(actionRequest.getParameter("l")),
@@ -218,6 +274,14 @@ public class CoursesController {
 
     }
 
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        /*SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        dateFormat.setLenient(true);
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));   */
+        binder.setDisallowedFields("mainImage");
+
+    }
 
 
 }
