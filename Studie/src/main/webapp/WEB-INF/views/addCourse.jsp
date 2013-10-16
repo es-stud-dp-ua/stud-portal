@@ -139,24 +139,25 @@
                                                         <div id="labels" style="width: 150px; font-size: 12pt; padding-left: 130px">
                                                                                 <spring:message code="course.Ttype"/>
                                                                                 </div>
-                                              <div class="textBox" style="padding-left: 130px">
-                                               <form:select path="coursesType">
-                                                   <form:option value="NONE" label="--- Выбрать ---" />
-                                                   <form:options items="${statusList}" />
-                                               </form:select>
-                                               <p/><form:errors path="coursesType" cssClass="error"/>
-                                           </div>
+
+                                               	<div class="textBox" style="padding-left: 130px">
+                                               	<form:select path="coursesType">
+                                               		<c:forEach var="type" items="${coursesType}">
+                                               		<option value="${type}">${type}</option>
+                                               		</c:forEach>
+                                               	</form:select>
+                                                </div>
+
+
                                                         <div id="labels" style="width: 150px; font-size: 12pt; padding-left: 130px">
                                                                                 <spring:message code="course.Tkind"/>
                                                                                 </div>
-                                                                                <br/>
-                                             <div class="textBox" style="padding-left: 130px">
-                                                       <form:select path="kindOfCourse">
-                                                          <form:option value="NONE" label="--- Выбрать ---" />
-                                                           <form:options items="${kindOfCourses}" />
-                                                      </form:select>
-                                             <p/><form:errors path="kindOfCourse" cssClass="error"/>
-                                                    </div>
+                                            <div class="textBox" style="padding-left: 130px">
+                                                <form:select path="kindOfCourse.typeId">
+                                                 <form:options items="${kindOfCourse}" itemValue="typeId" itemLabel="kindOfCourse"/>
+                                                </form:select>
+                                            </div>
+
                                                         <div id="labels" style="width: 150px; font-size: 12pt">
                                                                                 <spring:message code="course.Tinfo"/>
                                                                                 </div>

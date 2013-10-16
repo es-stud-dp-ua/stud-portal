@@ -154,12 +154,9 @@ public class CoursesController {
         ModelAndView model=new ModelAndView("addCourse");
 
         Collection<KindOfCourse> kindOfCourses = courseService.getAllKindOfCourse() ;
-        for (KindOfCourse u : kindOfCourses)
-        {
-            types.add(u.toString());
-        }
-        model.addObject("kindOfCourses",types);
-        model.addObject("statusList", status);
+
+        model.addObject("kindOfCourse", kindOfCourses);
+        model.addObject("coursesType", coursesType);
         setMap(request);
 		return  model;
 	}

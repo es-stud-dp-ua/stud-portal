@@ -19,7 +19,6 @@ import java.awt.Image;
 @PrimaryKeyJoinColumn(name = "id", referencedColumnName = "id")
 public class Course extends BaseImagesSupport{
 
-
     @Column
     private String courseName;
 
