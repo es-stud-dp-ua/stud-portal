@@ -185,7 +185,7 @@ public class CoursesController {
         }
         if (updateCourse(course, mainImage, actionResponse))
         {
-            courseService.deleteKindOfCourse(oldCourse.getKindOfCourse().gettypeId());
+            courseService.deleteKindOfCourse(oldCourse.getKindOfCourse().getTypeId());
             courseService.updateCourse(course);
             actionResponse.setRenderParameter(COURSE_ID, Integer.toString(course.getId()));
             sessionStatus.setComplete();
