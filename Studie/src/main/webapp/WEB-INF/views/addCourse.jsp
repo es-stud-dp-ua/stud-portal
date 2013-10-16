@@ -111,6 +111,13 @@
                                                                                 <spring:message code="course.Tkind"/>
                                                                                 </div>
                                                                                 <br/>
+                                             <div class="textBox">
+                                                       <form:select path="kindOfCourse">
+                                                          <form:option value="NONE" label="--- Выбрать ---" />
+                                                           <form:options items="${kindOfCourses}" />
+                                                      </form:select>
+                                             <p/><form:errors path="kindOfCourse" cssClass="error"/>
+                                                    </div>
                                                         <div id="labels" style="width: 150px; font-size: 12pt">
                                                                                 <spring:message code="course.Tinfo"/>
                                                                                 </div>

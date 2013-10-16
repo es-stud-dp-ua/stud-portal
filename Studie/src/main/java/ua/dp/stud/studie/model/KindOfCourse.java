@@ -48,10 +48,7 @@ private String kindOfCourse;
     public KindOfCourse()
     {}
 
-
-
-
-    public Integer getTypeId() {
+    public Integer gettypeId() {
         return typeId;
     }
 
