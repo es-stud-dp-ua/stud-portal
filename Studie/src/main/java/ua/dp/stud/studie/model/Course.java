@@ -46,13 +46,12 @@ public class Course extends BaseImagesSupport{
     private Boolean addState;
 
     @Column
-    private  CoursesType coursesType;
+    private CoursesType coursesType;
 
     public Course()
     {
         this.addDate=new Date();
         this.addState = false;
-
     }
 
 
@@ -105,7 +104,6 @@ public class Course extends BaseImagesSupport{
     public void setAddState(Boolean addState) {
         this.addState = addState;
     }
-
 
 
     public CoursesType getCoursesType() {
@@ -175,7 +173,3 @@ public class Course extends BaseImagesSupport{
         return result;
     }
 }
-
-
-
-

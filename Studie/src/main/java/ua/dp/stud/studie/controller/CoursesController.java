@@ -25,7 +25,10 @@ import javax.portlet.ActionResponse;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -53,9 +56,6 @@ public class CoursesController {
         this.courseService = courseService;
     }
 
-
-
-
     @Autowired
     @Qualifier(value = "imageService")
     private ImageService imageService;
@@ -65,7 +65,7 @@ public class CoursesController {
     }
 
     @RenderMapping(params="view=allcourses")
-	public ModelAndView viewAllCourses(RenderRequest request, RenderResponse response) {
+    public ModelAndView viewAllCourses(RenderRequest request, RenderResponse response) {
         ModelAndView model = new ModelAndView();
         Integer buttonId;
         if (request.getParameter(BUTTON_ID) == null) {
@@ -78,51 +78,46 @@ public class CoursesController {
         model.addObject("course", courses);
         model.addObject(BUTTON_ID, buttonId);
         return model;
-		//return "viewAllCourses";
-	}
+        //return "viewAllCourses";
+    }
 
-    /*public void InitKindOfCourses()
+    @RenderMapping(params="add=course")
+    public ModelAndView addCourse(RenderRequest request, RenderResponse response)
     {
-        KindOfCourse kindOfCourse1= new KindOfCourse("Английский язык");
-        KindOfCourse kindOfCourse2= new KindOfCourse("Китайский язык");
-        KindOfCourse kindOfCourse4= new KindOfCourse("Карате");
-        KindOfCourse kindOfCourse3= new KindOfCourse("Математика");
-
-        courseService.addKindOfCourse(kindOfCourse1);
-        courseService.addKindOfCourse(kindOfCourse2);
-        courseService.addKindOfCourse(kindOfCourse3);
-        courseService.addKindOfCourse(kindOfCourse4);
-
-    }*/
-
-	@RenderMapping(params="add=course")
-	public ModelAndView addCourse(RenderRequest request, RenderResponse response)
-    {
-        //InitKindOfCourses();
         ModelAndView model=new ModelAndView("addCourse");
         Collection<KindOfCourse> kindOfCourses= courseService.getAllKindOfCourse() ;
         model.addObject("kindOfCourses",kindOfCourses);
-		return  model;
-		// return "addCourse";
-	}
-	@RenderMapping(params="edit=course")
-	public String editCourse() {
-		return "editCourse";
-	}
-	@RenderMapping(params="view=course")
-	public String viewCourse() {
-		return "viewCourse";
-	}
-	@RenderMapping(params="delete=course")
-	public String deleteCourse() {
-		return "viewAllCourse";
-	}
-	@ActionMapping(value="saveCourse")
-	public void saveCourse(){
-	}
+        return model;
+        // return "addCourse";
+    }
+    @RenderMapping(params="edit=course")
+    public String editCourse() {
+        return "editCourse";
+    }
+    @RenderMapping(params="view=course")
+    public String viewCourse() {
+        return "viewCourse";
+    }
+    @RenderMapping(params="delete=course")
+    public String deleteCourse() {
+        return "viewAllCourse";
+    }
+    @ActionMapping(value="saveCourse")
+    public void saveCourse(){
+    }
+
+    @RenderMapping(params="view=coursescategories")
+    public ModelAndView viewCoursesCategories(RenderRequest request, RenderResponse response) {
+        ModelAndView model = new ModelAndView();
+        model.setViewName("viewCoursesCategories");
+        Collection<KindOfCourse> kOC = courseService.getAllKindOfCourseWithCount();
+        model.addObject("KOC",kOC);
+        return model;
+    }
+
 
     private Boolean updateCourse(Course newCourse, CommonsMultipartFile mainImage,
-                                ActionResponse actionResponse) {
+                                 ActionResponse actionResponse) {
         boolean successUpload = true;
         try {
             if (mainImage.getSize() > 0)
@@ -138,8 +133,8 @@ public class CoursesController {
         return successUpload;
     }
 
-	@ActionMapping(value="saveNewCourse")
-	public void saveNewCourse(@ModelAttribute(COURSE)  Course course,
+    @ActionMapping(value="saveNewCourse")
+    public void saveNewCourse(@ModelAttribute(COURSE) Course course,
                               BindingResult bindingResult,
                               ActionRequest actionRequest,
                               ActionResponse actionResponse,
@@ -160,7 +155,7 @@ public class CoursesController {
                 Integer.parseInt(actionRequest.getParameter("t")),
                 Integer.parseInt(actionRequest.getParameter("l")),
                 Integer.parseInt(actionRequest.getParameter("w")),
-                Integer.parseInt(actionRequest.getParameter("h"))  );
+                Integer.parseInt(actionRequest.getParameter("h")) );
         if (updateCourse(course, f, actionResponse)) {
             courseService.addCourse(course);
             actionResponse.setRenderParameter(COURSE_ID, Integer.toString(course.getId()));
@@ -173,5 +168,4 @@ public class CoursesController {
     public Course getCommandObject() {
         return new Course();
     }
-
 }

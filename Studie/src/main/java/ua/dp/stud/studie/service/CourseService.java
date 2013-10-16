@@ -30,4 +30,8 @@ public interface CourseService {
 
     Collection<KindOfCourse> getAllKindOfCourse();
 
+    Collection<KindOfCourse> getAllKindOfCourseWithCount();
+
+    void initializeCountOfCoursesInKindOfCourse(KindOfCourse kindOfCourse);
+
 }

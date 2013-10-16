@@ -13,10 +13,10 @@
 </head>
 <body>
 View all courses page
-<portlet:renderURL var="LinkAddCourse">
+<portlet:renderURL var="Categories">
 			<portlet:param name="view" value="coursescategories"/>
 </portlet:renderURL>
-<a href="${LinkAddCourse}">dfsdfsdf</a>
+<a href="${Categories}">To categories</a>
 <div class="portlet-content-controlpanel fs20"style="width: 10.15%;float: right;">
                 <!--<a style="float: right" href="${deleteLink}"
                    onclick='return confirm("<spring:message code="form.confDelete"/>")'>

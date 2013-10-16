@@ -1,5 +1,6 @@
 package ua.dp.stud.studie.dao.impl;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +52,6 @@ public class CourseDaoImpl implements CourseDao {
     }
 
     @Override
-
     public Collection<Course> getAll() {
         return getSession().createCriteria(Course.class).list();
     }
@@ -79,9 +79,13 @@ public class CourseDaoImpl implements CourseDao {
     }
 
     @Override
+    public void initializeCountOfCoursesInKindOfCourse(KindOfCourse kindOfCourse) {
+        Query q = getSession().createQuery("SELECT count(id) FROM Course WHERE kindOfCourse="+kindOfCourse.getTypeId().toString());
+        kindOfCourse.setCountOfCourses((Long) q.uniqueResult());
+    }
+
+    @Override
     public Collection<KindOfCourse> getAllKindOfCourse() {
         return getSession().createCriteria(KindOfCourse.class).list();
     }
-
-
 }

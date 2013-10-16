@@ -31,5 +31,5 @@ public interface CourseDao {
 
     Collection<KindOfCourse> getAllKindOfCourse();
 
-
-}
+    void initializeCountOfCoursesInKindOfCourse(KindOfCourse kindOfCourse);
+    }
