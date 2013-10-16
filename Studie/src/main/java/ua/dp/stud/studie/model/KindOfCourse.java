@@ -4,6 +4,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import static javax.persistence.GenerationType.IDENTITY;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -13,7 +14,7 @@ import java.util.List;
 
 @Entity
 @Table(name="kindofcourses_table")
-public class KindOfCourse {
+public class KindOfCourse implements Serializable {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "kindOfCourse")
     private List<Course> course;
@@ -88,5 +89,10 @@ public class KindOfCourse {
         int result = typeId != null ? typeId.hashCode() : 0;
         result = 31 * result + (kindOfCourse != null ? kindOfCourse.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return kindOfCourse ;
     }
 }

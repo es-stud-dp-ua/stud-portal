@@ -49,20 +49,65 @@ public class CourseTest {
         String authorsLogin="";
         instance.setAuthorslogin(authorsLogin);
     }
-             /*
+
     @Test
-    public void TestGet()
+    public void TestGetCoursesContact()
     {
         String expResult=null;
-        String result=instance.getAuthorslogin();
+        String result=instance.getCoursesContact();
         assertEquals(expResult,result);
     }
 
     @Test
-    public void TestSet()
+    public void TestSetCoursesContact()
     {
-        String authorsLogin="";
-        instance.setAuthorslogin(authorsLogin);
-    }      */
+        String coursesContact="";
+        instance.setCoursesContact(coursesContact);
+    }
+
+    @Test
+    public void TestGetCoursesDescription()
+    {
+        String expResult=null;
+        String result=instance.getCoursesDescription();
+        assertEquals(expResult,result);
+    }
+
+    @Test
+    public void TestSetCoursesDescription()
+    {
+        String coursesDescription="";
+        instance.setCoursesContact(coursesDescription);
+    }
+
+    @Test
+    public void TestGetKindOfCourse()
+    {
+        KindOfCourse expResult=null;
+        KindOfCourse result=instance.getKindOfCourse();
+        assertEquals(expResult,result);
+    }
+
+    @Test
+    public void TestSetKindOfCourse()
+    {
+        KindOfCourse kindOfCourse = new KindOfCourse("");
+        instance.setKindOfCourse(kindOfCourse);
+    }
+
+    @Test
+    public void TestGetAddState()
+    {
+        Boolean expResult=false;
+        Boolean result=instance.getAddState();
+        assertEquals(expResult,result);
+    }
+
+    @Test
+    public void TestSetAddState()
+    {
+        Boolean state = false;
+        instance.setAddState(state);
+    }
 
 }

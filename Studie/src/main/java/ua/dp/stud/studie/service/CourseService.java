@@ -4,6 +4,7 @@ import ua.dp.stud.studie.model.Course;
 import ua.dp.stud.studie.model.KindOfCourse;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * @author Nazarenko Alexandra
@@ -18,7 +19,7 @@ public interface CourseService {
 
     void updateCourse(Course course);
 
-    Collection<Course> getAll();
+    List<Course> getAll();
 
     KindOfCourse getKindOfCourseById(Integer id);
 
@@ -28,7 +29,7 @@ public interface CourseService {
 
     void updateKindOfCourse(KindOfCourse kindOfCourse);
 
-    Collection<KindOfCourse> getAllKindOfCourse();
+    List<KindOfCourse> getAllKindOfCourse();
 
     Collection<KindOfCourse> getAllKindOfCourseWithCount();
 

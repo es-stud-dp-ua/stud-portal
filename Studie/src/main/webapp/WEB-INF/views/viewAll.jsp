@@ -21,7 +21,7 @@
     String imagePath = new StringBuilder(themeDisplay.getPortalURL()).append('/')
             .append(themeDisplay.getPathImage()).append("/image_gallery?img_id=").toString();
     String temp;
-    String[] type = {"studie", "StudentCouncil", "schedule", "Courses", "OnlineCourses", "grants"};
+    String[] type = {"studie", "StudentCouncil", "schedule", "Courses", "grants"};
 %>
 
 <html>
@@ -87,17 +87,7 @@
 			<div class="ribbon-edge-topleft"></div>
 			<div class="ribbon-edge-bottomleft"></div>
 		</div>
-		<portlet:renderURL var="LinkOnlineCourses">
-			<portlet:param name="" value=""/>
-		</portlet:renderURL>
-		<div class="ribbon-wrapper">
-			<a class="btnselected" href="${LinkOnlineCourses}"
-					style=" width: 150px; height: 40px;  margin-left: -10px;  background-color: rgba(0, 122, 255, 0.47); border-color: rgba(68, 115, 185, 0);"
-					name="buttonId">
-				<spring:message code="form.OnlineCourses"/></a>
-			<div class="ribbon-edge-topleft"></div>
-			<div class="ribbon-edge-bottomleft"></div>
-		</div>
+
 		<portlet:renderURL var="LinkGrants">
 			<portlet:param name="" value=""/>
 		</portlet:renderURL>

@@ -11,6 +11,7 @@ import ua.dp.stud.studie.model.Course;
 import ua.dp.stud.studie.model.KindOfCourse;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  *           @author Nazarenko K.V.
@@ -52,7 +53,8 @@ public class CourseDaoImpl implements CourseDao {
     }
 
     @Override
-    public Collection<Course> getAll() {
+
+    public List<Course> getAll() {
         return getSession().createCriteria(Course.class).list();
     }
 
@@ -85,7 +87,7 @@ public class CourseDaoImpl implements CourseDao {
     }
 
     @Override
-    public Collection<KindOfCourse> getAllKindOfCourse() {
+    public List<KindOfCourse> getAllKindOfCourse() {
         return getSession().createCriteria(KindOfCourse.class).list();
     }
 }

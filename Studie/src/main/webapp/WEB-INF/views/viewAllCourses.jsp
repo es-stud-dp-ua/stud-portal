@@ -6,9 +6,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@include file="include.jsp" %>
 
+
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
 </head>
 <body>
@@ -24,8 +24,26 @@ View all courses page
                 </a>-->
                 <a style="float: right" href="${LinkAddCourse}">
                     <!--<spring:message code="viewSingle.Edit"/>-->
-                    <div class="panelbtn panelbtn-right icon-pcppencil" aria-hidden="true"></div>
+                    <div class="panelbtn panelbtn-right icon-pcpplus" aria-hidden="true"></div>
                 </a>
-            </div>
- </body>
+</div>
+<div class="textBox">
+	<select style="width: 30%;">
+	<c:forEach var="kind" items="${kindOfCourses}">
+		<option value="${kind.typeId}">${kind.kindOfCourse}</option>
+	</c:forEach>
+	</select>
+	<select style="width: 30%;">	
+		<c:forEach var="type" items="${coursesType}">
+		<option value="${type}">${type}</option>
+		</c:forEach>		
+	</select>
+	<input type=button name="Sort" value="Sort" onclick=""/>
+</div>
+<div>
+	<c:forEach var="course" items="${courses}">
+		<p><a href='<portlet:renderURL><portlet:param name="courseId" value="${course.id}"/><portlet:param name="view" value="course"/></portlet:renderURL>'>${course.courseName}</a>
+	</c:forEach>
+</div>
+</body>
 </html>

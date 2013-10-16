@@ -1,5 +1,6 @@
 package ua.dp.stud.studie.model;
 
+
 import org.hibernate.validator.constraints.NotEmpty;
 import ua.dp.stud.StudPortalLib.model.BaseImagesSupport;
 import ua.dp.stud.studie.model.KindOfCourse;
@@ -12,7 +13,6 @@ import java.awt.Image;
  * Date: 03.10.13
  *
  */
-enum CoursesType {Компания,Репетитор,Онлайн}
 
 @Entity
 @Table(name = "course_table")
@@ -21,11 +21,9 @@ public class Course extends BaseImagesSupport{
 
 
     @Column
-    @NotEmpty
     private String courseName;
 
     @Column
-    @NotEmpty
     private String authorslogin;
 
     @Column
@@ -39,21 +37,23 @@ public class Course extends BaseImagesSupport{
     private Date addDate;
 
     @Column
-    @NotEmpty
     private KindOfCourse kindOfCourse;
 
     @Column
     private Boolean addState;
 
     @Column
-    private CoursesType coursesType;
+    @Enumerated
+    private  CoursesType coursesType;
 
     public Course()
     {
         this.addDate=new Date();
-        this.addState = false;
+        this.addState = false;  
     }
-
+    public Course(String coursesName){
+    	this.setCourseName(coursesName);
+    }
 
     public String getCourseName() {
         return courseName;
@@ -71,11 +71,11 @@ public class Course extends BaseImagesSupport{
         this.authorslogin = authorslogin;
     }
 
-    public String getCourcesContact() {
+    public String getCoursesContact() {
         return coursesContact;
     }
 
-    public void setCourcesContact(String coursesContact) {
+    public void setCoursesContact(String coursesContact) {
         this.coursesContact = coursesContact;
     }
 
