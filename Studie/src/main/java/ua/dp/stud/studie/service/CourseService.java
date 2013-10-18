@@ -31,4 +31,8 @@ public interface CourseService {
 
     List<KindOfCourse> getAllKindOfCourse();
 
+    Collection<KindOfCourse> getAllKindOfCourseWithCount();
+
+    void initializeCountOfCoursesInKindOfCourse(KindOfCourse kindOfCourse);
+
 }

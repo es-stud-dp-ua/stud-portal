@@ -19,7 +19,6 @@ import java.awt.Image;
 @PrimaryKeyJoinColumn(name = "id", referencedColumnName = "id")
 public class Course extends BaseImagesSupport{
 
-
     @Column
     private String courseName;
 
@@ -49,13 +48,11 @@ public class Course extends BaseImagesSupport{
     public Course()
     {
         this.addDate=new Date();
-        this.addState = false;
-        
+        this.addState = false;  
     }
     public Course(String coursesName){
     	this.setCourseName(coursesName);
     }
-
 
     public String getCourseName() {
         return courseName;
@@ -106,7 +103,6 @@ public class Course extends BaseImagesSupport{
     public void setAddState(Boolean addState) {
         this.addState = addState;
     }
-
 
 
     public CoursesType getCoursesType() {

@@ -200,7 +200,7 @@
 <div id="hypercomments_widget"></div>
 <script type="text/javascript">
 _hcwp = window._hcwp || [];
-_hcwp.push({widget:"Stream", widget_id:11240,social:"google,vk,facebook,twitter,odnoklassniki,mailru,yandex"});
+_hcwp.push({widget:"Stream", widget_id:11315,social:"google,vk,facebook,twitter,yandex"});
 (function() {
 if("HC_LOAD_INIT" in window)return;
 HC_LOAD_INIT = true;

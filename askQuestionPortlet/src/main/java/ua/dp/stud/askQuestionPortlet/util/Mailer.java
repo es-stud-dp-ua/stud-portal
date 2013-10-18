@@ -1,12 +1,7 @@
 package ua.dp.stud.askQuestionPortlet.util;
 
-import com.liferay.portal.kernel.util.PrefsPropsUtil;
-import com.liferay.portal.kernel.util.PropsKeys;
-import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.util.mail.MailEngine;
-import com.liferay.util.mail.MailEngineException;
 import com.liferay.util.portlet.PortletProps;
-import org.apache.commons.lang.exception.NestableException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.antlr.stringtemplate.*;
@@ -16,11 +11,7 @@ import java.io.IOException;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 
 /**
  * Class for sending emails.
@@ -51,7 +42,6 @@ public class Mailer {
         InternetAddress fr = new InternetAddress(sentFrom);
         Properties sessionProperties = MailEngine.getSession().getProperties();
         String adminMail = sessionProperties.getProperty("mail.smtp.user").equals("") ? sessionProperties.getProperty("mail.smtps.user") : sessionProperties.getProperty("mail.smtp.user");
-        //String adminMail = "studdpuasender@gmail.com";
         InternetAddress to = new InternetAddress(adminMail);
         MailEngine.send(fr, to, subject, message1.toString());
     }

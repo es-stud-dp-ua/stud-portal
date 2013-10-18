@@ -2,7 +2,6 @@ package ua.dp.stud.studie.controller;
 
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.servlet.SessionMessages;
-
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.model.User;
 import com.liferay.portal.theme.ThemeDisplay;
@@ -35,11 +34,13 @@ import javax.portlet.ActionResponse;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -64,7 +65,6 @@ public class CoursesController {
     @Qualifier(value = "courseService")
     private CourseService courseService;
 
-
     public void setCourseService(CourseService courseService)
     {
         this.courseService = courseService;
@@ -74,8 +74,6 @@ public class CoursesController {
     public Course getCommandObject() {
         return new Course();
     }
-
-
 
     @Autowired
     @Qualifier(value = "imageService")
@@ -154,12 +152,9 @@ public class CoursesController {
         ModelAndView model=new ModelAndView("addCourse");
 
         Collection<KindOfCourse> kindOfCourses = courseService.getAllKindOfCourse() ;
-        for (KindOfCourse u : kindOfCourses)
-        {
-            types.add(u.toString());
-        }
-        model.addObject("kindOfCourses",types);
-        model.addObject("statusList", status);
+
+        model.addObject("kindOfCourse", kindOfCourses);
+        model.addObject("coursesType", coursesType);
         setMap(request);
 		return  model;
 	}
@@ -190,7 +185,7 @@ public class CoursesController {
         }
         if (updateCourse(course, mainImage, actionResponse))
         {
-            courseService.deleteKindOfCourse(oldCourse.getKindOfCourse().gettypeId());
+            courseService.deleteKindOfCourse(oldCourse.getKindOfCourse().getTypeId());
             courseService.updateCourse(course);
             actionResponse.setRenderParameter(COURSE_ID, Integer.toString(course.getId()));
             sessionStatus.setComplete();
@@ -211,6 +206,15 @@ public class CoursesController {
 	@ActionMapping(value="saveCourse")
 	public void saveCourse(){
 	}
+
+    @RenderMapping(params="view=coursescategories")
+    public ModelAndView viewCoursesCategories(RenderRequest request, RenderResponse response) {
+        ModelAndView model = new ModelAndView();
+        model.setViewName("viewCoursesCategories");
+        Collection<KindOfCourse> kOC = courseService.getAllKindOfCourseWithCount();
+        model.addObject("KOC",kOC);
+        return model;
+    }
 
 
     private Boolean updateCourse(Course newCourse, CommonsMultipartFile mainImage,
@@ -282,6 +286,4 @@ public class CoursesController {
         binder.setDisallowedFields("mainImage");
 
     }
-
-
 }
