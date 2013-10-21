@@ -117,6 +117,7 @@ public class CoursesController {
         courseService.addKindOfCourse(kindOfCourse3);
         courseService.addKindOfCourse(kindOfCourse4);
 
+
     }
     
     public void InitCourseName()
@@ -200,9 +201,17 @@ public class CoursesController {
 	}
 	
 	@RenderMapping(params="delete=course")
-	public String deleteCourse() {
+	public String deleteCourse(RenderRequest request, RenderResponse response)
+    {
+
+        int courseID=Integer.valueOf(request.getParameter("courseId"));
+        Course course=courseService.getCourseByID(courseID);
+        imageService.deleteDirectory(course);
+        courseService.deleteCourse(course.getId());
+
 		return "viewAllCourse";
 	}
+
 	@ActionMapping(value="saveCourse")
 	public void saveCourse(){
 	}

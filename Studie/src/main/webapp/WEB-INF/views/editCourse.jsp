@@ -6,5 +6,6 @@
 </head>
 <body>
 Edit course page
+
 </body>
 </html>
