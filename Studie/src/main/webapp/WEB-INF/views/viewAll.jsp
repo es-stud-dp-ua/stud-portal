@@ -55,7 +55,7 @@
 			<div class="ribbon-edge-bottomleft"></div>
 		</div>
 		<portlet:renderURL var="LinkStudentCouncil">
-			<portlet:param name="" value=""/>
+			<portlet:param name="view" value="allcouncils"/>
 		</portlet:renderURL>
 		<div class="ribbon-wrapper">
 			<a class="btnselected" href="${LinkStudentCouncil}"
