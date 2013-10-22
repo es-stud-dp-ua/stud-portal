@@ -117,6 +117,7 @@ public class CoursesController {
         courseService.addKindOfCourse(kindOfCourse3);
         courseService.addKindOfCourse(kindOfCourse4);
 
+
     }
     
     public void InitCourseName()
@@ -218,6 +219,7 @@ public class CoursesController {
         return model;
 
 	}
+
 	@ActionMapping(value="saveCourse")
 	public void saveCourse(){
 	}

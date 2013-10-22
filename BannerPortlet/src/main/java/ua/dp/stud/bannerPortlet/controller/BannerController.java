@@ -105,6 +105,7 @@ public class BannerController {
         return false;
     }
 
+
     private ModelAndView getModel(String modelName, RenderRequest request)
             throws PortalException, SystemException {
         ModelAndView model = new ModelAndView(modelName);
@@ -149,15 +150,14 @@ public class BannerController {
                 sessionStatus.setComplete();
             }
         } else {
-            //if duplicate url
             actionResponse.setRenderParameter(STR_FAIL, "error.dplBannerAdd");
         }
     }
 
     @RenderMapping(params = "mode=edit")
-    public ModelAndView showEditBanner(RenderRequest request, RenderResponse response)
-            throws PortalException, SystemException {
-        return getModel("edit", request);
+    public ModelAndView showEditBanner(RenderRequest request, RenderResponse response) throws PortalException, SystemException
+    {
+        return getModel("edit",request);
     }
 
     @ActionMapping(value = "updateImage")
@@ -168,10 +168,11 @@ public class BannerController {
         BannerImage banner = bannerImageService.getBannerImageById(id);
         String url = actionRequest.getParameter("url");
         BannerImage other = bannerImageService.getByURL(url);
-        if (other != null && other.getId() != banner.getId()) {
-            actionResponse.setRenderParameter(STR_FAIL, STR_DUBLICAT);
-            return;
-        }
+        if (other != null)
+            if (other.getId() != banner.getId()) {
+                actionResponse.setRenderParameter(STR_FAIL, STR_DUBLICAT);
+                return;
+            }
         if (this.updateBannerImage(mainImage, url, actionResponse, banner)) {
             try {
                 bannerImageService.updateBannerImage(banner);

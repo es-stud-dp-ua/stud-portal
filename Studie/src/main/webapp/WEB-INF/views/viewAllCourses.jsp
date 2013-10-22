@@ -7,12 +7,14 @@
 <%@include file="include.jsp" %>
 <html>
 <head>
-<title>РЎРїРёСЃРѕРє РєСѓСЂСЃРѕРІ</title>
+<title>Список курсов</title>
 </head>
 <body>
+<portlet:renderURL var="LinkAddCourse">
+			<portlet:param name="add" value="course"/>
+</portlet:renderURL>
 <portlet:renderURL var="Categories">
-            <portlet:param name="courseId" value="<%=currCourse.getId().toString()%>"/>
-			<portlet:param name="view" value="coursescategories"/>
+    <portlet:param name="view" value="coursescategories"/>
 </portlet:renderURL>
 <a href="${Categories}">To categories</a>
 <br/>
@@ -30,8 +32,19 @@
 <a style="float: right" href="${LinkAddCourse}">
 <div class="panelbtn panelbtn-right icon-pcpplus" aria-hidden="true"></div>
 </div>
-</a>
+            </div>
 
+
+<portlet:renderURL var="LinkEditCourse">
+			<portlet:param name="edit" value="course"/>
+</portlet:renderURL>
+<div class="portlet-content-controlpanel fs20"style="width: 10.15%;float: right;">
+
+                <a style="float: right" href="${LinkEditCourse}">
+
+                    <div class="panelbtn panelbtn-right icon-pcppencil" aria-hidden="true"></div>
+                </a>
+</div>
 
 
 
