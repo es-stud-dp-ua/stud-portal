@@ -57,7 +57,7 @@ public class CoursesController {
     private static final String STR_FAIL = "fail";
     private static final String STR_NO_IMAGE = "no images";
     private static final Logger LOG = Logger.getLogger(StudieController.class.getName());
-    private static final String COURSE_ID = "courseID";
+    private static final String COURSE_ID = "id";
     private static final String STR_EXEPT = "Exception ";
     private static List<CoursesType> coursesType = Arrays.asList(CoursesType.values());
 
@@ -141,9 +141,6 @@ public class CoursesController {
 
     }
 
-    private void setMap(RenderRequest request) {
-        formParamMap = new HashMap<String, List<String>>();
-    }
 
 	@RenderMapping(params="add=course")
 	public ModelAndView addCourse(RenderRequest request, RenderResponse response)
@@ -155,11 +152,20 @@ public class CoursesController {
 
         model.addObject("kindOfCourse", kindOfCourses);
         model.addObject("coursesType", coursesType);
-        setMap(request);
 		return  model;
 	}
 
-	@RenderMapping(params="edit=course")
+	@RenderMapping(params="showEdit=course")
+    public ModelAndView showEditCourse(RenderRequest request, RenderResponse response)
+    {
+        ModelAndView model=new ModelAndView("editCourse");
+        int courseID = Integer.valueOf(request.getParameter(COURSE_ID));
+        Course course=courseService.getCourseByID(courseID);
+        model.addObject("selectedCourse",course);
+        return model;
+    }
+
+    @ActionMapping(value="editCourse")
 	public void editCourse(@ModelAttribute(COURSE)  Course course,
                              //BindingResult bindingResult,
                              ActionRequest actionRequest,
@@ -200,8 +206,17 @@ public class CoursesController {
 	}
 	
 	@RenderMapping(params="delete=course")
-	public String deleteCourse() {
-		return "viewAllCourse";
+	public ModelAndView deleteCourse(RenderRequest request, RenderResponse response)
+    {
+
+    int courseID=Integer.valueOf(request.getParameter("courseId"));
+        Course course=courseService.getCourseByID(courseID);
+        imageService.deleteDirectory(course);
+        courseService.deleteCourse(course.getId());
+        ModelAndView model=new ModelAndView();
+        model.setViewName("viewAllCourses");
+        return model;
+
 	}
 	@ActionMapping(value="saveCourse")
 	public void saveCourse(){
@@ -236,7 +251,7 @@ public class CoursesController {
 
 	@ActionMapping(value="saveNewCourse")
 	public void saveNewCourse(@ModelAttribute(COURSE)  Course course,
-                              //BindingResult bindingResult,
+                             // BindingResult bindingResult,
                               ActionRequest actionRequest,
                               ActionResponse actionResponse,
                               SessionStatus sessionStatus,
@@ -247,8 +262,8 @@ public class CoursesController {
                 System.out.println(error.toString());
                 System.out.println();
             }
-        }
-        if (bindingResult.hasErrors()) {
+        }     */
+        /*if (bindingResult.hasErrors()) {
             actionResponse.setRenderParameter(STR_FAIL, "msg.fail");
             return;
         }     */
@@ -269,7 +284,7 @@ public class CoursesController {
                 Integer.parseInt(actionRequest.getParameter("t")),
                 Integer.parseInt(actionRequest.getParameter("l")),
                 Integer.parseInt(actionRequest.getParameter("w")),
-                Integer.parseInt(actionRequest.getParameter("h"))  );
+                Integer.parseInt(actionRequest.getParameter("h")));
         if (updateCourse(course, f, actionResponse)) {
             courseService.addCourse(course);
             actionResponse.setRenderParameter(COURSE_ID, Integer.toString(course.getId()));
@@ -282,8 +297,33 @@ public class CoursesController {
     public void initBinder(WebDataBinder binder) {
         /*SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         dateFormat.setLenient(true);
-        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));   */
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));    */
         binder.setDisallowedFields("mainImage");
 
     }
+
+    @RenderMapping(params = "success")
+    public ModelAndView showAddSuccess(RenderRequest request, RenderResponse response) {
+        ModelAndView model = showView(request, response);
+        String strSuccess = "success";
+        SessionMessages.add(request, request.getParameter(strSuccess));
+        return model;
+    }
+
+    @RenderMapping
+    public ModelAndView showView(RenderRequest request, RenderResponse response) {
+        ModelAndView model = new ModelAndView();
+        Integer buttonId;
+        if (request.getParameter(BUTTON_ID) == null) {
+            buttonId = 0;
+        } else {
+            buttonId = Integer.valueOf(request.getParameter(BUTTON_ID));
+        }
+        model.setViewName("viewAll");
+        Collection<Course> course = courseService.getAll();
+        model.addObject("course", course);
+        model.addObject(BUTTON_ID, buttonId);
+        return model;
+    }
+
 }

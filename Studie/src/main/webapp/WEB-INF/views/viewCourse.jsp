@@ -7,6 +7,34 @@
 <title>Insert title here</title>
 </head>
 <body>
-View course page
+<portlet:renderURL var="LinkEditCourse">
+ 			<portlet:param name="showEdit" value="course"/>
+</portlet:renderURL>
+
+<portlet:renderURL var="LinkDeleteCourse">
+ 			<portlet:param name="delete" value="course"/>
+</portlet:renderURL>
+
+<div class="portlet-content-controlpanel fs20"style="width: 10.15%;float: right;">
+<a style="float: right" href="${LinkDeleteCourse}">
+<div class="panelbtn panelbtn-right icon-pcpremove" aria-hidden="true"></div>
+
+</a>
+<a style="float: right" href="${LinkEditCourse}">
+<div class="panelbtn panelbtn-right icon-pcppencil" aria-hidden="true"></div>
+</a>
+</div>
+
+<portlet:actionURL var="actionLink" name="editCourse"></portlet:actionURL>
+<div width = "100%" style="height: 500px">
+<form:form method="POST" commandName="course" action="${actionLink}" enctype="multipart/form-data" id="courseForm">
+    <div class="textBox" style="height: 500px">
+                    <div style="height: 500px"><label style="height: 500px" cssClass="control-group" for="courseName"><spring:message code="Check"/></label>
+                    </div>
+                    <form:checkbox path="courseName" />
+                    <form:errors path="courseName" cssClass="error"/>
+    </div>
+</form:form>
+</div>
 </body>
 </html>
