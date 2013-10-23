@@ -15,13 +15,9 @@ import ua.dp.stud.StudPortalLib.model.BaseImagesSupport;
 @PrimaryKeyJoinColumn(name = "id", referencedColumnName = "id")
 public class Council extends BaseImagesSupport{
 
-    @Column
+    
     private String councilName;
-
-    @Column
     private String councilContact;
-
-    @Column
     private String councilDescription;
 
 
@@ -33,6 +29,7 @@ public class Council extends BaseImagesSupport{
     	this.setCouncilName(councilName);
     }
 
+    @Column(name = "councilName")
     public String getCouncilName() {
         return councilName;
     }
@@ -41,6 +38,7 @@ public class Council extends BaseImagesSupport{
         this.councilName = councilName;
     }
 
+    @Column(name = "councilContact")
     public String getCouncilContact() {
         return councilContact;
     }
@@ -49,7 +47,7 @@ public class Council extends BaseImagesSupport{
         this.councilContact = councilContact;
     }
 
-
+    @Column(name = "councilDescription")
     public String getCouncilDescription() {
         return councilDescription;
     }
@@ -61,7 +59,7 @@ public class Council extends BaseImagesSupport{
 
 
     
-        public Council(String councilName, String authorslogin, String councilContact, String councilDescription) {
+        public Council(String councilName, String councilContact, String councilDescription) {
         this.councilName = councilName;
         this.councilContact = councilContact;
         this.councilDescription = councilDescription;
