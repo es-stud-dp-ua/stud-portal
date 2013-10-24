@@ -174,25 +174,26 @@ public class CouncilController{
         }
     }
     
-    @RenderMapping(params = "mode=add")
+    @RenderMapping(params = "add=council")
     public ModelAndView showAddCouncil(RenderRequest request, RenderResponse response) {
         return new ModelAndView("addCouncil");
     }
 
-    @RenderMapping(params = "mode=edit")
+    @RenderMapping(params = "edit=council")
     public ModelAndView showEditCouncil(RenderRequest request, RenderResponse response) {
         ModelAndView model = new ModelAndView("editCouncil");
         //getting council   
-       /* int councilID = Integer.valueOf(request.getParameter("councilId"));
+        int councilID =129; 
+        		//Integer.valueOf(request.getParameter("councilId"));
         Council council = councilService.getCouncilById(councilID);
         ImageImpl mImage = council.getMainImage();
         String mainImageUrl =imageService.getPathToLargeImage(mImage,council);
         model.getModelMap().addAttribute("council", council);
-        model.addObject("mainImage", mainImageUrl);*/
+        model.addObject("mainImage", mainImageUrl);
         return model;
     }
 
-    @RenderMapping(params = "mode=delete")
+    @RenderMapping(params = "delete=council")
     public ModelAndView deleteCouncil(RenderRequest request, RenderResponse response) {
         //getting current councils
         int councilID = Integer.valueOf(request.getParameter("councilId"));

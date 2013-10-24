@@ -1,9 +1,16 @@
 package ua.dp.stud.studie.model;
 
 
+import java.io.Serializable;
+import java.util.List;
+
 import javax.persistence.*;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import ua.dp.stud.StudPortalLib.model.BaseImagesSupport;
+import ua.dp.stud.StudPortalLib.model.News;
 /**
  * Author: Lysenko Nikolai
  * Date: 21.10.13
@@ -13,17 +20,18 @@ import ua.dp.stud.StudPortalLib.model.BaseImagesSupport;
 @Entity
 @Table(name = "council_table")
 @PrimaryKeyJoinColumn(name = "id", referencedColumnName = "id")
-public class Council extends BaseImagesSupport{
+public class Council extends BaseImagesSupport implements Serializable{
 
     
     private String councilName;
     private String councilContact;
     private String councilDescription;
 
-
     public Council()
     {
     }
+
+
 
     public Council(String councilName){
     	this.setCouncilName(councilName);
