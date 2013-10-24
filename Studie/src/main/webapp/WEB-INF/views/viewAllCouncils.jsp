@@ -15,7 +15,7 @@
     </head>
     <body>
     <portlet:renderURL var="LinkAddCouncil">
-        <portlet:param name="mode" value="add"/>
+        <portlet:param name="add" value="council"/>
     </portlet:renderURL>
     <div class="portlet-content-controlpanel fs20"style="width: 10.15%;float: right;">
                 <a style="float: right" href="${LinkAddCouncil}">
@@ -24,7 +24,7 @@
                 </a>
 </div>
 <portlet:renderURL var="LinkEditCouncil">
-			<portlet:param name="mode" value="edit"/>
+			<portlet:param name="edit" value="council"/>
 </portlet:renderURL>
 <div class="portlet-content-controlpanel fs20"style="width: 10.15%;float: right;">
 

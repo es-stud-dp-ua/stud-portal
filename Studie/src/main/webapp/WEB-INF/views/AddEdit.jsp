@@ -4,7 +4,6 @@
              <input type="hidden" size="0" id="y1" name="l" value="0"/>
              <input type="hidden" size="0" id="w" name="w" value="100"/>
              <input type="hidden" size="0" id="h" name="h" value="100"/>
-
 <script>
                     function handleFileSelect(evt) {
                     var files = evt.target.files; // FileList object
@@ -72,18 +71,29 @@
                                             <spring:message code="course.TLogo"/>
                                             </div>
 
+                        <div style="vertical-align: top; ">
 
-                    <div style="width: 450px; padding-center: 20px;">
+                       <c:choose>
+                                            <c:when test='$(course.getMainImage()!=null)' >
+                                                <div id="mainPic" >
+                                                    <img id="img" style="float:none" src="${course.getMainImage}"/>
+                                                    <output id="list"></output>
+                                                </div>
+                                            </c:when>
+                                             <c:otherwise>
+                                                <div>
+                                                <div id="lup"></div>
+                                                <div id="mainPic" style="float:none"
+                                                    style="background: url(${pageContext.request.contextPath}/images/mainpic_443x253.png) no-repeat">
+                                                    <output id="list"></output>
+                                                </div>
+                                                </div>
+                                             </c:otherwise>
+                        </c:choose>
 
-                        <div style="left: 30%;" style="width: 460px;">
-                                        <div style="height: 300px;">
-                                            <div id="lup"></div>
-                                            <div id="mainPic"
-                                                 style="background: url(${pageContext.request.contextPath}/images/mainpic_443x253.png) no-repeat">
-                                            <output id="list"></output>
-                                            </div>
-                                        </div>
                         </div>
+                        </br>
+                        <div>
                         <div style="left: 30%;" id="mainImageLoader">
 
                                                    <div id="mainImgloaderBtn">
@@ -119,7 +129,7 @@
                                                         <div id="labels" style="width: 150px; font-size: 12pt">
                                                                                 <spring:message code="course.Tinfo"/>
                                                                                 </div>
-                        <textarea style="height: 124px; width: 436px" path="coursesContact" id="contact" maxlength="300"  name="contacts"></textarea>
+                        <form:textarea style="height: 124px; width: 436px" path="coursesContact" id="contact" maxlength="300"></form:textarea>
 
                                                                                 <br/>
                                                         <div id="labels" style="width: 150px; font-size: 12pt">
@@ -135,7 +145,7 @@
                                            code='<%=(request.isUserInRole("Administrator"))?"form.submit.admin"
                                                                                                                  :"form.submit.user"%>'/>"/>
                                 </div>
-                    </div>
+                        </div>
             </div>
 
      </div>
