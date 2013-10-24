@@ -8,6 +8,11 @@
 <%@ taglib prefix="liferay-ui" uri="http://liferay.com/tld/ui" %>
 <%@include file="include.jsp" %>
 
+<%@ page import="ua.dp.stud.StudPortalLib.model.CoursesType" %>
+<%@ page import="ua.dp.stud.StudPortalLib.util.ImageService" %>
+<%@ page import="ua.dp.stud.StudPortalLib.model.Course" %>
+<%@ page import="com.liferay.portal.kernel.servlet.ImageServletTokenUtil" %>
+
 <portlet:defineObjects/>
 
 <script src="${pageContext.request.contextPath}/js/dynamic_list_helper.js" type="text/javascript"></script>

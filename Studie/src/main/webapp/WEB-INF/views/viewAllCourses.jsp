@@ -5,9 +5,10 @@
 <%@ taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@include file="include.jsp" %>
+
 <html>
 <head>
-<title>Список курсов</title>
+<title>пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ</title>
 </head>
 <body>
 <portlet:renderURL var="LinkAddCourse">
@@ -19,35 +20,11 @@
 <a href="${Categories}">To categories</a>
 <br/>
 
-<portlet:renderURL var="LinkAddCourse">
- 			<portlet:param name="add" value="course"/>
-</portlet:renderURL>
-
-
-
-
-
-
 <div class="portlet-content-controlpanel fs20"style="width: 10.15%;float: right;">
 <a style="float: right" href="${LinkAddCourse}">
 <div class="panelbtn panelbtn-right icon-pcpplus" aria-hidden="true"></div>
+</a>
 </div>
-            </div>
-
-
-<portlet:renderURL var="LinkEditCourse">
-			<portlet:param name="edit" value="course"/>
-</portlet:renderURL>
-<div class="portlet-content-controlpanel fs20"style="width: 10.15%;float: right;">
-
-                <a style="float: right" href="${LinkEditCourse}">
-
-                    <div class="panelbtn panelbtn-right icon-pcppencil" aria-hidden="true"></div>
-                </a>
-</div>
-
-
-
 
 <div class="textBox">
 	<select style="width: 30%;">
@@ -64,7 +41,12 @@
 </div>
 <div>
 	<c:forEach var="course" items="${courses}">
-		<p><a href='<portlet:renderURL><portlet:param name="courseId" value="${course.id}"/><portlet:param name="view" value="course"/></portlet:renderURL>'>${course.courseName}</a>
+		<p><a href='
+		<portlet:renderURL>
+		    <portlet:param name="id" value="${course.id}"/>
+		    <portlet:param name="view" value="course"/>
+		</portlet:renderURL>
+		'>${course.courseName}</a>
 	</c:forEach>
 </div>
 </body>

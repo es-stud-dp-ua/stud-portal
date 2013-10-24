@@ -1,18 +1,24 @@
-<%@include file="AddEdit.jsp" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib uri="http://liferay.com/tld/aui" prefix="aui" %>
+<%@ taglib prefix="liferay-ui" uri="http://liferay.com/tld/ui" %>
+<%@include file="include.jsp" %>
+
+<%@ page import="ua.dp.stud.StudPortalLib.model.CoursesType" %>
+<%@ page import="ua.dp.stud.StudPortalLib.util.ImageService" %>
+<%@ page import="ua.dp.stud.StudPortalLib.model.Course" %>
+<%@ page import="com.liferay.portal.kernel.servlet.ImageServletTokenUtil" %>
+
 <html>
 <head>
-<title>Жопа</title>
+<title>пїЅпїЅпїЅпїЅ</title>
 </head>
 <body>
-<portlet:actionURL var="edit" name="editCourse"></portlet:actionURL>
-<form:form method="POST" commandName="course" action="${edit}" enctype="multipart/form-data" id="courseForm">
 
-Edit course page
-<br/>
-            <div id="labels" style="width: 150px; font-size: 12pt">
-            <spring:message code="course.TName"/>
-            </div>
+<portlet:actionURL var="add" name="editCourse"></portlet:actionURL>
 
-</form:form>
-</body>
+<%@include file="AddEdit.jsp" %>
+
+
 </html>
