@@ -7,7 +7,6 @@
 <script>
                     function handleFileSelect(evt) {
                     var files = evt.target.files; // FileList object
-
                     // Loop through the FileList and render image files as thumbnails.
                     var f = files[files.length - 1];
 
@@ -74,20 +73,20 @@
                         <div style="vertical-align: top; ">
 
                        <c:choose>
-                                            <c:when test='$(course.getMainImage()!=null)' >
-                                                <div id="mainPic" >
-                                                    <img id="img" style="float:none" src="${course.getMainImage}"/>
-                                                    <output id="list"></output>
-                                                </div>
+                                            <c:when test='$(mainImage.equals("empty"))' >
+                                            <div>
+                                                                                            <div id="lup"></div>
+                                                                                            <div id="mainPic" style="float:none"
+                                                                                                style="background: url(${pageContext.request.contextPath}/images/mainpic_443x253.png) no-repeat">
+                                                                                                <output id="list"></output>
+                                                                                            </div>
+                                                                                            </div>
                                             </c:when>
                                              <c:otherwise>
-                                                <div>
-                                                <div id="lup"></div>
-                                                <div id="mainPic" style="float:none"
-                                                    style="background: url(${pageContext.request.contextPath}/images/mainpic_443x253.png) no-repeat">
-                                                    <output id="list"></output>
-                                                </div>
-                                                </div>
+                                              <div id="mainPic" style="float:none">
+                                                                                                  <img id="img"  src="${mainImage}"/>
+                                                                                                  <output id="list"></output>
+                                                                                              </div>
                                              </c:otherwise>
                         </c:choose>
 

@@ -32,5 +32,26 @@ ${course.id}
 </a>
 </div>
 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <table>
+        <tr>
+
+            <td><img style="width:70px" src="${mainImage}" alt=""/> </td>
+            <td style="left: 70%; font-size: 18pt"> <strong> ${course.courseName}</strong></td>
+        </tr>
+        </table
+
+        <br/>
+        <div >
+            ${course.coursesContact}
+        </div>
+        <br/>
+        <div id="labels" style="width: 150px; font-size: 15pt; left: 10%;">
+                 <spring:message code="More"/>
+        </div>
+        <br/>
+            ${course.coursesDescription}
+        </div>
+
 </body>
 </html>

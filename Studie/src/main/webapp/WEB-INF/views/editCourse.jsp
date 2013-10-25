@@ -4,11 +4,10 @@
 <%@ taglib uri="http://liferay.com/tld/aui" prefix="aui" %>
 <%@ taglib prefix="liferay-ui" uri="http://liferay.com/tld/ui" %>
 <%@include file="include.jsp" %>
+<%@ page import="java.util.Collection" %>
+<%@ page import="java.util.Locale" %>
+<%@ page import="java.util.ResourceBundle" %>
 
-<%@ page import="ua.dp.stud.StudPortalLib.model.CoursesType" %>
-<%@ page import="ua.dp.stud.StudPortalLib.util.ImageService" %>
-<%@ page import="ua.dp.stud.StudPortalLib.model.Course" %>
-<%@ page import="com.liferay.portal.kernel.servlet.ImageServletTokenUtil" %>
 
 <html>
 <head>

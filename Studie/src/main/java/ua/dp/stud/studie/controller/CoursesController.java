@@ -133,7 +133,7 @@ public class CoursesController {
         ModelAndView model = new ModelAndView("addCourse");
 
         Collection<KindOfCourse> kindOfCourses = courseService.getAllKindOfCourse();
-
+        model.addObject("mainImage", "empty");
         model.addObject("kindOfCourse", kindOfCourses);
         model.addObject("coursesType", coursesType);
         return model;
@@ -145,7 +145,11 @@ public class CoursesController {
         Collection<KindOfCourse> kindOfCourses = courseService.getAllKindOfCourse();
         int courseID = Integer.valueOf(request.getParameter(COURSE_ID));
         Course course = courseService.getCourseByID(courseID);
-        course.setMainImage(course.getMainImage());
+        ImageImpl mImage = course.getMainImage();
+        String mainImageUrl =imageService.getPathToLargeImage(mImage,course);
+        if (mImage==null) {
+        model.addObject("mainImage", "empty");}
+        else  model.addObject("mainImage", mainImageUrl);
         model.addObject(COURSE, course);
         model.addObject("kindOfCourse", kindOfCourses);
         model.addObject("coursesType", coursesType);
