@@ -206,9 +206,21 @@ public class CoursesController {
             mainImageUrl = imageService.getPathToLargeImage(mImage, course);
         }
 
+        User user = (User) request.getAttribute(WebKeys.USER);
+        boolean isShown=false;
+       if (request.isUserInRole("Administrator") || request.isUserInRole("User"))
+       {
+           if(request.isUserInRole("Administrator"))
+               isShown=true;
+           else
+             if(request.isUserInRole("User") && course.getAuthorslogin().equals(user.getScreenName()))
+               isShown=true;
+       }
+
         ModelAndView model = new ModelAndView();
         model.setViewName("viewCourse");
         model.addObject("course", course);
+        model.addObject("isShown",isShown);
         model.addObject(MAIN_IMAGE, mainImageUrl);
         model.addObject(BUTTON_ID, buttonId);
         return model;
