@@ -1,5 +1,6 @@
 package ua.dp.stud.studie.controller;
 
+import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -9,6 +10,11 @@ import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.validation.Valid;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.portal.service.LayoutLocalServiceUtil;
+import com.liferay.portal.theme.ThemeDisplay;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -38,6 +44,7 @@ import ua.dp.stud.StudPortalLib.model.ImageImpl;
 import ua.dp.stud.StudPortalLib.util.ImageService;
 import ua.dp.stud.studie.model.Council;
 import ua.dp.stud.studie.service.CouncilService;
+import ua.dp.stud.studie.service.impl.CouncilServiceImpl;
 
 
 @Controller(value="CouncilController")
@@ -50,7 +57,9 @@ public class CouncilController{
     private static final String COUNCIL = "council";
     private static final String STR_FAIL = "fail";
     private static final String NO_IMAGE = "no-images";
-    
+    private static final String MAIN_IMAGE_MOCK_URL = "http://www.princetonmn.org/vertical/Sites/%7BF37F81E8-174B-4EDB-91E0-1A3D62050D16%7D/uploads/News.gif";
+    private static final String CURRENT_PAGE = "currentPage";
+    private static final String MAIN_IMAGE = "mainImage";
 	@Autowired
     @Qualifier(value = "councilService")
     private CouncilService councilService;
@@ -165,9 +174,9 @@ public class CouncilController{
         oldCouncil.setCouncilDescription(council.getCouncilDescription());
         if (!mainImage.getOriginalFilename().equals("")) {
             mainImage = imageService.cropImage(mainImage, Integer.parseInt(actionRequest.getParameter("t")),
-                                               Integer.parseInt(actionRequest.getParameter("l")),
-                                               Integer.parseInt(actionRequest.getParameter("w")),
-                                               Integer.parseInt(actionRequest.getParameter("h")));
+                    Integer.parseInt(actionRequest.getParameter("l")),
+                    Integer.parseInt(actionRequest.getParameter("w")),
+                    Integer.parseInt(actionRequest.getParameter("h")));
         }
         if (updateCouncil(oldCouncil, mainImage,actionResponse, bindingResult)) {
             councilService.updateCouncil(oldCouncil);
@@ -226,6 +235,43 @@ public class CouncilController{
         ModelAndView model = getMainView(request);
         String strSuccess = "success";
         SessionMessages.add(request, request.getParameter(strSuccess));
+        return model;
+    }
+    /**
+     * Method for rendering view mode for single organization
+     *
+     * @param request
+     * @param response
+     * @return model
+     */
+    @RenderMapping(params = "mode=showCouncil")
+    public ModelAndView showSelectedCouncil(RenderRequest request, RenderResponse response, SessionStatus sessionStatus) throws SystemException, PortalException {
+
+        int councilId = Integer.valueOf(request.getParameter("id"));
+        Council council = councilService.getCouncilById(councilId);
+        ImageImpl mImage = council.getMainImage();
+        String mainImageUrl;
+        if (mImage == null) {
+            mainImageUrl = MAIN_IMAGE_MOCK_URL;
+        } else {
+            mainImageUrl = imageService.getPathToMicroblogImage(mImage, council);
+        }
+
+        ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+        long groupId = themeDisplay.getScopeGroupId();
+
+        int currentPage;
+        if (request.getParameter(CURRENT_PAGE) != null) {
+            currentPage = Integer.parseInt(request.getParameter(CURRENT_PAGE));
+        } else {
+            currentPage = 1;
+        }
+        ModelAndView model = new ModelAndView();
+        model.setViewName("viewSingleCouncil");
+        model.addObject("council", council);
+        model.addObject(CURRENT_PAGE, currentPage);
+        model.addObject(MAIN_IMAGE, mainImageUrl);
+
         return model;
     }
 

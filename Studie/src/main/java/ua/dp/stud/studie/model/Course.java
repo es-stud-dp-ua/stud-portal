@@ -45,6 +45,10 @@ public class Course extends BaseImagesSupport{
     @Enumerated
     private  CoursesType coursesType;
 
+    public CoursesType getCoursesType() {
+        return coursesType;
+    }
+
     public Course()
     {
         this.addDate=new Date();
@@ -104,10 +108,6 @@ public class Course extends BaseImagesSupport{
         this.addState = addState;
     }
 
-
-    public CoursesType getCoursesType() {
-        return coursesType;
-    }
 
     public void setCoursesType(CoursesType coursesType) {
         this.coursesType = coursesType;

@@ -262,7 +262,8 @@ public class StudieController {
         studie.setMainImage(oldStudy.getMainImage());
         studie.setAdditionalImages(oldStudy.getAdditionalImages());
         studie.setYearMonthUniqueFolder(oldStudy.getYearMonthUniqueFolder());
-        if (!mainImage.getOriginalFilename().equals("")) {
+        if (!mainImage.getOriginalFilename().equals(""))
+        {
             mainImage = imageService.cropImage(mainImage, Integer.parseInt(actionRequest.getParameter("t")),
                     Integer.parseInt(actionRequest.getParameter("l")),
                     Integer.parseInt(actionRequest.getParameter("w")),

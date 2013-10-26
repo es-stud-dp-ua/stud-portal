@@ -28,10 +28,27 @@
 </portlet:renderURL>
 <div class="portlet-content-controlpanel fs20"style="width: 10.15%;float: right;">
 
-                <a style="float: right" href="${LinkEditCouncil}">
+                <a style="float: right" href="name ${LinkEditCouncil}">
 
                     <div class="panelbtn panelbtn-right icon-pcppencil" aria-hidden="true"></div>
                 </a>
+
 </div>
+
+
+
+
+${council.id}
+
+ <portlet:renderURL var="LinkShowCouncil">
+            <portlet:param name="id" value="${council.id}"/>
+ 			<portlet:param name="mode" value="showCouncil"/>
+ </portlet:renderURL>
+
+
+ <div>
+  <a href="${LinkShowCouncil}">ololo</a>
+ </div>
+
 </body>
 </html>
