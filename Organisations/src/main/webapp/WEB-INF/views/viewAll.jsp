@@ -90,7 +90,7 @@
                    onclick='return confirm("<spring:message code="form.confDelete"/>")'>
                     <div class="panelbtn panelbtn-right fs20 icon-pcpremove" aria-hidden="true"></div>
                 </a>
-                <a style="float: right" href='<portlet:renderURL><portlet:param name="orgsID" value="<%=currentOrgs.getId().toString()%>"/><portlet:param name="mode" value="edit" /></portlet:renderURL>'
+                <a style="float: right" href='<portlet:renderURL><portlet:param name="orgsID" value="<%=currentOrgs.getId().toString()%>"/><portlet:param name="mode" value="edit" /></portlet:renderURL>'>
                     <!--<spring:message code="viewSingle.Edit"/>-->
                     <div class="panelbtn panelbtn-right icon-pcppencil" aria-hidden="true"></div>
                 </a>
