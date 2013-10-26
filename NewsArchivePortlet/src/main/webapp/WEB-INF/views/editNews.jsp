@@ -27,6 +27,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     </head>
     <body>
+    
 
     <portlet:renderURL var="home">
         <portlet:param name="newsID" value="<%=news.getId().toString()%>"/>

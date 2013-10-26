@@ -15,6 +15,10 @@
         <implicit-parameter name="nAction">home</implicit-parameter>
     </route>
     <route>
+        <pattern>/</pattern>
+        <implicit-parameter name="mode">viewAll</implicit-parameter>
+    </route>
+    <route>
         <pattern>/delete/{newsId:\d+}</pattern>
         <implicit-parameter name="mode">delete</implicit-parameter>
     </route>
@@ -26,6 +30,6 @@
         <pattern>/view/{newsID:\d+}</pattern>
     </route>
     <route>
-        <pattern>/pagination/{pageNumber}</pattern>
+        <pattern>/pagination/{pageNumber:\d+}</pattern>
     </route>
 </routes>

@@ -53,16 +53,15 @@
 						<div style="min-height: 200px; width: 680px; float: right;">
 							<% if (request.isUserInRole("Administrator")) { %>
 							<div class="portlet-content-controlpanel fs20"style="width: 9.5%;float: right;">
-							<a style="float: right"
-							   href='<portlet:renderURL><portlet:param name="newsId" value="<%=currentNews.getId().toString()%>"/><portlet:param name="mode" value="delete" /><portlet:param name="currentPage" value="<%=currentPage.toString()%>"/> </portlet:renderURL>'
-							   onclick='return confirm("<spring:message code="form.confDelete"/>")'>
-								<div class="panelbtn panelbtn-right fs20 icon-pcpremove" aria-hidden="true"></div>
-							</a>
-							<a style="float: right" href="<portlet:renderURL/>&newsId=<%=currentNews.getId()%>&mode=edit">
-								<!--<spring:message code="viewSingle.Edit"/>-->
-								<div class="panelbtn panelbtn-right icon-pcppencil" aria-hidden="true"></div>
-							</a>
-							</div>
+                <a style="float: right" href='<portlet:renderURL><portlet:param name="newsID" value="<%=currentNews.getId().toString()%>"/><portlet:param name="currentPage" value="<%=currentPage.toString()%>"/><portlet:param name="mode" value="delete" /></portlet:renderURL>'
+                   onclick='return confirm("<spring:message code="form.confDelete"/>")'>
+                    <div class="panelbtn panelbtn-right fs20 icon-pcpremove" aria-hidden="true"></div>
+                </a>
+                    <a style="float: right"
+           href="<portlet:renderURL><portlet:param name="newsId" value="<%=currentNews.getId().toString()%>"/><portlet:param name="mode" value="edit" /></portlet:renderURL>">
+           <div class="panelbtn panelbtn-right icon-pcppencil" aria-hidden="true"></div>
+        </a>
+            </div>
 							<%}%>
 							<div class="newsHeader" style="width: 90%"><a href='${newsSingleLink}'><%=currentNews.getTopic()%></a></div>
 							<div class="reply_link_wrap">
