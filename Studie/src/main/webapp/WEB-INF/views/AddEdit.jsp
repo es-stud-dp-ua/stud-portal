@@ -4,6 +4,7 @@
              <input type="hidden" size="0" id="y1" name="l" value="0"/>
              <input type="hidden" size="0" id="w" name="w" value="100"/>
              <input type="hidden" size="0" id="h" name="h" value="100"/>
+             <form:input type="hidden" path="id"/>
 <script>
                     function handleFileSelect(evt) {
                     var files = evt.target.files; // FileList object
@@ -73,11 +74,10 @@
                         <div style="vertical-align: top; ">
 
                        <c:choose>
-                                            <c:when test='$(mainImage.equals("empty"))' >
+                                            <c:when test='${mainImage == null}' >
                                             <div>
                                                                                             <div id="lup"></div>
-                                                                                            <div id="mainPic" style="float:none"
-                                                                                                style="background: url(${pageContext.request.contextPath}/images/mainpic_443x253.png) no-repeat">
+                                                                                            <div id="mainPic" style="float:none; background: url(${pageContext.request.contextPath}/images/mainpic_443x253.png) no-repeat">
                                                                                                 <output id="list"></output>
                                                                                             </div>
                                                                                             </div>
@@ -141,7 +141,7 @@
                          <br/>
                                 <div id="sbm" style="padding-left: 125px">
                                     <input type="submit" value="<spring:message
-                                           code='<%=(request.isUserInRole("Administrator"))?"form.submit.admin"
+                                           code='<%=(request.isUserInRole("Administrator"))?"course.add"
                                                                                                                  :"form.submit.user"%>'/>"/>
                                 </div>
                         </div>

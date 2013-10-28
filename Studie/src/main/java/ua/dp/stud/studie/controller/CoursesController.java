@@ -116,16 +116,6 @@ public class CoursesController {
 
     }
 
-    private Map<String, List<String>> formParamMap;
-    private static final List<String> status;
-    private static final List<String> types = new ArrayList<String>();
-
-
-    static {
-        status = Arrays.asList("COMPANY", "ONLINE", "TUTOR");
-
-    }
-
 
     @RenderMapping(params = "add=course")
     public ModelAndView addCourse(RenderRequest request, RenderResponse response) {
@@ -133,7 +123,7 @@ public class CoursesController {
         ModelAndView model = new ModelAndView("addCourse");
 
         Collection<KindOfCourse> kindOfCourses = courseService.getAllKindOfCourse();
-        model.addObject("mainImage", "empty");
+        //model.addObject("mainImage", "background: url(${pageContext.request.contextPath}/images/mainpic_443x253.png) no-repeat");
         model.addObject("kindOfCourse", kindOfCourses);
         model.addObject("coursesType", coursesType);
         return model;
@@ -147,9 +137,7 @@ public class CoursesController {
         Course course = courseService.getCourseByID(courseID);
         ImageImpl mImage = course.getMainImage();
         String mainImageUrl =imageService.getPathToLargeImage(mImage,course);
-        if (mImage==null) {
-        model.addObject("mainImage", "empty");}
-        else  model.addObject("mainImage", mainImageUrl);
+        model.addObject("mainImage", mainImageUrl);
         model.addObject(COURSE, course);
         model.addObject("kindOfCourse", kindOfCourses);
         model.addObject("coursesType", coursesType);
@@ -178,12 +166,19 @@ public class CoursesController {
                     Integer.parseInt(actionRequest.getParameter("w")),
                     Integer.parseInt(actionRequest.getParameter("h")));
         }
+
+        boolean role = actionRequest.isUserInRole("Administrator");
+        User user = (User) actionRequest.getAttribute(WebKeys.USER);
+        String screenName = user.getScreenName();
+        course.setAuthorslogin(screenName);
+
         if (updateCourse(course, mainImage, actionResponse)) {
-            courseService.deleteKindOfCourse(oldCourse.getKindOfCourse().getTypeId());
+          //  courseService.deleteKindOfCourse(oldCourse.getKindOfCourse().getTypeId());
             courseService.updateCourse(course);
             actionResponse.setRenderParameter(COURSE_ID, Integer.toString(course.getId()));
             sessionStatus.setComplete();
         }
+
 
     }
 
