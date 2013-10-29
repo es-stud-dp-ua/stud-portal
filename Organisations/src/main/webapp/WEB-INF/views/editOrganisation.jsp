@@ -79,7 +79,9 @@
                     return target.value.length <= target.getAttribute('maxlength');
                     }
         </script>
-    <portlet:renderURL var="home"> </portlet:renderURL>
+    <portlet:renderURL var="home">
+        <portlet:param name="nAction" value="home"/>
+    </portlet:renderURL>
     <portlet:actionURL var="actionLink" name="editOrganisation"></portlet:actionURL>
     <div class="portlet-content-controlpanel fs20">
         <a href="${home}">
@@ -88,7 +90,8 @@
         </a>
         <% if (request.isUserInRole("Administrator")) { %>
 
-        <a style="margin-left: 10px;" href="<portlet:renderURL/>&orgsId=<%=orgs.getId()%>&mode=delete"
+        <a style="margin-left: 10px;"
+         href='<portlet:renderURL><portlet:param name="orgsId" value="<%=orgs.getId().toString()%>"/><portlet:param name="mode" value="delete" /></portlet:renderURL>'
            onclick='return confirm("<spring:message code="form.confDelete"/>")'>
             <!--<spring:message code="form.delete"/>-->
             <div class="panelbtn panelbtn-right fs20 icon-pcpremove" aria-hidden="true"></div>

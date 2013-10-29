@@ -129,11 +129,11 @@
         <table width="90%">
             <tr>
                 <td width="80" align="left">
-            <portlet:actionURL name="pagination" var="pagPrev">
+            <portlet:renderURL var="pagPrev">
                 <portlet:param name="direction" value="prev"/>
-                <portlet:param name="pageNumber" value="<%=String.valueOf(currentPage)%>"/>
+                <portlet:param name="currentPage" value="<%=String.valueOf(currentPage)%>"/>
                 <% if (type != null) {%><portlet:param name="type" value="<%=String.valueOf(type)%>"/><%} %>
-            </portlet:actionURL>
+            </portlet:renderURL>
             <a href="${pagPrev}">
                 <img class="paginationImage"
                      src="${pageContext.request.contextPath}/images/pagin-left.png"/>
@@ -144,18 +144,20 @@
                 <%-- PAGINATION --%>
                 <%if (skippedBeginning) {%>
                 <%-- HIDING FIRST PAGES --%>
-                <a href="<portlet:actionURL name="pagination"><portlet:param name="pageNumber" value="1"/>
+                <a href="<portlet:renderURL><portlet:param name="currentPage" value="1"/>
+                <portlet:param name="direction" value="temp"/>
                     <% if (type!=null) {%><portlet:param name="type" value="<%=String.valueOf(type)%>"/><%} %>
-                    </portlet:actionURL>">1</a>
+                    </portlet:renderURL>">1</a>
                 <label> ... </label>
                 <%}%>
                 <%-- SHOWING CURRENT PAGE NEAREST FROM LEFT AND RIGHT --%>
                 <%
                     for (int pageNumb = leftPageNumb; pageNumb <= rightPageNumb; ++pageNumb) {
                         if (pageNumb != currentPage) {%>
-                <a href="<portlet:actionURL name="pagination"><portlet:param name="pageNumber" value="<%=String.valueOf(pageNumb)%>"/>
+                <a href="<portlet:renderURL><portlet:param name="currentPage" value="<%=String.valueOf(pageNumb)%>"/>
+                <portlet:param name="direction" value="temp"/>
                     <% if (type!=null) {%><portlet:param name="type" value="<%=String.valueOf(type)%>"/><%} %>
-                    </portlet:actionURL>"><%=pageNumb%>
+                    </portlet:renderURL>"><%=pageNumb%>
                 </a>
                 <%} else {%>
                 <label style="color: #28477C; font-size: 40px;"><%=pageNumb%>
@@ -165,18 +167,19 @@
                 <%if (skippedEnding) {%>
                 <%-- HIDING LAST PAGES --%>
                 <label> ... </label>
-                <a href="<portlet:actionURL name="pagination"><portlet:param name="pageNumber" value="<%=String.valueOf(pagesCount)%>"/>
+                <a href="<portlet:renderURL><portlet:param name="currentPage" value="<%=String.valueOf(pagesCount)%>"/>
+                <portlet:param name="direction" value="temp"/>
                     <% if (type!=null) {%><portlet:param name="type" value="<%=String.valueOf(type)%>"/><%} %>
-                    </portlet:actionURL>"><%=String.valueOf(pagesCount)%>
+                    </portlet:renderURL>"><%=String.valueOf(pagesCount)%>
                 </a>
                 <%}%>
             </td>
             <td width="80" align="right">
-            <portlet:actionURL name="pagination" var="pagNext">
+            <portlet:renderURL  var="pagNext">
                 <portlet:param name="direction" value="next"/>
-                <portlet:param name="pageNumber" value="<%=String.valueOf(currentPage)%>"/>
+                <portlet:param name="currentPage" value="<%=String.valueOf(currentPage)%>"/>
                 <% if (type != null) {%><portlet:param name="type" value="<%=String.valueOf(type)%>"/><%} %>
-            </portlet:actionURL>
+            </portlet:renderURL>
             <a href="${pagNext}">
                 <img class="paginationImage"
                      src="${pageContext.request.contextPath}/images/pagin-right.png"/>
