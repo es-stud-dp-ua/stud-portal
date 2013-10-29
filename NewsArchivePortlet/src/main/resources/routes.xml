@@ -32,6 +32,9 @@
         <implicit-parameter name="mode">edit</implicit-parameter>
     </route>
     <route>
+        <pattern>/pagination/{direction}/{currentPage:\d+}</pattern>
+    </route>
+    <route>
         <pattern>/view/{currentPage:\d+}/{newsID:\d+}</pattern>
     </route>
    <route>
@@ -39,8 +42,5 @@
     </route>
     <route>
         <pattern>/Home/{newsID:\d+}</pattern>
-    </route>
-    <route>
-        <pattern>/pagination/{pageNumber:\d+}</pattern>
     </route>
 </routes>

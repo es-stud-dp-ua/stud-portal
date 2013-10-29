@@ -108,17 +108,17 @@ public class NewsController {
         Integer currentPage;
         
         //todo: use ternary operator
-        if ((request.getParameter(CURRENT_PAGE) != null) && (request.getParameter("direction")=="next")) {
+        if ((request.getParameter(CURRENT_PAGE) != null) && ("next".equals(request.getParameter("direction")))) {
             currentPage = Integer.parseInt(request.getParameter(CURRENT_PAGE));
             if (currentPage < pagesCount) {
                 currentPage++;
             }
-        } else if ((request.getParameter(CURRENT_PAGE) != null) && (request.getParameter("direction")=="prev")) {
+        } else if ((request.getParameter(CURRENT_PAGE) != null) && ("prev".equals(request.getParameter("direction")))) {
             currentPage = Integer.parseInt(request.getParameter(CURRENT_PAGE));
             if (currentPage > 1) {
                 currentPage--;
             }
-        } else if ((request.getParameter(CURRENT_PAGE) != null) && (request.getParameter("direction")==null)) {
+        } else if ((request.getParameter(CURRENT_PAGE) != null) && ("temp".equals(request.getParameter("direction")))) {
             currentPage = Integer.parseInt(request.getParameter(CURRENT_PAGE));
         } else{
             currentPage = 1;
