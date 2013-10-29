@@ -10,24 +10,35 @@
         <pattern>/delImage/{imageId:\d+}</pattern>
         <implicit-parameter name="mode">delImage</implicit-parameter>
     </route>
-    <route>
-        <pattern>/</pattern>
-        <implicit-parameter name="nAction">home</implicit-parameter>
-    </route>
+    
     <route>
         <pattern>/</pattern>
         <implicit-parameter name="mode">viewAll</implicit-parameter>
+    </route>
+    <route>
+        <pattern>/delete/{currentPage:\d+}/{newsId:\d+}</pattern>
+        <implicit-parameter name="mode">delete</implicit-parameter>
     </route>
     <route>
         <pattern>/delete/{newsId:\d+}</pattern>
         <implicit-parameter name="mode">delete</implicit-parameter>
     </route>
     <route>
+        <pattern>/home</pattern>
+        <implicit-parameter name="nAction">home</implicit-parameter>
+    </route>
+    <route>
         <pattern>/edit/{newsId:\d+}</pattern>
         <implicit-parameter name="mode">edit</implicit-parameter>
     </route>
     <route>
-        <pattern>/view/{newsID:\d+}</pattern>
+        <pattern>/view/{currentPage:\d+}/{newsID:\d+}</pattern>
+    </route>
+   <route>
+        <pattern>/home/{currentPage:\d+}</pattern>
+    </route>
+    <route>
+        <pattern>/Home/{newsID:\d+}</pattern>
     </route>
     <route>
         <pattern>/pagination/{pageNumber:\d+}</pattern>

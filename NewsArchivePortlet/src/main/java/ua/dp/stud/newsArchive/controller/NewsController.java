@@ -106,10 +106,21 @@ public class NewsController {
 
         Integer pagesCount = newsService.getPagesCount(NEWS_BY_PAGE);
         Integer currentPage;
+        
         //todo: use ternary operator
-        if (request.getParameter(CURRENT_PAGE) != null) {
+        if ((request.getParameter(CURRENT_PAGE) != null) && (request.getParameter("direction")=="next")) {
             currentPage = Integer.parseInt(request.getParameter(CURRENT_PAGE));
-        } else {
+            if (currentPage < pagesCount) {
+                currentPage++;
+            }
+        } else if ((request.getParameter(CURRENT_PAGE) != null) && (request.getParameter("direction")=="prev")) {
+            currentPage = Integer.parseInt(request.getParameter(CURRENT_PAGE));
+            if (currentPage > 1) {
+                currentPage--;
+            }
+        } else if ((request.getParameter(CURRENT_PAGE) != null) && (request.getParameter("direction")==null)) {
+            currentPage = Integer.parseInt(request.getParameter(CURRENT_PAGE));
+        } else{
             currentPage = 1;
         }
         Collection<News> news = newsService.getNewsOnPage(true, currentPage, NEWS_BY_PAGE);
@@ -221,48 +232,6 @@ public class NewsController {
         return model;
     }
 
-    /**
-     * Pagination handling
-     *
-     * @param request
-     * @param response
-     */
-    @ActionMapping(value = "pagination")
-    public void showPage(ActionRequest request, ActionResponse response) {
-        int currentPage = Integer.valueOf(request.getParameter("pageNumber"));
-        response.setRenderParameter(CURRENT_PAGE, String.valueOf(currentPage));
-    }
-
-    /**
-     * Pagination handling
-     *
-     * @param request
-     * @param response
-     */
-    @ActionMapping(value = "pagination", params = "direction=next")
-    public void showNextPage(ActionRequest request, ActionResponse response) {
-        Integer currentPage = Integer.valueOf(request.getParameter("pageNumber"));
-        Integer pagesCount = newsService.getPagesCount(NEWS_BY_PAGE);
-        if (currentPage < pagesCount) {
-            currentPage++;
-        }
-        response.setRenderParameter(CURRENT_PAGE, String.valueOf(currentPage));
-    }
-
-    /**
-     * Pagination handling
-     *
-     * @param request
-     * @param response
-     */
-    @ActionMapping(value = "pagination", params = "direction=prev")
-    public void showPrevPage(ActionRequest request, ActionResponse response) {
-        Integer currentPage = Integer.valueOf(request.getParameter("pageNumber"));
-        if (currentPage > 1) {
-            currentPage--;
-        }
-        response.setRenderParameter(CURRENT_PAGE, String.valueOf(currentPage));
-    }
 
     @ModelAttribute(value = "news")
     public News getCommandObject() {
