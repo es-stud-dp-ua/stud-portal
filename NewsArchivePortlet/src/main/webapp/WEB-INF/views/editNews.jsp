@@ -154,55 +154,8 @@
             </div>
             <div id="sbm" style="position: absolute;left: 43%"> <input type="submit" value="<spring:message code='<%=(request.isUserInRole("Administrator"))?"form.submit.adminEdit" :"form.submit.user"%>'/>"/></div>
             </form:form>
-        <script>
-                    function f() {
-                    window.setInterval("document.getElementById('text1').innerHTML = CKEDITOR.instances.text.getData(); if(document.getElementById('text').value!=CKEDITOR.instances.text.getData()) $('#jform').valid()", 500);
-                    }
-            window.onload = f;
-                    $(document).ready(function() {
-            $.validator.setDefaults({ ignore: [] });
-                    $('#jform').validate({
-            rules: {
-            topic: {
-            required: true,
-                    minlength: 5,
-                    maxlength: 100
-            },
-                    text1: {
-            required: true,
-                    minlength: 100,
-                    maxlength: 10000
-            },
-                    mainImage: {
-            accept: "jpg|jpeg|png"
-            }
-            },
-                    messages: {
-            topic: {
-            required: "<spring:message code="news.topic.empty"/>",
-                    minlength:  "<spring:message code="news.topic.between"/>",
-                    maxlength:  "<spring:message code="news.topic.between"/>"
-            },
-                    text1: {
-            required: "<spring:message code="news.text.empty"/>",
-                    minlength:  "<spring:message code="news.text.between"/>",
-                    maxlength:  "<spring:message code="news.text.between"/>"
-            },
-                    mainImage: {
-            accept: "<spring:message code="news.mainImage.accept"/>"
-            }
-            },
-                    highlight: function(label) {
-            $(label).removeClass("invisiblevalid");
-                    $(label).closest('.control-group').addClass('error');
-            },
-                    success: function(label) {
-            $(label).removeClass("error");
-                    label.addClass("invisiblevalid");
-            }
-            });
-            });
-        </script>
+       <script id="" src="${pageContext.request.contextPath}/js/valid.js" type="text/javascript"></script>
+
     </div>
 </body>
 </html>

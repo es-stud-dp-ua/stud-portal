@@ -36,12 +36,12 @@ public class CourseServiceImpl implements CourseService {
     @Override
     @Transactional(readOnly = false)
     public void addCourse(Course course) {
-         dao.addCourse(course);
+        dao.addCourse(course);
     }
 
     @Override
     @Transactional(readOnly = false)
-     public void deleteCourse(Integer id) {
+    public void deleteCourse(Integer id) {
         dao.deleteCourse(id);
     }
 
@@ -89,17 +89,17 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     @Transactional(readOnly = true)
-    public  Collection<KindOfCourse> getAllKindOfCourseWithCount() {
-        Collection<KindOfCourse> kOC = dao.getAllKindOfCourse();
-        for (KindOfCourse c:kOC) {
-            initializeCountOfCoursesInKindOfCourse(c);
+    public  List<KindOfCourse> getAllKindOfCourseWithCount() {
+        List<KindOfCourse> kindOfCourses = dao.getAllKindOfCourse();
+        for (KindOfCourse c:kindOfCourses) {
+            initializeCountOfCourses(c);
         }
-        return kOC;
+        return kindOfCourses;
     }
 
     @Override
     @Transactional(readOnly = true)
-    public void initializeCountOfCoursesInKindOfCourse(KindOfCourse kindOfCourse) {
-        dao.initializeCountOfCoursesInKindOfCourse(kindOfCourse);
+    public void initializeCountOfCourses(KindOfCourse kindOfCourse) {
+        dao.initializeCountOfCourses(kindOfCourse);
     }
 }
