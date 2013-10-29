@@ -1,16 +1,12 @@
 package ua.dp.stud.studie.controller;
 
-import com.liferay.portal.kernel.servlet.SessionErrors;
-import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.model.User;
 import com.liferay.portal.theme.ThemeDisplay;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -22,6 +18,7 @@ import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
 
+import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 import ua.dp.stud.StudPortalLib.util.ImageService;
 import ua.dp.stud.studie.model.Course;
 import ua.dp.stud.studie.model.CoursesType;
@@ -29,10 +26,7 @@ import ua.dp.stud.studie.model.KindOfCourse;
 import ua.dp.stud.studie.service.CourseService;
 import ua.dp.stud.studie.service.StudieService;
 
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
-import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
+import javax.portlet.*;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.text.SimpleDateFormat;
@@ -47,7 +41,7 @@ import java.util.logging.Logger;
 
 
 @Controller(value="CoursesController")
-@RequestMapping(value = "VIEW")
+@RequestMapping(value = "view")
 
 public class CoursesController {
 
@@ -84,7 +78,7 @@ public class CoursesController {
     }
 
     @RenderMapping(params="view=allcourses")
-	public ModelAndView viewAllCourses(RenderRequest request, RenderResponse response) {
+    public ModelAndView viewAllCourses(RenderRequest request, RenderResponse response) {
         ModelAndView model = new ModelAndView();
         Integer buttonId;
         if (request.getParameter(BUTTON_ID) == null) {
@@ -102,8 +96,8 @@ public class CoursesController {
         model.addObject("courses", courses);
         model.addObject(BUTTON_ID, buttonId);
         return model;
-		//return "viewAllCourses";
-	}
+        //return "viewAllCourses";
+    }
 
     public void InitKindOfCourses()
     {
@@ -118,7 +112,7 @@ public class CoursesController {
         courseService.addKindOfCourse(kindOfCourse4);
 
     }
-    
+
     public void InitCourseName()
     {
         Course course1= new Course("bla1");
@@ -145,10 +139,10 @@ public class CoursesController {
         formParamMap = new HashMap<String, List<String>>();
     }
 
-	@RenderMapping(params="add=course")
-	public ModelAndView addCourse(RenderRequest request, RenderResponse response)
+    @RenderMapping(params="add=course")
+    public ModelAndView addCourse(RenderRequest request, RenderResponse response)
     {
-        //InitKindOfCourses();
+        InitKindOfCourses();
         ModelAndView model=new ModelAndView("addCourse");
 
         Collection<KindOfCourse> kindOfCourses = courseService.getAllKindOfCourse() ;
@@ -156,16 +150,16 @@ public class CoursesController {
         model.addObject("kindOfCourse", kindOfCourses);
         model.addObject("coursesType", coursesType);
         setMap(request);
-		return  model;
-	}
+        return  model;
+    }
 
-	@RenderMapping(params="edit=course")
-	public void editCourse(@ModelAttribute(COURSE)  Course course,
-                             //BindingResult bindingResult,
-                             ActionRequest actionRequest,
-                             ActionResponse actionResponse,
-                             SessionStatus sessionStatus,
-                             @RequestParam(MAIN_IMAGE) CommonsMultipartFile mainImage)
+    @RenderMapping(params="edit=course")
+    public void editCourse(@ModelAttribute(COURSE)  Course course,
+                           //BindingResult bindingResult,
+                           ActionRequest actionRequest,
+                           ActionResponse actionResponse,
+                           SessionStatus sessionStatus,
+                           @RequestParam(MAIN_IMAGE) CommonsMultipartFile mainImage)
     {
 
          /*    if (bindingResult.hasErrors()) {
@@ -191,34 +185,55 @@ public class CoursesController {
             sessionStatus.setComplete();
         }
 
-	}
+    }
 
 
-	@RenderMapping(params="view=course")
-	public String viewCourse() {
-		return "viewCourse";
-	}
-	
-	@RenderMapping(params="delete=course")
-	public String deleteCourse() {
-		return "viewAllCourse";
-	}
-	@ActionMapping(value="saveCourse")
-	public void saveCourse(){
-	}
+    @RenderMapping(params="view=course")
+    public String viewCourse() {
+        return "viewCourse";
+    }
+
+    @RenderMapping(params="delete=course")
+    public String deleteCourse() {
+        return "viewAllCourse";
+    }
+    @ActionMapping(value="saveCourse")
+    public void saveCourse(){
+    }
 
     @RenderMapping(params="view=coursescategories")
     public ModelAndView viewCoursesCategories(RenderRequest request, RenderResponse response) {
         ModelAndView model = new ModelAndView();
         model.setViewName("viewCoursesCategories");
-        Collection<KindOfCourse> kOC = courseService.getAllKindOfCourseWithCount();
-        model.addObject("KOC",kOC);
+        List<KindOfCourse> kindOfCourses = courseService.getAllKindOfCourseWithCount();
+        model.addObject("KindOfCourses",kindOfCourses);
         return model;
     }
 
+    /**
+     * @param response
+     * @param request
+     * @param kindOfCourseId      long Id of KindOfCourse
+     * @param nameKindOfCourse new name for current ID
+     * @return ModelAndView
+     */
+    @ResourceMapping(value = "editKind")
+    public void editKindOfCourse(ResourceResponse response, ResourceRequest request,
+                                 Integer kindOfCourseId,
+                                 String nameKindOfCourse) {
+        KindOfCourse kindOfCourse = courseService.getKindOfCourseById(kindOfCourseId);
+        kindOfCourse.setKindOfCourse(nameKindOfCourse);
+        courseService.updateKindOfCourse(kindOfCourse);
+    }
+
+    @ResourceMapping(value = "removeKind")
+         public void removeKindOfCourse(ResourceResponse response, ResourceRequest request,
+                                      Integer kindOfCourseId) {
+        courseService.deleteKindOfCourse(kindOfCourseId);
+    }
 
     private Boolean updateCourse(Course newCourse, CommonsMultipartFile mainImage,
-                                ActionResponse actionResponse) {
+                                 ActionResponse actionResponse) {
         boolean successUpload = true;
         try {
             if (mainImage.getSize() > 0)
@@ -234,8 +249,8 @@ public class CoursesController {
         return successUpload;
     }
 
-	@ActionMapping(value="saveNewCourse")
-	public void saveNewCourse(@ModelAttribute(COURSE)  Course course,
+    @ActionMapping(value="saveNewCourse")
+    public void saveNewCourse(@ModelAttribute(COURSE)  Course course,
                               //BindingResult bindingResult,
                               ActionRequest actionRequest,
                               ActionResponse actionResponse,

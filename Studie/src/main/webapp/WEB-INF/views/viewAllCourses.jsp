@@ -16,12 +16,10 @@ View all courses page
 <portlet:renderURL var="Categories">
 			<portlet:param name="view" value="coursescategories"/>
 </portlet:renderURL>
-<a href="${Categories}">To categories</a>
+<portlet:renderURL var="LinkAddCourse">
+			<portlet:param name="add" value="course"/>
+</portlet:renderURL>
 <div class="portlet-content-controlpanel fs20"style="width: 10.15%;float: right;">
-                <!--<a style="float: right" href="${deleteLink}"
-                   onclick='return confirm("<spring:message code="form.confDelete"/>")'>
-                    <div class="panelbtn panelbtn-right fs20 icon-pcpremove" aria-hidden="true"></div>
-                </a>-->
                 <a style="float: right" href="${LinkAddCourse}">
                     <!--<spring:message code="viewSingle.Edit"/>-->
                     <div class="panelbtn panelbtn-right icon-pcpplus" aria-hidden="true"></div>
@@ -33,6 +31,7 @@ View all courses page
 		<option value="${kind.typeId}">${kind.kindOfCourse}</option>
 	</c:forEach>
 	</select>
+	<a href="${Categories}"><div style="display:inline;" id='changeBut' class="icon-pcppencil fs20" aria-hidden="true"></div></a>
 	<select style="width: 30%;">	
 		<c:forEach var="type" items="${coursesType}">
 		<option value="${type}">${type}</option>
