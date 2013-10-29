@@ -27,14 +27,15 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     </head>
     <body>
+    
 
-    <portlet:renderURL var="home">
+    <portlet:renderURL var="Home">
         <portlet:param name="newsID" value="<%=news.getId().toString()%>"/>
     </portlet:renderURL>
 
     <portlet:actionURL var="actionLink" name="editNews"></portlet:actionURL>
     <div class="portlet-content-controlpanel fs20">
-        <a href="${home}">
+        <a href="${Home}">
             <div class="panelbtn panelbtn-right fs20 icon-pcparrow-left" aria-hidden="true"></div>
         </a>
         <% if (request.isUserInRole("Administrator")) { %>

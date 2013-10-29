@@ -116,16 +116,6 @@ public class CoursesController {
 
     }
 
-    private Map<String, List<String>> formParamMap;
-    private static final List<String> status;
-    private static final List<String> types = new ArrayList<String>();
-
-
-    static {
-        status = Arrays.asList("COMPANY", "ONLINE", "TUTOR");
-
-    }
-
 
     @RenderMapping(params = "add=course")
     public ModelAndView addCourse(RenderRequest request, RenderResponse response) {
@@ -133,7 +123,7 @@ public class CoursesController {
         ModelAndView model = new ModelAndView("addCourse");
 
         Collection<KindOfCourse> kindOfCourses = courseService.getAllKindOfCourse();
-
+        //model.addObject("mainImage", "background: url(${pageContext.request.contextPath}/images/mainpic_443x253.png) no-repeat");
         model.addObject("kindOfCourse", kindOfCourses);
         model.addObject("coursesType", coursesType);
         return model;
@@ -145,7 +135,9 @@ public class CoursesController {
         Collection<KindOfCourse> kindOfCourses = courseService.getAllKindOfCourse();
         int courseID = Integer.valueOf(request.getParameter(COURSE_ID));
         Course course = courseService.getCourseByID(courseID);
-        course.setMainImage(course.getMainImage());
+        ImageImpl mImage = course.getMainImage();
+        String mainImageUrl =imageService.getPathToLargeImage(mImage,course);
+        model.addObject("mainImage", mainImageUrl);
         model.addObject(COURSE, course);
         model.addObject("kindOfCourse", kindOfCourses);
         model.addObject("coursesType", coursesType);
@@ -174,12 +166,19 @@ public class CoursesController {
                     Integer.parseInt(actionRequest.getParameter("w")),
                     Integer.parseInt(actionRequest.getParameter("h")));
         }
+
+        boolean role = actionRequest.isUserInRole("Administrator");
+        User user = (User) actionRequest.getAttribute(WebKeys.USER);
+        String screenName = user.getScreenName();
+        course.setAuthorslogin(screenName);
+
         if (updateCourse(course, mainImage, actionResponse)) {
-            courseService.deleteKindOfCourse(oldCourse.getKindOfCourse().getTypeId());
+          //  courseService.deleteKindOfCourse(oldCourse.getKindOfCourse().getTypeId());
             courseService.updateCourse(course);
             actionResponse.setRenderParameter(COURSE_ID, Integer.toString(course.getId()));
             sessionStatus.setComplete();
         }
+
 
     }
 
@@ -202,9 +201,21 @@ public class CoursesController {
             mainImageUrl = imageService.getPathToLargeImage(mImage, course);
         }
 
+        User user = (User) request.getAttribute(WebKeys.USER);
+        boolean isShown=false;
+       if (request.isUserInRole("Administrator") || request.isUserInRole("User"))
+       {
+           if(request.isUserInRole("Administrator"))
+               isShown=true;
+           else
+             if(request.isUserInRole("User") && course.getAuthorslogin().equals(user.getScreenName()))
+               isShown=true;
+       }
+
         ModelAndView model = new ModelAndView();
         model.setViewName("viewCourse");
         model.addObject("course", course);
+        model.addObject("isShown",isShown);
         model.addObject(MAIN_IMAGE, mainImageUrl);
         model.addObject(BUTTON_ID, buttonId);
         return model;

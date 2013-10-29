@@ -1,17 +1,13 @@
 package ua.dp.stud.studie.dao.impl;
 
-import org.hibernate.Hibernate;
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import ua.dp.stud.StudPortalLib.model.Events;
 import ua.dp.stud.studie.dao.CouncilDao;
 import ua.dp.stud.studie.model.Council;
 
-import java.util.Collection;
 import java.util.List;
 
 /**

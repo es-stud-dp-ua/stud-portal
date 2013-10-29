@@ -1,6 +1,8 @@
 package ua.dp.stud.studie.dao;
 
+import ua.dp.stud.StudPortalLib.dao.DaoForApprove;
 import ua.dp.stud.studie.model.Council;
+import ua.dp.stud.studie.model.Studie;
 
 import java.util.Collection;
 import java.util.List;

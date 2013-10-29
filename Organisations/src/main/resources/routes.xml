@@ -32,5 +32,5 @@
     <route>
         <pattern>/pagination/{pageNumber:\d+}</pattern>
     </route>
-    
+
 </routes>

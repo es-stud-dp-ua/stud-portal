@@ -147,7 +147,9 @@ public class CouncilController{
             //updating info about loaded councils images
             councilService.addCouncil(council);
             //close session
+            actionResponse.setRenderParameter("view", "allcouncils");
             sessionStatus.setComplete();
+            
         }
     }
 
@@ -179,7 +181,9 @@ public class CouncilController{
         if (updateCouncil(oldCouncil, mainImage,actionResponse, bindingResult)) {
             councilService.updateCouncil(oldCouncil);
             //close session
+            actionResponse.setRenderParameter("view", "allcouncils");
             sessionStatus.setComplete();
+            
         }
     }
     
@@ -192,7 +196,7 @@ public class CouncilController{
     public ModelAndView showEditCouncil(RenderRequest request, RenderResponse response) {
         ModelAndView model = new ModelAndView("editCouncil");
         //getting council   
-        int councilID =129; 
+        int councilID =99; 
         		//Integer.valueOf(request.getParameter("councilId"));
         Council council = councilService.getCouncilById(councilID);
         ImageImpl mImage = council.getMainImage();

@@ -160,81 +160,8 @@ public class NewsArchiveControllerTest {
 //        assertEquals(true,((String)model.getModel().get("mainImage")).endsWith("img_id=0&t=token"));
     }
 
-    @Test
-    public void testShowPage() {
-        MockActionResponse actionResponse = new MockActionResponse();
-        ActionRequest actionRequest = mock(ActionRequest.class);
-
-        when(actionRequest.getParameter("pageNumber")).thenReturn("2");
-        controller.showPage(actionRequest, actionResponse);
-
-        RenderResponse response = new MockRenderResponse();
-        RenderRequest request = mock(RenderRequest.class);
-
-        int pagesCount = 3, currentPage = 2;
-        when(mockService.getNewsOnPage(true, currentPage, NEWS_BY_PAGE)).thenReturn(new LinkedList<News>());
-
-        ModelAndView model = controller.showView(request, response);
-        //assertEquals(currentPage,model.getModel().get("currentPage"));
-    }
-
-    @Test
-    public void testShowNextPage() {
-        //applying params
-        showView();
-
-        MockActionResponse actionResponse = new MockActionResponse();
-        ActionRequest actionRequest = mock(ActionRequest.class);
-        when(actionRequest.getParameter("pageNumber")).thenReturn("2");
-
-        controller.showPage(actionRequest, actionResponse);
-        controller.showNextPage(actionRequest, actionResponse);
-        ModelAndView model = showView();
-        //assertEquals(3,model.getModel().get("currentPage"));
-    }
-
-    @Test
-    public void testShowNextAfterLastPage() {
-        //applying params
-        showView();
-
-        MockActionResponse actionResponse = new MockActionResponse();
-        ActionRequest actionRequest = mock(ActionRequest.class);
-        when(actionRequest.getParameter("pageNumber")).thenReturn("3");
-
-        controller.showNextPage(actionRequest, actionResponse);
-        ModelAndView model = showView();
-        //assertEquals(3,model.getModel().get("currentPage"));
-    }
-
-    @Test
-    public void testShowPrevPage() {
-        //applying params
-        showView();
-
-        MockActionResponse actionResponse = new MockActionResponse();
-        ActionRequest actionRequest = mock(ActionRequest.class);
-        when(actionRequest.getParameter("pageNumber")).thenReturn("2");
-
-        controller.showPrevPage(actionRequest, actionResponse);
-        ModelAndView model = showView();
-        assertEquals(1, model.getModel().get("currentPage"));
-    }
-
-    @Test
-    public void testShowPrevBeforeFirstPage() {
-        //applying params
-        showView();
-
-        MockActionResponse actionResponse = new MockActionResponse();
-        ActionRequest actionRequest = mock(ActionRequest.class);
-        when(actionRequest.getParameter("pageNumber")).thenReturn("1");
-
-        controller.showPrevPage(actionRequest, actionResponse);
-        ModelAndView model = showView();
-        assertEquals(1, model.getModel().get("currentPage"));
-    }
-
+  
+    
     private ModelAndView showView() {
         RenderResponse response = new MockRenderResponse();
         RenderRequest request = new MockRenderRequest();
