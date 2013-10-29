@@ -6,7 +6,7 @@
         <mapping class="ua.dp.stud.studie.model.KindOfCourse"/>
         <mapping class="ua.dp.stud.studie.model.Course"/>
         <mapping class="ua.dp.stud.studie.model.Studie"/>
-        <mapping class="ua.dp.stud.studie.model.Course"/>
+        <mapping class="ua.dp.stud.studie.model.Council"/>
         <mapping class="ua.dp.stud.studie.model.KindOfCourse"/>
         <mapping class="ua.dp.stud.studie.model.Faculties"/>
         <mapping class="ua.dp.stud.studie.model.Specialties"/>

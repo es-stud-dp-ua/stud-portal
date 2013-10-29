@@ -3,8 +3,11 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib uri="http://liferay.com/tld/aui" prefix="aui" %>
 <%@ taglib prefix="liferay-ui" uri="http://liferay.com/tld/ui" %>
+<%@ page import="java.util.Collection" %>
+<%@ page import="java.util.Locale" %>
+<%@ page import="java.util.ResourceBundle" %>
 <!--<%@include file="include.jsp" %>-->
-<%@include file="AddEdit.jsp" %>
+
 <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
@@ -29,18 +32,17 @@
 </head>
 <body>
 
-
-        <script language="javascript" type="text/javascript">
-                    $(document).ready(function() {
-            });
-                    function isNotMax(e, id) {
-                    var validateValueTextArea = document.getElementById(id);
-                            validateValueTextArea.value = validateValueTextArea.value.substr(0, validateValueTextArea.getAttribute('maxlength'));
-                    }
-
-        </script>
+<script language="javascript" type="text/javascript">
+   $(document).ready(function()) {};
+   function isNotMax(e, id) {
+           var validateValueTextArea = document.getElementById(id);
+           validateValueTextArea.value = validateValueTextArea.value.substr(0, validateValueTextArea.getAttribute('maxlength'));
+       }
+   }
+</script>
 
 <portlet:actionURL var="add" name="saveNewCourse"></portlet:actionURL>
+<%@include file="AddEdit.jsp" %>
 
 </body>
 </html>
