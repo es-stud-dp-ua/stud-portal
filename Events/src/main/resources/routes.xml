@@ -47,6 +47,9 @@
         <pattern>/view/{eventID:\d+}/{currentPage:\d+}</pattern>
     </route>
     <route>
+        <pattern>/view/{eventID:\d+}</pattern>
+    </route>
+    <route>
         <pattern>/home/{currentPage:\d+}</pattern>
     </route> 
     

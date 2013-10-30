@@ -17,24 +17,11 @@
     <route>
         <pattern>/home</pattern>
         <implicit-parameter name="Home">back</implicit-parameter>
-    </route><route>
-        <pattern>/</pattern>
-        <implicit-parameter name="mode">viewAll</implicit-parameter>
-    </route>
-    
+    </route>    
     <route>
-        <pattern>/archive/soon</pattern>
-        <implicit-parameter name="archive">true</implicit-parameter>
-    </route>
-    <route>
-        <pattern>/archive</pattern>
-        <implicit-parameter name="archive">false</implicit-parameter>
-    </route>
-    <route>
-        <pattern>/view/{eventID:\d+}/{currentPage:\d+}</pattern>
-    </route>
-    <route>
-        <pattern>/home/{currentPage:\d+}</pattern>
-    </route> 
+        <pattern>/home</pattern>
+        <implicit-parameter name="Home">back</implicit-parameter>
+    </route>    
+     
     
 </routes>
