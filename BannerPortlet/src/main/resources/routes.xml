@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<!DOCTYPE routes PUBLIC "-//Liferay//DTD Friendly URL Routes 6.0.0//EN"
+        "http://www.liferay.com/dtd/liferay-friendly-url-routes_6_0_0.dtd">
+<routes>
+    <route>
+        <pattern>/add</pattern>
+        <implicit-parameter name="mode">add</implicit-parameter>
+    </route>
+    <route>
+        <pattern>/edit</pattern>
+        <implicit-parameter name="mode">edit</implicit-parameter>
+    </route>
+    <route>
+        <pattern>/delete/{imgId:\d+}</pattern>
+        <implicit-parameter name="mode">delete</implicit-parameter>
+    </route>
+    <route>
+        <pattern>/home</pattern>
+        <implicit-parameter name="Home">back</implicit-parameter>
+    </route><route>
+        <pattern>/</pattern>
+        <implicit-parameter name="mode">viewAll</implicit-parameter>
+    </route>
+    
+    <route>
+        <pattern>/archive/soon</pattern>
+        <implicit-parameter name="archive">true</implicit-parameter>
+    </route>
+    <route>
+        <pattern>/archive</pattern>
+        <implicit-parameter name="archive">false</implicit-parameter>
+    </route>
+    <route>
+        <pattern>/view/{eventID:\d+}/{currentPage:\d+}</pattern>
+    </route>
+    <route>
+        <pattern>/home/{currentPage:\d+}</pattern>
+    </route> 
+    
+</routes>
