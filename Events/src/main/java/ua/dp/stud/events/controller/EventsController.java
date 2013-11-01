@@ -9,6 +9,7 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.model.User;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -17,11 +18,13 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.StringTokenizer;
+
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.validation.Valid;
+
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +41,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
+
 import ua.dp.stud.StudPortalLib.model.Events;
 import ua.dp.stud.StudPortalLib.model.ImageImpl;
 import ua.dp.stud.StudPortalLib.model.Tags;
@@ -92,9 +96,21 @@ public class EventsController {
         int currentPage;
         EventsType type;
         Boolean future;
-        if (request.getParameter(CURRENT_PAGE) != null) {
+        
+        
+        if ((request.getParameter(CURRENT_PAGE) != null) && ("next".equals(request.getParameter("direction")))) {
             currentPage = Integer.parseInt(request.getParameter(CURRENT_PAGE));
-        } else {
+            if (currentPage < eventsService.getPagesCount(EVENTS_BY_PAGE)) {
+                currentPage += 1;
+            }
+        } else if ((request.getParameter(CURRENT_PAGE) != null) && ("prev".equals(request.getParameter("direction")))) {
+            currentPage = Integer.parseInt(request.getParameter(CURRENT_PAGE));
+            if (currentPage > 1) {
+                currentPage--;
+            }
+        } else if ((request.getParameter(CURRENT_PAGE) != null) && ("temp".equals(request.getParameter("direction")))) {
+            currentPage = Integer.parseInt(request.getParameter(CURRENT_PAGE));
+        } else{
             currentPage = 1;
         }
 //PAGINATION 
@@ -212,65 +228,7 @@ public class EventsController {
      * @param request
      * @param response
      */
-    @ActionMapping(value = "pagination")
-    public void showPage(ActionRequest request, ActionResponse response) {
-        int currentPage = Integer.valueOf(request.getParameter("pageNumber"));
-        response.setRenderParameter(CURRENT_PAGE, String.valueOf(currentPage));
-        if (request.getParameter(TYPE) != null) {
-            response.setRenderParameter(TYPE, request.getParameter(TYPE));
-        }
-        if (request.getParameter("archive") != null) {
-            response.setRenderParameter("archive", request.getParameter("archive"));
-        }
-
-    }
-
-    /**
-     * Pagination handling
-     *
-     * @param request
-     * @param response
-     */
-    @ActionMapping(value = "pagination", params = "direction=next")
-    public void showNextPage(ActionRequest request, ActionResponse response) {
-        int currentPage = Integer.valueOf(request.getParameter("pageNumber"));
-        if (request.getParameter(TYPE) == null) {
-            if (currentPage < eventsService.getPagesCount(EVENTS_BY_PAGE)) {
-                currentPage += 1;
-            }
-        } else if (currentPage < eventsService.getPagesCountOfType(EVENTS_BY_PAGE, EventsType.valueOf(request.getParameter(TYPE)), true, Boolean.valueOf(request.getParameter("archive")))) {
-            currentPage += 1;
-        }
-        response.setRenderParameter(CURRENT_PAGE, String.valueOf(currentPage));
-        if (request.getParameter(TYPE) != null) {
-            response.setRenderParameter(TYPE, request.getParameter(TYPE));
-        }
-        if (request.getParameter("archive") != null) {
-            response.setRenderParameter("archive", request.getParameter("archive"));
-        }
-    }
-
-    /**
-     * Pagination handling
-     *
-     * @param request
-     * @param response
-     */
-    @ActionMapping(value = "pagination", params = "direction=prev")
-    public void showPrevPage(ActionRequest request, ActionResponse response) {
-        int currentPage = Integer.valueOf(request.getParameter("pageNumber"));
-        if (currentPage > 1) {
-            currentPage -= 1;
-        }
-        response.setRenderParameter(CURRENT_PAGE, String.valueOf(currentPage));
-        if (request.getParameter(TYPE) != null) {
-            response.setRenderParameter(TYPE, request.getParameter(TYPE));
-        }
-        if (request.getParameter("archive") != null) {
-            response.setRenderParameter("archive", request.getParameter("archive"));
-        }
-    }
-
+    
     @ActionMapping(params = "sort=date")
     public void getSortedDate(ActionRequest request, ActionResponse response)
     {

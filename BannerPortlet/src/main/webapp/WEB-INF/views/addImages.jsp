@@ -2,8 +2,11 @@
 <%@ page import="java.util.Collection" %>
 <%@include file="include.jsp" %>
 
-<portlet:renderURL var="home"> </portlet:renderURL>
-<portlet:actionURL var="actionLink" name="addImage"></portlet:actionURL>
+
+<portlet:renderURL var="home">
+ <portlet:param name="Home" value="back"/>
+ </portlet:renderURL>
+ <portlet:actionURL var="actionLink" name="addImage"></portlet:actionURL>
 
 <liferay-ui:error key="error.no_images" message='<spring:message code="msg.wrong.no_images"/>'></liferay-ui:error>
 <liferay-ui:error key="error.dplBanner" message='<spring:message code="msg.wrong.dplBanner"/>'></liferay-ui:error>

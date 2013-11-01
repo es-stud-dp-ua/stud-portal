@@ -84,7 +84,7 @@ public class CourseDaoImpl implements CourseDao {
     }
 
     @Override
-    public void initializeCountOfCoursesInKindOfCourse(KindOfCourse kindOfCourse) {
+    public void initializeCountOfCourses(KindOfCourse kindOfCourse) {
         Query q = getSession().createQuery("SELECT count(id) FROM Course WHERE kindOfCourse="+kindOfCourse.getTypeId().toString());
         kindOfCourse.setCountOfCourses((Long) q.uniqueResult());
     }

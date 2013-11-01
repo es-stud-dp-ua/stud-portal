@@ -53,10 +53,11 @@
 						<div style="min-height: 200px; width: 680px; float: right;">
 							<% if (request.isUserInRole("Administrator")) { %>
 							<div class="portlet-content-controlpanel fs20"style="width: 9.5%;float: right;">
-                <a style="float: right" href='<portlet:renderURL><portlet:param name="newsID" value="<%=currentNews.getId().toString()%>"/><portlet:param name="currentPage" value="<%=currentPage.toString()%>"/><portlet:param name="mode" value="delete" /></portlet:renderURL>'
-                   onclick='return confirm("<spring:message code="form.confDelete"/>")'>
-                    <div class="panelbtn panelbtn-right fs20 icon-pcpremove" aria-hidden="true"></div>
-                </a>
+                <a style="float: right"
+                 href='<portlet:renderURL><portlet:param name="newsId" value="<%=currentNews.getId().toString()%>"/><portlet:param name="mode" value="delete" /><portlet:param name="currentPage" value="<%=currentPage.toString()%>"/> </portlet:renderURL>'
+                 onclick='return confirm("<spring:message code="form.confDelete"/>")'>
+                <div class="panelbtn panelbtn-right fs20 icon-pcpremove" aria-hidden="true"></div>
+              </a>
                     <a style="float: right"
            href="<portlet:renderURL><portlet:param name="newsId" value="<%=currentNews.getId().toString()%>"/><portlet:param name="mode" value="edit" /></portlet:renderURL>">
            <div class="panelbtn panelbtn-right icon-pcppencil" aria-hidden="true"></div>
@@ -110,10 +111,10 @@
         <table width="90%">
             <tr>
                 <td width="80" align="left">
-            <portlet:actionURL name="pagination" var="pagPrev">
+            <portlet:renderURL var="pagPrev">
                 <portlet:param name="direction" value="prev"/>
-                <portlet:param name="pageNumber" value="<%=String.valueOf(currentPage)%>"/>
-            </portlet:actionURL>
+                <portlet:param name="currentPage" value="<%=String.valueOf(currentPage)%>"/>
+            </portlet:renderURL>
             <a href="${pagPrev}">
                 <img class="paginationImage"
                      src="${pageContext.request.contextPath}/images/pagin-left.png"/>
@@ -124,7 +125,7 @@
                 <%-- PAGINATION --%>
                 <%if (skippedBeginning) {%>
                 <%-- HIDING FIRST PAGES --%>
-                <a href="<portlet:actionURL name="pagination"><portlet:param name="pageNumber" value="1"/></portlet:actionURL>">1</a>
+                <a href="<portlet:renderURL><portlet:param name="direction" value="temp"/><portlet:param name="currentPage" value="1"/></portlet:renderURL>">1</a>
                 <label> ... </label>
                 <%}%>
 
@@ -133,9 +134,10 @@
                     for (int pageNumb = leftPageNumb; pageNumb <= rightPageNumb; ++pageNumb) {
                         if (pageNumb != currentPage) {
                 %>
-                <a href="<portlet:actionURL name="pagination">
-                <portlet:param name="pageNumber" value="<%=String.valueOf(pageNumb)%>"/>
-                </portlet:actionURL>"><%=pageNumb%>
+                <a href="<portlet:renderURL>
+                <portlet:param name="currentPage" value="<%=String.valueOf(pageNumb)%>"/>
+               <portlet:param name="direction" value="temp"/>
+                </portlet:renderURL>"><%=pageNumb%>
                 </a>
                 <%if(pageNumb>0){ %>
                 <label>  </label>
@@ -164,17 +166,18 @@
                 <%if (skippedEnding) {%>
                 <%-- HIDING LAST PAGES --%>
                 <label> ... </label>
-                <a href="<portlet:actionURL name="pagination">
-                <portlet:param name="pageNumber" value="<%=String.valueOf(pagesCount)%>"/>
-                </portlet:actionURL>"><%=pagesCount%>
+                <a href="<portlet:renderURL>
+                <portlet:param name="currentPage" value="<%=String.valueOf(pagesCount)%>"/>
+                <portlet:param name="direction" value="temp"/>
+                </portlet:renderURL>"><%=pagesCount%>
                 </a>
                 <%}%>
             </td>
             <td width="80" align="right">
-            <portlet:actionURL name="pagination" var="pagNext">
+            <portlet:renderURL var="pagNext">
                 <portlet:param name="direction" value="next"/>
-                <portlet:param name="pageNumber" value="<%=String.valueOf(currentPage)%>"/>
-            </portlet:actionURL>
+                <portlet:param name="currentPage" value="<%=String.valueOf(currentPage)%>"/>
+            </portlet:renderURL>
             <a href="${pagNext}">
                 <img class="paginationImage"
                      src="${pageContext.request.contextPath}/images/pagin-right.png"/>

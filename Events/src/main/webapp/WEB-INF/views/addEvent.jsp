@@ -68,8 +68,10 @@
                             validateValueTextArea.value = validateValueTextArea.value.substr(0, validateValueTextArea.getAttribute('maxlength'));
                     }
         </script>
-    <portlet:renderURL var="home"> </portlet:renderURL>
-
+    <portlet:renderURL var="home">
+        <portlet:param name="nAction" value="home"/>
+    </portlet:renderURL>
+    
     <portlet:actionURL var="actionLink" name="addEvents"></portlet:actionURL>
     <div class="portlet-content-controlpanel fs20">
         <a href="${home}">
