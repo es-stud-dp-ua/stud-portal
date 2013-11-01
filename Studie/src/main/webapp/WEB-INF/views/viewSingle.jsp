@@ -7,6 +7,7 @@
 <%@ page import="ua.dp.stud.StudPortalLib.model.ImageImpl" %>
 <%@ taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <%@include file="include.jsp" %>
 
 <portlet:defineObjects/>

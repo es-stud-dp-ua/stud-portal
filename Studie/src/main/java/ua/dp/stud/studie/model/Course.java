@@ -19,13 +19,10 @@ import java.awt.Image;
 @PrimaryKeyJoinColumn(name = "id", referencedColumnName = "id")
 public class Course extends BaseImagesSupport{
 
-
     @Column
-    @NotEmpty
     private String courseName;
 
     @Column
-    @NotEmpty
     private String authorslogin;
 
     @Column
@@ -39,21 +36,27 @@ public class Course extends BaseImagesSupport{
     private Date addDate;
 
     @Column
-    @NotEmpty
     private KindOfCourse kindOfCourse;
 
     @Column
     private Boolean addState;
 
     @Column
-    private  String coursesType;
+    @Enumerated
+    private  CoursesType coursesType;
+
+    public CoursesType getCoursesType() {
+        return coursesType;
+    }
 
     public Course()
     {
         this.addDate=new Date();
-        this.addState = false;
+        this.addState = false;  
     }
-
+    public Course(String coursesName){
+    	this.setCourseName(coursesName);
+    }
 
     public String getCourseName() {
         return courseName;
@@ -106,12 +109,7 @@ public class Course extends BaseImagesSupport{
     }
 
 
-
-    public String getCoursesType() {
-        return coursesType;
-    }
-
-    public void setCoursesType(String coursesType) {
+    public void setCoursesType(CoursesType coursesType) {
         this.coursesType = coursesType;
     }
 
@@ -125,7 +123,7 @@ public class Course extends BaseImagesSupport{
         this.kindOfCourse = kindOfCourse;
     }
 
-    public Course(String courseName, String authorslogin, String coursesContact, String coursesDescription, KindOfCourse kindOfCourse, String coursesType) {
+    public Course(String courseName, String authorslogin, String coursesContact, String coursesDescription, KindOfCourse kindOfCourse, CoursesType coursesType) {
         this.courseName = courseName;
         this.authorslogin = authorslogin;
         this.coursesContact = coursesContact;

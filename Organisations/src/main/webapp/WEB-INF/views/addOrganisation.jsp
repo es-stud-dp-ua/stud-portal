@@ -64,8 +64,10 @@
                             validateValueTextArea.value = validateValueTextArea.value.substr(0, validateValueTextArea.getAttribute('maxlength'));
                     }
         </script>
-    <portlet:renderURL var="home"> </portlet:renderURL>
-
+    <portlet:renderURL var="home">
+        <portlet:param name="nAction" value="home"/>
+    </portlet:renderURL>
+    
     <portlet:actionURL var="actionLink" name="addOrganisation"></portlet:actionURL>
     <div class="portlet-content-controlpanel fs20">
         <a href="${home}">
@@ -244,56 +246,7 @@
                                                                                              :"form.submit.user"%>'/>"/>
             </div>
         </form:form>
-        <script type="text/javascript">
-                    function f(){
-                    window.setInterval("document.getElementById('text1').innerHTML = CKEDITOR.instances.text.getData(); if(document.getElementById('text').value!=CKEDITOR.instances.text.getData()) $('#jform').valid()", 500);
-                    }
-            window.onload = f;
-                    $(document).ready(function() {
-            $.validator.setDefaults({ ignore: [] });
-                    $('#jform').validate({
-            rules: {
-            title: {
-            required: true,
-                    minlength: 5,
-                    maxlength: 100
-            },
-                    text1: {
-            required: true,
-                    minlength: 300,
-                    maxlength: 3000
-            },
-                    contacts:{
-                    maxlength:300
-            }
-            },
-                    messages: {
-            title: {
-            required: "<spring:message code="val.required"/>",
-                    minlength:  "<spring:message code="val.title.minlength"/>",
-                    maxlength:  "<spring:message code="val.title.maxlength"/>"
-            },
-                    text1: {
-            required: "<spring:message code="val.required"/>",
-                    minlength:  "<spring:message code="val.text.minlength"/>",
-                    maxlength:  "<spring:message code="val.text.maxlength"/>"
-            },
-                    contacts: {
-
-                    maxlength:  "<spring:message code="val.contacts.maxlength"/>"
-            }
-            },
-                    highlight: function(label) {
-            $(label).removeClass("invisiblevalid");
-                    $(label).closest('.control-group').addClass('error');
-            },
-                    success: function(label) {
-            $(label).removeClass("error");
-                    label.addClass("invisiblevalid");
-            }
-            });
-            });
-        </script>
+    <script id="" src="${pageContext.request.contextPath}/js/valid.js" type="text/javascript"></script>
     </div>
 
 </body>

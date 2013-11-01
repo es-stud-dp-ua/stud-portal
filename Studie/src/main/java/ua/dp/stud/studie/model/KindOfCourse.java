@@ -16,8 +16,8 @@ import java.util.List;
 @Table(name="kindofcourses_table")
 public class KindOfCourse implements Serializable {
 
-@OneToMany(fetch = FetchType.LAZY, mappedBy = "kindOfCourse")
-private List<Course> course;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "kindOfCourse")
+    private List<Course> course;
 
     public List<Course> getCourse() {
         return course;
@@ -27,15 +27,17 @@ private List<Course> course;
         this.course = course;
     }
 
-@Id
-@GeneratedValue(strategy = IDENTITY)
-@Column(name = "typeId", unique = true, nullable = false)
-private Integer typeId;
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
+    @Column(name = "typeId", unique = true, nullable = false)
+    private Integer typeId;
 
-@Column
-@NotEmpty
-private String kindOfCourse;
+    @Column
+    @NotEmpty
+    private String kindOfCourse;
 
+    @Transient
+    private Long countOfCourses;
 
     public KindOfCourse(String kindOfCourse)
     {
@@ -45,7 +47,7 @@ private String kindOfCourse;
     public KindOfCourse()
     {}
 
-    public Integer gettypeId() {
+    public Integer getTypeId() {
         return typeId;
     }
 
@@ -59,6 +61,14 @@ private String kindOfCourse;
 
     public void setKindOfCourse(String kindOfCourse) {
         this.kindOfCourse = kindOfCourse;
+    }
+
+    public Long getCountOfCourses() {
+        return countOfCourses;
+    }
+
+    public void setCountOfCourses(Long countOfCourses) {
+        this.countOfCourses = countOfCourses;
     }
 
     @Override
@@ -86,5 +96,3 @@ private String kindOfCourse;
         return kindOfCourse ;
     }
 }
-
-
