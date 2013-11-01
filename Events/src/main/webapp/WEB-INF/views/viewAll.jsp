@@ -85,6 +85,33 @@
                 <%}%>
             </form>
         </div>
+
+    <portlet:actionURL var="actionLink"><portlet:param name="sort" value="date"/></portlet:actionURL>
+
+   <%--     <a href='
+            	<portlet:renderURL>
+    		    <portlet:param name="date" value="all"/>
+    		    <portlet:param name="sort" value="events"/>
+    		</portlet:renderURL>
+    		'>All
+    		</a>
+            --%>
+
+         <script>
+                    $(function() {
+                    $.datepicker.setDefaults($.datepicker.regional['ru']);
+                            $("#datepicker1").datepicker({ dateFormat: "mm/dd/yy", showAnim:'slide', showButtonPanel:true});
+                    });</script>
+          <form action="${actionLink}" >
+                   <input type="text" style="width:75px;" name="EventSortDate" id="datepicker1"/>
+
+                    <div id="sbm">
+                          <input type="submit" value=Submit>
+                     </div>
+          </form>
+
+
+
         <div id="newsTable">
             <% if (!events.isEmpty()) {
                  for (Events currentEvent : events){%>

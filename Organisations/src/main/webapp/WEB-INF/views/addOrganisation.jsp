@@ -244,11 +244,15 @@
             </div>
         </form:form>
         <script type="text/javascript">
-                    function f(){
+           <!--         function f(){
                     window.setInterval("document.getElementById('text1').innerHTML = CKEDITOR.instances.text.getData(); if(document.getElementById('text').value!=CKEDITOR.instances.text.getData()) $('#jform').valid()", 500);
                     }
-            window.onload = f;
-                    $(document).ready(function() {
+            window.onload = f; -->
+            $('#valform').on('submit', function (e){
+                e.preventDefault();
+                 });
+
+                  $(document).ready(function() {
             $.validator.setDefaults({ ignore: [] });
                     $('#jform').validate({
             rules: {

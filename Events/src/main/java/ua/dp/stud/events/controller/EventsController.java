@@ -81,6 +81,8 @@ public class EventsController {
         this.imageService = imageService;
     }
 
+    private Date sortedDate;
+
     @RenderMapping
     public ModelAndView showView(RenderRequest request, RenderResponse response) {
         ModelAndView model = new ModelAndView();
@@ -106,7 +108,12 @@ public class EventsController {
         } else {
             future = false;
         }
+        //--------------
+    //    if (request.getParameter("EventSortDate")!=null)
 
+
+
+        //--------------
         if (type == null) {
             pagesCount = eventsService.getPagesCount(true, EVENTS_BY_PAGE, future);
             events = eventsService.getEventsOnPage(currentPage, EVENTS_BY_PAGE, true, future);
@@ -263,6 +270,27 @@ public class EventsController {
             response.setRenderParameter("archive", request.getParameter("archive"));
         }
     }
+
+    @ActionMapping(params = "sort=date")
+    public void getSortedDate(ActionRequest request, ActionResponse response)
+    {
+       if (!"".equals(request.getParameter("EventSortDate")))
+        sortedDate=new Date(Date.parse(request.getParameter("EventSortDate")));   // а если пусто то плохо..(( и уныло
+    }
+                        /*
+    @RenderMapping(params = "sort=events")
+    public ModelAndView sortEvents(RenderRequest request, RenderResponse response) {
+        List<Events> events=eventsService.getSortedEvents();
+        ModelAndView model=new ModelAndView();
+        model.setViewName("viewAll");
+
+        model.addObject("events",events);
+
+        return model;
+    }         */
+
+
+
 
     @RenderMapping(params = "eventID")
     public ModelAndView showSelectedEvents(RenderRequest request, RenderResponse response) throws SystemException, PortalException {

@@ -192,5 +192,10 @@ public class EventsServiceImpl implements EventsService {
     public void updateTags(Tags tag) {
         tagsDao.update(tag);
     }
-   
+
+    public List<Events> getSortedEvents()
+    {
+        return dao.getSortedEvents();
+    }
+
 }
