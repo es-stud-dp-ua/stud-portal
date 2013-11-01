@@ -2,7 +2,9 @@ package ua.dp.stud.studie.controller;
 
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.servlet.SessionMessages;
-
+import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.portal.model.User;
+import com.liferay.portal.theme.ThemeDisplay;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -19,7 +21,10 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
+import org.springframework.web.portlet.bind.annotation.RenderMapping;
+import ua.dp.stud.StudPortalLib.model.ImageImpl;
 
+import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 import ua.dp.stud.StudPortalLib.util.ImageService;
 import ua.dp.stud.studie.model.Course;
 import ua.dp.stud.studie.model.CoursesType;
@@ -31,29 +36,33 @@ import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
+import javax.portlet.*;
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
-@Controller(value="CoursesController")
+@Controller(value = "CoursesController")
 @RequestMapping(value = "VIEW")
 
 public class CoursesController {
 
+    private static final String MAIN_IMAGE_MOCK_URL = "images/no-logo-study.jpg";
     private static final String BUTTON_ID = "buttonId";
     private static final String COURSE = "course";
-    private static final String MAIN_IMAGE ="mainImage";
+    private static final String MAIN_IMAGE = "mainImage";
     private static final String STR_FAIL = "fail";
     private static final String STR_NO_IMAGE = "no images";
     private static final Logger LOG = Logger.getLogger(StudieController.class.getName());
-    private static final String COURSE_ID = "courseID";
+    private static final String COURSE_ID = "id";
     private static final String STR_EXEPT = "Exception ";
     private static List<CoursesType> coursesType = Arrays.asList(CoursesType.values());
 
@@ -61,9 +70,7 @@ public class CoursesController {
     @Qualifier(value = "courseService")
     private CourseService courseService;
 
-
-    public void setCourseService(CourseService courseService)
-    {
+    public void setCourseService(CourseService courseService) {
         this.courseService = courseService;
     }
 
@@ -71,8 +78,6 @@ public class CoursesController {
     public Course getCommandObject() {
         return new Course();
     }
-
-
 
     @Autowired
     @Qualifier(value = "imageService")
@@ -82,8 +87,8 @@ public class CoursesController {
         this.imageService = imageService;
     }
 
-    @RenderMapping(params="view=allcourses")
-	public ModelAndView viewAllCourses(RenderRequest request, RenderResponse response) {
+    @RenderMapping(params = "view=allcourses")
+    public ModelAndView viewAllCourses(RenderRequest request, RenderResponse response) {
         ModelAndView model = new ModelAndView();
         Integer buttonId;
         if (request.getParameter(BUTTON_ID) == null) {
@@ -92,16 +97,17 @@ public class CoursesController {
             buttonId = Integer.valueOf(request.getParameter(BUTTON_ID));
         }
         //InitKindOfCourses();
+        //InitCourseName();
         List<KindOfCourse> kindOfCourses = courseService.getAllKindOfCourse();
         model.setViewName("viewAllCourses");
         model.addObject("kindOfCourses", kindOfCourses);
         model.addObject("coursesType", coursesType);
         List<Course> courses = courseService.getAll();
-        model.addObject("course", courses);
+        model.addObject("courses", courses);
         model.addObject(BUTTON_ID, buttonId);
         return model;
-		//return "viewAllCourses";
-	}
+        //return "viewAllCourses";
+    }
 
     public void InitKindOfCourses()
     {
@@ -115,47 +121,55 @@ public class CoursesController {
         courseService.addKindOfCourse(kindOfCourse3);
         courseService.addKindOfCourse(kindOfCourse4);
 
-
     }
-
-    private Map<String, List<String>> formParamMap;
-    private static final List<String> status;
-    private static final List<String> types = new ArrayList<String>();
-
-
-    static {
-        status = Arrays.asList("Компания", "Репетирор", "Онлайн");
-
-    }
-
-    private void setMap(RenderRequest request) {
-        formParamMap = new HashMap<String, List<String>>();
-    }
-
-	@RenderMapping(params="add=course")
-	public ModelAndView addCourse(RenderRequest request, RenderResponse response)
+    
+    public void InitCourseName()
     {
+        Course course1= new Course("bla1");
+        Course course2= new Course("bla2");
+        Course course3= new Course("bla3");
+
+        courseService.addCourse(course1);
+        courseService.addCourse(course2);
+        courseService.addCourse(course3);
+
+    }
+
+
+    @RenderMapping(params = "add=course")
+    public ModelAndView addCourse(RenderRequest request, RenderResponse response) {
         //InitKindOfCourses();
-        ModelAndView model=new ModelAndView("addCourse");
-        Collection<KindOfCourse> kindOfCourses= courseService.getAllKindOfCourse() ;
-        for (KindOfCourse u : kindOfCourses)
-        {
-            types.add(u.toString());
-        }
-        model.addObject("kindOfCourses",types);
-        model.addObject("statusList", status);
-        setMap(request);
-		return  model;
-	}
+        ModelAndView model = new ModelAndView("addCourse");
 
-	@RenderMapping(params="edit=course")
-	public void editCourse(@ModelAttribute(COURSE)  Course course,
-                             //BindingResult bindingResult,
-                             ActionRequest actionRequest,
-                             ActionResponse actionResponse,
-                             SessionStatus sessionStatus,
-                             @RequestParam(MAIN_IMAGE) CommonsMultipartFile mainImage)
-    {
+        Collection<KindOfCourse> kindOfCourses = courseService.getAllKindOfCourse();
+        //model.addObject("mainImage", "background: url(${pageContext.request.contextPath}/images/mainpic_443x253.png) no-repeat");
+        model.addObject("kindOfCourse", kindOfCourses);
+        model.addObject("coursesType", coursesType);
+        return model;
+    }
+
+    @RenderMapping(params = "showEdit=course")
+    public ModelAndView showEditCourse(RenderRequest request, RenderResponse response) {
+        ModelAndView model = new ModelAndView("editCourse");
+        Collection<KindOfCourse> kindOfCourses = courseService.getAllKindOfCourse();
+        int courseID = Integer.valueOf(request.getParameter(COURSE_ID));
+        Course course = courseService.getCourseByID(courseID);
+        ImageImpl mImage = course.getMainImage();
+        String mainImageUrl =imageService.getPathToLargeImage(mImage,course);
+        model.addObject("mainImage", mainImageUrl);
+        model.addObject(COURSE, course);
+        model.addObject("kindOfCourse", kindOfCourses);
+        model.addObject("coursesType", coursesType);
+        return model;
+    }
+
+    @ActionMapping(value = "editCourse")
+    public void editCourse(@ModelAttribute(COURSE) Course course,
+                           //BindingResult bindingResult,
+                           ActionRequest actionRequest,
+                           ActionResponse actionResponse,
+                           SessionStatus sessionStatus,
+                           @RequestParam(MAIN_IMAGE) CommonsMultipartFile mainImage) {
 
          /*    if (bindingResult.hasErrors()) {
             actionResponse.setRenderParameter(STR_FAIL, "msg.fail");
@@ -164,44 +178,112 @@ public class CoursesController {
 
         Course oldCourse = courseService.getCourseByID(course.getId());
         course.setMainImage(oldCourse.getMainImage());
-        if(!mainImage.getOriginalFilename().equals(""))
-        {
-            mainImage=imageService.cropImage(mainImage,
+        if (!mainImage.getOriginalFilename().equals("")) {
+            mainImage = imageService.cropImage(mainImage,
                     Integer.parseInt(actionRequest.getParameter("t")),
                     Integer.parseInt(actionRequest.getParameter("l")),
                     Integer.parseInt(actionRequest.getParameter("w")),
-                    Integer.parseInt(actionRequest.getParameter("h"))  );
+                    Integer.parseInt(actionRequest.getParameter("h")));
         }
-        if (updateCourse(course, mainImage, actionResponse))
-        {
-            courseService.deleteKindOfCourse(oldCourse.getKindOfCourse().gettypeId());
+
+        boolean role = actionRequest.isUserInRole("Administrator");
+        User user = (User) actionRequest.getAttribute(WebKeys.USER);
+        String screenName = user.getScreenName();
+        course.setAuthorslogin(screenName);
+
+        if (updateCourse(course, mainImage, actionResponse)) {
+          //  courseService.deleteKindOfCourse(oldCourse.getKindOfCourse().getTypeId());
             courseService.updateCourse(course);
             actionResponse.setRenderParameter(COURSE_ID, Integer.toString(course.getId()));
             sessionStatus.setComplete();
         }
 
-	}
 
+    }
 
-	@RenderMapping(params="view=course")
-	public String viewCourse() {
-		return "viewCourse";
-	}
-	@RenderMapping(params="delete=course")
-	public String deleteCourse(RenderRequest request, RenderResponse response)
-    {
+    @RenderMapping(params = "view=course")
+    public ModelAndView viewCourse(RenderRequest request, RenderResponse response) {
+        int CourseID = Integer.valueOf(request.getParameter(COURSE_ID));
+        Integer buttonId = 0;
+        if (request.getParameter(BUTTON_ID) == null) {
+            buttonId = 0;
+        } else {
+            buttonId = Integer.valueOf(request.getParameter(BUTTON_ID));
+        }
+        Course course = courseService.getCourseByID(CourseID);
+        ImageImpl mImage = course.getMainImage();
+        String mainImageUrl;
+        if (mImage == null) {
+            mainImageUrl = MAIN_IMAGE_MOCK_URL;
+        } else {
+            mainImageUrl = imageService.getPathToLargeImage(mImage, course);
+        }
 
-        int courseID=Integer.valueOf(request.getParameter("courseId"));
-        Course course=courseService.getCourseByID(courseID);
+        User user = (User) request.getAttribute(WebKeys.USER);
+        boolean isShown=false;
+        if (request.isUserInRole("Administrator") || request.isUserInRole("User"))
+        {
+            if(request.isUserInRole("Administrator"))
+                isShown=true;
+            else
+            if(request.isUserInRole("User") && course.getAuthorslogin().equals(user.getScreenName()))
+                isShown=true;
+        }
+
+        ModelAndView model = new ModelAndView();
+        model.setViewName("viewCourse");
+        model.addObject("course", course);
+        model.addObject("isShown",isShown);
+        model.addObject(MAIN_IMAGE, mainImageUrl);
+        model.addObject(BUTTON_ID, buttonId);
+        return model;
+
+    }
+
+    @ActionMapping(params = "delete=course")
+    public void deleteCourse(ActionRequest request, ActionResponse response) {
+
+        int courseID = Integer.valueOf(request.getParameter("id"));
+        Course course = courseService.getCourseByID(courseID);
         imageService.deleteDirectory(course);
         courseService.deleteCourse(course.getId());
+        response.setRenderParameter("view","allcourses");
+    }
 
-		return "viewAllCourse";
-	}
+    @ActionMapping(value = "saveCourse")
+    public void saveCourse() {
+    }
 
-	@ActionMapping(value="saveCourse")
-	public void saveCourse(){
-	}
+    @RenderMapping(params="view=coursescategories")
+    public ModelAndView viewCoursesCategories(RenderRequest request, RenderResponse response) {
+        ModelAndView model = new ModelAndView();
+        model.setViewName("viewCoursesCategories");
+        List<KindOfCourse> kindOfCourses = courseService.getAllKindOfCourseWithCount();
+        model.addObject("KindOfCourses",kindOfCourses);
+        return model;
+    }
+
+    /**
+     * @param response
+     * @param request
+     * @param kindOfCourseId      long Id of KindOfCourse
+     * @param nameKindOfCourse new name for current ID
+     * @return ModelAndView
+     */
+    @ResourceMapping(value = "editKind")
+    public void editKindOfCourse(ResourceResponse response, ResourceRequest request,
+                                 Integer kindOfCourseId,
+                                 String nameKindOfCourse) {
+        KindOfCourse kindOfCourse = courseService.getKindOfCourseById(kindOfCourseId);
+        kindOfCourse.setKindOfCourse(nameKindOfCourse);
+        courseService.updateKindOfCourse(kindOfCourse);
+    }
+
+    @ResourceMapping(value = "removeKind")
+    public void removeKindOfCourse(ResourceResponse response, ResourceRequest request,
+                                   Integer kindOfCourseId) {
+        courseService.deleteKindOfCourse(kindOfCourseId);
+    }
 
 
     private Boolean updateCourse(Course newCourse, CommonsMultipartFile mainImage,
@@ -243,6 +325,15 @@ public class CoursesController {
             actionResponse.setRenderParameter(STR_FAIL, STR_NO_IMAGE);
             return;
         }
+
+        boolean role = actionRequest.isUserInRole("Administrator");
+        User user = (User) actionRequest.getAttribute(WebKeys.USER);
+        String screenName = user.getScreenName();
+
+
+        course.setAuthorslogin(screenName);
+
+
         CommonsMultipartFile f = imageService.cropImage(mainImage,
                 Integer.parseInt(actionRequest.getParameter("t")),
                 Integer.parseInt(actionRequest.getParameter("l")),
@@ -265,5 +356,28 @@ public class CoursesController {
 
     }
 
+    @RenderMapping(params = "success")
+    public ModelAndView showAddSuccess(RenderRequest request, RenderResponse response) {
+        ModelAndView model = showView(request, response);
+        String strSuccess = "success";
+        SessionMessages.add(request, request.getParameter(strSuccess));
+        return model;
+    }
+
+    @RenderMapping
+    public ModelAndView showView(RenderRequest request, RenderResponse response) {
+        ModelAndView model = new ModelAndView();
+        Integer buttonId;
+        if (request.getParameter(BUTTON_ID) == null) {
+            buttonId = 0;
+        } else {
+            buttonId = Integer.valueOf(request.getParameter(BUTTON_ID));
+        }
+        model.setViewName("viewAll");
+        Collection<Course> course = courseService.getAll();
+        model.addObject("course", course);
+        model.addObject(BUTTON_ID, buttonId);
+        return model;
+    }
 
 }

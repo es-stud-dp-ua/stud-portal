@@ -27,23 +27,21 @@ public class CourseServiceImpl implements CourseService {
         this.dao=dao ;
     }
 
-
-
     @Override
     @Transactional(readOnly = true)
     public Course getCourseByID(Integer id) {
-     return dao.getCourseById(id);
+        return dao.getCourseById(id);
     }
 
     @Override
     @Transactional(readOnly = false)
     public void addCourse(Course course) {
-         dao.addCourse(course);
+        dao.addCourse(course);
     }
 
     @Override
     @Transactional(readOnly = false)
-     public void deleteCourse(Integer id) {
+    public void deleteCourse(Integer id) {
         dao.deleteCourse(id);
     }
 
@@ -67,13 +65,13 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     @Transactional(readOnly = false)
-    public  void addKindOfCourse(KindOfCourse kindOfCourse) {
+    public void addKindOfCourse(KindOfCourse kindOfCourse) {
         dao.addKindOfCourse(kindOfCourse);
     }
 
     @Override
     @Transactional(readOnly = false)
-    public void  deleteKindOfCourse(Integer id){
+    public void deleteKindOfCourse(Integer id){
         dao.deleteKindOfCourse(id);
     }
 
@@ -87,5 +85,21 @@ public class CourseServiceImpl implements CourseService {
     @Transactional(readOnly = true)
     public  List<KindOfCourse> getAllKindOfCourse() {
         return dao.getAllKindOfCourse();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public  List<KindOfCourse> getAllKindOfCourseWithCount() {
+        List<KindOfCourse> kindOfCourses = dao.getAllKindOfCourse();
+        for (KindOfCourse c:kindOfCourses) {
+            initializeCountOfCourses(c);
+        }
+        return kindOfCourses;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public void initializeCountOfCourses(KindOfCourse kindOfCourse) {
+        dao.initializeCountOfCourses(kindOfCourse);
     }
 }

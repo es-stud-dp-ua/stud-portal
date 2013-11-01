@@ -5,6 +5,10 @@
 <liferay-portlet-app>
     <portlet>
         <portlet-name>BannerPortlet</portlet-name>
+         <friendly-url-mapper-class>com.liferay.portal.kernel.portlet.DefaultFriendlyURLMapper
+        </friendly-url-mapper-class>
+        <friendly-url-mapping>BannerPortlet</friendly-url-mapping>
+        <friendly-url-routes>/routes.xml</friendly-url-routes>
         <instanceable>false</instanceable>
         <header-portlet-css>/css/styles.css</header-portlet-css>
     </portlet>
