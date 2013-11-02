@@ -16,7 +16,9 @@
 <liferay-ui:error key="error.toLow" message='<spring:message code="msg.wrong.toLow"/>'></liferay-ui:error>
 <liferay-ui:error key="error.unknown" message='<spring:message code="msg.wrong.unknown"/>'></liferay-ui:error>
 
-<portlet:renderURL var="home"> </portlet:renderURL>
+<portlet:renderURL var="home">
+ <portlet:param name="Home" value="back"/>
+ </portlet:renderURL>
 <portlet:actionURL var="actionLink" name="updateImage"></portlet:actionURL>
 <html>
 <head>
@@ -56,7 +58,9 @@
                 <td width="75">
                     <button style="margin: 5px" type="submit"><spring:message code="btn.update"/></button>
                 </td>
-                <td width="75"><a href="<portlet:renderURL/>&imgId=<%=image.getId()%>&mode=delete"
+                <td width="75"><a href="<portlet:renderURL>
+                            <portlet:param name="mode" value="delete"/>
+                            <portlet:param name="imgId" value="<%=image.getId().toString()%>"/></portlet:renderURL>">
                                   onclick='return confirm("<spring:message code="form.confDelete"/>")'>
                     <div class="panelbtn panelbtn-right fs20 icon-pcpremove" aria-hidden="true"></div>
                 </a></td>

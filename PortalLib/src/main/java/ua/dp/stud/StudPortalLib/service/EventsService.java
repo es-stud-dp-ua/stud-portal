@@ -67,4 +67,6 @@ public interface EventsService {
     void deleteTags(Tags tags);
     
     void updateTags(Tags tag);
+
+    List<Events> getSortedEvents();
 }

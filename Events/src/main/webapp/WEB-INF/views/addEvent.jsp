@@ -68,8 +68,10 @@
                             validateValueTextArea.value = validateValueTextArea.value.substr(0, validateValueTextArea.getAttribute('maxlength'));
                     }
         </script>
-    <portlet:renderURL var="home"> </portlet:renderURL>
-
+    <portlet:renderURL var="home">
+        <portlet:param name="nAction" value="home"/>
+    </portlet:renderURL>
+    
     <portlet:actionURL var="actionLink" name="addEvents"></portlet:actionURL>
     <div class="portlet-content-controlpanel fs20">
         <a href="${home}">
@@ -143,7 +145,7 @@
                     </td>
                     <td rowspan=2 width="50%" align="left">
                         <div id="labels"><spring:message code="form.title"/></div><div id="redStar1">*</div>
-                            <form:input path="title" id="title" cols="90" rows="2" maxlength="100"  name="title"/>
+
                             <form:errors path="title" cssClass="error"></form:errors>
                             <div id="labels"><spring:message code="form.text"/></div><div id="redStar2">*</div>
                             <div style="margin-left: 5px;">

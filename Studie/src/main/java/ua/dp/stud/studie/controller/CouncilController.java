@@ -89,6 +89,8 @@ public class CouncilController{
 
     private ModelAndView getMainView(RenderRequest request) {
         ModelAndView model = new ModelAndView("viewAllCouncils");
+        Collection<Council> councils = councilService.getAll();
+        model.addObject("councils", councils);
         return model;
     }
 

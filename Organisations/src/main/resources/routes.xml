@@ -12,25 +12,33 @@
     </route>
     <route>
         <pattern>/</pattern>
-        <implicit-parameter name="nAction">home</implicit-parameter>
-    </route>
-    <route>
-        <pattern>/</pattern>
         <implicit-parameter name="mode">viewAll</implicit-parameter>
     </route>
     <route>
-        <pattern>/delete/{orgsID:\d+}</pattern>
+        <pattern>/delete/{currentPage:\d+}/{orgsID:\d+}</pattern>
         <implicit-parameter name="mode">delete</implicit-parameter>
+    </route>
+    <route>
+        <pattern>/delete/{orgsId:\d+}</pattern>
+        <implicit-parameter name="mode">delete</implicit-parameter>
+    </route>
+    <route>
+        <pattern>/home</pattern>
+        <implicit-parameter name="nAction">home</implicit-parameter>
     </route>
     <route>
         <pattern>/edit/{orgsID:\d+}</pattern>
         <implicit-parameter name="mode">edit</implicit-parameter>
     </route>
     <route>
-        <pattern>/view/{orgsId:\d+}</pattern>
+        <pattern>/pagination/{direction}/{currentPage:\d+}</pattern>
     </route>
     <route>
-        <pattern>/pagination/{pageNumber:\d+}</pattern>
+        <pattern>/view/{currentPage:\d+}/{orgsId:\d+}</pattern>
     </route>
+    <route>
+        <pattern>/home/{currentPage:\d+}</pattern>
+    </route>
+    
 
 </routes>

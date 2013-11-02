@@ -125,7 +125,7 @@
                 <%-- PAGINATION --%>
                 <%if (skippedBeginning) {%>
                 <%-- HIDING FIRST PAGES --%>
-                <a href="<portlet:renderURL><portlet:param name="currentPage" value="1"/></portlet:renderURL>">1</a>
+                <a href="<portlet:renderURL><portlet:param name="direction" value="temp"/><portlet:param name="currentPage" value="1"/></portlet:renderURL>">1</a>
                 <label> ... </label>
                 <%}%>
 
@@ -136,6 +136,7 @@
                 %>
                 <a href="<portlet:renderURL>
                 <portlet:param name="currentPage" value="<%=String.valueOf(pageNumb)%>"/>
+               <portlet:param name="direction" value="temp"/>
                 </portlet:renderURL>"><%=pageNumb%>
                 </a>
                 <%if(pageNumb>0){ %>
@@ -167,6 +168,7 @@
                 <label> ... </label>
                 <a href="<portlet:renderURL>
                 <portlet:param name="currentPage" value="<%=String.valueOf(pagesCount)%>"/>
+                <portlet:param name="direction" value="temp"/>
                 </portlet:renderURL>"><%=pagesCount%>
                 </a>
                 <%}%>

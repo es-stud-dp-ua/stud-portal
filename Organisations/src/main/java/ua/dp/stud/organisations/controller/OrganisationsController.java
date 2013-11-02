@@ -15,6 +15,7 @@ import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.model.User;
 import com.liferay.portal.service.LayoutLocalServiceUtil;
 import com.liferay.portal.theme.ThemeDisplay;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -25,6 +26,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
+
 import ua.dp.stud.StudPortalLib.model.ImageImpl;
 import ua.dp.stud.StudPortalLib.model.News;
 import ua.dp.stud.StudPortalLib.model.Organization;
@@ -42,7 +44,9 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.validation.Valid;
+
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -102,9 +106,22 @@ public class OrganisationsController {
         int currentPage;
         OrganizationType type;
         //todo: use ternary operator for currentPage and type variables
-        if (request.getParameter(CURRENT_PAGE) != null) {
+       
+        
+        
+        if ((request.getParameter(CURRENT_PAGE) != null) && ("next".equals(request.getParameter("direction")))) {
             currentPage = Integer.parseInt(request.getParameter(CURRENT_PAGE));
-        } else {
+            if (currentPage < organizationService.getPagesCount(ORGS_BY_PAGE)) {
+                currentPage += 1;
+            }
+        } else if ((request.getParameter(CURRENT_PAGE) != null) && ("prev".equals(request.getParameter("direction")))) {
+            currentPage = Integer.parseInt(request.getParameter(CURRENT_PAGE));
+            if (currentPage > 1) {
+                currentPage--;
+            }
+        } else if ((request.getParameter(CURRENT_PAGE) != null) && ("temp".equals(request.getParameter("direction")))) {
+            currentPage = Integer.parseInt(request.getParameter(CURRENT_PAGE));
+        } else{
             currentPage = 1;
         }
 //PAGINATION 
@@ -201,60 +218,6 @@ public class OrganisationsController {
         return model;
     }
 
-    /**
-     * Pagination handling
-     *
-     * @param request
-     * @param response
-     */
-    @ActionMapping(value = "pagination")
-    public void showPage(ActionRequest request, ActionResponse response) {
-        int currentPage = Integer.valueOf(request.getParameter("pageNumber"));
-        response.setRenderParameter(CURRENT_PAGE, String.valueOf(currentPage));
-        if (request.getParameter(TYPE) != null) {
-            response.setRenderParameter(TYPE, request.getParameter(TYPE));
-        }
-    }
-
-    /**
-     * Pagination handling
-     *
-     * @param request
-     * @param response
-     */
-    @ActionMapping(value = "pagination", params = "direction=next")
-    public void showNextPage(ActionRequest request, ActionResponse response) {
-        int currentPage = Integer.valueOf(request.getParameter("pageNumber"));
-        if (request.getParameter(TYPE) == null) {
-            if (currentPage < organizationService.getPagesCount(ORGS_BY_PAGE)) {
-                currentPage += 1;
-            }
-        } else if (currentPage < organizationService.getPagesCountOfType(ORGS_BY_PAGE, OrganizationType.valueOf(request.getParameter(TYPE)))) {
-            currentPage += 1;
-        }
-        response.setRenderParameter(CURRENT_PAGE, String.valueOf(currentPage));
-        if (request.getParameter(TYPE) != null) {
-            response.setRenderParameter(TYPE, request.getParameter(TYPE));
-        }
-    }
-
-    /**
-     * Pagination handling
-     *
-     * @param request
-     * @param response
-     */
-    @ActionMapping(value = "pagination", params = "direction=prev")
-    public void showPrevPage(ActionRequest request, ActionResponse response) {
-        int currentPage = Integer.valueOf(request.getParameter("pageNumber"));
-        if (currentPage > 1) {
-            currentPage -= 1;
-        }
-        response.setRenderParameter(CURRENT_PAGE, String.valueOf(currentPage));
-        if (request.getParameter(TYPE) != null) {
-            response.setRenderParameter(TYPE, request.getParameter(TYPE));
-        }
-    }
 
     private boolean updateOrganisationFields(CommonsMultipartFile mainImage, CommonsMultipartFile[] images,
                                           boolean isApproved, String author,
