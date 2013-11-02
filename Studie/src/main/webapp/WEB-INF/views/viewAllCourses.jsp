@@ -18,17 +18,10 @@
 <portlet:renderURL var="Categories">
     <portlet:param name="view" value="coursescategories"/>
 </portlet:renderURL>
-<portlet:renderURL var="LinkAddCourse">
-			<portlet:param name="add" value="course"/>
-</portlet:renderURL>
 <div class="portlet-content-controlpanel fs20"style="width: 10.15%;float: right;">
                 <a style="float: right" href="${LinkAddCourse}">
-                    <!--<spring:message code="viewSingle.Edit"/>-->
                     <div class="panelbtn panelbtn-right icon-pcpplus" aria-hidden="true"></div>
                 </a>
-<a style="float: right" href="${LinkAddCourse}">
-<div class="panelbtn panelbtn-right icon-pcpplus" aria-hidden="true"></div>
-</a>
 </div>
 <div class="textBox">
 	<select style="width: 30%;">

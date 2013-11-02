@@ -140,7 +140,6 @@ public class CoursesController {
     public ModelAndView addCourse(RenderRequest request, RenderResponse response) {
         //InitKindOfCourses();
         ModelAndView model = new ModelAndView("addCourse");
-
         Collection<KindOfCourse> kindOfCourses = courseService.getAllKindOfCourse();
         //model.addObject("mainImage", "background: url(${pageContext.request.contextPath}/images/mainpic_443x253.png) no-repeat");
         model.addObject("kindOfCourse", kindOfCourses);
