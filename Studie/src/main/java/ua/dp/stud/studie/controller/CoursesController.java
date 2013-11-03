@@ -62,7 +62,7 @@ public class CoursesController {
     private static final String STR_FAIL = "fail";
     private static final String STR_NO_IMAGE = "no images";
     private static final Logger LOG = Logger.getLogger(StudieController.class.getName());
-    private static final String COURSE_ID = "id";
+    private static final String COURSE_ID = "courseId";
     private static final String STR_EXEPT = "Exception ";
     private static List<CoursesType> coursesType = Arrays.asList(CoursesType.values());
 
@@ -133,6 +133,24 @@ public class CoursesController {
         courseService.addCourse(course2);
         courseService.addCourse(course3);
 
+    }
+
+    @ResourceMapping(value = "coursesByKindAndType")
+    public void renderCourses(ResourceResponse response,  ResourceRequest request,
+                           @RequestParam(required = true) String kindOfCourse,
+                           @RequestParam(required = true) String coursesType) throws Exception
+    {
+        StringBuilder s = new StringBuilder();
+        List<Course> courses = courseService.getCoursesByKindAndType(kindOfCourse, coursesType);
+        //s.append(kindOfCourse); s.append(" "); s.append(coursesType);
+        for (Course c:courses) {
+            PortletURL p = response.createRenderURL();
+            p.setParameter("courseId", c.getId().toString());
+            p.setParameter("view", "course");
+            s.append("<p><a href='").append(p.toString()).append("'>").append(c.getCourseName()).append("</a></p>");
+        }
+        //response.createRenderURL();
+        response.getWriter().println(s);
     }
 
 
@@ -253,7 +271,7 @@ public class CoursesController {
     public void saveCourse() {
     }
 
-    @RenderMapping(params="view=coursescategories")
+    @RenderMapping(params="view=coursesCategories")
     public ModelAndView viewCoursesCategories(RenderRequest request, RenderResponse response) {
         ModelAndView model = new ModelAndView();
         model.setViewName("viewCoursesCategories");

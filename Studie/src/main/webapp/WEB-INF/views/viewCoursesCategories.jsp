@@ -9,6 +9,7 @@
 <body>
 <portlet:resourceURL var="linkEdit" id="editKind"/>
 <portlet:resourceURL var="linkRemove" id="removeKind"/>
+<portlet:resourceURL var="linkAdd" id="addKind"/>
     <div id="categoriesTable">
 	    <c:if test="${not empty KindOfCourses}">
 	        <c:forEach items="${KindOfCourses}" var="cat">
