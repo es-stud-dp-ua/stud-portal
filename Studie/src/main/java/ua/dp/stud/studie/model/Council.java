@@ -34,7 +34,7 @@ public class Council extends BaseImagesSupport implements Serializable{
 
 
     public Council(String councilName){
-    	this.setCouncilName(councilName);
+    	this.councilName = councilName;
     }
 
     @Column(name = "councilName")
@@ -76,18 +76,27 @@ public class Council extends BaseImagesSupport implements Serializable{
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
+        if (this == o){ 
+        	return true;
+        	}
+        if (o == null || getClass() != o.getClass()){ 
+        	return false;
+        }
+        if (!super.equals(o)){ 
+        	return false;
+        	}
 
         Council council = (Council) o;
 
         
-        if (councilName != null ? !councilName.equals(council.councilName) : council.councilName != null) return false;
-        if (councilContact != null ? !councilContact.equals(council.councilContact) : council.councilContact != null)
-            return false;
-        if (councilDescription != null ? !councilDescription.equals(council.councilDescription) : council.councilDescription != null)
-            return false;
+        if (councilName != null ? !councilName.equals(council.councilName) : council.councilName != null){ 
+        	return false;
+        }
+        if (councilContact != null ? !councilContact.equals(council.councilContact) : council.councilContact != null){
+            return false;}
+        if (councilDescription != null ? !councilDescription.equals(council.councilDescription) : council.councilDescription != null){
+         return false;
+        }
 
         return true;
     }

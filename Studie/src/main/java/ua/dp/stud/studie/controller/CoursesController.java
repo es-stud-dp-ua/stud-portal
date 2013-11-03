@@ -60,6 +60,7 @@ public class CoursesController {
     private static final String COURSE = "course";
     private static final String MAIN_IMAGE = "mainImage";
     private static final String STR_FAIL = "fail";
+    private static final String ADMIN = "Administrator";
     private static final String STR_NO_IMAGE = "no images";
     private static final Logger LOG = Logger.getLogger(StudieController.class.getName());
     private static final String COURSE_ID = "id";
@@ -96,8 +97,6 @@ public class CoursesController {
         } else {
             buttonId = Integer.valueOf(request.getParameter(BUTTON_ID));
         }
-        //InitKindOfCourses();
-        //InitCourseName();
         List<KindOfCourse> kindOfCourses = courseService.getAllKindOfCourse();
         model.setViewName("viewAllCourses");
         model.addObject("kindOfCourses", kindOfCourses);
@@ -106,7 +105,6 @@ public class CoursesController {
         model.addObject("courses", courses);
         model.addObject(BUTTON_ID, buttonId);
         return model;
-        //return "viewAllCourses";
     }
 
     public void InitKindOfCourses()
@@ -138,11 +136,9 @@ public class CoursesController {
 
     @RenderMapping(params = "add=course")
     public ModelAndView addCourse(RenderRequest request, RenderResponse response) {
-        //InitKindOfCourses();
         ModelAndView model = new ModelAndView("addCourse");
 
         Collection<KindOfCourse> kindOfCourses = courseService.getAllKindOfCourse();
-        //model.addObject("mainImage", "background: url(${pageContext.request.contextPath}/images/mainpic_443x253.png) no-repeat");
         model.addObject("kindOfCourse", kindOfCourses);
         model.addObject("coursesType", coursesType);
         return model;
@@ -165,34 +161,28 @@ public class CoursesController {
 
     @ActionMapping(value = "editCourse")
     public void editCourse(@ModelAttribute(COURSE) Course course,
-                           //BindingResult bindingResult,
                            ActionRequest actionRequest,
                            ActionResponse actionResponse,
                            SessionStatus sessionStatus,
                            @RequestParam(MAIN_IMAGE) CommonsMultipartFile mainImage) {
 
-         /*    if (bindingResult.hasErrors()) {
-            actionResponse.setRenderParameter(STR_FAIL, "msg.fail");
-            return;
-        }     */
 
         Course oldCourse = courseService.getCourseByID(course.getId());
         course.setMainImage(oldCourse.getMainImage());
+        CommonsMultipartFile croppedImage=null;
         if (!mainImage.getOriginalFilename().equals("")) {
-            mainImage = imageService.cropImage(mainImage,
+        	croppedImage = imageService.cropImage(mainImage,
                     Integer.parseInt(actionRequest.getParameter("t")),
                     Integer.parseInt(actionRequest.getParameter("l")),
                     Integer.parseInt(actionRequest.getParameter("w")),
                     Integer.parseInt(actionRequest.getParameter("h")));
         }
 
-        boolean role = actionRequest.isUserInRole("Administrator");
         User user = (User) actionRequest.getAttribute(WebKeys.USER);
         String screenName = user.getScreenName();
         course.setAuthorslogin(screenName);
 
-        if (updateCourse(course, mainImage, actionResponse)) {
-          //  courseService.deleteKindOfCourse(oldCourse.getKindOfCourse().getTypeId());
+        if (updateCourse(course, croppedImage, actionResponse)) {
             courseService.updateCourse(course);
             actionResponse.setRenderParameter(COURSE_ID, Integer.toString(course.getId()));
             sessionStatus.setComplete();
@@ -203,14 +193,14 @@ public class CoursesController {
 
     @RenderMapping(params = "view=course")
     public ModelAndView viewCourse(RenderRequest request, RenderResponse response) {
-        int CourseID = Integer.valueOf(request.getParameter(COURSE_ID));
+        int courseID = Integer.valueOf(request.getParameter(COURSE_ID));
         Integer buttonId = 0;
         if (request.getParameter(BUTTON_ID) == null) {
             buttonId = 0;
         } else {
             buttonId = Integer.valueOf(request.getParameter(BUTTON_ID));
         }
-        Course course = courseService.getCourseByID(CourseID);
+        Course course = courseService.getCourseByID(courseID);
         ImageImpl mImage = course.getMainImage();
         String mainImageUrl;
         if (mImage == null) {
@@ -221,13 +211,16 @@ public class CoursesController {
 
         User user = (User) request.getAttribute(WebKeys.USER);
         boolean isShown=false;
-        if (request.isUserInRole("Administrator") || request.isUserInRole("User"))
+        if (request.isUserInRole(ADMIN) || request.isUserInRole("User"))
         {
-            if(request.isUserInRole("Administrator"))
+            if(request.isUserInRole(ADMIN)){
                 isShown=true;
-            else
-            if(request.isUserInRole("User") && course.getAuthorslogin().equals(user.getScreenName()))
+                }
+            else{
+            if(request.isUserInRole("User") && course.getAuthorslogin().equals(user.getScreenName())){
                 isShown=true;
+            }
+            }
         }
 
         ModelAndView model = new ModelAndView();
@@ -290,9 +283,9 @@ public class CoursesController {
                                 ActionResponse actionResponse) {
         boolean successUpload = true;
         try {
-            if (mainImage.getSize() > 0)
+            if (mainImage.getSize() > 0){
                 imageService.saveMainImage(mainImage, newCourse);
-
+            }
 
         } catch (Exception ex) {
             LOG.log(Level.SEVERE, STR_EXEPT, ex);
@@ -305,28 +298,16 @@ public class CoursesController {
 
 	@ActionMapping(value="saveNewCourse")
 	public void saveNewCourse(@ModelAttribute(COURSE)  Course course,
-                              //BindingResult bindingResult,
                               ActionRequest actionRequest,
                               ActionResponse actionResponse,
                               SessionStatus sessionStatus,
                               @RequestParam(MAIN_IMAGE) CommonsMultipartFile mainImage)
     {
-    /*    if (bindingResult.hasErrors()) {
-            for (ObjectError error : bindingResult.getAllErrors()) {
-                System.out.println(error.toString());
-                System.out.println();
-            }
-        }
-        if (bindingResult.hasErrors()) {
-            actionResponse.setRenderParameter(STR_FAIL, "msg.fail");
-            return;
-        }     */
         if (mainImage.getOriginalFilename().equals("")) {
             actionResponse.setRenderParameter(STR_FAIL, STR_NO_IMAGE);
             return;
         }
 
-        boolean role = actionRequest.isUserInRole("Administrator");
         User user = (User) actionRequest.getAttribute(WebKeys.USER);
         String screenName = user.getScreenName();
 
@@ -349,9 +330,6 @@ public class CoursesController {
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {
-        /*SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        dateFormat.setLenient(true);
-        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));   */
         binder.setDisallowedFields("mainImage");
 
     }

@@ -1,9 +1,10 @@
-package ua.dp.stud.newsArchive.controller;
+package ua.dp.stud.news.archive.controller;
 
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.model.User;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -22,19 +23,21 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
+
 import ua.dp.stud.StudPortalLib.model.ImageImpl;
 import ua.dp.stud.StudPortalLib.model.News;
 import ua.dp.stud.StudPortalLib.model.Organization;
 import ua.dp.stud.StudPortalLib.service.NewsService;
 import ua.dp.stud.StudPortalLib.service.OrganizationService;
 import ua.dp.stud.StudPortalLib.util.ImageService;
-import ua.dp.stud.newsArchive.validation.NewsValidation;
+import ua.dp.stud.news.archive.validation.NewsValidation;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.validation.Valid;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Collection;

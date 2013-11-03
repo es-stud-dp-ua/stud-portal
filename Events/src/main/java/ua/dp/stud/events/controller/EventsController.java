@@ -91,7 +91,7 @@ public class EventsController {
         this.imageService = imageService;
     }
 
-    private Date sortedDate;
+    
 
     @RenderMapping
     public ModelAndView showView(RenderRequest request, RenderResponse response) {
@@ -177,10 +177,6 @@ public class EventsController {
         model.addObject("EventsByPage", EVENTS_BY_PAGE);
         return model;
     }
-
-    private void createPagination(ModelAndView model, Integer currentPage, Integer pagesCount) {
-       
-    }
     
     @RenderMapping(params = "tagID")
     public ModelAndView showTagView(RenderRequest request, RenderResponse response) {
@@ -239,10 +235,10 @@ public class EventsController {
      */
     
     @ActionMapping(params = "sort=date")
-    public void getSortedDate(ActionRequest request, ActionResponse response)
-    {
+    public void getSortedDate(ActionRequest request, ActionResponse response){
+    Date sortedDate;
        if (!"".equals(request.getParameter("EventSortDate"))){
-        sortedDate=new Date(Date.parse(request.getParameter("EventSortDate"))); // а если пусто то плохо..(( и уныло
+        sortedDate=new Date(Date.parse(request.getParameter("EventSortDate"))); 
        }
     }
                         

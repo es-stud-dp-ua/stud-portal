@@ -55,7 +55,7 @@ public class Course extends BaseImagesSupport{
         this.addState = false;  
     }
     public Course(String coursesName){
-    	this.setCourseName(coursesName);
+    	this.courseName = coursesName;
     }
 
     public String getCourseName() {
@@ -136,24 +136,42 @@ public class Course extends BaseImagesSupport{
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
+        if (this == o){
+        	return true;
+        	}
+        if (o == null || getClass() != o.getClass()) {
+        	return false;
+        	}
+        if (!super.equals(o)){
+        	return false;
+        	}
 
         Course course = (Course) o;
 
-        if (addDate != null ? !addDate.equals(course.addDate) : course.addDate != null) return false;
-        if (addState != null ? !addState.equals(course.addState) : course.addState != null) return false;
-        if (authorslogin != null ? !authorslogin.equals(course.authorslogin) : course.authorslogin != null)
+        if (addDate != null ? !addDate.equals(course.addDate) : course.addDate != null){
+        	return false;
+        	}
+        if (addState != null ? !addState.equals(course.addState) : course.addState != null){
+        	return false;
+        	}
+        if (authorslogin != null ? !authorslogin.equals(course.authorslogin) : course.authorslogin != null){
             return false;
-        if (courseName != null ? !courseName.equals(course.courseName) : course.courseName != null) return false;
-        if (coursesContact != null ? !coursesContact.equals(course.coursesContact) : course.coursesContact != null)
+            }
+        if (courseName != null ? !courseName.equals(course.courseName) : course.courseName != null) {
+        	return false;
+        	}
+        if (coursesContact != null ? !coursesContact.equals(course.coursesContact) : course.coursesContact != null){
             return false;
-        if (coursesDescription != null ? !coursesDescription.equals(course.coursesDescription) : course.coursesDescription != null)
+            }
+        if (coursesDescription != null ? !coursesDescription.equals(course.coursesDescription) : course.coursesDescription != null){
             return false;
-        if (coursesType != course.coursesType) return false;
-        if (kindOfCourse != null ? !kindOfCourse.equals(course.kindOfCourse) : course.kindOfCourse != null)
+            }
+        if (coursesType != course.coursesType){ 
+        	return false;
+        	}
+        if (kindOfCourse != null ? !kindOfCourse.equals(course.kindOfCourse) : course.kindOfCourse != null){
             return false;
+            }
 
         return true;
     }

@@ -73,13 +73,21 @@ public class KindOfCourse implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o){
+        	return true;
+        	}
+        if (o == null || getClass() != o.getClass()) {
+        	return false;
+        }
 
         KindOfCourse that = (KindOfCourse) o;
 
-        if (kindOfCourse != null ? !kindOfCourse.equals(that.kindOfCourse) : that.kindOfCourse != null) return false;
-        if (typeId != null ? !typeId.equals(that.typeId) : that.typeId != null) return false;
+        if (kindOfCourse != null ? !kindOfCourse.equals(that.kindOfCourse) : that.kindOfCourse != null){
+        	return false;
+        	}
+        if (typeId != null ? !typeId.equals(that.typeId) : that.typeId != null) {
+        	return false;
+        	}
 
         return true;
     }
