@@ -42,7 +42,7 @@ public class Course extends BaseImagesSupport{
     private Boolean addState;
 
     @Column
-    @Enumerated
+    @Enumerated(EnumType.ORDINAL)
     private  CoursesType coursesType;
 
     public CoursesType getCoursesType() {
