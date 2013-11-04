@@ -30,8 +30,7 @@ public class CouncilDaoImpl implements CouncilDao {
 
     @Override
     public Council getCouncilById(Integer id) {
-    	 Council council = (Council) getSession().get(Council.class, id);
-         return council;
+         return (Council) getSession().get(Council.class, id);
     }
 
     @Override

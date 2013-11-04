@@ -11,6 +11,7 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
+import org.hibernate.Query;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
@@ -18,6 +19,8 @@ import ua.dp.stud.StudPortalLib.dao.EventsDao;
 import ua.dp.stud.StudPortalLib.model.Events;
 import ua.dp.stud.StudPortalLib.model.Tags;
 import ua.dp.stud.StudPortalLib.util.EventsType;
+
+
 
 /**
  * @author Ольга
@@ -170,5 +173,12 @@ public class EventsDaoImpl extends DaoForApproveImpl<Events> implements EventsDa
                     .setFirstResult(firstResult).setMaxResults(objByPage).addOrder(Order.asc("eventDateStart")).list();
         }
         return nearesEvents;
+    }
+
+    public List<Events> getSortedEvents()
+    {
+       Query query = getSession().createQuery("from Events order by eventDateStart");
+       List<Events> list = (List<Events>)query.list();
+        return list;
     }
 }

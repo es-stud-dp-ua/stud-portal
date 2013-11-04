@@ -1,9 +1,10 @@
-package ua.dp.stud.newsArchive.controller;
+package ua.dp.stud.news.archive.controller;
 
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.model.User;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -22,19 +23,21 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
+
 import ua.dp.stud.StudPortalLib.model.ImageImpl;
 import ua.dp.stud.StudPortalLib.model.News;
 import ua.dp.stud.StudPortalLib.model.Organization;
 import ua.dp.stud.StudPortalLib.service.NewsService;
 import ua.dp.stud.StudPortalLib.service.OrganizationService;
 import ua.dp.stud.StudPortalLib.util.ImageService;
-import ua.dp.stud.newsArchive.validation.NewsValidation;
+import ua.dp.stud.news.archive.validation.NewsValidation;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.validation.Valid;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
@@ -56,12 +59,11 @@ public class NewsController {
     private static final String NO_IMAGE = "no-images";
     private static final String STR_EXEPT = "exception";
     private static final String ADMIN_ROLE = "Administrator";
-    private static final String USER_ROLE = "User";
     private static final String CURRENT_PAGE = "currentPage";
     private static final String ADD_NEWS = "addNews";
+    private static final String NEWS = "news";
+    private static final String MAIN_IMAGE = "mainImage";
     //news text limitations
-    private static final int MINTITLESYMBOLS = 4;
-    private static final int MINTEXTSYMBOLS = 100;
     private static final int NEWS_BY_PAGE = 10;
     private static final int NEARBY_PAGES = 2;
     private static final int OVERALL_PAGES = 7;
@@ -108,23 +110,23 @@ public class NewsController {
         Integer currentPage;
         
         //todo: use ternary operator
-        if ((request.getParameter(CURRENT_PAGE) != null) && (request.getParameter("direction")=="next")) {
+        if ((request.getParameter(CURRENT_PAGE) != null) && ("next".equals(request.getParameter("direction")))) {
             currentPage = Integer.parseInt(request.getParameter(CURRENT_PAGE));
             if (currentPage < pagesCount) {
                 currentPage++;
             }
-        } else if ((request.getParameter(CURRENT_PAGE) != null) && (request.getParameter("direction")=="prev")) {
+        } else if ((request.getParameter(CURRENT_PAGE) != null) && ("prev".equals(request.getParameter("direction")))) {
             currentPage = Integer.parseInt(request.getParameter(CURRENT_PAGE));
             if (currentPage > 1) {
                 currentPage--;
             }
-        } else if ((request.getParameter(CURRENT_PAGE) != null) && (request.getParameter("direction")==null)) {
+        } else if ((request.getParameter(CURRENT_PAGE) != null) && ("temp".equals(request.getParameter("direction")))) {
             currentPage = Integer.parseInt(request.getParameter(CURRENT_PAGE));
         } else{
             currentPage = 1;
         }
         Collection<News> news = newsService.getNewsOnPage(true, currentPage, NEWS_BY_PAGE);
-        model.addObject("news", news);
+        model.addObject(NEWS, news);
         model.addObject(CURRENT_PAGE, currentPage);
         model.addObject("pagesCount", pagesCount);
         model.addObject("newsByPage", NEWS_BY_PAGE);
@@ -181,7 +183,7 @@ public class NewsController {
     @RenderMapping(params = "newsID")
     public ModelAndView showSelectedNews(RenderRequest request, RenderResponse response) {
         int newsID = Integer.valueOf(request.getParameter("newsID"));
-        return getNews(newsID,request, response);
+        return getNews(newsID,request);
     }
 
     /**
@@ -202,7 +204,7 @@ public class NewsController {
         return model;
     }
 
-    private ModelAndView getNews(Integer id,RenderRequest request, RenderResponse response) {
+    private ModelAndView getNews(Integer id,RenderRequest request) {
         News news = newsService.getNewsById(id);
 
         ImageImpl mImage = news.getMainImage();
@@ -224,8 +226,8 @@ public class NewsController {
         news.setNumberOfViews(((numberView == null) ? 0 : numberView) + 1);
         newsService.updateNews(news);
         ModelAndView model = new ModelAndView("viewSingle");
-        model.addObject("news", news);
-        String mainImagePar = "mainImage";
+        model.addObject(NEWS, news);
+        String mainImagePar = MAIN_IMAGE;
         model.addObject(mainImagePar, mainImageUrl);
         model.addObject(CURRENT_PAGE, currentPage);
         model.addObject("additionalImages", additionalImages);
@@ -233,7 +235,7 @@ public class NewsController {
     }
 
 
-    @ModelAttribute(value = "news")
+    @ModelAttribute(value = NEWS)
     public News getCommandObject() {
         return new News();
     }
@@ -245,12 +247,12 @@ public class NewsController {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         dateFormat.setLenient(true);
         binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
-        binder.setDisallowedFields("mainImage");
+        binder.setDisallowedFields(MAIN_IMAGE);
         binder.setValidator(newsValidation);
     }
 
     private boolean updateNews(News news, CommonsMultipartFile mainImage, boolean role,
-                               String screenName, ActionResponse actionResponse, BindingResult bindingResult) {
+                               String screenName, ActionResponse actionResponse) {
         boolean successUpload = true;
         news.setApproved(role);
         news.setAuthor(screenName);
@@ -275,19 +277,13 @@ public class NewsController {
     }
 
     @ActionMapping(value = ADD_NEWS)
-    public void addNews(@ModelAttribute("news") @Valid News news,
+    public void addNews(@ModelAttribute(NEWS) @Valid News news,
                         BindingResult bindingResult,
                         ActionRequest actionRequest,
                         ActionResponse actionResponse,
-                        @RequestParam("mainImage") CommonsMultipartFile mainImage,
+                        @RequestParam(MAIN_IMAGE) CommonsMultipartFile mainImage,
                         SessionStatus sessionStatus) {
-        //newsValidation.validate(news, bindingResult);
         if (bindingResult.hasErrors()) {
-
-            for (ObjectError error : bindingResult.getAllErrors()) {
-                System.out.println(error.toString());
-                System.out.println();
-            }
             actionResponse.setRenderParameter(STR_FAIL, "msg.fail");
             return;
         }
@@ -305,7 +301,7 @@ public class NewsController {
         User user = (User) actionRequest.getAttribute(WebKeys.USER);
         String screenName = user.getScreenName();
         //update fields for new news
-        if (updateNews(news, f, role, screenName, actionResponse, bindingResult)) {
+        if (updateNews(news, f, role, screenName, actionResponse)) {
             news.setPublication(new Date());
             //updating info about loaded news images
             newsService.addNews(news);
@@ -315,20 +311,17 @@ public class NewsController {
     }
 
     @ActionMapping(value = "editNews")
-    public void editNews(@ModelAttribute("news") @Valid News news,
+    public void editNews(@ModelAttribute(NEWS) @Valid News news,
                          BindingResult bindingResult,
                          ActionRequest actionRequest,
                          ActionResponse actionResponse,
-                         @RequestParam("mainImage") CommonsMultipartFile mainImage,
+                         @RequestParam(MAIN_IMAGE) CommonsMultipartFile mainImage,
                          SessionStatus sessionStatus) {
         if (bindingResult.hasErrors()) {
-            for (ObjectError error : bindingResult.getAllErrors()) {
-                System.out.println(error.toString());
-                System.out.println();
-            }
             actionResponse.setRenderParameter(STR_FAIL, "msg.fail");
             return;
         }
+        CommonsMultipartFile croppedImage = null;
         News oldNews = newsService.getNewsById(news.getId());
         oldNews.setText(news.getText());
         oldNews.setTopic(news.getTopic());
@@ -340,12 +333,12 @@ public class NewsController {
         String author = oldNews.getAuthor();
         //update fields for new news
         if (!mainImage.getOriginalFilename().equals("")) {
-            mainImage = imageService.cropImage(mainImage, Integer.parseInt(actionRequest.getParameter("t")),
+        	croppedImage = imageService.cropImage(mainImage, Integer.parseInt(actionRequest.getParameter("t")),
                                                Integer.parseInt(actionRequest.getParameter("l")),
                                                Integer.parseInt(actionRequest.getParameter("w")),
                                                Integer.parseInt(actionRequest.getParameter("h")));
         }
-        if (updateNews(oldNews, mainImage, role, author, actionResponse, bindingResult)) {
+        if (updateNews(oldNews, croppedImage, role, author, actionResponse)) {
             newsService.updateNews(oldNews);
             //close session
             sessionStatus.setComplete();
@@ -365,8 +358,8 @@ public class NewsController {
         News news = newsService.getNewsById(newsID);
         ImageImpl mImage = news.getMainImage();
         String mainImageUrl = (mImage == null) ? MAIN_IMAGE_MOCK_URL : imageService.getPathToLargeImage(mImage, news);
-        model.getModelMap().addAttribute("news", news);
-        model.addObject("mainImage", mainImageUrl);
+        model.getModelMap().addAttribute(NEWS, news);
+        model.addObject(MAIN_IMAGE, mainImageUrl);
         return model;
     }
 
@@ -390,7 +383,7 @@ public class NewsController {
         imageService.deleteImage(image, image.getBase());
         //delete image from data base
         newsService.deleteImage(image);
-        return getNews(newsID, request, response);
+        return getNews(newsID, request);
     }
 
     @RenderMapping(params = "success")

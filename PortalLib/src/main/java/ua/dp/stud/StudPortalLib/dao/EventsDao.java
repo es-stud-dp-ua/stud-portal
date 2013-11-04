@@ -37,5 +37,7 @@ public interface EventsDao extends DaoForApprove<Events> {
     Events save(Events event,List<Tags> tags);
     
     Collection<Events> getObjectOnPage(Boolean approved, Integer pageNumb, Integer objByPage,Boolean future);
+
+    List<Events> getSortedEvents();
         
 }
