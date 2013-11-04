@@ -19,7 +19,7 @@
     #js ("$javascript_folder/jquery.qtip.js")
     #js ("$javascript_folder/up.js")
     #js ("$javascript_folder/jquery.carouFredSel-6.2.0-packed.js")
-
+    #js ("$javascript_folder/placeholder.min.js")
     #js ("$javascript_folder/jquery.color.js")
     #js ("$javascript_folder/jquery.Jcrop.min.js")
 

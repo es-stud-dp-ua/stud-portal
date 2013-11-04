@@ -8,9 +8,7 @@
 <%@ page import="com.liferay.portal.kernel.util.WebKeys" %>
 <%@ page import="com.liferay.portal.kernel.servlet.ImageServletTokenUtil" %>
 <%@ taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet" %>
-<script type="text/javascript" src="js/jquery-1.5.2.min.js"></script>
-<script type="text/javascript" src="js/jquery.validate.min.js"></script>
-<script type="text/javascript" src="js/myscripts.js"></script>
+
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -244,6 +242,59 @@ SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
                                                                                              :"form.submit.user"%>'/>"/>
             </div>
         </form:form>
+        <script >
+        $("#jform").on("submit",function(event){
+
+                                          document.getElementById('text1').innerHTML = CKEDITOR.instances.text.getData();
+
+                                                                                                  });
+                                                  $(document).ready(function() {
+                                          $.validator.setDefaults({ ignore: [] });
+                                                  $('#jform').validate({
+                                          rules: {
+                                          title: {
+                                          required: true,
+                                                  minlength: 5,
+                                                  maxlength: 100
+                                          },
+                                                  text1: {
+                                          required: true,
+                                                  minlength: 500,
+                                                  maxlength: 10000
+                                          },
+                                         EventDateStart:
+                                                      {required: true },
+                                          EventDateEnd:
+                                                      {required: true }
+
+                                          },
+                                                  messages: {
+                                          title: {
+                                          required: "<spring:message code="val.required"/>",
+                                                  minlength:  "<spring:message code="val.title.minlength"/>",
+                                                  maxlength:  "<spring:message code="val.title.maxlength"/>"
+                                          },
+                                                  text1: {
+                                          required: "<spring:message code="val.required"/>",
+                                                  minlength:  "<spring:message code="val.text.minlength"/>",
+                                                  maxlength:  "<spring:message code="val.text.maxlength"/>"
+                                          },
+                                          EventDateStart:
+                                                  {required: "<spring:message code="val.required"/>" },
+                                          EventDateEnd:
+                                                  {required: "<spring:message code="val.required"/>" }
+                                          },
+                                                  highlight: function(label) {
+                                          $(label).removeClass("invisiblevalid");
+                                                  $(label).closest('.control-group').addClass('error');
+                                          },
+                                                  success: function(label) {
+                                          $(label).removeClass("error");
+                                                  label.addClass("invisiblevalid");
+                                          }
+                                          });
+                                          });
+        </script>
     </div>
 </body>
 </html>
