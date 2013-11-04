@@ -1,4 +1,4 @@
-package ua.dp.stud.newsArchive.validation;
+package ua.dp.stud.news.archive.validation;
 
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;

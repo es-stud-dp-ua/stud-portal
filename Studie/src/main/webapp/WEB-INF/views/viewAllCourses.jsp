@@ -6,48 +6,63 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@include file="include.jsp" %>
 
+
 <html>
 <head>
-<title>������ ������</title>
+<title>Insert title here</title>
 </head>
 <body>
-<portlet:renderURL var="LinkAddCourse">
-			<portlet:param name="add" value="course"/>
-</portlet:renderURL>
-<portlet:renderURL var="Categories">
-    <portlet:param name="view" value="coursescategories"/>
-</portlet:renderURL>
-<a href="${Categories}">To categories</a>
-<br/>
-
-<div class="portlet-content-controlpanel fs20"style="width: 10.15%;float: right;">
-<a style="float: right" href="${LinkAddCourse}">
-<div class="panelbtn panelbtn-right icon-pcpplus" aria-hidden="true"></div>
-</a>
-</div>
-
-<div class="textBox">
-	<select style="width: 30%;">
-	<c:forEach var="kind" items="${kindOfCourses}">
-		<option value="${kind.typeId}">${kind.kindOfCourse}</option>
-	</c:forEach>
-	</select>
-	<select style="width: 30%;">	
-		<c:forEach var="type" items="${coursesType}">
-		<option value="${type}">${type}</option>
-		</c:forEach>		
-	</select>
-	<input type=button name="Sort" value="Sort" onclick=""/>
-</div>
-<div>
-	<c:forEach var="course" items="${courses}">
-		<p><a href='
-		<portlet:renderURL>
-		    <portlet:param name="id" value="${course.id}"/>
-		    <portlet:param name="view" value="course"/>
-		</portlet:renderURL>
-		'>${course.courseName}</a>
-	</c:forEach>
-</div>
+    <portlet:renderURL var="LinkAddCourse">
+	    <portlet:param name="add" value="course"/>
+	</portlet:renderURL>
+    <portlet:resourceURL var="coursesByKindAndType" id="coursesByKindAndType" />
+    <portlet:renderURL var="categories">
+        <portlet:param name="view" value="coursesCategories"/>
+    </portlet:renderURL>
+    <div class="portlet-content-controlpanel fs20"style="width: 10.15%;float: right;">
+        <a style="float: right" href="${LinkAddCourse}">
+            <div class="panelbtn panelbtn-right icon-pcpplus" aria-hidden="true"></div>
+        </a>
+    </div>
+	<div class="textBox">
+	    <spring:message code="Kind.label"/>
+	    <select id="kindOfCourse" style="width: 30%; margin-right: 5px; margin-left: 5px;" title="<spring:message code="dropboxKind.label"/>">
+		    <option value="all"><spring:message code="All.msg"/></option>
+            <c:forEach var="kind" items="${kindOfCourses}">
+			    <option value="${kind.typeId}">${kind.kindOfCourse}</option>
+			</c:forEach>
+		</select>
+		<a href="${categories}"><div style="display:inline;" id='changeBut' class="icon-pcppencil fs20" aria-hidden="true"></div></a>
+        <spring:message code="Type.label"/>
+		<select id="courseType" style="width: 15%; margin-right: 5px; margin-left: 5px;" title="<spring:message code="dropboxType.label"/>">
+		    <option value="all"><spring:message code="All.msg"/></option>
+		    <c:forEach var="type" items="${coursesType}">
+			    <option value="${type}">${type}</option>
+			</c:forEach>
+		</select>
+		<input type=button name="sort" value='<spring:message code="button.Sort"/>' onclick="refresh($('#kindOfCourse').val(),$('#courseType').val());" style="position: absolute; height: 26px;"/>
+	</div>
+	<div id="coursesList">
+	    <c:forEach var="course" items="${courses}">
+        		<p><a href='<portlet:renderURL><portlet:param name="courseId" value="${course.id}"/><portlet:param name="view" value="course"/></portlet:renderURL>'>${course.courseName}</a></p>
+        </c:forEach>
+	</div>
 </body>
+<script>
+	function refresh(kindOfCourse, coursesType)
+	{
+        $.ajax
+        ({
+            url: "${coursesByKindAndType}",
+            data: {kindOfCourse: kindOfCourse, coursesType: coursesType},
+            dataType: "html",
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+            success: function (data)
+            {
+            	$('#coursesList').html(data);
+            }
+        });
+    }
+</script>
 </html>

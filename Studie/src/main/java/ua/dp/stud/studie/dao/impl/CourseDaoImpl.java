@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import ua.dp.stud.studie.dao.CourseDao;
 import ua.dp.stud.studie.model.Course;
+import ua.dp.stud.studie.model.CoursesType;
 import ua.dp.stud.studie.model.KindOfCourse;
 
 import java.util.Collection;
@@ -56,9 +57,34 @@ public class CourseDaoImpl implements CourseDao {
     }
 
     @Override
-
     public List<Course> getAll() {
         return getSession().createCriteria(Course.class).list();
+    }
+
+    @Override
+    public List<Course> getCoursesByKindAndType(String kindOfCourse, String coursesType)
+    {
+        StringBuilder queryString = new StringBuilder("from Course where ");
+        if (!kindOfCourse.equals("all")){
+            queryString.append("kindOfCourse.typeId = :kindOfCourse");
+        } else {
+            queryString.append("1=1");
+        }
+        queryString.append(" and ");
+        if (!coursesType.equals("all")) {
+            queryString.append("coursesType = :coursesType");
+        } else {
+            queryString.append("1=1");
+        }
+        Query query = getSession().createQuery(queryString.toString());
+        if (!kindOfCourse.equals("all")) {
+            query.setParameter("kindOfCourse", Integer.parseInt(kindOfCourse));
+        }
+        if (!coursesType.equals("all")) {
+            query.setParameter("coursesType", CoursesType.valueOf(coursesType));
+        }
+        List<Course> list = (List<Course>)query.list();
+        return list;
     }
 
     @Override
@@ -84,7 +110,7 @@ public class CourseDaoImpl implements CourseDao {
     }
 
     @Override
-    public void initializeCountOfCoursesInKindOfCourse(KindOfCourse kindOfCourse) {
+    public void initializeCountOfCourses(KindOfCourse kindOfCourse) {
         Query q = getSession().createQuery("SELECT count(id) FROM Course WHERE kindOfCourse="+kindOfCourse.getTypeId().toString());
         kindOfCourse.setCountOfCourses((Long) q.uniqueResult());
     }

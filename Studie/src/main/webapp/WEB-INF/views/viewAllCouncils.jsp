@@ -7,7 +7,9 @@
 
 
 <%@ taglib prefix="theme" uri="http://liferay.com/tld/theme" %>
-
+<%
+    Collection<Council> councils = (Collection) request.getAttribute("councils");
+%>
 
 
 <html>
@@ -35,20 +37,35 @@
 
 </div>
 
+<% if (!councils.isEmpty()) {
+for (Council council : councils){%>
+		<div id="newsTable" style="padding-top: 15px;">
 
 
+                    <div width="100%">
+                        <img src="<%= imageService.getPathToMicroblogImage(
+                                         council.getMainImage(),
+                                         council) %>" class="newsImage" style="float: left">
 
-${council.id}
+                        <div class="newsHeader" style="padding-top: 50px; padding-left: 175px; font-size: 20pt; ">
+                           <b>
+                                <a href='
+                            		<portlet:renderURL>
+                            		    <portlet:param name="id" value="<%=council.getId().toString()%>"/>
+                                        <portlet:param name="mode" value="showCouncil"/>
+                            		</portlet:renderURL>
+                            		'><%=council.getCouncilName()%>
+                                </a>
+                           </b>
 
- <portlet:renderURL var="LinkShowCouncil">
-            <portlet:param name="id" value="${council.id}"/>
- 			<portlet:param name="mode" value="showCouncil"/>
- </portlet:renderURL>
+                        </div>
 
+                    </div>
 
- <div>
-  <a href="${LinkShowCouncil}">ololo</a>
- </div>
+        </div>
+        <%}%>
+
+<%}%>
 
 </body>
 </html>

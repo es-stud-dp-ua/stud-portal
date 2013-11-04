@@ -21,6 +21,8 @@ public interface CourseService {
 
     List<Course> getAll();
 
+    List<Course> getCoursesByKindAndType(String kindOfCourse, String coursesType);
+
     KindOfCourse getKindOfCourseById(Integer id);
 
     void addKindOfCourse(KindOfCourse kindOfCourse);
@@ -31,8 +33,8 @@ public interface CourseService {
 
     List<KindOfCourse> getAllKindOfCourse();
 
-    Collection<KindOfCourse> getAllKindOfCourseWithCount();
+    List<KindOfCourse> getAllKindOfCourseWithCount();
 
-    void initializeCountOfCoursesInKindOfCourse(KindOfCourse kindOfCourse);
+    void initializeCountOfCourses(KindOfCourse kindOfCourse);
 
 }
