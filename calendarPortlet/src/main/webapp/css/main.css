@@ -54,8 +54,8 @@ div.pop-up {
 #calendar_month .left,
 #calendar_month .right {
     float: right;
-    height: 44px;
-    width: 46px;
+    height: 30px;
+    width: 35px;
     cursor: pointer;
     background-repeat: no-repeat;
 }
@@ -72,15 +72,15 @@ div.pop-up {
 }
 
 #calendar_month .left:hover {
-    background-position: 0 -46px;
+    background-position: 0 -35px;
 }
 
 #calendar_month .right:hover {
-    background-position: 0 -44px;
+    background-position: 0 -33px;
 }
 
 #calendar_month .right {
-    margin-top: 2px;
+    margin-top: 4px;
     background-image: url(../images/2rightArrow.png);
 }
 

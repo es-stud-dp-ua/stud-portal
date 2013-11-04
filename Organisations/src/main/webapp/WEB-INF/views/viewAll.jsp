@@ -193,7 +193,7 @@
             else
             {
         %>
-        ` <h1><b><spring:message code="orgs.empty"/></b></h1>
+         <h1><b><spring:message code="orgs.empty"/></b></h1>
             <%}%>
     </div>
 </div>
