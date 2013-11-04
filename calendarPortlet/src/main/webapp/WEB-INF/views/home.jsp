@@ -66,7 +66,16 @@
                                                     alt="image" style="float: left; padding-right: 10px;">
 
                                                 <p>
-                                                    <a href="${linkToSingleNews}">${event.topic}</a>
+                                                    <a href="${linkToSingleNews}">
+                                                     <c:choose>
+                                                        <c:when test="${fn:length(event.topic) gt 32}">
+                                                            ${fn:substring(event.topic, 0, 32)}...
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            ${event.topic}
+                                                        </c:otherwise>
+                                                      </c:choose>
+                                                    </a>
                                                 </p>
                                             </div>
 
