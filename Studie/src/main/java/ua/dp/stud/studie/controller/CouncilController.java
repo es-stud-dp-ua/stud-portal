@@ -191,7 +191,7 @@ public class CouncilController{
     public ModelAndView showEditCouncil(RenderRequest request, RenderResponse response) {
         ModelAndView model = new ModelAndView("editCouncil");
         //getting council   
-        int councilID =99; 
+        int councilID =Integer.valueOf(request.getParameter("councilId"));
         Council council = councilService.getCouncilById(councilID);
         ImageImpl mImage = council.getMainImage();
         String mainImageUrl =imageService.getPathToLargeImage(mImage,council);

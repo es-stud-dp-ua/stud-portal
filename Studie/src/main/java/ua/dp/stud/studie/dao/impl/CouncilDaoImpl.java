@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import ua.dp.stud.studie.dao.CouncilDao;
 import ua.dp.stud.studie.model.Council;
+import ua.dp.stud.studie.model.CouncilMembers;
 
 import java.util.List;
 
@@ -30,7 +31,8 @@ public class CouncilDaoImpl implements CouncilDao {
 
     @Override
     public Council getCouncilById(Integer id) {
-         return (Council) getSession().get(Council.class, id);
+    	 Council council = (Council) getSession().get(Council.class, id);
+         return council;
     }
 
     @Override
@@ -53,6 +55,27 @@ public class CouncilDaoImpl implements CouncilDao {
 
     public List<Council> getAll() {
         return getSession().createCriteria(Council.class).list();
+    }
+
+	public CouncilMembers getCouncilMembersById(Integer id){
+		return (CouncilMembers) getSession().get(CouncilMembers.class, id);
+	}
+
+    public void addCouncilMembers(CouncilMembers councilMembers){
+    	getSession().save(councilMembers);
+    }
+
+    public void deleteCouncilMembers(Integer id){
+    	CouncilMembers councilMembers = (CouncilMembers) getSession().get(CouncilMembers.class, id);
+        getSession().delete(councilMembers);
+    }
+
+    public void updateCouncilMembers(CouncilMembers councilMembers){
+    	getSession().update(councilMembers);
+    }
+
+    public List<CouncilMembers> getAllCouncilMembers(){
+    	return getSession().createCriteria(CouncilMembers.class).list();
     }
 
 }
