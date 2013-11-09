@@ -5,6 +5,7 @@
 package ua.dp.stud.StudPortalLib.service.impl;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import ua.dp.stud.StudPortalLib.model.Events;
 import ua.dp.stud.StudPortalLib.model.ImageImpl;
 import ua.dp.stud.StudPortalLib.model.Tags;
 import ua.dp.stud.StudPortalLib.service.EventsService;
+import ua.dp.stud.StudPortalLib.util.Direction;
 import ua.dp.stud.StudPortalLib.util.EventsType;
 
 /**
@@ -95,8 +97,8 @@ public class EventsServiceImpl implements EventsService {
 
     @Override
     @Transactional(readOnly = true)
-    public Collection<Events> getEventsOnPage(Integer pageNumb, Integer eventsByPage, Boolean approve,Boolean future) {
-        return dao.getObjectOnPage(approve, pageNumb, eventsByPage,future);
+    public Collection<Events> getEventsOnPage(Integer pageNumb, Integer eventsByPage, Boolean approve,Direction direct,Date date) {
+        return dao.getObjectOnPage(approve, pageNumb, eventsByPage,direct,date);
     }
 
     @Override
@@ -135,7 +137,7 @@ public class EventsServiceImpl implements EventsService {
     }
 
     /**
-     * @param events
+     *
      * @return true if events with this name is present
      */
     @Override
@@ -152,8 +154,8 @@ public class EventsServiceImpl implements EventsService {
     
  @Transactional(readOnly = true)
     @Override
-    public Collection<Events> getEventsOfTypeByPage(Integer pageNumb, Integer eventsByPage, String type, Boolean approve,Boolean future) {
-            return dao.getEventsOfTypeOnPage(pageNumb, eventsByPage, type, approve,future);
+    public Collection<Events> getEventsOfTypeByPage(Integer pageNumb, Integer eventsByPage, String type, Boolean approve,Direction direct,Date date) {
+            return dao.getEventsOfTypeOnPage(pageNumb, eventsByPage, type, approve,direct,date);
     }
  
    @Override
@@ -193,9 +195,6 @@ public class EventsServiceImpl implements EventsService {
         tagsDao.update(tag);
     }
 
-    public List<Events> getSortedEvents()
-    {
-        return dao.getSortedEvents();
-    }
+
 
 }

@@ -46,6 +46,7 @@ import ua.dp.stud.StudPortalLib.model.Events;
 import ua.dp.stud.StudPortalLib.model.ImageImpl;
 import ua.dp.stud.StudPortalLib.model.Tags;
 import ua.dp.stud.StudPortalLib.service.EventsService;
+import ua.dp.stud.StudPortalLib.util.Direction;
 import ua.dp.stud.StudPortalLib.util.EventsType;
 import ua.dp.stud.StudPortalLib.util.ImageService;
 
@@ -95,7 +96,13 @@ public class EventsController {
         int pagesCount;
         int currentPage;
         EventsType type;
-        Boolean future;
+        Boolean future=true;
+        Direction directionType=Direction.FUTURE;
+        Date sortDate=new Date();
+
+        if (request.getParameter("directType")!=null)
+            directionType= Direction.valueOf(request.getParameter("directType"));
+
         
         
         if ((request.getParameter(CURRENT_PAGE) != null) && ("next".equals(request.getParameter("direction")))) {
@@ -119,29 +126,55 @@ public class EventsController {
         } else {
             type = null;
         }
-        if ("true".equals(request.getParameter("archive")) || (request.getParameter("archive")) == null) {
+
+        // удалить это
+        if ((directionType.equals(Direction.DAY))||(directionType.equals(Direction.FUTURE)))
+        {
+            future=true;
+        }
+        else
+        if ((directionType.equals(Direction.PREVIOS))||(directionType.equals(Direction.ALL)))
+        {
+            future=false;
+        }
+
+       /* if ("true".equals(request.getParameter("archive")) || (request.getParameter("archive")) == null) {
             future = true;
+
         } else {
             future = false;
-        }
+        }   */
         //--------------
     //    if (request.getParameter("EventSortDate")!=null)
 
 
 
         //--------------
+        if (("".equals(request.getParameter("startDate")))||(request.getParameter("startDate")!=null))
+        {
+            sortDate=new Date(Date.parse(request.getParameter("startDate")));
+        }
+        else
+        {   if(("".equals(request.getParameter("sortDate")))||(request.getParameter("sortdate")!=null))
+                {
+                sortDate=new Date(Date.parse(request.getParameter("sortdate")));
+                }
+            else
+                sortDate=new Date();
+        }
         if (type == null) {
             pagesCount = eventsService.getPagesCount(true, EVENTS_BY_PAGE, future);
-            events = eventsService.getEventsOnPage(currentPage, EVENTS_BY_PAGE, true, future);
+            events = eventsService.getEventsOnPage(currentPage, EVENTS_BY_PAGE, true,directionType,sortDate);
         } else {
             pagesCount = eventsService.getPagesCountOfType(EVENTS_BY_PAGE, type, true, future);
-            events = eventsService.getEventsOfTypeByPage(currentPage, EVENTS_BY_PAGE, type.toString(), true, future);
+            events = eventsService.getEventsOfTypeByPage(currentPage, EVENTS_BY_PAGE, type.toString(), true,directionType,sortDate);
         }
 
         int leftPageNumb = Math.max(1, currentPage - NEARBY_PAGES);
         int rightPageNumb = Math.min(pagesCount, currentPage + NEARBY_PAGES);
         boolean skippedBeginning = false;
         boolean skippedEnding = false;
+
 
         if (pagesCount <= OVERAL_PAGES) {
             leftPageNumb = 1;
@@ -222,18 +255,12 @@ public class EventsController {
         return model;
     }
 
-    /**
-     * Pagination handling
-     *
-     * @param request
-     * @param response
-     */
     
-    @ActionMapping(params = "sort=date")
+    @ActionMapping(value = "sort")
     public void getSortedDate(ActionRequest request, ActionResponse response)
     {
-       if (!"".equals(request.getParameter("EventSortDate")))
-        sortedDate=new Date(Date.parse(request.getParameter("EventSortDate")));   // а если пусто то плохо..(( и уныло
+       response.setRenderParameter("startDate",request.getParameter("EventSortDate"));
+       response.setRenderParameter("directType",request.getParameter("directType"));
     }
                         /*
     @RenderMapping(params = "sort=events")

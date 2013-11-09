@@ -355,6 +355,7 @@ public class OrganisationsController {
             }
         }
     }
+    }
 
     @RenderMapping(params = "mode=add")
     public ModelAndView showAddOrgs(RenderRequest request, RenderResponse response) {
