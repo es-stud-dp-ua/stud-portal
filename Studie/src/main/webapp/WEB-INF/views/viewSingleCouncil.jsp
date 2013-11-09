@@ -29,13 +29,13 @@
                  </a>
                  <%if (request.isUserInRole("Administrator") || request.isUserInRole("User")) { %>
                  <% if (request.isUserInRole("Administrator")) { %>
-                 <a style="float: right" href='<portlet:renderURL><portlet:param name="councilID" value="<%=council.getId().toString()%>"/><portlet:param name="currentPage" value="1"/><portlet:param name="mode" value="delete" /></portlet:renderURL>'
+                 <a style="float: right" href='<portlet:renderURL><portlet:param name="councilId" value="<%=council.getId().toString()%>"/><portlet:param name="currentPage" value="1"/><portlet:param name="delete" value="council" /></portlet:renderURL>'
                     onclick='return confirm("<spring:message code="form.confDelete"/>")'>
                      <div class="panelbtn panelbtn-right icon-pcpremove" aria-hidden="true"></div>
                      <!--<spring:message code="form.delete"/>-->
                  </a>
                  <%}%>
-                 <a style="float: right" href= '<portlet:renderURL><portlet:param name="councilID" value="<%=council.getId().toString()%>"/><portlet:param name="mode" value="edit" /></portlet:renderURL>'>
+                 <a style="float: right" href= '<portlet:renderURL><portlet:param name="councilId" value="<%=council.getId().toString()%>"/><portlet:param name="edit" value="council" /></portlet:renderURL>'>
                      <!--<spring:message code="viewSingle.Edit"/>-->
                      <div class="panelbtn panelbtn-right icon-pcppencil" aria-hidden="true"></div>
                  </a>

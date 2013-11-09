@@ -12,6 +12,7 @@ import com.liferay.portlet.imagegallery.model.IGFolder;
 import com.liferay.portlet.imagegallery.model.IGImage;
 import com.liferay.portlet.imagegallery.service.IGFolderLocalServiceUtil;
 import com.liferay.portlet.imagegallery.service.IGImageLocalServiceUtil;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,13 +25,16 @@ import org.springframework.mock.web.portlet.MockRenderResponse;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.portlet.ModelAndView;
+
 import ua.dp.stud.StudPortalLib.model.News;
 import ua.dp.stud.StudPortalLib.service.NewsService;
+import ua.dp.stud.news.archive.controller.NewsController;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
+
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Collection;
