@@ -92,7 +92,7 @@ public class EventsController {
         this.imageService = imageService;
     }
 
-    
+
 
     @RenderMapping
     public ModelAndView showView(RenderRequest request, RenderResponse response) {
@@ -109,8 +109,8 @@ public class EventsController {
         if (request.getParameter("directType")!=null)
             directionType= Direction.valueOf(request.getParameter("directType"));
 
-        
-        
+
+
         if ((request.getParameter(CURRENT_PAGE) != null) && ("next".equals(request.getParameter("direction")))) {
             currentPage = Integer.parseInt(request.getParameter(CURRENT_PAGE));
             if (currentPage < eventsService.getPagesCount(EVENTS_BY_PAGE)) {
@@ -126,7 +126,7 @@ public class EventsController {
         } else{
             currentPage = 1;
         }
-//PAGINATION 
+//PAGINATION
         if (request.getParameter(TYPE) != null) {
             type = EventsType.valueOf(request.getParameter(TYPE));
         } else {
@@ -209,7 +209,7 @@ public class EventsController {
         model.addObject("EventsByPage", EVENTS_BY_PAGE);
         return model;
     }
-    
+
     @RenderMapping(params = "tagID")
     public ModelAndView showTagView(RenderRequest request, RenderResponse response) {
         ModelAndView model = new ModelAndView();
@@ -259,14 +259,14 @@ public class EventsController {
         return model;
     }
 
-    
+
     @ActionMapping(value = "sort")
     public void getSortedDate(ActionRequest request, ActionResponse response)
     {
        response.setRenderParameter("startDate",request.getParameter("EventSortDate"));
        response.setRenderParameter("directType",request.getParameter("directType"));
     }
-                        
+
 
 
 
@@ -287,8 +287,11 @@ public class EventsController {
         } else {
             currentPage = 1;
         }
-         if ("true".equals(request.getParameter("archive")) || (request.getParameter("archive")) == null) {
-        } else {
+         if ("true".equals(request.getParameter("archive")) || (request.getParameter("archive")) == null)
+         {
+            future=true;
+        }
+         else {
             future = false;
         }
 

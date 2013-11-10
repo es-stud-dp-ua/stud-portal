@@ -1,4 +1,5 @@
 <%@ page import="ua.dp.stud.studie.model.Council" %>
+<%@ page import="ua.dp.stud.studie.model.CouncilMembers" %>
 <%@ page import="com.liferay.portal.kernel.language.LanguageUtil" %>
 <%@ page import="com.liferay.portal.theme.ThemeDisplay" %>
 <%@ page import="com.liferay.portal.kernel.util.WebKeys" %>
@@ -14,6 +15,7 @@
 <%
     ImageService imgService = (ImageService) pageContext.findAttribute("imageService");
     Council council = (Council) request.getAttribute("council");
+    Collection <CouncilMembers> councilMembers= (Collection) request.getAttribute("councilMembers");
     Integer currentPage = (Integer) request.getAttribute("currentPage");
 
 %>
@@ -66,6 +68,50 @@
                  ${council.councilDescription}
              </div>
      </div>
+
+
+<%
+    for(CouncilMembers cm : councilMembers)  {%>
+    <div id="newsTable" style="padding-top: 15px;">
+
+                        <div id="mainPic"
+                        style="background: url(${pageContext.request.contextPath}/images/mainpic_443x253.png) no-repeat">
+                        </div>
+                       <div>
+                        <i><%=cm.getMemberPosition()%> </i>
+                        <br/>
+                        <b> <%=cm.getMemberName()%></b>
+                        <br/> <br/><br/>
+                        <%=cm.getMemberContact()%>
+                                          </div>
+                        <portlet:renderURL var="LinkEditCouncilMembers">
+                                    <portlet:param name="id" value="<%cm.getId()%>"/>
+                         			<portlet:param name="showEdit" value="councilMember"/>
+                        </portlet:renderURL>
+
+                        <portlet:actionURL var="LinkDeleteCouncilMembers">
+                                    <portlet:param name="id" value="<%cm.getId()%>"/>
+                         			<portlet:param name="delete" value="councilMember"/>
+                        </portlet:actionURL>
+
+
+                         <% if (request.isUserInRole("Administrator")) { %>
+                            <div class="portlet-content-controlpanel fs20"style="width: 10.15%;float: right;" >
+                            <a style="float: right" href="${LinkDeleteCouncilMembers}">
+                            <div class="panelbtn panelbtn-right icon-pcpremove" aria-hidden="true"></div>
+                            </a>
+                            <a style="float: right" href="${LinkEditCouncilMembers}">
+                            <div class="panelbtn panelbtn-right icon-pcppencil" aria-hidden="true"></div>
+                            </a>
+                            </div>
+                         <% }%>
+
+                </div>
+
+        <% }%>
+
+
+
           <div id="Social_networks_Likes">
                  <div id="fb-root"></div>
                  <script>
@@ -134,6 +180,7 @@
                 (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(mc);
             })();
         </script>
+
  <%--commentz support--%>
     <div id="mc-container"></div>
     <!--<a href="http://cackle.me" id="mc-link"><spring:message code="viewSingle.copyright"/> <b style="color:#4FA3DA">CACKL</b><b

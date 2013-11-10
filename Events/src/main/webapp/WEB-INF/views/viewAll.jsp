@@ -56,14 +56,14 @@
             <%if(!archive){%>
             <a style="float: right" href='<portlet:renderURL>
                                                 <portlet:param name="archive" value="true"/>
-                                                <portlet:param name="directType" value="<%=Direction.FUTURE.toString() %>"/>
+                                                <portlet:param name="directType" value="<%=Direction.PREVIOS.toString() %>"/>
                                           </portlet:renderURL>'>
                 <div class="Archive" aria-hidden="true"><spring:message code="form.soon"/></div>
             </a>
             <%}else{%>
             <a style="float: right" href='<portlet:renderURL>
                                                     <portlet:param name="archive" value="false"/>
-                                                    <portlet:param name="directType" value="<%=Direction.PREVIOS.toString() %>"/>
+                                                    <portlet:param name="directType" value="<%=Direction.FUTURE.toString() %>"/>
                                            </portlet:renderURL>'>
                 <div class="Archive" aria-hidden="true"><spring:message code="form.archive"/></div>
             </a>
@@ -151,7 +151,7 @@
                  for (Events currentEvent : events){%>
                  <portlet:renderURL var="eventSingleLink">
 					<portlet:param name="eventID" value="<%=currentEvent.getId().toString()%>"/>
-                    <portlet:param name="currentPage" value="<%=currentPage.toString()%>"/> 
+                    <portlet:param name="currentPage" value="<%=currentPage.toString()%>"/>
 				</portlet:renderURL>
             <div width="100%">
                 <img src="<%= imageService.getPathToMicroblogImage(currentEvent.getMainImage(),currentEvent) %>"

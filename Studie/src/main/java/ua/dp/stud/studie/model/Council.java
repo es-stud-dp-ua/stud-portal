@@ -24,11 +24,6 @@ public class Council extends BaseImagesSupport implements Serializable{
     private String councilDescription;
     private List<CouncilMembers> councilMembers;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "nameOfCouncil", fetch = FetchType.LAZY)    
-    public List<CouncilMembers> getCouncilMembers() {
-        return councilMembers;
-    }
-
     public void setCouncilMembers(List<CouncilMembers> councilMembers) {
         this.councilMembers = councilMembers;
         for (CouncilMembers spec : this.councilMembers) {
@@ -38,15 +33,20 @@ public class Council extends BaseImagesSupport implements Serializable{
         }
     }
 
-
     public Council()
     {
     }
 
 
-
     public Council(String councilName){
     	this.setCouncilName(councilName);
+    }
+
+
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "nameOfCouncil", fetch = FetchType.LAZY)
+    public List<CouncilMembers> getCouncilMembers() {
+        return councilMembers;
     }
 
     @Column(name = "councilName")

@@ -43,6 +43,7 @@ import com.liferay.portal.kernel.servlet.SessionMessages;
 import ua.dp.stud.StudPortalLib.model.ImageImpl;
 import ua.dp.stud.StudPortalLib.util.ImageService;
 import ua.dp.stud.studie.model.Council;
+import ua.dp.stud.studie.model.CouncilMembers;
 import ua.dp.stud.studie.service.CouncilService;
 import ua.dp.stud.studie.service.impl.CouncilServiceImpl;
 
@@ -250,8 +251,10 @@ public class CouncilController{
         } else {
             mainImageUrl = imageService.getPathToMicroblogImage(mImage, council);
         }
-
-
+        councilService.addCouncilMembers(new CouncilMembers("Константин Константинопольский","Контакты: 097-000-123-0\n идите_в_лес@mail.ru","Глава студ.совета"));
+        councilService.addCouncilMembers(new CouncilMembers("Кощей Бессмертный","Контакты: 097-000-123-1\n идите_в_лес1@mail.ru","заместитель главы студ.совета"));
+        councilService.addCouncilMembers(new CouncilMembers("Василиса Прекрасная","Контакты: 097-000-123-2\n идите_в_лес2@mail.ru","заместитель заместителя главы студ.совета"));
+        Collection <CouncilMembers> councilMem = councilService.getAllCouncilMembers();
         int currentPage;
         if (request.getParameter(CURRENT_PAGE) != null) {
             currentPage = Integer.parseInt(request.getParameter(CURRENT_PAGE));
@@ -261,6 +264,7 @@ public class CouncilController{
         ModelAndView model = new ModelAndView();
         model.setViewName("viewSingleCouncil");
         model.addObject(COUNCIL, council);
+        model.addObject("councilMembers", councilMem);
         model.addObject(CURRENT_PAGE, currentPage);
         model.addObject(MAIN_IMAGE, mainImageUrl);
 
