@@ -11,7 +11,7 @@
 <%@include file="include.jsp" %>
 
 <portlet:defineObjects/>
-<%
+<%                                                                                                        w
     ImageService imgService = (ImageService) pageContext.findAttribute("imageService");
     Council council = (Council) request.getAttribute("council");
     Integer currentPage = (Integer) request.getAttribute("currentPage");
@@ -29,7 +29,7 @@
                  </a>
                  <%if (request.isUserInRole("Administrator") || request.isUserInRole("User")) { %>
                  <% if (request.isUserInRole("Administrator")) { %>
-                 <a style="float: right" href='<portlet:renderURL><portlet:param name="councilID" value="<%=council.getId().toString()%>"/><portlet:param name="currentPage" value="1"/><portlet:param name="mode" value="delete" /></portlet:renderURL>'
+                 <a style="float: right" href='<portlet:renderURL><portlet:param name="councilID" value="${council.id}"/><portlet:param name="currentPage" value="1"/><portlet:param name="delete" value="council" /></portlet:renderURL>'
                     onclick='return confirm("<spring:message code="form.confDelete"/>")'>
                      <div class="panelbtn panelbtn-right icon-pcpremove" aria-hidden="true"></div>
                      <!--<spring:message code="form.delete"/>-->

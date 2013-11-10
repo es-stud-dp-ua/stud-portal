@@ -51,7 +51,7 @@ import ua.dp.stud.studie.service.impl.CouncilServiceImpl;
 @RequestMapping(value = "VIEW")
 
 public class CouncilController{
-	
+
     private static final Logger LOG = Logger.getLogger(CouncilController.class.getName());
 	
     private static final String COUNCIL = "council";
@@ -210,7 +210,6 @@ public class CouncilController{
 
     @RenderMapping(params = "delete=council")
     public ModelAndView deleteCouncil(RenderRequest request, RenderResponse response) {
-        //getting current councils
         int councilID = Integer.valueOf(request.getParameter("councilId"));
         Council council = councilService.getCouncilById(councilID);
         imageService.deleteDirectory(council);
