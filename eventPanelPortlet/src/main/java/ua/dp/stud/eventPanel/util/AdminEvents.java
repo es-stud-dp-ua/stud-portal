@@ -3,6 +3,7 @@ package ua.dp.stud.eventPanel.util;
 import org.springframework.web.portlet.ModelAndView;
 import ua.dp.stud.StudPortalLib.model.Events;
 import ua.dp.stud.StudPortalLib.service.EventsService;
+import ua.dp.stud.StudPortalLib.util.Direction;
 
 import java.util.Collection;
 
@@ -26,7 +27,7 @@ public class AdminEvents  extends State {
         ModelAndView model = helper.getModel();
         Integer pageCount = service.getPagesCount(false, PER_PAGE,null);
         Integer newCurrentPage = setPage(pageCount);
-        Collection<Events> eventsList = service.getEventsOnPage(newCurrentPage, PER_PAGE, false,null);
+        Collection<Events> eventsList = service.getEventsOnPage(newCurrentPage, PER_PAGE, false, ALL, null);
         model.addObject("eventsList", eventsList);
         model.addObject(TYPE, "Events");
         model.addObject(PAGE_COUNT, pageCount);
