@@ -6,6 +6,7 @@ import ua.dp.stud.StudPortalLib.service.EventsService;
 import ua.dp.stud.StudPortalLib.util.Direction;
 
 import java.util.Collection;
+import java.util.Date;
 
 /**
  * @author Pikus Vladislav
@@ -27,7 +28,7 @@ public class AdminEvents  extends State {
         ModelAndView model = helper.getModel();
         Integer pageCount = service.getPagesCount(false, PER_PAGE,null);
         Integer newCurrentPage = setPage(pageCount);
-        Collection<Events> eventsList = service.getEventsOnPage(newCurrentPage, PER_PAGE, false, ALL, null);
+        Collection<Events> eventsList = (Collection) service.getEventsOnPage(newCurrentPage, PER_PAGE, false ,Direction.ALL,new Date());
         model.addObject("eventsList", eventsList);
         model.addObject(TYPE, "Events");
         model.addObject(PAGE_COUNT, pageCount);
