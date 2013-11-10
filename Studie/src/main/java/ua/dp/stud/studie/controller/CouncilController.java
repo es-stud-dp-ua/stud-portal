@@ -43,6 +43,7 @@ import com.liferay.portal.kernel.servlet.SessionMessages;
 import ua.dp.stud.StudPortalLib.model.ImageImpl;
 import ua.dp.stud.StudPortalLib.util.ImageService;
 import ua.dp.stud.studie.model.Council;
+import ua.dp.stud.studie.model.CouncilMembers;
 import ua.dp.stud.studie.service.CouncilService;
 import ua.dp.stud.studie.service.impl.CouncilServiceImpl;
 
@@ -60,7 +61,7 @@ public class CouncilController{
     private static final String MAIN_IMAGE_MOCK_URL = "http://www.princetonmn.org/vertical/Sites/%7BF37F81E8-174B-4EDB-91E0-1A3D62050D16%7D/uploads/News.gif";
     private static final String CURRENT_PAGE = "currentPage";
     private static final String MAIN_IMAGE = "mainImage";
-	@Autowired
+    @Autowired
     @Qualifier(value = "councilService")
     private CouncilService councilService;
 
@@ -84,10 +85,10 @@ public class CouncilController{
 
     @RenderMapping(params="view=allcouncils")
     public ModelAndView showView(RenderRequest request, RenderResponse response) {
-        return getMainView(request);
+        return getMainView();
     }
 
-    private ModelAndView getMainView(RenderRequest request) {
+    private ModelAndView getMainView() {
         ModelAndView model = new ModelAndView("viewAllCouncils");
         Collection<Council> councils = councilService.getAll();
         model.addObject("councils", councils);
@@ -95,7 +96,7 @@ public class CouncilController{
     }
 
     private boolean updateCouncil(Council council, CommonsMultipartFile mainImage,
-             ActionResponse actionResponse, BindingResult bindingResult) {
+             ActionResponse actionResponse) {
     	boolean successUpload = true;
     	//main image uploading
     		try {
@@ -119,18 +120,14 @@ public class CouncilController{
 
     
     @ActionMapping(value = "addCouncil")
-    public void addCouncil(@ModelAttribute("council") @Valid Council council,
+    public void addCouncil(@ModelAttribute(COUNCIL) @Valid Council council,
                         BindingResult bindingResult,
                         ActionRequest actionRequest,
                         ActionResponse actionResponse,
-                        @RequestParam("mainImage") CommonsMultipartFile mainImage,
+                        @RequestParam(MAIN_IMAGE) CommonsMultipartFile mainImage,
                         SessionStatus sessionStatus) {
     		if (bindingResult.hasErrors()) {
 
-            for (ObjectError error : bindingResult.getAllErrors()) {
-                System.out.println(error.toString());
-                System.out.println();
-            }
             actionResponse.setRenderParameter(STR_FAIL, "msg.fail");
             return;
         }
@@ -145,7 +142,7 @@ public class CouncilController{
                                                         Integer.parseInt(actionRequest.getParameter("w")),
                                                         Integer.parseInt(actionRequest.getParameter("h")));
         //update fields for new councils
-        if (updateCouncil(council, f, actionResponse, bindingResult)) {
+        if (updateCouncil(council, f, actionResponse)) {
             //updating info about loaded councils images
             councilService.addCouncil(council);
             //close session
@@ -156,17 +153,13 @@ public class CouncilController{
     }
 
     @ActionMapping(value = "editCouncil")
-    public void editCouncil(@ModelAttribute("council") @Valid Council council,
+    public void editCouncil(@ModelAttribute(COUNCIL) @Valid Council council,
                          BindingResult bindingResult,
                          ActionRequest actionRequest,
                          ActionResponse actionResponse,
-                         @RequestParam("mainImage") CommonsMultipartFile mainImage,
+                         @RequestParam(MAIN_IMAGE) CommonsMultipartFile mainImage,
                          SessionStatus sessionStatus) {
         if (bindingResult.hasErrors()) {
-            for (ObjectError error : bindingResult.getAllErrors()) {
-                System.out.println(error.toString());
-                System.out.println();
-            }
             actionResponse.setRenderParameter(STR_FAIL, "msg.fail");
             return;
         }
@@ -174,13 +167,14 @@ public class CouncilController{
         oldCouncil.setCouncilName(council.getCouncilName());
         oldCouncil.setCouncilContact(council.getCouncilContact());
         oldCouncil.setCouncilDescription(council.getCouncilDescription());
+        CommonsMultipartFile croppedImage = null;
         if (!mainImage.getOriginalFilename().equals("")) {
-            mainImage = imageService.cropImage(mainImage, Integer.parseInt(actionRequest.getParameter("t")),
+        	croppedImage = imageService.cropImage(mainImage, Integer.parseInt(actionRequest.getParameter("t")),
                     Integer.parseInt(actionRequest.getParameter("l")),
                     Integer.parseInt(actionRequest.getParameter("w")),
                     Integer.parseInt(actionRequest.getParameter("h")));
         }
-        if (updateCouncil(oldCouncil, mainImage,actionResponse, bindingResult)) {
+        if (updateCouncil(oldCouncil, croppedImage,actionResponse)) {
             councilService.updateCouncil(oldCouncil);
             //close session
             actionResponse.setRenderParameter("view", "allcouncils");
@@ -198,13 +192,12 @@ public class CouncilController{
     public ModelAndView showEditCouncil(RenderRequest request, RenderResponse response) {
         ModelAndView model = new ModelAndView("editCouncil");
         //getting council   
-        int councilID =99; 
-        		//Integer.valueOf(request.getParameter("councilId"));
+        int councilID =Integer.valueOf(request.getParameter("councilId"));
         Council council = councilService.getCouncilById(councilID);
         ImageImpl mImage = council.getMainImage();
         String mainImageUrl =imageService.getPathToLargeImage(mImage,council);
-        model.getModelMap().addAttribute("council", council);
-        model.addObject("mainImage", mainImageUrl);
+        model.getModelMap().addAttribute(COUNCIL, council);
+        model.addObject(MAIN_IMAGE, mainImageUrl);
         return model;
     }
 
@@ -220,7 +213,7 @@ public class CouncilController{
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {
-        binder.setDisallowedFields("mainImage");
+        binder.setDisallowedFields(MAIN_IMAGE);
 
     }
     
@@ -233,7 +226,7 @@ public class CouncilController{
 
     @RenderMapping(params = "success")
     public ModelAndView showAddSuccess(RenderRequest request, RenderResponse response) {
-        ModelAndView model = getMainView(request);
+        ModelAndView model = getMainView();
         String strSuccess = "success";
         SessionMessages.add(request, request.getParameter(strSuccess));
         return model;
@@ -257,10 +250,10 @@ public class CouncilController{
         } else {
             mainImageUrl = imageService.getPathToMicroblogImage(mImage, council);
         }
-
-        ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
-        long groupId = themeDisplay.getScopeGroupId();
-
+        councilService.addCouncilMembers(new CouncilMembers("Константин Константинопольский","Контакты: 097-000-123-0\n идите_в_лес@mail.ru","Глава студ.совета"));
+        councilService.addCouncilMembers(new CouncilMembers("Кощей Бессмертный","Контакты: 097-000-123-1\n идите_в_лес1@mail.ru","заместитель главы студ.совета"));
+        councilService.addCouncilMembers(new CouncilMembers("Василиса Прекрасная","Контакты: 097-000-123-2\n идите_в_лес2@mail.ru","заместитель заместителя главы студ.совета"));
+        Collection <CouncilMembers> councilMem = councilService.getAllCouncilMembers();
         int currentPage;
         if (request.getParameter(CURRENT_PAGE) != null) {
             currentPage = Integer.parseInt(request.getParameter(CURRENT_PAGE));
@@ -269,7 +262,8 @@ public class CouncilController{
         }
         ModelAndView model = new ModelAndView();
         model.setViewName("viewSingleCouncil");
-        model.addObject("council", council);
+        model.addObject(COUNCIL, council);
+        model.addObject("councilMembers", councilMem);
         model.addObject(CURRENT_PAGE, currentPage);
         model.addObject(MAIN_IMAGE, mainImageUrl);
 

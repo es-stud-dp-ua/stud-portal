@@ -22,6 +22,8 @@ public interface CourseDao {
 
     List<Course> getAll();
 
+    List<Course> getCoursesByKindAndType(String kindOfCourse, String coursesType);
+
     KindOfCourse getKindOfCourseById(Integer id);
 
     void addKindOfCourse(KindOfCourse kindOfCourse);

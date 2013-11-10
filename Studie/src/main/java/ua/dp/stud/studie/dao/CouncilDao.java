@@ -1,10 +1,8 @@
 package ua.dp.stud.studie.dao;
 
-import ua.dp.stud.StudPortalLib.dao.DaoForApprove;
 import ua.dp.stud.studie.model.Council;
-import ua.dp.stud.studie.model.Studie;
+import ua.dp.stud.studie.model.CouncilMembers;
 
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -23,4 +21,16 @@ public interface CouncilDao {
 
 	Council getCouncilById(Integer id);
 	
+	//-----------------------------------------------------
+
+	CouncilMembers getCouncilMembersById(Integer id);
+
+    void addCouncilMembers(CouncilMembers councilMembers);
+
+    void deleteCouncilMembers(Integer id);
+
+    void updateCouncilMembers(CouncilMembers councilMembers);
+
+    List<CouncilMembers> getAllCouncilMembers();
+
     }

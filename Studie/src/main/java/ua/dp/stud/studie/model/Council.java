@@ -6,11 +6,7 @@ import java.util.List;
 
 import javax.persistence.*;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-
 import ua.dp.stud.StudPortalLib.model.BaseImagesSupport;
-import ua.dp.stud.StudPortalLib.model.News;
 /**
  * Author: Lysenko Nikolai
  * Date: 21.10.13
@@ -26,15 +22,31 @@ public class Council extends BaseImagesSupport implements Serializable{
     private String councilName;
     private String councilContact;
     private String councilDescription;
+    private List<CouncilMembers> councilMembers;
+    
+    public void setCouncilMembers(List<CouncilMembers> councilMembers) {
+        this.councilMembers = councilMembers;
+        for (CouncilMembers spec : this.councilMembers) {
+            if (spec.getNameOfCouncil() == null) {
+                spec.setNameOfCouncil(this);
+            }
+        }
+    }
 
     public Council()
     {
     }
 
 
-
     public Council(String councilName){
     	this.setCouncilName(councilName);
+    }
+
+
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "nameOfCouncil", fetch = FetchType.LAZY)
+    public List<CouncilMembers> getCouncilMembers() {
+        return councilMembers;
     }
 
     @Column(name = "councilName")
