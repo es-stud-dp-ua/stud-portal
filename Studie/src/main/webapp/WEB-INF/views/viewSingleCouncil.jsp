@@ -12,7 +12,7 @@
 <%@include file="include.jsp" %>
 
 <portlet:defineObjects/>
-<%                                                                                                        w
+<%
     ImageService imgService = (ImageService) pageContext.findAttribute("imageService");
     Council council = (Council) request.getAttribute("council");
     Collection <CouncilMembers> councilMembers= (Collection) request.getAttribute("councilMembers");
@@ -20,7 +20,8 @@
 
 %>
 <html>
- <head> </head>
+ <head>         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ </head>
  <body >
      <portlet:renderURL var="home"><portlet:param name="currentPage" value="<%=currentPage.toString()%>"/>  </portlet:renderURL>
      <div id="singleView">
@@ -69,7 +70,6 @@
              </div>
      </div>
 
-
 <%
     for(CouncilMembers cm : councilMembers)  {%>
     <div id="newsTable" style="padding-top: 15px;">
@@ -85,12 +85,12 @@
                         <%=cm.getMemberContact()%>
                                           </div>
                         <portlet:renderURL var="LinkEditCouncilMembers">
-                                    <portlet:param name="id" value="<%cm.getId()%>"/>
+                                    <portlet:param name="id" value="<%cm.getId().toString()%>"/>
                          			<portlet:param name="showEdit" value="councilMember"/>
                         </portlet:renderURL>
 
                         <portlet:actionURL var="LinkDeleteCouncilMembers">
-                                    <portlet:param name="id" value="<%cm.getId()%>"/>
+                                    <portlet:param name="id" value="<%cm.getId().toString()%>"/>
                          			<portlet:param name="delete" value="councilMember"/>
                         </portlet:actionURL>
 
