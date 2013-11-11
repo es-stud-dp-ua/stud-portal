@@ -143,18 +143,8 @@ public class EventsController {
             future=false;
         }
 
-       /* if ("true".equals(request.getParameter("archive")) || (request.getParameter("archive")) == null) {
-            future = true;
 
-        } else {
-            future = false;
-        }   */
-        //--------------
-
-
-
-        //--------------
-        if (("".equals(request.getParameter("startDate")))||(request.getParameter("startDate")!=null))
+       if (("".equals(request.getParameter("startDate")))||(request.getParameter("startDate")!=null))
         {
             sortDate=new Date(Date.parse(request.getParameter("startDate")));
         }

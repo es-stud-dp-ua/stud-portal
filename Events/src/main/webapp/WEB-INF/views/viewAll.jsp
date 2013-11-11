@@ -56,14 +56,14 @@
             <%if(!archive){%>
             <a style="float: right" href='<portlet:renderURL>
                                                 <portlet:param name="archive" value="true"/>
-                                                <portlet:param name="directType" value="<%=Direction.PREVIOS.toString() %>"/>
+                                                <portlet:param name="directType" value="<%=Direction.FUTURE.toString() %>"/>
                                           </portlet:renderURL>'>
                 <div class="Archive" aria-hidden="true"><spring:message code="form.soon"/></div>
             </a>
             <%}else{%>
             <a style="float: right" href='<portlet:renderURL>
                                                     <portlet:param name="archive" value="false"/>
-                                                    <portlet:param name="directType" value="<%=Direction.FUTURE.toString() %>"/>
+                                                    <portlet:param name="directType" value="<%=Direction.PREVIOS.toString() %>"/>
                                            </portlet:renderURL>'>
                 <div class="Archive" aria-hidden="true"><spring:message code="form.archive"/></div>
             </a>
