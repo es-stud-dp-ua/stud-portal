@@ -20,7 +20,8 @@
 
 %>
 <html>
- <head> </head>
+ <head>         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ </head>
  <body >
      <portlet:renderURL var="home"><portlet:param name="currentPage" value="<%=currentPage.toString()%>"/>  </portlet:renderURL>
      <div id="singleView">
@@ -31,7 +32,7 @@
                  </a>
                  <%if (request.isUserInRole("Administrator") || request.isUserInRole("User")) { %>
                  <% if (request.isUserInRole("Administrator")) { %>
-                 <a style="float: right" href='<portlet:renderURL><portlet:param name="councilId" value="<%=council.getId().toString()%>"/><portlet:param name="currentPage" value="1"/><portlet:param name="delete" value="council" /></portlet:renderURL>'
+                 <a style="float: right" href='<portlet:renderURL><portlet:param name="councilID" value="${council.id}"/><portlet:param name="currentPage" value="1"/><portlet:param name="delete" value="council" /></portlet:renderURL>'
                     onclick='return confirm("<spring:message code="form.confDelete"/>")'>
                      <div class="panelbtn panelbtn-right icon-pcpremove" aria-hidden="true"></div>
                      <!--<spring:message code="form.delete"/>-->
@@ -69,7 +70,6 @@
              </div>
      </div>
 
-
 <%
     for(CouncilMembers cm : councilMembers)  {%>
     <div id="newsTable" style="padding-top: 15px;">
@@ -85,12 +85,12 @@
                         <%=cm.getMemberContact()%>
                                           </div>
                         <portlet:renderURL var="LinkEditCouncilMembers">
-                                    <portlet:param name="id" value="<%cm.getId()%>"/>
+                                    <portlet:param name="id" value="<%cm.getId().toString()%>"/>
                          			<portlet:param name="showEdit" value="councilMember"/>
                         </portlet:renderURL>
 
                         <portlet:actionURL var="LinkDeleteCouncilMembers">
-                                    <portlet:param name="id" value="<%cm.getId()%>"/>
+                                    <portlet:param name="id" value="<%cm.getId().toString()%>"/>
                          			<portlet:param name="delete" value="councilMember"/>
                         </portlet:actionURL>
 

@@ -52,7 +52,7 @@ import ua.dp.stud.studie.service.impl.CouncilServiceImpl;
 @RequestMapping(value = "VIEW")
 
 public class CouncilController{
-	
+
     private static final Logger LOG = Logger.getLogger(CouncilController.class.getName());
 	
     private static final String COUNCIL = "council";
@@ -203,8 +203,7 @@ public class CouncilController{
 
     @RenderMapping(params = "delete=council")
     public ModelAndView deleteCouncil(RenderRequest request, RenderResponse response) {
-        //getting current councils
-        int councilID = Integer.valueOf(request.getParameter("councilId"));
+        int councilID = Integer.valueOf(request.getParameter("councilID"));
         Council council = councilService.getCouncilById(councilID);
         imageService.deleteDirectory(council);
         //delete chosen council
@@ -251,10 +250,7 @@ public class CouncilController{
         } else {
             mainImageUrl = imageService.getPathToMicroblogImage(mImage, council);
         }
-        councilService.addCouncilMembers(new CouncilMembers("Константин Константинопольский","Контакты: 097-000-123-0\n идите_в_лес@mail.ru","Глава студ.совета"));
-        councilService.addCouncilMembers(new CouncilMembers("Кощей Бессмертный","Контакты: 097-000-123-1\n идите_в_лес1@mail.ru","заместитель главы студ.совета"));
-        councilService.addCouncilMembers(new CouncilMembers("Василиса Прекрасная","Контакты: 097-000-123-2\n идите_в_лес2@mail.ru","заместитель заместителя главы студ.совета"));
-        Collection <CouncilMembers> councilMem = councilService.getAllCouncilMembers();
+       Collection <CouncilMembers> councilMem = councilService.getAllCouncilMembers();
         int currentPage;
         if (request.getParameter(CURRENT_PAGE) != null) {
             currentPage = Integer.parseInt(request.getParameter(CURRENT_PAGE));
