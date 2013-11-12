@@ -122,7 +122,7 @@
 			<portlet:param name="studieId" value="<%=currStudy.getId().toString()%>"/>
 			<portlet:param name="mode" value="edit"/>
 		</portlet:renderURL>
-		<div class="portlet-content-controlpanel fs20"style="width: 10.15%;float: right;">
+		<div class="portlet-content-controlpanel fs20"style="width: 10%;float: right;">
                 <a style="float: right" href="${deleteLink}"
                    onclick='return confirm("<spring:message code="form.confDelete"/>")'>
                     <div class="panelbtn panelbtn-right fs20 icon-pcpremove" aria-hidden="true"></div>

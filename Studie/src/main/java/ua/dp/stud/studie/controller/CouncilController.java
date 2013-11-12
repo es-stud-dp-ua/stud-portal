@@ -60,7 +60,7 @@ import ua.dp.stud.studie.service.impl.CouncilServiceImpl;
 @RequestMapping(value = "VIEW")
 
 public class CouncilController{
-	
+
     private static final Logger LOG = Logger.getLogger(CouncilController.class.getName());
 	
     private static final String COUNCIL = "council";
@@ -255,8 +255,7 @@ public class CouncilController{
 
     @RenderMapping(params = "delete=council")
     public ModelAndView deleteCouncil(RenderRequest request, RenderResponse response) {
-        //getting current councils
-        int councilID = Integer.valueOf(request.getParameter("councilId"));
+        int councilID = Integer.valueOf(request.getParameter("councilID"));
         Council council = councilService.getCouncilById(councilID);
         imageService.deleteDirectory(council);
         //delete chosen council
@@ -310,8 +309,7 @@ public class CouncilController{
         } else {
             mainImageUrl = imageService.getPathToMicroblogImage(mImage, council);
         }
-
-
+       Collection <CouncilMembers> councilMem = councilService.getAllCouncilMembers();
         int currentPage;
         if (request.getParameter(CURRENT_PAGE) != null) {
             currentPage = Integer.parseInt(request.getParameter(CURRENT_PAGE));
@@ -321,6 +319,7 @@ public class CouncilController{
         ModelAndView model = new ModelAndView();
         model.setViewName("viewSingleCouncil");
         model.addObject(COUNCIL, council);
+        model.addObject("councilMembers", councilMem);
         model.addObject(CURRENT_PAGE, currentPage);
         model.addObject(MAIN_IMAGE, mainImageUrl);
         model.addObject("councilId", councilId);
