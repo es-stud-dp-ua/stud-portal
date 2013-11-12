@@ -1,4 +1,5 @@
 <%@ page import="ua.dp.stud.studie.model.Council" %>
+<%@ page import="ua.dp.stud.studie.model.CouncilMembers" %>
 <%@ page import="com.liferay.portal.kernel.language.LanguageUtil" %>
 <%@ page import="com.liferay.portal.theme.ThemeDisplay" %>
 <%@ page import="com.liferay.portal.kernel.util.WebKeys" %>
@@ -7,6 +8,7 @@
 <%@ page import="java.util.Collection" %>
 <%@ page import="ua.dp.stud.StudPortalLib.model.ImageImpl" %>
 <%@ taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@include file="include.jsp" %>
 
@@ -15,13 +17,14 @@
     ImageService imgService = (ImageService) pageContext.findAttribute("imageService");
     Council council = (Council) request.getAttribute("council");
     Integer currentPage = (Integer) request.getAttribute("currentPage");
-
+	Integer councilId =  (Integer) request.getAttribute("councilId");
+	
 %>
 <html>
  <head> </head>
  <body >
      <portlet:renderURL var="home"><portlet:param name="currentPage" value="<%=currentPage.toString()%>"/>  </portlet:renderURL>
-     <div id="singleView">
+     <div id="singleView" style="float:center">
              <div class="portlet-content-controlpanel fs20">
                  <a href="${home}">
                      <!--<spring:message code="form.back"/>-->
@@ -53,9 +56,9 @@
              <style>
                 .line {
 
-                 border-right: 1px solid red; /* Линия справа от текста */
-                 padding: 0 10px;  /* Расстояние между линией и текстом */
-                 margin: 0 10%; /* Отступы от края до линии */
+                 border-right: 1px solid red; /* ÐÐ¸Ð½Ð¸Ñ ÑÐ¿ÑÐ°Ð²Ð° Ð¾Ñ ÑÐµÐºÑÑÐ° */
+                 padding: 0 10px;  /* Ð Ð°ÑÑÑÐ¾ÑÐ½Ð¸Ðµ Ð¼ÐµÐ¶Ð´Ñ Ð»Ð¸Ð½Ð¸ÐµÐ¹ Ð¸ ÑÐµÐºÑÑÐ¾Ð¼ */
+                 margin: 0 10%; /* ÐÑÑÑÑÐ¿Ñ Ð¾Ñ ÐºÑÐ°Ñ Ð´Ð¾ Ð»Ð¸Ð½Ð¸Ð¸ */
                 }
                </style>
              <div class="line" style="padding-left: 20px; float: left; width: 20%; overflow: hidden;  border-right: 1px solid red" title="${council.councilContact}">
@@ -65,163 +68,143 @@
              <div class="councilDescription" style="width: 20%; float: left; padding-left: 10px; overflow: hidden;" title="${council.councilDescription} ">
                  ${council.councilDescription}
              </div>
-     </div>
-          <div id="Social_networks_Likes">
-                 <div id="fb-root"></div>
-                 <script>
-                     (function(d, s, id) {
-                         var js, fjs = d.getElementsByTagName(s)[0];
-                         if (d.getElementById(id))
-                             return;
-                         js = d.createElement(s);
-                         js.id = id;
-                         js.src = "//connect.facebook.net/ru_RU/all.js#xfbml=1";
-                         fjs.parentNode.insertBefore(js, fjs);
-                     }(document, 'script', 'facebook-jssdk'));
-                 </script>
-                 <div class="fb-like" data-send="true" data-width="450" data-show-faces="true" data-font="arial"></div>
-                 <a href="https://twitter.com/share" class="twitter-share-button">Tweet</a>
-                 <script>
-                     !function(d, s, id) {
-                         var js, fjs = d.getElementsByTagName(s)[0];
-                         if (!d.getElementById(id)) {
-                             js = d.createElement(s);
-                             js.id = id;
-                             js.src = "//platform.twitter.com/widgets.js";
-                             fjs.parentNode.insertBefore(js, fjs);
-                         }
-                     }(document, "script", "twitter-wjs");
+        </div>     
 
-                 </script>
-             </div>
 <br/><br/>
-
-     <%--commentz support--%>
-        <div id="mc-container"></div>
-        <script type="text/javascript">
-
-            // init  gallery images
-            $(document).ready(function() {
-
-                $('.fancybox-thumbs').fancybox({
-                    prevEffect: 'none',
-                    nextEffect: 'none',
-                    'overlayShow': true,
-                    'overlayColor': '#000',
-                    'overlayOpacity': 0.8,
-                    closeBtn: true,
-                    arrows: true,
-                    nextClick: true,
-                    helpers: {
-                        thumbs: {},
-                        title: {
-                            type: 'inside'
-                        }
-                    }
-                });
-            });
-
-            var mcChannel = "${council.id}";
-
-            var mcLocale = "<%= request.getLocale().getLanguage() %>";
-            var mcSite = '13747';
-
-            (function() {
-                var mc = document.createElement('script');
-                mc.type = 'text/javascript';
-                mc.async = true;
-                mc.src = 'http://cackle.me/mc.widget-min.js';
-                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(mc);
-            })();
-        </script>
- <%--commentz support--%>
-    <div id="mc-container"></div>
-    <!--<a href="http://cackle.me" id="mc-link"><spring:message code="viewSingle.copyright"/> <b style="color:#4FA3DA">CACKL</b><b
-            style="color:#F65077">E</b></a>-->
-    <%--commentz support--%><br/>
-    <script>
-
-
-
-                function ConfirmImage() {
-                    return confirm("<spring:message code="form.confDeleteImg"/>");
-                }
-                $(function() {
-                    //scrollpane parts
-                    var scrollPane = $(".scroll-pane"),
-                            scrollContent = $(".scroll-content");
-
-                    //build slider
-                    var scrollbar = $(".scroll-bar").slider({
-                        slide: function(event, ui) {
-                            if (scrollContent.width() > scrollPane.width()) {
-                                scrollContent.css("margin-left", Math.round(
-                                        ui.value / 100 * (scrollPane.width() - scrollContent.width())
-                                        ) + "px");
-                            } else {
-                                scrollContent.css("margin-left", 0);
-                            }
-                        }
-                    });
-
-                    //append icon to handle
-                    var handleHelper = scrollbar.find(".ui-slider-handle")
-                            .mousedown(function() {
-                        scrollbar.width(handleHelper.width());
-                    })
-                            .mouseup(function() {
-                        scrollbar.width("100%");
-                    })
-                            .append("<span class='ui-icon ui-icon-grip-dotted-vertical'></span>")
-                            .wrap("<div class='ui-handle-helper-parent'></div>").parent();
-
-                    //change overflow to hidden now that slider handles the scrolling
-                    scrollPane.css("overflow", "hidden");
-
-                    //size scrollbar and handle proportionally to scroll distance
-                    function sizeScrollbar() {
-                        var remainder = scrollContent.width() - scrollPane.width();
-                        var proportion = remainder / scrollContent.width();
-                        var handleSize = scrollPane.width() - (proportion * scrollPane.width());
-                        scrollbar.find(".ui-slider-handle").css({
-                            width: handleSize,
-                            "margin-left": -handleSize / 2
-                        });
-                        handleHelper.width("").width(scrollbar.width() - handleSize);
-                    }
-
-                    //reset slider value based on scroll content position
-                    function resetValue() {
-                        var remainder = scrollPane.width() - scrollContent.width();
-                        var leftVal = scrollContent.css("margin-left") === "auto" ? 0 :
-                                parseInt(scrollContent.css("margin-left"));
-                        var percentage = Math.round(leftVal / remainder * 100);
-                        scrollbar.slider("value", percentage);
-                    }
-
-                    //if the slider is 100% and window gets larger, reveal content
-                    function reflowContent() {
-                        var showing = scrollContent.width() + parseInt(scrollContent.css("margin-left"), 10);
-                        var gap = scrollPane.width() - showing;
-                        if (gap > 0) {
-                            scrollContent.css("margin-left", parseInt(scrollContent.css("margin-left"), 10) + gap);
-                        }
-                    }
-
-                    //change handle position on window resize
-                    $(window).resize(function() {
-                        resetValue();
-                        sizeScrollbar();
-                        reflowContent();
-                    });
-                    //init scrollbar size
-                    setTimeout(sizeScrollbar, 10);//safari wants a timeout
-                });
-                $(function() {
-                    $('#inner1').tooltip();
-                });
-            </script>
-
+     <% if (council.getCouncilMembers()!=null) {
+for (CouncilMembers member : council.getCouncilMembers()){%>
+<div id='member_<%=member.getMemberId()%>'>
+	<fieldset>
+	<div id='each_<%=member.getMemberId()%>' style="float:left; display:inline">
+ 				<div><%=member.getMemberName()%></div>
+             	<div><%=member.getMemberPosition()%></div>
+            	<div><%=member.getMemberContact()%></div>
+    </div>
+      <div style="display:inline; float:right"   class="icon-pcppencil fs20" onclick="editMember(<%=member.getMemberId()%>);" aria-hidden="true"></div>
+      <div style="display:inline; float:right"   class="icon-pcpremove fs20" onclick="removeMember(<%=member.getMemberId()%>);" aria-hidden="true"></div>
+    <div id='edit_<%=member.getMemberId()%>'  style="display:none; float:left">
+                     <div id="labels"><spring:message code="form.councilMemberName"/></div>
+                        <input id="edit_name_<%=member.getMemberId()%>" type="text" value='<%=member.getMemberName()%>'/>
+                    <div id="labels"><spring:message code="form.councilMemberContact"/></div>
+                        <input id="edit_contact_<%=member.getMemberId()%>" type="text" value='<%=member.getMemberContact()%>'/>
+                    <div id="labels"><spring:message code="form.councilMemberPosition"/></div>
+                        <input id="edit_position_<%=member.getMemberId()%>" type="text" value='<%=member.getMemberPosition()%>'/>
+                    <input type="button" value="Save" onclick="updateMember(<%=member.getMemberId()%>)">
+   </div>
+     </fieldset> 
+     <br/>      
+ </div>
+ 
+         <%}%>
+     <%}%>
+     
+     		
+     		<portlet:resourceURL var="linkAdd" id="addMember"/>
+			<portlet:resourceURL var="linkRemove" id="removeMember"/>
+          	<portlet:resourceURL var="linkEdit" id="editMember"/>	
+     
+     
+     
+			<script type="text/javascript">
+			 $(document).ready(function () {
+			$(".splLink").click(function () {
+        			$(this).parent().children("div.splCont").toggle("normal");
+        			var a = $(this).children("span#spoiler");
+        			a.html((a.html() == "+") ? "-" : "+");
+        			return false
+        		});
+			    });
+             </script>
+             <br/>
+            
+            <div style="padding-left: 230px; width:20%" class="splLink">
+				<span id="spoiler">+</span>
+				<span>Add member</span>
+			</div>
+			
+			
+            
+            <div class="splCont" style="display:none;">
+               
+                     <div id="labels"><spring:message code="form.councilMemberName"/></div>
+                        <input id="input_name" type="text"/>
+                    
+                    <div id="labels"><spring:message code="form.councilMemberContact"/></div>
+                        <input id="input_contact" type="text"/>
+                    
+                    <div id="labels"><spring:message code="form.councilMemberPosition"/></div>
+                        <input id="input_position" type="text"/>
+                        
+                    <input type="button" value="Add" onclick="addMember()">
+                        
+            </div>
+                
+        
+			
+          <script>
+       
+          
+          function editMember(id) {
+        	  $('#each_'+id).attr('style','display:none;');
+        	  $('#edit_'+id).attr('style','display:inline;');
+      }
+          
+          function updateMember(ID) {
+        	  var membersName = $("#edit_name_"+ID).val();
+        	  var membersPosition = $("#edit_position_"+ID).val();
+        	  var membersContact = $("#edit_contact_"+ID).val();
+        	  var CID = <%=council.getId()%>;
+        	  $.ajax({
+                  url: "${linkEdit}",
+                  cache: false,
+                  dataType: "html",
+                  data: {name: membersName, position: membersPosition, contact: membersContact, memberId: ID, cid: CID},
+                  type: "GET",
+                  contentType: "application/json;charset=utf-8",
+                  success: function (data) {
+                	  $('#each_'+ID).attr('style','display:inline;');
+                	  $('#each_'+ID).html('<div>'+ membersName+'<div>'
+                			 			 +'<div>'+ membersPosition+'<div>'
+                			 			 +'<div>'+ membersContact+'<div>');
+                	  $("#edit_"+ID).attr('style','display:none;');
+                  },
+              });
+      }
+       
+          function removeMember(id) {
+              $.ajax({
+                  url: "${linkRemove}",
+                  cache: false,
+                  dataType: "html",
+                  data: {memberId: id},
+                  type: "GET",
+                  contentType: "application/json;charset=utf-8",
+                  success: function (data) {
+                      $('#member_'+id).remove();
+                  },
+              });
+      }
+       
+          function addMember() {
+              
+        	  var memberName = $("#input_name").val();
+        	  var memberPosition = $("#input_position").val();
+        	  var memberContact = $("#input_contact").val();
+        	  var ID = <%=council.getId()%>;
+        	  $.ajax({
+                  url: "${linkAdd}",
+                  cache: false,
+                  dataType: "html",
+                  data: {name: memberName, position: memberPosition, contact: memberContact, id: ID},
+                  type: "GET",
+                  contentType: "application/json;charset=utf-8",
+                  success: function (data) {
+                	  location.reload();
+                  },
+              });
+      }
+          </script>
+     
 </body>
 </html>
 

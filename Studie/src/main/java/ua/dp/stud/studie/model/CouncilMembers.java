@@ -15,8 +15,7 @@ import ua.dp.stud.StudPortalLib.model.BaseImagesSupport;
 @Entity
 @Table(name = "council_members")
 public class CouncilMembers implements Serializable {
-		@Id
-    	@GeneratedValue(strategy = GenerationType.AUTO)
+		
     	private Integer memberId;
 		
 		private String memberName;
@@ -36,12 +35,22 @@ public class CouncilMembers implements Serializable {
 	    	this.memberName=memberName;
 	    	this.memberContact=memberContact;
 	    }
+	    public CouncilMembers(String memberName, String memberContact, String memberPosition,Council nameOfCouncil)
+	    {
+	    	this.memberPosition=memberPosition;
+	    	this.memberName=memberName;
+	    	this.memberContact=memberContact;
+	    	this.nameOfCouncil=nameOfCouncil;
+	    }
+	    
 
-	    public Integer getId() {
+	    @Id
+    	@GeneratedValue(strategy = GenerationType.AUTO)
+	    public Integer getMemberId() {
 	        return memberId;
 	    }
 
-	    public void setId(Integer memberId) {
+	    public void setMemberId(Integer memberId) {
 	        this.memberId = memberId;
 	    }
 	    
@@ -50,8 +59,8 @@ public class CouncilMembers implements Serializable {
 	    }
 
 
-	    @ManyToOne(fetch = FetchType.LAZY)
-	    @JoinColumn(name = "nameOfCouncil")
+	    @ManyToOne(fetch = FetchType.EAGER)
+	    @JoinColumn(name = "council_id")
 	    public Council getNameOfCouncil() {
 	        return nameOfCouncil;
 	    }

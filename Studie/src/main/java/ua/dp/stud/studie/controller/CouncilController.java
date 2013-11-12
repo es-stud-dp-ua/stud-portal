@@ -1,6 +1,7 @@
 package ua.dp.stud.studie.controller;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -8,6 +9,8 @@ import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
+import javax.portlet.ResourceRequest;
+import javax.portlet.ResourceResponse;
 import javax.validation.Valid;
 
 import com.liferay.portal.kernel.exception.PortalException;
@@ -15,6 +18,7 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.service.LayoutLocalServiceUtil;
 import com.liferay.portal.theme.ThemeDisplay;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -37,12 +41,17 @@ import org.springframework.web.portlet.bind.annotation.RenderMapping;
 
 
 
+
+
+import org.springframework.web.portlet.bind.annotation.ResourceMapping;
+
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.servlet.SessionMessages;
 
 import ua.dp.stud.StudPortalLib.model.ImageImpl;
 import ua.dp.stud.StudPortalLib.util.ImageService;
 import ua.dp.stud.studie.model.Council;
+import ua.dp.stud.studie.model.CouncilMembers;
 import ua.dp.stud.studie.service.CouncilService;
 import ua.dp.stud.studie.service.impl.CouncilServiceImpl;
 
@@ -72,6 +81,11 @@ public class CouncilController{
     @ModelAttribute(value = COUNCIL)
     public Council getCommandObject() {
         return new Council();
+    }
+    
+    @ModelAttribute(value = "councilMembers")
+    public CouncilMembers getСouncilMembersCommandObject() {
+        return new CouncilMembers();
     }
     
     @Autowired
@@ -151,6 +165,45 @@ public class CouncilController{
         }
     }
 
+    
+    
+    @ResourceMapping(value = "addMember")
+    public void addMember(ResourceResponse response, ResourceRequest request,String name, String position, String contact, Integer id) {
+    	CouncilMembers member = new CouncilMembers();
+    	member.setMemberContact(contact);
+    	member.setMemberName(name);
+    	member.setMemberPosition(position);
+    	
+    	Council council = councilService.getCouncilById(id);
+    	member.setNameOfCouncil(council);
+    	council.getCouncilMembers().add(member);
+    	councilService.addCouncilMembers(member);
+        
+    }
+    
+    @ResourceMapping(value = "editMember")
+    public void editMember(ResourceResponse response, ResourceRequest request,
+    		@RequestParam (required = true, defaultValue = "default")String name,
+    		@RequestParam(required = true, defaultValue = "default") String position, 
+    		@RequestParam(required = true, defaultValue = "default") String contact, 
+    		@RequestParam(required = true) Integer memberId, 
+    		@RequestParam (required = true)Integer cid) {
+    	System.out.println("name:"+name );
+    	System.out.println("position:"+position );
+    	System.out.println("contct:"+contact );
+    	System.out.println("id:"+memberId );
+    	System.out.println("cid:"+cid );
+    	CouncilMembers oldCouncilMember = councilService.getCouncilMembersById(memberId);
+        oldCouncilMember.setMemberName(name);
+        oldCouncilMember.setMemberContact(contact);
+        oldCouncilMember.setMemberPosition(position);
+        Council council = councilService.getCouncilById(cid);
+        oldCouncilMember.setNameOfCouncil(council);
+        councilService.updateCouncilMembers(oldCouncilMember);
+
+    }
+
+    
     @ActionMapping(value = "editCouncil")
     public void editCouncil(@ModelAttribute(COUNCIL) @Valid Council council,
                          BindingResult bindingResult,
@@ -210,6 +263,13 @@ public class CouncilController{
         councilService.deleteCouncil(councilID);
         return showAddSuccess(request, response);
     }
+    
+        
+    @ResourceMapping(value = "removeMember")
+    public void removeMember(ResourceResponse response, ResourceRequest request,
+                                   Integer memberId) {
+        councilService.deleteCouncilMembers(memberId);
+    }
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {
@@ -239,7 +299,7 @@ public class CouncilController{
      * @return model
      */
     @RenderMapping(params = "mode=showCouncil")
-    public ModelAndView showSelectedCouncil(RenderRequest request, RenderResponse response, SessionStatus sessionStatus) throws SystemException, PortalException {
+    public ModelAndView showSelectedCouncil(RenderRequest request, RenderResponse response){
 
         int councilId = Integer.valueOf(request.getParameter("id"));
         Council council = councilService.getCouncilById(councilId);
@@ -263,7 +323,7 @@ public class CouncilController{
         model.addObject(COUNCIL, council);
         model.addObject(CURRENT_PAGE, currentPage);
         model.addObject(MAIN_IMAGE, mainImageUrl);
-
+        model.addObject("councilId", councilId);
         return model;
     }
 

@@ -1,5 +1,6 @@
 package ua.dp.stud.studie.dao.impl;
 
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,7 @@ public class CouncilDaoImpl implements CouncilDao {
     @Override
     public Council getCouncilById(Integer id) {
     	 Council council = (Council) getSession().get(Council.class, id);
+    	 Hibernate.initialize(council.getCouncilMembers());
          return council;
     }
 
@@ -52,28 +54,32 @@ public class CouncilDaoImpl implements CouncilDao {
     }
 
     @Override
-
     public List<Council> getAll() {
         return getSession().createCriteria(Council.class).list();
     }
 
-	public CouncilMembers getCouncilMembersById(Integer id){
+    @Override
+    public CouncilMembers getCouncilMembersById(Integer id){
 		return (CouncilMembers) getSession().get(CouncilMembers.class, id);
 	}
 
-    public void addCouncilMembers(CouncilMembers councilMembers){
+	@Override
+	public void addCouncilMembers(CouncilMembers councilMembers){
     	getSession().save(councilMembers);
     }
 
+    @Override
     public void deleteCouncilMembers(Integer id){
     	CouncilMembers councilMembers = (CouncilMembers) getSession().get(CouncilMembers.class, id);
         getSession().delete(councilMembers);
     }
 
+    @Override
     public void updateCouncilMembers(CouncilMembers councilMembers){
     	getSession().update(councilMembers);
     }
 
+    @Override
     public List<CouncilMembers> getAllCouncilMembers(){
     	return getSession().createCriteria(CouncilMembers.class).list();
     }
