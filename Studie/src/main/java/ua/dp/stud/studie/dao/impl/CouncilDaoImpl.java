@@ -76,7 +76,7 @@ public class CouncilDaoImpl implements CouncilDao {
 
     @Override
     public void updateCouncilMembers(CouncilMembers councilMembers){
-    	getSession().update(councilMembers);
+    	getSession().merge(councilMembers);
     }
 
     @Override

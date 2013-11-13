@@ -71,25 +71,27 @@
         </div>     
 
 <br/><br/>
+
+<div id='newMember'>
      <% if (council.getCouncilMembers()!=null) {
 for (CouncilMembers member : council.getCouncilMembers()){%>
-<div id='member_<%=member.getMemberId()%>'>
+<div id='member_<%=member.getId()%>'>
 	<fieldset>
-	<div id='each_<%=member.getMemberId()%>' style="float:left; display:inline">
- 				<div><%=member.getMemberName()%></div>
-             	<div><%=member.getMemberPosition()%></div>
+				<div id='each_<%=member.getId()%>' style="float:left; display:inline">
+             	<div><i><%=member.getMemberPosition()%></i></div>
+ 				<div><b><%=member.getMemberName()%></b></div>
             	<div><%=member.getMemberContact()%></div>
     </div>
-      <div style="display:inline; float:right"   class="icon-pcppencil fs20" onclick="editMember(<%=member.getMemberId()%>);" aria-hidden="true"></div>
-      <div style="display:inline; float:right"   class="icon-pcpremove fs20" onclick="removeMember(<%=member.getMemberId()%>);" aria-hidden="true"></div>
-    <div id='edit_<%=member.getMemberId()%>'  style="display:none; float:left">
+      <div style="display:inline; float:right"   class="icon-pcppencil fs20" onclick="editMember(<%=member.getId()%>);" aria-hidden="true"></div>
+      <div style="display:inline; float:right"   class="icon-pcpremove fs20" onclick="removeMember(<%=member.getId()%>);" aria-hidden="true"></div>
+    <div id='edit_<%=member.getId()%>'  style="display:none; float:left">
                      <div id="labels"><spring:message code="form.councilMemberName"/></div>
-                        <input id="edit_name_<%=member.getMemberId()%>" type="text" value='<%=member.getMemberName()%>'/>
-                    <div id="labels"><spring:message code="form.councilMemberContact"/></div>
-                        <input id="edit_contact_<%=member.getMemberId()%>" type="text" value='<%=member.getMemberContact()%>'/>
+                        <input id="edit_name_<%=member.getId()%>" type="text" value='<%=member.getMemberName()%>'/>
                     <div id="labels"><spring:message code="form.councilMemberPosition"/></div>
-                        <input id="edit_position_<%=member.getMemberId()%>" type="text" value='<%=member.getMemberPosition()%>'/>
-                    <input type="button" value="Save" onclick="updateMember(<%=member.getMemberId()%>)">
+                        <input id="edit_position_<%=member.getId()%>" type="text" value='<%=member.getMemberPosition()%>'/>
+                    <div id="labels"><spring:message code="form.councilMemberContact"/></div>
+                        <textarea id="edit_contact_<%=member.getId()%>" COLS="60" ROWS="5"><%=member.getMemberContact()%></textarea><br>
+                    <input type="button" value="Save" onclick="updateMember(<%=member.getId()%>)">
    </div>
      </fieldset> 
      <br/>      
@@ -98,6 +100,7 @@ for (CouncilMembers member : council.getCouncilMembers()){%>
          <%}%>
      <%}%>
      
+  </div>
      		
      		<portlet:resourceURL var="linkAdd" id="addMember"/>
 			<portlet:resourceURL var="linkRemove" id="removeMember"/>
@@ -125,18 +128,17 @@ for (CouncilMembers member : council.getCouncilMembers()){%>
 			
             
             <div class="splCont" style="display:none;">
-               
-                     <div id="labels"><spring:message code="form.councilMemberName"/></div>
+                 
+                    <div id="labels"><spring:message code="form.councilMemberName"/></div>
                         <input id="input_name" type="text"/>
-                    
-                    <div id="labels"><spring:message code="form.councilMemberContact"/></div>
-                        <input id="input_contact" type="text"/>
                     
                     <div id="labels"><spring:message code="form.councilMemberPosition"/></div>
                         <input id="input_position" type="text"/>
-                        
+
+					<div id="labels"><spring:message code="form.councilMemberContact"/></div>
+                        <textarea id="input_contact" COLS="60" ROWS="5"></textarea><br>
+                                            
                     <input type="button" value="Add" onclick="addMember()">
-                        
             </div>
                 
         
@@ -163,8 +165,8 @@ for (CouncilMembers member : council.getCouncilMembers()){%>
                   contentType: "application/json;charset=utf-8",
                   success: function (data) {
                 	  $('#each_'+ID).attr('style','display:inline;');
-                	  $('#each_'+ID).html('<div>'+ membersName+'<div>'
-                			 			 +'<div>'+ membersPosition+'<div>'
+                	  $('#each_'+ID).html('<div><i>'+ membersPosition+'</i><div>'
+                			 			 +'<div><b>'+ membersName +'</b><div>'
                 			 			 +'<div>'+ membersContact+'<div>');
                 	  $("#edit_"+ID).attr('style','display:none;');
                   },
@@ -192,18 +194,64 @@ for (CouncilMembers member : council.getCouncilMembers()){%>
         	  var memberContact = $("#input_contact").val();
         	  var ID = <%=council.getId()%>;
         	  $.ajax({
-                  url: "${linkAdd}",
+        		  url: "${linkAdd}",
                   cache: false,
                   dataType: "html",
                   data: {name: memberName, position: memberPosition, contact: memberContact, id: ID},
                   type: "GET",
                   contentType: "application/json;charset=utf-8",
                   success: function (data) {
-                	  location.reload();
+                	  $('#newMember').append(data);
+                	  $('.splCont').toggle();
                   },
               });
       }
+          
+          function a() {
+              jQuery('#cropbox').Jcrop({onChange: setCoords, onSelect: setCoords, bgColor: 'black',
+                      bgOpacity: .4,
+                      setSelect: [100, 0, 253, 353],
+                      aspectRatio: 1});
+              }
+      
+          function setCoords(c) {
+      		jQuery('#x1').val(c.x);
+              jQuery('#y1').val(c.y);
+              jQuery('#x2').val(c.x2);
+              jQuery('#y2').val(c.y2);
+              jQuery('#w').val(c.w);
+              jQuery('#h').val(c.h);
+      }
+          
+          
           </script>
+         
+           <script>
+                            function handleFileSelect(evt) {
+                            var files = evt.target.files; // FileList object
+                                    // Loop through the FileList and render image files as thumbnails.
+                                    var f = files[files.length - 1];
+                                    // Only process im11age files.
+                                    document.getElementById('list').innerHTML = '';
+                                    var reader = new FileReader();
+                                    // Closure to capture the file information.
+                                    reader.onload = (function(theFile) {
+                            return function(e) {
+                            // Render thumbnail.
+                            var span = document.createElement('span');
+                                    span.innerHTML = ['<img id="cropbox" width="453px"  class="thumb" src="', e.target.result,
+                                    '" title="', escape(theFile.name), '"/>'].join('');
+                                    document.getElementById('list').insertBefore(span, null);
+                                    a();
+                            };
+                                    a();
+                            })(f);
+                                    // Read in the image file as a data URL.
+                                    reader.readAsDataURL(f);
+                                    a();
+                            }
+                            document.getElementById('mainImage').addEventListener('change', handleFileSelect, false);</script>
+          
      
 </body>
 </html>

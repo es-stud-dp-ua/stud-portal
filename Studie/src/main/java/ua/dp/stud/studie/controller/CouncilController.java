@@ -1,5 +1,6 @@
 package ua.dp.stud.studie.controller;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
@@ -29,6 +30,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.portlet.ModelAndView;
@@ -168,17 +170,29 @@ public class CouncilController{
     
     
     @ResourceMapping(value = "addMember")
-    public void addMember(ResourceResponse response, ResourceRequest request,String name, String position, String contact, Integer id) {
+    public void addMember(ResourceResponse response, ResourceRequest request,String name, String position, String contact, Integer id) throws Exception {
     	CouncilMembers member = new CouncilMembers();
     	member.setMemberContact(contact);
     	member.setMemberName(name);
     	member.setMemberPosition(position);
-    	
     	Council council = councilService.getCouncilById(id);
     	member.setNameOfCouncil(council);
     	council.getCouncilMembers().add(member);
     	councilService.addCouncilMembers(member);
-        
+    	StringBuilder s = new StringBuilder();
+    	s.append("<div id='member_").append(member.getId()).append("'><fieldset><div id='each_").append(member.getId());
+    	s.append("' style='float:left; display:inline'><div><i>").append(position).append("</i></div><div><b>").append(name);
+    	s.append("</b></div><div>").append(contact).append("</div></div><div style='display:inline; float:right' class='icon-pcppencil fs20' onclick='editMember(");
+    	s.append(member.getId()).append(");' aria-hidden='true'></div><div style='display:inline; float:right'   class='icon-pcpremove fs20' onclick='removeMember(");
+    	s.append(member.getId()).append(");' aria-hidden='true'></div><div id='edit_").append(member.getId()).append("'  style='display:none; float:left'>");
+    	s.append("<div id='labels'><spring:message code='form.councilMemberName'/></div>");
+    	s.append("<input id='edit_name_").append(member.getId()).append("' type='text' value='").append(name).append("'/>");
+    	s.append("<div id='labels'><spring:message code='form.councilMemberPosition'/></div>");
+    	s.append("<input id='edit_position_").append(member.getId()).append("' type='text' value='").append(position).append("'/>");
+    	s.append("<div id='labels'><spring:message code='form.councilMemberContact'/></div>");
+    	s.append("<textarea id='edit_contact_").append(member.getId()).append("' COLS='60' ROWS='5'>").append(contact).append("</textarea><br>");
+    	s.append("<input type='button' value='Save' onclick='updateMember(").append(member.getId()).append(")'></div></fieldset><br/>");
+    	response.getWriter().println(s);
     }
     
     @ResourceMapping(value = "editMember")
