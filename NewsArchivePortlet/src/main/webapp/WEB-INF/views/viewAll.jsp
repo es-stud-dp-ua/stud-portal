@@ -28,7 +28,7 @@
     <head>
     </head>
     <body>
-        <%if (request.isUserInRole("Administrator")) { %>
+        <%if ((request.isUserInRole("Administrator")) || (request.isUserInRole("Press"))) { %>
     <portlet:renderURL var="addNewsUrl">
         <portlet:param name="mode" value="add"/>
     </portlet:renderURL>
@@ -51,7 +51,7 @@
                 <div>
 					<div style="height: 210px;">
 						<div style="min-height: 200px; width: 680px; float: right;">
-							<% if (request.isUserInRole("Administrator")) { %>
+							<% if ((request.isUserInRole("Administrator")) || (request.isUserInRole("Press"))) { %>
 							<div class="portlet-content-controlpanel fs20"style="width: 9.5%;float: right;">
                 <a style="float: right"
                  href='<portlet:renderURL><portlet:param name="newsId" value="<%=currentNews.getId().toString()%>"/><portlet:param name="mode" value="delete" /><portlet:param name="currentPage" value="<%=currentPage.toString()%>"/> </portlet:renderURL>'

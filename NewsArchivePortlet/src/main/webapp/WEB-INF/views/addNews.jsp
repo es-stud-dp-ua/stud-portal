@@ -13,7 +13,7 @@
 <%
     Boolean russianLocaleEnabled = request.getLocale().getLanguage().equals("ru");
 %>
-<%if (request.isUserInRole("Administrator")) { %>
+<%if ((request.isUserInRole("Administrator")) || (request.isUserInRole("Press"))) { %>
 <script id="" src="${pageContext.request.contextPath}/js/cropbox.js" type="text/javascript"></script>
 <script id="" src="${pageContext.request.contextPath}/js/edit.js" type="text/javascript"></script>
 
@@ -121,7 +121,7 @@ function setCoords(c) {
 
                 <div id="eventSetting" style="text-align: left;">
                     <div style="font-size:14px">
-                    <% if (request.isUserInRole("Administrator")) { %>
+                    <% if ((request.isUserInRole("Administrator")) || (request.isUserInRole("Press"))) { %>
                     <label for="onMainpage"><spring:message code="form.onMainPage"/></label>
                     <form:checkbox path="onMainpage" />
                     <form:errors path="onMainpage" cssClass="error"/>
