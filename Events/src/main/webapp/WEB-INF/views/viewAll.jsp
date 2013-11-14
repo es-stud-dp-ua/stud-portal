@@ -151,7 +151,7 @@
                  for (Events currentEvent : events){%>
                  <portlet:renderURL var="eventSingleLink">
 					<portlet:param name="eventID" value="<%=currentEvent.getId().toString()%>"/>
-                    <portlet:param name="currentPage" value="<%=currentPage.toString()%>"/> 
+                    <portlet:param name="currentPage" value="<%=currentPage.toString()%>"/>
 				</portlet:renderURL>
             <div width="100%">
                 <img src="<%= imageService.getPathToMicroblogImage(currentEvent.getMainImage(),currentEvent) %>"
