@@ -140,7 +140,7 @@
                    <input type="text" style="width:75px;" name="EventSortDate" id="datepicker1"/>
 
                     <div id="sbm">
-                          <input type="submit" value=Submit>
+                          <input type="submit" code="form.showDate"">
                      </div>
           </form:form>
 
