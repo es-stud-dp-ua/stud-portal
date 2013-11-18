@@ -18,13 +18,12 @@ import ua.dp.stud.StudPortalLib.model.BaseImagesSupport;
 @PrimaryKeyJoinColumn(name = "id", referencedColumnName = "id")
 public class Council extends BaseImagesSupport implements Serializable{
 
-    
     private String councilName;
     private String councilContact;
     private String councilDescription;
     private List<CouncilMembers> councilMembers;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "nameOfCouncil", fetch = FetchType.LAZY)    
+    @OneToMany(cascade = { CascadeType.PERSIST}, mappedBy = "nameOfCouncil", fetch = FetchType.LAZY)    
     public List<CouncilMembers> getCouncilMembers() {
         return councilMembers;
     }
@@ -44,11 +43,24 @@ public class Council extends BaseImagesSupport implements Serializable{
     }
 
 
-
     public Council(String councilName){
     	this.setCouncilName(councilName);
     }
 
+    public Council(String councilName, String councilContact, String councilDescription) {
+        this.councilName = councilName;
+        this.councilContact = councilContact;
+        this.councilDescription = councilDescription;
+        
+    }
+    
+    public Council(String councilName, String councilContact, String councilDescription,List<CouncilMembers> councilMembers) {
+        this.councilName = councilName;
+        this.councilContact = councilContact;
+        this.councilDescription = councilDescription;
+        this.councilMembers=councilMembers;
+        
+    }
     @Column(name = "councilName")
     public String getCouncilName() {
         return councilName;
@@ -74,16 +86,6 @@ public class Council extends BaseImagesSupport implements Serializable{
 
     public void setCouncilDescription(String councilDescription) {
         this.councilDescription = councilDescription;
-    }
-
-
-
-    
-        public Council(String councilName, String councilContact, String councilDescription) {
-        this.councilName = councilName;
-        this.councilContact = councilContact;
-        this.councilDescription = councilDescription;
-        
     }
 
     @Override

@@ -14,5 +14,6 @@
         <mapping class="ua.dp.stud.studie.model.Schedule"/>
         <mapping class="ua.dp.stud.StudPortalLib.model.BaseImagesSupport"/>
         <mapping class="ua.dp.stud.StudPortalLib.model.ImageImpl"/>
+        <mapping class="ua.dp.stud.StudPortalLib.model.FileSaver"/>
     </session-factory>
 </hibernate-configuration>

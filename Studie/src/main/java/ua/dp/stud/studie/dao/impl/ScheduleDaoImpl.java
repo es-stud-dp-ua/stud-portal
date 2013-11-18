@@ -26,7 +26,7 @@ public class ScheduleDaoImpl implements  ScheduleDao{
     }
 
     @Override
-    public Schedule getScheduleById(Integer id)
+    public Schedule getScheduleById(Long id)
     {
         Schedule schedule = (Schedule) getSession().get(Schedule.class, id);
         return schedule;
@@ -39,7 +39,7 @@ public class ScheduleDaoImpl implements  ScheduleDao{
     }
 
     @Override
-    public void deleteSchedule(Integer id)
+    public void deleteSchedule(Long id)
     {
         Schedule schedule = (Schedule) getSession().get(Schedule.class, id);
         getSession().delete(schedule);

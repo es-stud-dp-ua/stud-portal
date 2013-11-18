@@ -3,7 +3,14 @@
 <%@ page import="com.liferay.portal.kernel.servlet.ImageServletTokenUtil" %>
 <%@ page import="ua.dp.stud.StudPortalLib.util.ImageService" %>
 <%@ taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet" %>
-<%@include file="include.jsp" %>
+<%@ taglib prefix="portlet" uri="http://java.sun.com/portlet_2_0" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
+<%@ page isELIgnored="false" %>
+<%@ page import="ua.dp.stud.StudPortalLib.util.ImageService" %>
+
+<% ImageService imageService = (ImageService) pageContext.findAttribute("imageService"); %>
 
 
 <%@ taglib prefix="theme" uri="http://liferay.com/tld/theme" %>
@@ -14,6 +21,7 @@
 
 <html>
     <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     </head>
     <body>
     <portlet:renderURL var="LinkAddCouncil">
@@ -37,6 +45,22 @@
 
 </div>
 
+<div style="padding-left: 200px; width: 60%; float: none;">
+<table border="1" style="border-color: grey;">
+<tr>
+<td >
+<div style="padding-left: 100px;"><h2><spring:message code="studh2"/></h2></div>
+<br/>
+<br/>
+<div style="font-size: 12px;"><spring:message code="studt1"/></div>
+<br/>
+<br/>
+<div style="font-size: 12px;"><spring:message code="studt2"/></div>
+</td>
+<tr>
+</table>
+</div>
+
 <% if (!councils.isEmpty()) {
 for (Council council : councils){%>
 		<div id="newsTable" style="padding-top: 15px;">
@@ -47,7 +71,7 @@ for (Council council : councils){%>
                                          council.getMainImage(),
                                          council) %>" class="newsImage" style="float: left">
 
-                        <div class="newsHeader" style="padding-top: 50px; padding-left: 175px; font-size: 20pt; ">
+                        <div class="newsHeader" style="padding-top: 50px; padding-left: 150px; font-size: 20pt; ">
                            <b>
                                 <a href='
                             		<portlet:renderURL>

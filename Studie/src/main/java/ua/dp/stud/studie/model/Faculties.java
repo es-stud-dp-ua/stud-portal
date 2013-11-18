@@ -6,6 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Ольга
@@ -72,4 +73,14 @@ public class Faculties implements Serializable {
         return base;
     }
 
+    @OneToMany(mappedBy = "faculty", fetch = FetchType.LAZY)
+    private List<Schedule> listOfSchedules;
+
+   public List<Schedule> getListOfSchedules() {
+        return listOfSchedules;
+    }
+
+    public void setListOfSchedules(List<Schedule> listOfSchedules) {
+        this.listOfSchedules = listOfSchedules;
+    }
 }

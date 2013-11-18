@@ -4,11 +4,11 @@ import ua.dp.stud.studie.model.Schedule;
 import java.util.List;
 
 public interface ScheduleDao {
-    Schedule getScheduleById(Integer id);
+    Schedule getScheduleById(Long id);
 
     void addSchedule(Schedule schedule);
 
-    void deleteSchedule(Integer id);
+    void deleteSchedule(Long id);
 
     void updateSchedule(Schedule schedule);
 

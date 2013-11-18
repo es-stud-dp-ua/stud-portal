@@ -46,6 +46,7 @@ import ua.dp.stud.StudPortalLib.model.Events;
 import ua.dp.stud.StudPortalLib.model.ImageImpl;
 import ua.dp.stud.StudPortalLib.model.Tags;
 import ua.dp.stud.StudPortalLib.service.EventsService;
+import ua.dp.stud.StudPortalLib.util.Direction;
 import ua.dp.stud.StudPortalLib.util.EventsType;
 import ua.dp.stud.StudPortalLib.util.ImageService;
 
@@ -91,7 +92,7 @@ public class EventsController {
         this.imageService = imageService;
     }
 
-    
+
 
     @RenderMapping
     public ModelAndView showView(RenderRequest request, RenderResponse response) {
@@ -101,9 +102,15 @@ public class EventsController {
         int pagesCount;
         int currentPage;
         EventsType type;
-        Boolean future;
-        
-        
+        Boolean future=true;
+        Direction directionType=Direction.FUTURE;
+        Date sortDate=new Date();
+
+        if (request.getParameter("directType")!=null)
+            directionType= Direction.valueOf(request.getParameter("directType"));
+
+
+
         if ((request.getParameter(CURRENT_PAGE) != null) && ("next".equals(request.getParameter("direction")))) {
             currentPage = Integer.parseInt(request.getParameter(CURRENT_PAGE));
             if (currentPage < eventsService.getPagesCount(EVENTS_BY_PAGE)) {
@@ -119,34 +126,49 @@ public class EventsController {
         } else{
             currentPage = 1;
         }
-//PAGINATION 
+//PAGINATION
         if (request.getParameter(TYPE) != null) {
             type = EventsType.valueOf(request.getParameter(TYPE));
         } else {
             type = null;
         }
-        if (TRUE.equals(request.getParameter(ARCHIVE)) || (request.getParameter(ARCHIVE)) == null) {
-            future = true;
-        } else {
-            future = false;
+
+        if ((directionType.equals(Direction.DAY))||(directionType.equals(Direction.FUTURE)))
+        {
+            future=true;
         }
-        //--------------
+        else
+        if ((directionType.equals(Direction.PREVIOS))||(directionType.equals(Direction.ALL)))
+        {
+            future=false;
+        }
 
 
-
-        //--------------
+       if (("".equals(request.getParameter("startDate")))||(request.getParameter("startDate")!=null))
+        {
+            sortDate=new Date(Date.parse(request.getParameter("startDate")));
+        }
+        else
+        {   if(("".equals(request.getParameter("sortDate")))||(request.getParameter("sortdate")!=null))
+                {
+                sortDate=new Date(Date.parse(request.getParameter("sortdate")));
+                }
+            else
+                sortDate=new Date();
+        }
         if (type == null) {
             pagesCount = eventsService.getPagesCount(true, EVENTS_BY_PAGE, future);
-            events = eventsService.getEventsOnPage(currentPage, EVENTS_BY_PAGE, true, future);
+            events = eventsService.getEventsOnPage(currentPage, EVENTS_BY_PAGE, true,directionType,sortDate);
         } else {
             pagesCount = eventsService.getPagesCountOfType(EVENTS_BY_PAGE, type, true, future);
-            events = eventsService.getEventsOfTypeByPage(currentPage, EVENTS_BY_PAGE, type.toString(), true, future);
+            events = eventsService.getEventsOfTypeByPage(currentPage, EVENTS_BY_PAGE, type.toString(), true,directionType,sortDate);
         }
 
         int leftPageNumb = Math.max(1, currentPage - NEARBY_PAGES);
         int rightPageNumb = Math.min(pagesCount, currentPage + NEARBY_PAGES);
         boolean skippedBeginning = false;
         boolean skippedEnding = false;
+
 
         if (pagesCount <= OVERAL_PAGES) {
             leftPageNumb = 1;
@@ -165,7 +187,7 @@ public class EventsController {
                 rightPageNumb = pagesCount;
             }
         }
-        model.addObject(ARCHIVE, future);
+        model.addObject("archive", future);
         model.addObject("leftPageNumb", leftPageNumb);
         model.addObject("rightPageNumb", rightPageNumb);
         model.addObject("skippedBeginning", skippedBeginning);
@@ -177,7 +199,7 @@ public class EventsController {
         model.addObject("EventsByPage", EVENTS_BY_PAGE);
         return model;
     }
-    
+
     @RenderMapping(params = "tagID")
     public ModelAndView showTagView(RenderRequest request, RenderResponse response) {
         ModelAndView model = new ModelAndView();
@@ -227,28 +249,24 @@ public class EventsController {
         return model;
     }
 
-    /**
-     * Pagination handling
-     *
-     * @param request
-     * @param response
-     */
-    
-    @ActionMapping(params = "sort=date")
-    public void getSortedDate(ActionRequest request, ActionResponse response){
-    Date sortedDate;
-       if (!"".equals(request.getParameter("EventSortDate"))){
-        sortedDate=new Date(Date.parse(request.getParameter("EventSortDate"))); 
-       }
+
+    @ActionMapping(value = "sort")
+    public void getSortedDate(ActionRequest request, ActionResponse response)
+    {
+       if (request.getParameter("EventSortDate").equals(""))
+           response.setRenderParameter("startDate",(new Date().toString()));
+       else
+            response.setRenderParameter("startDate",request.getParameter("EventSortDate"));
+       response.setRenderParameter("directType",request.getParameter("directType"));
     }
-                        
 
 
 
-    @RenderMapping(EVENT_ID)
+
+    @RenderMapping(params = "eventID")
     public ModelAndView showSelectedEvents(RenderRequest request, RenderResponse response) throws SystemException, PortalException {
         ModelAndView model = new ModelAndView();
-        int eventID = Integer.valueOf(request.getParameter(EVENT_ID));
+        int eventID = Integer.valueOf(request.getParameter("eventID"));
         Events event = eventsService.getEventsById(eventID);
         ImageImpl mImage = event.getMainImage();
         eventsService.incrementViews(event);
@@ -262,9 +280,11 @@ public class EventsController {
         } else {
             currentPage = 1;
         }
-        if (TRUE.equals(request.getParameter(ARCHIVE)) || (request.getParameter(ARCHIVE)) == null) {
-            future = true;
-        } else {
+         if ("true".equals(request.getParameter("archive")) || (request.getParameter("archive")) == null)
+         {
+            future=true;
+        }
+         else {
             future = false;
         }
 

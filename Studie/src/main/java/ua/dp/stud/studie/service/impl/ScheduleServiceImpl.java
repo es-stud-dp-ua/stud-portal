@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service("scheduleService")
 @Transactional
 public class ScheduleServiceImpl implements ScheduleService{
@@ -20,7 +22,7 @@ public class ScheduleServiceImpl implements ScheduleService{
     }
     @Override
     @Transactional(readOnly = true)
-    public Schedule getScheduleByID(Integer id) {
+    public Schedule getScheduleById(Long id) {
         return dao.getScheduleById(id);
     }
 
@@ -32,7 +34,7 @@ public class ScheduleServiceImpl implements ScheduleService{
 
     @Override
     @Transactional(readOnly = false)
-    public void deleteSchedule(Integer id) {
+    public void deleteSchedule(Long id) {
         dao.deleteSchedule(id);
     }
 
@@ -44,7 +46,7 @@ public class ScheduleServiceImpl implements ScheduleService{
 
     @Override
     @Transactional(readOnly = true)
-    public java.util.List<Schedule> getAll() {
+    public List<Schedule> getAll() {
         return dao.getAll();
     }
 

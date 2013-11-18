@@ -22,6 +22,10 @@
                     </c:if>
                 </div>
             </c:forEach>
+            <div id='categoria_new'>
+                <input type="text" id='nameCategoria_new' value="">
+                <div style="display:inline;" id='addBut_new' class="icon-pcpplus fs20" onclick="addKind($('#nameCategoria_new').val());" aria-hidden="true"></div>
+            </div>
 		</c:if>
 	</div>
  </body>
@@ -56,6 +60,19 @@
                 contentType: "application/json;charset=utf-8",
                 success: function (data) {
                     $('#categoria_'+id).remove();
+                },
+            });
+    }
+    function addKind(name) {
+            $.ajax({
+                url: "${linkAdd}",
+                cache: false,
+                dataType: "html",
+                data: {nameKindOfCourse: name},
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                success: function (data) {
+                    location.reload();
                 },
             });
     }
