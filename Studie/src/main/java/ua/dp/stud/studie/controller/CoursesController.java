@@ -276,6 +276,18 @@ public class CoursesController {
     /**
      * @param response
      * @param request
+     * @param nameKindOfCourse name
+     * @return ModelAndView
+     */
+    @ResourceMapping(value = "addKind")
+    public void addKindOfCourse(ResourceResponse response, ResourceRequest request,
+                                 String nameKindOfCourse) {
+        courseService.addKindOfCourse(new KindOfCourse(nameKindOfCourse));
+    }
+
+    /**
+     * @param response
+     * @param request
      * @param kindOfCourseId      long Id of KindOfCourse
      * @param nameKindOfCourse new name for current ID
      * @return ModelAndView
