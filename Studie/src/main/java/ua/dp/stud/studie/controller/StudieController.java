@@ -8,6 +8,9 @@ package ua.dp.stud.studie.controller;
 
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.servlet.SessionMessages;
+import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.portal.model.User;
+
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -24,6 +27,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
+
 import ua.dp.stud.StudPortalLib.model.ImageImpl;
 import ua.dp.stud.StudPortalLib.util.ImageService;
 import ua.dp.stud.studie.model.Faculties;
@@ -38,6 +42,7 @@ import javax.portlet.ActionResponse;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.validation.Valid;
+
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -288,6 +293,10 @@ public class StudieController {
 
     @RenderMapping(params = "mode=edit")
     public ModelAndView showEditNews(RenderRequest request, RenderResponse response) {
+    	if (!request.isUserInRole("Administrator"))
+    	{
+    		return showView(request,response);
+    	}
         ModelAndView model = new ModelAndView("editStudie");
         int studieID = Integer.valueOf(request.getParameter("studieId"));
         Studie studie = studieService.getStudieById(studieID);
