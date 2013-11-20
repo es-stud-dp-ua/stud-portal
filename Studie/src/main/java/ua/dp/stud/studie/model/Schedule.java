@@ -12,13 +12,13 @@ public class Schedule implements Serializable  {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private  Long id;
     @Column
-    private String university;
+    private Studie university;
 
     @ManyToOne
     @JoinColumn(name="faculty_id")
     private Faculties faculty;
     @Column
-    private String year;
+    private Years year;
     @Column
     private FileSaver scheduleFile;
 
@@ -31,14 +31,14 @@ public class Schedule implements Serializable  {
         this.id = id;
     }
 
-    public String getUniversity()
-    {
+    public Studie getUniversity() {
         return university;
     }
-    public void setUniversity(String university)
-    {
+
+    public void setUniversity(Studie university) {
         this.university = university;
     }
+
     public Faculties getFaculty()
     {
         return faculty;
@@ -47,13 +47,13 @@ public class Schedule implements Serializable  {
     {
         this.faculty=faculty;
     }
-    public String getYear()
-    {
+
+    public Years getYear() {
         return year;
     }
-    public  void setYear(String year)
-    {
-        this.year=year;
+
+    public void setYear(Years year) {
+        this.year = year;
     }
 
     public FileSaver getScheduleFile() {
@@ -67,10 +67,10 @@ public class Schedule implements Serializable  {
     {
         this.university=null;
         this.faculty=null;
-        this.year=null;
+        this.year=Years.FIRST;
         this.scheduleFile =null;
     }
-   public Schedule(String university, Faculties faculty, String year, FileSaver scheduleFileFolder)
+   public Schedule(Studie university, Faculties faculty, Years year, FileSaver scheduleFileFolder)
     {
         this.university=university;
         this.faculty=faculty;
