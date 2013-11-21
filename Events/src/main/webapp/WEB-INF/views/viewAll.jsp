@@ -51,7 +51,7 @@
     <body>
     <liferay-ui:success message='<spring:message code="msg.successAdd"/>' key="success-add"/>
     <div id="contentDiv">
-        <%if (request.isUserInRole("Administrator") || request.isUserInRole("User")) { %>
+
         <div class="portlet-content-controlpanel fs20">
             <%if(!archive){%>
             <a style="float: right" href='<portlet:renderURL>
@@ -68,12 +68,13 @@
                 <div class="Archive" aria-hidden="true"><spring:message code="form.archive"/></div>
             </a>
             <%}%>
+        <%if (request.isUserInRole("Administrator") || request.isUserInRole("User")) { %>
             <a style="float: right" href='<portlet:renderURL><portlet:param name="mode" value="add"/></portlet:renderURL>'>
                 <div class="panelbtn panelbtn-right icon-pcpfile" aria-hidden="true"></div>
             </a>
-
+         <%}%>
         </div>
-        <%}%>
+
         <div class="cmt-types">
             <form method="post" action='<portlet:renderURL>
                                <!--<portlet:param name="archive" value="<%=archive.toString()%>"/>-->
