@@ -7,6 +7,7 @@
 <%@include file="include.jsp" %>
 <html>
 <body>
+<%@include file="leftBar.jsp" %>
 <portlet:resourceURL var="linkEdit" id="editKind"/>
 <portlet:resourceURL var="linkRemove" id="removeKind"/>
 <portlet:resourceURL var="linkAdd" id="addKind"/>
