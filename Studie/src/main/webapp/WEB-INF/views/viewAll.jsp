@@ -66,7 +66,7 @@
 			<div class="ribbon-edge-bottomleft"></div>
 		</div>
 		<portlet:renderURL var="LinkSchedule">
-			<portlet:param name="" value=""/>
+			<portlet:param name="view" value="schedule"/>
 		</portlet:renderURL>
 		<div class="ribbon-wrapper">
 			<a class="btnselected" href="${LinkSchedule}"

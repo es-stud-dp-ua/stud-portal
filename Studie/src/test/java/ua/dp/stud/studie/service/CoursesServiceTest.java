@@ -4,9 +4,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
-import ua.dp.stud.studie.dao.CourseDao;
-import ua.dp.stud.studie.model.Course;
-import ua.dp.stud.studie.service.impl.CourseServiceImpl;
+import ua.dp.stud.StudPortalLib.service.CourseService;
+import ua.dp.stud.StudPortalLib.dao.CourseDao;
+import ua.dp.stud.StudPortalLib.model.Course;
+import ua.dp.stud.StudPortalLib.service.impl.CourseServiceImpl;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;

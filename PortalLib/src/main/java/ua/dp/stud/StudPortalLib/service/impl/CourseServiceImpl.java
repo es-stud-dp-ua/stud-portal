@@ -1,15 +1,14 @@
-package ua.dp.stud.studie.service.impl;
+package ua.dp.stud.StudPortalLib.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import ua.dp.stud.studie.dao.CourseDao;
-import ua.dp.stud.studie.model.Course;
-import ua.dp.stud.studie.model.KindOfCourse;
-import ua.dp.stud.studie.service.CourseService;
+import ua.dp.stud.StudPortalLib.dao.CourseDao;
+import ua.dp.stud.StudPortalLib.model.Course;
+import ua.dp.stud.StudPortalLib.model.KindOfCourse;
+import ua.dp.stud.StudPortalLib.service.CourseService;
 
-import java.util.Collection;
 import java.util.List;
 
 /**
