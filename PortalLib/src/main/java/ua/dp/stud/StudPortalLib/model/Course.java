@@ -1,13 +1,9 @@
-package ua.dp.stud.studie.model;
+package ua.dp.stud.StudPortalLib.model;
 
 
-import org.hibernate.validator.constraints.NotEmpty;
-import ua.dp.stud.StudPortalLib.model.BaseImagesSupport;
-import ua.dp.stud.studie.model.KindOfCourse;
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.Date;
-import java.awt.Image;
+
 /**
  * Author: Nazarenko K.V
  * Date: 03.10.13

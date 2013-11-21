@@ -18,15 +18,15 @@ public class ScheduleTest {
     @Test
     public void TestGetUniversity()
     {
-        String expResult=null;
-        String result=instance.getUniversity();
+        Studie expResult=null;
+        Studie result=instance.getUniversity();
         assertEquals(expResult,result);
     }
 
     @Test
     public void TestSetUniversity()
     {
-        String university ="";
+        Studie university = new Studie();
         instance.setUniversity(university);
     }
 
@@ -48,15 +48,15 @@ public class ScheduleTest {
     @Test
     public void TestGetYear()
     {
-        String expResult=null;
-        String result=instance.getYear();
+        Years expResult=Years.FIRST;
+        Years result=instance.getYear();
         assertEquals(expResult,result);
     }
 
     @Test
     public void TestSetYear()
     {
-        String year = "";
+        Years year = Years.FIRST;
         instance.setYear(year);
     }
 
