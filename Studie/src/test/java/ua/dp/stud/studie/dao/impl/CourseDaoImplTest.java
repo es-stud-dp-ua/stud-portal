@@ -10,9 +10,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
-import ua.dp.stud.studie.dao.CourseDao;
-import ua.dp.stud.studie.model.Course;
-import ua.dp.stud.studie.model.KindOfCourse;
+import ua.dp.stud.StudPortalLib.dao.CourseDao;
+import ua.dp.stud.StudPortalLib.model.Course;
+import ua.dp.stud.StudPortalLib.model.KindOfCourse;
 
 import static org.junit.Assert.assertEquals;
 */
