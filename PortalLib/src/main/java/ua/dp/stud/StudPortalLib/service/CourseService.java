@@ -3,6 +3,7 @@ package ua.dp.stud.StudPortalLib.service;
 import ua.dp.stud.StudPortalLib.model.Course;
 import ua.dp.stud.StudPortalLib.model.KindOfCourse;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -33,6 +34,12 @@ public interface CourseService {
     List<KindOfCourse> getAllKindOfCourse();
 
     List<KindOfCourse> getAllKindOfCourseWithCount();
+
+    public Collection<Course> getCoursesByAuthor(String author);
+
+    public Integer getPagesCountByAuthor(String author, Integer orgByPage);
+
+    public Collection<Course> getPagesCourseByAuthor(String author, Integer pageNumb, Integer organizationByPage);
 
     void initializeCountOfCourses(KindOfCourse kindOfCourse);
 

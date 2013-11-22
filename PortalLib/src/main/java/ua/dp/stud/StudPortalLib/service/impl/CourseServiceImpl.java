@@ -9,6 +9,7 @@ import ua.dp.stud.StudPortalLib.model.Course;
 import ua.dp.stud.StudPortalLib.model.KindOfCourse;
 import ua.dp.stud.StudPortalLib.service.CourseService;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -61,6 +62,24 @@ public class CourseServiceImpl implements CourseService {
     public List<Course> getCoursesByKindAndType(String kindOfCourse, String coursesType)
     {
         return dao.getCoursesByKindAndType(kindOfCourse, coursesType);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Collection<Course> getCoursesByAuthor(String author)
+    {
+        return dao.getAllCoursesByAuthor(author);
+    }
+
+    @Override
+    public Integer getPagesCountByAuthor(String author, Integer orgByPage) {
+        return dao.calcPages(dao.getCountByAuthor(author), orgByPage);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Collection<Course> getPagesCourseByAuthor(String author, Integer pageNumb, Integer organizationByPage) {
+        return dao.getPagesObjectByAuthor(author, pageNumb, organizationByPage);
     }
 
     @Override
