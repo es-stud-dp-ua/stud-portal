@@ -1,16 +1,11 @@
 package ua.dp.stud.studie.controller;
 
-import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.model.User;
-import com.liferay.portal.theme.ThemeDisplay;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -21,30 +16,23 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
-import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import ua.dp.stud.StudPortalLib.model.ImageImpl;
 
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 import ua.dp.stud.StudPortalLib.util.ImageService;
-import ua.dp.stud.studie.model.Course;
-import ua.dp.stud.studie.model.CoursesType;
-import ua.dp.stud.studie.model.KindOfCourse;
-import ua.dp.stud.studie.service.CourseService;
-import ua.dp.stud.studie.service.StudieService;
+import ua.dp.stud.StudPortalLib.model.Course;
+import ua.dp.stud.StudPortalLib.model.CoursesType;
+import ua.dp.stud.StudPortalLib.model.KindOfCourse;
+import ua.dp.stud.StudPortalLib.service.CourseService;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.portlet.*;
-import javax.validation.Valid;
-import java.util.ArrayList;
-import java.text.SimpleDateFormat;
-import java.util.*;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;

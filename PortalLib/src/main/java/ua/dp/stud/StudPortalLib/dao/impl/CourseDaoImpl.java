@@ -1,4 +1,4 @@
-package ua.dp.stud.studie.dao.impl;
+package ua.dp.stud.StudPortalLib.dao.impl;
 
 import org.hibernate.Hibernate;
 import org.hibernate.Query;
@@ -7,12 +7,11 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import ua.dp.stud.studie.dao.CourseDao;
-import ua.dp.stud.studie.model.Course;
-import ua.dp.stud.studie.model.CoursesType;
-import ua.dp.stud.studie.model.KindOfCourse;
+import ua.dp.stud.StudPortalLib.dao.CourseDao;
+import ua.dp.stud.StudPortalLib.model.Course;
+import ua.dp.stud.StudPortalLib.model.CoursesType;
+import ua.dp.stud.StudPortalLib.model.KindOfCourse;
 
-import java.util.Collection;
 import java.util.List;
 
 /**

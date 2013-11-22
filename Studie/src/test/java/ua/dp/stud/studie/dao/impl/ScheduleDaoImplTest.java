@@ -14,6 +14,8 @@ import ua.dp.stud.StudPortalLib.model.FileSaver;
 import ua.dp.stud.studie.dao.ScheduleDao;
 import ua.dp.stud.studie.model.Faculties;
 import ua.dp.stud.studie.model.Schedule;
+import ua.dp.stud.studie.model.Studie;
+import ua.dp.stud.studie.model.Years;
 
 import static org.junit.Assert.assertEquals;
 
@@ -37,7 +39,8 @@ public class ScheduleDaoImplTest extends AbstractTransactionalJUnit4SpringContex
     public void setUpClass() {
         FileSaver fs= new FileSaver();
         Faculties faculties = new Faculties();
-        schedule1 = new Schedule("univer1",faculties, "year1",fs );
+        Studie univer = new Studie();
+        schedule1 = new Schedule(univer,faculties, Years.FIRST,fs );
         dao.addSchedule(schedule1);
     }
 
