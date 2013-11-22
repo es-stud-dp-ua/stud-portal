@@ -10,13 +10,13 @@
 <body>
     <%@include file="leftBar.jsp" %>
     <div id="labels" style="width: 150px; font-size: 12pt; padding-left: 130px">
-        <spring:message code="schedule.university"/>
+        <spring:message code="Schedule.university"/>
     </div>
     <div class="textBox" style="padding-left: 130px">
-        <form:select path="coursesType">
-            <option value="${type}">${type}</option>
-            <c:forEach var="type" items="${coursesType}">
-                <option value="${type}">${type}</option>
+        <form:select path="study">
+            <option value="ALL">ALL</option>
+            <c:forEach var="study" items="${study}">
+                <option value="${study.title}">${study.title}</option>
             </c:forEach>
         </form:select>
     </div>
