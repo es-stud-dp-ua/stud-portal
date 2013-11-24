@@ -108,7 +108,7 @@
     		<!--    <portlet:param name="date" value="all"/> -->
     		    <portlet:param name="directType" value="<%=Direction.ALL.toString()%>"/>
     		</portlet:renderURL>
-    		'>All
+    		'><spring:message code="sorted.All"/>
     		</a>
 
         <a href='
@@ -116,7 +116,7 @@
             		    <portlet:param name="sortdate" value="<%=todayDate.toString()%>"/>
             		    <portlet:param name="directType" value="<%=Direction.DAY.toString()%>"/>
             		</portlet:renderURL>
-            		'>Today
+            		'><spring:message code="sorted.Today"/>
         </a>
 
         <a href='
@@ -124,14 +124,14 @@
                     		    <portlet:param name="sortdate" value="<%=tomorDate.toString()%>"/>
                     		    <portlet:param name="directType" value="<%=Direction.DAY.toString()%>"/>
                     		</portlet:renderURL>
-                    		'>Tomorrow
+                    		'><spring:message code="sorted.Tomorrow"/>
                 </a>
 
 
          <script>
                     $(function() {
                     $.datepicker.setDefaults($.datepicker.regional['ru']);
-                            $("#datepicker1").datepicker({ dateFormat: "mm/dd/yy", showAnim:'slide', showButtonPanel:true});
+                            $("#datepicker1").datepicker({ dateFormat: "mm/dd/yy", showAnim:'slide', showButtonPanel:true, buttonImage: "${pageContext.request.contextPath}/images/datePicker.gif", showOn:"both", buttonImageOnly:true });
                     });</script>
 
           <portlet:actionURL var="actionLink" name="sort">
