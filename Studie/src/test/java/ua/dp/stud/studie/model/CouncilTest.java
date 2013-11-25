@@ -57,7 +57,7 @@ public class CouncilTest {
     }
 
     @Test
-    public void TestSetCoursesContact()
+    public void TestSetCouncilContact()
     {
         String councilContact="";
         instance.setCouncilContact(councilContact);

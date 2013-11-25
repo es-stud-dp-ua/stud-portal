@@ -15,13 +15,13 @@ import ua.dp.stud.StudPortalLib.model.BaseImagesSupport;
 @Entity
 @Table(name = "council_members")
 @PrimaryKeyJoinColumn(name = "memberId", referencedColumnName = "id")
-public class CouncilMembers extends BaseImagesSupport implements Serializable {
+public class CouncilMembers extends BaseImagesSupport implements Serializable, Comparable<CouncilMembers> {
 		
 		
 		private String memberName;
 	    private String memberContact;
 	    private String memberPosition;
-	    
+	    private Integer listPosition;
 	    private Council nameOfCouncil;
 
 
@@ -29,18 +29,20 @@ public class CouncilMembers extends BaseImagesSupport implements Serializable {
 	    {
 	    }
 
-	    public CouncilMembers(String memberName, String memberContact, String memberPosition)
+	    public CouncilMembers(String memberName, String memberContact, String memberPosition, Integer listPosition)
 	    {
 	    	this.memberPosition=memberPosition;
 	    	this.memberName=memberName;
 	    	this.memberContact=memberContact;
+	    	this.listPosition=listPosition;
 	    }
-	    public CouncilMembers(String memberName, String memberContact, String memberPosition,Council nameOfCouncil)
+	    public CouncilMembers(String memberName, String memberContact, String memberPosition,Council nameOfCouncil, Integer listPosition)
 	    {
 	    	this.memberPosition=memberPosition;
 	    	this.memberName=memberName;
 	    	this.memberContact=memberContact;
 	    	this.nameOfCouncil=nameOfCouncil;
+	    	this.listPosition=listPosition;
 	    }
 	    
 
@@ -55,8 +57,17 @@ public class CouncilMembers extends BaseImagesSupport implements Serializable {
 	    public Council getNameOfCouncil() {
 	        return nameOfCouncil;
 	    }
-	    
-	    public void setMemberName(String memberName){
+
+	    @Column(name = "listPosition")
+	    public Integer getListPosition() {
+			return listPosition;
+		}
+
+		public void setListPosition(Integer listPosition) {
+			this.listPosition = listPosition;
+		}
+
+		public void setMemberName(String memberName){
 	    	this.memberName=memberName;
 	    }
 
@@ -89,6 +100,7 @@ public class CouncilMembers extends BaseImagesSupport implements Serializable {
 	        result = 31 * result + (memberName != null ? memberName.hashCode() : 0);
 	        result = 31 * result + (memberContact != null ? memberContact.hashCode() : 0);
 	        result = 31 * result + (memberPosition != null ? memberPosition.hashCode() : 0);
+	        result = 31 * result + (listPosition != null ? listPosition.hashCode() : 0);
 	        return result;
 	    }
 
@@ -106,8 +118,22 @@ public class CouncilMembers extends BaseImagesSupport implements Serializable {
 	            return false;
 	        if (memberPosition != null ? !memberPosition.equals(council.memberPosition) : council.memberPosition != null)
 	            return false;
+	        if (listPosition != null ? !listPosition.equals(council.listPosition) : council.listPosition != null)
+	        	return false;
 
 	        return true;
 	    }
 
+		@Override
+		public int compareTo(CouncilMembers obj) {
+			
+			return listPosition.compareTo(obj.listPosition);
+		}
+
+		@Override
+	    public String toString() {
+	        return new StringBuffer().append("CouncilMembers[").append("memberName=").append(memberName)
+	                .append(", memberContact=").append(memberContact).append(", memberPosition=").append(memberPosition)
+	                .append(", listPosition=").append(listPosition).append(']').toString();
+	    }
 }
