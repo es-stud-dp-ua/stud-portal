@@ -60,7 +60,7 @@ public class EventsDaoImpl extends DaoForApproveImpl<Events> implements EventsDa
       */
         if (direct==Direction.FUTURE)
         {
-            Query query=getSession().createQuery("FROM Events WHERE eventDateStart>=:DateNow AND type=:etype AND approved=:approve");
+            Query query=getSession().createQuery("FROM Events WHERE eventDateStart>=:DateNow AND type=:etype AND approved=:approve ORDER BY eventDateStart asc");
             query.setDate("DateNow",new Date());
             query.setParameter("approve",approve);
             query.setParameter("etype",EventsType.valueOf(type));
@@ -69,7 +69,7 @@ public class EventsDaoImpl extends DaoForApproveImpl<Events> implements EventsDa
         else
         if (direct==Direction.PREVIOS)
         {
-            Query query=getSession().createQuery("FROM Events WHERE eventDateStart<=:DateNow AND type=:etype AND approved=:approve");
+            Query query=getSession().createQuery("FROM Events WHERE eventDateStart<=:DateNow AND type=:etype AND approved=:approve ORDER BY eventDateStart desc");
             query.setDate("DateNow",new Date());
             query.setParameter("approve",approve);
             query.setParameter("etype",EventsType.valueOf(type));
@@ -85,7 +85,7 @@ public class EventsDaoImpl extends DaoForApproveImpl<Events> implements EventsDa
             tmpe.setHours(23);
             tmpe.setSeconds(59);
             tmpe.setMinutes(59);
-            Query query=getSession().createQuery("FROM Events WHERE eventDateStart>=:DateNowB AND eventDateStart<=:DateNowE AND type=:etype AND approved=:approve");
+            Query query=getSession().createQuery("FROM Events WHERE eventDateStart>=:DateNowB AND eventDateStart<=:DateNowE AND type=:etype AND approved=:approve ORDER BY eventDateStart asc");
             query.setDate("DateNowB",tmpb);
             query.setDate("DateNowE",tmpe);
             query.setParameter("approve",approve);
@@ -94,7 +94,7 @@ public class EventsDaoImpl extends DaoForApproveImpl<Events> implements EventsDa
         }
         else
         {
-            Query query=getSession().createQuery("FROM Events WHERE type=:etype AND approved=:approve");
+            Query query=getSession().createQuery("FROM Events WHERE type=:etype AND approved=:approve ORDER BY eventDateStart desc");
             query.setParameter("etype",EventsType.valueOf(type));
             query.setParameter("approve",approve);
             nearesEvents=query.list();
@@ -230,7 +230,7 @@ public class EventsDaoImpl extends DaoForApproveImpl<Events> implements EventsDa
         else
         if (direct==Direction.PREVIOS)
         {
-            Query query=getSession().createQuery("FROM Events WHERE eventDateStart<:DateNow AND approved=:approve ORDER BY eventDateStart asc");
+            Query query=getSession().createQuery("FROM Events WHERE eventDateStart<:DateNow AND approved=:approve ORDER BY eventDateStart desc");
             query.setDate("DateNow",date);
             query.setParameter("approve",approved);
             nearesEvents=query.list();
@@ -253,7 +253,7 @@ public class EventsDaoImpl extends DaoForApproveImpl<Events> implements EventsDa
         }
         else
         {
-            Query query=getSession().createQuery("FROM Events WHERE approved=:approve ORDER BY eventDateStart asc");
+            Query query=getSession().createQuery("FROM Events WHERE approved=:approve ORDER BY eventDateStart desc");
             query.setParameter("approve",approved);
             nearesEvents=query.list();
 

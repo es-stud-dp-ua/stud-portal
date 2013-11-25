@@ -253,7 +253,10 @@ public class EventsController {
     @ActionMapping(value = "sort")
     public void getSortedDate(ActionRequest request, ActionResponse response)
     {
-       response.setRenderParameter("startDate",request.getParameter("EventSortDate"));
+       if (request.getParameter("EventSortDate").equals(""))
+           response.setRenderParameter("startDate",(new Date().toString()));
+       else
+            response.setRenderParameter("startDate",request.getParameter("EventSortDate"));
        response.setRenderParameter("directType",request.getParameter("directType"));
     }
 

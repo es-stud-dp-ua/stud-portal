@@ -3,15 +3,17 @@
         "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
     <session-factory>
-        <mapping class="ua.dp.stud.studie.model.KindOfCourse"/>
-        <mapping class="ua.dp.stud.studie.model.Course"/>
+        <mapping class="ua.dp.stud.StudPortalLib.model.KindOfCourse"/>
+        <mapping class="ua.dp.stud.StudPortalLib.model.Course"/>
         <mapping class="ua.dp.stud.studie.model.Studie"/>
         <mapping class="ua.dp.stud.studie.model.Council"/>
-        <mapping class="ua.dp.stud.studie.model.KindOfCourse"/>
+        <mapping class="ua.dp.stud.StudPortalLib.model.KindOfCourse"/>
         <mapping class="ua.dp.stud.studie.model.Faculties"/>
         <mapping class="ua.dp.stud.studie.model.CouncilMembers"/>
         <mapping class="ua.dp.stud.studie.model.Specialties"/>
+        <mapping class="ua.dp.stud.studie.model.Schedule"/>
         <mapping class="ua.dp.stud.StudPortalLib.model.BaseImagesSupport"/>
         <mapping class="ua.dp.stud.StudPortalLib.model.ImageImpl"/>
+        <mapping class="ua.dp.stud.StudPortalLib.model.FileSaver"/>
     </session-factory>
 </hibernate-configuration>
