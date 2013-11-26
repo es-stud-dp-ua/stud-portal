@@ -56,7 +56,7 @@ public class CouncilDaoImpl implements CouncilDao {
 
     @Override
     public List<Council> getAll() {
-        return getSession().createCriteria(Council.class).list();
+        return getSession().createCriteria(Council.class).addOrder(Order.asc("councilName")).list();
     }
 
     @Override

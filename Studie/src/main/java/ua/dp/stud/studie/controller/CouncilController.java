@@ -201,11 +201,12 @@ System.out.println(mainImage);
         s.append(member.getId()).append("'><div id='each_").append(member.getId());
         s.append("' style='float:left; display:inline'>");
         if (member.getMainImage() != null){
-        s.append("<img src='").append(imageService.getPathToMicroblogImage(member.getMainImage(),member));
+        s.append("<img id='image_").append(member.getId()).append("' src='").append(imageService.getPathToMicroblogImage(member.getMainImage(),member));
         s.append("' style='float: left'>");
         }
-        s.append("<div style='float: left'><div><i>").append(position).append("</i></div><div><b>").append(name);
-        s.append("</b></div><div>").append(contact).append("</div></div></div><div style='display:inline; float:right' class='icon-pcpremove fs20' onclick='removeMember(");
+        s.append("<div style='float: left'><div id='position_").append(member.getId()).append("'><i>").append(position);
+        s.append("</i></div><div id='name_").append(member.getId()).append("'><b>").append(name);
+        s.append("</b></div><div id='contact_").append(member.getId()).append("'>").append(contact).append("</div></div></div><div style='display:inline; float:right' class='icon-pcpremove fs20' onclick='removeMember(");
         s.append(member.getId()).append(");' aria-hidden='true'></div><div style='display:inline; float:right'   class='icon-pcppencil fs20' onclick='editMember(");
         s.append(member.getId()).append(");' aria-hidden='true'></div>");
         s.append("<div style='display: inline; float: right' class='icon-pcparrow-up fs20' onclick='memberUp(").append(member.getId());
@@ -231,7 +232,9 @@ System.out.println(mainImage);
         s.append("<input id='edit_position_").append(member.getId()).append("' type='text' value='").append(position).append("'/>");
         s.append("<div id='labels_edit_contact'><spring:message code='form.councilMemberContact'/></div>");
         s.append("<textarea id='edit_contact_").append(member.getId()).append("' COLS='60' ROWS='5'>").append(contact).append("</textarea><br>");
-        s.append("<input type='button' value='Save' onclick='updateMember(").append(member.getId()).append(")'></div></fieldset><br/>");
+        s.append("<input type='button' value='Save' onclick='updateMember(").append(member.getId()).append(")'>");
+        s.append("  <input type='button' value='Cancel' onclick='cancelUpdateMember(").append(member.getId()).append(")'>");
+        s.append("</div></fieldset><br/>");
         response.getWriter().println(s);
 	}
 
