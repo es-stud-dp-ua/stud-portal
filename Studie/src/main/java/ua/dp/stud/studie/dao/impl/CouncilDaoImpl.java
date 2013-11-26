@@ -3,6 +3,7 @@ package ua.dp.stud.studie.dao.impl;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -55,7 +56,7 @@ public class CouncilDaoImpl implements CouncilDao {
 
     @Override
     public List<Council> getAll() {
-        return getSession().createCriteria(Council.class).list();
+        return getSession().createCriteria(Council.class).addOrder(Order.asc("councilName")).list();
     }
 
     @Override

@@ -2,6 +2,7 @@ package ua.dp.stud.studie.model;
 
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.*;
@@ -25,7 +26,8 @@ public class Council extends BaseImagesSupport implements Serializable{
     
     @OneToMany(cascade = { CascadeType.PERSIST}, mappedBy = "nameOfCouncil", fetch = FetchType.LAZY)    
     public List<CouncilMembers> getCouncilMembers() {
-        return councilMembers;
+        Collections.sort(councilMembers);
+    	return councilMembers;
     }
 
     public void setCouncilMembers(List<CouncilMembers> councilMembers) {
