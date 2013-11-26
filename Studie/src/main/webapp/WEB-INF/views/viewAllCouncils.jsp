@@ -64,13 +64,18 @@
 <% if (!councils.isEmpty()) {
 for (Council council : councils){%>
 		<div id="newsTable" style="padding-top: 15px;">
-
+				 <% if (request.isUserInRole("Administrator")) { %>
+				         <a style="float: right"
+           href="<portlet:renderURL><portlet:param name="councilId" value="<%=council.getId().toString()%>"/><portlet:param name="edit" value="council" /></portlet:renderURL>">
+           <div class="icon-pcppencil fs20" aria-hidden="true"></div>
+        </a>
+<%}%>
 
                     <div width="100%">
                         <img src="<%= imageService.getPathToMicroblogImage(
                                          council.getMainImage(),
                                          council) %>" class="newsImage" style="float: left">
-
+<hr/>
                         <div class="newsHeader" style="padding-top: 50px; padding-left: 150px; font-size: 20pt; ">
                            <b>
                                 <a href='
@@ -87,6 +92,7 @@ for (Council council : councils){%>
                     </div>
 
         </div>
+        
         <%}%>
 
 <%}%>
