@@ -33,17 +33,6 @@
                     <div class="panelbtn panelbtn-right icon-pcpplus" aria-hidden="true"></div>
                 </a>
 </div>
-<portlet:renderURL var="LinkEditCouncil">
-			<portlet:param name="edit" value="council"/>
-</portlet:renderURL>
-<div class="portlet-content-controlpanel fs20"style="width: 10.15%;float: right;">
-
-                <a style="float: right" href="name ${LinkEditCouncil}">
-
-                    <div class="panelbtn panelbtn-right icon-pcppencil" aria-hidden="true"></div>
-                </a>
-
-</div>
 
 <div style="padding-left: 200px; width: 60%; float: none;">
 <table border="1" style="border-color: grey;">
