@@ -1,5 +1,7 @@
 package ua.dp.stud.studie.dao;
+import ua.dp.stud.studie.model.Faculties;
 import ua.dp.stud.studie.model.Schedule;
+import ua.dp.stud.studie.model.Years;
 
 import java.util.List;
 
@@ -13,6 +15,8 @@ public interface ScheduleDao {
     void updateSchedule(Schedule schedule);
 
     List<Schedule> getAll();
+
+    Schedule getScheduleByFacultyAndYear(Faculties faculty, Years year);
 
 
 

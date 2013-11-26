@@ -4,6 +4,8 @@ import ua.dp.stud.StudPortalLib.model.FileSaver;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
+
 @Entity
 @Table(name = "schedule_table")
 public class Schedule implements Serializable  {
@@ -11,9 +13,6 @@ public class Schedule implements Serializable  {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private  Long id;
-    @Column
-    private Studie university;
-
     @ManyToOne
     @JoinColumn(name="faculty_id")
     private Faculties faculty;
@@ -21,7 +20,8 @@ public class Schedule implements Serializable  {
     private Years year;
     @Column
     private FileSaver scheduleFile;
-
+    @Column
+    private Date lastUpdateDate;
 
     public Long getId() {
         return id;
@@ -29,14 +29,6 @@ public class Schedule implements Serializable  {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Studie getUniversity() {
-        return university;
-    }
-
-    public void setUniversity(Studie university) {
-        this.university = university;
     }
 
     public Faculties getFaculty()
@@ -63,19 +55,28 @@ public class Schedule implements Serializable  {
     public void setScheduleFile(FileSaver scheduleFile) {
         this.scheduleFile = scheduleFile;
     }
+
+    public Date getLastUpdateDate() {
+        return lastUpdateDate;
+    }
+
+    public void setLastUpdateDate(Date lastUpdateDate) {
+        this.lastUpdateDate = lastUpdateDate;
+    }
+
     public Schedule()
     {
-        this.university=null;
         this.faculty=null;
         this.year=Years.FIRST;
         this.scheduleFile =null;
+        this.lastUpdateDate=null;
     }
-   public Schedule(Studie university, Faculties faculty, Years year, FileSaver scheduleFileFolder)
+   public Schedule(Faculties faculty, Years year, FileSaver scheduleFileFolder, Date lastUpdateDate)
     {
-        this.university=university;
         this.faculty=faculty;
         this.year=year;
         this.scheduleFile =scheduleFileFolder;
+        this.lastUpdateDate=lastUpdateDate;
 
     }
 
@@ -88,10 +89,11 @@ public class Schedule implements Serializable  {
 
         if (faculty != null ? !faculty.equals(schedule.faculty) : schedule.faculty != null) return false;
         if (id != null ? !id.equals(schedule.id) : schedule.id != null) return false;
+        if (lastUpdateDate != null ? !lastUpdateDate.equals(schedule.lastUpdateDate) : schedule.lastUpdateDate != null)
+            return false;
         if (scheduleFile != null ? !scheduleFile.equals(schedule.scheduleFile) : schedule.scheduleFile != null)
             return false;
-        if (university != null ? !university.equals(schedule.university) : schedule.university != null) return false;
-        if (year != null ? !year.equals(schedule.year) : schedule.year != null) return false;
+        if (year != schedule.year) return false;
 
         return true;
     }
@@ -99,10 +101,10 @@ public class Schedule implements Serializable  {
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (university != null ? university.hashCode() : 0);
         result = 31 * result + (faculty != null ? faculty.hashCode() : 0);
         result = 31 * result + (year != null ? year.hashCode() : 0);
         result = 31 * result + (scheduleFile != null ? scheduleFile.hashCode() : 0);
+        result = 31 * result + (lastUpdateDate != null ? lastUpdateDate.hashCode() : 0);
         return result;
     }
 }

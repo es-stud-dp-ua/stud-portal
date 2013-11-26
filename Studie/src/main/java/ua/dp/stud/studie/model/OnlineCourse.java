@@ -7,16 +7,17 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 import ua.dp.stud.StudPortalLib.model.BaseImagesSupport;
 
 @Entity
 @Table(name = "ONLINE_COURSE_TABLE")
+@PrimaryKeyJoinColumn(name = "id", referencedColumnName = "id")
 public class OnlineCourse extends BaseImagesSupport
 {
-	@Id
-	@Column(name="ONLINE_COURSE_NAME")
+	@Column
 	private String onlineCourseName;
 	
 	@Column
