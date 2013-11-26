@@ -5,6 +5,8 @@ import org.junit.Before;
 import org.junit.Test;
 import ua.dp.stud.StudPortalLib.model.FileSaver;
 
+import java.util.Date;
+
 import static org.junit.Assert.assertEquals;
 
 public class ScheduleTest {
@@ -13,21 +15,6 @@ public class ScheduleTest {
     public void SetUp()
     {
         instance=new Schedule();
-    }
-
-    @Test
-    public void TestGetUniversity()
-    {
-        Studie expResult=null;
-        Studie result=instance.getUniversity();
-        assertEquals(expResult,result);
-    }
-
-    @Test
-    public void TestSetUniversity()
-    {
-        Studie university = new Studie();
-        instance.setUniversity(university);
     }
 
     @Test
@@ -76,6 +63,20 @@ public class ScheduleTest {
         instance.setScheduleFile(fileSaver);
     }
 
+    @Test
+    public void TestGetDate()
+    {
+        Date expResult = null;
+        Date result = instance.getLastUpdateDate();
+        assertEquals(expResult,result);
+    }
+
+    @Test
+    public void TestSetDate()
+    {
+        Date date = new Date();
+        instance.setLastUpdateDate(date);
+    }
 
 
 

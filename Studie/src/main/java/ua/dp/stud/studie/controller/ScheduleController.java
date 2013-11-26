@@ -4,18 +4,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
+import org.springframework.web.portlet.bind.annotation.ResourceMapping;
+import ua.dp.stud.StudPortalLib.model.Course;
 import ua.dp.stud.StudPortalLib.util.FileService;
 import ua.dp.stud.studie.model.Studie;
 import ua.dp.stud.studie.model.Faculties;
 import ua.dp.stud.studie.service.FacultiesService;
 import ua.dp.stud.studie.service.StudieService;
 
-import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
+import javax.portlet.*;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.List;
 
 
 /**
@@ -67,5 +70,18 @@ public class ScheduleController {
         model.setViewName("schedule");
         return model;
     }
+
+    @ResourceMapping(value = "facultiesByStudy")
+    public void renderCourses(ResourceResponse response,  ResourceRequest request,
+                              @RequestParam(required = true) Integer studyId) throws Exception
+    {
+        StringBuilder s = new StringBuilder();
+        List<Faculties> faculties = studieService.getStudieById(studyId).getFaculties();
+        for (Faculties f:faculties) {
+            s.append("<option value='").append(f.getId()).append("'>").append(f.getNameOfFaculties()).append("</option>");
+        }
+        response.getWriter().println(s);
+    }
+
 
 }

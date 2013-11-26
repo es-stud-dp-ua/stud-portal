@@ -1,5 +1,7 @@
 package ua.dp.stud.studie.dao.impl;
 
+
+import org.hibernate.SessionFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,11 +13,14 @@ import org.springframework.test.context.junit4.AbstractTransactionalJUnit4Spring
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import ua.dp.stud.StudPortalLib.model.FileSaver;
+import ua.dp.stud.studie.dao.FacultiesDao;
 import ua.dp.stud.studie.dao.ScheduleDao;
 import ua.dp.stud.studie.model.Faculties;
 import ua.dp.stud.studie.model.Schedule;
 import ua.dp.stud.studie.model.Studie;
 import ua.dp.stud.studie.model.Years;
+
+import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
 
@@ -26,22 +31,25 @@ public class ScheduleDaoImplTest extends AbstractTransactionalJUnit4SpringContex
     @Autowired
     @Qualifier(value = "scheduleDao")
     private ScheduleDao dao;
-    private static Schedule schedule1;
+    private static  Schedule schedule1 ;
+    private static Faculties faculties;
     public ScheduleDaoImplTest()
     {
 
     }
     public void setDao(ScheduleDao dao) {
         this.dao = dao;
+
     }
     @Before
     @Rollback(false)
     public void setUpClass() {
         FileSaver fs= new FileSaver();
-        Faculties faculties = new Faculties();
-        Studie univer = new Studie();
-        schedule1 = new Schedule(univer,faculties, Years.FIRST,fs );
+        faculties = new Faculties();
+        Date date = new Date();
+        schedule1 = new Schedule(faculties, Years.FIRST,fs,date );
         dao.addSchedule(schedule1);
+
     }
 
     @Test
@@ -49,4 +57,11 @@ public class ScheduleDaoImplTest extends AbstractTransactionalJUnit4SpringContex
         Schedule schedule = dao.getScheduleById(schedule1.getId());
         assertEquals(schedule, schedule1);
     }
+
+/*    @Test
+    public void testGetByFacultyAndYear()
+    {
+        Schedule schedule = dao.getScheduleByFacultyAndYear(faculties, Years.FIRST)  ;
+        assertEquals(schedule,schedule1);
+    }*/
 }
