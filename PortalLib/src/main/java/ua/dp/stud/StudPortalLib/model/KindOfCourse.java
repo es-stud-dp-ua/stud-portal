@@ -1,4 +1,4 @@
-package ua.dp.stud.studie.model;
+package ua.dp.stud.StudPortalLib.model;
 
 import org.hibernate.validator.constraints.NotEmpty;
 import static javax.persistence.GenerationType.IDENTITY;

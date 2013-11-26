@@ -1,9 +1,8 @@
 package ua.dp.stud.studie.model;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.ArrayList;
-import java.util.List;
+import ua.dp.stud.StudPortalLib.model.Course;
+import ua.dp.stud.StudPortalLib.model.KindOfCourse;
 
 import static org.junit.Assert.*;
 

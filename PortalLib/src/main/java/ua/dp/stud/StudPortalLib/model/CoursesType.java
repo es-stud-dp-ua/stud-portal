@@ -1,4 +1,4 @@
-package ua.dp.stud.studie.model;
+package ua.dp.stud.StudPortalLib.model;
 
 public enum CoursesType {
 	COMPANY, TUTOR

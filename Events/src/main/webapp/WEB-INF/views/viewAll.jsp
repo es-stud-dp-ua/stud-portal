@@ -51,7 +51,7 @@
     <body>
     <liferay-ui:success message='<spring:message code="msg.successAdd"/>' key="success-add"/>
     <div id="contentDiv">
-        <%if (request.isUserInRole("Administrator") || request.isUserInRole("User")) { %>
+
         <div class="portlet-content-controlpanel fs20">
             <%if(!archive){%>
             <a style="float: right" href='<portlet:renderURL>
@@ -68,12 +68,13 @@
                 <div class="Archive" aria-hidden="true"><spring:message code="form.archive"/></div>
             </a>
             <%}%>
+        <%if (request.isUserInRole("Administrator") || request.isUserInRole("User")) { %>
             <a style="float: right" href='<portlet:renderURL><portlet:param name="mode" value="add"/></portlet:renderURL>'>
                 <div class="panelbtn panelbtn-right icon-pcpfile" aria-hidden="true"></div>
             </a>
-
+         <%}%>
         </div>
-        <%}%>
+
         <div class="cmt-types">
             <form method="post" action='<portlet:renderURL>
                                <!--<portlet:param name="archive" value="<%=archive.toString()%>"/>-->
@@ -107,7 +108,7 @@
     		<!--    <portlet:param name="date" value="all"/> -->
     		    <portlet:param name="directType" value="<%=Direction.ALL.toString()%>"/>
     		</portlet:renderURL>
-    		'>All
+    		'><spring:message code="sorted.All"/>
     		</a>
 
         <a href='
@@ -115,7 +116,7 @@
             		    <portlet:param name="sortdate" value="<%=todayDate.toString()%>"/>
             		    <portlet:param name="directType" value="<%=Direction.DAY.toString()%>"/>
             		</portlet:renderURL>
-            		'>Today
+            		'><spring:message code="sorted.Today"/>
         </a>
 
         <a href='
@@ -123,14 +124,14 @@
                     		    <portlet:param name="sortdate" value="<%=tomorDate.toString()%>"/>
                     		    <portlet:param name="directType" value="<%=Direction.DAY.toString()%>"/>
                     		</portlet:renderURL>
-                    		'>Tomorrow
+                    		'><spring:message code="sorted.Tomorrow"/>
                 </a>
 
 
          <script>
                     $(function() {
                     $.datepicker.setDefaults($.datepicker.regional['ru']);
-                            $("#datepicker1").datepicker({ dateFormat: "mm/dd/yy", showAnim:'slide', showButtonPanel:true});
+                            $("#datepicker1").datepicker({ dateFormat: "mm/dd/yy", showAnim:'slide', showButtonPanel:true, buttonImage: "${pageContext.request.contextPath}/images/datePicker.gif", showOn:"both", buttonImageOnly:true });
                     });</script>
 
           <portlet:actionURL var="actionLink" name="sort">

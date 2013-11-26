@@ -1,17 +1,17 @@
-package ua.dp.stud.studie.service;
+package ua.dp.stud.StudPortalLib.dao;
 
-import ua.dp.stud.studie.model.Course;
-import ua.dp.stud.studie.model.KindOfCourse;
+import ua.dp.stud.StudPortalLib.model.Course;
+import ua.dp.stud.StudPortalLib.model.KindOfCourse;
 
-import java.util.Collection;
 import java.util.List;
 
 /**
+ * @author Nazarenko K.V.
  * @author Nazarenko Alexandra
  */
-public interface CourseService {
+public interface CourseDao {
 
-    Course getCourseByID(Integer id);
+    Course getCourseById(Integer id);
 
     void addCourse(Course course);
 
@@ -33,8 +33,5 @@ public interface CourseService {
 
     List<KindOfCourse> getAllKindOfCourse();
 
-    List<KindOfCourse> getAllKindOfCourseWithCount();
-
     void initializeCountOfCourses(KindOfCourse kindOfCourse);
-
 }

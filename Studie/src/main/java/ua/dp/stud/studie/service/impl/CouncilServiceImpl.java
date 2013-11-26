@@ -7,9 +7,9 @@ import org.springframework.transaction.annotation.Transactional;
 import ua.dp.stud.studie.dao.CouncilDao;
 import ua.dp.stud.studie.model.Council;
 import ua.dp.stud.studie.model.CouncilMembers;
-import ua.dp.stud.studie.model.KindOfCourse;
 import ua.dp.stud.studie.service.CouncilService;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
