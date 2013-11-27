@@ -12,12 +12,19 @@
 <title>Insert title here</title>
 </head>
 <body>
+
     <div id="contentDiv">
         <portlet:renderURL var="LinkAddCourse">
 	        <portlet:param name="add" value="course"/>
 	    </portlet:renderURL>
         <portlet:resourceURL var="coursesByKindAndType" id="coursesByKindAndType" />
         <%@include file="leftBar.jsp" %>
+        <script>
+$(document).ready(function() {
+                    	$(".btnselected").addClass('btntype').removeClass('btnselected');
+                    	$("#courses").removeClass('btntype').addClass('btnselected');
+                    });
+</script>
         <div class="portlet-content-controlpanel fs20"style="width: 10.15%; float: right;">
             <a style="float: right" href="${LinkAddCourse}">
                 <div class="panelbtn panelbtn-right icon-pcpplus" aria-hidden="true"></div>
