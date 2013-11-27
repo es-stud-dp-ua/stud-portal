@@ -159,11 +159,30 @@
                     <% if (type!=null) {%><portlet:param name="type" value="<%=String.valueOf(type)%>"/><%} %>
                     </portlet:renderURL>"><%=pageNumb%>
                 </a>
+                  <%if(pageNumb>0){ %>
+                <label>  </label>
+                <%}%>
+                <%if(pageNumb>9){ %>
+                <label>  </label>
+                <%}%>
+                <%if(pageNumb>99){ %>
+                <label>  </label>
+                <%}%>
                 <%} else {%>
                 <label style="color: #28477C; font-size: 40px;"><%=pageNumb%>
                 </label>
+                <%if(pageNumb>0){ %>
+                <label>  </label>
+                <%}%>
+                <%if(pageNumb>9){ %>
+                <label>  </label>
+                <%}%>
+                <%if(pageNumb>99){ %>
+                <label>  </label>
+                <%}%>                
                 <%}%>
                 <%}%>
+
                 <%if (skippedEnding) {%>
                 <%-- HIDING LAST PAGES --%>
                 <label> ... </label>
