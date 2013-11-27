@@ -270,6 +270,7 @@
                              maxlength: 3000
                      },
                              contacts:{
+                             required: true,
                              maxlength:300
                      }
                      },
@@ -285,7 +286,7 @@
                              maxlength:  "<spring:message code="val.text.maxlength"/>"
                      },
                              contacts: {
-
+                             required: "<spring:message code="val.required"/>",
                              maxlength:  "<spring:message code="val.contacts.maxlength"/>"
                      }
                      },

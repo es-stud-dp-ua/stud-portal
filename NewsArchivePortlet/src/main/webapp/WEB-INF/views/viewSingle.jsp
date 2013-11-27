@@ -108,8 +108,8 @@
         <a href="${home}">
             <div class="panelbtn panelbtn-right fs20 icon-pcparrow-left" aria-hidden="true"></div>
         </a>
-        <%if (request.isUserInRole("Administrator")) { %>
-        <% if (request.isUserInRole("Administrator")) { %>
+        <%if ((request.isUserInRole("Administrator"))||(request.isUserInRole("Press"))) { %>
+        <% if ((request.isUserInRole("Administrator"))||(request.isUserInRole("Press"))) { %>
         <a style="float: right"
            href="<portlet:renderURL><portlet:param name="newsId" value="<%=news.getId().toString()%>"/><portlet:param name="mode" value="delete" /><portlet:param name="currentPage" value="1"/> </portlet:renderURL>"
            onclick='return confirm("<spring:message code="form.confDelete"/>")'>
@@ -146,7 +146,7 @@
                 <div class="ownGelery" style="margin-left: 5px;">
                     <a class="fancybox-thumbs" data-fancybox-group="thumb"
                        href="<%=imgService.getPathToLargeImage(image, news) %>"
-                       <% if (request.isUserInRole("Administrator")) { %>title='<a href="<portlet:renderURL><portlet:param name="imageId" value="<%=image.getId().toString()%>"/><portlet:param name="mode" value="delImage" /></portlet:renderURL>" onclick="return ConfirmImage()"> <spring:message code="form.delete"/></a>'<%}%>>
+                       <% if ((request.isUserInRole("Administrator"))||(request.isUserInRole("Press"))) { %>title='<a href="<portlet:renderURL><portlet:param name="imageId" value="<%=image.getId().toString()%>"/><portlet:param name="mode" value="delImage" /></portlet:renderURL>" onclick="return ConfirmImage()"> <spring:message code="form.delete"/></a>'<%}%>>
                         <img src="<%=imgService.getPathToSmallImage(image, news) %>" alt=""/>
                     </a>
                 </div>

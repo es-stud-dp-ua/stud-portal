@@ -154,13 +154,13 @@ public class OrganisationsController {
             } else {
 //#1 + nearby pages + current + nearby pages   
                 leftPageNumb = 1;
-                rightPageNumb = 2 + 2 * NEARBY_PAGES;
+                rightPageNumb = currentPage+NEARBY_PAGES;
             }
 //if farther then nearby + '...' + last
             if (currentPage < pagesCount - (NEARBY_PAGES + 1)) {
                 skippedEnding = true;
             } else {
-                leftPageNumb = (pagesCount - 1) - 2 * NEARBY_PAGES;
+                leftPageNumb = currentPage  -  NEARBY_PAGES;
                 rightPageNumb = pagesCount;
             }
         }

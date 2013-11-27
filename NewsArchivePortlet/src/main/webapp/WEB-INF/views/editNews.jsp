@@ -12,7 +12,7 @@
     Author     : Tradunsky V.V.
 --%>
 
-<%if (request.isUserInRole("Administrator")) {%>
+<%if ((request.isUserInRole("Administrator"))||(request.isUserInRole("Press"))) {%>
 <script id="" src="${pageContext.request.contextPath}/js/cropbox.js" type="text/javascript"></script>
 <script id="" src="${pageContext.request.contextPath}/js/edit.js" type="text/javascript"></script>
 
@@ -38,7 +38,7 @@
         <a href="${Home}">
             <div class="panelbtn panelbtn-right fs20 icon-pcparrow-left" aria-hidden="true"></div>
         </a>
-        <% if (request.isUserInRole("Administrator")) { %>
+        <% if ((request.isUserInRole("Administrator"))||(request.isUserInRole("Press"))) { %>
         <a style="margin-left: 10px;"
            href='<portlet:renderURL><portlet:param name="newsId" value="<%=news.getId().toString()%>"/><portlet:param name="mode" value="delete" /></portlet:renderURL>'
            onclick='return confirm("<spring:message code="form.confDelete"/>")'>
@@ -137,7 +137,7 @@
 
                 <div id="eventSetting" style="text-align: left;">
                     <div style="font-size:14px">
-                    <% if (request.isUserInRole("Administrator")) { %>
+                    <% if ((request.isUserInRole("Administrator"))||(request.isUserInRole("Press"))) { %>
                     <label for="onMainpage"><spring:message code="form.onMainPage"/></label>
                     <form:checkbox path="onMainpage" />
                     <form:errors path="onMainpage" cssClass="error"/>
