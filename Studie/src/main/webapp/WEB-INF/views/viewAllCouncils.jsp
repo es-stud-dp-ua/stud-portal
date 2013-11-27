@@ -35,6 +35,12 @@
                 </a>
 </div>
  <div style="float:left"><%@include file="leftBar.jsp"%></div>
+ <script>
+                    $(document).ready(function() {
+                    	$(".btnselected").addClass('btntype').removeClass('btnselected');
+                    	$("#council").removeClass('btntype').addClass('btnselected');
+                    });
+                </script>
 
 <div style="padding-left: 100px; width: 60%; float: left;">
 <table border="1" style="border-color: grey;">
