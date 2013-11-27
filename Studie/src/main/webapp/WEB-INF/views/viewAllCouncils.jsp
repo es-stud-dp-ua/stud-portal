@@ -28,7 +28,7 @@
     <portlet:renderURL var="LinkAddCouncil">
         <portlet:param name="add" value="council"/>
     </portlet:renderURL>
-    <div class="portlet-content-controlpanel fs20"style="width: 10.15%;float: right;">
+    <div class="fs20"style="width: 10.15%;float: right;">
                 <a style="float: right" href="${LinkAddCouncil}">
                     <!--<spring:message code="viewSingle.Edit"/>-->
                     <div class="panelbtn panelbtn-right icon-pcpplus" aria-hidden="true"></div>

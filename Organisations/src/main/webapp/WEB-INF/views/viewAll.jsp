@@ -99,7 +99,7 @@
 
         </div>
         <div width="100%" align="right">
-            <table width="90%">
+            <table width="100%">
                 <tr>
                     <td width="60">
                         <img width="60" class="newsDecorImage"
@@ -126,9 +126,9 @@
         </div>
         <%}%>
         <%if(orgs.size()>9||currentPage>1){%>
-        <table width="90%">
+        <table width="95%">
             <tr>
-                <td width="80" align="left">
+                <td width="60" align="left">
             <portlet:renderURL var="pagPrev">
                 <portlet:param name="direction" value="prev"/>
                 <portlet:param name="currentPage" value="<%=String.valueOf(currentPage)%>"/>
@@ -140,7 +140,7 @@
             </a>
             </td>
 
-            <td width="150" align="center" valign="center">
+            <td width="auto" align="center" valign="center">
                 <%-- PAGINATION --%>
                 <%if (skippedBeginning) {%>
                 <%-- HIDING FIRST PAGES --%>
@@ -193,7 +193,7 @@
                 </a>
                 <%}%>
             </td>
-            <td width="80" align="right">
+            <td width="60" align="right">
             <portlet:renderURL  var="pagNext">
                 <portlet:param name="direction" value="next"/>
                 <portlet:param name="currentPage" value="<%=String.valueOf(currentPage)%>"/>
