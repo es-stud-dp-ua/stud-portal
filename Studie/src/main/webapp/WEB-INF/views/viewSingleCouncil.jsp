@@ -88,14 +88,11 @@
 	<br />
 	<br />
 	<br />
+<form id="members" name="members"> 
+<div id='newMember'>
 
-<div id='newMember' style="">
 				<%if (council.getCouncilMembers()!=null) {
 				for (CouncilMembers member : council.getCouncilMembers()){%>
-	
-		
-		
-		
 		<div id='member_<%=member.getId()%>' class='memberList'>
 			<fieldset id="memberField_<%=member.getId()%>">
 				<div id='each_<%=member.getId()%>'
@@ -250,12 +247,12 @@
 		<div id="labels_add_name">
 			<spring:message code="form.councilMemberName" />
 		</div>
-		<input id="input_name" type="text" />
+		<input id="input_name" name="input_name" type="text" />
 
 		<div id="labels_add_position">
 			<spring:message code="form.councilMemberPosition" />
 		</div>
-		<input id="input_position" type="text" />
+		<input id="input_position" name="input_position" type="text" />
 
 		<div id="labels_add_contact">
 			<spring:message code="form.councilMemberContact" />
@@ -263,9 +260,33 @@
 		<textarea id="input_contact" COLS="60" ROWS="5"></textarea>
 		<br> <input type="button" value="Add" onclick="addMember()">
 	</div>
+	</form>
 	<script>
+	
+	function validateAdd(){
+		$('#members').validate({
+			  rules: {
+				  input_name: {
+			      required: true,
+			    },
+			    input_position: {
+				  required: true,
+				    }
+			  },
+               messages: {
+            	  input_name: {
+    			      required: "<spring:message code="NotEmpty.Studie.text"/>",
+    			    },
+    			    input_position: {
+      			      required: "<spring:message code="NotEmpty.Studie.text"/>",
+      			    }
+              }
+			});
+	}
        		
           function addMember(){
+        	  validateAdd();
+        	  if ($('#members').valid()) {
         	  var oMyForm = new FormData();
         	  var inp_name = $("#input_name").val();
         	  var inp_position = $("#input_position").val();
@@ -294,7 +315,7 @@
                     //$("#labels_edit_name").replaceWith($("#labels_add_name"));
                     
         	    }
-        	  });
+        	  });}
         	}
 
 
