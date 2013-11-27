@@ -24,6 +24,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     </head>
     <body>
+    
     <portlet:renderURL var="LinkAddCouncil">
         <portlet:param name="add" value="council"/>
     </portlet:renderURL>
@@ -33,13 +34,15 @@
                     <div class="panelbtn panelbtn-right icon-pcpplus" aria-hidden="true"></div>
                 </a>
 </div>
+ <div style="float:left"><%@include file="leftBar.jsp"%></div>
 
-<div style="padding-left: 200px; width: 60%; float: none;">
+<div style="padding-left: 100px; width: 60%; float: left;">
 <table border="1" style="border-color: grey;">
 <tr>
 <td >
 <div style="padding-left: 100px;"><h2><spring:message code="studh2"/></h2></div>
 <br/>
+
 <br/>
 <div style="font-size: 12px;"><spring:message code="studt1"/></div>
 <br/>
