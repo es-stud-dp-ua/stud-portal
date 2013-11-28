@@ -382,7 +382,7 @@ public class OrganisationsController {
         Organization organisation = organizationService.getOrganizationById(organisationID);
     	User user = (User) request.getAttribute(WebKeys.USER);
         String userScreenName = user.getScreenName();
-    	if (!request.isUserInRole("Administrator") || !userScreenName.equals(organisation.getAuthor()))
+    	if (!(request.isUserInRole("Administrator") || userScreenName.equals(organisation.getAuthor())))
     	{
     		return showView(request,response);
     	}

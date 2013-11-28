@@ -1,6 +1,7 @@
 <%@ page import="ua.dp.stud.StudPortalLib.model.News" %>
 <%@ page import="ua.dp.stud.StudPortalLib.model.Events" %>
 <%@ page import="ua.dp.stud.StudPortalLib.model.Organization" %>
+<%@ page import="ua.dp.stud.StudPortalLib.model.Course" %>
 <%@ page import="java.util.Collection" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.Locale" %>
@@ -18,21 +19,24 @@
     int myOrgSize = (Integer) request.getAttribute("myOrgSize");
     int adminOrgSize = (Integer) request.getAttribute("adminOrgSize");
     int adminNewsSize = (Integer) request.getAttribute("adminNewsSize");
-    int newsInMyComm = (Integer) request.getAttribute("newsInMyComm");
 	int myEventsSize = (Integer) request.getAttribute("myEventsSize");
+	int myCoursesSize = (Integer) request.getAttribute("myCoursesSize");
 	int adminEventsSize = (Integer) request.getAttribute("adminEventsSize");
-
+    int adminCoursesSize = (Integer) request.getAttribute("adminCoursesSize");
     if (request.getAttribute("class") != null) {
         Collection<News> newsList = new ArrayList<News>();
         Collection<Organization> orgList = new ArrayList<Organization>();
 		Collection<Events> eventsList = new ArrayList<Events>();
+		Collection<Course> coursesList = new ArrayList<Course>();
         if (request.getAttribute("type").equals("News")) {
             newsList = (Collection) request.getAttribute("newsList");
         } else if (request.getAttribute("type").equals("Organization")) {
             orgList = (Collection) request.getAttribute("orgList");
         } else if (request.getAttribute("type").equals("Events")) {
 			eventsList = (Collection) request.getAttribute("eventsList");
-		}
+		} else if (request.getAttribute("type").equals("Courses")) {
+          			coursesList = (Collection) request.getAttribute("coursesList");
+        }
         int pageCount = (Integer) request.getAttribute("pageCount");
         int currentPage = (Integer) request.getAttribute("currentPage");
         ImageService imageService = (ImageService) pageContext.findAttribute("imageService");
@@ -115,11 +119,35 @@
         </div>
         <%}%>
     </div>
+    <%
+                }
+            } else if (request.getAttribute("type").equals("Courses")) {
+    			for (Course currentCourse : coursesList) {%>
+    		<liferay-portlet:renderURL plid="${plid}" var="linkToSingle3" portletName="${portlet_name}">
+                <liferay-portlet:param name="courseID" value="<%=currentCourse.getId().toString()%>"/>
+            </liferay-portlet:renderURL>
+            <div style=<%if (className.equals("adminCourses")){%>"min-height: 110px;"
+            <%} else {%>"min-height: 60px;"<%}%>>
+            <img src="<%= imageService.getPathToMicroblogImage(currentCourse.getMainImage(),currentCourse) %>" class="newsImage">
+            <a href="${linkToSingle3}"><p><%=currentCourse.getCourseName()%>
+            </p></a>
+            <%if (className.equals("adminCourses")) {%>
+            <div>
+                <a href="javascript:;" class="disapprove" currentPage="${currentPage}" epClass="${class}" epID="<%=currentCourse.getId()%>" approve="false">
+                    <div style="padding-top: 10px;" id="like"><span aria-hidden="true" class="icon-thumbs-up"></span></div>
+                </a>
+                <a onclick="approve(${currentPage}, '${class}', <%=currentCourse.getId()%>, true, '');">
+                    <div id="like"><span aria-hidden="true" class="icon-thumbs-up-2"></span></div>
+                </a>
+            </div>
+            <%}%>
+        </div>
 	<%}}%>
     <div style="text-align: center;">
         ${currentPage} <spring:message code="viewAll.From"/> ${pageCount}
     </div>
 </div>
+
 <div class="LeftSwith rightButton">
     <a onclick="rewindPanel(${currentPage}, 'next', '${class}');">
         <div id="rightBtn"></div>
@@ -132,13 +160,6 @@
 <%if (request.isUserInRole("User") || request.isUserInRole("Administrator")) {%>
 <div id="ep">
     <div class="event-panel" id="event-panel-wraper">
-        <div id="elem">
-            <div class="event <%if (myNewsSize > 0){%> newEvent <%}%>" rel="<portlet:renderURL/>&mode=pagination"
-                 dataclass="myNews" title="<spring:message code="viewAll.myNews"/>">
-                <span aria-hidden="true" class="icon-bubbles-2"></span>
-            </div>
-            <c:if test="${myNewsSize > 0 }"><span id="count">${myNewsSize}</span></c:if>
-        </div>
         <div id="elem">
             <div class="event <%if (myOrgSize > 0){%> newEvent <%}%>" rel="<portlet:renderURL/>&mode=pagination"
                  dataclass="myCommunity" title="<spring:message code="viewAll.myCommunities"/>">
@@ -154,13 +175,20 @@
             <c:if test="${myEventsSize > 0 }"> <span id="count">${myEventsSize}</span></c:if>
         </div>
         <div id="elem">
-            <div class="event <%if (newsInMyComm > 0){%> newEvent <%}%>" rel="<portlet:renderURL/>&mode=pagination"
-                 dataclass="newsInMyComm" title="<spring:message code="viewAll.NewsInMyComm"/>">
-                <span aria-hidden="true" class="icon-stackoverflow"></span>
-            </div>
-            <c:if test="${newsInMyComm > 0}"><span id="count">+${newsInMyComm}</span></c:if>
+                <div class="event <%if (myCoursesSize > 0){%> newEvent <%}%>" rel="<portlet:renderURL/>&mode=pagination"
+                  dataclass="myCourses" title="<spring:message code="viewAll.myCourses"/>">
+                 <span aria-hidden="true" class="icon-stackoverflow"></span>
+                </div>
+                <c:if test="${myCoursesSize > 0 }"> <span id="count">${myCoursesSize}</span></c:if>
         </div>
         <%if (request.isUserInRole("Administrator")) {%>
+        <div id="elem">
+                    <div class="event <%if (myNewsSize > 0){%> newEvent <%}%>" rel="<portlet:renderURL/>&mode=pagination"
+                         dataclass="myNews" title="<spring:message code="viewAll.myNews"/>">
+                        <span aria-hidden="true" class="icon-bubbles-2"></span>
+                    </div>
+                    <c:if test="${myNewsSize > 0 }"><span id="count">${myNewsSize}</span></c:if>
+                </div>
         <div id="elem">
             <div class="event <%if (adminNewsSize > 0){%> newEvent <%}%>" rel="<portlet:renderURL/>&mode=pagination"
                  dataclass="adminNews" title="<spring:message code="viewAll.News"/>">

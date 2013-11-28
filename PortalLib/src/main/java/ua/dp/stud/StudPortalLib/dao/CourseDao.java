@@ -3,13 +3,14 @@ package ua.dp.stud.StudPortalLib.dao;
 import ua.dp.stud.StudPortalLib.model.Course;
 import ua.dp.stud.StudPortalLib.model.KindOfCourse;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
  * @author Nazarenko K.V.
  * @author Nazarenko Alexandra
  */
-public interface CourseDao {
+public interface CourseDao extends DaoForApprove<Course>{
 
     Course getCourseById(Integer id);
 
@@ -32,6 +33,8 @@ public interface CourseDao {
     void updateKindOfCourse(KindOfCourse kindOfCourse);
 
     List<KindOfCourse> getAllKindOfCourse();
+
+    public Collection<Course> getAllCoursesByAuthor(String author);
 
     void initializeCountOfCourses(KindOfCourse kindOfCourse);
 }

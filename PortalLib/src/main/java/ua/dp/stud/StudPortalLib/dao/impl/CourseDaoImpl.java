@@ -12,6 +12,7 @@ import ua.dp.stud.StudPortalLib.model.Course;
 import ua.dp.stud.StudPortalLib.model.CoursesType;
 import ua.dp.stud.StudPortalLib.model.KindOfCourse;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -19,7 +20,7 @@ import java.util.List;
  */
 
 @Repository("courseDao")
-public class CourseDaoImpl implements CourseDao {
+public class CourseDaoImpl extends DaoForApproveImpl<Course> implements CourseDao {
 
     @Autowired
     private SessionFactory sessionFactory;
@@ -28,7 +29,7 @@ public class CourseDaoImpl implements CourseDao {
         this.sessionFactory = sessionFactory;
     }
 
-    private Session getSession() {
+    protected Session getSession() {
         return this.sessionFactory.getCurrentSession();
     }
 
@@ -112,6 +113,13 @@ public class CourseDaoImpl implements CourseDao {
     public void initializeCountOfCourses(KindOfCourse kindOfCourse) {
         Query q = getSession().createQuery("SELECT count(id) FROM Course WHERE kindOfCourse="+kindOfCourse.getTypeId().toString());
         kindOfCourse.setCountOfCourses((Long) q.uniqueResult());
+    }
+
+    @Override
+    public Collection<Course> getAllCoursesByAuthor(String author)
+    {
+        return getSession().getNamedQuery("Course.getByAuthor")
+                .setParameter("author", author).list();
     }
 
     @Override

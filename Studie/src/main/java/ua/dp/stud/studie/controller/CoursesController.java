@@ -185,7 +185,7 @@ public class CoursesController {
 
         User user = (User) actionRequest.getAttribute(WebKeys.USER);
         String screenName = user.getScreenName();
-        course.setAuthorslogin(screenName);
+        course.setAuthor(screenName);
 
         if (updateCourse(course, croppedImage, actionResponse)) {
             courseService.updateCourse(course);
@@ -222,7 +222,7 @@ public class CoursesController {
                 isShown=true;
                 }
             else{
-            if(request.isUserInRole("User") && course.getAuthorslogin().equals(user.getScreenName())){
+            if(request.isUserInRole("User") && course.getAuthor().equals(user.getScreenName())){
                 isShown=true;
             }
             }
@@ -329,7 +329,7 @@ public class CoursesController {
         String screenName = user.getScreenName();
 
 
-        course.setAuthorslogin(screenName);
+        course.setAuthor(screenName);
 
 
         CommonsMultipartFile f = imageService.cropImage(mainImage,
