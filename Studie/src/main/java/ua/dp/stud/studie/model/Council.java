@@ -24,7 +24,7 @@ public class Council extends BaseImagesSupport implements Serializable{
     private String councilDescription;
     private List<CouncilMembers> councilMembers;
     
-    @OneToMany(cascade = { CascadeType.PERSIST}, mappedBy = "nameOfCouncil", fetch = FetchType.LAZY)    
+    @OneToMany(cascade = { CascadeType.PERSIST, CascadeType.REMOVE}, mappedBy = "nameOfCouncil", fetch = FetchType.LAZY)    
     public List<CouncilMembers> getCouncilMembers() {
         Collections.sort(councilMembers);
     	return councilMembers;
