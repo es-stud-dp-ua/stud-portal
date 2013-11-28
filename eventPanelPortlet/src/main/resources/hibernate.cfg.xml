@@ -10,5 +10,7 @@
         <mapping class="ua.dp.stud.StudPortalLib.model.Category"/>
         <mapping class="ua.dp.stud.StudPortalLib.model.Events"/>
 		<mapping class="ua.dp.stud.StudPortalLib.model.Tags"/>
+        <mapping class="ua.dp.stud.StudPortalLib.model.KindOfCourse"/>
+        <mapping class="ua.dp.stud.StudPortalLib.model.Course"/>
     </session-factory>
 </hibernate-configuration>

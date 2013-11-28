@@ -72,20 +72,38 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public Integer getPagesCountByAuthor(String author, Integer orgByPage) {
-        return dao.calcPages(dao.getCountByAuthor(author), orgByPage);
+    public Integer getPagesCountByAuthor(String author, Integer courseByPage) {
+        return dao.calcPages(dao.getCountByAuthor(author), courseByPage);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Collection<Course> getPagesCourseByAuthor(String author, Integer pageNumb, Integer organizationByPage) {
-        return dao.getPagesObjectByAuthor(author, pageNumb, organizationByPage);
+    public Collection<Course> getPagesCourseByAuthor(String author, Integer pageNumb, Integer coursesByPage) {
+        return dao.getPagesObjectByAuthor(author, pageNumb, coursesByPage);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Integer getPagesCount(int courseByPage) {
+        return dao.calcPages(dao.getCount(), courseByPage);
     }
 
     @Override
     @Transactional(readOnly = true)
     public KindOfCourse getKindOfCourseById(Integer id) {
         return dao.getKindOfCourseById(id);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Integer getPagesCount(Boolean approved, int courseByPage) {
+        return dao.calcPages(dao.getCount(approved), courseByPage);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Collection<Course> getCoursesOnPage(Boolean approved, Integer pageNumb, Integer courseByPage) {
+        return dao.getObjectOnPage(approved, pageNumb, courseByPage);
     }
 
     @Override
