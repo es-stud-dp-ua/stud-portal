@@ -280,7 +280,7 @@
                                  maxlength:  "<spring:message code="val.title.maxlength"/>"
                          },
                          mainImage:{
-                        	 filesize: "<spring:message code="val.title.minsize"/>"
+                        	 filesize: "<spring:message code="val.text.minsize"/>"
                          },
                                  text1: {
                          required: "<spring:message code="val.required"/>",
