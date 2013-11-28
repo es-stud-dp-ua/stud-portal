@@ -26,5 +26,6 @@
             </c:forEach>
         </form:select>
     </div>
+    <input type=button name="sort" value='<spring:message code="button.Sort"/>' style="position: absolute; height: 26px;"/>
 </body>
 </html>
