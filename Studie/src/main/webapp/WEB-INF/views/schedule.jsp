@@ -9,16 +9,23 @@
 <!--<%@include file="include.jsp" %>-->
 <body>
     <%@include file="leftBar.jsp" %>
+    <script>
+    $(document).ready(function() {
+                    	$(".btnselected").addClass('btntype').removeClass('btnselected');
+                    	$("#schedule").removeClass('btntype').addClass('btnselected');
+                    });
+</script>
     <div id="labels" style="width: 150px; font-size: 12pt; padding-left: 130px">
-        <spring:message code="schedule.university"/>
+        <spring:message code="Schedule.university"/>
     </div>
     <div class="textBox" style="padding-left: 130px">
-        <form:select path="coursesType">
-            <option value="${type}">${type}</option>
-            <c:forEach var="type" items="${coursesType}">
-                <option value="${type}">${type}</option>
+        <form:select path="study">
+            <option value="ALL">ALL</option>
+            <c:forEach var="study" items="${study}">
+                <option value="${study.title}">${study.title}</option>
             </c:forEach>
         </form:select>
     </div>
+    <input type=button name="sort" value='<spring:message code="button.Sort"/>' style="position: absolute; height: 26px;"/>
 </body>
 </html>

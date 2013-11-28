@@ -79,35 +79,8 @@
         </a>
         <%}%>
     </div>
-<div style="margin-left:-11px;" align="left" class="cmt-types">
 
-    <% for (int i = 0; i < 6; i++) {
-        if (buttonId == i) {
-            temp = new String("form.".concat(type[i]));%>
-    <div class="ribbon-wrapper">
-        <button class="btnselected"
-                style=" width: 150px; height: 40px;  margin-left: -10px;  background-color: rgba(0, 122, 255, 0.47); border-color: rgba(68, 115, 185, 0);"
-                name="buttonId" value="<%=i%>">
-            <spring:message code="<%=temp%>"/></button>
-        <div class="ribbon-edge-topleft"></div>
-        <div class="ribbon-edge-bottomleft"></div>
-    </div>
-    <%
-    } else {
-        temp = new String("form.".concat(type[i]));
-    %>
-    <div class="ribbon-wrapper">
-        <button class="btntype"
-                style=" width: 150px; height: 40px;  background:  #4473B9; margin-left: -10px;  border-color: #4473B9;"
-                name="buttonId" value="<%=i%>">
-            <spring:message code="<%=temp%>"/></button>
-        <div class="ribbon-edge-topleft"></div>
-        <div class="ribbon-edge-bottomleft"></div>
-    </div>
-    <%}%>
-    <br/>
-    <% }%>
-</div>
+<%@include file="leftBar.jsp" %>
 
 <div id="singleView">
 	<table width="100%"><tbody><tr>

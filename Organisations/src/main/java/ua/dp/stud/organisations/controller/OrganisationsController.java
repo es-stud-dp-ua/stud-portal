@@ -154,13 +154,13 @@ public class OrganisationsController {
             } else {
 //#1 + nearby pages + current + nearby pages   
                 leftPageNumb = 1;
-                rightPageNumb = 2 + 2 * NEARBY_PAGES;
+                rightPageNumb = currentPage+NEARBY_PAGES;
             }
 //if farther then nearby + '...' + last
             if (currentPage < pagesCount - (NEARBY_PAGES + 1)) {
                 skippedEnding = true;
             } else {
-                leftPageNumb = (pagesCount - 1) - 2 * NEARBY_PAGES;
+                leftPageNumb = currentPage  -  NEARBY_PAGES;
                 rightPageNumb = pagesCount;
             }
         }
@@ -382,7 +382,7 @@ public class OrganisationsController {
         Organization organisation = organizationService.getOrganizationById(organisationID);
     	User user = (User) request.getAttribute(WebKeys.USER);
         String userScreenName = user.getScreenName();
-    	if (!request.isUserInRole("Administrator") || !userScreenName.equals(organisation.getAuthor()))
+    	if (!(request.isUserInRole("Administrator") || userScreenName.equals(organisation.getAuthor())))
     	{
     		return showView(request,response);
     	}

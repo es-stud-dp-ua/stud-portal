@@ -24,33 +24,31 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     </head>
     <body>
+    
     <portlet:renderURL var="LinkAddCouncil">
         <portlet:param name="add" value="council"/>
     </portlet:renderURL>
-    <div class="portlet-content-controlpanel fs20"style="width: 10.15%;float: right;">
+    <div class="fs20"style="width: 10.15%;float: right;">
                 <a style="float: right" href="${LinkAddCouncil}">
                     <!--<spring:message code="viewSingle.Edit"/>-->
                     <div class="panelbtn panelbtn-right icon-pcpplus" aria-hidden="true"></div>
                 </a>
 </div>
-<portlet:renderURL var="LinkEditCouncil">
-			<portlet:param name="edit" value="council"/>
-</portlet:renderURL>
-<div class="portlet-content-controlpanel fs20"style="width: 10.15%;float: right;">
+ <div style="float:left"><%@include file="leftBar.jsp"%></div>
+ <script>
+                    $(document).ready(function() {
+                    	$(".btnselected").addClass('btntype').removeClass('btnselected');
+                    	$("#council").removeClass('btntype').addClass('btnselected');
+                    });
+                </script>
 
-                <a style="float: right" href="name ${LinkEditCouncil}">
-
-                    <div class="panelbtn panelbtn-right icon-pcppencil" aria-hidden="true"></div>
-                </a>
-
-</div>
-
-<div style="padding-left: 200px; width: 60%; float: none;">
+<div style="padding-left: 100px; width: 60%; float: left;">
 <table border="1" style="border-color: grey;">
 <tr>
 <td >
 <div style="padding-left: 100px;"><h2><spring:message code="studh2"/></h2></div>
 <br/>
+
 <br/>
 <div style="font-size: 12px;"><spring:message code="studt1"/></div>
 <br/>
@@ -64,13 +62,22 @@
 <% if (!councils.isEmpty()) {
 for (Council council : councils){%>
 		<div id="newsTable" style="padding-top: 15px;">
-
+				 <% if (request.isUserInRole("Administrator")) { %>
+				         <a style="float: right"
+           href="<portlet:renderURL><portlet:param name="councilId" value="<%=council.getId().toString()%>"/><portlet:param name="edit" value="council" /></portlet:renderURL>">
+           <div class="icon-pcppencil fs20" aria-hidden="true"></div>
+        </a>
+        				<a style="float: right"
+           href="<portlet:renderURL><portlet:param name="councilID" value="<%=council.getId().toString()%>"/><portlet:param name="delete" value="council" /></portlet:renderURL>">
+           <div class="icon-pcpremove fs20" aria-hidden="true"></div>
+        </a>
+<%}%>
 
                     <div width="100%">
                         <img src="<%= imageService.getPathToMicroblogImage(
                                          council.getMainImage(),
                                          council) %>" class="newsImage" style="float: left">
-
+<hr/>
                         <div class="newsHeader" style="padding-top: 50px; padding-left: 150px; font-size: 20pt; ">
                            <b>
                                 <a href='
@@ -87,6 +94,7 @@ for (Council council : councils){%>
                     </div>
 
         </div>
+        
         <%}%>
 
 <%}%>

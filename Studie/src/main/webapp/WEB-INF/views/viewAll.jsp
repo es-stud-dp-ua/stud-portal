@@ -30,6 +30,7 @@
 </head>
 
 <body>
+
 <portlet:renderURL var="home"> </portlet:renderURL>
 <div id="contentDiv">
 	<%if (request.isUserInRole("Administrator")){ %>
@@ -44,6 +45,12 @@
 	<%} %>
 
     <%@include file="leftBar.jsp" %>
+    <script>
+$(document).ready(function() {
+                    	$(".btnselected").addClass('btntype').removeClass('btnselected');
+                    	$("#study").removeClass('btntype').addClass('btnselected');
+                    });
+</script>
 	<div id="newsTable">
 		<c:if test="${not empty studie}">
 			<%for (Studie currStudy : studie){%>

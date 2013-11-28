@@ -8,7 +8,9 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ua.dp.stud.studie.dao.ScheduleDao;
+import ua.dp.stud.studie.model.Faculties;
 import ua.dp.stud.studie.model.Schedule;
+import ua.dp.stud.studie.model.Years;
 
 import java.util.List;
 
@@ -53,6 +55,17 @@ public class ScheduleDaoImpl implements  ScheduleDao{
     @Override
     public List<Schedule> getAll() {
         return getSession().createCriteria(Schedule.class).list();
+    }
+
+    @Override
+    public Schedule getScheduleByFacultyAndYear(Faculties faculty, Years year)
+    {
+        Query query = getSession().createQuery("from Schedule where faculty = :faculty1 and year = :year1");
+        query.setParameter("faculty1", faculty);
+        query.setParameter("year1",  year);
+        Schedule schedule = (Schedule)query.uniqueResult();
+        return schedule;
+
     }
 
 
