@@ -19,13 +19,59 @@
         <spring:message code="Schedule.university"/>
     </div>
     <div class="textBox" style="padding-left: 130px">
-        <form:select path="study">
-            <option value="ALL">ALL</option>
-            <c:forEach var="study" items="${study}">
-                <option value="${study.title}">${study.title}</option>
-            </c:forEach>
-        </form:select>
-    </div>
-    <input type=button name="sort" value='<spring:message code="button.Sort"/>' style="position: absolute; height: 26px;"/>
-</body>
+                    <form:select path="study" id="studyList">
+                        <option value="<spring:message code='Schedule.none'/>"><spring:message code='Schedule.choose.university'/></option>
+                        <c:forEach var="study" items="${study}">
+                            <option value="${study.id}">${study.title}</option>
+                        </c:forEach>
+                    </form:select>
+            </div>
+            <div class="textBox" style="padding-left: 130px;">
+                        <form:select path="study" id="facultiesList" style="display:none;">
+                        </form:select>
+            </div>
+            <div class="textBox" style="padding-left: 130px;">
+                        <form:select path="study" id="yearsList" style="display:none;">
+                            <option value="<spring:message code='Schedule.none'/>"><spring:message code='Schedule.choose.year'/></option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </form:select>
+            </div>
+        </body>
+        <portlet:resourceURL var="facultiesByStudy" id="facultiesByStudy" />
+        <script>
+            $( "#studyList" ).change(function() {
+                    $('#facultiesList').hide();
+                    $('#yearsList').hide();
+                    if ($('#studyList').val()!= "<spring:message code='Schedule.none'/>") {
+                        faculties($('#studyList').val());
+                    }
+            });
+            $( "#facultiesList" ).change(function() {
+                    $('#yearsList').hide();
+                    if ($('#facultiesList').val()!= "<spring:message code='Schedule.none'/>") {
+                        $('#yearsList').val("<spring:message code='Schedule.none'/>");
+                        $('#yearsList').show();
+                    }
+            });
+          function faculties(studyId)
+          {
+                $.ajax
+                ({
+                    url: "${facultiesByStudy}",
+                    data: {studyId: studyId},
+                    dataType: "html",
+                    type: "GET",
+                    contentType: "application/json;charset=utf-8",
+                    success: function (data)
+                    {
+                      $('#facultiesList').html("<option value='<spring:message code='Schedule.none'/>'><spring:message code='Schedule.choose.faculty'/></option>"+data);
+                      $('#facultiesList').show();
+                    }
+                });
+            }
+        </script>
 </html>
