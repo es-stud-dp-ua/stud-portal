@@ -1,7 +1,6 @@
 package ua.dp.stud.studie.dao.impl;
 
 
-import org.hibernate.SessionFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,12 +12,10 @@ import org.springframework.test.context.junit4.AbstractTransactionalJUnit4Spring
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import ua.dp.stud.StudPortalLib.model.FileSaver;
-import ua.dp.stud.studie.dao.FacultiesDao;
 import ua.dp.stud.studie.dao.ScheduleDao;
 import ua.dp.stud.studie.model.Faculties;
 import ua.dp.stud.studie.model.Schedule;
-import ua.dp.stud.studie.model.Studie;
-import ua.dp.stud.studie.model.Years;
+import ua.dp.stud.studie.model.Course;
 
 import java.util.Date;
 
@@ -47,7 +44,7 @@ public class ScheduleDaoImplTest extends AbstractTransactionalJUnit4SpringContex
         FileSaver fs= new FileSaver();
         faculties = new Faculties();
         Date date = new Date();
-        schedule1 = new Schedule(faculties, Years.FIRST,fs,date );
+        schedule1 = new Schedule(faculties, Course.FIRST,fs,date );
         dao.addSchedule(schedule1);
 
     }
@@ -61,7 +58,7 @@ public class ScheduleDaoImplTest extends AbstractTransactionalJUnit4SpringContex
 /*    @Test
     public void testGetByFacultyAndYear()
     {
-        Schedule schedule = dao.getScheduleByFacultyAndYear(faculties, Years.FIRST)  ;
+        Schedule schedule = dao.getScheduleByFacultyAndYear(faculties, Course.FIRST)  ;
         assertEquals(schedule,schedule1);
     }*/
 }

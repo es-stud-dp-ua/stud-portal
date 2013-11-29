@@ -56,8 +56,8 @@ public class ScheduleController {
     @RenderMapping(params = "view=upload")
     public String uploadFiles(RenderRequest request, RenderResponse response)
     {
-        String path = (String)request.getParameter("filepath");
-//    fileService.uploadFile();
+
+    // fileService.uploadFile();
         return "viewUpload";
     }
 

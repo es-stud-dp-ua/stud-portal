@@ -1,7 +1,7 @@
 package ua.dp.stud.studie.model;
 
 
-public enum Years {
+public enum Course {
    FIRST, SECOND, THIRD, FOURTH, FIFTH
 
 }

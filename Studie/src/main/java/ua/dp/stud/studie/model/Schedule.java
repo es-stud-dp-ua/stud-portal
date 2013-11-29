@@ -1,14 +1,15 @@
 package ua.dp.stud.studie.model;
 
 import ua.dp.stud.StudPortalLib.model.FileSaver;
+import ua.dp.stud.StudPortalLib.util.EntityWithFile;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
+import java.util.*;
 
 @Entity
 @Table(name = "schedule_table")
-public class Schedule implements Serializable  {
+public class Schedule implements Serializable, EntityWithFile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -17,7 +18,7 @@ public class Schedule implements Serializable  {
     @JoinColumn(name="faculty_id")
     private Faculties faculty;
     @Column
-    private Years year;
+    private Course year;
     @Column
     private FileSaver scheduleFile;
     @Column
@@ -40,11 +41,11 @@ public class Schedule implements Serializable  {
         this.faculty=faculty;
     }
 
-    public Years getYear() {
+    public Course getYear() {
         return year;
     }
 
-    public void setYear(Years year) {
+    public void setYear(Course year) {
         this.year = year;
     }
 
@@ -67,11 +68,11 @@ public class Schedule implements Serializable  {
     public Schedule()
     {
         this.faculty=null;
-        this.year=Years.FIRST;
+        this.year= Course.FIRST;
         this.scheduleFile =null;
         this.lastUpdateDate=null;
     }
-   public Schedule(Faculties faculty, Years year, FileSaver scheduleFileFolder, Date lastUpdateDate)
+   public Schedule(Faculties faculty, Course year, FileSaver scheduleFileFolder, Date lastUpdateDate)
     {
         this.faculty=faculty;
         this.year=year;
@@ -106,5 +107,23 @@ public class Schedule implements Serializable  {
         result = 31 * result + (scheduleFile != null ? scheduleFile.hashCode() : 0);
         result = 31 * result + (lastUpdateDate != null ? lastUpdateDate.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public List<String> getEntityNameForPath() {
+        List <String> path=new ArrayList<String>();
+        path.add("SCHEDULE");
+        path.add(this.faculty.getBase().getId().toString());
+        path.add(this.faculty.getId().toString());
+        path.add(this.year.toString());
+
+        return  path;
+    }
+
+    @Override
+    public boolean setFile(FileSaver file) {
+
+        this.scheduleFile=file;
+        return true;
     }
 }

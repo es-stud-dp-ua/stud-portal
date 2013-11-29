@@ -18,7 +18,6 @@
     int myOrgSize = (Integer) request.getAttribute("myOrgSize");
     int adminOrgSize = (Integer) request.getAttribute("adminOrgSize");
     int adminNewsSize = (Integer) request.getAttribute("adminNewsSize");
-    int newsInMyComm = (Integer) request.getAttribute("newsInMyComm");
 	int myEventsSize = (Integer) request.getAttribute("myEventsSize");
 	int adminEventsSize = (Integer) request.getAttribute("adminEventsSize");
 
@@ -152,13 +151,6 @@
                 <span aria-hidden="true" class="icon-bubbles-3"></span>
             </div>
             <c:if test="${myEventsSize > 0 }"> <span id="count">${myEventsSize}</span></c:if>
-        </div>
-        <div id="elem">
-            <div class="event <%if (newsInMyComm > 0){%> newEvent <%}%>" rel="<portlet:renderURL/>&mode=pagination"
-                 dataclass="newsInMyComm" title="<spring:message code="viewAll.NewsInMyComm"/>">
-                <span aria-hidden="true" class="icon-stackoverflow"></span>
-            </div>
-            <c:if test="${newsInMyComm > 0}"><span id="count">+${newsInMyComm}</span></c:if>
         </div>
         <%if (request.isUserInRole("Administrator")) {%>
         <div id="elem">

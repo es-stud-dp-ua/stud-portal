@@ -1,7 +1,7 @@
 package ua.dp.stud.studie.dao;
+import ua.dp.stud.studie.model.Course;
 import ua.dp.stud.studie.model.Faculties;
 import ua.dp.stud.studie.model.Schedule;
-import ua.dp.stud.studie.model.Years;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ public interface ScheduleDao {
 
     List<Schedule> getAll();
 
-    Schedule getScheduleByFacultyAndYear(Faculties faculty, Years year);
+    Schedule getScheduleByFacultyAndYear(Faculties faculty, Course year);
 
 
 

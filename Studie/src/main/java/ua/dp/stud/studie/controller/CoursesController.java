@@ -351,28 +351,6 @@ public class CoursesController {
 
     }
 
-    @RenderMapping(params = "success")
-    public ModelAndView showAddSuccess(RenderRequest request, RenderResponse response) {
-        ModelAndView model = showView(request, response);
-        String strSuccess = "success";
-        SessionMessages.add(request, request.getParameter(strSuccess));
-        return model;
-    }
 
-    @RenderMapping
-    public ModelAndView showView(RenderRequest request, RenderResponse response) {
-        ModelAndView model = new ModelAndView();
-        Integer buttonId;
-        if (request.getParameter(BUTTON_ID) == null) {
-            buttonId = 0;
-        } else {
-            buttonId = Integer.valueOf(request.getParameter(BUTTON_ID));
-        }
-        model.setViewName("viewAll");
-        Collection<Course> course = courseService.getAll();
-        model.addObject("course", course);
-        model.addObject(BUTTON_ID, buttonId);
-        return model;
-    }
 
 }

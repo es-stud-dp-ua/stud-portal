@@ -3,10 +3,15 @@ package ua.dp.stud.StudPortalLib.util;
 import org.apache.commons.io.FileUtils;
 import org.joda.time.DateTime;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import ua.dp.stud.StudPortalLib.model.FileSaver;
 
-import java.io.File;
-import java.io.IOException;
+import javax.imageio.stream.FileImageOutputStream;
+import java.io.*;
+import java.util.Calendar;
+import java.util.List;
+
+import static org.apache.commons.lang.StringUtils.join;
 
 /**@author
  * Nazarenko Kostya, Nazarenko Alexandra
@@ -31,8 +36,8 @@ public class FileService {
                 + FOLDER_SEPARATOR
                 + DATA_FOLDER
                 + FOLDER_SEPARATOR
-                + FILE_FOLDER
-                + FOLDER_SEPARATOR;
+                + FILE_FOLDER ;
+
     }
 
     /**
@@ -43,6 +48,20 @@ public class FileService {
     public String getFileFolderAbsolutePath() {
         return FILE_FOLDER_ABS_PATH;
     }
+
+
+   /** add to absolute path a path to file*/
+    public String generatePathToFile(EntityWithFile entity)
+    {
+        List<String> entityPath=entity.getEntityNameForPath();
+        String path=FILE_FOLDER_ABS_PATH;
+        for (String s:entityPath)
+        {
+          path+=FOLDER_SEPARATOR+s;
+        }
+        return path;
+    }
+
 
     /**
      * Deletes directory with subdirs and subfolders
@@ -62,71 +81,65 @@ public class FileService {
         }
     }
 
-    public void uploadFile(FileSaver file, String path) throws IOException {
-        String pathToFileFolder = checkPathToFileFolder(file);
-        /*if (file.getSize() != 0) {
-            saveToDiskScaled(file, pathToImagesFolder, "", IMAGE_MAX_WIDTH, -1);
-            saveToDiskScaled(file, pathToImagesFolder, CALENDAR_IMAGE_PREFIX, TO_CALENDAR_WIDTH, TO_CALENDAR_HEIGHT);
-            saveTo DiskScaled(file, pathToImagesFolder, MICROBLOG_IMAGE_PREFIX, MICROBLOG_IMAGE_WIDTH, MICROBLOG_IMAGE_HEIGHT);
+    public boolean uploadFile(FileSaver file, CommonsMultipartFile fileSrc,EntityWithFile entity) throws IOException {
+        checkPathToFileFolder( file, entity);
+        StringBuilder pathToFileFolder =new StringBuilder( this.generatePathToFile(entity));
+        pathToFileFolder.append(FOLDER_SEPARATOR);
+        boolean filecreate = false;
+        String createdFilePath=null;
+        File file1 = new File(pathToFileFolder+fileSrc.getOriginalFilename().replaceAll(" ","_"));
+        try {
+            FileOutputStream out = new FileOutputStream(file1);
+            createdFilePath = writeFile(out,file1,fileSrc);
+            if(createdFilePath != null)
+                filecreate = true;
+         } catch (FileNotFoundException e) {}
+        file.setOriginalFileName(file1.getName());
+       return  filecreate;
+   }
 
-            ImageImpl image = new ImageImpl();
-            //image.setBase(base);
-            image.setOriginalImageName(file.getOriginalFilename());
-            base.setMainImage(image);
-        }  */
-        File fileSrc = new File(path);
-
-        File fileDest = new File(pathToFileFolder+fileSrc.getName());
-        fileDest.createNewFile();
-        FileUtils.copyFile(fileSrc,fileDest);
-        file.setOriginalFileName(fileDest.getAbsolutePath());
-
-            //file.setOriginalFileName();
-
-
-    }
-
-    public boolean downloadFile(FileSaver file, String path) throws IOException {
-        if (file.getOriginalFileName()==null)
-        return false;
-        File fileSrc = new File(path);
-        File fileDest = new File(file.getOriginalFileName());
-        fileSrc.createNewFile();
-        FileUtils.copyFile(fileDest,fileSrc);
-        return true;
-    }
-
-    private String checkPathToFileFolder(FileSaver base) {
-        String path;
-        if (base.getOriginalFileName()!= null)
+    private String writeFile(FileOutputStream out, File file, CommonsMultipartFile fileSrc)
+    {
+        String filePath = null;
+        try
         {
-            File file1=new File(base.getOriginalFileName());
-            deleteDirectory(new File(file1.getPath().substring(0,file1.getPath().lastIndexOf(File.separator))));
+            out.write(fileSrc.getBytes());
+            out.close();
+            filePath=file.getAbsolutePath();
+
         }
-        DateTime dt = new DateTime();
-        StringBuilder sb = new StringBuilder();
-        String uniqueFolderId = String.valueOf(System.currentTimeMillis());
-
-        String yearMonthUniqueFolder = sb.append(dt.yearOfEra().getAsString())
-                    .append(FOLDER_SEPARATOR)
-                    .append(dt.monthOfYear().getAsString())
-                    .append(FOLDER_SEPARATOR)
-                    .append(uniqueFolderId).toString();
-        base.setOriginalFileName(yearMonthUniqueFolder);
-
-        sb = new StringBuilder();
-        sb.append(getFileFolderAbsolutePath())
-                 .append(yearMonthUniqueFolder);
-        path = sb.toString();
-        File folderForFile = new File(path);
-        folderForFile.mkdirs();
-
-        return path;
+        catch (IOException e) { }
+        return filePath;
     }
 
-    private void deleteFile(FileSaver file) {
+    public String downloadFile(FileSaver file, EntityWithFile entity) throws IOException {
+        StringBuilder path = new StringBuilder(DATA_FOLDER);
+        path.append(FOLDER_SEPARATOR);
+        path.append( FILE_FOLDER );
+        path.append(FOLDER_SEPARATOR);
+        for (String s: entity.getEntityNameForPath())
+            {
+                path.append(FOLDER_SEPARATOR).append(s);
+            }
+        path.append(FOLDER_SEPARATOR).append(file.getOriginalFileName());
+        return path.toString();
+    }
+   /**creates directories if it is absent
+    * @param entity - it gives the second part of the path to file*/
+   private void checkPathToFileFolder(FileSaver base,EntityWithFile entity) {
+        StringBuilder path=new StringBuilder();
+        path.append(generatePathToFile(entity));
+        path.append(FOLDER_SEPARATOR);
+        path.append(base.getOriginalFileName());
+        File file=new File(path.toString());
+        if (!(file.exists()))
+            file.mkdirs();
+
+    }
+
+    private void deleteFile(FileSaver file, EntityWithFile entityWithFile) {
         StringBuilder filePath = new StringBuilder();
-        filePath.append(this.getFileFolderAbsolutePath());
+        filePath.append(generatePathToFile(entityWithFile));
         File fileToDelete = new File(filePath.append(file.getOriginalFileName()).toString());
         fileToDelete.delete();
         File dir = new File(filePath.toString());
