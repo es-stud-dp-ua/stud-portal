@@ -171,6 +171,9 @@ public class CoursesController {
                            SessionStatus sessionStatus,
                            @RequestParam(MAIN_IMAGE) CommonsMultipartFile mainImage) {
 
+        if (actionRequest.isUserInRole("Administrator"))
+            course.setApproved(true);
+        else   course.setApproved(false);
 
         Course oldCourse = courseService.getCourseByID(course.getId());
         course.setMainImage(oldCourse.getMainImage());
@@ -185,7 +188,7 @@ public class CoursesController {
 
         User user = (User) actionRequest.getAttribute(WebKeys.USER);
         String screenName = user.getScreenName();
-        course.setAuthorslogin(screenName);
+        course.setAuthor(screenName);
 
         if (updateCourse(course, croppedImage, actionResponse)) {
             courseService.updateCourse(course);
@@ -222,7 +225,7 @@ public class CoursesController {
                 isShown=true;
                 }
             else{
-            if(request.isUserInRole("User") && course.getAuthorslogin().equals(user.getScreenName())){
+            if(request.isUserInRole("User") && course.getAuthor().equals(user.getScreenName())){
                 isShown=true;
             }
             }
@@ -328,9 +331,11 @@ public class CoursesController {
         User user = (User) actionRequest.getAttribute(WebKeys.USER);
         String screenName = user.getScreenName();
 
+        if (actionRequest.isUserInRole("Administrator"))
+               course.setApproved(true);
+        else   course.setApproved(false);
 
-        course.setAuthorslogin(screenName);
-
+        course.setAuthor(screenName);
 
         CommonsMultipartFile f = imageService.cropImage(mainImage,
                 Integer.parseInt(actionRequest.getParameter("t")),

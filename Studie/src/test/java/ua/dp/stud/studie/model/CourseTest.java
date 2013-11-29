@@ -38,7 +38,7 @@ public class CourseTest {
     public void TestGetAuthorsLogin()
     {
         String expResult=null;
-        String result=instance.getAuthorslogin();
+        String result=instance.getAuthor();
         assertEquals(expResult,result);
     }
 
@@ -46,7 +46,7 @@ public class CourseTest {
     public void TestSetAuthorsLogin()
     {
         String authorsLogin="";
-        instance.setAuthorslogin(authorsLogin);
+        instance.setAuthor(authorsLogin);
     }
 
     @Test
@@ -98,7 +98,7 @@ public class CourseTest {
     public void TestGetAddState()
     {
         Boolean expResult=false;
-        Boolean result=instance.getAddState();
+        Boolean result=instance.getApproved();
         assertEquals(expResult,result);
     }
 
@@ -106,7 +106,7 @@ public class CourseTest {
     public void TestSetAddState()
     {
         Boolean state = false;
-        instance.setAddState(state);
+        instance.setApproved(state);
     }
 
 }

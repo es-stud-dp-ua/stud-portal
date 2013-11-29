@@ -235,7 +235,17 @@
             </div>
         </form:form>
         <script >
-            $("#jform").on("submit",function(event){
+           
+        $.validator.addMethod('filesize', function(value, element, param) {
+            // param = size (en bytes) 
+            // element = element to validate (<input>)
+            // value = value of the element (file name)
+            return this.optional(element) || (element.files[0].size <= param) 
+        });
+        
+        
+        
+        $("#jform").on("submit",function(event){
 
                          document.getElementById('text1').innerHTML = CKEDITOR.instances.text.getData();
 
@@ -244,19 +254,22 @@
                          $.validator.setDefaults({ ignore: [] });
                                  $('#jform').validate({
                          rules: {
-                         title: {
-                         required: true,
+                         	title: {
+                       			  required: true,
                                  minlength: 5,
                                  maxlength: 100
                          },
-                                 text1: {
-                         required: true,
+                         mainImage: { 
+                        	 filesize: 5242880  
+                         },
+                             text1: {
+                         			required: true,
                                  minlength: 500,
                                  maxlength: 10000
                          },
-                        EventDateStart:
+                       		 EventDateStart:
                                      {required: true },
-                         EventDateEnd:
+                        	 EventDateEnd:
                                      {required: true }
 
                          },
@@ -265,6 +278,9 @@
                          required: "<spring:message code="val.required"/>",
                                  minlength:  "<spring:message code="val.title.minlength"/>",
                                  maxlength:  "<spring:message code="val.title.maxlength"/>"
+                         },
+                         mainImage:{
+                        	 filesize: "<spring:message code="val.text.minsize"/>"
                          },
                                  text1: {
                          required: "<spring:message code="val.required"/>",

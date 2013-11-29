@@ -200,7 +200,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     /**
-     * @param organization
+     * @param name
      * @return true if organization with this name is present
      */
     @Override
