@@ -165,7 +165,7 @@ public class EventPanelHelper {
         stateMap.put("adminNews", new AdminNews(this, "adminNewsSize", NEWS_ARCHIVE_REFERENCE_NAME));
         stateMap.put("adminCommunity", new AdminCommunity(this, "adminOrgSize", COMMUNITIES_REFERENCE_NAME));
         stateMap.put("adminEvents", new AdminEvents(this, "adminEventsSize", EVENTS_REFERENCE_NAME));
-        stateMap.put("adminCourses", new AdminEvents(this, "adminCoursesSize", COURSES_REFERENCE_NAME));
+        stateMap.put("adminCourses", new AdminCourses(this, "adminCoursesSize", COURSES_REFERENCE_NAME));
     }
 
     public ModelAndView getObjectsByPage() {
