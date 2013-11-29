@@ -1,16 +1,11 @@
 package ua.dp.stud.studie.controller;
 
-import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.model.User;
-import com.liferay.portal.theme.ThemeDisplay;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -21,30 +16,23 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
-import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import ua.dp.stud.StudPortalLib.model.ImageImpl;
 
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 import ua.dp.stud.StudPortalLib.util.ImageService;
-import ua.dp.stud.studie.model.Course;
-import ua.dp.stud.studie.model.CoursesType;
-import ua.dp.stud.studie.model.KindOfCourse;
-import ua.dp.stud.studie.service.CourseService;
-import ua.dp.stud.studie.service.StudieService;
+import ua.dp.stud.StudPortalLib.model.Course;
+import ua.dp.stud.StudPortalLib.model.CoursesType;
+import ua.dp.stud.StudPortalLib.model.KindOfCourse;
+import ua.dp.stud.StudPortalLib.service.CourseService;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.portlet.*;
-import javax.validation.Valid;
-import java.util.ArrayList;
-import java.text.SimpleDateFormat;
-import java.util.*;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -60,9 +48,10 @@ public class CoursesController {
     private static final String COURSE = "course";
     private static final String MAIN_IMAGE = "mainImage";
     private static final String STR_FAIL = "fail";
+    private static final String ADMIN = "Administrator";
     private static final String STR_NO_IMAGE = "no images";
     private static final Logger LOG = Logger.getLogger(StudieController.class.getName());
-    private static final String COURSE_ID = "id";
+    private static final String COURSE_ID = "courseId";
     private static final String STR_EXEPT = "Exception ";
     private static List<CoursesType> coursesType = Arrays.asList(CoursesType.values());
 
@@ -96,8 +85,6 @@ public class CoursesController {
         } else {
             buttonId = Integer.valueOf(request.getParameter(BUTTON_ID));
         }
-        //InitKindOfCourses();
-        //InitCourseName();
         List<KindOfCourse> kindOfCourses = courseService.getAllKindOfCourse();
         model.setViewName("viewAllCourses");
         model.addObject("kindOfCourses", kindOfCourses);
@@ -106,7 +93,6 @@ public class CoursesController {
         model.addObject("courses", courses);
         model.addObject(BUTTON_ID, buttonId);
         return model;
-        //return "viewAllCourses";
     }
 
     public void InitKindOfCourses()
@@ -135,14 +121,29 @@ public class CoursesController {
 
     }
 
+    @ResourceMapping(value = "coursesByKindAndType")
+    public void renderCourses(ResourceResponse response,  ResourceRequest request,
+                           @RequestParam(required = true) String kindOfCourse,
+                           @RequestParam(required = true) String coursesType) throws Exception
+    {
+        StringBuilder s = new StringBuilder();
+        List<Course> courses = courseService.getCoursesByKindAndType(kindOfCourse, coursesType);
+        //s.append(kindOfCourse); s.append(" "); s.append(coursesType);
+        for (Course c:courses) {
+            PortletURL p = response.createRenderURL();
+            p.setParameter("courseId", c.getId().toString());
+            p.setParameter("view", "course");
+            s.append("<p><a href='").append(p.toString()).append("'>").append(c.getCourseName()).append("</a></p>");
+        }
+        //response.createRenderURL();
+        response.getWriter().println(s);
+    }
+
 
     @RenderMapping(params = "add=course")
     public ModelAndView addCourse(RenderRequest request, RenderResponse response) {
-        //InitKindOfCourses();
         ModelAndView model = new ModelAndView("addCourse");
-
         Collection<KindOfCourse> kindOfCourses = courseService.getAllKindOfCourse();
-        //model.addObject("mainImage", "background: url(${pageContext.request.contextPath}/images/mainpic_443x253.png) no-repeat");
         model.addObject("kindOfCourse", kindOfCourses);
         model.addObject("coursesType", coursesType);
         return model;
@@ -165,34 +166,28 @@ public class CoursesController {
 
     @ActionMapping(value = "editCourse")
     public void editCourse(@ModelAttribute(COURSE) Course course,
-                           //BindingResult bindingResult,
                            ActionRequest actionRequest,
                            ActionResponse actionResponse,
                            SessionStatus sessionStatus,
                            @RequestParam(MAIN_IMAGE) CommonsMultipartFile mainImage) {
 
-         /*    if (bindingResult.hasErrors()) {
-            actionResponse.setRenderParameter(STR_FAIL, "msg.fail");
-            return;
-        }     */
 
         Course oldCourse = courseService.getCourseByID(course.getId());
         course.setMainImage(oldCourse.getMainImage());
+        CommonsMultipartFile croppedImage=null;
         if (!mainImage.getOriginalFilename().equals("")) {
-            mainImage = imageService.cropImage(mainImage,
+        	croppedImage = imageService.cropImage(mainImage,
                     Integer.parseInt(actionRequest.getParameter("t")),
                     Integer.parseInt(actionRequest.getParameter("l")),
                     Integer.parseInt(actionRequest.getParameter("w")),
                     Integer.parseInt(actionRequest.getParameter("h")));
         }
 
-        boolean role = actionRequest.isUserInRole("Administrator");
         User user = (User) actionRequest.getAttribute(WebKeys.USER);
         String screenName = user.getScreenName();
-        course.setAuthorslogin(screenName);
+        course.setAuthor(screenName);
 
-        if (updateCourse(course, mainImage, actionResponse)) {
-          //  courseService.deleteKindOfCourse(oldCourse.getKindOfCourse().getTypeId());
+        if (updateCourse(course, croppedImage, actionResponse)) {
             courseService.updateCourse(course);
             actionResponse.setRenderParameter(COURSE_ID, Integer.toString(course.getId()));
             sessionStatus.setComplete();
@@ -203,14 +198,14 @@ public class CoursesController {
 
     @RenderMapping(params = "view=course")
     public ModelAndView viewCourse(RenderRequest request, RenderResponse response) {
-        int CourseID = Integer.valueOf(request.getParameter(COURSE_ID));
+        int courseID = Integer.valueOf(request.getParameter(COURSE_ID));
         Integer buttonId = 0;
         if (request.getParameter(BUTTON_ID) == null) {
             buttonId = 0;
         } else {
             buttonId = Integer.valueOf(request.getParameter(BUTTON_ID));
         }
-        Course course = courseService.getCourseByID(CourseID);
+        Course course = courseService.getCourseByID(courseID);
         ImageImpl mImage = course.getMainImage();
         String mainImageUrl;
         if (mImage == null) {
@@ -221,13 +216,16 @@ public class CoursesController {
 
         User user = (User) request.getAttribute(WebKeys.USER);
         boolean isShown=false;
-        if (request.isUserInRole("Administrator") || request.isUserInRole("User"))
+        if (request.isUserInRole(ADMIN) || request.isUserInRole("User"))
         {
-            if(request.isUserInRole("Administrator"))
+            if(request.isUserInRole(ADMIN)){
                 isShown=true;
-            else
-            if(request.isUserInRole("User") && course.getAuthorslogin().equals(user.getScreenName()))
+                }
+            else{
+            if(request.isUserInRole("User") && course.getAuthor().equals(user.getScreenName())){
                 isShown=true;
+            }
+            }
         }
 
         ModelAndView model = new ModelAndView();
@@ -254,13 +252,25 @@ public class CoursesController {
     public void saveCourse() {
     }
 
-    @RenderMapping(params="view=coursescategories")
+    @RenderMapping(params="view=coursesCategories")
     public ModelAndView viewCoursesCategories(RenderRequest request, RenderResponse response) {
         ModelAndView model = new ModelAndView();
         model.setViewName("viewCoursesCategories");
         List<KindOfCourse> kindOfCourses = courseService.getAllKindOfCourseWithCount();
         model.addObject("KindOfCourses",kindOfCourses);
         return model;
+    }
+
+    /**
+     * @param response
+     * @param request
+     * @param nameKindOfCourse name
+     * @return ModelAndView
+     */
+    @ResourceMapping(value = "addKind")
+    public void addKindOfCourse(ResourceResponse response, ResourceRequest request,
+                                 String nameKindOfCourse) {
+        courseService.addKindOfCourse(new KindOfCourse(nameKindOfCourse));
     }
 
     /**
@@ -290,9 +300,9 @@ public class CoursesController {
                                 ActionResponse actionResponse) {
         boolean successUpload = true;
         try {
-            if (mainImage.getSize() > 0)
+            if (mainImage.getSize() > 0){
                 imageService.saveMainImage(mainImage, newCourse);
-
+            }
 
         } catch (Exception ex) {
             LOG.log(Level.SEVERE, STR_EXEPT, ex);
@@ -305,33 +315,21 @@ public class CoursesController {
 
 	@ActionMapping(value="saveNewCourse")
 	public void saveNewCourse(@ModelAttribute(COURSE)  Course course,
-                              //BindingResult bindingResult,
                               ActionRequest actionRequest,
                               ActionResponse actionResponse,
                               SessionStatus sessionStatus,
                               @RequestParam(MAIN_IMAGE) CommonsMultipartFile mainImage)
     {
-    /*    if (bindingResult.hasErrors()) {
-            for (ObjectError error : bindingResult.getAllErrors()) {
-                System.out.println(error.toString());
-                System.out.println();
-            }
-        }
-        if (bindingResult.hasErrors()) {
-            actionResponse.setRenderParameter(STR_FAIL, "msg.fail");
-            return;
-        }     */
         if (mainImage.getOriginalFilename().equals("")) {
             actionResponse.setRenderParameter(STR_FAIL, STR_NO_IMAGE);
             return;
         }
 
-        boolean role = actionRequest.isUserInRole("Administrator");
         User user = (User) actionRequest.getAttribute(WebKeys.USER);
         String screenName = user.getScreenName();
 
 
-        course.setAuthorslogin(screenName);
+        course.setAuthor(screenName);
 
 
         CommonsMultipartFile f = imageService.cropImage(mainImage,
@@ -349,9 +347,6 @@ public class CoursesController {
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {
-        /*SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        dateFormat.setLenient(true);
-        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));   */
         binder.setDisallowedFields("mainImage");
 
     }

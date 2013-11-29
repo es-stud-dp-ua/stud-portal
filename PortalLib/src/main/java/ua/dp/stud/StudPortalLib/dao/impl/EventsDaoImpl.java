@@ -11,13 +11,17 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
+import org.hibernate.Query;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 import ua.dp.stud.StudPortalLib.dao.EventsDao;
 import ua.dp.stud.StudPortalLib.model.Events;
 import ua.dp.stud.StudPortalLib.model.Tags;
+import ua.dp.stud.StudPortalLib.util.Direction;
 import ua.dp.stud.StudPortalLib.util.EventsType;
+
+
 
 /**
  * @author Ольга
@@ -33,10 +37,11 @@ public class EventsDaoImpl extends DaoForApproveImpl<Events> implements EventsDa
     }
 
     @Override
-    public Collection<Events> getEventsOfTypeOnPage(Integer pageNumb, Integer eventsPerPage, String type, Boolean approve, Boolean future) {
+    public Collection<Events> getEventsOfTypeOnPage(Integer pageNumb, Integer eventsPerPage, String type, Boolean approve,/* -Boolean future*/ Direction direct,Date date)
+    {
         int firstResult = (pageNumb - 1) * eventsPerPage;
         Collection<Events> nearesEvents = null;
-        if (future) {
+     /*  if (future) {
             nearesEvents = getSession().createCriteria(Events.class)
                     .add(Restrictions.eq("approved", approve))
                     .add(Restrictions.eq("type", EventsType.valueOf(type)))
@@ -52,7 +57,53 @@ public class EventsDaoImpl extends DaoForApproveImpl<Events> implements EventsDa
                     .setFirstResult(firstResult).setMaxResults(eventsPerPage).addOrder(Order.asc("eventDateStart")).list();
         }
 
+      */
+        if (direct==Direction.FUTURE)
+        {
+            Query query=getSession().createQuery("FROM Events WHERE eventDateStart>=:DateNow AND type=:etype AND approved=:approve ORDER BY eventDateStart asc");
+            query.setDate("DateNow",new Date());
+            query.setParameter("approve",approve);
+            query.setParameter("etype",EventsType.valueOf(type));
+            nearesEvents=query.list();
+        }
+        else
+        if (direct==Direction.PREVIOS)
+        {
+            Query query=getSession().createQuery("FROM Events WHERE eventDateStart<=:DateNow AND type=:etype AND approved=:approve ORDER BY eventDateStart desc");
+            query.setDate("DateNow",new Date());
+            query.setParameter("approve",approve);
+            query.setParameter("etype",EventsType.valueOf(type));
+            nearesEvents=query.list();
+        }
+        else
+        if (direct==Direction.DAY)
+        {   Date tmpb=new Date();
+            tmpb.setHours(0);
+            tmpb.setSeconds(0);
+            tmpb.setMinutes(0);
+            Date tmpe=new Date();
+            tmpe.setHours(23);
+            tmpe.setSeconds(59);
+            tmpe.setMinutes(59);
+            Query query=getSession().createQuery("FROM Events WHERE eventDateStart>=:DateNowB AND eventDateStart<=:DateNowE AND type=:etype AND approved=:approve ORDER BY eventDateStart asc");
+            query.setDate("DateNowB",tmpb);
+            query.setDate("DateNowE",tmpe);
+            query.setParameter("approve",approve);
+            query.setParameter("etype",EventsType.valueOf(type));
+            nearesEvents=query.list();
+        }
+        else
+        {
+            Query query=getSession().createQuery("FROM Events WHERE type=:etype AND approved=:approve ORDER BY eventDateStart desc");
+            query.setParameter("etype",EventsType.valueOf(type));
+            query.setParameter("approve",approve);
+            nearesEvents=query.list();
 
+        }
+
+       /* Collection<Events> nearesOnPageEvents = null;
+        for (int i=0;i<nearesEvents.size();i++)
+            if (i<firstResult) nearesOnPageEvents.add(nearesEvents.iterator().next()); */
         return nearesEvents;
     }
 
@@ -103,11 +154,11 @@ public class EventsDaoImpl extends DaoForApproveImpl<Events> implements EventsDa
     public Integer getCountOfType(EventsType type2, Boolean approved, Boolean futureEvents) {
         if (futureEvents) {
             return ((Long) getSession().createQuery("Select Count(*) From Events WHERE type= :type2 and approved=true and eventDateStart>=:dateNow")
-                    .setParameter("dateNow", new Date())
+                    .setDate("dateNow", new Date())
                     .setParameter("type2", type2).uniqueResult()).intValue();
         } else {
             return ((Long) getSession().createQuery("Select Count(*) From Events WHERE type= :type2 and approved=true and eventDateStart<=:dateNow")
-                    .setParameter("dateNow", new Date())
+                    .setDate("dateNow", new Date())
                     .setParameter("type2", type2).uniqueResult()).intValue();
         }
 
@@ -120,11 +171,11 @@ public class EventsDaoImpl extends DaoForApproveImpl<Events> implements EventsDa
                     .setParameter("approve", approved).uniqueResult()).intValue();
         } else if (futureEvents) {
             return ((Long) getSession().createQuery("Select Count(*) From Events WHERE  approved=:approve and eventDateStart>=:dateNow")
-                    .setParameter("dateNow", new Date())
+                    .setDate("dateNow", new Date())
                     .setParameter("approve", approved).uniqueResult()).intValue();
         } else {
             return ((Long) getSession().createQuery("Select Count(*) From Events WHERE  approved=:approve and eventDateStart<=:dateNow")
-                    .setParameter("dateNow", new Date())
+                    .setDate("dateNow", new Date())
                     .setParameter("approve", approved).uniqueResult()).intValue();
         }
     }
@@ -144,18 +195,18 @@ public class EventsDaoImpl extends DaoForApproveImpl<Events> implements EventsDa
     }
 
     @Override
-    public Collection<Events> getObjectOnPage(Boolean approved, Integer pageNumb, Integer objByPage, Boolean future) {
+    public Collection<Events> getObjectOnPage(Boolean approved, Integer pageNumb, Integer objByPage,Direction direct,Date date) {
         int firstResult = (pageNumb - 1) * objByPage;
         Collection<Events> nearesEvents = null;
         //return all events (for event panel)
-        if(future==null){   
+      /*  if(future==null){
             nearesEvents = getSession().createCriteria(persistentClass)
                     .add(Restrictions.eq("approved", approved))
                     .add(Restrictions.isNull("comment")).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
                     .setFirstResult(firstResult).setMaxResults(objByPage).addOrder(Order.asc("eventDateStart")).list();
         }else
             //return future events
-        if (future) { 
+        if (future) {
             nearesEvents = getSession().createCriteria(persistentClass)
                     .add(Restrictions.eq("approved", approved))
                     .add(Restrictions.ge("eventDateStart", new Date()))
@@ -168,7 +219,57 @@ public class EventsDaoImpl extends DaoForApproveImpl<Events> implements EventsDa
                     .add(Restrictions.le("eventDateStart", new Date()))
                     .add(Restrictions.isNull("comment")).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
                     .setFirstResult(firstResult).setMaxResults(objByPage).addOrder(Order.asc("eventDateStart")).list();
+        }           */
+        if (direct==Direction.FUTURE)
+        {
+            Query query=getSession().createQuery("FROM Events WHERE eventDateStart>=:DateNow AND approved=:approve ORDER BY eventDateStart asc");
+            query.setDate("DateNow",date);
+            query.setParameter("approve",approved);
+            nearesEvents=query.list();
         }
+        else
+        if (direct==Direction.PREVIOS)
+        {
+            Query query=getSession().createQuery("FROM Events WHERE eventDateStart<:DateNow AND approved=:approve ORDER BY eventDateStart desc");
+            query.setDate("DateNow",date);
+            query.setParameter("approve",approved);
+            nearesEvents=query.list();
+        }
+        else
+        if (direct==Direction.DAY)
+        {   Date tmpb=date;
+            tmpb.setHours(0);
+            tmpb.setSeconds(0);
+            tmpb.setMinutes(0);
+            Date tmpe=date;
+            tmpe.setHours(23);
+            tmpe.setSeconds(59);
+            tmpe.setMinutes(59);
+            Query query=getSession().createQuery("FROM Events WHERE eventDateStart>=:DateNowB AND eventDateStart<=:DateNowE AND  approved=:approve ORDER BY eventDateStart asc ");
+            query.setDate("DateNowB",tmpb);
+            query.setDate("DateNowE",tmpe);
+            query.setParameter("approve",approved);
+            nearesEvents=query.list();
+        }
+        else
+        {
+            Query query=getSession().createQuery("FROM Events WHERE approved=:approve ORDER BY eventDateStart desc");
+            query.setParameter("approve",approved);
+            nearesEvents=query.list();
+
+        }
+
+        /*Collection<Events> nearestOnPageEvents = null;
+        for (int i=0;i<nearesEvents.size();i++)
+            if (i<firstResult) nearestOnPageEvents.add(nearesEvents.iterator().next());
+        */
         return nearesEvents;
     }
+
+ /*   public List<Events> getSortedEvents()
+    {
+       Query query = getSession().createQuery("from Events order by eventDateStart");
+       List<Events> list = (List<Events>)query.list();
+        return list;
+    }  */
 }

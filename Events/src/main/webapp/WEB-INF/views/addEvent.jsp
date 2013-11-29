@@ -17,7 +17,7 @@
                     $("#datepicker1").datepicker({ dateFormat: "mm/dd/yy", showAnim:'slide', showButtonPanel:true});
                     $("#datepicker2").datepicker({ dateFormat: "mm/dd/yy", showAnim:'slide', showButtonPanel:true});
             });</script>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta http-equiv="Content-Type" content="charset=utf-8">
         <% Boolean russianLocaleEnabled = request.getLocale().getLanguage().equals("ru");  %>
         <style type="text/css">
             .error {
@@ -68,10 +68,8 @@
                             validateValueTextArea.value = validateValueTextArea.value.substr(0, validateValueTextArea.getAttribute('maxlength'));
                     }
         </script>
-    <portlet:renderURL var="home">
-        <portlet:param name="nAction" value="home"/>
-    </portlet:renderURL>
-    
+    <portlet:renderURL var="home"> </portlet:renderURL>
+
     <portlet:actionURL var="actionLink" name="addEvents"></portlet:actionURL>
     <div class="portlet-content-controlpanel fs20">
         <a href="${home}">
@@ -236,49 +234,74 @@
                                                                                              :"form.submit.user"%>'/>"/>
             </div>
         </form:form>
-        <script type="text/javascript">
-                    function f(){
-                    window.setInterval("document.getElementById('text1').innerHTML = CKEDITOR.instances.text.getData(); if(document.getElementById('text').value!=CKEDITOR.instances.text.getData()) $('#jform').valid()", 500);
-                    }
-            window.onload = f;
-                    $(document).ready(function() {
-            $.validator.setDefaults({ ignore: [] });
-                    $('#jform').validate({
-            rules: {
-            title: {
-            required: true,
-                    minlength: 5,
-                    maxlength: 100
-            },
-                    text1: {
-            required: true,
-                    minlength: 500,
-                    maxlength: 10000
-            }
+        <script >
+           
+        $.validator.addMethod('filesize', function(value, element, param) {
+            // param = size (en bytes) 
+            // element = element to validate (<input>)
+            // value = value of the element (file name)
+            return this.optional(element) || (element.files[0].size <= param) 
+        });
+        
+        
+        
+        $("#jform").on("submit",function(event){
 
-            },
-                    messages: {
-            title: {
-            required: "<spring:message code="val.required"/>",
-                    minlength:  "<spring:message code="val.title.minlength"/>",
-                    maxlength:  "<spring:message code="val.title.maxlength"/>"
-            },
-                    text1: {
-            required: "<spring:message code="val.required"/>",
-                    minlength:  "<spring:message code="val.text.minlength"/>",
-                    maxlength:  "<spring:message code="val.text.maxlength"/>"
-            }
-            },
-                    highlight: function(label) {
-            $(label).removeClass("invisiblevalid");
-                    $(label).closest('.control-group').addClass('error');
-            },
-                    success: function(label) {
-            $(label).removeClass("error");
-                    label.addClass("invisiblevalid");
-            }
-            });
-            });
+                         document.getElementById('text1').innerHTML = CKEDITOR.instances.text.getData();
+
+                                                                                 });
+                                 $(document).ready(function() {
+                         $.validator.setDefaults({ ignore: [] });
+                                 $('#jform').validate({
+                         rules: {
+                         	title: {
+                       			  required: true,
+                                 minlength: 5,
+                                 maxlength: 100
+                         },
+                         mainImage: { 
+                        	 filesize: 5242880  
+                         },
+                             text1: {
+                         			required: true,
+                                 minlength: 500,
+                                 maxlength: 10000
+                         },
+                       		 EventDateStart:
+                                     {required: true },
+                        	 EventDateEnd:
+                                     {required: true }
+
+                         },
+                                 messages: {
+                         title: {
+                         required: "<spring:message code="val.required"/>",
+                                 minlength:  "<spring:message code="val.title.minlength"/>",
+                                 maxlength:  "<spring:message code="val.title.maxlength"/>"
+                         },
+                         mainImage:{
+                        	 filesize: "<spring:message code="val.text.minsize"/>"
+                         },
+                                 text1: {
+                         required: "<spring:message code="val.required"/>",
+                                 minlength:  "<spring:message code="val.text.minlength"/>",
+                                 maxlength:  "<spring:message code="val.text.maxlength"/>"
+                         },
+                         EventDateStart:
+                                 {required: "<spring:message code="val.required"/>" },
+                         EventDateEnd:
+                                 {required: "<spring:message code="val.required"/>" }
+                         },
+                                 highlight: function(label) {
+                         $(label).removeClass("invisiblevalid");
+                                 $(label).closest('.control-group').addClass('error');
+                         },
+                                 success: function(label) {
+                         $(label).removeClass("error");
+                                 label.addClass("invisiblevalid");
+                         }
+                         });
+                         });
         </script>
 
     </div>

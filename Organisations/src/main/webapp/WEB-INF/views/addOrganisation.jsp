@@ -64,10 +64,8 @@
                             validateValueTextArea.value = validateValueTextArea.value.substr(0, validateValueTextArea.getAttribute('maxlength'));
                     }
         </script>
-    <portlet:renderURL var="home">
-        <portlet:param name="nAction" value="home"/>
-    </portlet:renderURL>
-    
+    <portlet:renderURL var="home"> </portlet:renderURL>
+
     <portlet:actionURL var="actionLink" name="addOrganisation"></portlet:actionURL>
     <div class="portlet-content-controlpanel fs20">
         <a href="${home}">
@@ -152,7 +150,6 @@
                         <div id="labels"><spring:message code="form.title"/></div><div id="redStar1">*</div>
                             <form:input path="title" id="title" cols="90" rows="2" maxlength="100"  name="title"/>
                             <form:errors path="title" cssClass="error"></form:errors>
-                            
                             <div id="labels"><spring:message code="form.text"/></div><div id="redStar2">*</div>
                             <textarea path="text" class="ckeditor" id="text" cols="65" rows="10" maxlength="10000"
                                       name="text" style="margin-left: 8px;" ></textarea>
@@ -246,7 +243,65 @@
                                                                                              :"form.submit.user"%>'/>"/>
             </div>
         </form:form>
-    <script id="" src="${pageContext.request.contextPath}/js/valid.js" type="text/javascript"></script>
+     <script>
+        $("#jform").on("submit",function(event){
+
+                                        document.getElementById('text1').innerHTML = CKEDITOR.instances.text.getData();
+            if ($("#jform").valid()){
+                return true
+            }
+            return false
+
+                                    });
+
+                             $(document).ready(function() {
+                     $.validator.setDefaults({ ignore: [] });
+                             $('#jform').validate({
+                                 onsubmit: false,
+                     rules: {
+                     title: {
+                     required: true,
+                             minlength: 5,
+                             maxlength: 100
+                     },
+                             text1: {
+                     required: true,
+                             minlength: 300,
+                             maxlength: 3000
+                     },
+                             contacts:{
+                             required: true,
+                             maxlength:300
+                     }
+                     },
+                             messages: {
+                     title: {
+                     required: "<spring:message code="val.required"/>",
+                             minlength:  "<spring:message code="val.title.minlength"/>",
+                             maxlength:  "<spring:message code="val.title.maxlength"/>"
+                     },
+                             text1: {
+                     required: "<spring:message code="val.required"/>",
+                             minlength:  "<spring:message code="val.text.minlength"/>",
+                             maxlength:  "<spring:message code="val.text.maxlength"/>"
+                     },
+                             contacts: {
+                             required: "<spring:message code="val.required"/>",
+                             maxlength:  "<spring:message code="val.contacts.maxlength"/>"
+                     }
+                     },
+                             highlight: function(label) {
+                     $(label).removeClass("invisiblevalid");
+                             $(label).closest('.control-group').addClass('error');
+                     },
+                             success: function(label) {
+                     $(label).removeClass("error");
+                             label.addClass("invisiblevalid");
+                     }
+                     });
+                     });
+
+     </script>
     </div>
 
 </body>

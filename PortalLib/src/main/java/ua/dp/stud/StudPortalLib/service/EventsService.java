@@ -5,10 +5,12 @@
 package ua.dp.stud.StudPortalLib.service;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import ua.dp.stud.StudPortalLib.model.Events;
 import ua.dp.stud.StudPortalLib.model.ImageImpl;
 import ua.dp.stud.StudPortalLib.model.Tags;
+import ua.dp.stud.StudPortalLib.util.Direction;
 import ua.dp.stud.StudPortalLib.util.EventsType;
 
 /**
@@ -25,7 +27,7 @@ public interface EventsService {
 
     Integer getPagesCount(Integer newsByPage);
 
-    Collection<Events> getEventsOnPage(Integer pageNumb, Integer eventsByPage, Boolean approve,Boolean future);
+    Collection<Events> getEventsOnPage(Integer pageNumb, Integer eventsByPage, Boolean approve,Direction direct,Date date);
 
     Collection<Events> getAllEvents(Boolean approve);
 
@@ -45,7 +47,7 @@ public interface EventsService {
 
     Collection<Events> getOnMainPage();
 
-    Collection<Events> getEventsOfTypeByPage(Integer pageNumb, Integer eventsByPage, String type, Boolean approve,Boolean future);
+    Collection<Events> getEventsOfTypeByPage(Integer pageNumb, Integer eventsByPage, String type, Boolean approve,Direction direct,Date date);
 
     Integer getPagesCountOfType(int eByPage, EventsType type,Boolean approved,Boolean futureEvents);
 
@@ -67,4 +69,6 @@ public interface EventsService {
     void deleteTags(Tags tags);
     
     void updateTags(Tags tag);
+
+
 }

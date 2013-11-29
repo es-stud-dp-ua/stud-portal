@@ -1,13 +1,9 @@
-package ua.dp.stud.studie.model;
+package ua.dp.stud.StudPortalLib.model;
 
 
-import org.hibernate.validator.constraints.NotEmpty;
-import ua.dp.stud.StudPortalLib.model.BaseImagesSupport;
-import ua.dp.stud.studie.model.KindOfCourse;
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.Date;
-import java.awt.Image;
+
 /**
  * Author: Nazarenko K.V
  * Date: 03.10.13
@@ -23,13 +19,16 @@ public class Course extends BaseImagesSupport{
     private String courseName;
 
     @Column
-    private String authorslogin;
+    private String author;
 
     @Column
     private String coursesContact;
 
     @Column
     private String coursesDescription;
+
+    @Column
+    private String comment;
 
     @Column
     @Temporal(TemporalType.DATE)
@@ -39,10 +38,10 @@ public class Course extends BaseImagesSupport{
     private KindOfCourse kindOfCourse;
 
     @Column
-    private Boolean addState;
+    private Boolean approved;
 
     @Column
-    @Enumerated
+    @Enumerated(EnumType.ORDINAL)
     private  CoursesType coursesType;
 
     public CoursesType getCoursesType() {
@@ -52,10 +51,10 @@ public class Course extends BaseImagesSupport{
     public Course()
     {
         this.addDate=new Date();
-        this.addState = false;  
+        this.approved = false;
     }
     public Course(String coursesName){
-    	this.setCourseName(coursesName);
+    	this.courseName = coursesName;
     }
 
     public String getCourseName() {
@@ -66,12 +65,20 @@ public class Course extends BaseImagesSupport{
         this.courseName = courseName;
     }
 
-    public String getAuthorslogin() {
-        return authorslogin;
+    public String getAuthor() {
+        return author;
     }
 
-    public void setAuthorslogin(String authorslogin) {
-        this.authorslogin = authorslogin;
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
     public String getCoursesContact() {
@@ -100,12 +107,12 @@ public class Course extends BaseImagesSupport{
     }
 
 
-    public Boolean getAddState() {
-        return addState;
+    public Boolean getApproved() {
+        return approved;
     }
 
-    public void setAddState(Boolean addState) {
-        this.addState = addState;
+    public void setApproved(Boolean approved) {
+        this.approved = approved;
     }
 
 
@@ -123,37 +130,59 @@ public class Course extends BaseImagesSupport{
         this.kindOfCourse = kindOfCourse;
     }
 
-    public Course(String courseName, String authorslogin, String coursesContact, String coursesDescription, KindOfCourse kindOfCourse, CoursesType coursesType) {
+    public Course(String courseName, String author, String coursesContact, String coursesDescription, KindOfCourse kindOfCourse, CoursesType coursesType, String comment) {
         this.courseName = courseName;
-        this.authorslogin = authorslogin;
+        this.author = author;
         this.coursesContact = coursesContact;
-        this.addState=false;
+        this.approved=false;
         this.coursesDescription = coursesDescription;
         this.addDate = new Date();
         this.kindOfCourse = kindOfCourse;
         this.coursesType = coursesType;
+        this.comment = comment;
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
+        if (this == o){
+        	return true;
+        	}
+        if (o == null || getClass() != o.getClass()) {
+        	return false;
+        	}
+        if (!super.equals(o)){
+        	return false;
+        	}
 
         Course course = (Course) o;
 
-        if (addDate != null ? !addDate.equals(course.addDate) : course.addDate != null) return false;
-        if (addState != null ? !addState.equals(course.addState) : course.addState != null) return false;
-        if (authorslogin != null ? !authorslogin.equals(course.authorslogin) : course.authorslogin != null)
+        if (addDate != null ? !addDate.equals(course.addDate) : course.addDate != null){
+        	return false;
+        	}
+        if (approved != null ? !approved.equals(course.approved) : course.approved != null){
+        	return false;
+        	}
+        if (author != null ? !author.equals(course.author) : course.author != null){
             return false;
-        if (courseName != null ? !courseName.equals(course.courseName) : course.courseName != null) return false;
-        if (coursesContact != null ? !coursesContact.equals(course.coursesContact) : course.coursesContact != null)
+            }
+        if (courseName != null ? !courseName.equals(course.courseName) : course.courseName != null) {
+        	return false;
+        	}
+        if (coursesContact != null ? !coursesContact.equals(course.coursesContact) : course.coursesContact != null){
             return false;
-        if (coursesDescription != null ? !coursesDescription.equals(course.coursesDescription) : course.coursesDescription != null)
+            }
+        if (coursesDescription != null ? !coursesDescription.equals(course.coursesDescription) : course.coursesDescription != null){
             return false;
-        if (coursesType != course.coursesType) return false;
-        if (kindOfCourse != null ? !kindOfCourse.equals(course.kindOfCourse) : course.kindOfCourse != null)
+            }
+        if (coursesType != course.coursesType){ 
+        	return false;
+        	}
+        if (kindOfCourse != null ? !kindOfCourse.equals(course.kindOfCourse) : course.kindOfCourse != null){
             return false;
+            }
+        if (comment != null ? !comment.equals(course.comment) : course.comment != null){
+            return false;
+        }
 
         return true;
     }
@@ -162,13 +191,14 @@ public class Course extends BaseImagesSupport{
     public int hashCode() {
         int result = super.hashCode();
         result = 31 * result + (courseName != null ? courseName.hashCode() : 0);
-        result = 31 * result + (authorslogin != null ? authorslogin.hashCode() : 0);
+        result = 31 * result + (author != null ? author.hashCode() : 0);
         result = 31 * result + (coursesContact != null ? coursesContact.hashCode() : 0);
         result = 31 * result + (coursesDescription != null ? coursesDescription.hashCode() : 0);
         result = 31 * result + (addDate != null ? addDate.hashCode() : 0);
         result = 31 * result + (kindOfCourse != null ? kindOfCourse.hashCode() : 0);
-        result = 31 * result + (addState != null ? addState.hashCode() : 0);
+        result = 31 * result + (approved != null ? approved.hashCode() : 0);
         result = 31 * result + (coursesType != null ? coursesType.hashCode() : 0);
+        result = 31 * result + (comment != null ? coursesType.hashCode() : 0);
         return result;
     }
 }

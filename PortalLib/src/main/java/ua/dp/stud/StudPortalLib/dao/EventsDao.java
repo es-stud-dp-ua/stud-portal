@@ -5,9 +5,11 @@
 package ua.dp.stud.StudPortalLib.dao;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import ua.dp.stud.StudPortalLib.model.Events;
 import ua.dp.stud.StudPortalLib.model.Tags;
+import ua.dp.stud.StudPortalLib.util.Direction;
 import ua.dp.stud.StudPortalLib.util.EventsType;
 
 /**
@@ -18,7 +20,7 @@ public interface EventsDao extends DaoForApprove<Events> {
 
     Collection<Events> getEventsByType(EventsType type);
 
-    Collection<Events> getEventsOfTypeOnPage(Integer pageNumb, Integer orgsPerPage, String type, Boolean approve,Boolean future);
+    Collection<Events> getEventsOfTypeOnPage(Integer pageNumb, Integer orgsPerPage, String type, Boolean approve,/*Boolean future*/Direction direct,Date date);
 
     Collection<Events> getAllEvents(Boolean approved);
     
@@ -36,6 +38,9 @@ public interface EventsDao extends DaoForApprove<Events> {
     
     Events save(Events event,List<Tags> tags);
     
-    Collection<Events> getObjectOnPage(Boolean approved, Integer pageNumb, Integer objByPage,Boolean future);
+    Collection<Events> getObjectOnPage(Boolean approved, Integer pageNumb, Integer objByPage,/*Boolean future,*/Direction direct,Date date);
+
+
+   // List<Events> getSortedEvents();
         
 }

@@ -6,8 +6,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ua.dp.stud.studie.dao.CouncilDao;
 import ua.dp.stud.studie.model.Council;
+import ua.dp.stud.studie.model.CouncilMembers;
 import ua.dp.stud.studie.service.CouncilService;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -54,5 +56,38 @@ public class CouncilServiceImpl implements CouncilService {
     public List<Council> getAll() {
         return dao.getAll();
     }
+    
+    //------------------------------------------------------------
+    
+    @Override
+    @Transactional(readOnly = true)
+    public CouncilMembers getCouncilMembersById(Integer id) {
+        return dao.getCouncilMembersById(id);
+    }
+
+    @Override
+    @Transactional(readOnly = false)
+    public void addCouncilMembers(CouncilMembers councilMembers) {
+        dao.addCouncilMembers(councilMembers);
+    }
+
+    @Override
+    @Transactional(readOnly = false)
+    public void deleteCouncilMembers(Integer id){
+        dao.deleteCouncilMembers(id);
+    }
+
+    @Override
+    @Transactional(readOnly = false)
+    public void updateCouncilMembers(CouncilMembers councilMembers) {
+        dao.updateCouncilMembers(councilMembers);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public  List<CouncilMembers> getAllCouncilMembers() {
+        return dao.getAllCouncilMembers();
+    }
+
 
 }

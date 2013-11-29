@@ -8,9 +8,7 @@
 <%@ page import="com.liferay.portal.kernel.util.WebKeys" %>
 <%@ page import="com.liferay.portal.kernel.servlet.ImageServletTokenUtil" %>
 <%@ taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet" %>
-<script type="text/javascript" src="js/jquery-1.5.2.min.js"></script>
-<script type="text/javascript" src="js/jquery.validate.min.js"></script>
-<script type="text/javascript" src="js/myscripts.js"></script>
+
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -79,6 +77,7 @@ SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
             }
         </script>
     <portlet:renderURL var="home">
+        <portlet:param name="archive" value="<%=archive.toString()%>"/>
         <portlet:param name="currentPage" value="<%=currentPage.toString()%>"/>
     </portlet:renderURL>
 
@@ -93,7 +92,7 @@ SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
         </a>
         <% if (request.isUserInRole("Administrator")) { %>
 
-        <a style="margin-left: 10px;" href='<portlet:renderURL><portlet:param name="eventID" value="<%=event.getId().toString()%>"/><portlet:param name="mode" value="delete" /></portlet:renderURL>'
+        <a style="margin-left: 10px;" href="<portlet:renderURL/>&eventId=<%=event.getId()%>&mode=delete"
            onclick='return confirm("<spring:message code="form.confDelete"/>")'>
             <!--<spring:message code="form.delete"/>-->
             <div class="panelbtn panelbtn-right fs20 icon-pcpremove" aria-hidden="true"></div>
@@ -189,6 +188,7 @@ SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
                             <div style="width: 450px; float: bottom ;padding-left: 8px;">
                             <form:textarea path="text" title="${event.text}" class="ckeditor" id="textInput" cols="60" rows="10" maxlength="8000"
                                            onkeypress="return isNotMax(event)" name="text"/>
+                             <textarea style="visibility: hidden;width: 0px;" id="text1" name="text1"  ></textarea>
                             <form:errors path="text" cssClass="error" ></form:errors>
                                 <br/><br/>
                             </div>
@@ -243,6 +243,59 @@ SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
                                                                                              :"form.submit.user"%>'/>"/>
             </div>
         </form:form>
+        <script >
+        $("#event").on("submit",function(event){
+
+                                          document.getElementById('text1').innerHTML = CKEDITOR.instances.textInput.getData();
+
+                                                                                                  });
+                                                  $(document).ready(function() {
+                                          $.validator.setDefaults({ ignore: [] });
+                                                  $('#event').validate({
+                                          rules: {
+                                          title: {
+                                          required: true,
+                                                  minlength: 5,
+                                                  maxlength: 100
+                                          },
+                                                  text1: {
+                                          required: true,
+                                                  minlength: 500,
+                                                  maxlength: 10000
+                                          },
+                                         EventDateStart:
+                                                      {required: true },
+                                          EventDateEnd:
+                                                      {required: true }
+
+                                          },
+                                                  messages: {
+                                          title: {
+                                          required: "<spring:message code="val.required"/>",
+                                                  minlength:  "<spring:message code="val.title.minlength"/>",
+                                                  maxlength:  "<spring:message code="val.title.maxlength"/>"
+                                          },
+                                                  text1: {
+                                          required: "<spring:message code="val.required"/>",
+                                                  minlength:  "<spring:message code="val.text.minlength"/>",
+                                                  maxlength:  "<spring:message code="val.text.maxlength"/>"
+                                          },
+                                          EventDateStart:
+                                                  {required: "<spring:message code="val.required"/>" },
+                                          EventDateEnd:
+                                                  {required: "<spring:message code="val.required"/>" }
+                                          },
+                                                  highlight: function(label) {
+                                          $(label).removeClass("invisiblevalid");
+                                                  $(label).closest('.control-group').addClass('error');
+                                          },
+                                                  success: function(label) {
+                                          $(label).removeClass("error");
+                                                  label.addClass("invisiblevalid");
+                                          }
+                                          });
+                                          });
+        </script>
     </div>
 </body>
 </html>

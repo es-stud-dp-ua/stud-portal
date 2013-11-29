@@ -2,15 +2,12 @@ package ua.dp.stud.studie.model;
 
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.*;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-
 import ua.dp.stud.StudPortalLib.model.BaseImagesSupport;
-import ua.dp.stud.StudPortalLib.model.News;
 /**
  * Author: Lysenko Nikolai
  * Date: 21.10.13
@@ -22,21 +19,50 @@ import ua.dp.stud.StudPortalLib.model.News;
 @PrimaryKeyJoinColumn(name = "id", referencedColumnName = "id")
 public class Council extends BaseImagesSupport implements Serializable{
 
-    
     private String councilName;
     private String councilContact;
     private String councilDescription;
+    private List<CouncilMembers> councilMembers;
+    
+    @OneToMany(cascade = { CascadeType.PERSIST, CascadeType.REMOVE}, mappedBy = "nameOfCouncil", fetch = FetchType.LAZY)    
+    public List<CouncilMembers> getCouncilMembers() {
+        Collections.sort(councilMembers);
+    	return councilMembers;
+    }
+
+    public void setCouncilMembers(List<CouncilMembers> councilMembers) {
+        this.councilMembers = councilMembers;
+        for (CouncilMembers spec : this.councilMembers) {
+            if (spec.getNameOfCouncil() == null) {
+                spec.setNameOfCouncil(this);
+            }
+        }
+    }
+
 
     public Council()
     {
     }
 
 
-
     public Council(String councilName){
     	this.setCouncilName(councilName);
     }
 
+    public Council(String councilName, String councilContact, String councilDescription) {
+        this.councilName = councilName;
+        this.councilContact = councilContact;
+        this.councilDescription = councilDescription;
+        
+    }
+    
+    public Council(String councilName, String councilContact, String councilDescription,List<CouncilMembers> councilMembers) {
+        this.councilName = councilName;
+        this.councilContact = councilContact;
+        this.councilDescription = councilDescription;
+        this.councilMembers=councilMembers;
+        
+    }
     @Column(name = "councilName")
     public String getCouncilName() {
         return councilName;
@@ -62,16 +88,6 @@ public class Council extends BaseImagesSupport implements Serializable{
 
     public void setCouncilDescription(String councilDescription) {
         this.councilDescription = councilDescription;
-    }
-
-
-
-    
-        public Council(String councilName, String councilContact, String councilDescription) {
-        this.councilName = councilName;
-        this.councilContact = councilContact;
-        this.councilDescription = councilDescription;
-        
     }
 
     @Override

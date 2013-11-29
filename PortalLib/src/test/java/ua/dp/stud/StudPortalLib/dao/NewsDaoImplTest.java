@@ -1,4 +1,4 @@
-package ua.dp.stud.StudPortalLib.dao.impl;
+package ua.dp.stud.StudPortalLib.dao;
 
 import org.junit.Before;
 import org.junit.Test;

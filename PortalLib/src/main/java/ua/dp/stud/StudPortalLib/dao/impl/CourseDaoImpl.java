@@ -1,4 +1,4 @@
-package ua.dp.stud.studie.dao.impl;
+package ua.dp.stud.StudPortalLib.dao.impl;
 
 import org.hibernate.Hibernate;
 import org.hibernate.Query;
@@ -7,9 +7,10 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import ua.dp.stud.studie.dao.CourseDao;
-import ua.dp.stud.studie.model.Course;
-import ua.dp.stud.studie.model.KindOfCourse;
+import ua.dp.stud.StudPortalLib.dao.CourseDao;
+import ua.dp.stud.StudPortalLib.model.Course;
+import ua.dp.stud.StudPortalLib.model.CoursesType;
+import ua.dp.stud.StudPortalLib.model.KindOfCourse;
 
 import java.util.Collection;
 import java.util.List;
@@ -19,7 +20,7 @@ import java.util.List;
  */
 
 @Repository("courseDao")
-public class CourseDaoImpl implements CourseDao {
+public class CourseDaoImpl extends DaoForApproveImpl<Course> implements CourseDao {
 
     @Autowired
     private SessionFactory sessionFactory;
@@ -28,7 +29,7 @@ public class CourseDaoImpl implements CourseDao {
         this.sessionFactory = sessionFactory;
     }
 
-    private Session getSession() {
+    protected Session getSession() {
         return this.sessionFactory.getCurrentSession();
     }
 
@@ -56,9 +57,34 @@ public class CourseDaoImpl implements CourseDao {
     }
 
     @Override
-
     public List<Course> getAll() {
         return getSession().createCriteria(Course.class).list();
+    }
+
+    @Override
+    public List<Course> getCoursesByKindAndType(String kindOfCourse, String coursesType)
+    {
+        StringBuilder queryString = new StringBuilder("from Course where ");
+        if (!kindOfCourse.equals("all")){
+            queryString.append("kindOfCourse.typeId = :kindOfCourse");
+        } else {
+            queryString.append("1=1");
+        }
+        queryString.append(" and ");
+        if (!coursesType.equals("all")) {
+            queryString.append("coursesType = :coursesType");
+        } else {
+            queryString.append("1=1");
+        }
+        Query query = getSession().createQuery(queryString.toString());
+        if (!kindOfCourse.equals("all")) {
+            query.setParameter("kindOfCourse", Integer.parseInt(kindOfCourse));
+        }
+        if (!coursesType.equals("all")) {
+            query.setParameter("coursesType", CoursesType.valueOf(coursesType));
+        }
+        List<Course> list = (List<Course>)query.list();
+        return list;
     }
 
     @Override
@@ -87,6 +113,13 @@ public class CourseDaoImpl implements CourseDao {
     public void initializeCountOfCourses(KindOfCourse kindOfCourse) {
         Query q = getSession().createQuery("SELECT count(id) FROM Course WHERE kindOfCourse="+kindOfCourse.getTypeId().toString());
         kindOfCourse.setCountOfCourses((Long) q.uniqueResult());
+    }
+
+    @Override
+    public Collection<Course> getAllCoursesByAuthor(String author)
+    {
+        return getSession().getNamedQuery("Course.getByAuthor")
+                .setParameter("author", author).list();
     }
 
     @Override

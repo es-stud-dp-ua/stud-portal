@@ -3,6 +3,8 @@
 <%@ page import="ua.dp.stud.StudPortalLib.service.EventsService" %>
 <%@ page import="ua.dp.stud.StudPortalLib.service.impl.EventsServiceImpl" %>
 <%@ page import="java.util.Collection" %>
+<%@ page import="java.util.Date" %>
+<%@ page import="ua.dp.stud.StudPortalLib.util.Direction" %>
 <%@ page import="com.liferay.portal.theme.ThemeDisplay" %>
 <%@ page import="com.liferay.portal.kernel.util.WebKeys" %>
 <%@ page import="com.liferay.portal.kernel.servlet.ImageServletTokenUtil" %>
@@ -12,11 +14,15 @@
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@include file="include.jsp" %>
 
 
 <portlet:defineObjects/>
 <%
+    Date todayDate = new Date();
+    Date tomorDate = new Date();
+    tomorDate.setDate(todayDate.getDate()+1);
     Collection<Events> events = (Collection) request.getAttribute("events");
     Integer pagesCount = (Integer) request.getAttribute("pagesCount");
     Integer currentPage = (Integer) request.getAttribute("currentPage");
@@ -45,25 +51,36 @@
     <body>
     <liferay-ui:success message='<spring:message code="msg.successAdd"/>' key="success-add"/>
     <div id="contentDiv">
-        <%if (request.isUserInRole("Administrator") || request.isUserInRole("User")) { %>
+
         <div class="portlet-content-controlpanel fs20">
             <%if(!archive){%>
-            <a style="float: right" href='<portlet:renderURL><portlet:param name="archive" value="true"/></portlet:renderURL>'>
+            <a style="float: right" href='<portlet:renderURL>
+                                                <portlet:param name="archive" value="true"/>
+                                                <portlet:param name="directType" value="<%=Direction.FUTURE.toString() %>"/>
+                                          </portlet:renderURL>'>
                 <div class="Archive" aria-hidden="true"><spring:message code="form.soon"/></div>
             </a>
             <%}else{%>
-            <a style="float: right" href='<portlet:renderURL><portlet:param name="archive" value="false"/></portlet:renderURL>'>
+            <a style="float: right" href='<portlet:renderURL>
+                                                    <portlet:param name="archive" value="false"/>
+                                                    <portlet:param name="directType" value="<%=Direction.PREVIOS.toString() %>"/>
+                                           </portlet:renderURL>'>
                 <div class="Archive" aria-hidden="true"><spring:message code="form.archive"/></div>
             </a>
             <%}%>
+        <%if (request.isUserInRole("Administrator") || request.isUserInRole("User")) { %>
             <a style="float: right" href='<portlet:renderURL><portlet:param name="mode" value="add"/></portlet:renderURL>'>
                 <div class="panelbtn panelbtn-right icon-pcpfile" aria-hidden="true"></div>
             </a>
-
+         <%}%>
         </div>
-        <%}%>
+
         <div class="cmt-types">
-            <form method="post" action='<portlet:renderURL><portlet:param name="archive" value="<%=archive.toString()%>"/></portlet:renderURL>'>
+            <form method="post" action='<portlet:renderURL>
+                               <!--<portlet:param name="archive" value="<%=archive.toString()%>"/>-->
+                               <portlet:param name="directType" value="<%=Direction.ALL.toString() %>"/>
+                                </portlet:renderURL>'>
+
                 <% for (String currentType : allTypes) {
                 temp = new String("form." + currentType);%>
                 <div class="ribbon-wrapper">
@@ -85,12 +102,57 @@
                 <%}%>
             </form>
         </div>
+
+       <a href='
+            	<portlet:renderURL>
+    		<!--    <portlet:param name="date" value="all"/> -->
+    		    <portlet:param name="directType" value="<%=Direction.ALL.toString()%>"/>
+    		</portlet:renderURL>
+    		'><spring:message code="sorted.All"/>
+    		</a>
+
+        <a href='
+                     <portlet:renderURL>
+            		    <portlet:param name="sortdate" value="<%=todayDate.toString()%>"/>
+            		    <portlet:param name="directType" value="<%=Direction.DAY.toString()%>"/>
+            		</portlet:renderURL>
+            		'><spring:message code="sorted.Today"/>
+        </a>
+
+        <a href='
+                             <portlet:renderURL>
+                    		    <portlet:param name="sortdate" value="<%=tomorDate.toString()%>"/>
+                    		    <portlet:param name="directType" value="<%=Direction.DAY.toString()%>"/>
+                    		</portlet:renderURL>
+                    		'><spring:message code="sorted.Tomorrow"/>
+                </a>
+
+
+         <script>
+                    $(function() {
+                    $.datepicker.setDefaults($.datepicker.regional['ru']);
+                            $("#datepicker1").datepicker({ dateFormat: "mm/dd/yy", showAnim:'slide', showButtonPanel:true, buttonImage: "${pageContext.request.contextPath}/images/datePicker.gif", showOn:"both", buttonImageOnly:true });
+                    });</script>
+
+          <portlet:actionURL var="actionLink" name="sort">
+                      <portlet:param name="directType" value="<%=Direction.DAY.toString()%>"/>
+          </portlet:actionURL>
+          <form:form action="${actionLink}" >
+                   <input type="text" style="width:75px;" name="EventSortDate" id="datepicker1"/>
+
+                    <div id="sbm">
+                          <input type="submit" code="form.showDate"">
+                     </div>
+          </form:form>
+
+
+
         <div id="newsTable">
             <% if (!events.isEmpty()) {
                  for (Events currentEvent : events){%>
                  <portlet:renderURL var="eventSingleLink">
 					<portlet:param name="eventID" value="<%=currentEvent.getId().toString()%>"/>
-                    <portlet:param name="currentPage" value="<%=currentPage.toString()%>"/> 
+                    <portlet:param name="currentPage" value="<%=currentPage.toString()%>"/>
 				</portlet:renderURL>
             <div width="100%">
                 <img src="<%= imageService.getPathToMicroblogImage(currentEvent.getMainImage(),currentEvent) %>"
@@ -160,7 +222,16 @@
                     <portlet:param name="mode" value="pagination"/>
                     <portlet:param name="direction" value="prev"/>
                     <portlet:param name="currentPage" value="<%=String.valueOf(currentPage)%>"/>
-                    <portlet:param name="archive" value="<%=archive.toString()%>"/>
+                    <!--<portlet:param name="archive" value="<%=archive.toString()%>"/>-->
+
+                    <c:choose>
+                            <c:when  test="archive.toString()">
+                                <portlet:param name="directType" value="<%=Direction.FUTURE.toString() %>"/>
+                            </c:when>
+                            <c:otherwise>
+                                <portlet:param name="directType" value="<%=Direction.PREVIOS.toString() %>"/>
+                            </c:otherwise>
+                    </c:choose>
                     <% if (type != null) {%><portlet:param name="type" value="<%=String.valueOf(type)%>"/><%} %>
                 </portlet:renderURL>
                 <a href="${pagPrev}">
@@ -186,7 +257,16 @@
                     <a href="<portlet:renderURL><portlet:param name="currentPage" value="<%=String.valueOf(pageNumb)%>"/>
                     <portlet:param name="direction" value="temp"/>
                     <portlet:param name="mode" value="pagination"/>
-                        <portlet:param name="archive" value="<%=archive.toString()%>"/>
+                     <!-- <portlet:param name="archive" value="<%=archive.toString()%>"/>-->
+
+                     <c:choose>
+                         <c:when  test="archive.toString()">
+                           <portlet:param name="directType" value="<%=Direction.FUTURE.toString() %>"/>
+                         </c:when>
+                         <c:otherwise>
+                           <portlet:param name="directType" value="<%=Direction.PREVIOS.toString() %>"/>
+                         </c:otherwise>
+                     </c:choose>
                         <% if (type!=null) {%><portlet:param name="type" value="<%=String.valueOf(type)%>"/><%} %>
                         </portlet:renderURL>"><%=pageNumb%>
                     </a>
@@ -211,7 +291,17 @@
                     <portlet:param name="direction" value="next"/>
                     <portlet:param name="mode" value="pagination"/>
                     <portlet:param name="currentPage" value="<%=String.valueOf(currentPage)%>"/>
-                    <portlet:param name="archive" value="<%=archive.toString()%>"/>
+                    <!--<portlet:param name="archive" value="<%=archive.toString()%>"/>-->
+
+                    <c:choose>
+                            <c:when  test="archive.toString()">
+                                <portlet:param name="directType" value="<%=Direction.PREVIOS.toString() %>"/>
+                            </c:when>
+                            <c:otherwise>
+                                <portlet:param name="directType" value="<%=Direction.FUTURE.toString() %>"/>
+                            </c:otherwise>
+                    </c:choose>
+
                     <% if (type != null) {%><portlet:param name="type" value="<%=String.valueOf(type)%>"/><%} %>
                 </portlet:renderURL>
                 <a href="${pagNext}">

@@ -13,7 +13,7 @@
 <%
     Boolean russianLocaleEnabled = request.getLocale().getLanguage().equals("ru");
 %>
-<%if ((request.isUserInRole("Administrator")) || (request.isUserInRole("Press"))) { %>
+<%if ((request.isUserInRole("Administrator"))||(request.isUserInRole("Press"))) { %>
 <script id="" src="${pageContext.request.contextPath}/js/cropbox.js" type="text/javascript"></script>
 <script id="" src="${pageContext.request.contextPath}/js/edit.js" type="text/javascript"></script>
 
@@ -121,7 +121,7 @@ function setCoords(c) {
 
                 <div id="eventSetting" style="text-align: left;">
                     <div style="font-size:14px">
-                    <% if ((request.isUserInRole("Administrator")) || (request.isUserInRole("Press"))) { %>
+                    <% if ((request.isUserInRole("Administrator"))||(request.isUserInRole("Press"))) { %>
                     <label for="onMainpage"><spring:message code="form.onMainPage"/></label>
                     <form:checkbox path="onMainpage" />
                     <form:errors path="onMainpage" cssClass="error"/>
@@ -139,7 +139,64 @@ function setCoords(c) {
                         <div id="sbm" style="position: absolute;left: 43%"><input type="submit" value="<spring:message code='<%=(request.isUserInRole("Administrator"))?"form.submit.admin":"form.submit.user"%>'/>"/></div>
             </form:form>
 
-        <script id="" src="${pageContext.request.contextPath}/js/valid.js" type="text/javascript"></script>
+        <script>
+        $("#jform").on("submit",function(event){
+
+                                        document.getElementById('text1').innerHTML = CKEDITOR.instances.text.getData();
+
+                                    });
+
+
+                            $(document).ready(function() {
+                    $.validator.setDefaults({ ignore: [] });
+                            $('#jform').validate({
+
+
+
+                    rules: {
+                        topic: {
+                            required: true,
+                            minlength: 5,
+                            maxlength: 100
+                        },
+                        text1: {
+                            required: true,
+                            minlength: 100,
+                            maxlength: 10000
+                        },
+                        mainImage: {
+                            required: true,
+                            accept: "jpg|jpeg|png"
+                        }
+                    },
+                    messages: {
+                    topic: {
+                    required: "<spring:message code="news.topic.empty"/>",
+                            minlength:  "<spring:message code="news.topic.between"/>",
+                            maxlength:  "<spring:message code="news.topic.between"/>"
+                    },
+                            text1: {
+                    required: "<spring:message code="news.text.empty"/>",
+                            minlength:  "<spring:message code="news.text.between"/>",
+                            maxlength:  "<spring:message code="news.text.between"/>"
+                    },
+                            mainImage: {
+                    required: "<spring:message code="news.text.empty"/>",
+                            accept: "<spring:message code="news.mainImage.accept"/>"
+                    }
+                    },
+                            highlight: function(label) {
+                    $(label).removeClass("invisiblevalid");
+                            $(label).closest('.control-group').addClass('error');
+                    },
+                            success: function(label) {
+                    $(label).removeClass("error");
+                            label.addClass("invisiblevalid");
+                    }
+                    });
+                    });
+
+        </script>
     </div>
 
 </body>

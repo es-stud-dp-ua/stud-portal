@@ -154,13 +154,13 @@ public class OrganisationsController {
             } else {
 //#1 + nearby pages + current + nearby pages   
                 leftPageNumb = 1;
-                rightPageNumb = 2 + 2 * NEARBY_PAGES;
+                rightPageNumb = currentPage+NEARBY_PAGES;
             }
 //if farther then nearby + '...' + last
             if (currentPage < pagesCount - (NEARBY_PAGES + 1)) {
                 skippedEnding = true;
             } else {
-                leftPageNumb = (pagesCount - 1) - 2 * NEARBY_PAGES;
+                leftPageNumb = currentPage  -  NEARBY_PAGES;
                 rightPageNumb = pagesCount;
             }
         }
@@ -284,10 +284,10 @@ public class OrganisationsController {
 //check the uniqueness of the name
             boolean role = actionRequest.isUserInRole(ADMINISTRATOR_ROLE);
             User user = (User) actionRequest.getAttribute(WebKeys.USER);
-            String usRole = user.getScreenName();
+            String author = user.getScreenName();
 //try to update fields for new organisation
             if (organizationService.isUnique(organization.getTitle())) {
-                if (updateOrganisationFields(croppedImage, images, role, usRole, organization, typeOrg, true)) {
+                if (updateOrganisationFields(croppedImage, images, role, author, organization, typeOrg, true)) {
                     Date date = new Date();
                     organization.setPublication(date);
                     organization = organizationService.addOrganization(organization);
@@ -345,8 +345,8 @@ public class OrganisationsController {
             }
             boolean role = actionRequest.isUserInRole(ADMINISTRATOR_ROLE) ;
             User user = (User) actionRequest.getAttribute(WebKeys.USER);
-            String usRole = user.getScreenName();
-            if (updateOrganisationFields(croppedImage, images, role, usRole, oldOrganization, typeOrg, changeImage)) {
+            String author = user.getScreenName();
+            if (updateOrganisationFields(croppedImage, images, role, author, oldOrganization, typeOrg, changeImage)) {
                 organizationService.updateOrganization(oldOrganization);
 //close session
                 sessionStatus.setComplete();
@@ -376,32 +376,39 @@ public class OrganisationsController {
     }
 
     @RenderMapping(params = "mode=edit")
-    public ModelAndView showEditNews(RenderRequest request, RenderResponse response) {
-        ModelAndView model = new ModelAndView();
-//getting news
+    public ModelAndView editOrganisations(RenderRequest request, RenderResponse response) {
+    	//getting organisations
         int organisationID = Integer.valueOf(request.getParameter("orgsID"));
         Organization organisation = organizationService.getOrganizationById(organisationID);
+    	User user = (User) request.getAttribute(WebKeys.USER);
+        String userScreenName = user.getScreenName();
+    	if (!(request.isUserInRole("Administrator") || userScreenName.equals(organisation.getAuthor())))
+    	{
+    		return showView(request,response);
+    	}
+        ModelAndView model = new ModelAndView();
         ImageImpl mImage = organisation.getMainImage();
         String mainImageUrl;
         mainImageUrl = (mImage == null) ? MAIN_IMAGE_MOCK_URL : imageService.getPathToLargeImage(mImage, organisation);
         Collection<ImageImpl> additionalImages = organisation.getAdditionalImages();
 //set view for edit
         model.setViewName("editOrganisation");
-//send current news in view
+//send current organisations in view
         model.addObject("organization", organisation);
         model.addObject(MAIN_IMAGE, mainImageUrl);
-        model.addObject("additionalImages", additionalImages);
+        model.addObject("additionalImages", additionalImages);      
+        
         return model;
     }
 
     @RenderMapping(params = "mode=delete")
     public ModelAndView deleteOrganisation(RenderRequest request, RenderResponse response) {
-//getting current news
+//getting current organisations
         int organisationID = Integer.valueOf(request.getParameter("orgsID"));
         Organization organisation = organizationService.getOrganizationById(organisationID);
 //delete chosen organization's image from folder
         imageService.deleteDirectory(organisation);
-//delete chosen news
+//delete chosen organisations
 
         organizationService.deleteOrganization(organisation);
         return showAddSuccess(request, response);
