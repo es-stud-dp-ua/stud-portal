@@ -19,18 +19,18 @@ public class CouncilTest {
 
     
     @Test
-    public void TestGetCouncilName()
+    public void TestGetStudie()
     {
-        String expResult=null;
-        String result=instance.getCouncilName();
+        Studie expResult=null;
+        Studie result=instance.getStudie();
         assertEquals(expResult,result);
     }
 
     @Test
-    public void TestSetCouncilName()
+    public void TestSetStudie()
     {
-        String councilName="";
-        instance.setCouncilName(councilName);
+        Studie studie=null;
+        instance.setStudie(studie);
     }
     
     @Test

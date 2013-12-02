@@ -8,7 +8,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
 <%@ page isELIgnored="false" %>
-<%@ page import="ua.dp.stud.StudPortalLib.util.ImageService" %>
+<!--<%@ page import="ua.dp.stud.StudPortalLib.util.ImageService" %>  -->
 
 <% ImageService imageService = (ImageService) pageContext.findAttribute("imageService"); %>
 
@@ -75,8 +75,8 @@ for (Council council : councils){%>
 
                     <div width="100%">
                         <img src="<%= imageService.getPathToMicroblogImage(
-                                         council.getMainImage(),
-                                         council) %>" class="newsImage" style="float: left">
+                                         council.getStudie().getMainImage(),
+                                         council.getStudie()) %>" class="newsImage" style="float: left">
 <hr/>
                         <div class="newsHeader" style="padding-top: 50px; padding-left: 150px; font-size: 20pt; ">
                            <b>
@@ -85,7 +85,7 @@ for (Council council : councils){%>
                             		    <portlet:param name="id" value="<%=council.getId().toString()%>"/>
                                         <portlet:param name="mode" value="showCouncil"/>
                             		</portlet:renderURL>
-                            		'><%=council.getCouncilName()%>
+                            		'><%=council.getStudie().getTitle()%>
                                 </a>
                            </b>
 
