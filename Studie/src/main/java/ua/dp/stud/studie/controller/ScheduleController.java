@@ -3,16 +3,22 @@ package ua.dp.stud.studie.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.portlet.ModelAndView;
+import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
-import ua.dp.stud.StudPortalLib.model.Course;
+import ua.dp.stud.studie.model.Course;
 import ua.dp.stud.StudPortalLib.util.FileService;
+import ua.dp.stud.studie.model.Schedule;
 import ua.dp.stud.studie.model.Studie;
 import ua.dp.stud.studie.model.Faculties;
 import ua.dp.stud.studie.service.FacultiesService;
+import ua.dp.stud.studie.service.ScheduleService;
 import ua.dp.stud.studie.service.StudieService;
 
 import javax.portlet.*;
@@ -28,6 +34,8 @@ import java.util.List;
 @RequestMapping(value = "VIEW")
 public class ScheduleController {
 
+    private static final String FILESCHEDULE="fileschedule";
+
     @Autowired
     @Qualifier(value =  "fileService")
     private FileService fileService;
@@ -35,6 +43,15 @@ public class ScheduleController {
     void setFileService(FileService fileService)
     {
         this.fileService=fileService;
+    }
+
+    @Autowired
+    @Qualifier(value =  "scheduleService")
+    private ScheduleService scheduleService;
+
+    void setScheduleService(ScheduleService scheduleService)
+    {
+        this.scheduleService=scheduleService;
     }
 
     @Autowired
@@ -53,12 +70,30 @@ public class ScheduleController {
         this.facultiesService = facultiesService;
     }
 
-    @RenderMapping(params = "view=upload")
-    public String uploadFiles(RenderRequest request, RenderResponse response)
+   @RenderMapping(params = "view=download")
+    public ModelAndView downloadFiles(RenderRequest request, RenderResponse response) throws IOException
+    {
+        ModelAndView model = new ModelAndView("schedule");
+        Faculties faculty=facultiesService.getFacultyByID(Integer.parseInt(request.getParameter("faculty_id")));
+        Course year=Course.valueOf(request.getParameter("year"))  ;
+         Schedule schedule=scheduleService.getScheduleByFacultyAndYear(faculty,year);
+        String pathToFile=fileService.downloadFile(schedule.getScheduleFile(),schedule);
+        model.addObject("pathToFile",pathToFile);
+        return model;
+    }
+    @ActionMapping(value = "uploadSchedule")
+        public void uploadFiles(@ModelAttribute() Schedule schedule,
+                ActionRequest actionRequest,
+                ActionResponse actionResponse,
+                SessionStatus sessionStatus,
+                @RequestParam(FILESCHEDULE) CommonsMultipartFile scheduleFile)    throws IOException
     {
 
-    // fileService.uploadFile();
-        return "viewUpload";
+        schedule.setFaculty(facultiesService.getFacultyByID(Integer.parseInt(actionRequest.getParameter("faculty_id"))));
+
+        schedule.setYear(ua.dp.stud.studie.model.Course.valueOf(actionRequest.getParameter("year")));
+
+        fileService.uploadFile(schedule.getScheduleFile(),scheduleFile,schedule);
     }
 
     @RenderMapping(params = "view=schedule")

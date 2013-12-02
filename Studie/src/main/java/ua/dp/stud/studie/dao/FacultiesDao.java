@@ -12,4 +12,6 @@ public interface FacultiesDao extends BaseDao<Faculties> {
     void saveList(List<Faculties> facList);
 
     void deleteList(List<Faculties> facList);
+
+    Faculties getFacultyById(Integer id);
 }

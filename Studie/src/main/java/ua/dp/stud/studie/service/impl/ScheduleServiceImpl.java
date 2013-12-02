@@ -2,6 +2,8 @@ package ua.dp.stud.studie.service.impl;
 
 
 import ua.dp.stud.studie.dao.ScheduleDao;
+import ua.dp.stud.studie.model.Course;
+import ua.dp.stud.studie.model.Faculties;
 import ua.dp.stud.studie.service.ScheduleService;
 import ua.dp.stud.studie.model.Schedule;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +50,11 @@ public class ScheduleServiceImpl implements ScheduleService{
     @Transactional(readOnly = true)
     public List<Schedule> getAll() {
         return dao.getAll();
+    }
+
+    public Schedule getScheduleByFacultyAndYear(Faculties faculty, Course year)
+    {
+        return dao.getScheduleByFacultyAndYear(faculty,year);
     }
 
 
