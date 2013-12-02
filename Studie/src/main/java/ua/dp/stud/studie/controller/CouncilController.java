@@ -237,6 +237,41 @@ System.out.println(mainImage);
         s.append("</div></fieldset><br/>");
         response.getWriter().println(s);
 	}
+	
+	@ResourceMapping(value = "reAddMember")
+	public void reAddMember(ResourceResponse response, ResourceRequest request) throws IOException {
+		
+		UploadPortletRequest upload = PortalUtil.getUploadPortletRequest(request);
+		String name = upload.getParameter("name");
+		String position = upload.getParameter("position");
+		String contact = upload.getParameter("contact");
+		Integer council_id = Integer.parseInt(upload.getParameter("council_id"));
+		//File file = upload.getFile("file");
+		// System.out.println(file);
+		CouncilMembers member = new CouncilMembers();
+
+        /*if (file != null) {
+		 imageService.saveMemberImage(file, member);
+		 }*/
+        
+		member.setMemberContact(contact);
+        member.setMemberName(name);
+        member.setMemberPosition(position);
+        member.setListPosition(council_id);
+        Council council = councilService.getCouncilById(council_id);
+        member.setNameOfCouncil(council);
+        council.getCouncilMembers().add(member);
+        councilService.addCouncilMembers(member);
+        Integer newId = member.getId();
+       
+        CouncilMembers oldCouncilMember = councilService
+				.getCouncilMembersById(newId);
+        oldCouncilMember.setListPosition(newId);
+        councilService.updateCouncilMembers(oldCouncilMember);
+        StringBuilder s = new StringBuilder();
+        s.append(newId.toString());
+        response.getWriter().println(s);
+	}
 
 	@ResourceMapping(value = "editMember")
 	public void editMember(ResourceResponse response,ResourceRequest request) throws Exception {

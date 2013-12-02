@@ -182,6 +182,7 @@
 						onclick="cancelUpdateMember(<%=member.getId()%>)">
 				</div>
 			</fieldset>
+			<div id='est_<%=member.getId()%>' style='display:none' onclick="reAdd(<%=member.getId()%>)">cancel</div>
 			<br />
 </div>
 	
@@ -195,7 +196,7 @@
 	<portlet:resourceURL var="linkEdit" id="editMember" />
 	<portlet:resourceURL var="linkMemberUp" id="memberUp" />
 	<portlet:resourceURL var="linkMemberDown" id="memberDown" />
-
+	<portlet:resourceURL var="linkReAdd" id="reAddMember" />
 
 	<script type="text/javascript">
 			 $(document).ready(function () {
@@ -312,7 +313,6 @@
                     $("#input_contact").val("");
                     $("#newMember").on("change",".editImage",function(event){handleEditFileSelect(event,this);})
                     $("#list").hide();
-                    //$("#labels_edit_name").replaceWith($("#labels_add_name"));
                     
         	    }
         	  });}
@@ -378,12 +378,12 @@
         	  $('#edit_name_'+id).val($('#name_'+id).text());
         	  $('#edit_position_'+id).val($('#position_'+id).text());
         	  $('#edit_contact_'+id).val($('#contact_'+id).text());
-        	  
-        	  
-        	  
       }
+          
              function removeMember(id) {
-              $.ajax({
+            	 var img = new Image();
+      			img.src = $('#img_'+id).attr("src");
+            	 $.ajax({
                   url: "${linkRemove}",
                   cache: false,
                   dataType: "html",
@@ -391,10 +391,44 @@
                   type: "GET",
                   contentType: "application/json;charset=utf-8",
                   success: function (data) {
-                      $('#member_'+id).remove();
+                	  $("#est_"+id).insertAfter('#member_'+id);
+                	  $("#est_"+id).show();
+                      $('#member_'+id).hide();
+                      $("#img_"+id).attr("src",img.src);
                   },
               });
       }
+             function reAdd(id){
+              var oMyForm = new FormData();
+			  var image = new Image();
+			  image.src = $('#img_'+id).attr("src");
+              var name = $("#edit_name_"+id).val();
+           	  var position = $("#edit_position_"+id).val();
+           	  var contact = $("#edit_contact_"+id).val();
+           	  var CID = <%=council.getId()%>;
+           	  oMyForm.append("file", image);
+           	  oMyForm.append("name",name);
+           	  oMyForm.append("position",position);
+           	  oMyForm.append("contact",contact);
+           	  oMyForm.append("council_id",CID);
+           	  $.ajax({
+           	    url: '${linkReAdd}',
+           	    data: oMyForm,
+           	    dataType: 'text',
+           	    processData: false,
+           	    contentType: false,
+           	    type: 'POST',
+           	    success: function(data){
+           	     $("#est_"+id).hide();
+           	     $('#member_'+id).show();
+           	     $("#img_"+id).attr("id","img_"+data);
+           	  	 $('#edit_name_'+id).attr("id","edit_name_"+data);
+        	 	 $('#edit_position_'+id).attr("id","edit_position_"+data);
+        	  	 $('#edit_contact_'+id).attr("id","edit_contact_"+data);
+           	    }
+           	  });
+             }
+             
              function memberUp(id) {
             	 var CID = <%=council.getId()%>;
             	 $.ajax({
