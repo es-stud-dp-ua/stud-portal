@@ -4,21 +4,26 @@
  */
 package ua.dp.stud.StudPortalLib.service.impl;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.dp.stud.StudPortalLib.dao.EventsDao;
 import ua.dp.stud.StudPortalLib.dao.TagsDao;
+import ua.dp.stud.StudPortalLib.dto.EventsDto;
 import ua.dp.stud.StudPortalLib.model.Events;
 import ua.dp.stud.StudPortalLib.model.ImageImpl;
 import ua.dp.stud.StudPortalLib.model.Tags;
 import ua.dp.stud.StudPortalLib.service.EventsService;
+import ua.dp.stud.StudPortalLib.util.CustomFunctions;
 import ua.dp.stud.StudPortalLib.util.Direction;
 import ua.dp.stud.StudPortalLib.util.EventsType;
+import ua.dp.stud.StudPortalLib.util.ImageService;
 
 /**
  * @author Ольга
@@ -31,6 +36,16 @@ public class EventsServiceImpl implements EventsService {
     
     @Autowired
     private TagsDao tagsDao;
+
+
+    @Autowired
+    @Qualifier(value = "imageService")
+    private ImageService imageService;
+
+    public void setImageService(ImageService imageService)
+    {
+        this.imageService = imageService;
+    }
     
     @Transactional(readOnly = true)
     @Override
@@ -196,5 +211,22 @@ public class EventsServiceImpl implements EventsService {
     }
 
 
+    public Collection<EventsDto> getDtoEvents(Collection<Events> events)
+    {
+        Collection<EventsDto> eventsDto= new ArrayList<EventsDto>();
+        for(Events event: events )
+        {
+            eventsDto.add(
+                            new EventsDto(
+                                         imageService.getPathToMicroblogImage(event.getMainImage(),event),
+                                         event.getTitle(),
+                                         event.getId(),
+                                         event.getEventDateStart(),
+                                         CustomFunctions.truncateHtml(event.getText(), 300)
+                                         )
+                        );
+        }
+           return eventsDto;
+    }
 
 }
