@@ -57,8 +57,8 @@
             </props>
         </property>
     </bean>
-    <context:component-scan base-package="ua.dp.stud.StudPortalLib.dao.impl"/>
-    <context:component-scan base-package="ua.dp.stud.StudPortalLib.service.impl"/>
+    <context:component-scan base-package="ua.dp.stud.StudPortalLib"/>
+
     
 </beans>
 

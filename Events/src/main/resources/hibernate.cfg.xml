@@ -7,5 +7,6 @@
         <mapping class="ua.dp.stud.StudPortalLib.model.ImageImpl"/>
         <mapping class="ua.dp.stud.StudPortalLib.model.Events"/>
         <mapping class="ua.dp.stud.StudPortalLib.model.Tags"/>
+        <mapping class="ua.dp.stud.StudPortalLib.dto.EventsDto"/>
     </session-factory>
 </hibernate-configuration>
