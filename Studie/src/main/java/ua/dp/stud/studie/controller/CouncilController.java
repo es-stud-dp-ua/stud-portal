@@ -121,11 +121,12 @@ public class CouncilController {
 
 	@ActionMapping(value = "addCouncil")
 	public void addCouncil(@ModelAttribute(COUNCIL) @Valid Council council,
-			BindingResult bindingResult, ActionRequest actionRequest,
+			BindingResult bindingResult,
+			ActionRequest actionRequest,
 			ActionResponse actionResponse,
 			SessionStatus sessionStatus) {
+		
 		if (bindingResult.hasErrors()) {
-
 			actionResponse.setRenderParameter(STR_FAIL, "msg.fail");
 			return;
 		}
@@ -374,6 +375,8 @@ public class CouncilController {
 			RenderResponse response) {
 		ModelAndView model = new ModelAndView("addCouncil");
 		SessionErrors.add(request, request.getParameter(STR_FAIL));
+		Collection <Studie> studies = studieService.getAllStudies();
+        model.addObject("studie",studies);
 		return model;
 	}
 

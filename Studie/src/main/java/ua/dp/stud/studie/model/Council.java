@@ -7,6 +7,8 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import ua.dp.stud.StudPortalLib.model.BaseImagesSupport;
 /**
  * Author: Lysenko Nikolai
@@ -21,7 +23,9 @@ public class Council implements Serializable{
 
     private Integer id;
     private Studie studie;
+    @NotEmpty
     private String councilContact;
+    @NotEmpty
     private String councilDescription;
     private List<CouncilMembers> councilMembers;
     
@@ -125,7 +129,7 @@ public class Council implements Serializable{
 
     @Override
     public int hashCode() {
-        int result = id.hashCode();
+        int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (studie != null ? studie.hashCode() : 0);
         result = 31 * result + (councilContact != null ? councilContact.hashCode() : 0);
         result = 31 * result + (councilDescription != null ? councilDescription.hashCode() : 0);

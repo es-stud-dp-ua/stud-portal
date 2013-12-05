@@ -4,7 +4,7 @@ package ua.dp.stud.StudPortalLib.service;
 import ua.dp.stud.StudPortalLib.model.Category;
 import ua.dp.stud.StudPortalLib.model.ImageImpl;
 import ua.dp.stud.StudPortalLib.model.News;
-
+import ua.dp.stud.StudPortalLib.dto.NewsDto;
 import java.util.Collection;
 
 /**
@@ -177,4 +177,6 @@ public interface NewsService {
      * @return collection news on pages for administrator
      */
     Collection<News> getNewsOnPage(Boolean approved, Integer pageNumb, Integer newsByPage);
+    
+    Collection<NewsDto> getDtoNews(Collection<News> news);
 }
