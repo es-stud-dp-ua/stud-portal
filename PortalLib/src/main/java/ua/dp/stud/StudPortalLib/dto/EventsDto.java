@@ -2,9 +2,6 @@ package ua.dp.stud.StudPortalLib.dto;
 
 import java.util.Date;
 
-/**
- * Created by Kstin777 on 04.12.13.
- */
 public class EventsDto extends CommonDto{
    private Date startDate;
    private String desc;

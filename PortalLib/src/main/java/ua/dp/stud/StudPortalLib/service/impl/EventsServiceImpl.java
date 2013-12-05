@@ -38,8 +38,6 @@ public class EventsServiceImpl implements EventsService {
     private TagsDao tagsDao;
 
 
-    @Autowired
-    @Qualifier(value = "imageService")
     private ImageService imageService;
 
     public void setImageService(ImageService imageService)

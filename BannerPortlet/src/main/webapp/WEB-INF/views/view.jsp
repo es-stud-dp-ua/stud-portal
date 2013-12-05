@@ -2,6 +2,7 @@
 <%@ page import="java.util.Collection" %>
 <%@ page import="ua.dp.stud.StudPortalLib.util.ImageService" %>
 <%@ page import="ua.dp.stud.StudPortalLib.model.Events" %>
+<%@ page import="ua.dp.stud.StudPortalLib.dto.CommonDto" %>
 <%@ page import="ua.dp.stud.bannerPortlet.model.BannerImage" %>
 <%@ page import="ua.dp.stud.StudPortalLib.util.CustomFunctions" %>
 <%@ page import="java.text.SimpleDateFormat" %>
@@ -9,8 +10,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <portlet:defineObjects/>
 <%
-    Collection<BannerImage> bannerImages =
-            (Collection<BannerImage>) request.getAttribute("bannerImages");
+    Collection<CommonDto> bannerImages = (Collection<CommonDto>) request.getAttribute("imageList");
     ImageService imageService = (ImageService) pageContext.findAttribute("imageService");
 SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
 %>
@@ -59,9 +59,9 @@ SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
         <c:if test="${ not empty bannerImages}">
             <div style="max-width: 450px;">
                 <div class="banner"><div align="left" class="images">
-                        <%for (BannerImage image : bannerImages) {%>
-                        <a href="<%=image.getUrl()%>">
-                            <img src="<%= imageService.getPathToLargeImage(image.getMainImage(),image) %>">
+                        <%for (CommonDto image : bannerImages) {%>
+                        <a href="<%=image.getName()%>">
+                            <img src="<%= image.getImgPath()%>">
                         </a>
                         <%}%>
                     </div><div class="pagination"><ul></ul></div></div>

@@ -1,4 +1,5 @@
 <%@ page import="ua.dp.stud.StudPortalLib.model.Organization" %>
+<%@ page import="ua.dp.stud.StudPortalLib.util.OrganizationType" %>
 <%@ page import="ua.dp.stud.StudPortalLib.model.News" %>
 <%@ page import="com.liferay.portal.kernel.language.LanguageUtil" %>
 <%@ page import="com.liferay.portal.theme.ThemeDisplay" %>
@@ -17,6 +18,9 @@
     Collection<ImageImpl> additionalImages = (Collection<ImageImpl>) request.getAttribute("additionalImages");
     Collection<News> newsList = (Collection<News>) request.getAttribute("newsList");
     Integer currentPage = (Integer) request.getAttribute("currentPage");
+    Collection<String> allTypes = (Collection) (OrganizationType.allTypes());
+    String temp;
+    OrganizationType type = null;
 %>
 <html>
     <head>
@@ -48,6 +52,32 @@
             </a>
             <%}%>
         </div>
+
+            <div class="cmt-types">
+                        <form method="post" action="<portlet:renderURL/>">
+                            <% for (String currentType : allTypes) {
+                            temp = new String("form." + currentType);%>
+                            <div class="ribbon-wrapper">
+                                <button class="btntype"
+                                        style=" width: 150px; height: 40px;   margin-left: -10px;  border-color: #4473B9;" name="type"
+                                        value="<%=currentType%>" id="<%=currentType%>">
+                                    <spring:message code="<%=temp%>"/></button>
+                                <div class="ribbon-edge-topleft"></div>
+                                <div class="ribbon-edge-bottomleft"></div>
+                            </div>
+
+                            <br/>
+                            <% }
+                            if (type != null) {%>
+                            <script>
+                                $(document).ready(function() {
+                                    $("#" + "<%=type.toString()%>").removeClass('btntype').addClass('btnselected');
+                                });
+                            </script>
+                            <%}%>
+                        </form>
+                    </div>
+
         <div class="newsHeader">
             <img src="${mainImage}" alt=""/>
             ${organization.title}
