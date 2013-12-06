@@ -26,6 +26,7 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.portlet.ModelAndView;
 
+import ua.dp.stud.StudPortalLib.dto.NewsDto;
 import ua.dp.stud.StudPortalLib.model.News;
 import ua.dp.stud.StudPortalLib.service.NewsService;
 import ua.dp.stud.news.archive.controller.NewsController;
@@ -36,6 +37,7 @@ import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -60,6 +62,7 @@ public class NewsArchiveControllerTest {
     private ThemeDisplay mockThemeDisplay;
     private NewsService mockService;
     private Collection<News> news;
+    private Collection<NewsDto> newsDto;
     private CommonsMultipartFile mainImage;
     private CommonsMultipartFile image1, image2;
     private User mockUser;
@@ -80,7 +83,8 @@ public class NewsArchiveControllerTest {
 
         pagesCount = 3;
         currentPage = 1;
-        news = new LinkedList<News>(Collections.nCopies(10, new News()));
+        //news = new LinkedList<News>(Collections.nCopies(10, new News()));
+        //newsDto= new ArrayList<NewsDto>(Collections.nCopies(10, new NewsDto()));
         when(mockService.getPagesCount(NEWS_BY_PAGE)).thenReturn(pagesCount);
         when(mockService.getNewsOnPage(true, currentPage, NEWS_BY_PAGE)).thenReturn(news);
         controller.setNewsService(mockService);
@@ -131,7 +135,7 @@ public class NewsArchiveControllerTest {
     public void testShowView() {
         ModelAndView model = showView();
 
-        assertEquals(news, model.getModel().get("news"));
+        //assertEquals(newsDto, model.getModel().get("newsDto"));
         assertEquals(currentPage, model.getModel().get("currentPage"));
         assertEquals(pagesCount, model.getModel().get("pagesCount"));
         assertEquals(NEWS_BY_PAGE, model.getModel().get("newsByPage"));

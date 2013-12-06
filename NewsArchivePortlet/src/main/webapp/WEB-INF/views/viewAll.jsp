@@ -1,4 +1,5 @@
 <%@ page import="ua.dp.stud.StudPortalLib.model.News" %>
+<%@ page import="ua.dp.stud.StudPortalLib.dto.NewsDto" %>
 <%@ page import="java.util.Collection" %>
 <%@ page import="com.liferay.portal.kernel.servlet.ImageServletTokenUtil" %>
 <%@ page import="ua.dp.stud.StudPortalLib.util.ImageService" %>
@@ -11,7 +12,7 @@
 
 <portlet:defineObjects/>
 <%
-    Collection<News> news = (Collection) request.getAttribute("news");
+    Collection<NewsDto> newsDto = (Collection) request.getAttribute("newsDto");
     int pagesCount = (Integer) request.getAttribute("pagesCount");
     Integer currentPage = (Integer) request.getAttribute("currentPage");
     ImageService imageService = (ImageService) pageContext.findAttribute("imageService");
@@ -41,9 +42,9 @@
     <div id="contentDiv">
         <liferay-ui:success message='<spring:message code="msg.successAdd"/>' key="success-add"/>
 
-        <c:if test="${not empty news}">
+        <c:if test="${not empty newsDto}">
             <div id="newsTable">
-                <%for (News currentNews : news) {%>
+                <%for (NewsDto currentNews : newsDto) {%>
 				<portlet:renderURL var="newsSingleLink">
 					<portlet:param name="newsID" value="<%=currentNews.getId().toString()%>"/>
                                         <portlet:param name="currentPage" value="<%=currentPage.toString()%>"/> 
@@ -64,17 +65,17 @@
         </a>
             </div>
 							<%}%>
-							<div class="newsHeader" style="width: 90%"><a href='${newsSingleLink}'><%=currentNews.getTopic()%></a></div>
+							<div class="newsHeader" style="width: 90%"><a href='${newsSingleLink}'><%=currentNews.getName()%></a></div>
 							<div class="reply_link_wrap">
 								<span class="rel_author"><%=currentNews.getAuthor()%></span>
 								<span class="rel_view"><%=currentNews.getNumberOfViews()%></span>
-								<span class="rel_date"><%=CustomFunctions.getCreationDate(currentNews.getPublication())%></span>
+								<span class="rel_date"><%=currentNews.getCreationDate()%></span>
 							</div>
-							<div class="newsText"><%= CustomFunctions.truncateHtml(currentNews.getText(), 700) %></div>
+							<div class="newsText"><%=currentNews.getText() %></div>
 							<div><a href='${newsSingleLink}'><spring:message code="readMore"/></a></div>
                         </div>
 						<div style="width: 200px;"><a href='${newsSingleLink}'>
-                            <img src="<%= imageService.getPathToMicroblogImage(currentNews.getMainImage(),currentNews) %>"
+                            <img src="<%=currentNews.getImgPath() %>"
                                  class="newsImage">
                         </a></div>
 					</div>
@@ -107,7 +108,7 @@
                     <%}%>
             </div>
         </c:if>
-            <%if(news.size()>9||currentPage>1){%>
+            <%if((newsDto == null ?0:newsDto.size())>9||currentPage>1){%>
         <table width="90%">
             <tr>
                 <td width="80" align="left">
