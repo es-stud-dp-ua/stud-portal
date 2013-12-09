@@ -52,7 +52,7 @@
     </c:if>
 
     <div style="width: 900px;">
-    <%@include file="NewsCommonForm.jsp" %>
+    <%@include file="NewsAddEditForm.jsp" %>
      </div>
 
 
