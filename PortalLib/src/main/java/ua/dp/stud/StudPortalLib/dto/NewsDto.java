@@ -44,7 +44,7 @@ public class NewsDto extends CommonDto{
 
 	NewsDto(){}
 
-    public NewsDto(String imgPath, String title, Integer id, String creationDate, String text,String author, Integer numberOfViews ) {
+    public NewsDto(String imgPath, String title, Integer id, String creationDate, String text, String author, Integer numberOfViews ) {
         super(imgPath, title, id);
         this.creationDate = creationDate;
         this.text = text;

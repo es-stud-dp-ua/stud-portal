@@ -310,7 +310,6 @@ public class NewsServiceImpl implements NewsService {
 
 
     @Override
-    @Transactional(readOnly = true)
 	public Collection<NewsDto> getDtoNews(Collection<News> news) {
 
     	Collection<NewsDto> newsDto = new ArrayList<NewsDto>();
@@ -328,6 +327,6 @@ public class NewsServiceImpl implements NewsService {
     				);
     	}
     	
-		return null;
+		return newsDto;
 	}
 }

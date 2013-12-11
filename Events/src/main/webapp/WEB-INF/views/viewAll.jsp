@@ -1,4 +1,5 @@
 <%@ page import="ua.dp.stud.StudPortalLib.model.Events" %>
+<%@ page import="ua.dp.stud.StudPortalLib.dto.EventsDto  " %>
 <%@ page import="ua.dp.stud.StudPortalLib.util.EventsType" %>
 <%@ page import="ua.dp.stud.StudPortalLib.service.EventsService" %>
 <%@ page import="ua.dp.stud.StudPortalLib.service.impl.EventsServiceImpl" %>
@@ -23,7 +24,7 @@
     Date todayDate = new Date();
     Date tomorDate = new Date();
     tomorDate.setDate(todayDate.getDate()+1);
-    Collection<Events> events = (Collection) request.getAttribute("events");
+    Collection<EventsDto> events = (Collection) request.getAttribute("events");
     Integer pagesCount = (Integer) request.getAttribute("pagesCount");
     Integer currentPage = (Integer) request.getAttribute("currentPage");
     int leftPageNumb = (Integer) request.getAttribute("leftPageNumb");
@@ -149,28 +150,28 @@
 
         <div id="newsTable">
             <% if (!events.isEmpty()) {
-                 for (Events currentEvent : events){%>
+                 for (EventsDto currentEvent : events){%>
                  <portlet:renderURL var="eventSingleLink">
 					<portlet:param name="eventID" value="<%=currentEvent.getId().toString()%>"/>
                     <portlet:param name="currentPage" value="<%=currentPage.toString()%>"/>
 				</portlet:renderURL>
             <div width="100%">
-                <img src="<%= imageService.getPathToMicroblogImage(currentEvent.getMainImage(),currentEvent) %>"
+                <img src="<%=currentEvent.getImgPath() %>"
                      class="newsImage">
                 <div style="color: #363636">
-                    <% if (currentEvent.getEventDateEnd()!=null&&currentEvent.getEventDateStart()!=currentEvent.getEventDateEnd()){ %>
-                    <%=dateFormat.format(currentEvent.getEventDateStart())%> - <%=dateFormat.format(currentEvent.getEventDateEnd())%>
+                    <% if (currentEvent.getEndDate()!=null&&currentEvent.getStartDate()!=currentEvent.getEndDate()){ %>
+                    <%=dateFormat.format(currentEvent.getStartDate())%> - <%=dateFormat.format(currentEvent.getEndDate())%>
                     <% } else { %>
-                    <%=dateFormat.format(currentEvent.getEventDateStart())%>  <%}%>
+                    <%=dateFormat.format(currentEvent.getStartDate())%>  <%}%>
                     &nbsp &nbsp &nbsp
                     <%=currentEvent.getLocation()%>
                 </div>
                 <div class="newsHeader">
                     <a href='${eventSingleLink}'>
-                        <%=currentEvent.getTitle()%>
+                        <%=currentEvent.getName()%>
                     </a>
                 </div>
-                <div class="newsText"><%= CustomFunctions.truncateHtml(currentEvent.getText(), 300) %>
+                <div class="newsText"><%= currentEvent.getDesc() %>
                 </div>
                 <% if (request.isUserInRole("Administrator")) { %>
                 <div class="portlet-content-controlpanel fs20"style="width: 8.6%;float: right;">

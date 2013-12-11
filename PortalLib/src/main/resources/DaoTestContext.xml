@@ -58,6 +58,7 @@
         </property>
     </bean>
     <context:component-scan base-package="ua.dp.stud.StudPortalLib"/>
+
     
 </beans>
 

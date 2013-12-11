@@ -37,7 +37,8 @@ public class EventsServiceImpl implements EventsService {
     @Autowired
     private TagsDao tagsDao;
 
-
+    @Autowired
+    @Qualifier(value = "imageService")
     private ImageService imageService;
 
     public void setImageService(ImageService imageService)
@@ -208,7 +209,7 @@ public class EventsServiceImpl implements EventsService {
         tagsDao.update(tag);
     }
 
-
+    @Override
     public Collection<EventsDto> getDtoEvents(Collection<Events> events)
     {
         Collection<EventsDto> eventsDto= new ArrayList<EventsDto>();
@@ -220,7 +221,9 @@ public class EventsServiceImpl implements EventsService {
                                          event.getTitle(),
                                          event.getId(),
                                          event.getEventDateStart(),
-                                         CustomFunctions.truncateHtml(event.getText(), 300)
+                                         event.getEventDateEnd(),
+                                         CustomFunctions.truncateHtml(event.getText(), 300),
+                                         event.getLocation()
                                          )
                         );
         }

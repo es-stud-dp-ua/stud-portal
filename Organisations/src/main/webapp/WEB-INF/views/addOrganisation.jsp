@@ -11,8 +11,14 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <%@include file="include.jsp" %>
-
+<%
+    Collection<String> allTypes = (Collection) (OrganizationType.allTypes());
+    String temp;
+    Organization orgs = (Organization) request.getAttribute("organization");
+    Boolean flag=true;
+%>
 <portlet:defineObjects/>
+
 <html>
     <head>
         <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
@@ -81,168 +87,9 @@
     </c:if>
 
     <div width="100%" align="center">
-        <form:form method="post" id="jform" name="jform" action="${actionLink}"  enctype="multipart/form-data" commandName="organization" modelAttribute="organization">
-            <input type="hidden" size="0" id="x1" name="t"/>
-            <input type="hidden" size="0" id="y1" name="l"/>
-            <input type="hidden" size="0" id="w" name="w"/>
-            <input type="hidden" size="0" id="h" name="h"/>
-            <table width="100%" margin-bottom="15px">
-                <tr>
-                    <td width="50%" align="center">
-                        <!--<input type="file" name="mainImage" accept="image/jpeg,image/png,image/gif" />-->
-                        <style>
-                            .thumb {
-                                height: 253px;
-                                width: 443px;
-                            }
-                        </style>
-                        <div id="lup">
-                        </div>
-                        <div id="mainPic"
-                             style="background: url(${pageContext.request.contextPath}/images/mainpic_443x253.png) no-repeat">
-                            <!-- Output for our douwnload Image-->
-                            <output id="list"></output>
-                        </div>
-                        <div id="rdn">
-                        </div>
-                        <div id="mainImageLoader">
-                            <div id="mainImgloaderBtn">
-                                <input type="file" id="mainImage" name="mainImage">
-                                <div id="nt"><spring:message code="form.addMainPictures"/></div>
-                            </div>
-                        </div>
-                        <script>
-                            function handleFileSelect(evt) {
-                            var files = evt.target.files; // FileList object
-                                    // Loop through the FileList and render image files as thumbnails.
-                                    var f = files[files.length - 1];
-                                    // Only process im11age files.
-                                    document.getElementById('list').innerHTML = '';
-                                    var reader = new FileReader();
-                                    // Closure to capture the file information.
-                                    reader.onload = (function(theFile) {
-                            return function(e) {
-                            // Render thumbnail.
-                            var span = document.createElement('span');
-                                    span.innerHTML = ['<img id="cropbox" class="thumb" width="443px" src="', e.target.result,
-                                    '" title="', escape(theFile.name), '"/>'].join('');
-                                    document.getElementById('list').insertBefore(span, null);
-                                    a();
-                            };
-                                    a();
-                            })(f);
-                                    // Read in the image file as a data URL.
-                                    reader.readAsDataURL(f);
-                                    a();
-                            }
-                            document.getElementById('mainImage').addEventListener('change', handleFileSelect, false);</script>
-                        <br/>
-                        <div id="imageLoader">
-                            <div id="imgloaderBtn">
-                                <input name="images" type="file" id="aui_3_2_0_11607"
-                                       accept="image/jpeg,image/png,image/gif"/ multiple>
-                                       <div id="nt"><spring:message code="form.addPictures"/></div>
-                            </div>
-                        </div>
-                        <br/>
-                    </td>
-                    <td rowspan=2 width="50%" align="left">
-                        <div id="labels"><spring:message code="form.title"/></div><div id="redStar1">*</div>
-                            <form:input path="title" id="title" cols="90" rows="2" maxlength="100"  name="title"/>
-                            <form:errors path="title" cssClass="error"></form:errors>
-                            <div id="labels"><spring:message code="form.text"/></div><div id="redStar2">*</div>
-                            <textarea path="text" class="ckeditor" id="text" cols="65" rows="10" maxlength="10000"
-                                      name="text" style="margin-left: 8px;" ></textarea>
-                            <textarea style="visibility: hidden;width: 0px;" id="text1" name="text1"  ></textarea>
-                        <form:errors path="text" cssClass="error" ></form:errors>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td width="50%" align="right">
-                            <div id="eventSetting">
-                                <div style="font-size:14px;margin-top: 120px;">
-                                    <div style="font-weight: bold;"><spring:message code="form.contacts"/> </div>
-                                <textarea path="contacts" id="contacts" cols="150" rows="5" maxlength="300"  name="contacts"></textarea>
-                                <form:errors path="contacts" cssClass="error"></form:errors>
-                                    <div style="float: right;  ">
-                                        <table>
-                                            <tr><label>
-                                                <div style="font-weight: bold; "><spring:message
-                                                        code="addOrganisation.type"/></div>
-                                            </label></tr>
-                                            <tr>
-                                                <td>
-                                                    <div style="float: right; margin-right: 10px;"><spring:message
-                                                            code="form.SPORTS"/></div>
-                                                </td>
-                                                <td><input type="radio" name="type" value="<%= OrganizationType.SPORTS %>"
-                                                       checked="" style="float: right;"/></td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div style="float: right; margin-right: 10px; "><spring:message
-                                                        code="form.YOUNGSTERS"/></div>
-                                            </td>
-                                            <td><input type="radio" name="type" value="<%= OrganizationType.YOUNGSTERS %>"
-                                                       style="float: right;"/></td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div style="float: right; margin-right: 10px;"><spring:message
-                                                        code="form.VOLUNTEERING"/></div>
-                                            </td>
-                                            <td><input type="radio" name="type" value="<%= OrganizationType.VOLUNTEERING %>"
-                                                       style="float: right;"/></td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div style="float: right; margin-right: 10px;"><spring:message
-                                                        code="form.CHARITY"/></div>
-                                            </td>
-                                            <td><input type="radio" name="type" value="<%= OrganizationType.CHARITY %>"
-                                                       style="float: right;"/></td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div style="float: right; margin-right: 10px;"><spring:message
-                                                        code="form.INT_ORGS"/></div>
-                                            </td>
-                                            <td><input type="radio" name="type" value="<%= OrganizationType.INT_ORGS %>"
-                                                       style="float: right;"/></td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div style="float: right; margin-right: 10px;"><spring:message
-                                                        code="form.ART"/></div>
-                                            </td>
-                                            <td><input type="radio" name="type" value="<%= OrganizationType.ART %>"
-                                                       style="float: right;"/></td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div style="float: right; margin-right: 10px;"><spring:message
-                                                        code="form.OTHERS"/></div>
-                                            </td>
-                                            <td><input type="radio" name="type" value="<%= OrganizationType.OTHERS %>"
-                                                       style="float: right;"/></td>
-                                        </tr>
-                                    </table>                                                      
-                                </div>
-                                <br/>
-                            </div>
 
-                        </div>
+       <%@include file="CommonForm.jsp" %>
 
-                    </td>
-                </tr>
-            </table>
-            <%@include file="otdelnaya.jsp" %>
-            <div id="sbm">
-                <input type="submit" value="<spring:message
-                       code='<%=(request.isUserInRole("Administrator"))?"form.submit.admin"
-                                                                                             :"form.submit.user"%>'/>"/>
-            </div>
-        </form:form>
      <script>
         $("#jform").on("submit",function(event){
 
