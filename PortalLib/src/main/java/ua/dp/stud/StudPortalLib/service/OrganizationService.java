@@ -1,5 +1,6 @@
 package ua.dp.stud.StudPortalLib.service;
 
+import ua.dp.stud.StudPortalLib.dto.CommonDto;
 import ua.dp.stud.StudPortalLib.model.ImageImpl;
 import ua.dp.stud.StudPortalLib.model.Organization;
 import ua.dp.stud.StudPortalLib.util.OrganizationType;
@@ -99,4 +100,7 @@ public interface OrganizationService {
     Integer getPagesCount(Boolean approved, int orgByPage);
 
     Collection<Organization> getOrganizationsOnPage(Boolean approved, Integer pageNumb, Integer orgByPage);
+
+
+	Collection<CommonDto> getDtoOrganization(Collection<Organization> organization);
 }

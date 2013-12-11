@@ -1,17 +1,22 @@
 package ua.dp.stud.StudPortalLib.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import ua.dp.stud.StudPortalLib.dao.OrganizationDao;
 import ua.dp.stud.StudPortalLib.model.ImageImpl;
 import ua.dp.stud.StudPortalLib.model.Organization;
 import ua.dp.stud.StudPortalLib.service.OrganizationService;
+import ua.dp.stud.StudPortalLib.util.ImageService;
 import ua.dp.stud.StudPortalLib.util.OrganizationType;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import ua.dp.stud.StudPortalLib.dao.impl.BaseDaoImpl;
+import ua.dp.stud.StudPortalLib.dto.CommonDto;
 
 @Service("organizationService")
 @Transactional
@@ -27,6 +32,14 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     public void setBaseDao(OrganizationDao dao) {
         this.dao = dao;
+    }
+    
+    @Qualifier(value = "imageService")
+    private ImageService imageService;
+
+    public void setImageService(ImageService imageService)
+    {
+        this.imageService = imageService;
     }
 
     /**
@@ -206,5 +219,21 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Override
     public Boolean isUnique(String name) {
         return dao.getOrganizationByName(name) == null;
+    }
+    
+    @Override
+    public Collection<CommonDto> getDtoOrganization(Collection<Organization> organization)
+    {
+        Collection<CommonDto> orgDto= new ArrayList<CommonDto>();
+        for(Organization org:organization )
+        {
+            orgDto.add(
+            		new CommonDto(
+            				imageService.getPathToMicroblogImage(org.getMainImage(),org),
+            				org.getTitle(),
+                            org.getId()                                         )
+                      );
+        }
+           return orgDto;
     }
 }
