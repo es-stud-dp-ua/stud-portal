@@ -26,7 +26,6 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 
-
 /**
 
  */
@@ -70,13 +69,13 @@ public class ScheduleController {
         this.facultiesService = facultiesService;
     }
 
-   @RenderMapping(params = "view=download")
+    @RenderMapping(params = "view=download")
     public ModelAndView downloadFiles(RenderRequest request, RenderResponse response) throws IOException
     {
         ModelAndView model = new ModelAndView("schedule");
         Faculties faculty=facultiesService.getFacultyByID(Integer.parseInt(request.getParameter("faculty_id")));
         Course year=Course.valueOf(request.getParameter("year"))  ;
-         Schedule schedule=scheduleService.getScheduleByFacultyAndYear(faculty,year);
+        Schedule schedule=scheduleService.getScheduleByFacultyAndYear(faculty,year);
         String pathToFile=fileService.downloadFile(schedule.getScheduleFile(),schedule);
         model.addObject("pathToFile",pathToFile);
         return model;
@@ -86,29 +85,25 @@ public class ScheduleController {
                 ActionRequest actionRequest,
                 ActionResponse actionResponse,
                 SessionStatus sessionStatus,
-                @RequestParam(FILESCHEDULE) CommonsMultipartFile scheduleFile)    throws IOException
+                @RequestParam(FILESCHEDULE) CommonsMultipartFile scheduleFile) throws IOException
     {
-
         schedule.setFaculty(facultiesService.getFacultyByID(Integer.parseInt(actionRequest.getParameter("faculty_id"))));
-
         schedule.setYear(ua.dp.stud.studie.model.Course.valueOf(actionRequest.getParameter("year")));
-
         fileService.uploadFile(schedule.getScheduleFile(),scheduleFile,schedule);
     }
 
     @RenderMapping(params = "view=schedule")
     public ModelAndView showView(RenderRequest request, RenderResponse response) {
         ModelAndView model = new ModelAndView();
-        Collection<Studie> studie = studieService.getAllStudies();
-        model.addObject("study", studie);
-
+        Collection<Studie> studies = studieService.getAllStudies();
+        model.addObject("study", studies);
         model.setViewName("schedule");
         return model;
     }
 
     @ResourceMapping(value = "facultiesByStudy")
-    public void renderCourses(ResourceResponse response,  ResourceRequest request,
-                              @RequestParam(required = true) Integer studyId) throws Exception
+    public void renderFaculties(ResourceResponse response,  ResourceRequest request,
+                                @RequestParam(required = true) Integer studyId) throws Exception
     {
         StringBuilder s = new StringBuilder();
         List<Faculties> faculties = studieService.getStudieById(studyId).getFaculties();
@@ -118,5 +113,17 @@ public class ScheduleController {
         response.getWriter().println(s);
     }
 
-
+    @ResourceMapping(value = "getSchedule")
+    public void getSchedule(ResourceResponse response,  ResourceRequest request,
+                            @RequestParam(required = true) Integer facultyId,
+                            @RequestParam(required = true) String year) throws Exception
+    {
+        StringBuilder s = new StringBuilder();
+        Faculties faculty = facultiesService.getFacultyByID(facultyId);
+        Course course = Course.valueOf(year);
+        Schedule schedule = scheduleService.getScheduleByFacultyAndYear(faculty, course);
+        String pathToFile = fileService.downloadFile(schedule.getScheduleFile(), schedule);
+        s.append(pathToFile);
+        response.getWriter().println(s);
+    }
 }
