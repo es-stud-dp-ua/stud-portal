@@ -10,7 +10,7 @@
 
 
 <%@ taglib prefix="theme" uri="http://liferay.com/tld/theme" %>
-<%if (request.isUserInRole("Administrator") || request.isUserInRole("User")) { %>
+<%if ((request.isUserInRole("Administrator") || request.isUserInRole("Press"))) { %>
 <portlet:defineObjects/>
 <%
     Collection<Collection<News>> news = (Collection<Collection<News>>) request.getAttribute("newsForAprove");
@@ -54,7 +54,7 @@
 </head>
 
 <body>
-<%if (request.isUserInRole("Administrator") || request.isUserInRole("User")) { %>
+<%if ((request.isUserInRole("Administrator") || request.isUserInRole("Press"))) { %>
 <div class="portlet-content-controlpanel fs20">
     <a style="float: right" href="<portlet:renderURL/>&mode=add">
         <div class="panelbtn panelbtn-right icon-pcpfile" aria-hidden="true"></div>
@@ -97,7 +97,7 @@
                                 <%--${jj:truncateWords(currentNews.text, 50)}--%>
                         </div>
                         <div id="portlet-content-controlpanel">
-                            <% if (request.isUserInRole("Administrator")) { %>
+                            <% if ((request.isUserInRole("Administrator")) || (request.isUserInRole("Press"))) { %>
                             <a style="float: right"
                                href="<portlet:renderURL/>&newsId=<%=currentNews.getId()%>&mode=delete"
                                onclick='return confirm("<spring:message code="form.confDelete"/>")'>

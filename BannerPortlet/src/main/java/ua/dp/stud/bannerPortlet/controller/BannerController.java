@@ -17,6 +17,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
+import ua.dp.stud.StudPortalLib.dto.CommonDto;
 import ua.dp.stud.StudPortalLib.model.Events;
 import ua.dp.stud.StudPortalLib.service.EventsService;
 import ua.dp.stud.StudPortalLib.util.ImageService;
@@ -28,6 +29,7 @@ import javax.portlet.ActionResponse;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -111,12 +113,14 @@ public class BannerController {
         ModelAndView model = new ModelAndView(modelName);
         Collection<BannerImage> bannerImages = bannerImageService.getAll();
         Collection<Events> eventsList = eventsService.getOnMainPage();
+        Collection<CommonDto> imageList = bannerImageService.getAllDTO(bannerImages);
         ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
         long groupId = themeDisplay.getScopeGroupId();
         Long plid = LayoutLocalServiceUtil.getDefaultPlid(groupId, false, EVENTS_REFERENCE_NAME);
         model.addObject("bannerImages", bannerImages);
         model.addObject("eventsList", eventsList);
         model.addObject("eventsPageID", plid);
+        model.addObject("imageList", imageList);
         return model;
     }
 

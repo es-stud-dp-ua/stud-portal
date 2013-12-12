@@ -1,6 +1,7 @@
 package ua.dp.stud.bannerPortlet.service;
 
 import ua.dp.stud.bannerPortlet.model.BannerImage;
+import ua.dp.stud.StudPortalLib.dto.CommonDto;
 
 import java.util.Collection;
 
@@ -19,4 +20,8 @@ public interface BannerImageService {
     Collection<BannerImage> getAll();
 
     BannerImage getByURL(String url);
+
+    Collection<CommonDto> getAllDTO(Collection<BannerImage> images);
+
+
 }

@@ -1,0 +1,416 @@
+#block {
+    display: block;
+    position: relative;
+}
+
+.error {
+	color: #ff0000;
+}
+
+.errorblock {
+	color: #000;
+	background-color: #ffEEEE;
+	border: 3px solid #ff0000;
+	padding: 8px;
+	margin: 16px;
+}
+
+select {
+    min-height: 26px;
+}
+
+.thumb {
+	height: 253px;
+	width: 443px;
+}
+
+.cmt-types {
+    display: inline-block;
+    float: left;
+}
+
+#newsTable  .studieImage {
+    width: 100px;
+    margin: 0px 20px 10px 10px;
+	float: left;
+
+}
+
+#plusik {
+    text-shadow: 3px 3px 3px activeborder;
+}
+
+#plusik2 {
+    text-shadow: 3px 3px 3px activeborder;
+}
+
+.ownGelery {
+    margin-left: 5px;
+    float: left;
+}
+
+.ribbon-wrapper {
+    width: 145px;
+    position: relative;
+}
+
+.btnselected {
+    background-color: rgba(0, 122, 255, 0.47);
+}
+
+.btntype {
+    background-color: #4473B9;
+     font-size: 11px;
+}
+
+.ribbon-front {
+
+    background-color: #4473B9;
+    height: 40px;
+    width: 160px;
+    position: relative;
+    left: -10px;
+    z-index: 2;
+}
+.btnselected:hover, .btntype:hover {
+    background-color: #111199;
+}
+
+
+.ribbon-edge-topleft,
+.ribbon-edge-bottomleft {
+    position: absolute;
+    z-index: 1;
+    border-style: solid;
+    height: 0px;
+    width: 0px;
+}
+
+.ribbon-edge-bottomleft {
+    top: 40px;
+}
+
+.ribbon-edge-topleft,
+.ribbon-edge-bottomleft {
+    left: -10px;
+    border-color: transparent #325281 transparent transparent;
+}
+
+.ribbon-edge-topleft {
+    top: -10px;
+    border-width: 10px 10px 0 0;
+}
+
+.ribbon-edge-bottomleft {
+    border-width: 0 10px 0px 0;
+}
+
+.ribbon-back-left {
+    position: absolute;
+    top: -10px;
+    left: -30px;
+    width: 30px;
+    height: 40px;
+    background-color: #3F68A5;
+    z-index: 0;
+}
+
+#contentDiv {
+    width: 100%;
+}
+
+#newsTable {
+    width: 85%;
+	float: right;
+}
+
+#buttons {
+    margin: 0px 20px 10px 10px;
+    z-index: 98;
+}
+
+#newsTable .newsText {
+    font-size: 12pt;
+    text-align: justify;
+    margin-left: 5px;
+}
+
+#newsTable .studieHeader {
+    margin-bottom: 10px;
+
+}
+
+#newsTable .studieHeader>a {
+    font-weight: bold;
+    font-size: 14pt;
+}
+
+#newsTable .newsDecorImage {
+    height: 23px;
+}
+
+#singleView {
+    width: 85%;
+	float: right;
+}
+
+#singleView .newsHeader {
+    width: 100%;
+    text-align: justify;
+    font-size: 16pt;
+    font-weight: bold;
+
+}
+
+#singleView .newsText {
+    width: 100%;
+    font-size: 11pt;
+    line-height: 16pt;
+    text-align: justify;
+
+}
+
+#singleView #mainProp li {
+	list-style: none;
+}
+
+#singleView #headImage{
+	width: 100px;
+    margin: 0px 20px 10px 10px;
+	float: left;
+}
+
+#underline-decoration {
+    width: 100%;
+    text-align: center;
+}
+
+#underline-decoration .newsDecorImage {
+    height: 23px;
+}
+
+#underline-decoration >table {
+    width: 50%;
+    margin-left: 25%;
+    margin-right: 25%;
+}
+
+/*add & edit news*/
+#topicInput {
+    overflow:  hidden;
+	resize: none;
+    margin-top: 15px;
+    width: 430px;
+    margin-left: 8px;
+    font-size: large;
+    padding-left: 5px;
+}
+
+#textInput {
+    resize: none;
+    width: 430px;
+    height: 471px;
+    margin-left: 15px;
+    font-size: 12px;
+    padding-left: 10px;
+}
+
+#mainPic {
+    position: relative;
+    top: 0px;
+    left: 0px;
+    padding: 0px;
+    margin-left: 12px;
+    margin-top: 15px;
+    width: 443px;
+    height: 253px;
+    overflow: hidden;
+    float: left;
+    
+}
+
+#facultetInput {
+    resize: initial;
+    width: 350px;
+    margin-top: 2px;
+    margin-left: 8px;
+    font-size: large;
+    padding-left: 5px;
+}
+
+#adressInput {
+    resize: initial;
+    width: 350px;
+    margin-top: 2px;
+    margin-left: 8px;
+    font-size: large;
+    padding-left: 5px;
+}
+
+#mainPic input {
+    height: 253px;
+    width: 443px;
+    right: 0px;
+    opacity: 0;
+    cursor: pointer;
+    position: absolute;
+    z-index: 99;
+}
+
+#lup {
+    background: url("../images/L_69x65.png") no-repeat;
+    height: 69px;
+    width: 65px;
+    z-index: 2;
+	position: absolute;
+    
+}
+
+#rdn {
+    background: url("../images/R_69x65.png") no-repeat;
+    height: 69px;
+    width: 65px;
+    margin-top: 215px;
+    margin-left: 397px;
+    position: absolute;
+    
+}
+
+#list {
+    z-index: 1;
+}
+
+.edit_list {
+    z-index: 1;
+}
+
+/*multiple image loader*/
+#mainImageLoader {
+    border: 1px solid;
+    border-color: rgb(231, 231, 231);
+    height: 70px;
+    width: 443px;
+    padding: 0;
+    margin-left: 12px;
+	text-align: center;
+}
+
+#mainImgloaderBtn {
+    width: 96px;
+    height: 24px;
+    border: 1px solid;
+    background-color: rgb(112, 172, 83);
+    border-color: rgb(59, 110, 34) rgb(59, 110, 34) rgb(44, 81, 21);
+    font-size: 10px;
+    color: white;
+    position: absolute;
+    cursor: pointer;
+    margin-top: 20px;
+    margin-left: 170px;
+    z-index: 1;
+}
+
+#mainImage {
+    background: none;
+    /*background-color: green;*/
+    border: 1px solid;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 25;
+    cursor: pointer;
+}
+
+.editImage {
+    background: none;
+    /*background-color: green;*/
+    border: 1px solid;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 25;
+    cursor: pointer;
+}
+#imageLoader {
+    border: 1px solid;
+    border-color: rgb(231, 231, 231);
+    height: 70px;
+    width: 443px;
+    padding: 0;
+    margin-top: 5px;
+    margin-left: 12px;
+    text-align: center;
+}
+
+#imgloaderBtn {
+    width: 96px;
+    height: 24px;
+    border: 1px solid;
+    background-color: rgb(112, 172, 83);
+    border-color: rgb(59, 110, 34) rgb(59, 110, 34) rgb(44, 81, 21);
+    font-size: 10px;
+    color: white;
+    position: absolute;
+    cursor: pointer;
+    margin-top: 20px;
+    margin-left: 170px;
+    z-index: 1;
+
+}
+
+#aui_3_2_0_11607 {
+    background: none;
+    position: absolute;
+    border: 1px solid;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    cursor: pointer;
+}
+
+#nt {
+    cursor: pointer;
+	padding-top: 3px;
+}
+
+#nt2 {
+    position: absolute;
+    margin-left: 8px;
+    font-size: 12px;
+    margin-top: 3px;
+    z-index: 1;
+}
+
+.aui-field-label {
+    /*text ��������*/
+    font-weight: bold;
+    padding-left: 9px;
+}
+
+#eventSetting {
+    margin-top: -145px;
+    margin-right: 5px;
+}
+
+/*rich editor*/
+span.cke_skin_kama {
+    -moz-border-radius: 0px;
+    -webkit-border-radius: 0px;
+    border-radius: 0px;
+    border: 1px solid rgb(231, 231, 231);
+    padding: 5px;
+    width: 426px;
+}
+
+/*submit btn*/
+#sbm {
+    margin-left: 8px;
+}
+
+.disable {
+    color: rgb(155, 155, 155);
+}
+.errorblock

@@ -359,8 +359,13 @@ public class OrganisationsController {
     @RenderMapping(params = "mode=add")
     public ModelAndView showAddOrgs(RenderRequest request, RenderResponse response) {
         ModelAndView model = new ModelAndView();
+        Organization organisation = new Organization();
 //set view for add
+        ImageImpl mImage = organisation.getMainImage();
+        String mainImageUrl =imageService.getPathToLargeImage(mImage,organisation);
+        model.addObject("mainImage", null);
         model.setViewName("addOrganisation");
+        model.addObject("organization", organisation);
         return model;
     }
 
