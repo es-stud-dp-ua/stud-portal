@@ -45,6 +45,14 @@
 			<div class="ribbon-edge-topleft"></div>
 			<div class="ribbon-edge-bottomleft"></div>
 		</div><br>
+		<portlet:renderURL var="LinkOnlineCourses">
+        			<portlet:param name="view" value="allOnlineCourses"/>
+        		</portlet:renderURL>
+        		<div class="ribbon-wrapper">
+        			<a href="${LinkOnlineCourses}" name="buttonId"><button id="onlineCourses" class="btntype non "><spring:message code="form.OnlineCourses"/></button></a>
+        			<div class="ribbon-edge-topleft"></div>
+        			<div class="ribbon-edge-bottomleft"></div>
+        		</div><br>
 
 		<portlet:renderURL var="LinkGrants">
 			<portlet:param name="" value=""/>

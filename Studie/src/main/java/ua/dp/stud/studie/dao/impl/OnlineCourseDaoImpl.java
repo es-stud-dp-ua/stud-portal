@@ -2,6 +2,8 @@ package ua.dp.stud.studie.dao.impl;
 
 import java.util.List;
 
+import com.sun.org.apache.xpath.internal.operations.*;
+import com.sun.org.apache.xpath.internal.operations.String;
 import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -102,4 +104,10 @@ public class OnlineCourseDaoImpl implements OnlineCourseDao
 		List<OnlineCourse> list = (List<OnlineCourse>)query.list();
         return list;
 	}
+
+    @Override
+    public void initializeCountOfCourses(OnlineCourseType onlineCourseType){
+        Query q = getSession().createQuery("SELECT count(id) FROM Course WHERE kindOfCourse="+onlineCourseType.getId().toString());
+        onlineCourseType.setCountOfCourses((Long) q.uniqueResult());
+    };
 }

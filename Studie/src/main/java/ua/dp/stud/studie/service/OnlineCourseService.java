@@ -28,4 +28,8 @@ public interface OnlineCourseService
     List<OnlineCourseType> getAllOnlineCourseType();
 
 	List<OnlineCourse> getOnlineCourseByType(Integer onlineCourseTypeId);
+
+    List<OnlineCourseType> getAllKindOfCourseWithCount();
+
+    void initializeCountOfCourses(OnlineCourseType onlineCourseType);
 }

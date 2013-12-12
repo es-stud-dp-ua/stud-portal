@@ -121,11 +121,12 @@ public class CouncilController {
 
 	@ActionMapping(value = "addCouncil")
 	public void addCouncil(@ModelAttribute(COUNCIL) @Valid Council council,
-			BindingResult bindingResult, ActionRequest actionRequest,
+			BindingResult bindingResult,
+			ActionRequest actionRequest,
 			ActionResponse actionResponse,
 			SessionStatus sessionStatus) {
+		
 		if (bindingResult.hasErrors()) {
-
 			actionResponse.setRenderParameter(STR_FAIL, "msg.fail");
 			return;
 		}
@@ -210,6 +211,41 @@ public class CouncilController {
         s.append("<input type='button' value='Save' onclick='updateMember(").append(member.getId()).append(")'>");
         s.append("  <input type='button' value='Cancel' onclick='cancelUpdateMember(").append(member.getId()).append(")'>");
         s.append("</div></fieldset><br/>");
+        response.getWriter().println(s);
+	}
+	
+	@ResourceMapping(value = "reAddMember")
+	public void reAddMember(ResourceResponse response, ResourceRequest request) throws IOException {
+		
+		UploadPortletRequest upload = PortalUtil.getUploadPortletRequest(request);
+		String name = upload.getParameter("name");
+		String position = upload.getParameter("position");
+		String contact = upload.getParameter("contact");
+		Integer council_id = Integer.parseInt(upload.getParameter("council_id"));
+		//File file = upload.getFile("file");
+		// System.out.println(file);
+		CouncilMembers member = new CouncilMembers();
+
+        /*if (file != null) {
+		 imageService.saveMemberImage(file, member);
+		 }*/
+        
+		member.setMemberContact(contact);
+        member.setMemberName(name);
+        member.setMemberPosition(position);
+        member.setListPosition(council_id);
+        Council council = councilService.getCouncilById(council_id);
+        member.setNameOfCouncil(council);
+        council.getCouncilMembers().add(member);
+        councilService.addCouncilMembers(member);
+        Integer newId = member.getId();
+       
+        CouncilMembers oldCouncilMember = councilService
+				.getCouncilMembersById(newId);
+        oldCouncilMember.setListPosition(newId);
+        councilService.updateCouncilMembers(oldCouncilMember);
+        StringBuilder s = new StringBuilder();
+        s.append(newId.toString());
         response.getWriter().println(s);
 	}
 
@@ -374,6 +410,8 @@ public class CouncilController {
 			RenderResponse response) {
 		ModelAndView model = new ModelAndView("addCouncil");
 		SessionErrors.add(request, request.getParameter(STR_FAIL));
+		Collection <Studie> studies = studieService.getAllStudies();
+        model.addObject("studie",studies);
 		return model;
 	}
 

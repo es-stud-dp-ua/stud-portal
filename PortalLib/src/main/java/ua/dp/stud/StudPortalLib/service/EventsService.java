@@ -7,6 +7,8 @@ package ua.dp.stud.StudPortalLib.service;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+
+import ua.dp.stud.StudPortalLib.dto.EventsDto;
 import ua.dp.stud.StudPortalLib.model.Events;
 import ua.dp.stud.StudPortalLib.model.ImageImpl;
 import ua.dp.stud.StudPortalLib.model.Tags;
@@ -69,6 +71,8 @@ public interface EventsService {
     void deleteTags(Tags tags);
     
     void updateTags(Tags tag);
+
+    Collection<EventsDto> getDtoEvents(Collection<Events> events);
 
 
 }

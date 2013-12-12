@@ -261,6 +261,7 @@ public class CoursesController {
         model.setViewName("viewCoursesCategories");
         List<KindOfCourse> kindOfCourses = courseService.getAllKindOfCourseWithCount();
         model.addObject("KindOfCourses",kindOfCourses);
+        model.addObject("classOfCourses",COURSE);
         return model;
     }
 

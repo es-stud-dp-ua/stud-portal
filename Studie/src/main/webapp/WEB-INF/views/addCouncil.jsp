@@ -33,6 +33,7 @@
     </head>
     <body>
 
+
         <script type="text/javascript">
                     $('#defaultEntry').timeEntry().change(function() {
             var log = $('#log');
@@ -76,7 +77,7 @@
 
 
     <div width="100%" align="center">
-        <form:form method="post" id="councilForm"  action="${actionLink}"  enctype="multipart/form-data" commandName="council" modelAttribute="council">
+        <form:form method="post" id="councilForm" name="councilForm"  action="${actionLink}"  enctype="multipart/form-data" commandName="council" modelAttribute="council">
             <input type="hidden" size="0" id="x1" name="t" value="0"/>
              <input type="hidden" size="0" id="y1" name="l" value="0"/>
              <input type="hidden" size="0" id="w" name="w" value="100"/>
@@ -102,6 +103,8 @@
                             <div style="margin-left: 5px;">
                                 <textarea path="councilContact" class="ckeditor" id="councilContact" cols="60" rows="5" maxlength="10000"
                                           name="councilContact" ></textarea>
+                                <textarea style="visibility: hidden;width: 0px;" id="text1" name="text1"  ></textarea>
+                                          <form:errors path="councilContact" cssClass="error" ></form:errors>
                             </div>   
                     </td>
                         <td width="50%" align="center">
@@ -109,6 +112,7 @@
                             <div style="margin-left: 5px;">
                                 <textarea path="councilDescription" class="ckeditor" id="councilDescription" cols="60" rows="5" maxlength="10000"
                                           name="councilDescription" ></textarea>
+                                          <form:errors path="councilDescription" cssClass="error" ></form:errors>
                             </div>
                     </td>
                 </tr>

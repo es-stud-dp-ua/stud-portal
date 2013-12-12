@@ -56,7 +56,7 @@ public class OnlineCourse extends BaseImagesSupport
 	}
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="id", nullable = true)
+    @JoinColumn(name="online_course_type_id", nullable = true)
     public OnlineCourseType getOnlineCourseType()
 	{
         return onlineCourseType;

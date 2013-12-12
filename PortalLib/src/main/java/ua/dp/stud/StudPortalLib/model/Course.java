@@ -121,7 +121,7 @@ public class Course extends BaseImagesSupport{
     }
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="typeId", nullable = true)
+    @JoinColumn(name="kind_of_course_id", nullable = true)
     public KindOfCourse getKindOfCourse() {
         return kindOfCourse;
     }

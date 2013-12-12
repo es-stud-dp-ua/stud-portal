@@ -100,4 +100,18 @@ public class OnlineCourseServiceImpl implements OnlineCourseService
     {
         return dao.getAllOnlineCourseType();
     }
+    @Override
+    @Transactional(readOnly = true)
+    public List<OnlineCourseType> getAllKindOfCourseWithCount(){
+        List<OnlineCourseType> onlineCourseTypes = dao.getAllOnlineCourseType();
+        for (OnlineCourseType c:onlineCourseTypes) {
+            initializeCountOfCourses(c);
+        }
+        return onlineCourseTypes;
+    };
+    @Override
+    @Transactional(readOnly = true)
+    public void initializeCountOfCourses(OnlineCourseType onlineCourseType){
+        dao.initializeCountOfCourses(onlineCourseType);
+    };
 }	
