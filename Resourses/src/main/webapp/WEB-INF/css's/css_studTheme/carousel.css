@@ -1,0 +1,33 @@
+.image_carousel {
+    padding: 15px 5px 15px 5px;
+    position: relative;
+	clear: both;s
+}
+
+.image_carousel .ownGelery {
+    background-color: white;
+    display: block;
+    float: left;
+}
+
+.image_carousel .carousel-control.next {
+    float: right;
+}
+
+.image_carousel .carousel-control {
+    float: left;
+    width: 41px;
+}
+
+.image_carousel .middle {
+    float: left;
+}
+
+.image_carousel .middle {
+    overflow: auto;
+}
+
+.clearfix {
+    float: none;
+    clear: both;
+}

@@ -24,6 +24,7 @@ import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 
+import ua.dp.stud.StudPortalLib.dto.NewsDto;
 import ua.dp.stud.StudPortalLib.model.ImageImpl;
 import ua.dp.stud.StudPortalLib.model.News;
 import ua.dp.stud.StudPortalLib.model.Organization;
@@ -126,7 +127,8 @@ public class NewsController {
             currentPage = 1;
         }
         Collection<News> news = newsService.getNewsOnPage(true, currentPage, NEWS_BY_PAGE);
-        model.addObject(NEWS, news);
+        Collection<NewsDto> newsDto = newsService.getDtoNews(news);
+        model.addObject("newsDto", newsDto);
         model.addObject(CURRENT_PAGE, currentPage);
         model.addObject("pagesCount", pagesCount);
         model.addObject("newsByPage", NEWS_BY_PAGE);

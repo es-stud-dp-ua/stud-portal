@@ -120,8 +120,8 @@
                                                                                 <spring:message code="course.Tkind"/>
                                                                                 </div>
                                             <div class="textBox" style="padding-left: 130px">
-                                                <form:select path="kindOfCourse.typeId">
-                                                 <form:options items="${kindOfCourse}" itemValue="typeId" itemLabel="kindOfCourse"/>
+                                                <form:select path="kindOfCourse.id">
+                                                 <form:options items="${kindOfCourse}" itemValue="id" itemLabel="kindOfCourse"/>
                                                 </form:select>
                                             </div>
 

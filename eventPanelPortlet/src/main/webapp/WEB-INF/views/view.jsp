@@ -124,7 +124,8 @@
             } else if (request.getAttribute("type").equals("Courses")) {
     			for (Course currentCourse : coursesList) {%>
     		<liferay-portlet:renderURL plid="${plid}" var="linkToSingle3" portletName="${portlet_name}">
-                <liferay-portlet:param name="courseID" value="<%=currentCourse.getId().toString()%>"/>
+                <liferay-portlet:param name="courseId" value="<%=currentCourse.getId().toString()%>"/>
+                <portlet:param name="view" value="course"/>
             </liferay-portlet:renderURL>
             <div style=<%if (className.equals("adminCourses")){%>"min-height: 110px;"
             <%} else {%>"min-height: 60px;"<%}%>>
@@ -157,7 +158,7 @@
 <%
     }
 %>
-<%if (request.isUserInRole("User") || request.isUserInRole("Administrator")) {%>
+<%if (!request.isUserInRole("Administrator")) {%>
 <div id="ep">
     <div class="event-panel" id="event-panel-wraper">
         <div id="elem">
@@ -181,14 +182,51 @@
                 </div>
                 <c:if test="${myCoursesSize > 0 }"> <span id="count">${myCoursesSize}</span></c:if>
         </div>
-        <%if (request.isUserInRole("Administrator")) {%>
-        <div id="elem">
+    </div>
+</div>
+<%}%>
+<%if (request.isUserInRole("Press")) {%>
+<div id="ep">
+    <div class="event-panel" id="event-panel-wraper">
+         <div id="elem">
                     <div class="event <%if (myNewsSize > 0){%> newEvent <%}%>" rel="<portlet:renderURL/>&mode=pagination"
                          dataclass="myNews" title="<spring:message code="viewAll.myNews"/>">
-                        <span aria-hidden="true" class="icon-bubbles-2"></span>
+                        <span aria-hidden="true" class="icon-earth"></span>
                     </div>
-                    <c:if test="${myNewsSize > 0 }"><span id="count">${myNewsSize}</span></c:if>
-                </div>
+                    <c:if test="${myNewsSize > 0 }"> <span id="count">${myNewsSize}</span></c:if>
+         </div>
+         <div id="elem">
+                     <div class="event <%if (myOrgSize > 0){%> newEvent <%}%>" rel="<portlet:renderURL/>&mode=pagination"
+                          dataclass="myCommunity" title="<spring:message code="viewAll.myCommunities"/>">
+                         <span aria-hidden="true" class="icon-earth"></span>
+                     </div>
+                     <c:if test="${myOrgSize > 0 }"> <span id="count">${myOrgSize}</span></c:if>
+         </div>
+         <div id="elem">
+             <div class="event <%if (myEventsSize > 0){%> newEvent <%}%>" rel="<portlet:renderURL/>&mode=pagination"
+                          dataclass="myEvents" title="<spring:message code="viewAll.myEvents"/>">
+                         <span aria-hidden="true" class="icon-bubbles-3"></span>
+             </div>
+              <c:if test="${myEventsSize > 0 }"> <span id="count">${myEventsSize}</span></c:if>
+         </div>
+         <div id="elem">
+              <div class="event <%if (myCoursesSize > 0){%> newEvent <%}%>" rel="<portlet:renderURL/>&mode=pagination"
+                  dataclass="myCourses" title="<spring:message code="viewAll.myCourses"/>">
+                  <span aria-hidden="true" class="icon-stackoverflow"></span>
+              </div>
+              <c:if test="${myCoursesSize > 0 }"> <span id="count">${myCoursesSize}</span></c:if>
+         </div>
+
+
+    </div>
+
+</div>
+
+
+<%}%>
+<%if (request.isUserInRole("Administrator")) {%>
+<div id="ep">
+    <div class="event-panel" id="event-panel-wraper">
         <div id="elem">
             <div class="event <%if (adminNewsSize > 0){%> newEvent <%}%>" rel="<portlet:renderURL/>&mode=pagination"
                  dataclass="adminNews" title="<spring:message code="viewAll.News"/>">
@@ -210,9 +248,16 @@
             </div>
             <c:if test="${adminEventsSize > 0}"><span id="count">${adminEventsSize}</span></c:if>
         </div>
-        <%}%>
+        <div id="elem">
+                    <div class="event <%if (adminCoursesSize > 0){%> newEvent <%}%>" rel="<portlet:renderURL/>&mode=pagination"
+                         dataclass="adminCourses" title="<spring:message code="viewAll.adminCourses"/>">
+                        <span aria-hidden="true" class="icon-stackoverflow"></span>
+                    </div>
+                    <c:if test="${adminCoursesSize > 0}"><span id="count">${adminCoursesSize}</span></c:if>
+        </div>
     </div>
 </div>
+<%}%>
 <div id="epOpenModal" class="modalDialog">
 	<div>
 		<a href="javascript:;" title='<spring:message code="viewAll.Disapprove.Cancel"/>' class="close" onclick="$('#epOpenModal').hide()">X</a>
@@ -263,4 +308,3 @@
         }
     });
 </script>
-<%}%>

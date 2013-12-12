@@ -28,4 +28,6 @@ public interface OnlineCourseDao
     List<OnlineCourseType> getAllOnlineCourseType();
 
 	List<OnlineCourse> getOnlineCourseByType(Integer onlineCourseTypeId);
+
+    void initializeCountOfCourses(OnlineCourseType onlineCourseType);
 }

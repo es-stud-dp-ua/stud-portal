@@ -42,6 +42,7 @@ import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 
+import ua.dp.stud.StudPortalLib.dto.EventsDto;
 import ua.dp.stud.StudPortalLib.model.Events;
 import ua.dp.stud.StudPortalLib.model.ImageImpl;
 import ua.dp.stud.StudPortalLib.model.Tags;
@@ -187,12 +188,14 @@ public class EventsController {
                 rightPageNumb = pagesCount;
             }
         }
+        Collection<EventsDto> eventsDto= eventsService.getDtoEvents(events);
+
         model.addObject("archive", future);
         model.addObject("leftPageNumb", leftPageNumb);
         model.addObject("rightPageNumb", rightPageNumb);
         model.addObject("skippedBeginning", skippedBeginning);
         model.addObject("skippedEnding", skippedEnding);
-        model.addObject("events", events);
+        model.addObject("events", eventsDto);
         model.addObject(CURRENT_PAGE, currentPage);
         model.addObject("pagesCount", pagesCount);
         model.addObject(TYPE, type);
@@ -238,11 +241,12 @@ public class EventsController {
                 rightPageNumb = pagesCount;
             }
         }
+        Collection <EventsDto> eventsDto=eventsService.getDtoEvents(events);
         model.addObject("leftPageNumb", leftPageNumb);
         model.addObject("rightPageNumb", rightPageNumb);
         model.addObject("skippedBeginning", skippedBeginning);
         model.addObject("skippedEnding", skippedEnding);
-        model.addObject("events", events);
+        model.addObject("events", eventsDto);
         model.addObject(CURRENT_PAGE, currentPage);
         model.addObject("pagesCount", pagesCount);
         model.addObject("EventsByPage", EVENTS_BY_PAGE);

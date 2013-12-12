@@ -33,6 +33,7 @@
     </head>
     <body>
 
+
         <script type="text/javascript">
                     $('#defaultEntry').timeEntry().change(function() {
             var log = $('#log');
@@ -76,7 +77,7 @@
 
 
     <div width="100%" align="center">
-        <form:form method="post" id="councilForm"  action="${actionLink}"  enctype="multipart/form-data" commandName="council" modelAttribute="council">
+        <form:form method="post" id="councilForm" name="councilForm"  action="${actionLink}"  enctype="multipart/form-data" commandName="council" modelAttribute="council">
             <input type="hidden" size="0" id="x1" name="t" value="0"/>
              <input type="hidden" size="0" id="y1" name="l" value="0"/>
              <input type="hidden" size="0" id="w" name="w" value="100"/>
@@ -84,54 +85,17 @@
 
            <div id="labels" width="50%" align="center"><spring:message code="form.councilName"/></div>
 
-                        <form:input path="councilName" id="councilName"  size = "100"  rows="2" maxlength="100"  name="councilName"/>
+
                        
                         <div style="width: 450px; padding-center: 20px;">
-                        <div style="left: 30%;" style="width: 460px;">
-                                        <div style="height: 300px;">
-                                            <div id="mainPic"
-                                                 style="background: url(${pageContext.request.contextPath}/images/mainpic_443x253.png) no-repeat">
-                                            <output id="list"></output>
-                                            </div>
-                                        </div>
-                        </div>
-                       
-                        <div style="left: 30%;" id="mainImageLoader">
 
-                                                   <div id="mainImgloaderBtn">
-                                                       <input type="file" id="mainImage" name="mainImage" accept="image/jpeg,image/png,image/gif"/>
-                                                       <div id="nt"><spring:message code="form.addPicture"/></div>
-                                                   </div>
+                           <form:select path="studie.id">
+                                        <form:options items="${studie}" itemValue="id" itemLabel="title"/>
+                           </form:select>
                         </div>
-						</div>
-                        <script>
-                            function handleFileSelect(evt) {
-                            var files = evt.target.files; // FileList object
-                                    // Loop through the FileList and render image files as thumbnails.
-                                    var f = files[files.length - 1];
-                                    // Only process im11age files.
-                                    document.getElementById('list').innerHTML = '';
-                                    var reader = new FileReader();
-                                    // Closure to capture the file information.
-                                    reader.onload = (function(theFile) {
-                            return function(e) {
-                            // Render thumbnail.
-                            var span = document.createElement('span');
-                                    span.innerHTML = ['<img id="cropbox" width="453px"  class="thumb" src="', e.target.result,
-                                    '" title="', escape(theFile.name), '"/>'].join('');
-                                    document.getElementById('list').insertBefore(span, null);
-                                    a();
-                            };
-                                    a();
-                            })(f);
-                                    // Read in the image file as a data URL.
-                                    reader.readAsDataURL(f);
-                                    a();
-                            }
-                            document.getElementById('mainImage').addEventListener('change', handleFileSelect, false);</script>
 
-                        <br/>
-                    </div>
+
+
             <table width="100%" margin-bottom="15px">
                    <tr>
                      <td  width="50%" align="center">
@@ -139,6 +103,8 @@
                             <div style="margin-left: 5px;">
                                 <textarea path="councilContact" class="ckeditor" id="councilContact" cols="60" rows="5" maxlength="10000"
                                           name="councilContact" ></textarea>
+                                <textarea style="visibility: hidden;width: 0px;" id="text1" name="text1"  ></textarea>
+                                          <form:errors path="councilContact" cssClass="error" ></form:errors>
                             </div>   
                     </td>
                         <td width="50%" align="center">
@@ -146,6 +112,7 @@
                             <div style="margin-left: 5px;">
                                 <textarea path="councilDescription" class="ckeditor" id="councilDescription" cols="60" rows="5" maxlength="10000"
                                           name="councilDescription" ></textarea>
+                                          <form:errors path="councilDescription" cssClass="error" ></form:errors>
                             </div>
                     </td>
                 </tr>

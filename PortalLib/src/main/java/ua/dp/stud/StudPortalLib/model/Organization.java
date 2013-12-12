@@ -34,6 +34,7 @@ public class Organization extends BaseImagesSupport implements Serializable {
      */
     public Organization() {
         approved = false;
+        organizationType = OrganizationType.SPORTS;
     }
     //Fields//
     private static final int TEXT_LENGTH = 10000;

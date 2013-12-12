@@ -66,7 +66,7 @@ public class CourseDaoImpl extends DaoForApproveImpl<Course> implements CourseDa
     {
         StringBuilder queryString = new StringBuilder("from Course where ");
         if (!kindOfCourse.equals("all")){
-            queryString.append("kindOfCourse.typeId = :kindOfCourse");
+            queryString.append("kindOfCourse.id = :kindOfCourse");
         } else {
             queryString.append("1=1");
         }
@@ -111,7 +111,7 @@ public class CourseDaoImpl extends DaoForApproveImpl<Course> implements CourseDa
 
     @Override
     public void initializeCountOfCourses(KindOfCourse kindOfCourse) {
-        Query q = getSession().createQuery("SELECT count(id) FROM Course WHERE kindOfCourse="+kindOfCourse.getTypeId().toString());
+        Query q = getSession().createQuery("SELECT count(id) FROM Course WHERE kindOfCourse="+kindOfCourse.getId().toString());
         kindOfCourse.setCountOfCourses((Long) q.uniqueResult());
     }
 

@@ -1,7 +1,6 @@
 package ua.dp.stud.studie.dao.impl;
 
 
-import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -10,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import ua.dp.stud.studie.dao.ScheduleDao;
 import ua.dp.stud.studie.model.Faculties;
 import ua.dp.stud.studie.model.Schedule;
-import ua.dp.stud.studie.model.Years;
+import ua.dp.stud.studie.model.Course;
 
 import java.util.List;
 
@@ -58,7 +57,7 @@ public class ScheduleDaoImpl implements  ScheduleDao{
     }
 
     @Override
-    public Schedule getScheduleByFacultyAndYear(Faculties faculty, Years year)
+    public Schedule getScheduleByFacultyAndYear(Faculties faculty, Course year)
     {
         Query query = getSession().createQuery("from Schedule where faculty = :faculty1 and year = :year1");
         query.setParameter("faculty1", faculty);

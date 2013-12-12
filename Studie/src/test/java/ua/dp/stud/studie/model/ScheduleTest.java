@@ -35,15 +35,15 @@ public class ScheduleTest {
     @Test
     public void TestGetYear()
     {
-        Years expResult=Years.FIRST;
-        Years result=instance.getYear();
+        Course expResult= Course.FIRST;
+        Course result=instance.getYear();
         assertEquals(expResult,result);
     }
 
     @Test
     public void TestSetYear()
     {
-        Years year = Years.FIRST;
+        Course year = Course.FIRST;
         instance.setYear(year);
     }
 

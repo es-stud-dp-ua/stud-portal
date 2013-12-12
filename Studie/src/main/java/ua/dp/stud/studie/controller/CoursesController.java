@@ -171,6 +171,9 @@ public class CoursesController {
                            SessionStatus sessionStatus,
                            @RequestParam(MAIN_IMAGE) CommonsMultipartFile mainImage) {
 
+        if (actionRequest.isUserInRole("Administrator"))
+            course.setApproved(true);
+        else   course.setApproved(false);
 
         Course oldCourse = courseService.getCourseByID(course.getId());
         course.setMainImage(oldCourse.getMainImage());
@@ -258,6 +261,7 @@ public class CoursesController {
         model.setViewName("viewCoursesCategories");
         List<KindOfCourse> kindOfCourses = courseService.getAllKindOfCourseWithCount();
         model.addObject("KindOfCourses",kindOfCourses);
+        model.addObject("classOfCourses",COURSE);
         return model;
     }
 
@@ -328,9 +332,11 @@ public class CoursesController {
         User user = (User) actionRequest.getAttribute(WebKeys.USER);
         String screenName = user.getScreenName();
 
+        if (actionRequest.isUserInRole("Administrator"))
+               course.setApproved(true);
+        else   course.setApproved(false);
 
         course.setAuthor(screenName);
-
 
         CommonsMultipartFile f = imageService.cropImage(mainImage,
                 Integer.parseInt(actionRequest.getParameter("t")),
@@ -351,28 +357,6 @@ public class CoursesController {
 
     }
 
-    @RenderMapping(params = "success")
-    public ModelAndView showAddSuccess(RenderRequest request, RenderResponse response) {
-        ModelAndView model = showView(request, response);
-        String strSuccess = "success";
-        SessionMessages.add(request, request.getParameter(strSuccess));
-        return model;
-    }
 
-    @RenderMapping
-    public ModelAndView showView(RenderRequest request, RenderResponse response) {
-        ModelAndView model = new ModelAndView();
-        Integer buttonId;
-        if (request.getParameter(BUTTON_ID) == null) {
-            buttonId = 0;
-        } else {
-            buttonId = Integer.valueOf(request.getParameter(BUTTON_ID));
-        }
-        model.setViewName("viewAll");
-        Collection<Course> course = courseService.getAll();
-        model.addObject("course", course);
-        model.addObject(BUTTON_ID, buttonId);
-        return model;
-    }
 
 }

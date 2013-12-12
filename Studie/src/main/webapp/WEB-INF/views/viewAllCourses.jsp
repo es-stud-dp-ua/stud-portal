@@ -35,7 +35,7 @@ $(document).ready(function() {
 	        <select id="kindOfCourse" style="width: 30%; margin-right: 5px; margin-left: 5px;" title="<spring:message code="dropboxKind.label"/>">
 		        <option value="all"><spring:message code="All.msg"/></option>
                 <c:forEach var="kind" items="${kindOfCourses}">
-			        <option value="${kind.typeId}">${kind.kindOfCourse}</option>
+			        <option value="${kind.id}">${kind.kindOfCourse}</option>
 			    </c:forEach>
 		    </select>
 		    <%if (request.isUserInRole("Administrator")){ %>

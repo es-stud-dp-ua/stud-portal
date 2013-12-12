@@ -55,7 +55,9 @@ import ua.dp.stud.StudPortalLib.model.ImageImpl;
 import ua.dp.stud.StudPortalLib.util.ImageService;
 import ua.dp.stud.studie.model.Council;
 import ua.dp.stud.studie.model.CouncilMembers;
+import ua.dp.stud.studie.model.Studie;
 import ua.dp.stud.studie.service.CouncilService;
+import ua.dp.stud.studie.service.StudieService;
 import ua.dp.stud.studie.service.impl.CouncilServiceImpl;
 
 @Controller(value = "CouncilController")
@@ -75,10 +77,17 @@ public class CouncilController {
 	@Qualifier(value = "councilService")
 	private CouncilService councilService;
 
+    @Autowired
+    @Qualifier(value = "studieService")
+    private StudieService studieService;
+
 	public void setCouncilService(CouncilService councilService) {
 		this.councilService = councilService;
 	}
 
+    public void setStudieService(StudieService studieService) {
+        this.studieService = studieService;
+    }
 	@ModelAttribute(value = COUNCIL)
 	public Council getCommandObject() {
 		return new Council();
@@ -109,60 +118,27 @@ public class CouncilController {
 		return model;
 	}
 
-	private boolean updateCouncil(Council council,
-			CommonsMultipartFile mainImage, ActionResponse actionResponse) {
-		boolean successUpload = true;
-		// main image uploading
-		try {
-			if (mainImage.getSize() > 0) {
-				imageService.saveMainImage(mainImage, council);
-			}
-		} catch (Exception ex) {
-			successUpload = false;
-			LOG.log(Level.SEVERE, "Exception: ", ex);
-		}
-		// success upload message
-		if (successUpload) {
-			actionResponse.setRenderParameter("success", "success-add");
-			return true;
-		} else {
-			actionResponse.setRenderParameter(STR_FAIL, NO_IMAGE);
-			return false;
-		}
-	}
 
 	@ActionMapping(value = "addCouncil")
 	public void addCouncil(@ModelAttribute(COUNCIL) @Valid Council council,
-			BindingResult bindingResult, ActionRequest actionRequest,
+			BindingResult bindingResult,
+			ActionRequest actionRequest,
 			ActionResponse actionResponse,
-			@RequestParam(MAIN_IMAGE) CommonsMultipartFile mainImage,
 			SessionStatus sessionStatus) {
+		
 		if (bindingResult.hasErrors()) {
-
 			actionResponse.setRenderParameter(STR_FAIL, "msg.fail");
 			return;
 		}
-		// path for main image is not empty
-		if (mainImage.getOriginalFilename().equals("")) {
-			actionResponse.setRenderParameter(STR_FAIL, NO_IMAGE);
-			return;
-		}
-System.out.println(mainImage);
-		CommonsMultipartFile f = imageService.cropImage(mainImage,
-				Integer.parseInt(actionRequest.getParameter("t")),
-				Integer.parseInt(actionRequest.getParameter("l")),
-				Integer.parseInt(actionRequest.getParameter("w")),
-				Integer.parseInt(actionRequest.getParameter("h")));
-		// update fields for new councils
-		if (updateCouncil(council, f, actionResponse)) {
-			// updating info about loaded councils images
-			councilService.addCouncil(council);
-			// close session
-			actionResponse.setRenderParameter("view", "allcouncils");
-			sessionStatus.setComplete();
 
-		}
-	}
+        council.setStudie(studieService.getStudieById(council.getStudie().getId()));
+        councilService.addCouncil(council);
+        // close session
+        actionResponse.setRenderParameter("view", "allcouncils");
+        sessionStatus.setComplete();
+
+
+    }
 
 	
 
@@ -365,38 +341,32 @@ System.out.println(mainImage);
 	public void editCouncil(@ModelAttribute(COUNCIL) @Valid Council council,
 			BindingResult bindingResult, ActionRequest actionRequest,
 			ActionResponse actionResponse,
-			@RequestParam(MAIN_IMAGE) CommonsMultipartFile mainImage,
 			SessionStatus sessionStatus) {
 		if (bindingResult.hasErrors()) {
 			actionResponse.setRenderParameter(STR_FAIL, "msg.fail");
 			return;
 		}
 		Council oldCouncil = councilService.getCouncilById(council.getId());
-		oldCouncil.setCouncilName(council.getCouncilName());
+        oldCouncil.setStudie(studieService.getStudieById(council.getStudie().getId()));
 		oldCouncil.setCouncilContact(council.getCouncilContact());
 		oldCouncil.setCouncilDescription(council.getCouncilDescription());
-		CommonsMultipartFile croppedImage = null;
-		if (!mainImage.getOriginalFilename().equals("")) {
-			croppedImage = imageService.cropImage(mainImage,
-					Integer.parseInt(actionRequest.getParameter("t")),
-					Integer.parseInt(actionRequest.getParameter("l")),
-					Integer.parseInt(actionRequest.getParameter("w")),
-					Integer.parseInt(actionRequest.getParameter("h")));
-		}
-		if (updateCouncil(oldCouncil, croppedImage, actionResponse)) {
-			councilService.updateCouncil(oldCouncil);
-			// close session
-			actionResponse.setRenderParameter("view", "allcouncils");
-			sessionStatus.setComplete();
+        councilService.updateCouncil(oldCouncil);
+		// close session
+		actionResponse.setRenderParameter("view", "allcouncils");
+		sessionStatus.setComplete();
 
-		}
+
 	}
 
 	@RenderMapping(params = "add=council")
 	public ModelAndView showAddCouncil(RenderRequest request,
 			RenderResponse response) {
-		return new ModelAndView("addCouncil");
-	}
+
+		ModelAndView model = new ModelAndView("addCouncil");
+        Collection <Studie> studies = studieService.getAllStudies();
+        model.addObject("studie",studies);
+	return model;
+    }
 
 	@RenderMapping(params = "edit=council")
 	public ModelAndView showEditCouncil(RenderRequest request,
@@ -405,10 +375,10 @@ System.out.println(mainImage);
 		// getting council
 		int councilID = Integer.valueOf(request.getParameter("councilId"));
 		Council council = councilService.getCouncilById(councilID);
-		ImageImpl mImage = council.getMainImage();
-		String mainImageUrl = imageService.getPathToLargeImage(mImage, council);
 		model.getModelMap().addAttribute(COUNCIL, council);
-		model.addObject(MAIN_IMAGE, mainImageUrl);
+        Collection <Studie> studies = studieService.getAllStudies();
+        model.addObject("studie",studies);
+
 		return model;
 	}
 
@@ -417,8 +387,6 @@ System.out.println(mainImage);
 			RenderResponse response) {
 		int councilID = Integer.valueOf(request.getParameter("councilID"));
 		Council council = councilService.getCouncilById(councilID);
-		imageService.deleteDirectory(council);
-		// delete chosen council
 		councilService.deleteCouncil(councilID);
 		return showAddSuccess(request, response);
 	}
@@ -442,6 +410,8 @@ System.out.println(mainImage);
 			RenderResponse response) {
 		ModelAndView model = new ModelAndView("addCouncil");
 		SessionErrors.add(request, request.getParameter(STR_FAIL));
+		Collection <Studie> studies = studieService.getAllStudies();
+        model.addObject("studie",studies);
 		return model;
 	}
 
@@ -467,13 +437,13 @@ System.out.println(mainImage);
 
 		int councilId = Integer.valueOf(request.getParameter("id"));
 		Council council = councilService.getCouncilById(councilId);
-		ImageImpl mImage = council.getMainImage();
+     	ImageImpl mImage = council.getStudie().getMainImage();
 		String mainImageUrl;
 		if (mImage == null) {
 			mainImageUrl = MAIN_IMAGE_MOCK_URL;
 		} else {
 			mainImageUrl = imageService
-					.getPathToMicroblogImage(mImage, council);
+					.getPathToMicroblogImage(mImage, council.getStudie());
 		}
 		Collection<CouncilMembers> councilMem = councilService
 				.getAllCouncilMembers();

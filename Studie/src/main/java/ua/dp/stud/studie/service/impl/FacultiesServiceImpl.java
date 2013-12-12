@@ -18,6 +18,11 @@ public class FacultiesServiceImpl implements FacultiesService {
     @Autowired
     private FacultiesDao dao;
 
+    public Faculties getFacultyByID(Integer id)
+    {
+       return dao.getFacultyById(id);
+    }
+
     public void saveList(List<Faculties> facList) {
         dao.saveList(facList);
     }

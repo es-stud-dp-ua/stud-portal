@@ -1,8 +1,5 @@
 package ua.dp.stud.StudPortalLib.model;
 
-import org.hibernate.validator.constraints.NotEmpty;
-import static javax.persistence.GenerationType.IDENTITY;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
@@ -13,8 +10,8 @@ import java.util.List;
  */
 
 @Entity
-@Table(name="kindofcourses_table")
-public class KindOfCourse implements Serializable {
+@DiscriminatorValue(value="kindOfCourse")
+public class KindOfCourse extends CommonType implements Serializable {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "kindOfCourse")
     private List<Course> course;
@@ -27,27 +24,26 @@ public class KindOfCourse implements Serializable {
         this.course = course;
     }
 
-    @Id
+   /* @Id
     @GeneratedValue(strategy = IDENTITY)
     @Column(name = "typeId", unique = true, nullable = false)
     private Integer typeId;
 
     @Column
     @NotEmpty
-    private String kindOfCourse;
+    private String kindOfCourse;  */
 
-    @Transient
-    private Long countOfCourses;
+
 
     public KindOfCourse(String kindOfCourse)
     {
-        this.kindOfCourse = kindOfCourse;
+        super(kindOfCourse);
     }
 
     public KindOfCourse()
     {}
 
-    public Integer getTypeId() {
+   /* public Integer getTypeId() {
         return typeId;
     }
 
@@ -62,45 +58,31 @@ public class KindOfCourse implements Serializable {
     public void setKindOfCourse(String kindOfCourse) {
         this.kindOfCourse = kindOfCourse;
     }
-
-    public Long getCountOfCourses() {
-        return countOfCourses;
-    }
-
-    public void setCountOfCourses(Long countOfCourses) {
-        this.countOfCourses = countOfCourses;
-    }
+*/
 
     @Override
     public boolean equals(Object o) {
-        if (this == o){
-        	return true;
-        	}
-        if (o == null || getClass() != o.getClass()) {
-        	return false;
-        }
+        if (this == o) return true;
+        if (!(o instanceof KindOfCourse)) return false;
+        if (!super.equals(o)) return false;
 
         KindOfCourse that = (KindOfCourse) o;
 
-        if (kindOfCourse != null ? !kindOfCourse.equals(that.kindOfCourse) : that.kindOfCourse != null){
-        	return false;
-        	}
-        if (typeId != null ? !typeId.equals(that.typeId) : that.typeId != null) {
-        	return false;
-        	}
+        if (course != null ? !course.equals(that.course) : that.course != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = typeId != null ? typeId.hashCode() : 0;
-        result = 31 * result + (kindOfCourse != null ? kindOfCourse.hashCode() : 0);
+        int result = super.hashCode();
+        result = 31 * result + (course != null ? course.hashCode() : 0);
         return result;
     }
 
-    @Override
+
+/*    @Override
     public String toString() {
         return kindOfCourse ;
-    }
+    }*/
 }

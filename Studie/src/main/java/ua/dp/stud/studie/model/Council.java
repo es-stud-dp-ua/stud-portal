@@ -7,6 +7,8 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import ua.dp.stud.StudPortalLib.model.BaseImagesSupport;
 /**
  * Author: Lysenko Nikolai
@@ -16,17 +18,21 @@ import ua.dp.stud.StudPortalLib.model.BaseImagesSupport;
 
 @Entity
 @Table(name = "council_table")
-@PrimaryKeyJoinColumn(name = "id", referencedColumnName = "id")
-public class Council extends BaseImagesSupport implements Serializable{
+//@PrimaryKeyJoinColumn(name = "id", referencedColumnName = "id")
+public class Council implements Serializable{
 
-    private String councilName;
+    private Integer id;
+    private Studie studie;
+    @NotEmpty
     private String councilContact;
+    @NotEmpty
     private String councilDescription;
     private List<CouncilMembers> councilMembers;
     
     @OneToMany(cascade = { CascadeType.PERSIST, CascadeType.REMOVE}, mappedBy = "nameOfCouncil", fetch = FetchType.LAZY)    
     public List<CouncilMembers> getCouncilMembers() {
-        Collections.sort(councilMembers);
+        if (councilMembers!=null)
+           Collections.sort(councilMembers);
     	return councilMembers;
     }
 
@@ -39,37 +45,49 @@ public class Council extends BaseImagesSupport implements Serializable{
         }
     }
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public Council()
     {
     }
 
 
-    public Council(String councilName){
-    	this.setCouncilName(councilName);
+    public Council(Studie studie){
+    	this.setStudie(studie);
     }
 
-    public Council(String councilName, String councilContact, String councilDescription) {
-        this.councilName = councilName;
+    public Council(Studie studie, String councilContact, String councilDescription) {
+        this.studie = studie;
         this.councilContact = councilContact;
         this.councilDescription = councilDescription;
         
     }
     
-    public Council(String councilName, String councilContact, String councilDescription,List<CouncilMembers> councilMembers) {
-        this.councilName = councilName;
+    public Council(Studie studie, String councilContact, String councilDescription,List<CouncilMembers> councilMembers) {
+        this.studie = studie;
         this.councilContact = councilContact;
         this.councilDescription = councilDescription;
         this.councilMembers=councilMembers;
         
     }
-    @Column(name = "councilName")
-    public String getCouncilName() {
-        return councilName;
+
+    @OneToOne
+    @JoinColumn(name = "studie_id")
+    public Studie getStudie()
+    {
+        return studie;
     }
 
-    public void setCouncilName(String councilName) {
-        this.councilName = councilName;
+    public void setStudie(Studie studie) {
+        this.studie = studie;
     }
 
     @Column(name = "councilContact")
@@ -93,27 +111,29 @@ public class Council extends BaseImagesSupport implements Serializable{
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
+        if (!(o instanceof Council)) return false;
 
         Council council = (Council) o;
 
-        
-        if (councilName != null ? !councilName.equals(council.councilName) : council.councilName != null) return false;
         if (councilContact != null ? !councilContact.equals(council.councilContact) : council.councilContact != null)
             return false;
         if (councilDescription != null ? !councilDescription.equals(council.councilDescription) : council.councilDescription != null)
             return false;
+        if (councilMembers != null ? !councilMembers.equals(council.councilMembers) : council.councilMembers != null)
+            return false;
+        if (!id.equals(council.id)) return false;
+        if (studie != null ? !studie.equals(council.studie) : council.studie != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = super.hashCode();
-        result = 31 * result + (councilName != null ? councilName.hashCode() : 0);
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (studie != null ? studie.hashCode() : 0);
         result = 31 * result + (councilContact != null ? councilContact.hashCode() : 0);
         result = 31 * result + (councilDescription != null ? councilDescription.hashCode() : 0);
+        result = 31 * result + (councilMembers != null ? councilMembers.hashCode() : 0);
         return result;
     }
 }

@@ -5,20 +5,37 @@ package ua.dp.stud.StudPortalLib.service.impl;
  */
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import ua.dp.stud.StudPortalLib.dao.NewsDao;
+import ua.dp.stud.StudPortalLib.dto.NewsDto;
 import ua.dp.stud.StudPortalLib.model.Category;
 import ua.dp.stud.StudPortalLib.model.ImageImpl;
 import ua.dp.stud.StudPortalLib.model.News;
 import ua.dp.stud.StudPortalLib.service.NewsService;
+import ua.dp.stud.StudPortalLib.util.CustomFunctions;
+import ua.dp.stud.StudPortalLib.util.ImageService;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 @Service("newsService")
 @Transactional
 public class NewsServiceImpl implements NewsService {
-    /**
+    
+	
+	 @Autowired
+	 @Qualifier(value = "imageService")
+	 private ImageService imageService;
+	 
+	 public void setImageService(ImageService imageService)
+	  {
+	    this.imageService = imageService;
+	  }
+	
+	/**
      * dao - Dao object
      */
     @Autowired
@@ -290,4 +307,26 @@ public class NewsServiceImpl implements NewsService {
     public Boolean isUnique(News news) {
         return dao.getNewsByName(news.getTopic()) != null;
     }
+
+
+    @Override
+	public Collection<NewsDto> getDtoNews(Collection<News> news) {
+
+    	Collection<NewsDto> newsDto = new ArrayList<NewsDto>();
+    	for(News newss: news){
+    		newsDto.add(
+    				new NewsDto(
+    						 imageService.getPathToMicroblogImage(newss.getMainImage(),newss),
+    						 newss.getTopic(),
+    						 newss.getId(),
+    						 CustomFunctions.getCreationDate(newss.getPublication()),
+    						 CustomFunctions.truncateHtml(newss.getText(), 700),
+    						 newss.getAuthor(),
+    						 newss.getNumberOfViews()
+    							)
+    				);
+    	}
+    	
+		return newsDto;
+	}
 }
