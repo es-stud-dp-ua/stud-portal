@@ -68,7 +68,7 @@ public class OnlineCourseServiceImpl implements OnlineCourseService
 
     @Override
     @Transactional(readOnly = true)
-    public OnlineCourseType getOnlineCourseTypeById(Integer id)
+    public OnlineCourseType getOnlineCourseTypeById(Long id)
     {
         return dao.getOnlineCourseTypeById(id);
     }
@@ -82,7 +82,7 @@ public class OnlineCourseServiceImpl implements OnlineCourseService
 
     @Override
     @Transactional(readOnly = false)
-    public void deleteOnlineCourseType(Integer id)
+    public void deleteOnlineCourseType(Long id)
     {
         dao.deleteOnlineCourseType(id);
     }

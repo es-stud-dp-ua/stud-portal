@@ -24,11 +24,11 @@ public interface CourseDao extends DaoForApprove<Course>{
 
     List<Course> getCoursesByKindAndType(String kindOfCourse, String coursesType);
 
-    KindOfCourse getKindOfCourseById(Integer id);
+    KindOfCourse getKindOfCourseById(Long id);
 
     void addKindOfCourse(KindOfCourse kindOfCourse);
 
-    void deleteKindOfCourse(Integer id);
+    void deleteKindOfCourse(Long id);
 
     void updateKindOfCourse(KindOfCourse kindOfCourse);
 
