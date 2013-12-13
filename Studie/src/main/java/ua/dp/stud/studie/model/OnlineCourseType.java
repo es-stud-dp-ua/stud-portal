@@ -1,5 +1,4 @@
 package ua.dp.stud.studie.model;
-
 import ua.dp.stud.StudPortalLib.model.CommonType;
 
 import java.io.Serializable;
