@@ -36,8 +36,6 @@
 		    <% if (!courses.isEmpty()) {
  for (OnlineCourse course : courses){%>
      <div id="newsTable" style="padding-top: 15px;">
- 
- 
                      <div width="100%">
                          <img src="<%= imageServices.getPathToMicroblogImage(
                         		 course.getMainImage(),
@@ -48,7 +46,7 @@
                                  <a href='
                                  <portlet:renderURL>
                                      <portlet:param name="id" value="<%=course.getId().toString()%>"/>
-                                         <portlet:param name="mode" value="showOnlineCourse"/>
+                                         <portlet:param name="view" value="singleOnlineCourse"/>
                                  </portlet:renderURL>
                                  '><%=course.getOnlineCourseName()%>
                                  </a>
@@ -56,10 +54,11 @@
                             </div>
                      
            </div>
+           </div>
              <%}%>
 
 <%}%>
-     
-</div>
+     </div>
+
 		    </body>
  </html>

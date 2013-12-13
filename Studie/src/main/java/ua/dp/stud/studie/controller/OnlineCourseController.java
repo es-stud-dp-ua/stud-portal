@@ -43,6 +43,17 @@ public class OnlineCourseController {
 
 
 
+    @RenderMapping(params = "view=singleOnlineCourse")
+    public ModelAndView viewSingleOnlineCourses(RenderRequest request, RenderResponse response) {
+        ModelAndView model = new ModelAndView();
+        model.setViewName("viewSingleOnlineCourse");
+        Integer id = Integer.parseInt(request.getParameter("id"));
+        OnlineCourse course = onlineCourseService.getOnlineCourseById(id);
+        model.addObject("onlineCourse",course);
+        return model;
+    }
+    
+    
     @RenderMapping(params = "view=allOnlineCourses")
     public ModelAndView viewAllOnlineCourses(RenderRequest request, RenderResponse response) {
         ModelAndView model = new ModelAndView();
@@ -51,7 +62,6 @@ public class OnlineCourseController {
         model.addObject("onlineCourseTypes", onlineCourseTypes);
         List<OnlineCourse> onlineCourses = onlineCourseService.getAll();
         model.addObject("onlineCourses", onlineCourses);
-
         return model;
     }
 
