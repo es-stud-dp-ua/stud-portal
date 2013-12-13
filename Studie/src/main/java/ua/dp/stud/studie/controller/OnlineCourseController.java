@@ -97,7 +97,7 @@ public class OnlineCourseController {
      */
     @ResourceMapping(value = "editOnlineKind")
     public void editKindOfCourse(ResourceResponse response, ResourceRequest request,
-                                 Integer kindOfCourseId,
+                                 Long kindOfCourseId,
                                  String nameKindOfCourse) {
         OnlineCourseType onlineCourseType = onlineCourseService.getOnlineCourseTypeById(kindOfCourseId);
         onlineCourseType.setKindOfCourse(nameKindOfCourse);
@@ -106,7 +106,7 @@ public class OnlineCourseController {
 
     @ResourceMapping(value = "removeOnlineKind")
     public void removeKindOfCourse(ResourceResponse response, ResourceRequest request,
-                                   Integer kindOfCourseId) {
+                                   Long kindOfCourseId) {
         onlineCourseService.deleteOnlineCourseType(kindOfCourseId);
     }
 

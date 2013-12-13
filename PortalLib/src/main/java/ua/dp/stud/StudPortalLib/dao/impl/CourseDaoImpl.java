@@ -88,7 +88,7 @@ public class CourseDaoImpl extends DaoForApproveImpl<Course> implements CourseDa
     }
 
     @Override
-    public KindOfCourse getKindOfCourseById(Integer id) {
+    public KindOfCourse getKindOfCourseById(Long id) {
         return (KindOfCourse) getSession().get(KindOfCourse.class, id);
 
     }
@@ -99,7 +99,7 @@ public class CourseDaoImpl extends DaoForApproveImpl<Course> implements CourseDa
     }
 
     @Override
-    public void deleteKindOfCourse(Integer id) {
+    public void deleteKindOfCourse(Long id) {
         KindOfCourse kindOfCourse = (KindOfCourse) getSession().get(KindOfCourse.class, id);
         getSession().delete(kindOfCourse);
     }
