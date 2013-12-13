@@ -6,8 +6,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.portlet.ModelAndView;
+import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
+
 import ua.dp.stud.StudPortalLib.service.CourseService;
 import ua.dp.stud.StudPortalLib.util.ImageService;
 import ua.dp.stud.studie.model.OnlineCourse;
@@ -15,6 +17,7 @@ import ua.dp.stud.studie.model.OnlineCourseType;
 import ua.dp.stud.studie.service.OnlineCourseService;
 
 import javax.portlet.*;
+
 import java.util.List;
 
 /**
@@ -53,6 +56,17 @@ public class OnlineCourseController {
         return model;
     }
     
+
+    @ActionMapping(params = "view=deleteOnlineCourse")
+    public void deleteOnlineCourse(ActionRequest request, ActionResponse response) {
+    	System.out.println("1");
+    	Integer id = Integer.parseInt(request.getParameter("id"));
+        System.out.println("2");
+        onlineCourseService.deleteOnlineCourse(id);
+        System.out.println("3");
+        response.setRenderParameter("view", "allOnlineCourses");
+        System.out.println("4");
+    }
     
     @RenderMapping(params = "view=allOnlineCourses")
     public ModelAndView viewAllOnlineCourses(RenderRequest request, RenderResponse response) {

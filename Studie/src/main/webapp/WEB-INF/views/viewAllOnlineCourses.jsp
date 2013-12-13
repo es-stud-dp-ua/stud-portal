@@ -36,6 +36,16 @@
 		    <% if (!courses.isEmpty()) {
  for (OnlineCourse course : courses){%>
      <div id="newsTable" style="padding-top: 15px;">
+     			 <% if (request.isUserInRole("Administrator")) { %>
+				         <a style="float: right"
+           href="<portlet:actionURL><portlet:param name="id" value="<%=course.getId().toString()%>"/><portlet:param name="view" value="editOnlineCourse" /></portlet:actionURL>">
+           <div class="icon-pcppencil fs20" aria-hidden="true"></div>
+        </a>
+        				<a style="float: right"
+           href="<portlet:actionURL><portlet:param name="id" value="<%=course.getId().toString()%>"/><portlet:param name="view" value="deleteOnlineCourse" /></portlet:actionURL>">
+           <div class="icon-pcpremove fs20" aria-hidden="true"></div>
+        </a>
+				<%}%>
                      <div width="100%">
                          <img src="<%= imageServices.getPathToMicroblogImage(
                         		 course.getMainImage(),
