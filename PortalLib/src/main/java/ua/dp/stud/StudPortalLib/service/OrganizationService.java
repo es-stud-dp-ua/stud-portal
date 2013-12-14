@@ -101,6 +101,5 @@ public interface OrganizationService {
 
     Collection<Organization> getOrganizationsOnPage(Boolean approved, Integer pageNumb, Integer orgByPage);
 
-
 	Collection<CommonDto> getDtoOrganization(Collection<Organization> organization);
 }
