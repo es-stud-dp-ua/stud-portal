@@ -66,7 +66,7 @@ public class OnlineCourseDaoImpl implements OnlineCourseDao
     }
 
     @Override
-    public OnlineCourseType getOnlineCourseTypeById(Integer id)
+    public OnlineCourseType getOnlineCourseTypeById(Long id)
     {
         return (OnlineCourseType) getSession().get(OnlineCourseType.class, id);
     }
@@ -78,7 +78,7 @@ public class OnlineCourseDaoImpl implements OnlineCourseDao
     }
 
     @Override
-    public void deleteOnlineCourseType(Integer id)
+    public void deleteOnlineCourseType(Long id)
     {
         OnlineCourseType onlineCourseType = (OnlineCourseType) getSession().get(OnlineCourseType.class, id);
         getSession().delete(onlineCourseType);

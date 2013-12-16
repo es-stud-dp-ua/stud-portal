@@ -286,7 +286,7 @@ public class CoursesController {
      */
     @ResourceMapping(value = "editKind")
     public void editKindOfCourse(ResourceResponse response, ResourceRequest request,
-                                 Integer kindOfCourseId,
+                                 Long kindOfCourseId,
                                  String nameKindOfCourse) {
         KindOfCourse kindOfCourse = courseService.getKindOfCourseById(kindOfCourseId);
         kindOfCourse.setKindOfCourse(nameKindOfCourse);
@@ -295,7 +295,7 @@ public class CoursesController {
 
     @ResourceMapping(value = "removeKind")
     public void removeKindOfCourse(ResourceResponse response, ResourceRequest request,
-                                   Integer kindOfCourseId) {
+                                   Long kindOfCourseId) {
         courseService.deleteKindOfCourse(kindOfCourseId);
     }
 

@@ -6,6 +6,7 @@
 <%@ page import="com.liferay.portal.theme.ThemeDisplay" %>
 <%@ page import="com.liferay.portal.kernel.util.WebKeys" %>
 <%@ page import="com.liferay.portal.kernel.servlet.ImageServletTokenUtil" %>
+<%@ page import="ua.dp.stud.StudPortalLib.dto.CommonDto" %>
 <%@ page import="java.util.Locale" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.ResourceBundle" %>
@@ -16,7 +17,7 @@
 
 <portlet:defineObjects/>
 <%
-    Collection<Organization> orgs = (Collection) request.getAttribute("organisations");
+	Collection<CommonDto> orgsDtoList = (Collection<CommonDto>) request.getAttribute("orgsDtoList");
     Integer pagesCount = (Integer) request.getAttribute("pagesCount");
     Integer currentPage = (Integer) request.getAttribute("currentPage");
     int leftPageNumb = (Integer) request.getAttribute("leftPageNumb");

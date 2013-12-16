@@ -90,7 +90,7 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     @Transactional(readOnly = true)
-    public KindOfCourse getKindOfCourseById(Integer id) {
+    public KindOfCourse getKindOfCourseById(Long id) {
         return dao.getKindOfCourseById(id);
     }
 
@@ -114,7 +114,7 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     @Transactional(readOnly = false)
-    public void deleteKindOfCourse(Integer id){
+    public void deleteKindOfCourse(Long id){
         dao.deleteKindOfCourse(id);
     }
 
