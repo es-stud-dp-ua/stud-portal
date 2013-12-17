@@ -1,5 +1,7 @@
 package ua.dp.stud.studie.controller;
 
+import com.liferay.portal.kernel.upload.UploadPortletRequest;
+import com.liferay.portal.util.PortalUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -12,16 +14,14 @@ import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
-import ua.dp.stud.studie.model.Course;
+import ua.dp.stud.studie.model.*;
 import ua.dp.stud.StudPortalLib.util.FileService;
-import ua.dp.stud.studie.model.Schedule;
-import ua.dp.stud.studie.model.Studie;
-import ua.dp.stud.studie.model.Faculties;
 import ua.dp.stud.studie.service.FacultiesService;
 import ua.dp.stud.studie.service.ScheduleService;
 import ua.dp.stud.studie.service.StudieService;
 
 import javax.portlet.*;
+import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
@@ -69,6 +69,11 @@ public class ScheduleController {
         this.facultiesService = facultiesService;
     }
 
+    @ModelAttribute(value = "schedule")
+    public Schedule getCommandObject() {
+        return new Schedule();
+    }
+
     @RenderMapping(params = "view=download")
     public ModelAndView downloadFiles(RenderRequest request, RenderResponse response) throws IOException
     {
@@ -80,6 +85,7 @@ public class ScheduleController {
         model.addObject("pathToFile",pathToFile);
         return model;
     }
+
     @ActionMapping(value = "uploadSchedule")
         public void uploadFiles(@ModelAttribute() Schedule schedule,
                 ActionRequest actionRequest,
@@ -90,6 +96,20 @@ public class ScheduleController {
         schedule.setFaculty(facultiesService.getFacultyByID(Integer.parseInt(actionRequest.getParameter("faculty_id"))));
         schedule.setYear(ua.dp.stud.studie.model.Course.valueOf(actionRequest.getParameter("year")));
         fileService.uploadFile(schedule.getScheduleFile(),scheduleFile,schedule);
+    }
+
+    @ResourceMapping(value = "uploadSchedule")
+    public void addMember(ResourceResponse response, ResourceRequest request) throws IOException {
+        UploadPortletRequest upload = PortalUtil.getUploadPortletRequest(request);
+        Integer facultyId = Integer.parseInt(upload.getParameter("facultyId"));
+        Course course = Course.valueOf(upload.getParameter("year"));
+        File file = upload.getFile("file");
+        response.getWriter().println(file.getName());
+        Schedule sch = new Schedule();
+        sch.setFaculty(facultiesService.getFacultyByID(facultyId));
+        sch.setYear(course);
+        //sch.setScheduleFile();
+
     }
 
     @RenderMapping(params = "view=schedule")
@@ -119,10 +139,10 @@ public class ScheduleController {
                             @RequestParam(required = true) String year) throws Exception
     {
         StringBuilder s = new StringBuilder();
-        Faculties faculty = facultiesService.getFacultyByID(facultyId);
-        Course course = Course.valueOf(year);
-        Schedule schedule = scheduleService.getScheduleByFacultyAndYear(faculty, course);
-        String pathToFile = fileService.downloadFile(schedule.getScheduleFile(), schedule);
+        //Faculties faculty = facultiesService.getFacultyByID(facultyId);
+        //Course course = Course.valueOf(year);
+        //Schedule schedule = scheduleService.getScheduleByFacultyAndYear(faculty, course);
+        String pathToFile = "SOME LINK";/*fileService.downloadFile(schedule.getScheduleFile(), schedule);*/
         s.append(pathToFile);
         response.getWriter().println(s);
     }
