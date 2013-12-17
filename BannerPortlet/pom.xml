@@ -31,6 +31,36 @@
                     <target>1.5</target>
                 </configuration>
             </plugin>
+            <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-war-plugin</artifactId>
+            <version>2.4</version>
+            <configuration>
+                <overlays>
+                    <overlay>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>Resourses</artifactId>
+                        <excludes>
+                            <exclude>WEB-INF/images/circle_blue.png</exclude>
+                        </excludes>
+                    </overlay>
+                    <overlay>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>Resourses</artifactId>
+                        <excludes>
+                            <exclude>WEB-INF/images/circle_red.png</exclude>
+                        </excludes>
+                    </overlay>
+                    <overlay>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>Resourses</artifactId>
+                        <excludes>
+                            <exclude>WEB-INF/images/circle_lightblue.png</exclude>
+                        </excludes>
+                    </overlay>
+                </overlays>
+            </configuration>
+        </plugin>
         </plugins>
     </build>
 
@@ -283,5 +313,12 @@
             <artifactId>StudPortalLib</artifactId>
             <version>1.2.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>Resourses</artifactId>
+            <version>1.0</version>
+            <type>war</type>
+        </dependency>
+
     </dependencies>
 </project>

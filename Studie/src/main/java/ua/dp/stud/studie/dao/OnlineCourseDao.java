@@ -17,15 +17,17 @@ public interface OnlineCourseDao
 
     List<OnlineCourse> getAll();
 
-    OnlineCourseType getOnlineCourseTypeById(Integer id);
+    OnlineCourseType getOnlineCourseTypeById(Long id);
 
     void addOnlineCourseType(OnlineCourseType onlineCourseType);
 
-    void deleteOnlineCourseType(Integer id);
+    void deleteOnlineCourseType(Long id);
 
     void updateOnlineCourseType(OnlineCourseType onlineCourseType);
 
     List<OnlineCourseType> getAllOnlineCourseType();
 
 	List<OnlineCourse> getOnlineCourseByType(Integer onlineCourseTypeId);
+
+    void initializeCountOfCourses(OnlineCourseType onlineCourseType);
 }

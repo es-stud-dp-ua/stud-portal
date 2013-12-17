@@ -17,15 +17,19 @@ public interface OnlineCourseService
 	
 	List<OnlineCourse> getAll();
 	
-	OnlineCourseType getOnlineCourseTypeById (Integer id);
+	OnlineCourseType getOnlineCourseTypeById (Long id);
 	
 	void addOnlineCourseType (OnlineCourseType onlineCourseType);
 
-    void deleteOnlineCourseType (Integer id);
+    void deleteOnlineCourseType (Long id);
 
     void updateOnlineCourseType (OnlineCourseType onlineCourseType);
 
     List<OnlineCourseType> getAllOnlineCourseType();
 
 	List<OnlineCourse> getOnlineCourseByType(Integer onlineCourseTypeId);
+
+    List<OnlineCourseType> getAllKindOfCourseWithCount();
+
+    void initializeCountOfCourses(OnlineCourseType onlineCourseType);
 }

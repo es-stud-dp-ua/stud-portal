@@ -5,6 +5,9 @@
     <session-factory>
         <mapping class="ua.dp.stud.studie.model.Studie"/>
         <mapping class="ua.dp.stud.studie.model.Council"/>
+        <mapping class="ua.dp.stud.StudPortalLib.model.CommonType"/>
+        <mapping class="ua.dp.stud.studie.model.OnlineCourseType"/>
+        <mapping class="ua.dp.stud.studie.model.OnlineCourse"/>
         <mapping class="ua.dp.stud.studie.model.Faculties"/>
         <mapping class="ua.dp.stud.studie.model.CouncilMembers"/>
         <mapping class="ua.dp.stud.studie.model.Specialties"/>
