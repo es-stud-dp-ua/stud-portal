@@ -26,19 +26,30 @@
 </head>
 <body>
 <div>
+
 <%if (request.isUserInRole("Administrator")){ %>
 		        <portlet:renderURL var="categories">
                     <portlet:param name="view" value="onlineCoursesCategories"/>
                 </portlet:renderURL>
 		        <a href="${categories}"><div style="display:inline;" id='changeBut' class="icon-pcppencil fs20" aria-hidden="true"></div></a>
+		    
+		       <portlet:renderURL var="LinkAddCourse">
+       				 <portlet:param name="add" value="onlineCourse"/>
+    		   </portlet:renderURL>
+    			<div class="fs20"style="width: 10.15%;float: right;">
+                		<a style="float: right" href="${LinkAddCourse}">
+                    		<!--<spring:message code="viewSingle.Edit"/>-->
+                    		<div class="panelbtn panelbtn-right icon-pcpplus" aria-hidden="true"></div>
+                		</a>
+				</div>
 		    <%} %>
 		    
 		    <% if (!courses.isEmpty()) {
  for (OnlineCourse course : courses){%>
-     <div id="newsTable" style="padding-top: 15px;">
+     <div id="newsTable" style="padding-top: 15px;float: center">
      			 <% if (request.isUserInRole("Administrator")) { %>
 				         <a style="float: right"
-           href="<portlet:actionURL><portlet:param name="id" value="<%=course.getId().toString()%>"/><portlet:param name="view" value="editOnlineCourse" /></portlet:actionURL>">
+           href="<portlet:renderURL><portlet:param name="id" value="<%=course.getId().toString()%>"/><portlet:param name="view" value="editOnlineCourse" /></portlet:renderURL>">
            <div class="icon-pcppencil fs20" aria-hidden="true"></div>
         </a>
         				<a style="float: right"
@@ -65,6 +76,7 @@
                      
            </div>
            </div>
+           <br/><br/>
              <%}%>
 
 <%}%>

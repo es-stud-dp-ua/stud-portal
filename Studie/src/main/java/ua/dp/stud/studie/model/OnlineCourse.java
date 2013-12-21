@@ -1,6 +1,9 @@
 package ua.dp.stud.studie.model;
 
 
+import java.io.Serializable;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -17,13 +20,8 @@ import ua.dp.stud.StudPortalLib.model.BaseImagesSupport;
 @PrimaryKeyJoinColumn(name = "id", referencedColumnName = "id")
 public class OnlineCourse extends BaseImagesSupport
 {
-	@Column
 	private String onlineCourseName;
-	
-	@Column
 	private OnlineCourseType onlineCourseType;
-	
-	@Column
 	private String onlineCourseDescription;
 	
 	public OnlineCourse()
@@ -34,7 +32,7 @@ public class OnlineCourse extends BaseImagesSupport
     {
     	this.onlineCourseName = onlineCourseName;
     }
-	
+	@Column
 	public String getOnlineCourseName()
 	{
 		return onlineCourseName;
@@ -44,7 +42,7 @@ public class OnlineCourse extends BaseImagesSupport
 	{
 		this.onlineCourseName = onlineCourseName;
 	}
-	
+	@Column
 	public String getOnlineCourseDescription()
 	{
 		return onlineCourseDescription;
@@ -55,7 +53,7 @@ public class OnlineCourse extends BaseImagesSupport
 		this.onlineCourseDescription = onlineCourseDescription;
 	}
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="online_course_type_id", nullable = true)
     public OnlineCourseType getOnlineCourseType()
 	{
@@ -73,4 +71,11 @@ public class OnlineCourse extends BaseImagesSupport
         this.onlineCourseDescription = onlineCourseDescription;
         this.onlineCourseType = onlineCourseType;
     }
+    
+    public OnlineCourse(String onlineCourseName, String onlineCourseDescription)
+    {
+        this.onlineCourseName = onlineCourseName;
+        this.onlineCourseDescription = onlineCourseDescription;
+    }
+    
 }

@@ -11,8 +11,7 @@ import javax.persistence.*;
 public class OnlineCourseType extends CommonType implements Serializable
 {
 
-	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "onlineCourseType")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "onlineCourseType",cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
 	private List<OnlineCourse> onlineCourse;
 	
 
@@ -35,5 +34,6 @@ public class OnlineCourseType extends CommonType implements Serializable
 	{
 		this.onlineCourse = onlineCourse;
 	}
+	
 
 }
