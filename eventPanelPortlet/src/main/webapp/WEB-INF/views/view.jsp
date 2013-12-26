@@ -158,7 +158,7 @@
 <%
     }
 %>
-<%if (!request.isUserInRole("Administrator")) {%>
+<%if ((request.isUserInRole("User")) && (!request.isUserInRole("Administrator"))) {%>
 <div id="ep">
     <div class="event-panel" id="event-panel-wraper">
         <div id="elem">
