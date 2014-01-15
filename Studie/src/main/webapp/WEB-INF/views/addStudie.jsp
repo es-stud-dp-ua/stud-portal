@@ -257,7 +257,7 @@
                                 </div>
                                 <a href="#" class="addSpecialty"><spring:message code="form.addSpecialty"/></a>
                             </td>
-                            <td><a href="#" class="removeFaculties"><spring:message code="form.removeSpecialty"/></a></td>
+                            <td><a href="#" class="removeFaculty"><spring:message code="form.removeFaculty"/></a></td>
                         </tr>
                     </c:forEach>
                     <c:if test="${empty study.faculties}">
@@ -267,12 +267,12 @@
                                 <div class="specContainer"></div>
                                 <a href="#" class="addSpecialty"><spring:message code="form.addSpecialty"/></a>
                             </td>
-                            <td><a href="#" class="removeFaculties"><spring:message code="form.removeSpecialty"/></a></td>
+                            <td><a href="#" class="removeFaculty"><spring:message code="form.removeFaculty"/></a></td>
                         </tr>
                     </c:if>
                 </tbody>
             </table>
-            <a href="#" id="addFaculties"><spring:message code="form.addSpecialty"/></a>
+            <a href="#" id="addFaculty"><spring:message code="form.addFaculty"/></a>
 
         </div>
         <input type="submit" style="margin-top: 15px;position: absolute;

@@ -47,8 +47,8 @@ function a() {
 		new Dynamic_List_Special();
 		var config = {
 			rowClass : 'facultet',
-			addRowId : 'addFaculties',
-			removeRowClass : 'removeFaculties',
+			addRowId : 'addFaculty',
+			removeRowClass : 'removeFaculty',
 			formId : 'studyForm',
 			rowContainerId : 'facultiesListContainer',
 			indexedPropertyName : 'faculties',
