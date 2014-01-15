@@ -411,6 +411,8 @@ public class EventsController {
         Events newEvent = eventsService.getEventsById(eventID);
 //getting all parameters from form
         CommonsMultipartFile croppedImage = null;
+        HashSet<String> names = new HashSet<String>();
+        ArrayList<Tags> tags = new ArrayList<Tags>();
         Boolean defImage = Boolean.valueOf(actionRequest.getParameter("defaultImage"));
         Boolean changeImage = true;
 
@@ -442,10 +444,30 @@ public class EventsController {
                 newEvent.setEventDateEnd(dateEnd);
             }
         }
+
+        newEvent.setTitle(actionRequest.getParameter("title"));
+        newEvent.setLocation(actionRequest.getParameter("location"));
+        newEvent.setText(actionRequest.getParameter("text"));
+        newEvent.setType(EventsType.valueOf(actionRequest.getParameter("type")));
+
+        String tag = actionRequest.getParameter("tags");
+        StringTokenizer tokens = new StringTokenizer(tag, ",.; ");
+        while (tokens.hasMoreTokens()) {
+            names.add(tokens.nextToken());
+        }
+        for (String tagName : names) {
+            Tags tempTags = new Tags();
+            tempTags.setName(tagName);
+            tempTags.addEvent(event);
+            tags.add(tempTags);
+        }
+        newEvent.setTags(tags);
+
         String role;
         role = actionRequest.isUserInRole(ADMINISTRATOR_ROLE) ? ADMINISTRATOR_ROLE : USER_ROLE;
         User user = (User) actionRequest.getAttribute(WebKeys.USER);
         String usRole = user.getScreenName();
+
         if (updateEventsFields(newEvent, croppedImage, role, usRole, changeImage)) {
             eventsService.updateEvents(newEvent);
 //close session
@@ -459,7 +481,16 @@ public class EventsController {
     public ModelAndView showAddEvent(RenderRequest request, RenderResponse response) {
         ModelAndView model = new ModelAndView();
 //set view for add
+        Events event=new Events();
+        ImageImpl mImage = event.getMainImage();
+        String mainImageUrl = imageService.getPathToLargeImage(mImage, event);
+        event.setEventDateStart(new Date());
+        event.setEventDateEnd(new Date());
+        event.setType(EventsType.SPORTS);
+        event.setMainImage(null);
         model.setViewName("addEvent");
+        model.addObject(EVENT, event);
+        model.addObject(MAIN_IMAGE,mainImageUrl);
         return model;
     }
 

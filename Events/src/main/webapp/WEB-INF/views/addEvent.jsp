@@ -3,11 +3,26 @@
 <%@ page import="java.util.Collection" %>
 <%@ page import="java.util.Locale" %>
 <%@ page import="java.util.ResourceBundle" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ page import="com.liferay.portal.theme.ThemeDisplay" %>
+<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="com.liferay.portal.kernel.util.WebKeys" %>
+<%@ page import="com.liferay.portal.kernel.servlet.ImageServletTokenUtil" %>
+<%@ taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet" %>
 
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@include file="include.jsp" %>
 
+<%
+    Collection<String> allTypes = (Collection) (EventsType.allTypes());
+    String temp;
+        Boolean flag=true;
+    Events event = (Events) request.getAttribute("event");
+SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+
+%>
 <portlet:defineObjects/>
 <html>
     <head>
@@ -40,34 +55,46 @@
     </head>
     <body>
 
-        <script type="text/javascript">
-                    $('#defaultEntry').timeEntry().change(function() {
-            var log = $('#log');
-                    log.val(log.val() + ($('#defaultEntry').val() || 'blank') + '\n');
-            });
-                    function a() {
-                    jQuery('#cropbox').Jcrop({onChange: setCoords, onSelect: setCoords, bgColor: 'black',
-                            bgOpacity: .4,
-                            setSelect: [100, 0, 253, 353],
-                            aspectRatio: 1});
-                    }
-            function setCoords(c) {
-            jQuery('#x1').val(c.x);
-                    jQuery('#y1').val(c.y);
-                    jQuery('#x2').val(c.x2);
-                    jQuery('#y2').val(c.y2);
-                    jQuery('#w').val(c.w);
-                    jQuery('#h').val(c.h);
-            }
-            ;</script>
-        <script language="javascript" type="text/javascript">
-                    $(document).ready(function() {
-            });
-                    function isNotMax(e, id) {
-                    var validateValueTextArea = document.getElementById(id);
-                            validateValueTextArea.value = validateValueTextArea.value.substr(0, validateValueTextArea.getAttribute('maxlength'));
-                    }
-        </script>
+                 <script type="text/javascript">
+                            function a() {
+                                jQuery('#cropbox').Jcrop({onChange: setCoords, onSelect: setCoords, bgColor: 'black',
+                                    bgOpacity: .4,
+                                    setSelect: [100, 0, 253, 353],
+                                    aspectRatio: 1});
+                            }
+                            function setCoords(c) {
+                                jQuery('#x1').val(c.x);
+                                jQuery('#y1').val(c.y);
+                                jQuery('#x2').val(c.x2);
+                                jQuery('#y2').val(c.y2);
+                                jQuery('#w').val(c.w);
+                                jQuery('#h').val(c.h);
+                            }
+                            ;
+                            $(document).ready(function() {
+                                $.Placeholder.init({color: "#aaa"});
+                            });
+                            function isNotMax(e) {
+                                e = e || window.event;
+                                var target = e.target || e.srcElement;
+                                var code = e.keyCode ? e.keyCode : (e.which ? e.which : e.charCode)
+                                switch (code) {
+                                    case 13:
+                                    case 8:
+                                    case 9:
+                                    case 46:
+                                    case 37:
+                                    case 38:
+                                    case 39:
+                                    case 40:
+                                        return true;
+                                }
+                                return target.value.length <= target.getAttribute('maxlength');
+                            }
+                        </script>
+
+
+
     <portlet:renderURL var="home"> </portlet:renderURL>
 
     <portlet:actionURL var="actionLink" name="addEvents"></portlet:actionURL>
@@ -84,156 +111,7 @@
     </c:if>
 
     <div width="100%" align="center">
-        <form:form method="post" id="jform" name="jform" action="${actionLink}"  enctype="multipart/form-data" commandName="event" modelAttribute="event">
-            <input type="hidden" size="0" id="x1" name="t" />
-            <input type="hidden" size="0" id="y1" name="l" />
-            <input type="hidden" size="0" id="w" name="w" />
-            <input type="hidden" size="0" id="h" name="h" />
-            <table width="100%" margin-bottom="15px">
-                <tr>
-                    <td width="50%" align="center">
-                        <style>
-                            .thumb {
-                                height: 253px;
-                                width: 443px;
-                            }
-                        </style>
-                        <div id="lup">
-                        </div>
-                        <div id="mainPic"
-                             style="background: url(${pageContext.request.contextPath}/images/mainpic_443x253.png) no-repeat">
-                            <!-- Output for our douwnload Image-->
-                            <output id="list"></output>
-                        </div>
-                        <div id="rdn">
-                        </div>
-                        <div id="mainImageLoader">
-                            <div id="mainImgloaderBtn">
-                                <input type="file" id="mainImage" name="mainImage">
-                                <div id="nt"><spring:message code="form.addMainPictures"/></div>
-                            </div>
-                        </div>
-                        <script>
-                            function handleFileSelect(evt) {
-                            var files = evt.target.files; // FileList object
-                                    // Loop through the FileList and render image files as thumbnails.
-                                    var f = files[files.length - 1];
-                                    // Only process im11age files.
-                                    document.getElementById('list').innerHTML = '';
-                                    var reader = new FileReader();
-                                    // Closure to capture the file information.
-                                    reader.onload = (function(theFile) {
-                            return function(e) {
-                            // Render thumbnail.
-                            var span = document.createElement('span');
-                                    span.innerHTML = ['<img id="cropbox" width="453px"  class="thumb" src="', e.target.result,
-                                    '" title="', escape(theFile.name), '"/>'].join('');
-                                    document.getElementById('list').insertBefore(span, null);
-                                    a();
-                            };
-                                    a();
-                            })(f);
-                                    // Read in the image file as a data URL.
-                                    reader.readAsDataURL(f);
-                                    a();
-                            }
-                            document.getElementById('mainImage').addEventListener('change', handleFileSelect, false);</script>
-
-                        <br/>
-                    </td>
-                    <td rowspan=2 width="50%" align="left">
-                        <div id="labels"><spring:message code="form.title"/></div><div id="redStar1">*</div>
-                            <form:input path="title" id="title" cols="90" rows="2" maxlength="100"  name="title"/>
-                            <form:errors path="title" cssClass="error"></form:errors>
-                            <div id="labels"><spring:message code="form.text"/></div><div id="redStar2">*</div>
-                            <div style="margin-left: 5px;">
-                                <textarea path="text" class="ckeditor" id="text" cols="60" rows="10" maxlength="10000"
-                                          name="text" ></textarea>
-                                <textarea style="visibility: hidden;width: 0px;height:0px;" id="text1" name="text1"  ></textarea>
-                            </div>
-                        <form:errors path="text" cssClass="error" ></form:errors>
-                            <br/><br/>
-
-                            <br/><br/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td width="50%" align="right">
-                            <div id="eventSetting">
-                                <div style="margin-right: 10px; margin-top: 115px;"><spring:message code="form.dateStart"/><div id="redStar4">*</div></div><input type="text" style="width: 40%;" name="EventDateStart" id="datepicker1"/><input type="text" placeholder="HH:mm" maxlength="5" style="width: 15%;margin-left: 1%; text-align: center;" name="startTime" id="defaultEntry"/>
-                                <div style="margin-right: 10px;"><spring:message code="form.dateEnd"/></div><input type="text" style="width: 40%;" name="EventDateEnd" id="datepicker2"/><input type="text" placeholder="HH:mm" maxlength="5" style="width: 15%;margin-left: 1%;text-align: center;" name="endTime" id="endTime"/>
-                                <div style="margin-right: 10px;"><spring:message code="form.location"/></div> <form:input path="location" id="location" cols="60" rows="2" maxlength="100"  name="location"/>
-                            <div style="margin-right: 10px;"><spring:message code="form.tags"/></div><input type="text" id="tags" name="tags" style="width:60%;text-align: center;" placeholder="<spring:message code='form.tags.placeholder'/>" />
-                            <div style="font-size:14px">
-                                <div style="float: right; margin-top: 0px; ">
-                                    <table>
-                                        <tr><label>
-                                            <div style="font-weight: bold; "><spring:message
-                                                    code="addEvent.type"/></div>
-                                        </label></tr>
-                                        <tr>
-                                            <td>
-                                                <div style="float: right; margin-right: 10px;"><spring:message
-                                                        code="form.SPORTS"/></div>
-                                            </td>
-                                            <td><input type="radio" name="type" value="<%= EventsType.SPORTS %>"
-                                                       checked="" style="float: right;"/></td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div style="float: right; margin-right: 10px; "><spring:message
-                                                        code="form.MUSIC"/></div>
-                                            </td>
-                                            <td><input type="radio" name="type" value="<%= EventsType.MUSIC %>"
-                                                       style="float: right;"/></td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div style="float: right; margin-right: 10px;"><spring:message
-                                                        code="form.VACANCY"/></div>
-                                            </td>
-                                            <td><input type="radio" name="type" value="<%= EventsType.VACANCY %>"
-                                                       style="float: right;"/></td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div style="float: right; margin-right: 10px;"><spring:message
-                                                        code="form.CONFERENCE"/></div>
-                                            </td>
-                                            <td><input type="radio" name="type" value="<%= EventsType.CONFERENCE %>"
-                                                       style="float: right;"/></td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div style="float: right; margin-right: 10px;"><spring:message
-                                                        code="form.WEBINAR"/></div>
-                                            </td>
-                                            <td><input type="radio" name="type" value="<%= EventsType.WEBINAR %>"
-                                                       style="float: right;"/></td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div style="float: right; margin-right: 10px;"><spring:message
-                                                        code="form.THEATRE"/></div>
-                                            </td>
-                                            <td><input type="radio" name="type" value="<%= EventsType.THEATRE %>"
-                                                       style="float: right;"/></td>
-                                        </tr>
-                                    </table>
-                                </div>
-                                <br/>
-
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-            </table>
-            <div id="sbm">
-                <input type="submit" value="<spring:message
-                       code='<%=(request.isUserInRole("Administrator"))?"form.submit.admin"
-                                                                                             :"form.submit.user"%>'/>"/>
-            </div>
-        </form:form>
+        <%@include file="CommonForm.jsp" %>
         <script >
            
         $.validator.addMethod('filesize', function(value, element, param) {

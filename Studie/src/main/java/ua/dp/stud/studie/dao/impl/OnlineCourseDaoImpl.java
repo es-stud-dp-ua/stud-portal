@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.sun.org.apache.xpath.internal.operations.*;
 import com.sun.org.apache.xpath.internal.operations.String;
+
 import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import ua.dp.stud.studie.dao.OnlineCourseDao;
+import ua.dp.stud.studie.model.Council;
 import ua.dp.stud.studie.model.OnlineCourse;
 import ua.dp.stud.studie.model.OnlineCourseType;
 
@@ -35,9 +37,7 @@ public class OnlineCourseDaoImpl implements OnlineCourseDao
     @Override
     public OnlineCourse getOnlineCourseById(Integer id)
     {
-        OnlineCourse onlineCourse = (OnlineCourse) getSession().get(OnlineCourse.class, id);
-        Hibernate.initialize(onlineCourse.getOnlineCourseType());
-        return onlineCourse;
+        return (OnlineCourse) getSession().get(OnlineCourse.class, id);
     }
 
     @Override
@@ -68,7 +68,9 @@ public class OnlineCourseDaoImpl implements OnlineCourseDao
     @Override
     public OnlineCourseType getOnlineCourseTypeById(Long id)
     {
-        return (OnlineCourseType) getSession().get(OnlineCourseType.class, id);
+    	OnlineCourseType onlineCourseType = (OnlineCourseType) getSession().get(OnlineCourseType.class, id);
+    	 Hibernate.initialize(onlineCourseType.getOnlineCourse());
+    	return onlineCourseType;
     }
 
     @Override

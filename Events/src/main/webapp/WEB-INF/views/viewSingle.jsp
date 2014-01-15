@@ -141,30 +141,40 @@
             </a>
             <%}%>
         </div>
+        <div>
+        <div style="width:50%; float:left">
+                    <img src="${mainImage}" alt=""/>
+        </div>
 
-        <div class="newsHeader">
-            <img src="${mainImage}" alt=""/>
-            ${event.title}
-        </div>
-        <br/>
-        <div style="color: #363636">
-            <spring:message code="form.date"/> &nbsp &nbsp
-            <% if (event.getEventDateEnd()!=null&&event.getEventDateStart()!=event.getEventDateEnd()){ %>
-            <%=dateFormat.format(event.getEventDateStart())%> - <%=dateFormat.format(event.getEventDateEnd())%>
-            <% } else { %>
-            <%=dateFormat.format(event.getEventDateStart())%>  <%}%>
+        <div style="float:right; width: 46%">
+            <div class="newsHeader">
+                ${event.title}
+            </div>
             <br/>
-            <spring:message code="form.time"/> &nbsp &nbsp
-            <% if (event.getEventDateEnd()!=null&&event.getEventDateStart()!=event.getEventDateEnd()){ %>
-            <%=timeFormat.format(event.getEventDateStart())%> - <%=timeFormat.format(event.getEventDateEnd())%>
-            <% } else { %>
-            <%=timeFormat.format(event.getEventDateStart())%>  <%}%>
-            <br/>
-            <spring:message code="form.location"/> &nbsp &nbsp 
-            ${event.location}
+
+            <div style="color: #363636">
+                    <spring:message code="form.date"/> &nbsp &nbsp
+                    <% if (event.getEventDateEnd()!=null&&event.getEventDateStart()!=event.getEventDateEnd()){ %>
+                    <%=dateFormat.format(event.getEventDateStart())%> - <%=dateFormat.format(event.getEventDateEnd())%>
+                    <% } else { %>
+                    <%=dateFormat.format(event.getEventDateStart())%>  <%}%>
+                    <br/>
+                    <spring:message code="form.time"/> &nbsp &nbsp
+                    <% if (event.getEventDateEnd()!=null&&event.getEventDateStart()!=event.getEventDateEnd()){ %>
+                    <%=timeFormat.format(event.getEventDateStart())%> - <%=timeFormat.format(event.getEventDateEnd())%>
+                    <% } else { %>
+                    <%=timeFormat.format(event.getEventDateStart())%>  <%}%>
+                    <br/>
+                    <spring:message code="form.location"/> &nbsp &nbsp
+                    ${event.location}
+            </div>
         </div>
+         </div>
+
         <br/>
-        <div class="newsText">
+
+        <br/>
+        <div class="newsText" style="overflow: hidden; width: 900px">
             ${event.text}
         </div>
         <div class="reply_link_wrap">
