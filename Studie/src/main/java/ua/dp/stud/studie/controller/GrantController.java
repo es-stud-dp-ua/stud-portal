@@ -14,6 +14,7 @@ import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 
 
+
 import ua.dp.stud.StudPortalLib.util.ImageService;
 import ua.dp.stud.studie.model.Grant;
 import ua.dp.stud.studie.service.GrantService;
@@ -47,6 +48,16 @@ public class GrantController {
 
 	@RenderMapping(params = "view=allGrants")
 	public ModelAndView showView(RenderRequest request, RenderResponse response) {
+		Grant w = new Grant("Название","Город","Страна","Специальность","Квалификация","Название","Название","Название","Названиемфвыфвыфвыммф"
+        		+ "паывапыввапваыпывапывапывапвыапыпывапыпыпаыппавыпвыапваыпвыапсчмсчмбьт"
+        		+ "апавыпыапвамсчтмбьсичмчмячы"
+        		+ "пывапывпывапваыпырвпорфыолдпрфпдфмтбьтып"
+        		+ "пыпаыпыпыапывапывапывпыпы","Названиемфвыфвыфвыммф"
+                		+ "паывапыввапваыпывапывапывапвыапыпывапыпыпаыппавыпвыапваыпвыапсчмсчмбьт"
+                		+ "апавыпыапвамсчтмбьсичмчмячы"
+                		+ "пывапывпывапваыпырвпорфыолдпрфпдфмтбьтып"
+                		+ "пыпаыпыпыапывапывапывпыпы");
+		grantService.addGrant(w);
 		return getMainView();
 	}
 
@@ -56,6 +67,17 @@ public class GrantController {
 		model.addObject("grants", grants);
 		return model;
 	}
+	
+	@RenderMapping(params = "view=singleGrant")
+    public ModelAndView viewSingleGrant(RenderRequest request, RenderResponse response) {
+        ModelAndView model = new ModelAndView();
+        model.setViewName("viewSingleGrant");
+        Integer id = Integer.parseInt(request.getParameter("id"));
+        Grant grant = grantService.getGrantById(id);
+        model.addObject("grant",grant);
+        System.out.println(grant);
+        return model;
+    }
 
 
 

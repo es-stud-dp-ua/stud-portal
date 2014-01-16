@@ -31,8 +31,7 @@ public class GrantlDaoImpl implements GrantDao {
 
 	@Override
 	public Grant getGrantById(Integer id) {
-		getSession().get(Grant.class, id);
-		return null;
+		return (Grant) getSession().get(Grant.class, id);
 	}
 
 	@Override

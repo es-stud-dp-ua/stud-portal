@@ -36,7 +36,7 @@
                                  <a href='
                                  <portlet:renderURL>
                                      <portlet:param name="id" value="<%=grant.getId().toString()%>"/>
-                                         <portlet:param name="view" value="singleOnlineCourse"/>
+                                         <portlet:param name="view" value="singleGrant"/>
                                  </portlet:renderURL>
                                  '><%=grant.getUniversity()%>
                                  </a>
