@@ -27,12 +27,32 @@
 <body>
 <div>
 
+<%if (request.isUserInRole("Administrator")){ %>
+		       <portlet:renderURL var="LinkAddGrant">
+       				 <portlet:param name="add" value="grant"/>
+    		   </portlet:renderURL>
+    			<div class="fs20"style="width: 10.15%;float: right;">
+                		<a style="float: right" href="${LinkAddGrant}">
+                    		<!--<spring:message code="viewSingle.Edit"/>-->
+                    		<div class="panelbtn panelbtn-right icon-pcpplus" aria-hidden="true"></div>
+                		</a>
+				</div>
+		    <%} %>
+
 		    <% if (!grants.isEmpty()) {
  for (Grant grant : grants){%>
-     <div id="newsTable" style="padding-top: 15px;float: center">
-                     <div width="100%">
-                         <div class="newsHeader" style="padding-top: 50px; padding-left: 175px; font-size: 20pt; ">
-                            <b>
+     <div id="newsTable" style="padding-top: 15px;float: left">
+     	 <% if (request.isUserInRole("Administrator")) { %>
+						<a style="float: right"
+           href="<portlet:actionURL><portlet:param name="id" value="<%=grant.getId().toString()%>"/><portlet:param name="view" value="deleteGrant" /></portlet:actionURL>">
+           <div class="icon-pcpremove fs20" aria-hidden="true"></div>
+        </a>
+				         <a style="float: right"
+           href="<portlet:renderURL><portlet:param name="id" value="<%=grant.getId().toString()%>"/><portlet:param name="view" value="editGrant" /></portlet:renderURL>">
+           <div class="icon-pcppencil fs20" aria-hidden="true"></div>
+        </a>
+				<%}%>
+                         <div class="newsHeader" style="padding-top: 10px; padding-left: 175px; font-size: 20pt; ">
                                  <a href='
                                  <portlet:renderURL>
                                      <portlet:param name="id" value="<%=grant.getId().toString()%>"/>
@@ -40,12 +60,9 @@
                                  </portlet:renderURL>
                                  '><%=grant.getUniversity()%>
                                  </a>
-                            </b>
                             </div>
                      
-           			</div>
      </div>
-           <br/><br/>
              <%}%>
 
 <%}%>

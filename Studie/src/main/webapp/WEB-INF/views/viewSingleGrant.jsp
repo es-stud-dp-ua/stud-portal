@@ -35,7 +35,7 @@ ImageService imageServices = (ImageService) pageContext.findAttribute("imageServ
 	
 	<div id="desc">
                      <div width="100%" style="float: center">
-                         <img src="<%= imageServices.getPathToMicroblogImage(
+                         <img src="<%= imageServices.getPathToLargeImage(
                         		 grant.getMainImage(),
                         		 grant) %>" class="newsImage" style="float: center">
    					  </div>

@@ -55,7 +55,7 @@ public class GrantlDaoImpl implements GrantDao {
 
 	@Override
 	public void updateGrant(Grant grant) {
-		getSession().update(grant);
+		getSession().merge(grant);
 		
 	}
 
