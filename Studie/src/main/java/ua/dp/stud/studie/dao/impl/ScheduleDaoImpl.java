@@ -34,9 +34,11 @@ public class ScheduleDaoImpl implements  ScheduleDao{
     }
 
     @Override
-    public void addSchedule(Schedule schedule)
+    public /*void*/Schedule addSchedule(Schedule schedule)
     {
         getSession().save(schedule);
+
+        return schedule;
     }
 
     @Override
@@ -59,7 +61,8 @@ public class ScheduleDaoImpl implements  ScheduleDao{
     @Override
     public Schedule getScheduleByFacultyAndYear(Faculties faculty, Course year)
     {
-        Query query = getSession().createQuery("from Schedule where faculty = :faculty1 and year = :year1");
+        Query query = getSession().createQuery("from Schedule where faculty = :faculty1 and year = :year1 and " +
+                "lastUpdateDate=(Select MAX(lastUpdateDate) from Schedule)");
         query.setParameter("faculty1", faculty);
         query.setParameter("year1",  year);
         Schedule schedule = (Schedule)query.uniqueResult();

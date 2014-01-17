@@ -8,7 +8,7 @@ import java.util.List;
 public interface ScheduleDao {
     Schedule getScheduleById(Long id);
 
-    void addSchedule(Schedule schedule);
+    /*void*/Schedule addSchedule(Schedule schedule);
 
     void deleteSchedule(Long id);
 

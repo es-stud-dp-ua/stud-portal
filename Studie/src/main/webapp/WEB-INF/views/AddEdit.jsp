@@ -142,7 +142,7 @@
                                 <div id="sbm" style="padding-left: 125px">
                                     <input type="submit" value="<spring:message
                                            code='<%=(request.isUserInRole("Administrator"))?"course.add"
-                                                                                                                 :"form.submit.user"%>'/>"/>
+                                                                                                      :"form.submit.user"%>'/>"/>
                                 </div>
                         </div>
             </div>

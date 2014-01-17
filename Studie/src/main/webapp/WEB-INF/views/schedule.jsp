@@ -6,6 +6,7 @@
 <%@ page import="java.util.Collection" %>
 <%@ page import="java.util.Locale" %>
 <%@ page import="java.util.ResourceBundle" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!--<%@include file="include.jsp" %>-->
 <body>
     <%@include file="leftBar.jsp" %>
@@ -25,9 +26,10 @@
             </form:select>
         </div>
     </div>
+
         <form:form method="POST" commandName="schedule" action="${actionLink}" enctype="multipart/form-data" id="scheduleForm">
     <div class="textBox" style="padding-left: 130px;">
-        <form:select path="faculty" id="facultiesList" style="display:none;">
+        <form:select path="faculty.id" id="facultiesList" style="display:none;">
         </form:select>
     </div>
     <div class="textBox" style="padding-left: 130px;">
@@ -41,16 +43,32 @@
         </form:select>
     </div>
     <div id="schedule_label" style="width: 150px; font-size: 12pt; padding-left: 130px"></div>
-    <div style="left: 30%;" id="scheduleLoader">
-            <input type="file" id="scheduleLoad" />
+    <div style="left: 30%; " id="scheduleLoader">
+            <input type="file" name="fileschedule" id="scheduleLoad" />
         </div>
     <div style="left: 30%;" id="scheduleLoaderF">
     </div>
     <input type="submit" style="margin-top: 15px;position: absolute;
                    left: 41%; " value="<spring:message
-                   code='<%=(request.isUserInRole("Administrator"))?"form.submit.admin":"form.submit.user"%>'/>"/>
+                   code='<%=(request.isUserInRole("Administrator"))?"schedule.submit.admin":"form.submit.user"%>'/>"/>
+
+     <c:if test="${status}">
+          <div id ="schedule_status" style ="color:green; hidden: false;">
+             <spring:message  code="schedule.upload"/>
+          </div>
+     </c:if>
+          <div id ="isPresent" style ="color:red; display:none">
+                       <spring:message  code="schedule.empty"/>
+          </div>
+
+
     </form:form>
+
+
+
+
 </body>
+
         <portlet:resourceURL var="facultiesByStudy" id="facultiesByStudy" />
         <portlet:resourceURL var="getSchedule" id="getSchedule" />
         <portlet:resourceURL var="uploadSchedule" id="uploadSchedule" />
@@ -61,6 +79,7 @@
                     $('#schedule_label').html("");
                     if ($('#studyList').val()!= "<spring:message code='Schedule.none'/>") {
                         faculties($('#studyList').val());
+                        $('#schedule_status').hide();
                     }
             });
             $( "#facultiesList" ).change(function() {
@@ -75,8 +94,12 @@
                                 $('#schedule_label').html("");
                                 if ($('#yearsList').val()!= "<spring:message code='Schedule.none'/>") {
                                     getSchedule($('#facultiesList').val(),$('#yearsList').val());
+
+
                                 }
              });
+
+
           function faculties(studyId)
                     {
                           $.ajax
@@ -93,6 +116,8 @@
                               }
                           });
                       }
+
+
           function getSchedule(facultyId, year)
                     {
                           $.ajax
@@ -104,7 +129,13 @@
                               contentType: "application/json;charset=utf-8",
                               success: function (data)
                               {
-                                $('#schedule_label').html("<a href='"+data+"'>DOWNLOAD</a>");
+                              if (data!="")
+                              {
+                                $('#schedule_label').html("<a href='"+data+"'><spring:message code='schedule.download'/></a>");
+                                $('#isPresent').hide();
+                              }
+                              else
+                                $('#isPresent').show();
                               }
                           });
                       }
