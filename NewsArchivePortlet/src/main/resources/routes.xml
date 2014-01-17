@@ -16,7 +16,7 @@
         <implicit-parameter name="mode">viewAll</implicit-parameter>
     </route>
     <route>
-        <pattern>/delete/{currentPage:\d+}/{newsId:\d+}</pattern>
+        <pattern>/delete/{newsId:\d+}/{currentPage:\d+}</pattern>
         <implicit-parameter name="mode">delete</implicit-parameter>
     </route>
     <route>
@@ -35,7 +35,7 @@
         <pattern>/pagination/{direction}/{currentPage:\d+}</pattern>
     </route>
     <route>
-        <pattern>/view/{currentPage:\d+}/{newsID:\d+}</pattern>
+        <pattern>/view/{newsID:\d+}/{currentPage:\d+}</pattern>
     </route>
    <route>
         <pattern>/home/{currentPage:\d+}</pattern>

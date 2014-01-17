@@ -30,6 +30,7 @@
     </build>
 
     <modules>
+        <module>Resourses</module>
         <module>PortalLib</module>
         <module>askQuestionPortlet</module>
         <module>BannerPortlet</module>
@@ -41,7 +42,7 @@
         <module>eventPanelPortlet</module>
         <module>Studie</module>
         <module>aboutTeamPortlet</module>
-    <module>Events</module>
+        <module>Events</module>
   </modules>
 
 </project>

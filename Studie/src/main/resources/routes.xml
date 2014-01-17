@@ -3,7 +3,98 @@
         "http://www.liferay.com/dtd/liferay-friendly-url-routes_6_0_0.dtd">
 <routes>
     <route>
-        <pattern>/add</pattern>
+        <pattern>/universities/add</pattern>
+        <implicit-parameter name="mode">add</implicit-parameter>
+    </route>
+    <route>
+        <pattern>/universities/edit/{studieID:\d+}</pattern>
+        <implicit-parameter name="mode">edit</implicit-parameter>
+    </route>
+    <route>
+        <pattern>/universities/delete/{studieID:\d+}</pattern>
+        <implicit-parameter name="mode">delete</implicit-parameter>
+    </route>
+    <route>
+        <pattern>/councils</pattern>
+        <implicit-parameter name="view">allcouncils</implicit-parameter>
+    </route>
+    <route>
+        <pattern>/councils/add</pattern>
         <implicit-parameter name="add">council</implicit-parameter>
+    </route>
+    <route>
+        <pattern>/councils/edit/{councilId:\d+}</pattern>
+        <implicit-parameter name="edit">council</implicit-parameter>
+    </route>
+    <route>
+        <pattern>/councils/delete/{councilID:\d+}</pattern>
+        <implicit-parameter name="delete">council</implicit-parameter>
+    </route>
+    <route>
+        <pattern>/schedules</pattern>
+        <implicit-parameter name="view">schedule</implicit-parameter>
+    </route>
+    <route>
+        <pattern>/courses</pattern>
+        <implicit-parameter name="view">allcourses</implicit-parameter>
+    </route>
+    <route>
+        <pattern>/courses/add</pattern>
+        <implicit-parameter name="add">courses</implicit-parameter>
+    </route>
+    <route>
+        <pattern>/courses/edit/{courseId:\d+}</pattern>
+        <implicit-parameter name="edit">courses</implicit-parameter>
+    </route>
+    <route>
+        <pattern>/courses/delete/{courseId:\d+}</pattern>
+        <implicit-parameter name="delete">courses</implicit-parameter>
+    </route>
+    <route>
+        <pattern>/courses/view/courses_categories</pattern>
+        <implicit-parameter name="view">coursesCategories</implicit-parameter>
+    </route>
+    <route>
+        <pattern>/online_courses</pattern>
+        <implicit-parameter name="view">allOnlineCourses</implicit-parameter>
+    </route>
+    <route>
+        <pattern>/online_courses/add</pattern>
+        <implicit-parameter name="add">onlineCourse</implicit-parameter>
+    </route>
+    <route>
+        <pattern>/online_courses/edit/{id:\d+}</pattern>
+        <implicit-parameter name="edit">onlineCourse</implicit-parameter>
+    </route>
+    <route>
+        <pattern>/online_courses/delete/{id:\d+}</pattern>
+        <implicit-parameter name="delete">onlineCourse</implicit-parameter>
+    </route>
+    <route>
+        <pattern>/online_courses/view/courses_categories</pattern>
+        <implicit-parameter name="view">onlineCoursesCategories</implicit-parameter>
+    </route>
+    <route>
+        <pattern>/online_courses/view/{id:\d+}</pattern>
+        <implicit-parameter name="view">singleOnlineCourse</implicit-parameter>
+    </route>
+    <route>
+        <pattern>/grants</pattern>
+        <implicit-parameter name="view">allGrants</implicit-parameter>
+    </route>
+    <route>
+        <pattern>/universities</pattern>
+    </route>
+    <route>
+        <pattern>/universities/view/{studieID:\d+}</pattern>
+    </route>
+    <route>
+        <pattern>/councils/view/{councilID:\d+}</pattern>
+    </route>
+    <route>
+        <pattern>/councils/view/{councilId:\d+}</pattern>
+    </route>
+	<route>
+        <pattern>/courses/view/{courseId:\d+}</pattern>
     </route>
 </routes>
