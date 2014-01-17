@@ -20,5 +20,5 @@
     <liferay-versions>
         <liferay-version>6.0.6+</liferay-version>
     </liferay-versions>
-    <recommended-deployment-context>stud-logging</recommended-deployment-context>
+    <recommended-deployment-context>logging</recommended-deployment-context>
 </plugin-package>

@@ -206,9 +206,13 @@ public class StudieController {
             actionResponse.setRenderParameter(STR_EXEPT, "error");
             successUpload = false;
         }
-        for (Faculties faculties : newStudie.getFaculties()) {
-            for (Specialties specialties : faculties.getSpecialties()) {
-                specialties.setNameOfFaculties(faculties);
+        if (newStudie.getFaculties()!=null){
+            for (Faculties faculties : newStudie.getFaculties()) {
+                if (faculties.getSpecialties()!=null){
+                    for (Specialties specialties : faculties.getSpecialties()) {
+                        specialties.setNameOfFaculties(faculties);
+                    }
+                }
             }
         }
         return successUpload;
