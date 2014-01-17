@@ -223,8 +223,8 @@ public class EventsDaoImpl extends DaoForApproveImpl<Events> implements EventsDa
         if (direct==Direction.FUTURE)
         {
             Query query=getSession().createQuery("FROM Events WHERE eventDateStart>=:DateNow AND approved=:approve ORDER BY eventDateStart asc");
-            query.setDate("DateNow",date);
-            query.setParameter("approve",approved);
+            query.setDate("DateNow", date);
+            query.setParameter("approve", approved);
             nearesEvents=query.list();
         }
         else
@@ -255,6 +255,8 @@ public class EventsDaoImpl extends DaoForApproveImpl<Events> implements EventsDa
         {
             Query query=getSession().createQuery("FROM Events WHERE approved=:approve ORDER BY eventDateStart desc");
             query.setParameter("approve",approved);
+            query.setFirstResult(firstResult);
+            query.setMaxResults(objByPage);
             nearesEvents=query.list();
 
         }
