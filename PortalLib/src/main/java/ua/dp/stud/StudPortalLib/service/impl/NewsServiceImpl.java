@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ua.dp.stud.StudPortalLib.dao.NewsDao;
+import ua.dp.stud.StudPortalLib.dto.MicroBlogDto;
 import ua.dp.stud.StudPortalLib.dto.NewsDto;
 import ua.dp.stud.StudPortalLib.model.Category;
 import ua.dp.stud.StudPortalLib.model.ImageImpl;
@@ -310,23 +311,41 @@ public class NewsServiceImpl implements NewsService {
 
 
     @Override
-	public Collection<NewsDto> getDtoNews(Collection<News> news) {
+    public Collection<NewsDto> getDtoNews(Collection<News> news) {
 
-    	Collection<NewsDto> newsDto = new ArrayList<NewsDto>();
-    	for(News newss: news){
-    		newsDto.add(
-    				new NewsDto(
-    						 imageService.getPathToMicroblogImage(newss.getMainImage(),newss),
-    						 newss.getTopic(),
-    						 newss.getId(),
-    						 CustomFunctions.getCreationDate(newss.getPublication()),
-    						 CustomFunctions.truncateHtml(newss.getText(), 700),
-    						 newss.getAuthor(),
-    						 newss.getNumberOfViews()
-    							)
-    				);
-    	}
-    	
-		return newsDto;
-	}
+        Collection<NewsDto> newsDto = new ArrayList<NewsDto>();
+        for(News newss: news){
+            newsDto.add(
+                    new NewsDto(
+                            imageService.getPathToMicroblogImage(newss.getMainImage(),newss),
+                            newss.getTopic(),
+                            newss.getId(),
+                            CustomFunctions.getCreationDate(newss.getPublication()),
+                            CustomFunctions.truncateHtml(newss.getText(), 700),
+                            newss.getAuthor(),
+                            newss.getNumberOfViews()
+                    )
+            );
+        }
+
+        return newsDto;
+    }
+
+    @Override
+    public Collection<MicroBlogDto> getDtoMicroBlog(Collection<News> news) {
+        Collection<MicroBlogDto> microBlogDto = new ArrayList<MicroBlogDto>();
+        for(News newss: news){
+            microBlogDto.add(
+                    new MicroBlogDto(
+                            imageService.getPathToMicroblogImage(newss.getMainImage(),newss),
+                            newss.getTopic(),
+                            newss.getId(),
+                            CustomFunctions.getCreationDate(newss.getPublication()),
+                            newss.getAuthor(),
+                            newss.getNumberOfViews()
+                    )
+            );
+        }
+        return microBlogDto;
+    }
 }

@@ -11,6 +11,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.springframework.mock.web.portlet.MockRenderResponse;
 import org.springframework.web.portlet.ModelAndView;
+import ua.dp.stud.StudPortalLib.dto.MicroBlogDto;
 import ua.dp.stud.StudPortalLib.model.News;
 import ua.dp.stud.StudPortalLib.service.NewsService;
 
@@ -30,6 +31,7 @@ public class MicroBlogControllerTest {
     private MicroBlogController controller = new MicroBlogController();
     NewsService mockService;
     Collection<News> news;
+    Collection<MicroBlogDto> microBlogDto;
 
     private final String PORTLET_ID = "NewsArchive_WAR_studnewsArchive";
     private final long GROUP_ID = 1;
@@ -42,7 +44,7 @@ public class MicroBlogControllerTest {
         news = new LinkedList<News>(Collections.nCopies(10, new News()));
         when(mockService.getNewsOnMainPage()).thenReturn(news);
         controller.setNewsService(mockService);
-
+        microBlogDto = mockService.getDtoMicroBlog(news);
         PowerMockito.mockStatic(LayoutLocalServiceUtil.class);
         try {
             PowerMockito.when(LayoutLocalServiceUtil.getDefaultPlid(GROUP_ID, false, PORTLET_ID))
@@ -67,7 +69,7 @@ public class MicroBlogControllerTest {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        assertEquals(news, model.getModel().get("newsList"));
+        assertEquals(microBlogDto, model.getModel().get("microBlogDto"));
         assertEquals(PAGE_ID, model.getModel().get("newsArchivePageID"));
         assertEquals("viewAll", model.getViewName());
     }
