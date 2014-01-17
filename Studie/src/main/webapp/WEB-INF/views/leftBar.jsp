@@ -55,7 +55,7 @@
         		</div><br>
 
 		<portlet:renderURL var="LinkGrants">
-			<portlet:param name="" value=""/>
+			<portlet:param name="view" value="allGrants"/>
 		</portlet:renderURL>
 		<div class="ribbon-wrapper">
 			<a href="${LinkGrants}" name="buttonId"><button id="grants" class="btntype non "><spring:message code="form.grants"/></button></a>
