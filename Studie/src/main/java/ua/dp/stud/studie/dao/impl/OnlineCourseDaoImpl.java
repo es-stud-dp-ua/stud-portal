@@ -2,9 +2,6 @@ package ua.dp.stud.studie.dao.impl;
 
 import java.util.List;
 
-import com.sun.org.apache.xpath.internal.operations.*;
-import com.sun.org.apache.xpath.internal.operations.String;
-
 import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.Session;

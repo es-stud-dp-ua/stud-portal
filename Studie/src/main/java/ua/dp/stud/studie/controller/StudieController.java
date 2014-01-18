@@ -286,13 +286,14 @@ public class StudieController {
         }
     }
 
-    @RenderMapping(params = "mode=delImage")
+    @RenderMapping(params = {"mode=delImage", STUDY_ID})
     public ModelAndView delImage(RenderRequest request, RenderResponse response) {
         long imageID = Long.valueOf(request.getParameter("imageId"));
+        int studieID = Integer.valueOf(request.getParameter(STUDY_ID));
         ImageImpl image = studieService.getImageById(imageID);
         imageService.deleteImage(image, image.getBase());
         studieService.deleteImage(image);
-        return showAddSuccess(request, response);
+        return showSelectedSrudie(request, response);
     }
 
     @RenderMapping(params = "mode=edit")
