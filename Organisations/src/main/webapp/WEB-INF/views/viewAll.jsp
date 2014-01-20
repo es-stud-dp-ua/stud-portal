@@ -72,18 +72,15 @@
             </form>
         </div>
         <div id="newsTable">
-            <% if (!orgs.isEmpty()) {
-                 for (Organization currentOrgs : orgs){%>
+            <% if (!orgsDtoList.isEmpty()) {
+                 for (CommonDto currentOrgs : orgsDtoList){%>
             <div width="100%">
-                <img src="<%= imageService.getPathToMicroblogImage(currentOrgs.getMainImage(),currentOrgs) %>"
+                <img src="<%= currentOrgs.getImgPath() %>"
                      class="newsImage">
-
                 <div class="newsHeader">
                     <a href='<portlet:renderURL><portlet:param name="orgsId" value="<%=currentOrgs.getId().toString()%>"/><portlet:param name="currentPage" value="<%=currentPage.toString()%>"/> </portlet:renderURL>' >
-                        <%=currentOrgs.getTitle()%>
+                        <%=currentOrgs.getName()%>
                     </a>
-                </div>
-                <div class="newsText"><%= CustomFunctions.truncateHtml(currentOrgs.getText(), 700) %>
                 </div>
                 <% if (request.isUserInRole("Administrator")) { %>
                 <div class="portlet-content-controlpanel fs20"style="width: 8.6%;float: right;">
@@ -126,7 +123,7 @@
             </table>
         </div>
         <%}%>
-        <%if(orgs.size()>9||currentPage>1){%>
+        <%if(orgsDtoList.size()>9||currentPage>1){%>
         <table width="95%">
             <tr>
                 <td width="60" align="left">
