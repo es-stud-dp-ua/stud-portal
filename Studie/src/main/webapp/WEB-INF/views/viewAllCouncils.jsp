@@ -24,7 +24,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     </head>
     <body>
-    
+    <liferay-ui:success  key="successAdd" message='Stud council was successfully added! '/>
     <portlet:renderURL var="LinkAddCouncil">
         <portlet:param name="add" value="council"/>
     </portlet:renderURL>

@@ -135,9 +135,9 @@ public class CouncilController {
         councilService.addCouncil(council);
         // close session
         actionResponse.setRenderParameter("view", "allcouncils");
+        SessionMessages.add(actionRequest, "successAdd");
         sessionStatus.setComplete();
-
-
+        
     }
 
 	
