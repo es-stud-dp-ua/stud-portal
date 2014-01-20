@@ -353,6 +353,7 @@ public class CouncilController {
         councilService.updateCouncil(oldCouncil);
 		// close session
 		actionResponse.setRenderParameter("view", "allcouncils");
+		SessionMessages.add(actionRequest, "successEdit");
 		sessionStatus.setComplete();
 
 
