@@ -56,6 +56,7 @@ $(document).ready(function() {
 			<%for (Studie currStudy : studie){%>
 				<portlet:renderURL var="linkToSingle">
 					<portlet:param name="studieID" value="<%=currStudy.getId().toString()%>"/>
+					<portlet:param name="mode" value="viewSingle"/>
 				</portlet:renderURL>
 				<div id="singleStd">
 						<table width="100%"><tbody><tr>
