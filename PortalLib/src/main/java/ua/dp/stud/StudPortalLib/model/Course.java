@@ -2,6 +2,10 @@ package ua.dp.stud.StudPortalLib.model;
 
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotEmpty;
+
 import java.util.Date;
 
 /**
@@ -15,15 +19,18 @@ import java.util.Date;
 @PrimaryKeyJoinColumn(name = "id", referencedColumnName = "id")
 public class Course extends BaseImagesSupport{
 
+	@NotEmpty
     @Column
     private String courseName;
 
     @Column
     private String author;
 
+    @NotEmpty
     @Column
     private String coursesContact;
 
+    @NotEmpty
     @Column
     private String coursesDescription;
 

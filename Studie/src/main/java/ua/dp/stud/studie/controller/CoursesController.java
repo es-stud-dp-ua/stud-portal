@@ -1,11 +1,14 @@
 package ua.dp.stud.studie.controller;
 
+import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.model.User;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -16,21 +19,22 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
+
 import ua.dp.stud.StudPortalLib.model.ImageImpl;
 
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
+
 import ua.dp.stud.StudPortalLib.util.ImageService;
 import ua.dp.stud.StudPortalLib.model.Course;
 import ua.dp.stud.StudPortalLib.model.CoursesType;
 import ua.dp.stud.StudPortalLib.model.KindOfCourse;
 import ua.dp.stud.StudPortalLib.service.CourseService;
+import ua.dp.stud.studie.model.Studie;
 
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
-import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
 import javax.portlet.*;
+import javax.validation.Valid;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -47,7 +51,7 @@ public class CoursesController {
     private static final String BUTTON_ID = "buttonId";
     private static final String COURSE = "course";
     private static final String MAIN_IMAGE = "mainImage";
-    private static final String STR_FAIL = "fail";
+    private static final String STR_FAIL = "fails";
     private static final String ADMIN = "Administrator";
     private static final String STR_NO_IMAGE = "no images";
     private static final Logger LOG = Logger.getLogger(StudieController.class.getName());
@@ -165,11 +169,11 @@ public class CoursesController {
     }
 
     @ActionMapping(value = "editCourse")
-    public void editCourse(@ModelAttribute(COURSE) Course course,
+    public void editCourse(@ModelAttribute(COURSE) @Valid Course course,
                            ActionRequest actionRequest,
                            ActionResponse actionResponse,
                            SessionStatus sessionStatus,
-                           @RequestParam(MAIN_IMAGE) CommonsMultipartFile mainImage) {
+                           @RequestParam(MAIN_IMAGE) CommonsMultipartFile mainImage) throws IOException {
 
         if (actionRequest.isUserInRole("Administrator"))
             course.setApproved(true);
@@ -190,11 +194,13 @@ public class CoursesController {
         String screenName = user.getScreenName();
         course.setAuthor(screenName);
 
-        if (updateCourse(course, croppedImage, actionResponse)) {
-            courseService.updateCourse(course);
+        if (mainImage.getSize() > 0){
+            imageService.saveMainImage(mainImage, course);
+        }
+
+        courseService.updateCourse(course);
             actionResponse.setRenderParameter(COURSE_ID, Integer.toString(course.getId()));
             sessionStatus.setComplete();
-        }
 
 
     }
@@ -300,31 +306,22 @@ public class CoursesController {
     }
 
 
-    private Boolean updateCourse(Course newCourse, CommonsMultipartFile mainImage,
-                                ActionResponse actionResponse) {
-        boolean successUpload = true;
-        try {
-            if (mainImage.getSize() > 0){
-                imageService.saveMainImage(mainImage, newCourse);
-            }
-
-        } catch (Exception ex) {
-            LOG.log(Level.SEVERE, STR_EXEPT, ex);
-            actionResponse.setRenderParameter(STR_EXEPT, "error");
-            successUpload = false;
-        }
-
-        return successUpload;
-    }
 
 	@ActionMapping(value="saveNewCourse")
-	public void saveNewCourse(@ModelAttribute(COURSE)  Course course,
+	public void saveNewCourse(@ModelAttribute(COURSE) @Valid Course course,
+							  BindingResult bindingResult,
                               ActionRequest actionRequest,
                               ActionResponse actionResponse,
                               SessionStatus sessionStatus,
-                              @RequestParam(MAIN_IMAGE) CommonsMultipartFile mainImage)
+                              @RequestParam(MAIN_IMAGE) CommonsMultipartFile mainImage) throws IOException
     {
-        if (mainImage.getOriginalFilename().equals("")) {
+		if (bindingResult.hasErrors()) {
+			actionResponse.setRenderParameter("coursefail", "found");
+            actionResponse.setRenderParameter(STR_FAIL, "msg.fail");
+            return;
+        }
+        	if (mainImage.getOriginalFilename().equals("")) {
+        	actionResponse.setRenderParameter("coursefail", "found");
             actionResponse.setRenderParameter(STR_FAIL, STR_NO_IMAGE);
             return;
         }
@@ -343,14 +340,28 @@ public class CoursesController {
                 Integer.parseInt(actionRequest.getParameter("l")),
                 Integer.parseInt(actionRequest.getParameter("w")),
                 Integer.parseInt(actionRequest.getParameter("h"))  );
-        if (updateCourse(course, f, actionResponse)) {
+       
+        if (mainImage.getSize() > 0){
+            imageService.saveMainImage(mainImage, course);
+        }
             courseService.addCourse(course);
+            
+            actionResponse.setRenderParameter("view", "course");
             actionResponse.setRenderParameter(COURSE_ID, Integer.toString(course.getId()));
             sessionStatus.setComplete();
-        }
-
     }
 
+	@RenderMapping(params = "coursefail=found")
+	public ModelAndView showAddFailed(RenderRequest request,
+			RenderResponse response) {
+		ModelAndView model = new ModelAndView("addCourse");
+		SessionErrors.add(request, request.getParameter(STR_FAIL));
+        Collection<KindOfCourse> kindOfCourses = courseService.getAllKindOfCourse();
+        model.addObject("kindOfCourse", kindOfCourses);
+        model.addObject("coursesType", coursesType);
+		return model;
+	}
+	
     @InitBinder
     public void initBinder(WebDataBinder binder) {
         binder.setDisallowedFields("mainImage");
