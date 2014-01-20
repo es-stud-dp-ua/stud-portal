@@ -1,5 +1,6 @@
 <%@ page import="ua.dp.stud.StudPortalLib.dto.MicroBlogDto" %>
 <%@ page import="ua.dp.stud.StudPortalLib.util.CustomFunctions" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@include file="include.jsp" %>
@@ -27,7 +28,16 @@
 						</a>
 					<%}%>
 					<div class="newsHeader">
-						<a href="${linkToSingle}">${currentNews.name}</a>
+						<a href="${linkToSingle}">
+						    <c:choose>
+                                <c:when test="${fn:length(currentNews.name) gt 20}">
+                                    ${fn:substring(currentNews.name, 0, 20)}...
+                                </c:when>
+                                <c:otherwise>
+                                    ${currentNews.name}
+                                </c:otherwise>
+                            </c:choose>
+						</a>
 					</div>
 				</div>
 				<div class="reply_link_wrap">
