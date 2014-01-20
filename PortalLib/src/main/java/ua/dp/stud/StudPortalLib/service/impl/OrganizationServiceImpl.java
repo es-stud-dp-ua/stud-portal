@@ -34,6 +34,7 @@ public class OrganizationServiceImpl implements OrganizationService {
         this.dao = dao;
     }
     
+    @Autowired
     @Qualifier(value = "imageService")
     private ImageService imageService;
 
@@ -234,6 +235,6 @@ public class OrganizationServiceImpl implements OrganizationService {
                             org.getId()                                         )
                       );
         }
-           return orgDto;
+        return orgDto;
     }
 }
