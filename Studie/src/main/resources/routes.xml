@@ -7,16 +7,24 @@
         <implicit-parameter name="mode">add</implicit-parameter>
     </route>
     <route>
-        <pattern>/universities/edit/{studieID:\d+}</pattern>
+        <pattern>/universities/view/{studieID:\d+}</pattern>
+        <implicit-parameter name="mode">viewSingle</implicit-parameter>
+    </route>
+    <route>
+        <pattern>/universities/edit/{studieId:\d+}</pattern>
         <implicit-parameter name="mode">edit</implicit-parameter>
     </route>
     <route>
-        <pattern>/universities/delete/{studieID:\d+}</pattern>
+        <pattern>/universities/delete/{studieId:\d+}</pattern>
         <implicit-parameter name="mode">delete</implicit-parameter>
     </route>
     <route>
         <pattern>/councils</pattern>
         <implicit-parameter name="view">allcouncils</implicit-parameter>
+    </route>
+    <route>
+        <pattern>/councils/view/{id:\d+}</pattern>
+        <implicit-parameter name="mode">showCouncil</implicit-parameter>
     </route>
     <route>
         <pattern>/councils/add</pattern>
@@ -39,8 +47,12 @@
         <implicit-parameter name="view">allcourses</implicit-parameter>
     </route>
     <route>
+        <pattern>/courses/view/{courseId:\d+}</pattern>
+        <implicit-parameter name="view">course</implicit-parameter>
+    </route>
+    <route>
         <pattern>/courses/add</pattern>
-        <implicit-parameter name="add">courses</implicit-parameter>
+        <implicit-parameter name="add">course</implicit-parameter>
     </route>
     <route>
         <pattern>/courses/edit/{courseId:\d+}</pattern>
@@ -64,14 +76,14 @@
     </route>
     <route>
         <pattern>/online_courses/edit/{id:\d+}</pattern>
-        <implicit-parameter name="edit">onlineCourse</implicit-parameter>
+        <implicit-parameter name="view">editOnlineCourse</implicit-parameter>
     </route>
     <route>
         <pattern>/online_courses/delete/{id:\d+}</pattern>
-        <implicit-parameter name="delete">onlineCourse</implicit-parameter>
+        <implicit-parameter name="view">deleteOnlineCourse</implicit-parameter>
     </route>
     <route>
-        <pattern>/online_courses/view/courses_categories</pattern>
+        <pattern>/online_courses/view/online_courses_categories</pattern>
         <implicit-parameter name="view">onlineCoursesCategories</implicit-parameter>
     </route>
     <route>
@@ -83,18 +95,10 @@
         <implicit-parameter name="view">allGrants</implicit-parameter>
     </route>
     <route>
+        <pattern>/grants/add</pattern>
+        <implicit-parameter name="add">grant</implicit-parameter>
+    </route>
+    <route>
         <pattern>/universities</pattern>
-    </route>
-    <route>
-        <pattern>/universities/view/{studieID:\d+}</pattern>
-    </route>
-    <route>
-        <pattern>/councils/view/{councilID:\d+}</pattern>
-    </route>
-    <route>
-        <pattern>/councils/view/{councilId:\d+}</pattern>
-    </route>
-	<route>
-        <pattern>/courses/view/{courseId:\d+}</pattern>
     </route>
 </routes>
