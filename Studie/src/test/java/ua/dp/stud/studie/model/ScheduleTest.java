@@ -63,20 +63,6 @@ public class ScheduleTest {
         instance.setScheduleFile(fileSaver);
     }
 
-    @Test
-    public void TestGetDate()
-    {
-        Date expResult = null;
-        Date result = instance.getLastUpdateDate();
-        assertEquals(expResult,result);
-    }
-
-    @Test
-    public void TestSetDate()
-    {
-        Date date = new Date();
-        instance.setLastUpdateDate(date);
-    }
 
 
 

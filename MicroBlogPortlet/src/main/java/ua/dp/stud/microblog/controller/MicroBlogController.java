@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
+import ua.dp.stud.StudPortalLib.dto.MicroBlogDto;
 import ua.dp.stud.StudPortalLib.model.News;
 import ua.dp.stud.StudPortalLib.service.NewsService;
 
@@ -57,7 +58,8 @@ public class MicroBlogController {
         ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
         long groupId = themeDisplay.getScopeGroupId();
         Long plid = LayoutLocalServiceUtil.getDefaultPlid(groupId, false, NEWS_ARCHIVE_REFERENCE_NAME);
-        model.addObject("newsList", news);
+        Collection<MicroBlogDto> microBlogDto = newsService.getDtoMicroBlog(news);
+        model.addObject("microBlogDto", microBlogDto);
         model.addObject("newsArchivePageID", plid);
         return model;
     }

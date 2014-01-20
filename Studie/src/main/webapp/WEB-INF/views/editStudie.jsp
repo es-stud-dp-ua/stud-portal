@@ -64,10 +64,20 @@
             <div style="width: 460px;">
                 <div style="height: 300px;">
                     <div id="lup"></div>
-                    <div id="mainPic"
-                         style="background: url(${pageContext.request.contextPath}/images/mainpic_443x253.png) no-repeat">
-                    <!-- Output for our douwnload Image-->
-                    <output id="list"></output>
+                    <c:choose>
+                        <c:when test='${mainImage == null}' >
+                            <div id="mainPic" "
+                                style="background: url(${pageContext.request.contextPath}/images/mainpic_443x253.png) no-repeat">
+                                <output id="list"></output>
+                            </div>
+                    	</c:when>
+                        <c:otherwise>
+                            <div id="mainPic" style="vertical-align: top; ">
+                                <img id="img" style="vertical-align: top; " src="${mainImage}"/>
+                                <output id="list"></output>
+                            </div>
+                        </c:otherwise>
+                    </c:choose>
                 </div>
                 <div id="rdn"></div>
             </div>

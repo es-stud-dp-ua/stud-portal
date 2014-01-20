@@ -25,6 +25,7 @@ public class FileService {
     private static final String DATA_FOLDER;
     private static final String FOLDER_SEPARATOR;
     private static final String FILE_FOLDER;
+    static final String FILE_URL_PREFIX = "/mediastuff/";
 
     static
     {
@@ -81,8 +82,8 @@ public class FileService {
         }
     }
 
-    public boolean uploadFile(FileSaver file, CommonsMultipartFile fileSrc,EntityWithFile entity) throws IOException {
-        checkPathToFileFolder( file, entity);
+    public FileSaver uploadFile(FileSaver file, CommonsMultipartFile fileSrc,EntityWithFile entity) throws IOException {
+       checkPathToFileFolder( file, entity);
         StringBuilder pathToFileFolder =new StringBuilder( this.generatePathToFile(entity));
         pathToFileFolder.append(FOLDER_SEPARATOR);
         boolean filecreate = false;
@@ -94,8 +95,9 @@ public class FileService {
             if(createdFilePath != null)
                 filecreate = true;
          } catch (FileNotFoundException e) {}
-        file.setOriginalFileName(file1.getName());
-       return  filecreate;
+        //file.setOriginalFileName(file1.getName());
+         file=new FileSaver(file1.getName())  ;
+       return  file;
    }
 
     private String writeFile(FileOutputStream out, File file, CommonsMultipartFile fileSrc)
@@ -113,10 +115,9 @@ public class FileService {
     }
 
     public String downloadFile(FileSaver file, EntityWithFile entity) throws IOException {
-        StringBuilder path = new StringBuilder(DATA_FOLDER);
+        StringBuilder path = new StringBuilder(FILE_URL_PREFIX);
         path.append(FOLDER_SEPARATOR);
         path.append( FILE_FOLDER );
-        path.append(FOLDER_SEPARATOR);
         for (String s: entity.getEntityNameForPath())
             {
                 path.append(FOLDER_SEPARATOR).append(s);
@@ -130,9 +131,12 @@ public class FileService {
         StringBuilder path=new StringBuilder();
         path.append(generatePathToFile(entity));
         path.append(FOLDER_SEPARATOR);
-        path.append(base.getOriginalFileName());
+       if (base != null)
+         path.append(base.getOriginalFileName());
         File file=new File(path.toString());
-        if (!(file.exists()))
+     //  file.delete();
+
+       if (!(file.exists()))
             file.mkdirs();
 
     }

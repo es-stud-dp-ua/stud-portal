@@ -5,52 +5,6 @@
              <input type="hidden" size="0" id="w" name="w" value="100"/>
              <input type="hidden" size="0" id="h" name="h" value="100"/>
              <form:input type="hidden" path="id"/>
-<script>
-                    function handleFileSelect(evt) {
-                    var files = evt.target.files; // FileList object
-                    // Loop through the FileList and render image files as thumbnails.
-                    var f = files[files.length - 1];
-
-                    // Only process im11age files.
-                    document.getElementById('list').innerHTML = '';
-                    var reader = new FileReader();
-                    // Closure to capture the file information.
-                    reader.onload = (function (theFile) {
-                        return function (e) {
-                            // Render thumbnail.
-                            var span = document.createElement('span');
-                            span.innerHTML = ['<img id="cropbox" class="thumb" width="443px" src="', e.target.result,
-                                '" title="', escape(theFile.name), '"/>'].join('');
-                            document.getElementById('list').insertBefore(span, null);
-                            a();
-                        };
-                        a();
-                    })(f);
-                    // Read in the image file as a data URL.
-                    reader.readAsDataURL(f);
-                    a();
-                    }
-
-                function a() {
-                            jQuery('#cropbox').Jcrop({onChange: setCoords, onSelect: setCoords, bgColor: 'black',
-                                    bgOpacity: .4,
-                                    setSelect: [100, 0, 253, 353],
-                                    aspectRatio: 1});
-                            }
-
-                function setCoords(c) {
-                            jQuery('#x1').val(c.x);
-                                    jQuery('#y1').val(c.y);
-                                    jQuery('#x2').val(c.x2);
-                                    jQuery('#y2').val(c.y2);
-                                    jQuery('#w').val(c.w);
-                                    jQuery('#h').val(c.h);
-                            }
-
-                            $(document).ready(function () {
-                		    document.getElementById('mainImage').addEventListener('change', handleFileSelect, false);
-                    })
-            </script>
 
        <div style="padding-left: 230px">
 
@@ -142,10 +96,103 @@
                                 <div id="sbm" style="padding-left: 125px">
                                     <input type="submit" value="<spring:message
                                            code='<%=(request.isUserInRole("Administrator"))?"course.add"
-                                                                                                                 :"form.submit.user"%>'/>"/>
+                                                                                                      :"form.submit.user"%>'/>"/>
                                 </div>
                         </div>
             </div>
 
      </div>
+     <script>
+                    function handleFileSelect(evt) {
+                    var files = evt.target.files; // FileList object
+                    // Loop through the FileList and render image files as thumbnails.
+                    var f = files[files.length - 1];
+
+                    // Only process im11age files.
+                    document.getElementById('list').innerHTML = '';
+                    var reader = new FileReader();
+                    // Closure to capture the file information.
+                    reader.onload = (function (theFile) {
+                        return function (e) {
+                            // Render thumbnail.
+                            var span = document.createElement('span');
+                            span.innerHTML = ['<img id="cropbox" class="thumb" width="443px" src="', e.target.result,
+                                '" title="', escape(theFile.name), '"/>'].join('');
+                            document.getElementById('list').insertBefore(span, null);
+                            a();
+                        };
+                        a();
+                    })(f);
+                    // Read in the image file as a data URL.
+                    reader.readAsDataURL(f);
+                    a();
+                    }
+
+                function a() {
+                            jQuery('#cropbox').Jcrop({onChange: setCoords, onSelect: setCoords, bgColor: 'black',
+                                    bgOpacity: .4,
+                                    setSelect: [100, 0, 253, 353],
+                                    aspectRatio: 1});
+                            }
+
+                function setCoords(c) {
+                            jQuery('#x1').val(c.x);
+                                    jQuery('#y1').val(c.y);
+                                    jQuery('#x2').val(c.x2);
+                                    jQuery('#y2').val(c.y2);
+                                    jQuery('#w').val(c.w);
+                                    jQuery('#h').val(c.h);
+                            }
+
+                            $(document).ready(function () {
+                		    document.getElementById('mainImage').addEventListener('change', handleFileSelect, false);
+                    })
+                    
+                    
+                            $("#jform").on("submit",function(event){
+
+                         document.getElementById('text1').innerHTML = CKEDITOR.instances.text.getData();
+
+                                                                                 });
+                                 $(document).ready(function() {
+                         $.validator.setDefaults({ ignore: [] });
+                                 $('#jform').validate({
+                         rules: {
+                         courseName: {
+                       			  required: true,
+                         },
+                         mainImage: { 
+                        	 required: true,
+                         },
+                         coursesDescription: {
+                         			required: true,
+                         },
+                         coursesContact: {
+                         			required: true,
+                         },
+                                 messages: {
+                         courseName: {
+                         required: "<spring:message code="val.required"/>"
+                         },
+                         mainImage:{
+                        	 required: "<spring:message code="val.required"/>"
+                         },
+                         coursesDescription: {
+                         required: "<spring:message code="val.required"/>"
+                         },
+                         coursesContact: {
+                         required: "<spring:message code="val.required"/>"
+                         },
+                                 highlight: function(label) {
+                         $(label).removeClass("invisiblevalid");
+                                 $(label).closest('.control-group').addClass('error');
+                         },
+                                 success: function(label) {
+                         $(label).removeClass("error");
+                                 label.addClass("invisiblevalid");
+                         }
+                         });
+                         });
+            </script>
+     
 </form:form>

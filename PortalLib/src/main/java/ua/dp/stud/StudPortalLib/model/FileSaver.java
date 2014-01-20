@@ -10,12 +10,13 @@ import java.io.Serializable;
 @Entity
 public class FileSaver implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+
     private Long id;
     @Column
     private String originalFileName;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public Long getId() {
         return id;
     }
@@ -40,24 +41,12 @@ public class FileSaver implements Serializable {
                 '}';
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof FileSaver)) return false;
-
-        FileSaver fileSaver = (FileSaver) o;
-
-        if (!id.equals(fileSaver.id)) return false;
-        if (originalFileName != null ? !originalFileName.equals(fileSaver.originalFileName) : fileSaver.originalFileName != null)
-            return false;
-
-        return true;
+   public FileSaver(String originalFileName )
+    {
+        this.originalFileName = originalFileName;
     }
 
-    @Override
-    public int hashCode() {
-        int result = id.hashCode();
-        result = 31 * result + (originalFileName != null ? originalFileName.hashCode() : 0);
-        return result;
-    }
+    public FileSaver(){}
 }
+
+
