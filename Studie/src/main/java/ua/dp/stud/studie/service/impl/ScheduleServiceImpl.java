@@ -30,8 +30,8 @@ public class ScheduleServiceImpl implements ScheduleService{
 
     @Override
     @Transactional(readOnly = false)
-    public void addSchedule(Schedule schedule) {
-        dao.addSchedule(schedule);
+    public /*void*/Schedule addSchedule(Schedule schedule) {
+        return dao.addSchedule(schedule);
     }
 
     @Override

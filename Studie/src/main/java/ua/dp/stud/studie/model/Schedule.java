@@ -70,7 +70,7 @@ public class Schedule implements Serializable, EntityWithFile {
         this.faculty=null;
         this.year= Course.FIRST;
         this.scheduleFile =null;
-        this.lastUpdateDate=null;
+        this.lastUpdateDate=new Date();
     }
    public Schedule(Faculties faculty, Course year, FileSaver scheduleFileFolder, Date lastUpdateDate)
     {

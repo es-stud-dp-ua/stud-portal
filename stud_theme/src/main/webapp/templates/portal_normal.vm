@@ -29,6 +29,7 @@
     #css ("$css_folder/jquery-ui-1.10.1.custom.min.css")
     #css ("$css_folder/jquery.qtip.css")
     #css ("$css_folder/carousel.css")
+    #css ("$javascript_folder/ckeditor/contents.css")
 
     #css ("$css_folder/jquery.Jcrop.css")
 

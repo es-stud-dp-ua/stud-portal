@@ -7,7 +7,7 @@
         <portlet-name>Studie</portlet-name>
         <friendly-url-mapper-class>com.liferay.portal.kernel.portlet.DefaultFriendlyURLMapper
         </friendly-url-mapper-class>
-        <friendly-url-mapping>Studie</friendly-url-mapping>
+        <friendly-url-mapping>study</friendly-url-mapping>
         <friendly-url-routes>/routes.xml</friendly-url-routes>
         <instanceable>false</instanceable>
         <header-portlet-css>/css/main.css</header-portlet-css>

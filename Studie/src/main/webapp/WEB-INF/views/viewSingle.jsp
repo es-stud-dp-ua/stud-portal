@@ -148,7 +148,15 @@
 				<div class="ownGelery" style="margin-left: 5px;">
 					<a class="fancybox-thumbs" data-fancybox-group="thumb"
 					   href="<%=imageService.getPathToLargeImage(image, studie) %>"
-					   <% if (request.isUserInRole("Administrator")) { %>title='<a href="<portlet:renderURL/>&imageId=<%=image.getId()%>&mode=delImage" onclick="return ConfirmImage()"> <spring:message code="form.delete"/></a>'<%}%>>
+					   <% if (request.isUserInRole("Administrator")) { %>
+					    <portlet:renderURL var="deleteImgLink">
+                       	    <portlet:param name="studieID" value="<%=studie.getId().toString()%>"/>
+                            <portlet:param name="imageId" value="<%=image.getId().toString()%>"/>
+                            <portlet:param name="mode" value="delImage"/>
+                        </portlet:renderURL>
+
+					   title='<a href="${deleteImgLink}" onclick="return ConfirmImage()"> <spring:message code="form.delete"/></a>'
+					   <%}%>>
 						<img src="<%=imageService.getPathToSmallImage(image, studie) %>" alt=""/>
 					</a>
 				</div>
@@ -160,7 +168,8 @@
 		$(window).load(function () {
 			var size = 0;
 			$('.ownGelery').each(function () {
-				size = $(this).find('img').height();
+				size1 = $(this).find('img').height();
+				if (size1 > size) {size = size1;}
 				$(this).width($(this).find('img').width());
 				$(this).height($(this).find('img').height());
 			});

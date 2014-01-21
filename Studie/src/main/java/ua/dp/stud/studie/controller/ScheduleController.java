@@ -14,6 +14,7 @@ import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
+import ua.dp.stud.StudPortalLib.model.FileSaver;
 import ua.dp.stud.studie.model.*;
 import ua.dp.stud.StudPortalLib.util.FileService;
 import ua.dp.stud.studie.service.FacultiesService;
@@ -74,17 +75,7 @@ public class ScheduleController {
         return new Schedule();
     }
 
-    @RenderMapping(params = "view=download")
-    public ModelAndView downloadFiles(RenderRequest request, RenderResponse response) throws IOException
-    {
-        ModelAndView model = new ModelAndView("schedule");
-        Faculties faculty=facultiesService.getFacultyByID(Integer.parseInt(request.getParameter("faculty_id")));
-        Course year=Course.valueOf(request.getParameter("year"))  ;
-        Schedule schedule=scheduleService.getScheduleByFacultyAndYear(faculty,year);
-        String pathToFile=fileService.downloadFile(schedule.getScheduleFile(),schedule);
-        model.addObject("pathToFile",pathToFile);
-        return model;
-    }
+
 
     @ActionMapping(value = "uploadSchedule")
         public void uploadFiles(@ModelAttribute() Schedule schedule,
@@ -93,31 +84,28 @@ public class ScheduleController {
                 SessionStatus sessionStatus,
                 @RequestParam(FILESCHEDULE) CommonsMultipartFile scheduleFile) throws IOException
     {
-        schedule.setFaculty(facultiesService.getFacultyByID(Integer.parseInt(actionRequest.getParameter("faculty_id"))));
-        schedule.setYear(ua.dp.stud.studie.model.Course.valueOf(actionRequest.getParameter("year")));
-        fileService.uploadFile(schedule.getScheduleFile(),scheduleFile,schedule);
-    }
 
-    @ResourceMapping(value = "uploadSchedule")
-    public void addMember(ResourceResponse response, ResourceRequest request) throws IOException {
-        UploadPortletRequest upload = PortalUtil.getUploadPortletRequest(request);
-        Integer facultyId = Integer.parseInt(upload.getParameter("facultyId"));
-        Course course = Course.valueOf(upload.getParameter("year"));
-        File file = upload.getFile("file");
-        response.getWriter().println(file.getName());
-        Schedule sch = new Schedule();
-        sch.setFaculty(facultiesService.getFacultyByID(facultyId));
-        sch.setYear(course);
-        //sch.setScheduleFile();
+        schedule.setFaculty(facultiesService.getFacultyByID(schedule.getFaculty().getId()));
+        FileSaver file = fileService.uploadFile(schedule.getScheduleFile(), scheduleFile, schedule);
+        schedule.setFile(file);
+        scheduleService.addSchedule(schedule);
+
+        actionResponse.setRenderParameter("status", "true");
+        actionResponse.setRenderParameter("view","schedule");
 
     }
+
 
     @RenderMapping(params = "view=schedule")
     public ModelAndView showView(RenderRequest request, RenderResponse response) {
         ModelAndView model = new ModelAndView();
+        boolean status = false;
+        status=Boolean.valueOf(request.getParameter("status"));
         Collection<Studie> studies = studieService.getAllStudies();
         model.addObject("study", studies);
+
         model.setViewName("schedule");
+        model.addObject("status",status);
         return model;
     }
 
@@ -134,15 +122,15 @@ public class ScheduleController {
     }
 
     @ResourceMapping(value = "getSchedule")
-    public void getSchedule(ResourceResponse response,  ResourceRequest request,
+    public void getSchedule( ResourceResponse response,  ResourceRequest request,
                             @RequestParam(required = true) Integer facultyId,
                             @RequestParam(required = true) String year) throws Exception
     {
         StringBuilder s = new StringBuilder();
-        //Faculties faculty = facultiesService.getFacultyByID(facultyId);
-        //Course course = Course.valueOf(year);
-        //Schedule schedule = scheduleService.getScheduleByFacultyAndYear(faculty, course);
-        String pathToFile = "SOME LINK";/*fileService.downloadFile(schedule.getScheduleFile(), schedule);*/
+        String pathToFile="";
+        Faculties faculty = facultiesService.getFacultyByID(facultyId);
+        Schedule schedule1 = scheduleService.getScheduleByFacultyAndYear(faculty, Course.valueOf(year));
+        pathToFile = fileService.downloadFile(schedule1.getScheduleFile(), schedule1);
         s.append(pathToFile);
         response.getWriter().println(s);
     }
