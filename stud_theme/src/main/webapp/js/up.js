@@ -84,7 +84,7 @@
 
 jQuery.extend(jQuery.fn, {
     toplinkwidth: function () {
-        totalContentWidth = jQuery('#content').outerWidth(); // ширина блока с контентом, включая padding
+    	totalContentWidth = jQuery('#content').outerWidth(); // ширина блока с контентом, включая padding
         totalTopLinkWidth = jQuery('#top-link').children('a').outerWidth(true); // ширина самой кнопки наверх, включая padding и margin
         h = jQuery(window).width() / 2 - totalContentWidth / 2 - totalTopLinkWidth;
         if (h < 0) {
@@ -99,14 +99,15 @@ jQuery.extend(jQuery.fn, {
     }
 });
 
+
 jQuery(function ($) {
     var topLink = $('#top-link');
     topLink.css({'padding-bottom': $(window).height()});
-
     $(window).scroll(function () {
         if ($(window).scrollTop() >= 1) {
             topLink.fadeIn(300).children('a').html('<div id="arrow-up" ></div>').parent().removeClass('bottom_button').addClass('top_button');
         } else {
+        	
             topLink.children('a').html('<div id="arrow-down"></div>').parent().removeClass('top_button').addClass('bottom_button');
         }
     });
