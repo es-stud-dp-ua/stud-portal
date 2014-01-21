@@ -87,7 +87,8 @@
 	<br />
 	<br />
 	<br />
-<form id="members" name="members"> 
+<form id="members" name="members">
+
 <div id='newMember'>
 
 				<%if (council.getCouncilMembers()!=null) {
