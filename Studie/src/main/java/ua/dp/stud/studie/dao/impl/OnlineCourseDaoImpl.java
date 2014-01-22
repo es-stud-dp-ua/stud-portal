@@ -92,7 +92,11 @@ public class OnlineCourseDaoImpl implements OnlineCourseDao
     @Override
     public List<OnlineCourseType> getAllOnlineCourseType()
     {
-        return getSession().createCriteria(OnlineCourseType.class).list();
+    	 List<OnlineCourseType> list = getSession().createCriteria(OnlineCourseType.class).list();
+    	 for(OnlineCourseType type:list){
+    		 Hibernate.initialize(type.getOnlineCourse());
+    	 }
+        return list;
     }
 
 	@Override
@@ -106,7 +110,7 @@ public class OnlineCourseDaoImpl implements OnlineCourseDao
 
     @Override
     public void initializeCountOfCourses(OnlineCourseType onlineCourseType){
-        Query q = getSession().createQuery("SELECT count(id) FROM Course WHERE kindOfCourse="+onlineCourseType.getId().toString());
+        Query q = getSession().createQuery("SELECT count(id) FROM OnlineCourse WHERE onlineCourseType="+onlineCourseType.getId().toString());
         onlineCourseType.setCountOfCourses((Long) q.uniqueResult());
     };
 }

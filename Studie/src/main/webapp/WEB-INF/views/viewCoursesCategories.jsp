@@ -32,7 +32,7 @@
                     <div style="display:inline;" id='changeBut_${cat.id}' class="icon-pcppencil fs20" onclick="makeInputEditable(${cat.id});" aria-hidden="true"></div>
                     <div style="display:none; font-size:25px;" id='saveBut_${cat.id}' class="icon-pcpsave" onclick="rename('${cat.id}');" aria-hidden="true"></div>
                     <c:if test="${cat.countOfCourses==0}">
-                        <div style="display:inline;" id='removeBut_${cat.id}' class="icon-pcpremove fs20" onclick="removeKind(${cat.id});" aria-hidden="true"></div>
+                        <div style="display:inline;" id='removeBut_${cat.id}' class="icon-pcpremove fs20" onclick="removeKind(${cat.id});" aria-hidden="true">${cat.countOfCourses}</div>
                     </c:if>
                 </div>
             </c:forEach>
