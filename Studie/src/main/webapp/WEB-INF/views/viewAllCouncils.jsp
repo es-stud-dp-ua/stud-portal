@@ -25,6 +25,7 @@
     </head>
     <body>
     <liferay-ui:success  key="successAdd" message='Stud council was successfully added! '/>
+    <liferay-ui:success  key="successEdit" message='Stud council was successfully edited! '/>
     <portlet:renderURL var="LinkAddCouncil">
         <portlet:param name="add" value="council"/>
     </portlet:renderURL>

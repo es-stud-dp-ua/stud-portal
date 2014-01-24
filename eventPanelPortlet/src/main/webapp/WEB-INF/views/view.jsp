@@ -232,28 +232,28 @@
                  dataclass="adminNews" title="<spring:message code="viewAll.News"/>">
                 <span aria-hidden="true" class="icon-office"></span>
             </div>
-            <c:if test="${adminNewsSize > 0}"><span id="count">${adminNewsSize}</span></c:if>
+            <c:if test="${adminNewsSize > 0}"><span class="count_adminNews" id="count">${adminNewsSize}</span></c:if>
         </div>
         <div id="elem">
             <div class="event <%if (adminOrgSize > 0){%> newEvent <%}%>" rel="<portlet:renderURL/>&mode=pagination"
                  dataclass="adminCommunity" title="<spring:message code="viewAll.Communities"/>">
                 <span aria-hidden="true" class="icon-share"></span>
             </div>
-            <c:if test="${adminOrgSize > 0}"><span id="count">${adminOrgSize}</span></c:if>
+            <c:if test="${adminOrgSize > 0}"><span class="count_adminCommunity" id="count">${adminOrgSize}</span></c:if>
         </div>
 		<div id="elem">
             <div class="event <%if (adminEventsSize > 0){%> newEvent <%}%>" rel="<portlet:renderURL/>&mode=pagination"
                  dataclass="adminEvents" title="<spring:message code="viewAll.adminEvents"/>">
                 <span aria-hidden="true" class="icon-bubbles"></span>
             </div>
-            <c:if test="${adminEventsSize > 0}"><span id="count">${adminEventsSize}</span></c:if>
+            <c:if test="${adminEventsSize > 0}"><span class="count_adminEvents" id="count">${adminEventsSize}</span></c:if>
         </div>
         <div id="elem">
                     <div class="event <%if (adminCoursesSize > 0){%> newEvent <%}%>" rel="<portlet:renderURL/>&mode=pagination"
                          dataclass="adminCourses" title="<spring:message code="viewAll.adminCourses"/>">
                         <span aria-hidden="true" class="icon-stackoverflow"></span>
                     </div>
-                    <c:if test="${adminCoursesSize > 0}"><span id="count">${adminCoursesSize}</span></c:if>
+                    <c:if test="${adminCoursesSize > 0}"><span class="count_adminCourses" id="count">${adminCoursesSize}</span></c:if>
         </div>
     </div>
 </div>
@@ -286,7 +286,8 @@
         });
     }
     function approve(currentPage, modelView, objectId, appr, comment) {
-        $.ajax({
+        var count = $(".count_"+modelView).text();
+    	$.ajax({
             url: "<portlet:renderURL/>&mode=approve",
             cache: false,
             data: {currentPage: currentPage, modelView: modelView, objectId: objectId, appr: appr, comment:comment},
@@ -296,6 +297,12 @@
             success: function (data) {
                 var myNews = $("." + modelView);
                 myNews.html($('.' + modelView, data));
+               if(count-1==0){
+                $(".count_"+modelView).remove();
+                $("#eventContainer").remove();
+               } else {
+            	   $(".count_"+modelView).html(count-1);
+               }
             }
         });
     }

@@ -23,7 +23,7 @@
                 text-indent: -9999px;
             }
             label.error {
-                font-weight: bold;
+                font-weight: bold;s
                 color: red;
                 padding: 2px 8px;
                 margin-top: 2px;
@@ -31,7 +31,7 @@
         </style>
 </head>
 <body>
-
+<liferay-ui:error  key="image" message='Please, select a picture! '/>
 <portlet:actionURL var="addEdit" name="saveOnlineCourse"></portlet:actionURL>
 <%@include file="addEditOnlineCourse.jsp" %>
 

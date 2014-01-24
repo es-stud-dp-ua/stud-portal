@@ -1586,7 +1586,7 @@ input.print-button[type="submit"] {
 
 #top-link a {
     display: block;
-    width: 70px;
+    width: 30px;
     text-align: center;
     /*background: #333;*/
     color: white;
@@ -1604,7 +1604,7 @@ input.print-button[type="submit"] {
     height: 50px;
     width: 40px;
     margin-top: 10px;
-    margin-left: 10px;
+    margin-left: -10px;
 }
 
 #arrow-down {
@@ -1612,7 +1612,7 @@ input.print-button[type="submit"] {
     height: 50px;
     width: 40px;
     margin-top: 10px;
-    margin-left: 10px;
+    margin-left: -10px;
 }
 
 .pagination-left {

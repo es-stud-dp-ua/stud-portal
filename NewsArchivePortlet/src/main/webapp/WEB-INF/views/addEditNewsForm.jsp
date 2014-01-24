@@ -56,7 +56,7 @@
                     </div>
                 </div>
             </div>
-            <div id="sbm" style="position: absolute;left: 43%"> <input type="submit" value="<spring:message code='<%=(request.isUserInRole("Administrator"))?"form.submit.save" :"form.submit.user"%>'/>"/></div>
+            <div id="sbm" style="position: absolute;left: 43%"> <input type="submit" value="<spring:message code='<%=((request.isUserInRole("Administrator"))||(request.isUserInRole("Press")))?"form.submit.save" :"form.submit.user"%>'/>"/></div>
             </form:form>
                <script >
                function handleFileSelect(evt) {
