@@ -31,7 +31,15 @@
 		        <portlet:renderURL var="categories">
                     <portlet:param name="view" value="onlineCoursesCategories"/>
                 </portlet:renderURL>
-		        <a href="${categories}"><div style="display:inline;" id='changeBut' class="icon-pcppencil fs20" aria-hidden="true"></div></a>
+
+					<select>
+					    <c:forEach var="postProfile" items="${onlineCourseTypes}">
+					    <option>
+					        <c:out value="${postProfile.kindOfCourse}" />
+					    </option>
+					    </c:forEach>
+					</select>		      
+				 <a href="${categories}"><div style="display:inline;" id='changeBut' class="icon-pcppencil fs20" aria-hidden="true"></div></a>
 		    
 		       <portlet:renderURL var="LinkAddCourse">
        				 <portlet:param name="add" value="onlineCourse"/>
