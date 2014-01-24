@@ -81,4 +81,9 @@ public class BannerImageServiceImpl implements BannerImageService {
         }
         return dto;
     }
+
+    @Transactional(readOnly = true)
+	public Long countBannerImage() {
+		return dao.countBannerImage();
+	}
 }
