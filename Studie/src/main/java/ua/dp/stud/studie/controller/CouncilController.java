@@ -175,13 +175,23 @@ public class CouncilController {
         councilService.updateCouncilMembers(oldCouncilMember);
 
         JSONObject resultJson=new org.json.JSONObject();
-        resultJson.put("memberId",member.getId());
-        resultJson.put("microBlogImg",imageService.getPathToMicroblogImage(member.getMainImage(),member));
-        resultJson.put("largeImg", imageService.getPathToLargeImage(member.getMainImage(), member));
+        resultJson.put("member_Id",newId);
+        String pathToMicroBlogImg= imageService.getPathToMicroblogImage(member.getMainImage(),member);
+        if (pathToMicroBlogImg==null)
+            pathToMicroBlogImg="${pageContext.request.contextPath}/images/mainpic_443x253.png";
+        resultJson.put("microBlogImg",pathToMicroBlogImg);
+        String pathToLargeImg= imageService.getPathToLargeImage(member.getMainImage(),member);
+        if (pathToLargeImg==null)
+            pathToLargeImg="${pageContext.request.contextPath}/images/mainpic_443x253.png";
+        resultJson.put("largeImg", pathToLargeImg);
         boolean isPresent=(member.getMainImage()!= null);
         resultJson.put("mainImgIsPresent",isPresent);
-        response.setContentType("application/json");
-        response.getWriter().print(resultJson) ;
+        resultJson.put("position_m",position);
+        resultJson.put("contact_m",contact);
+        resultJson.put("name_m",name);
+        resultJson.put("div_Id","member_"+newId);
+        //response.setContentType("application/json");
+        response.getWriter().print(resultJson.toString()) ;
         response.getWriter().flush();
 
 	}

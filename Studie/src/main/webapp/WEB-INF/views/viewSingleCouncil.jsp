@@ -197,87 +197,6 @@
 
 
 
-    <div id='member_$id$' class='memberList' style='display:none'>
-        <fieldset id='memberField_$id$'>
-            <div id='each_$id$' style='float:left; display:inline'>
-                <c:if test="m_isPresent_m" >
-                   <img id='image_$id$' src=m_urlSmall_m style='float: left'>
-                </c:if>
-                <div style='float: left'>
-                    <div id='position_$id$'>
-                        <i> m_position_m </i>
-                    </div>
-                    <div id='name_$id$'>
-                        <b>m_name_m</b>
-                    </div>
-                    <div id='contact_$id$'>
-                        m_contact_m
-                    </div>
-                </div>
-            </div>
-
-            <div style='display:inline; float:right' class='icon-pcpremove fs20'
-                onclick="removeMember(m_id_m)" aria-hidden='true'>
-            </div>
-            <div style='display:inline; float:right'   class='icon-pcppencil fs20'
-                onclick="editMember(m_id_m)" aria-hidden='true'>
-            </div>
-            <div style='display: inline; float: right' class='icon-pcparrow-up fs20'
-                onclick="memberUp(m_id_m)" aria-hidden='true'>
-            </div>
-            <div style='display: inline; float: right' class='icon-pcparrow-down fs20'
-		        onclick="memberDown(m_id_m)" aria-hidden='true'>
-		    </div>
-        
-		    <div id='edit_$id$'  style='display:none; float:left'>
-                <div style='left: 30%;' style='width: 460px;'>
-                    <div style='height: 300px;'>
-                      <c:if test="m_isPresent_m" >
-                        <div id='mainPic'>
-                            <img id='img_$id$' style='vertical-align: top; ' src=m_urlLarge_m/>
-                            <output id='edit_list_$id$' class='edit_list'></output>
-                        </div>
-                       </c:if>
-                      <c:if test="not m_isPresent_m" >
-                        <div id='mainPic'>
-                            <img id='img_$id$' style='vertical-align: top; ' src='${pageContext.request.contextPath}/images/mainpic_443x253.png"'/>
-                            <output id='edit_list_$id$' class='edit_list'></output>
-                        </div>
-                      </c:if>
-                    </div>
-                </div>
-
-                <div style='left: 30%;' id='mainImageLoader'>
-                    <div id='mainImgloaderBtn'>
-                        <input type='file' id='editImage_$id$' class='editImage' accept='image/jpeg,image/png,image/gif'/>
-                        <div id='nt'><p>...</p></div>
-                    </div>
-                </div>
-
-                <div id='labels_edit_name'>
-                    <spring:message code='form.councilMemberName'/>
-                </div>
-                <input id='edit_name_$id$' type='text'
-                    value=m_name_m />
-                <div id='labels_edit_position'>
-                    <spring:message code='form.councilMemberPosition'/>
-                </div>
-                <input id='edit_position_$id$' type='text'
-                    value=m_position_m />
-                <div id='labels_edit_contact'>
-                    <spring:message code='form.councilMemberContact'/>
-                </div>
-                <textarea id='edit_contact_$id$' COLS='60' ROWS='5'>
-                    m_contact_m
-                </textarea>  <br/>
-                <input type='button' value='Save'
-                 onclick="updateMember(m_id_m)"/>
-                    <input type='button' value='Cancel'
-                     onclick="cancelUpdateMember(m_id_m)"/>
-            </div>
-        </fieldset>  <br/>
-
-    </div>
 
 
 
@@ -304,7 +223,7 @@
         		});
 			
 			
-			    });
+			    })
              </script>
 	<br />
 
@@ -379,7 +298,41 @@
               }
 			});
 	}
-       		
+
+       	function showMember(data)
+       	{
+       	    var obj = jQuery.parseJSON(data);
+       	    var newText="<div id='member_"+obj.member_Id+"' class='memberList' >";
+            newText=newText+"<fieldset id='memberField_"+obj.member_Id+"'>";
+            newText=newText+"<div id='each_"+obj.member_Id+"' style='float:left; display:inline'>";
+
+            newText=newText+"<img id='image_"+obj.member_Id+"' src='"+obj.microBlogImg+"' style='float: left'> ";
+            newText=newText+"<div style='float: left'> <div id='position_"+obj.member_Id+"'> <i>"+obj.position_m+"</i> </div>";
+            newText=newText+"<div id='name_"+obj.member_Id+"'> <b>"+obj.name_m+"</b> </div>";
+            newText=newText+"<div id='contact_"+obj.member_Id+"'>"+obj.contact_m+"</div> </div> </div>";
+            newText=newText+"<div style='display:inline; float:right' class='icon-pcpremove fs20' onclick='removeMember("+obj.member_Id+")' aria-hidden='true'> </div>";
+            newText=newText+"<div style='display:inline; float:right'   class='icon-pcppencil fs20' onclick='editMember("+obj.member_Id+")' aria-hidden='true'> </div>";
+            newText=newText+"<div style='display: inline; float: right' class='icon-pcparrow-up fs20' onclick='memberUp("+obj.member_Id+")' aria-hidden='true'> </div>";
+            newText=newText+"<div style='display: inline; float: right' class='icon-pcparrow-down fs20' onclick='memberDown("+obj.member_Id+")' aria-hidden='true'> </div>";
+            newText=newText+"<div id='edit_"+obj.member_Id+"'  style='display:none; float:left'> <div style='left: 30%;' style='width: 460px;'>";
+            newText=newText+"<div style='height: 300px;'> <div id='mainPic'>";
+            newText=newText+"<img id='img_"+obj.member_Id+"' style='vertical-align: top; ' src='"+obj.largeImg+"'/>";
+            newText=newText+"<output id='edit_list_"+obj.member_Id+"' class='edit_list'></output> </div>  </div> </div> ";
+            newText=newText+" <div style='left: 30%;' id='mainImageLoader'> <div id='mainImgloaderBtn'>";
+            newText=newText+"<input type='file' id='editImage_"+obj.member_Id+"' class='editImage' accept='image/jpeg,image/png,image/gif'/>";
+            newText=newText+"<div id='nt'><p>...</p></div> </div></div>";
+            newText=newText+"<div id='labels_edit_name'> <spring:message code='form.councilMemberName'/> </div>";
+            newText=newText+"<input id='edit_name_"+obj.member_Id+"' type='text' value="+obj.name_m+"/>";
+            newText=newText+"<div id='labels_edit_position'> <spring:message code='form.councilMemberPosition'/> </div>";
+            newText=newText+"<input id='edit_position_"+obj.member_Id+"' type='text' value="+obj.position_m+"/>";
+            newText=newText+"<div id='labels_edit_contact'> <spring:message code='form.councilMemberContact'/> </div>";
+            newText=newText+"<textarea id='edit_contact_"+obj.member_Id+"' COLS='60' ROWS='5'>"+obj.contact_m+"</textarea>  <br/>";
+            newText=newText+"<input type='button' value='Save' onclick='updateMember("+obj.member_Id+")'/>";
+            newText=newText+"<input type='button' value='Cancel' onclick='cancelUpdateMember("+obj.member_Id+")'/> </div> </fieldset> <br/> </div>";
+            return newText;
+       	}
+
+
           function addMember(){
         	  validateAdd();
         	  if ($('#members').valid()) {
@@ -396,27 +349,12 @@
         	  $.ajax({
         	    url: '${linkAdd}',
         	    data: oMyForm,
-        	    dataType: 'json',
+        	    dataType: 'text',
         	    processData: false,
         	    contentType: false,
         	    type: 'POST',
         	    success: function(data){
-        	        var objJSON = jQuery.parseJSON(data);
-
-        	        $('#newMember').appendTo($("#member_$id$").clone());
-
-                    $('#newMember').replace('m_id_m',objJSON.memberId);
-                    var tmpId="#"+"member_"+objJSON.memberId;
-                    $(tmpId).replace(/m_id_m/g,objJSON.memberId);
-                    $(tmpId).replace(/m_urlSmall_m/g,objJSON.microBlogImg);
-                    $(tmpId).replace(/m_urlLarge_m/g,objJSON.largeImg);
-                    $(tmpId).replace(/m_isPresent_m/g,objJSON.mainImgIsPresent);
-                    $(tmpId).replace(/m_contact_m/g,);
-                    $(tmpId).replace(/m_position_m/g,);
-                    $(tmpId).replace(/m_name_m/g,);
-
-                    $(tmpId).show();
-
+                    $('#newMember').append(showMember(data));
                     $('.splCont').toggle();
                     $("#input_name").val("");
                     $("#input_position").val("");   
