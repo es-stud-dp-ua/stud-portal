@@ -23,5 +23,6 @@ public interface BannerImageService {
 
     Collection<CommonDto> getAllDTO(Collection<BannerImage> images);
 
+	Long countBannerImage();
 
 }

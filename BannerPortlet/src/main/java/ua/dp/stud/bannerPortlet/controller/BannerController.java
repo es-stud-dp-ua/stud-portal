@@ -133,7 +133,9 @@ public class BannerController {
     @RenderMapping
     public ModelAndView showView(RenderRequest request, RenderResponse response)
             throws PortalException, SystemException {
-        return getModel("view", request);
+    	ModelAndView view = getModel("view", request);
+    	view.addObject("countImg", bannerImageService.countBannerImage());
+        return view;
     }
 
     @RenderMapping(params = "mode=add")
@@ -201,6 +203,7 @@ public class BannerController {
     public ModelAndView showAddSuccess(RenderRequest request, RenderResponse response)
             throws PortalException, SystemException {
         ModelAndView model = getModel("view", request);
+        model.addObject("countImg", bannerImageService.countBannerImage());
         SessionMessages.add(request, request.getParameter(SUCCESS));
         return model;
     }
