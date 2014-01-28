@@ -95,6 +95,8 @@
             </a>
         </div>
         <%}%>
+        <%String temp = new String("form." + currentOrg.getOrganizationType());%>
+        <div style="font-size:12px""><spring:message code="<%=temp%>"/></div>
     </div>
     <%
             }
