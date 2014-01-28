@@ -8,7 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
+import org.json.* ;
 import javax.imageio.ImageIO;
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -20,6 +20,8 @@ import javax.validation.Valid;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+
+
 import com.liferay.portal.kernel.upload.UploadPortletRequest;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
@@ -143,7 +145,7 @@ public class CouncilController {
 	
 
 	@ResourceMapping(value = "addMember")
-	public void addMember(ResourceResponse response, ResourceRequest request) throws IOException {
+	public void addMember(ResourceResponse response, ResourceRequest request) throws IOException, JSONException {
 		
 		UploadPortletRequest upload = PortalUtil.getUploadPortletRequest(request);
 		String name = upload.getParameter("name");
@@ -167,51 +169,21 @@ public class CouncilController {
         council.getCouncilMembers().add(member);
         councilService.addCouncilMembers(member);
         Integer newId = member.getId();
-       
         CouncilMembers oldCouncilMember = councilService
 				.getCouncilMembersById(newId);
         oldCouncilMember.setListPosition(newId);
         councilService.updateCouncilMembers(oldCouncilMember);
-        StringBuilder s = new StringBuilder();
-        s.append("<div id='member_").append(member.getId()).append("' class='memberList'><fieldset id='memberField_");
-        s.append(member.getId()).append("'><div id='each_").append(member.getId());
-        s.append("' style='float:left; display:inline'>");
-        if (member.getMainImage() != null){
-        s.append("<img id='image_").append(member.getId()).append("' src='").append(imageService.getPathToMicroblogImage(member.getMainImage(),member));
-        s.append("' style='float: left'>");
-        }
-        s.append("<div style='float: left'><div id='position_").append(member.getId()).append("'><i>").append(position);
-        s.append("</i></div><div id='name_").append(member.getId()).append("'><b>").append(name);
-        s.append("</b></div><div id='contact_").append(member.getId()).append("'>").append(contact).append("</div></div></div><div style='display:inline; float:right' class='icon-pcpremove fs20' onclick='removeMember(");
-        s.append(member.getId()).append(");' aria-hidden='true'></div><div style='display:inline; float:right'   class='icon-pcppencil fs20' onclick='editMember(");
-        s.append(member.getId()).append(");' aria-hidden='true'></div>");
-        s.append("<div style='display: inline; float: right' class='icon-pcparrow-up fs20' onclick='memberUp(").append(member.getId());
-        s.append(");' aria-hidden='true'></div><div style='display: inline; float: right' class='icon-pcparrow-down fs20'");
-		s.append(" onclick='memberDown(").append(member.getId()).append(");' aria-hidden='true'></div>");
-        
-		s.append("<div id='edit_").append(member.getId()).append("'  style='display:none; float:left'>");
-        s.append("<div style='left: 30%;' style='width: 460px;'><div style='height: 300px;'>");
-        if (member.getMainImage() != null){
-        s.append("<div id='mainPic'>");
-        s.append("<img id='img_").append(member.getId()).append("' style='vertical-align: top; ' src='").append(imageService.getPathToLargeImage(member.getMainImage(),member)).append("'/>");
-        s.append("<output id='edit_list_").append(member.getId()).append("' class='edit_list'></output></div>");
-        } else {
-        s.append("<div id='mainPic'>");
-        s.append("<img id='img_").append(member.getId()).append("' style='vertical-align: top; ' src='").append("${pageContext.request.contextPath}/images/mainpic_443x253.png").append("'/>");
-        s.append("<output id='edit_list_").append(member.getId()).append("' class='edit_list'></output></div>");
-        }
-        s.append("</div></div><div style='left: 30%;' id='mainImageLoader'><div id='mainImgloaderBtn'>");
-        s.append("<input type='file' id='editImage_").append(member.getId()).append("' class='editImage' accept='image/jpeg,image/png,image/gif'/><div id='nt'><p>...</p></div></div></div>");
-        s.append("<div id='labels_edit_name'><spring:message code='form.councilMemberName'/></div>");
-        s.append("<input id='edit_name_").append(member.getId()).append("' type='text' value='").append(name).append("'/>");
-        s.append("<div id='labels_edit_position'><spring:message code='form.councilMemberPosition'/></div>");
-        s.append("<input id='edit_position_").append(member.getId()).append("' type='text' value='").append(position).append("'/>");
-        s.append("<div id='labels_edit_contact'><spring:message code='form.councilMemberContact'/></div>");
-        s.append("<textarea id='edit_contact_").append(member.getId()).append("' COLS='60' ROWS='5'>").append(contact).append("</textarea><br>");
-        s.append("<input type='button' value='Save' onclick='updateMember(").append(member.getId()).append(")'>");
-        s.append("  <input type='button' value='Cancel' onclick='cancelUpdateMember(").append(member.getId()).append(")'>");
-        s.append("</div></fieldset><br/>");
-        response.getWriter().println(s);
+
+        JSONObject resultJson=new org.json.JSONObject();
+        resultJson.put("memberId",member.getId());
+        resultJson.put("microBlogImg",imageService.getPathToMicroblogImage(member.getMainImage(),member));
+        resultJson.put("largeImg", imageService.getPathToLargeImage(member.getMainImage(), member));
+        boolean isPresent=(member.getMainImage()!= null);
+        resultJson.put("mainImgIsPresent",isPresent);
+        response.setContentType("application/json");
+        response.getWriter().print(resultJson) ;
+        response.getWriter().flush();
+
 	}
 	
 	@ResourceMapping(value = "reAddMember")

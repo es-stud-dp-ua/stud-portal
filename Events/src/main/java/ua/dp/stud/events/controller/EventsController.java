@@ -547,7 +547,8 @@ public class EventsController {
 //delete chosen news
 
         eventsService.deleteEvents(event);
-        return showAddSuccess(request, response);
+       return showAddSuccess(request, response);
+
     }
 
     @RenderMapping(params = "success")
