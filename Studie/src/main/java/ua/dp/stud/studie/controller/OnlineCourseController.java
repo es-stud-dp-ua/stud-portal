@@ -95,9 +95,30 @@ public class OnlineCourseController {
         model.addObject("onlineCourseTypes", onlineCourseTypes);
         List<OnlineCourse> onlineCourses = onlineCourseService.getAll();
         model.addObject("onlineCourses", onlineCourses);
+        String[] names = onlineCourseService.getAutocomplete();
+        model.addObject("names",names);
         return model;
     }
 
+    @ActionMapping(value = "searchOnlineCourses")
+    public void viewAllOnlineFoundCourses(ActionRequest request, ActionResponse response) {
+    	response.setRenderParameter("title", request.getParameter("title"));
+    	response.setRenderParameter("view", "allOnlineFoundCourses");
+    }
+    
+    @RenderMapping(params = "view=allOnlineFoundCourses")
+    public ModelAndView renderAllOnlineFoundCourses(RenderRequest request, RenderResponse response) {
+        ModelAndView model = new ModelAndView();
+        List<OnlineCourseType> onlineCourseTypes = onlineCourseService.getAllOnlineCourseType();
+        model.setViewName("viewAllOnlineCourses");
+        model.addObject("onlineCourseTypes", onlineCourseTypes);
+        List<OnlineCourse> onlineCourses = onlineCourseService.getOnlineCourseByTitle(request.getParameter("title"));
+        model.addObject("onlineCourses", onlineCourses);
+        String[] names = onlineCourseService.getAutocomplete();
+        model.addObject("names",names);
+        return model;
+    }
+    
     @ModelAttribute(value ="onlineCourse")
     public OnlineCourse getOnlineCourseCommandObject() {
         return new OnlineCourse();
