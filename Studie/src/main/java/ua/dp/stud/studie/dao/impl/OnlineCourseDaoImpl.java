@@ -113,4 +113,13 @@ public class OnlineCourseDaoImpl implements OnlineCourseDao
         Query q = getSession().createQuery("SELECT count(id) FROM OnlineCourse WHERE onlineCourseType="+onlineCourseType.getId().toString());
         onlineCourseType.setCountOfCourses((Long) q.uniqueResult());
     };
+    
+    @Override
+    public List<OnlineCourse> getOnlineCourseByTitle(String title){
+    	Query query = getSession().createQuery("from OnlineCourse where onlineCourseName like :onlineCourseName");
+		query.setParameter("onlineCourseName","%"+title+"%");
+		List<OnlineCourse> list = (List<OnlineCourse>)query.list();
+		System.out.println(list);
+        return list;
+    }
 }
