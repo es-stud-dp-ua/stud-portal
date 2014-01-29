@@ -188,10 +188,10 @@ public class OrganisationsController {
      * @param response
      * @return model
      */
-    @RenderMapping(params = "orgsId")
+    @RenderMapping(params = "orgsID")
     public ModelAndView showSelectedOrgs(RenderRequest request, RenderResponse response, SessionStatus sessionStatus) throws SystemException, PortalException {
 
-        int orgsID = Integer.valueOf(request.getParameter("orgsId"));
+        int orgsID = Integer.valueOf(request.getParameter("orgsID"));
         Organization organisation = organizationService.getOrganizationById(orgsID);
         ImageImpl mImage = organisation.getMainImage();
         String mainImageUrl;
@@ -201,10 +201,6 @@ public class OrganisationsController {
             mainImageUrl = imageService.getPathToLargeImage(mImage, organisation);
         }
         Collection<ImageImpl> additionalImages = organisation.getAdditionalImages();
-        Collection<News> newsList = organisation.getNewsList();
-        ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
-        long groupId = themeDisplay.getScopeGroupId();
-        long plid = LayoutLocalServiceUtil.getDefaultPlid(groupId, false, "NewsArchive_WAR_NewsArchivePortlet101");
         int currentPage;
         if (request.getParameter(CURRENT_PAGE) != null) {
             currentPage = Integer.parseInt(request.getParameter(CURRENT_PAGE));
@@ -217,8 +213,6 @@ public class OrganisationsController {
         model.addObject(CURRENT_PAGE, currentPage);
         model.addObject(MAIN_IMAGE, mainImageUrl);
         model.addObject("additionalImages", additionalImages);
-        model.addObject("newsList", newsList);
-        model.addObject("newsArchivePageID", plid);
         return model;
     }
 
@@ -367,7 +361,8 @@ public class OrganisationsController {
 //set view for add
         ImageImpl mImage = organisation.getMainImage();
         String mainImageUrl =imageService.getPathToLargeImage(mImage,organisation);
-        model.addObject("mainImage", null);
+        organisation.setMainImage(null);
+        model.addObject("mainImage", mainImageUrl);
         model.setViewName("addOrganisation");
         model.addObject("organization", organisation);
         return model;

@@ -16,7 +16,7 @@
 <%
     Organization organization = (Organization) request.getAttribute("organization");
     Collection<ImageImpl> additionalImages = (Collection<ImageImpl>) request.getAttribute("additionalImages");
-    Collection<News> newsList = (Collection<News>) request.getAttribute("newsList");
+
     Integer currentPage = (Integer) request.getAttribute("currentPage");
     Collection<String> allTypes = (Collection) (OrganizationType.allTypes());
     String temp;
@@ -121,29 +121,8 @@
             </div>
         </div>
     </div>
-    <%
-        }
-        if (!newsList.isEmpty()) {
-            carusel = true;
-    %>
-    <div style="text-align: center; font-weight: bold; font-size: 16px; margin-bottom: 20px;"><spring:message
-            code="form.news"/></div>
-    <div class="image_carousel" style="width: 639px">
-        <a href="javascript:" class="carousel-control next pagination-right right1" rel="next"></a>
-        <a href="javascript:" class="carousel-control prev pagination-left left1" rel="prev"></a>
 
-        <div class="middle" style="width: 557px;">
-            <div class="singleGelery" id="inner1">
-                <%for (News news : newsList) {%>
-                <div class="ownGelery" style="margin-left: 5px;">
-                    <a href="<liferay-portlet:renderURL plid="${newsArchivePageID}" portletName="NewsArchive_WAR_NewsArchivePortlet101"/>&newsID=<%=news.getId()%>">
-                        <img src="<%=imageService.getPathToMicroblogImage(news.getMainImage(), news)%>"
-                             title="<%=news.getTopic()%>"></img></a>
-                </div>
-                <%}%>
-            </div>
-        </div>
-    </div>
+
     <%
         }
         if (carusel) {
