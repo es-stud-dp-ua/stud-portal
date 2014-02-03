@@ -47,7 +47,7 @@
                 <%for (NewsDto currentNews : newsDto) {%>
 				<portlet:renderURL var="newsSingleLink">
 					<portlet:param name="newsID" value="<%=currentNews.getId().toString()%>"/>
-                                        <portlet:param name="currentPage" value="<%=currentPage.toString()%>"/> 
+                                        <portlet:param name="currentPage" value="<%=currentPage.toString()%>"/>
 				</portlet:renderURL>
                 <div>
 					<div style="height: 210px;">
@@ -65,7 +65,8 @@
         </a>
             </div>
 							<%}%>
-							<div class="newsHeader" style="width: 90%"><a href='${newsSingleLink}'><%=currentNews.getName()%></a></div>
+                            <% request.setAttribute("currentNewsName",currentNews.getName());%>
+                            <div class="newsHeader" style="width: 90%"><a href='${newsSingleLink}'><c:out value="${currentNewsName}" escapeXml="true" /></a></div>
 							<div class="reply_link_wrap">
 								<span class="rel_author"><%=currentNews.getAuthor()%></span>
 								<span class="rel_view"><%=currentNews.getNumberOfViews()%></span>
@@ -160,7 +161,7 @@
                 <%}%>
                 <%if(pageNumb>99){ %>
                 <label>  </label>
-                <%}%>                
+                <%}%>
                 <%}%>
                 <%}%>
 
