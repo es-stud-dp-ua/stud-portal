@@ -17,19 +17,19 @@
 
 
                          <c:choose>
-                            <c:when test='${mainImage == null}' >
+                            <c:when test='${mainImage != null}' >
                                 <div>
-                                    <div id="lup"></div>
-                                    <div id="mainPic" style="vertical-align: top; " style="float:none; background: url(${pageContext.request.contextPath}/images/mainpic_443x253.png) no-repeat">
-                                    <output id="list"></output>
+                                    <div id="mainPic" style="vertical-align: top; ">
+                                         <img id="img"  style="vertical-align: top; "  src="${mainImage}"/>
+                                         <output id="list"></output>
                                     </div>
                                 </div>
                             </c:when>
                             <c:otherwise>
-                                <div id="mainPic" style="vertical-align: top; ">
-                                    <img id="img"  style="vertical-align: top; "  src="${mainImage}"/>
+                                 <div id="lup"></div>
+                                    <div id="mainPic" style="vertical-align: top; background: url(${pageContext.request.contextPath}/images/mainpic_443x253.png) no-repeat">
                                     <output id="list"></output>
-                                </div>
+                                 </div>
                             </c:otherwise>
                          </c:choose>
 
@@ -66,7 +66,10 @@
                      };
                              a();
                      })(f);
+                     if(document.getElementById('img'))
+                     {
                              document.getElementById('img').parentNode.removeChild(document.getElementById('img'));
+                     }
                              // Read in the image file as a data URL.
                              reader.readAsDataURL(f);
                              // Read in the image file as a data URL.
@@ -87,10 +90,12 @@
                          <br/>
                      </td>
                      <td rowspan=2 width="50%" align="left">
+                         <div style="font-weight: bold;"><spring:message code="form.title"/> </div> <div id="redStar1">*</div>
                          <form:input title="${organisation.title}" path="title" id="title" cols="90" rows="2" maxlength="100" onkeypress="return isNotMax(event)"
                                      name="title"/>
                          <form:errors path="title" cssClass="error"></form:errors>
                              <div style="width: 450px; float: bottom ;padding-left: 8px;">
+                             <div style="font-weight: bold;"><spring:message code="form.text"/> </div> <div id="redStar2" style="padding-bottom: 20px;">*</div>
                              <form:textarea path="text" title="${organisation.text}" class="ckeditor" id="text" cols="60" rows="10" maxlength="8000" gename="text"/>
                              <textarea style="visibility: hidden;width: 0px;" id="text1" name="text1"  ></textarea>
                              <form:errors path="text" cssClass="error" ></form:errors>
@@ -104,7 +109,7 @@
                                      <table>
                                          <tr><label>
                                              <div style="font-weight: bold;"><spring:message code="form.contacts"/> </div>
-                                             <textarea path="contacts" id="contacts" cols="150" rows="5" maxlength="3000"  name="contacts"><%=orgs.getContacts()%></textarea>
+                                             <textarea path="contacts" id="contacts" cols="150" rows="5" maxlength="3000"  name="contacts"><%=(orgs.getContacts()==null) ? "" :orgs.getContacts()%></textarea>
                                          <form:errors path="contacts" cssClass="error"></form:errors>
                                              <div style="font-weight: bold; "><spring:message
                                                      code="addOrganisation.type"/></div>
