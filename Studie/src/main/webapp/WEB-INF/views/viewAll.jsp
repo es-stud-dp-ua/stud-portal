@@ -64,7 +64,10 @@ $(document).ready(function() {
 							<img src="<%= imageService.getPathToMicroblogImage(currStudy.getMainImage(),currStudy) %>" class="studieImage">
 						</a></td>
 						<td>
-							<a href="${linkToSingle}" style="font-weight: bold; font-size: 14px;"><%=currStudy.getTitle()%></a>
+							<a href="${linkToSingle}" style="font-weight: bold; font-size: 14px;">
+                                <% request.setAttribute("currentStudyTitle",currStudy.getTitle());%>
+                                <c:out value="${currentStudyTitle}" escapeXml="true" />
+                            </a>
 		<% if (request.isUserInRole("Administrator")) { %>
 		<portlet:renderURL var="deleteLink">
 			<portlet:param name="studieId" value="<%=currStudy.getId().toString()%>"/>
