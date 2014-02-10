@@ -31,10 +31,10 @@
 						<a href="${linkToSingle}">
 						    <c:choose>
                                 <c:when test="${fn:length(currentNews.name) gt 20}">
-                                    ${fn:substring(currentNews.name, 0, 20)}...
+                                    <c:out value="${fn:substring(currentNews.name, 0, 20)}" escapeXml="true" />...
                                 </c:when>
                                 <c:otherwise>
-                                    ${currentNews.name}
+                                     <c:out value="${currentNews.name}" escapeXml="true"></c:out>
                                 </c:otherwise>
                             </c:choose>
 						</a>

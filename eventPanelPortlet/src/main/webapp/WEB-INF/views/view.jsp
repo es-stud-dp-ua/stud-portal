@@ -95,6 +95,8 @@
             </a>
         </div>
         <%}%>
+        <%String temp = new String("form." + currentOrg.getOrganizationType());%>
+        <div style="font-size:12px""><spring:message code="<%=temp%>"/></div>
     </div>
     <%
             }
@@ -282,6 +284,7 @@
                 var myNews = $("." + paramsName);
                 myNews.html($('.' + paramsName, data));
                 setOnClick();
+                $('.newEvent').qtip('option', { 'position.my' : 'bottom center' });
             }
         });
     }

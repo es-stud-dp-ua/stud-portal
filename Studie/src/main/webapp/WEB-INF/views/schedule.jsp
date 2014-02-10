@@ -48,10 +48,11 @@
         </div>
     <div style="left: 30%;" id="scheduleLoaderF">
     </div>
+    <%if (request.isUserInRole("Administrator")){%>
     <input type="submit" style="margin-top: 15px;position: absolute;
                    left: 41%; " value="<spring:message
                    code='<%=(request.isUserInRole("Administrator"))?"schedule.submit.admin":"form.submit.user"%>'/>"/>
-
+	<%}%>
      <c:if test="${status}">
           <div id ="schedule_status" style ="color:green; hidden: false;">
              <spring:message  code="schedule.upload"/>

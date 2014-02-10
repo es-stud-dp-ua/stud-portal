@@ -1,8 +1,10 @@
 package ua.dp.stud.bannerPortlet.dao.impl;
 
 import org.hibernate.Hibernate;
+import org.hibernate.Query;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
+
 import ua.dp.stud.StudPortalLib.dao.impl.BaseDaoImpl;
 import ua.dp.stud.bannerPortlet.dao.BannerImageDao;
 import ua.dp.stud.bannerPortlet.model.BannerImage;
@@ -17,5 +19,11 @@ public class BannerImageDaoImp extends BaseDaoImpl<BannerImage> implements Banne
 
     public BannerImage getByURL(String url) {
         return (BannerImage) getSession().createCriteria(BannerImage.class).add(Restrictions.eq("url", url)).uniqueResult();
+    }
+
+    
+    public Long countBannerImage() {
+    	Query query=getSession().createQuery("SELECT COUNT(*) FROM BannerImage");
+    	 return (Long)query.uniqueResult();
     }
 }

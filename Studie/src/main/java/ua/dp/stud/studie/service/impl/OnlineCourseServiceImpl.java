@@ -1,5 +1,6 @@
 package ua.dp.stud.studie.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -114,4 +115,22 @@ public class OnlineCourseServiceImpl implements OnlineCourseService
     public void initializeCountOfCourses(OnlineCourseType onlineCourseType){
         dao.initializeCountOfCourses(onlineCourseType);
     };
+
+    @Override
+	public String[] getAutocomplete() {
+	    String[] list;
+	    List<OnlineCourse> courses = getAll();
+	    list = new String[courses.size()];
+	    for(int i=0;i<list.length;i++){
+	    	list[i]=courses.get(i).getOnlineCourseName();
+	    }
+	    return list;
+	}
+	 
+    @Override
+    @Transactional(readOnly = true)
+    public List<OnlineCourse> getOnlineCourseByTitle(String title){
+    	return dao.getOnlineCourseByTitle(title);
+    }
+    
 }	
