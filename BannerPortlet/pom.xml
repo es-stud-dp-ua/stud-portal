@@ -42,25 +42,13 @@
                         <artifactId>Resourses</artifactId>
                         <excludes>
                             <exclude>WEB-INF/images/circle_blue.png</exclude>
-                        </excludes>
-                    </overlay>
-                    <overlay>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>Resourses</artifactId>
-                        <excludes>
                             <exclude>WEB-INF/images/circle_red.png</exclude>
-                        </excludes>
-                    </overlay>
-                    <overlay>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>Resourses</artifactId>
-                        <excludes>
                             <exclude>WEB-INF/images/circle_lightblue.png</exclude>
                         </excludes>
                     </overlay>
                 </overlays>
             </configuration>
-        </plugin>
+            </plugin>
         </plugins>
     </build>
 

@@ -21,7 +21,38 @@
                     <target>1.6</target>
                 </configuration>
             </plugin>
-
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                    <overlays>
+                        <overlay>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>Resourses</artifactId>
+                            <excludes>
+                                <exclude>WEB-INF/images/blank.gif</exclude>
+                                <exclude>WEB-INF/images/fancybox-loading.gif</exclude>
+                                <exclude>WEB-INF/images/fancybox-overlay.png</exclude>
+                                <exclude>WEB-INF/images/fancybox-sprite.png</exclude>
+                                <exclude>WEB-INF/images/L_69x65.png</exclude>
+                                <exclude>WEB-INF/images/mainpic-443x253.png</exclude>
+                                <exclude>WEB-INF/images/news-decor-center.png</exclude>
+                                <exclude>WEB-INF/images/news-decor-line.png</exclude>
+                                <exclude>WEB-INF/images/news-decor-line-end.png</exclude>
+                                <exclude>WEB-INF/images/news-decor-right-end.png</exclude>
+                                <exclude>WEB-INF/images/pagin-left.png</exclude>
+                                <exclude>WEB-INF/images/pagin-right.png</exclude>
+                                <exclude>WEB-INF/images/pagin-right-old.png</exclude>
+                                <exclude>WEB-INF/images/R_69x65.png</exclude>
+                                <exclude>WEB-INF/js/a.js</exclude>
+                                <exclude>WEB-INF/js/handleFile.js</exclude>
+                                <exclude>WEB-INF/js/setCoords.js</exclude>
+                            </excludes>
+                        </overlay>
+                    </overlays>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>com.liferay.maven.plugins</groupId>
                 <artifactId>liferay-maven-plugin</artifactId>
@@ -249,6 +280,12 @@
             <artifactId>maven-surefire-plugin</artifactId>
             <version>2.10</version>
             <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>Resourses</artifactId>
+            <version>1.0</version>
+            <type>war</type>
         </dependency>
     </dependencies>
 </project>
