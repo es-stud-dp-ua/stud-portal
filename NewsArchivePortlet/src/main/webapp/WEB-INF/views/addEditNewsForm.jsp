@@ -1,4 +1,4 @@
-<form:form method="POST" id="jform" name="jform" commandName="news" action="${actionLink}" enctype="multipart/form-data">
+<form:form method="POST" id="jform" name="jform" commandName="news" modelAttribute="news" action="${actionLink}" enctype="multipart/form-data" >
             <form:errors path="*" cssClass="errorblock" element="div" />
             <form:input type="hidden" path="id"/>
             <input type="hidden" size="0" id="x1" name="t" value="0"/>
@@ -121,11 +121,8 @@
                            required: true,
                            minlength: 100,
                            maxlength: 10000
-                       },
-                       mainImage: {
-                           required: true,
-                           accept: "jpg|jpeg|png"
                        }
+
                    },
                    messages: {
                    topic: {
