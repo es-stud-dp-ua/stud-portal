@@ -34,6 +34,7 @@
                     <c:if test="${cat.countOfCourses==0}">
                         <div style="display:inline;" id='removeBut_${cat.id}' class="icon-pcpremove fs20" onclick="removeKind(${cat.id});" aria-hidden="true"></div>
                     </c:if>
+                    ${cat.countOfCourses}
                 </div>
             </c:forEach>
 		</c:if>

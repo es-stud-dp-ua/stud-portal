@@ -1,4 +1,4 @@
-<form:form method="POST" id="jform" name="jform" commandName="news" action="${actionLink}" enctype="multipart/form-data">
+<form:form method="POST" id="jform" name="jform" commandName="news" modelAttribute="news" action="${actionLink}" enctype="multipart/form-data" >
             <form:errors path="*" cssClass="errorblock" element="div" />
             <form:input type="hidden" path="id"/>
             <input type="hidden" size="0" id="x1" name="t" value="0"/>
@@ -56,7 +56,7 @@
                     </div>
                 </div>
             </div>
-            <div id="sbm" style="position: absolute;left: 43%"> <input type="submit" value="<spring:message code='<%=(request.isUserInRole("Administrator"))?"form.submit.save" :"form.submit.user"%>'/>"/></div>
+            <div id="sbm" style="position: absolute;left: 43%"> <input type="submit" value="<spring:message code='<%=((request.isUserInRole("Administrator"))||(request.isUserInRole("Press")))?"form.submit.save" :"form.submit.user"%>'/>"/></div>
             </form:form>
             <script src="${pageContext.request.contextPath}/js/a.js" type="text/javascript"></script>
             <script src="${pageContext.request.contextPath}/js/setCoords.js" type="text/javascript"></script>
@@ -85,11 +85,8 @@
                            required: true,
                            minlength: 100,
                            maxlength: 10000
-                       },
-                       mainImage: {
-                           required: true,
-                           accept: "jpg|jpeg|png"
                        }
+
                    },
                    messages: {
                    topic: {

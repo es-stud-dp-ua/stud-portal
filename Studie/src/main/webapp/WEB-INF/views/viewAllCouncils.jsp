@@ -26,15 +26,21 @@
     <body>
     <liferay-ui:success  key="successAdd" message='Stud council was successfully added! '/>
     <liferay-ui:success  key="successEdit" message='Stud council was successfully edited! '/>
+
+
     <portlet:renderURL var="LinkAddCouncil">
         <portlet:param name="add" value="council"/>
     </portlet:renderURL>
-    <div class="fs20"style="width: 10.15%;float: right;">
+
+     <% if (request.isUserInRole("Administrator")) { %>
+        <div class="fs20"style="width: 10.15%;float: right;">
                 <a style="float: right" href="${LinkAddCouncil}">
-                    <!--<spring:message code="viewSingle.Edit"/>-->
+
                     <div class="panelbtn panelbtn-right icon-pcpplus" aria-hidden="true"></div>
                 </a>
-</div>
+         </div>
+     <%}%>
+
  <div style="float:left"><%@include file="leftBar.jsp"%></div>
  <script>
                     $(document).ready(function() {

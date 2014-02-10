@@ -61,7 +61,7 @@
                 <td width="75"><a href="<portlet:renderURL>
                             <portlet:param name="mode" value="delete"/>
                             <portlet:param name="imgId" value="<%=image.getId().toString()%>"/></portlet:renderURL>">
-                                  onclick='return confirm("<spring:message code="form.confDelete"/>")'>
+                                  <onclick='return confirm("<spring:message code="form.confDelete"/>")'>
                     <div class="panelbtn panelbtn-right fs20 icon-pcpremove" aria-hidden="true"></div>
                 </a></td>
             </tr>

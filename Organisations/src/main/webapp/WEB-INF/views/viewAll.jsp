@@ -78,7 +78,7 @@
                 <img src="<%= currentOrgs.getImgPath() %>"
                      class="newsImage">
                 <div class="newsHeader">
-                    <a href='<portlet:renderURL><portlet:param name="orgsId" value="<%=currentOrgs.getId().toString()%>"/><portlet:param name="currentPage" value="<%=currentPage.toString()%>"/> </portlet:renderURL>' >
+                    <a href='<portlet:renderURL><portlet:param name="orgsID" value="<%=currentOrgs.getId().toString()%>"/><portlet:param name="currentPage" value="<%=currentPage.toString()%>"/> </portlet:renderURL>' >
                         <%=currentOrgs.getName()%>
                     </a>
                 </div>

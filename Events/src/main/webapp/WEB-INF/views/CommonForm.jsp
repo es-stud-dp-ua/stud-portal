@@ -62,6 +62,7 @@
                         <br/>
                     </td>
                     <td rowspan=2 width="50%" align="left">
+
                      <div id="labels"><spring:message code="form.title"/></div><div id="redStar1">*</div>
                         <form:input title="${event.title}" path="title" style="margin-left:2%;width:95%;" id="topicInput" cols="90" rows="2" maxlength="100" onkeypress="return isNotMax(event)"
                                     name="title"/>

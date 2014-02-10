@@ -149,7 +149,7 @@ public class EventPanelHelper {
     }
 
     protected static final String NEWS_ARCHIVE_REFERENCE_NAME = "NewsArchive_WAR_studnewsArchive";
-    protected static final String COMMUNITIES_REFERENCE_NAME = "Communities_WAR_studcommunity";
+    protected static final String COMMUNITIES_REFERENCE_NAME = "Organisations_WAR_studorganisations";
     private static final String EVENTS_REFERENCE_NAME = "Events_WAR_studevents";
     protected static final String COURSES_REFERENCE_NAME = "Studie_WAR_studstudie";
 

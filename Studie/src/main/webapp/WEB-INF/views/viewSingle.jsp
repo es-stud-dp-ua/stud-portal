@@ -85,7 +85,7 @@
 <div id="singleView">
 	<table width="100%"><tbody><tr>
 		<td style="width: 110px;"><img src="${mainImage}" alt="" id="headImage"/></td>
-		<td><h1>${studie.title}</h1></td>
+		<td><h1><c:out value="${studie.title}" escapeXml="true" /> </h1></td>
 		<tr></tbody></table>
 	<div id="mainProp">
 		<div style="width: 300px; float: right;"><ul>

@@ -87,78 +87,84 @@
 	<br />
 	<br />
 	<br />
-<form id="members" name="members"> 
+<form id="members" name="members">
+
 <div id='newMember'>
 
-				<%if (council.getCouncilMembers()!=null) {
-				for (CouncilMembers member : council.getCouncilMembers()){%>
-		<div id='member_<%=member.getId()%>' class='memberList'>
-			<fieldset id="memberField_<%=member.getId()%>">
+	<%if (council.getCouncilMembers()!=null) {
+		 for (CouncilMembers member : council.getCouncilMembers()){%>
+		   <div id='member_<%=member.getId()%>' class='memberList'>
+			 <fieldset id="memberField_<%=member.getId()%>">
 				<div id='each_<%=member.getId()%>'
 					style="float: left; display: inline">
 
-				<% if (member.getMainImage() != null) { %>
-					<img id='image_<%=member.getId()%>'
+				     <% if (member.getMainImage() != null) { %>
+					    <img id='image_<%=member.getId()%>'
 						src="<%=imageService.getPathToMicroblogImage(member.getMainImage(),member)%>"
 						style="float: left">
-						<%}%>
-				<div style="float: left">
-					<div id='position_<%=member.getId()%>'>
+						   <%}%>
+				  <div style="float: left">
+					  <div id='position_<%=member.getId()%>'>
 						<i><%=member.getMemberPosition()%></i>
-					</div>
-					<div id='name_<%=member.getId()%>'>
+					  </div>
+					  <div id='name_<%=member.getId()%>'>
 						<b><%=member.getMemberName()%></b>
-					</div>
-					<div id='contact_<%=member.getId()%>'>
-					<%=member.getMemberContact()%></div>
-				</div>
+					  </div>
+					  <div id='contact_<%=member.getId()%>'>
+					     <%=member.getMemberContact()%>
+					  </div>
+				  </div>
 				</div>
 				
 				<div style="display: inline; float: right"
 					class="icon-pcpremove fs20"
-					onclick="removeMember(<%=member.getId()%>);" aria-hidden="true"></div>
+					onclick="removeMember(<%=member.getId()%>)" aria-hidden="true">
+				</div>
 				
 				<div style="display: inline; float: right"
 					class="icon-pcppencil fs20"
-					onclick="editMember(<%=member.getId()%>);" aria-hidden="true"></div>
+					onclick="editMember(<%=member.getId()%>)" aria-hidden="true">
+				</div>
 					
 				<div style="display: inline; float: right" 
 					class="icon-pcparrow-up fs20"
-					onclick="memberUp(<%=member.getId()%>);" aria-hidden="true"></div>
+					onclick="memberUp(<%=member.getId()%>)" aria-hidden="true">
+				</div>
 				
 				<div style="display: inline; float: right"
 					class="icon-pcparrow-down fs20"
-					onclick="memberDown(<%=member.getId()%>);" aria-hidden="true"></div>
+					onclick="memberDown(<%=member.getId()%>)" aria-hidden="true">
+				</div>
 				
 				<div id='edit_<%=member.getId()%>'
 					style="display: none; float: left">
 
-		<div style="left: 30%;" style="width: 460px;">
-			<div style="height: 300px;">
-					<% if (member.getMainImage() != null) { %>
-				   <div id="mainPic" >
-						<img id="img_<%=member.getId()%>" style="vertical-align: top; " src="<%=imageService.getPathToLargeImage(member.getMainImage(),member)%>"/>
-						<output id="edit_list_<%=member.getId()%>" class="edit_list"></output>
-					</div>
-					<% } else { %>
-					<div id="mainPic" style="vertical-align: top;">
-					<img id="img_<%=member.getId()%>" style="vertical-align: top; " src="${pageContext.request.contextPath}/images/mainpic_443x253.png"/>
-                            <output id="edit_list_<%=member.getId()%>" class="edit_list"></output>
-                        </div>
-                        <% } %>
-			</div>
-		</div>
+		            <div style="left: 30%;" style="width: 460px;">
+			            <div style="height: 300px;">
+					        <% if (member.getMainImage() != null) { %>
+				                <div id="mainPic" >
+						            <img id="img_<%=member.getId()%>" style="vertical-align: top; " src="<%=imageService.getPathToLargeImage(member.getMainImage(),member)%>"/>
+				            		<output id="edit_list_<%=member.getId()%>" class="edit_list"></output>
+				                </div>
+					        <% } else { %>
+					            <div id="mainPic" style="vertical-align: top;">
+				                	<img id="img_<%=member.getId()%>" style="vertical-align: top; " src="${pageContext.request.contextPath}/images/mainpic_443x253.png"/>
+                                    <output id="edit_list_<%=member.getId()%>" class="edit_list"></output>
+                                </div>
+                             <% } %>
+			            </div>
+		            </div>
 
 
-		<div style="left: 30%;" id="mainImageLoader">
-			<div id="mainImgloaderBtn">
-				<input type="file" id="editImage_<%=member.getId()%>" class="editImage" 
-					accept="image/jpeg,image/png,image/gif" />
-				<div id="nt">
-					<spring:message code="form.addPicture" />
-				</div>
-			</div>
-		</div>
+		            <div style="left: 30%;" id="mainImageLoader">
+			            <div id="mainImgloaderBtn">
+				            <input type="file" id="editImage_<%=member.getId()%>" class="editImage" 
+					        accept="image/jpeg,image/png,image/gif" />
+				            <div id="nt">
+					            <spring:message code="form.addPicture" />
+				            </div>
+		                </div>
+	                </div>
 
              
 					<div id="labels_edit_name">
@@ -166,27 +172,36 @@
 					</div>
 					<input id="edit_name_<%=member.getId()%>" type="text"
 						value='<%=member.getMemberName()%>' />
-					<div id="labels_edit_position">
-						<spring:message code="form.councilMemberPosition" />
-					</div>
-					<input id="edit_position_<%=member.getId()%>" type="text"
+					    <div id="labels_edit_position">
+						  <spring:message code="form.councilMemberPosition" />
+					    </div>
+					  <input id="edit_position_<%=member.getId()%>" type="text"
 						value='<%=member.getMemberPosition()%>' />
-					<div id="labels_edit_contact">
-						<spring:message code="form.councilMemberContact" />
-					</div>
+					   <div id="labels_edit_contact">
+						 <spring:message code="form.councilMemberContact" />
+					   </div>
 					<textarea id="edit_contact_<%=member.getId()%>" COLS="60" ROWS="5"><%=member.getMemberContact()%></textarea>
 					<br> <input type="button" value="Save"
-						onclick="updateMember(<%=member.getId()%>)">
+						onclick="updateMember(<%=member.getId()%>)"/>
 						<input type="button" value="Cancel"
-						onclick="cancelUpdateMember(<%=member.getId()%>)">
+						onclick="cancelUpdateMember(<%=member.getId()%>)"/>
 				</div>
-			</fieldset>
-			<div id='est_<%=member.getId()%>' style='display:none' onclick="reAdd(<%=member.getId()%>)">cancel</div>
-			<br />
-</div>
+			 </fieldset>
+			 <div id='est_<%=member.getId()%>' style='display:none' onclick="reAdd(<%=member.getId()%>)">cancel</div>
+			 <br />
+           </div>
 	
-		<%}%>
-		<%}%>
+		 <%}%>
+
+	<%}%>
+
+
+
+
+
+
+
+
 
 </div>
 
@@ -199,7 +214,7 @@
 
 	<script type="text/javascript">
 			 $(document).ready(function () {
-			$("#newMember").on("change",".editImage",function(event){handleEditFileSelect(event,this);})
+			$("#newMember").on("change",".editImage",function(event){handleEditFileSelect(event,this)});
 			$(".splLink").click(function () {
         			$(this).parent().children("div.splCont").toggle("normal");
         			var a = $(this).children("span#spoiler");
@@ -208,13 +223,13 @@
         		});
 			
 			
-			    });
+			    })
              </script>
 	<br />
 
 	<div style="padding-left: 230px; width: 20%" class="splLink">
 	<input type="button" value="<spring:message code="form.councilMemberAdding"/>"
-				style="float: right" onclick="updateMember()">
+				style="float: right" onclick="updateMember()"/>
 	</div>
 
 
@@ -258,7 +273,7 @@
 			<spring:message code="form.councilMemberContact" />
 		</div>
 		<textarea id="input_contact" COLS="60" ROWS="5"></textarea>
-		<br> <input type="button" value="Add" onclick="addMember()">
+		<br/> <input type="button" value="Add" onclick="addMember()"/>
 	</div>
 	</form>
 	<script>
@@ -283,7 +298,41 @@
               }
 			});
 	}
-       		
+
+       	function showMember(data)
+       	{
+       	    var obj = jQuery.parseJSON(data);
+       	    var newText="<div id='member_"+obj.member_Id+"' class='memberList' >";
+            newText=newText+"<fieldset id='memberField_"+obj.member_Id+"'>";
+            newText=newText+"<div id='each_"+obj.member_Id+"' style='float:left; display:inline'>";
+
+            newText=newText+"<img id='image_"+obj.member_Id+"' src='"+obj.microBlogImg+"' style='float: left'> ";
+            newText=newText+"<div style='float: left'> <div id='position_"+obj.member_Id+"'> <i>"+obj.position_m+"</i> </div>";
+            newText=newText+"<div id='name_"+obj.member_Id+"'> <b>"+obj.name_m+"</b> </div>";
+            newText=newText+"<div id='contact_"+obj.member_Id+"'>"+obj.contact_m+"</div> </div> </div>";
+            newText=newText+"<div style='display:inline; float:right' class='icon-pcpremove fs20' onclick='removeMember("+obj.member_Id+")' aria-hidden='true'> </div>";
+            newText=newText+"<div style='display:inline; float:right'   class='icon-pcppencil fs20' onclick='editMember("+obj.member_Id+")' aria-hidden='true'> </div>";
+            newText=newText+"<div style='display: inline; float: right' class='icon-pcparrow-up fs20' onclick='memberUp("+obj.member_Id+")' aria-hidden='true'> </div>";
+            newText=newText+"<div style='display: inline; float: right' class='icon-pcparrow-down fs20' onclick='memberDown("+obj.member_Id+")' aria-hidden='true'> </div>";
+            newText=newText+"<div id='edit_"+obj.member_Id+"'  style='display:none; float:left'> <div style='left: 30%;' style='width: 460px;'>";
+            newText=newText+"<div style='height: 300px;'> <div id='mainPic'>";
+            newText=newText+"<img id='img_"+obj.member_Id+"' style='vertical-align: top; ' src='"+obj.largeImg+"'/>";
+            newText=newText+"<output id='edit_list_"+obj.member_Id+"' class='edit_list'></output> </div>  </div> </div> ";
+            newText=newText+" <div style='left: 30%;' id='mainImageLoader'> <div id='mainImgloaderBtn'>";
+            newText=newText+"<input type='file' id='editImage_"+obj.member_Id+"' class='editImage' accept='image/jpeg,image/png,image/gif'/>";
+            newText=newText+"<div id='nt'><p>...</p></div> </div></div>";
+            newText=newText+"<div id='labels_edit_name'> <spring:message code='form.councilMemberName'/> </div>";
+            newText=newText+"<input id='edit_name_"+obj.member_Id+"' type='text' value="+obj.name_m+"/>";
+            newText=newText+"<div id='labels_edit_position'> <spring:message code='form.councilMemberPosition'/> </div>";
+            newText=newText+"<input id='edit_position_"+obj.member_Id+"' type='text' value="+obj.position_m+"/>";
+            newText=newText+"<div id='labels_edit_contact'> <spring:message code='form.councilMemberContact'/> </div>";
+            newText=newText+"<textarea id='edit_contact_"+obj.member_Id+"' COLS='60' ROWS='5'>"+obj.contact_m+"</textarea>  <br/>";
+            newText=newText+"<input type='button' value='Save' onclick='updateMember("+obj.member_Id+")'/>";
+            newText=newText+"<input type='button' value='Cancel' onclick='cancelUpdateMember("+obj.member_Id+")'/> </div> </fieldset> <br/> </div>";
+            return newText;
+       	}
+
+
           function addMember(){
         	  validateAdd();
         	  if ($('#members').valid()) {
@@ -305,12 +354,12 @@
         	    contentType: false,
         	    type: 'POST',
         	    success: function(data){
-        	    	$('#newMember').append(data);
+                    $('#newMember').append(showMember(data));
                     $('.splCont').toggle();
                     $("#input_name").val("");
                     $("#input_position").val("");   
                     $("#input_contact").val("");
-                    $("#newMember").on("change",".editImage",function(event){handleEditFileSelect(event,this);})
+                    $("#newMember").on("change",".editImage",function(event){handleEditFileSelect(event,this)});
                     $("#list").hide();
                     
         	    }

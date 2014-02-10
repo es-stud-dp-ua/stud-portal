@@ -8,30 +8,49 @@
 <%@ page import="ua.dp.stud.StudPortalLib.util.ImageService" %>
 <%@ taglib prefix="portlet" uri="http://java.sun.com/portlet_2_0" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
 <%@ page isELIgnored="false" %>
 <%@include file="include.jsp" %>
+<%@page import="java.util.Arrays"%>
 
 <% ImageService imageServices = (ImageService) pageContext.findAttribute("imageService"); %>
 
 
 <%@ taglib prefix="theme" uri="http://liferay.com/tld/theme" %>
 <%
+	String[] name = (String[])request.getAttribute("names");
     Collection<OnlineCourse> courses = (Collection) request.getAttribute("onlineCourses");
 %>
 
 <html>
 <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+
 </head>
 <body>
 <div>
 
+<portlet:actionURL var="search" name="searchOnlineCourses"></portlet:actionURL>
+          <form:form action="${search}">
+                   <spring:message code="course.Search" />
+  				   <input type="text" id="tags" name="title">
+          </form:form>
+  
+  
 <%if (request.isUserInRole("Administrator")){ %>
 		        <portlet:renderURL var="categories">
                     <portlet:param name="view" value="onlineCoursesCategories"/>
                 </portlet:renderURL>
-		        <a href="${categories}"><div style="display:inline;" id='changeBut' class="icon-pcppencil fs20" aria-hidden="true"></div></a>
+
+					<select>
+					    <c:forEach var="postProfile" items="${onlineCourseTypes}">
+					    <option>
+					        <c:out value="${postProfile.kindOfCourse}" />
+					    </option>
+					    </c:forEach>
+					</select>		      
+				 <a href="${categories}"><div style="display:inline;" id='changeBut' class="icon-pcppencil fs20" aria-hidden="true"></div></a>
 		    
 		       <portlet:renderURL var="LinkAddCourse">
        				 <portlet:param name="add" value="onlineCourse"/>
@@ -83,4 +102,22 @@
      </div>
 
 		    </body>
+		    
+<script>
+  $(function() {
+<%
+StringBuffer values = new StringBuffer();
+for (int i = 0; i < name.length; ++i) {
+    if (values.length() > 0) {
+        values.append(',');
+    }
+    values.append('"').append(name[i]).append('"');
+}
+%>
+var foo = [ <%= values.toString() %> ];
+    $("#tags").autocomplete({
+      source: foo
+    });
+  });
+  </script>
  </html>

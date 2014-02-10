@@ -122,7 +122,7 @@
         </a>
         <%}%>
     </div>
-    <div class="newsHeader">${news.topic}</div>
+    <div class="newsHeader"><c:out value="${news.topic}" escapeXml="true" /></div>
     <div class="reply_link_wrap" style="text-align: center;">
         <span class="rel_author">${news.author}</span>
         <span class="rel_view">${news.numberOfViews}</span>

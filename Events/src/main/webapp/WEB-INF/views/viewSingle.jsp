@@ -148,7 +148,7 @@
 
         <div style="float:right; width: 46%">
             <div class="newsHeader">
-                ${event.title}
+                <c:out value="${event.title}" escapeXml="true" />
             </div>
             <br/>
 

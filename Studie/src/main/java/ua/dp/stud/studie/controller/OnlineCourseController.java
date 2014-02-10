@@ -16,10 +16,12 @@ import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
+import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.model.User;
 
 import ua.dp.stud.StudPortalLib.model.ImageImpl;
+import ua.dp.stud.StudPortalLib.model.KindOfCourse;
 import ua.dp.stud.StudPortalLib.model.News;
 import ua.dp.stud.StudPortalLib.service.CourseService;
 import ua.dp.stud.StudPortalLib.util.ImageService;
@@ -46,7 +48,7 @@ public class OnlineCourseController {
 	private static final String ADMIN_ROLE = "Administrator";
 	private static final String MAIN_IMAGE = "mainImage";
     private static final String ONLINE_COURSE = "onlineCourse";
-    private static final String STR_FAIL = "fail";
+    private static final String STR_FAIL = "failOnline";
     private static final String NO_IMAGE = "no-images";
     private static final String MAIN_IMAGE_MOCK_URL = "http://www.princetonmn.org/vertical/Sites/%7BF37F81E8-174B-4EDB-91E0-1A3D62050D16%7D/uploads/News.gif";
 
@@ -93,9 +95,30 @@ public class OnlineCourseController {
         model.addObject("onlineCourseTypes", onlineCourseTypes);
         List<OnlineCourse> onlineCourses = onlineCourseService.getAll();
         model.addObject("onlineCourses", onlineCourses);
+        String[] names = onlineCourseService.getAutocomplete();
+        model.addObject("names",names);
         return model;
     }
 
+    @ActionMapping(value = "searchOnlineCourses")
+    public void viewAllOnlineFoundCourses(ActionRequest request, ActionResponse response) {
+    	response.setRenderParameter("title", request.getParameter("title"));
+    	response.setRenderParameter("view", "allOnlineFoundCourses");
+    }
+    
+    @RenderMapping(params = "view=allOnlineFoundCourses")
+    public ModelAndView renderAllOnlineFoundCourses(RenderRequest request, RenderResponse response) {
+        ModelAndView model = new ModelAndView();
+        List<OnlineCourseType> onlineCourseTypes = onlineCourseService.getAllOnlineCourseType();
+        model.setViewName("viewAllOnlineCourses");
+        model.addObject("onlineCourseTypes", onlineCourseTypes);
+        List<OnlineCourse> onlineCourses = onlineCourseService.getOnlineCourseByTitle(request.getParameter("title"));
+        model.addObject("onlineCourses", onlineCourses);
+        String[] names = onlineCourseService.getAutocomplete();
+        model.addObject("names",names);
+        return model;
+    }
+    
     @ModelAttribute(value ="onlineCourse")
     public OnlineCourse getOnlineCourseCommandObject() {
         return new OnlineCourse();
@@ -138,11 +161,12 @@ public class OnlineCourseController {
                         @RequestParam(MAIN_IMAGE) CommonsMultipartFile mainImage,
                         SessionStatus sessionStatus) throws IOException {
     	if (bindingResult.hasErrors()) {
-            actionResponse.setRenderParameter(STR_FAIL, "msg.fail");
+            actionResponse.setRenderParameter(STR_FAIL, "found");
             return;
         }
         	if (mainImage.getOriginalFilename().equals("")) {
-            actionResponse.setRenderParameter(STR_FAIL, NO_IMAGE);
+            actionResponse.setRenderParameter(STR_FAIL, "image");
+            actionResponse.setRenderParameter("no", "image");
             return;
         }
         CommonsMultipartFile f = imageService.cropImage(mainImage, Integer.parseInt(actionRequest.getParameter("t")),
@@ -233,4 +257,15 @@ public class OnlineCourseController {
         onlineCourseService.deleteOnlineCourseType(kindOfCourseId);
     }
 
+    @RenderMapping(params = "failOnline=image")
+	public ModelAndView showAddFailed(RenderRequest request,
+			RenderResponse response) {
+    	System.out.println("yahoo");
+		ModelAndView model = new ModelAndView("addOnlineCourse");
+		SessionErrors.add(request, request.getParameter("no"));
+        Collection<OnlineCourseType> kindOfCourses = onlineCourseService.getAllKindOfCourseWithCount();
+        model.addObject("onlineCourseType", kindOfCourses);
+		return model;
+	}
+	
 }

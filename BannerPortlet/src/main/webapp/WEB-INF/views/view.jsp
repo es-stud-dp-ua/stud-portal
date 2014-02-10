@@ -25,10 +25,11 @@ SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
     <div style="width: 100%">
         <% if (request.isUserInRole("Administrator")) {%>
         <div style="margin-right: 450px;">
-            <a href="<portlet:renderURL>
-           				 <portlet:param name="mode" value="add"/></portlet:renderURL>">
+        <c:if test="${countImg<5}">
+		    <a href="<portlet:renderURL><portlet:param name="mode" value="add"/></portlet:renderURL>">
                 <div class="panelbtn panelbtn-right fs20 icon-pcpplus" aria-hidden="true"></div>
             </a>&nbsp;&nbsp;&nbsp;
+            </c:if>
             <a href="<portlet:renderURL>
                         <portlet:param name="mode" value="edit"/></portlet:renderURL>">
                 <div class="panelbtn panelbtn-right fs20 icon-pcppencil" aria-hidden="true"></div>

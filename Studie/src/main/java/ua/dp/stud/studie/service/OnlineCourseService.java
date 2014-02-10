@@ -1,7 +1,9 @@
 package ua.dp.stud.studie.service;
 
+import java.util.Collection;
 import java.util.List;
 
+import ua.dp.stud.StudPortalLib.model.Course;
 import ua.dp.stud.studie.model.OnlineCourse;
 import ua.dp.stud.studie.model.OnlineCourseType;
 
@@ -32,4 +34,8 @@ public interface OnlineCourseService
     List<OnlineCourseType> getAllKindOfCourseWithCount();
 
     void initializeCountOfCourses(OnlineCourseType onlineCourseType);
+
+    String[] getAutocomplete();
+    
+    List<OnlineCourse> getOnlineCourseByTitle(String title);
 }

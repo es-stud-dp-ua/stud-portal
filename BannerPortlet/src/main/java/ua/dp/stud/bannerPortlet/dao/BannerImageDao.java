@@ -10,4 +10,6 @@ import java.util.Collection;
  */
 public interface BannerImageDao extends BaseDao<BannerImage> {
     BannerImage getByURL(String url);
+
+	Long countBannerImage();
 }

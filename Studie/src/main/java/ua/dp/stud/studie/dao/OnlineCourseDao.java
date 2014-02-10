@@ -29,5 +29,7 @@ public interface OnlineCourseDao
 
 	List<OnlineCourse> getOnlineCourseByType(Integer onlineCourseTypeId);
 
-    void initializeCountOfCourses(OnlineCourseType onlineCourseType);
+	void initializeCountOfCourses(OnlineCourseType onlineCourseType);
+
+	List<OnlineCourse> getOnlineCourseByTitle(String title);
 }
