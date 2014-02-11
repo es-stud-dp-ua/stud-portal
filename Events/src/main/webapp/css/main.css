@@ -666,6 +666,9 @@ color: red;
 input:focus::-webkit-input-placeholder {
     color: transparent;
 }
+input:focus::-moz-placeholder {
+    color: transparent;
+}
 textarea:focus::-webkit-input-placeholder {
     color: transparent;
 }

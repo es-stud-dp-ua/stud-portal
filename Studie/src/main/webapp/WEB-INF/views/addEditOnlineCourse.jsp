@@ -15,7 +15,7 @@
 			<form:errors path="onlineCourseName" cssClass="error" />
 
 			<div id="labels" style="width: 150px; font-size: 12pt">
-			<spring:message code="course.TName" />
+			<spring:message code="course.TTheme" />
 			</div>
 			 <form:select path="onlineCourseType.id">
                <form:options items="${onlineCourseType}" itemValue="id" itemLabel="kindOfCourse"/>
