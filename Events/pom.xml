@@ -31,6 +31,41 @@
                     <autoDeployDir>${liferay.auto.deploy.dir}</autoDeployDir>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                    <overlays>
+                        <overlay>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>Resourses</artifactId>
+                            <excludes>
+                                <exclude>WEB-INF/images/auth.png</exclude>
+                                <exclude>WEB-INF/images/blank.png</exclude>
+                                <exclude>WEB-INF/images/clock.png</exclude>
+                                <exclude>WEB-INF/images/close.png</exclude>
+                                <exclude>WEB-INF/images/eye.png</exclude>
+                                <exclude>WEB-INF/images/fancybox-loading.png</exclude>
+                                <exclude>WEB-INF/images/fancybox-overlay.png</exclude>
+                                <exclude>WEB-INF/images/fancybox-sprite.png</exclude>
+                                <exclude>WEB-INF/images/L_69x65.png</exclude>
+                                <exclude>WEB-INF/images/mainpic-443x253.png</exclude>
+                                <exclude>WEB-INF/images/news-decor-center.png</exclude>
+                                <exclude>WEB-INF/images/news-decor-line.png</exclude>
+                                <exclude>WEB-INF/images/news-decor-line-end.png</exclude>
+                                <exclude>WEB-INF/images/news-decor-right-end.png</exclude>
+                                <exclude>WEB-INF/images/pagin-left.png</exclude>
+                                <exclude>WEB-INF/images/pagin-right.png</exclude>
+                                <exclude>WEB-INF/images/valid.png</exclude>
+                                <exclude>WEB-INF/js/a.js</exclude>
+                                <exclude>WEB-INF/js/handleFile.js</exclude>
+                                <exclude>WEB-INF/js/circle_lightblue.js</exclude>
+                            </excludes>
+                        </overlay>
+                    </overlays>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
@@ -290,5 +325,12 @@
             <artifactId>StudPortalLib</artifactId>
             <version>1.2.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>Resourses</artifactId>
+            <version>1.0</version>
+            <type>war</type>
+        </dependency>
+
     </dependencies>
 </project>
