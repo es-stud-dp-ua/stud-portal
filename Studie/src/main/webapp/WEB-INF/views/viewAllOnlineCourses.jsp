@@ -47,11 +47,6 @@
   				   <input type="text" id="tags" name="title">
           </form:form>
   
-  
-<%if (request.isUserInRole("Administrator")){ %>
-		        <portlet:renderURL var="categories">
-                    <portlet:param name="view" value="onlineCoursesCategories"/>
-                </portlet:renderURL>
 
 					<select>
 					    <c:forEach var="postProfile" items="${onlineCourseTypes}">
@@ -59,7 +54,13 @@
 					        <c:out value="${postProfile.kindOfCourse}" />
 					    </option>
 					    </c:forEach>
-					</select>		      
+					</select>		  
+					  
+<%if (request.isUserInRole("Administrator")){ %>
+		        <portlet:renderURL var="categories">
+                    <portlet:param name="view" value="onlineCoursesCategories"/>
+                </portlet:renderURL>
+
 				 <a href="${categories}"><div style="display:inline;" id='changeBut' class="icon-pcppencil fs20" aria-hidden="true"></div></a>
 		    
 		       <portlet:renderURL var="LinkAddCourse">
