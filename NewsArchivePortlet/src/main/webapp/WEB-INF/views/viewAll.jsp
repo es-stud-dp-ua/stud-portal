@@ -39,7 +39,6 @@
         </a>
     </div>
     <%}%>
-    <div id="contentDiv">
         <liferay-ui:success message='<spring:message code="msg.successAdd"/>' key="success-add"/>
 
         <c:if test="${not empty newsDto}">
@@ -188,6 +187,5 @@
             </tr>
         </table>
             <%}%>
-    </div>
 </body>
 </html>

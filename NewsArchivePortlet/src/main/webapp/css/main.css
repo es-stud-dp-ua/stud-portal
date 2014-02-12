@@ -1,4 +1,4 @@
-п»ї.error {
+.error {
     color: #ff0000;
 }
 
@@ -288,7 +288,7 @@ label.error {
 /*multiple image loader*/
 
 .aui-field-label {
-    /*text РѕРїРёСЃР°РЅРёРµ*/
+    /*text описание*/
     font-weight: bold;
     padding-left: 9px;
 }
