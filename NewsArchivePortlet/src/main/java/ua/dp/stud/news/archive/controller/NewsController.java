@@ -39,6 +39,7 @@ import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.validation.Valid;
 
+import java.awt.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
@@ -339,12 +340,18 @@ public class NewsController {
                                                Integer.parseInt(actionRequest.getParameter("l")),
                                                Integer.parseInt(actionRequest.getParameter("w")),
                                                Integer.parseInt(actionRequest.getParameter("h")));
+
+            if (updateNews(oldNews, croppedImage, role, author, actionResponse)) {
+                newsService.updateNews(oldNews);
+                //close session
+
+            }
         }
-        if (updateNews(oldNews, croppedImage, role, author, actionResponse)) {
+        else
+        {
             newsService.updateNews(oldNews);
-            //close session
-            sessionStatus.setComplete();
         }
+        sessionStatus.setComplete();
     }
 
     @RenderMapping(params = "mode=add")

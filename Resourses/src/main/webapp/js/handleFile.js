@@ -25,18 +25,3 @@ function handleFileSelect(evt) {
         reader.readAsDataURL(f);
         a();
     }
-    function isNotMax(e, id) {
-        var validateValueTextArea = document.getElementById(id);
-        validateValueTextArea.value = validateValueTextArea.value.substr(0, validateValueTextArea.getAttribute('maxlength'));
-    }
-$(document).ready(function () {
-        $.datepicker.setDefaults($.datepicker.regional['ru']);
-		document.getElementById('mainImage').addEventListener('change', handleFileSelect, false);
-        $("#calendarDate").datepicker({dateFormat: 'yy-mm-dd'});
-		$(".greenbtn").each(function() {
-			$(this).click(function() {
-				var fotoInput = $(this).parent().find(".nphotos");
-				fotoInput.click();
-			});
-		});
-    });
