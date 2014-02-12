@@ -20,6 +20,7 @@ import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.model.User;
 
+import ua.dp.stud.StudPortalLib.dto.NewsDto;
 import ua.dp.stud.StudPortalLib.model.ImageImpl;
 import ua.dp.stud.StudPortalLib.model.KindOfCourse;
 import ua.dp.stud.StudPortalLib.model.News;
@@ -51,7 +52,10 @@ public class OnlineCourseController {
     private static final String STR_FAIL = "failOnline";
     private static final String NO_IMAGE = "no-images";
     private static final String MAIN_IMAGE_MOCK_URL = "http://www.princetonmn.org/vertical/Sites/%7BF37F81E8-174B-4EDB-91E0-1A3D62050D16%7D/uploads/News.gif";
-
+    private static final int COURSES_BY_PAGE = 10;
+    private static final int NEARBY_PAGES = 2;
+    private static final int OVERALL_PAGES = 7;
+    private static final String CURRENT_PAGE = "currentPage";
     @Autowired
     @Qualifier(value = "onlineCourseService")
     private OnlineCourseService onlineCourseService;
@@ -90,14 +94,78 @@ public class OnlineCourseController {
     @RenderMapping(params = "view=allOnlineCourses")
     public ModelAndView viewAllOnlineCourses(RenderRequest request, RenderResponse response) {
         ModelAndView model = new ModelAndView();
-        List<OnlineCourseType> onlineCourseTypes = onlineCourseService.getAllOnlineCourseType();
         model.setViewName("viewAllOnlineCourses");
+        
+        Integer pagesCount = onlineCourseService.getPagesCount(COURSES_BY_PAGE);
+        Integer currentPage;
+        if ((request.getParameter(CURRENT_PAGE) != null) && ("next".equals(request.getParameter("direction")))) {
+            currentPage = Integer.parseInt(request.getParameter(CURRENT_PAGE));
+            if (currentPage < pagesCount) {
+                currentPage++;
+            }
+        } else if ((request.getParameter(CURRENT_PAGE) != null) && ("prev".equals(request.getParameter("direction")))) {
+            currentPage = Integer.parseInt(request.getParameter(CURRENT_PAGE));
+            if (currentPage > 1) {
+                currentPage--;
+            }
+        } else if ((request.getParameter(CURRENT_PAGE) != null) && ("temp".equals(request.getParameter("direction")))) {
+            currentPage = Integer.parseInt(request.getParameter(CURRENT_PAGE));
+        } else{
+            currentPage = 1;
+        }
+        
+        Collection<OnlineCourse> onlineCourses = onlineCourseService.getOnlineCoursesOnPage(currentPage, COURSES_BY_PAGE);
+        model.addObject(CURRENT_PAGE, currentPage);
+        model.addObject("pagesCount", pagesCount);
+        model.addObject("coursesByPage", COURSES_BY_PAGE);
+        
+    
+        List<OnlineCourseType> onlineCourseTypes = onlineCourseService.getAllOnlineCourseType();
         model.addObject("onlineCourseTypes", onlineCourseTypes);
-        List<OnlineCourse> onlineCourses = onlineCourseService.getAll();
         model.addObject("onlineCourses", onlineCourses);
         String[] names = onlineCourseService.getAutocomplete();
         model.addObject("names",names);
+        createPagination(model, currentPage, pagesCount);
         return model;
+    }
+
+    private void createPagination(ModelAndView model, Integer currentPage, Integer pagesCount) {
+        Integer leftPageNumb = Math.max(1, currentPage - NEARBY_PAGES),
+                rightPageNumb = Math.min(pagesCount, currentPage + NEARBY_PAGES);
+        Boolean skippedBeginning = false,
+                skippedEnding = false;
+
+        if (pagesCount <= OVERALL_PAGES) {
+            //all pages are shown
+            leftPageNumb = 1;
+            rightPageNumb = pagesCount;
+        } else {
+            //if farther then page #1 + '...' + nearby pages
+            if (currentPage > 2 + NEARBY_PAGES) {
+                // will look like 1 .. pages
+                skippedBeginning = true;
+            } else {
+                //shows all first pages
+                leftPageNumb = 1;
+                //#1 + nearby pages + current + nearby pages
+                rightPageNumb = currentPage+NEARBY_PAGES;
+            }
+            //if farther then nearby + '...' + last
+            if (currentPage < pagesCount - (NEARBY_PAGES + 1)) {
+                //will look like pages .. lastPage
+                skippedEnding = true;
+            } else {
+                //shows all last pages:
+                leftPageNumb = currentPage  -  NEARBY_PAGES;
+                rightPageNumb = pagesCount;
+            }
+        }
+        model.addObject("nearbyPages", NEARBY_PAGES);
+        model.addObject("overallPages", OVERALL_PAGES);
+        model.addObject("leftPageNumb", leftPageNumb);
+        model.addObject("rightPageNumb", rightPageNumb);
+        model.addObject("skippedBeginning", skippedBeginning);
+        model.addObject("skippedEnding", skippedEnding);
     }
 
     @ActionMapping(value = "searchOnlineCourses")

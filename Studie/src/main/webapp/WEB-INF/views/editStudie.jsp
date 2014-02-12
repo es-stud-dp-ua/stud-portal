@@ -11,6 +11,9 @@
 <script src="${pageContext.request.contextPath}/js/dynamic_list_helper.js" type="text/javascript"></script>
 <script src="${pageContext.request.contextPath}/js/dynamic_list_special.js" type="text/javascript"></script>
 <script src="${pageContext.request.contextPath}/js/main_edit.js" type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/js/a.js" type="text/javascript"></script>
+            <script src="${pageContext.request.contextPath}/js/setCoords.js" type="text/javascript"></script>
+            <script src="${pageContext.request.contextPath}/js/handleFile.js" type="text/javascript"></script>
 <%
     Locale locale = (Locale) request.getSession().getAttribute("org.apache.struts.action.LOCALE");
     String language = locale.getLanguage();

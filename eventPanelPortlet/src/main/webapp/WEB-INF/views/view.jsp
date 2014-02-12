@@ -284,6 +284,7 @@
                 var myNews = $("." + paramsName);
                 myNews.html($('.' + paramsName, data));
                 setOnClick();
+                $('.newEvent').qtip('option', { 'position.my' : 'bottom center' });
             }
         });
     }

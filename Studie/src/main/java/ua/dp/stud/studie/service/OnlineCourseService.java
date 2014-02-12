@@ -38,4 +38,8 @@ public interface OnlineCourseService
     String[] getAutocomplete();
     
     List<OnlineCourse> getOnlineCourseByTitle(String title);
+    
+    Collection<OnlineCourse> getOnlineCoursesOnPage(Integer pageNumb, Integer coursesByPage);
+    
+    Integer getPagesCount(Integer coursesByPage);
 }

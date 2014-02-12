@@ -168,7 +168,8 @@
                 </div>
                 <div class="newsHeader">
                     <a href='${eventSingleLink}'>
-                        <%=currentEvent.getName()%>
+                        <% request.setAttribute("currentEventName",currentEvent.getName());%>
+                        <c:out value="${currentEventName}" escapeXml="true" />
                     </a>
                 </div>
                 <div class="newsText"><%= currentEvent.getDesc() %>
