@@ -33,7 +33,79 @@
 <body>
 <liferay-ui:error  key="image" message='Please, select a picture! '/>
 <portlet:actionURL var="addEdit" name="saveOnlineCourse"></portlet:actionURL>
+
+
+
 <%@include file="addEditOnlineCourse.jsp" %>
+
+
+<script>
+function isNotMax(e, validateValueTextArea) {
+
+     validateValueTextArea.value = validateValueTextArea.value
+     .substr(0, validateValueTextArea
+     .getAttribute('maxlength'));
+   }
+
+    $("#jform").on("submit",function(event){
+    document.getElementById('text1').innerHTML = CKEDITOR.instances.text.getData();
+                if ($("#jform").valid()){
+                    return true
+                }
+                return false
+ });
+
+
+                    $(document).ready(function() {
+
+                                          							document.getElementById('mainImage')
+                                          									.addEventListener('change',
+                                          											handleFileSelect, false);
+
+                         $.validator.setDefaults({ ignore: [] });
+                                 $('#jform').validate({
+                         rules: {
+                         	onlineCourseName: {
+                       			    required: true,
+                                    minlength: 5,
+                                    maxlength: 100
+                                     },
+                         mainImage: {
+                        	         filesize: 5242880
+                                    },
+                             text1: {
+                         			required: true,
+                                     minlength: 500,
+                                    maxlength: 3000
+                                    }
+                         } ,
+                        messages: {
+                            onlineCourseName: {
+                                 required: "<spring:message code="val.required"/>",
+                                 minlength:  "<spring:message code="val.title.minlength"/>",
+                                 maxlength:  "<spring:message code="val.title.maxlength"/>"
+                                    },
+                            mainImage:{
+                        	        filesize: "<spring:message code="val.text.minsize"/>"
+                                        },
+                                 text1: {
+                                required: "<spring:message code="val.required"/>",
+                                 minlength:  "<spring:message code="val.text.minlength"/>",
+                                 maxlength:  "<spring:message code="val.text.maxlength"/>"
+                                        }
+                        },
+                            highlight: function(label) {
+                                 $(label).removeClass("invisiblevalid");
+                                 $(label).closest('.control-group').addClass('error');
+                                                        },
+                             success: function(label) {
+                                 $(label).removeClass("error");
+                                 label.addClass("invisiblevalid");
+                                             }
+                          });
+                         });
+
+</script>
 
 </body>
 </html>

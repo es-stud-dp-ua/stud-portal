@@ -1,22 +1,25 @@
 <form:form method="POST" commandName="onlineCourse" action="${addEdit}"
-	enctype="multipart/form-data" id="onlineCourseForm" modelAttribute="onlineCourse">
+	enctype="multipart/form-data" id="jform" modelAttribute="onlineCourse">
 	<input type="hidden" size="0" id="x1" name="t" value="0" />
 	<input type="hidden" size="0" id="y1" name="l" value="0" />
 	<input type="hidden" size="0" id="w" name="w" value="100" />
 	<input type="hidden" size="0" id="h" name="h" value="100" />
   	<form:input type="hidden" path="id"/>
+
+
+
 	<div style="padding-left: 230px">
 		<br />
-		
-			<div id="labels" style="width: 150px; font-size: 12pt">
+		    <div>
+			<div id="labels" style="width: 150px; font-size: 12pt"><div id="redStar1">*</div>
 			<spring:message code="course.TName" />
 			</div>
-			<form:textarea path="onlineCourseName" id="topicInput" cols="90" rows="2"></form:textarea>
+			<form:textarea path="onlineCourseName" id="topicInput" cols="90" rows="2" maxlength="100"
+			           onkeypress="return isNotMax(event,this)" name="onlineCourseName"></form:textarea>
 			<form:errors path="onlineCourseName" cssClass="error" />
+            </div>
 
-			<div id="labels" style="width: 150px; font-size: 12pt">
-			<spring:message code="course.TName" />
-			</div>
+
 			 <form:select path="onlineCourseType.id">
                <form:options items="${onlineCourseType}" itemValue="id" itemLabel="kindOfCourse"/>
              </form:select>
@@ -59,15 +62,18 @@
 				</div>
 
 				<br /> <br />
-				
+				<div>
 				<div id="labels" style="width: 150px; font-size: 12pt">
-					<spring:message code="course.TDesc" />
+					<spring:message code="course.TDesc" /> <div id="redStar2">*</div>
 				</div>
 				<br />
-				<form:errors path="onlineCourseDescription" cssClass="error" />
+
 				<form:textarea path="onlineCourseDescription" class="ckeditor"
-					id="textInput" cols="60" rows="8"></form:textarea>
+					id="textInput" cols="60" rows="8" maxlength="3000" onkeypress="return isNotMax(event,this)"   name="onlineCourseDescription"/>
+                <textarea style="visibility: hidden;width: 0px;" id="text1" name="text1"  ></textarea>
+                <form:errors path="text1" cssClass="error" />
 				<br />
+				</div>
 				
 				<div id="sbm" align="center">
                 <input type="submit" value="<spring:message
@@ -124,20 +130,7 @@
 			jQuery('#h').val(c.h);
 		}
 
-		$(document)
-				.ready(
-						function() {
-							function isNotMax(e, id) {
-								var validateValueTextArea = document
-										.getElementById(id);
-								validateValueTextArea.value = validateValueTextArea.value
-										.substr(0, validateValueTextArea
-												.getAttribute('maxlength'));
-							}
-							document.getElementById('mainImage')
-									.addEventListener('change',
-											handleFileSelect, false);
-						})
+
 	</script>
 
 </form:form>
