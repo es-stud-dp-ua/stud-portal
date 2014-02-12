@@ -1,12 +1,14 @@
 package ua.dp.stud.studie.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import ua.dp.stud.StudPortalLib.model.News;
 import ua.dp.stud.studie.dao.OnlineCourseDao;
 import ua.dp.stud.studie.model.OnlineCourse;
 import ua.dp.stud.studie.model.OnlineCourseType;
@@ -132,5 +134,18 @@ public class OnlineCourseServiceImpl implements OnlineCourseService
     public List<OnlineCourse> getOnlineCourseByTitle(String title){
     	return dao.getOnlineCourseByTitle(title);
     }
-    
+
+    @Override
+    @Transactional(readOnly = true)
+    public Collection<OnlineCourse> getOnlineCoursesOnPage(Integer pageNumb, Integer coursesByPage) {
+        return dao.getOnlineCoursesOnPage(pageNumb, coursesByPage);
+    }
+
+
+    @Override
+    @Transactional(readOnly = true)
+    public Integer getPagesCount(Integer coursesByPage) {
+        return dao.getPagesCount(coursesByPage);
+    }
+
 }	

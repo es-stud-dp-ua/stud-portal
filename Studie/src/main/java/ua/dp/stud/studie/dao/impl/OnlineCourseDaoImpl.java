@@ -1,14 +1,17 @@
 package ua.dp.stud.studie.dao.impl;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import ua.dp.stud.StudPortalLib.model.News;
 import ua.dp.stud.studie.dao.OnlineCourseDao;
 import ua.dp.stud.studie.model.Council;
 import ua.dp.stud.studie.model.OnlineCourse;
@@ -122,4 +125,20 @@ public class OnlineCourseDaoImpl implements OnlineCourseDao
 		System.out.println(list);
         return list;
     }
+
+    @Override
+    public Collection<OnlineCourse> getOnlineCoursesOnPage(Integer pageNumb, Integer courseByPage) {
+        int firstResult = (pageNumb - 1) * courseByPage;
+        return (Collection<OnlineCourse>) getSession().createCriteria(OnlineCourse.class).addOrder(Order.desc("id"))
+                .setFirstResult(firstResult).setMaxResults(courseByPage).list();
+
+    }
+
+    @Override
+    public Integer getPagesCount(Integer coursesByPage) {
+    	Query q = getSession().createQuery("SELECT count(id) FROM OnlineCourse");
+        return ((Long) q.uniqueResult()).intValue()/coursesByPage+1; 
+    }
+
+
 }
