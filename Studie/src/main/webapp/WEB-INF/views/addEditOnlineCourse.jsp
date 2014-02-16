@@ -11,7 +11,7 @@
 	<div style="padding-left: 230px">
 		<br />
 		    <div>
-			<div id="labels" style="width: 150px; font-size: 12pt"><div id="redStar1">*</div>
+			<div id="labels" style="width: 150px; font-size: 12pt"><div id="redStar1" style=" margin-bottom: 67px;   left: 303px; ">*</div>
 			<spring:message code="course.TName" />
 			</div>
 			<form:textarea path="onlineCourseName" id="topicInput" cols="90" rows="2" maxlength="100"
@@ -66,7 +66,7 @@
 				<br /> <br />
 				<div>
 				<div id="labels" style="width: 150px; font-size: 12pt">
-					<spring:message code="course.TDesc" /> <div id="redStar2">*</div>
+					<spring:message code="course.TDesc" /> <div id="redStar2" style=" top: 560px; left: 303px;">*</div>
 				</div>
 				<br />
 
