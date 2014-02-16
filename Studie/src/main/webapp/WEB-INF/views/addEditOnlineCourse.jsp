@@ -71,9 +71,9 @@
 				<br />
 
 				<form:textarea path="onlineCourseDescription" class="ckeditor"
-					id="textInput" cols="60" rows="8" maxlength="3000" onkeypress="return isNotMax(event,this)"   name="onlineCourseDescription"/>
+					id="text" cols="60" rows="8" maxlength="3000" onkeypress="return isNotMax(event,this)"   name="onlineCourseDescription"/>
                 <textarea style="visibility: hidden;width: 0px;" id="text1" name="text1"  ></textarea>
-                <form:errors path="text1" cssClass="error" />
+                <form:errors path="onlineCourseDescription" cssClass="error" />
 				<br />
 				</div>
 				

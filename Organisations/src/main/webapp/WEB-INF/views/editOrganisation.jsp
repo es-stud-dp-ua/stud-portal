@@ -92,7 +92,7 @@
 
  <script>
         $("#jform").on("submit",function(event){
-
+                                       debugger
                                         document.getElementById('text1').innerHTML = CKEDITOR.instances.text.getData();
 
                                     });

@@ -229,7 +229,8 @@ public class OnlineCourseController {
                         @RequestParam(MAIN_IMAGE) CommonsMultipartFile mainImage,
                         SessionStatus sessionStatus) throws IOException {
     	if (bindingResult.hasErrors()) {
-            actionResponse.setRenderParameter(STR_FAIL, "found");
+            actionResponse.setRenderParameter(STR_FAIL, "msg.fail");
+            actionResponse.setRenderParameter("found", "found");
             return;
         }
         	if (mainImage.getOriginalFilename().equals("")) {
@@ -325,11 +326,11 @@ public class OnlineCourseController {
         onlineCourseService.deleteOnlineCourseType(kindOfCourseId);
     }
 
-    @RenderMapping(params = "failOnline=image")
+    @RenderMapping(params = "failOnline")
 	public ModelAndView showAddFailed(RenderRequest request,
 			RenderResponse response) {
-    	System.out.println("yahoo");
 		ModelAndView model = new ModelAndView("addOnlineCourse");
+        SessionErrors.add(request, request.getParameter("found"));
 		SessionErrors.add(request, request.getParameter("no"));
         Collection<OnlineCourseType> kindOfCourses = onlineCourseService.getAllKindOfCourseWithCount();
         model.addObject("onlineCourseType", kindOfCourses);

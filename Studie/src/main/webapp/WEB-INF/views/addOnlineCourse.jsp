@@ -32,6 +32,10 @@
 </head>
 <body>
 <liferay-ui:error  key="image" message='Please, select a picture! '/>
+<liferay-ui:error key="found" message='Please, fill the request fields! '/>
+    <c:if test="${exception}">
+        ${exception}
+    </c:if>
 <portlet:actionURL var="addEdit" name="saveOnlineCourse"></portlet:actionURL>
 
 
@@ -48,19 +52,15 @@ function isNotMax(e, validateValueTextArea) {
    }
 
     $("#jform").on("submit",function(event){
-    document.getElementById('text1').innerHTML = CKEDITOR.instances.text.getData();
-                if ($("#jform").valid()){
-                    return true
-                }
-                return false
- });
+                                 debugger
+                            document.getElementById('text1').innerHTML = CKEDITOR.instances.text.getData();
+
+                                                                                    });
 
 
                     $(document).ready(function() {
 
-                                          							document.getElementById('mainImage')
-                                          									.addEventListener('change',
-                                          											handleFileSelect, false);
+                                 document.getElementById('mainImage').addEventListener('change',handleFileSelect, false);
 
                          $.validator.setDefaults({ ignore: [] });
                                  $('#jform').validate({
@@ -75,7 +75,7 @@ function isNotMax(e, validateValueTextArea) {
                                     },
                              text1: {
                          			required: true,
-                                     minlength: 500,
+                                     minlength: 300,
                                     maxlength: 3000
                                     }
                          } ,

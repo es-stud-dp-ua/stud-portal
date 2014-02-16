@@ -382,7 +382,7 @@ public class OrganisationsController {
     @RenderMapping(params = "mode=edit")
     public ModelAndView editOrganisations(RenderRequest request, RenderResponse response) {
     	//getting organisations
-        int organisationID = Integer.valueOf(request.getParameter("orgsID"));
+        int organisationID = Integer.valueOf(request.getParameter("orgId"));
         Organization organisation = organizationService.getOrganizationById(organisationID);
     	User user = (User) request.getAttribute(WebKeys.USER);
         String userScreenName = user.getScreenName();
@@ -408,7 +408,7 @@ public class OrganisationsController {
     @RenderMapping(params = "mode=delete")
     public ModelAndView deleteOrganisation(RenderRequest request, RenderResponse response) {
 //getting current organisations
-        int organisationID = Integer.valueOf(request.getParameter("orgsID"));
+        int organisationID = Integer.valueOf(request.getParameter("orgId"));
         Organization organisation = organizationService.getOrganizationById(organisationID);
 //delete chosen organization's image from folder
         imageService.deleteDirectory(organisation);
