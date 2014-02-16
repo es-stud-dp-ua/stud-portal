@@ -103,11 +103,12 @@ public class OnlineCourseDaoImpl implements OnlineCourseDao
     }
 
 	@Override
-	public List<OnlineCourse> getOnlineCourseByType(Integer onlineCourseTypeId)
+	public List<OnlineCourse> getOnlineCourseByType(Long onlineCourseTypeId, Integer pageNumb, Integer courseByPage)
 	{
-		Query query = getSession().createQuery("from OnlineCourse where onlineCourseType.id = :onlineCourseTypeId");
+		int firstResult = (pageNumb - 1) * courseByPage;
+		Query query = getSession().createQuery("from OnlineCourse where onlineCourseType.id = :onlineCourseTypeId ORDER BY id DESC");
 		query.setParameter("onlineCourseTypeId", onlineCourseTypeId);
-		List<OnlineCourse> list = (List<OnlineCourse>)query.list();
+		List<OnlineCourse> list = (List<OnlineCourse>)query.setFirstResult(firstResult).setMaxResults(courseByPage).list();
         return list;
 	}
 
@@ -118,11 +119,11 @@ public class OnlineCourseDaoImpl implements OnlineCourseDao
     };
     
     @Override
-    public List<OnlineCourse> getOnlineCourseByTitle(String title){
-    	Query query = getSession().createQuery("from OnlineCourse where onlineCourseName like :onlineCourseName");
+    public List<OnlineCourse> getOnlineCourseByTitle(String title, Integer pageNumb, Integer courseByPage){
+    	int firstResult = (pageNumb - 1) * courseByPage;
+    	Query query = getSession().createQuery("from OnlineCourse where onlineCourseName like :onlineCourseName ORDER BY id DESC");
 		query.setParameter("onlineCourseName","%"+title+"%");
-		List<OnlineCourse> list = (List<OnlineCourse>)query.list();
-		System.out.println(list);
+		List<OnlineCourse> list = (List<OnlineCourse>)query.setFirstResult(firstResult).setMaxResults(courseByPage).list();
         return list;
     }
 

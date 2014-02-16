@@ -47,19 +47,22 @@
   				   <input type="text" id="tags" name="title">
           </form:form>
   
-  
+<portlet:actionURL var="gotype" name="getOnlineCoursesByType"></portlet:actionURL>
+	<form:form id="typeForm" action="${gotype}">
+					<select onchange="this.form.submit()" name="type">
+						<option selected="selected"><spring:message code="course.SelectCourseType" /></option>
+					    <c:forEach var="postProfile" items="${onlineCourseTypes}">
+					    <option value="<c:out value="${postProfile.id}" />">
+					        <c:out value="${postProfile.kindOfCourse}" />
+					    </option>
+					    </c:forEach>
+					</select>		  
+	</form:form>				  
 <%if (request.isUserInRole("Administrator")){ %>
 		        <portlet:renderURL var="categories">
                     <portlet:param name="view" value="onlineCoursesCategories"/>
                 </portlet:renderURL>
 
-					<select>
-					    <c:forEach var="postProfile" items="${onlineCourseTypes}">
-					    <option>
-					        <c:out value="${postProfile.kindOfCourse}" />
-					    </option>
-					    </c:forEach>
-					</select>		      
 				 <a href="${categories}"><div style="display:inline;" id='changeBut' class="icon-pcppencil fs20" aria-hidden="true"></div></a>
 		    
 		       <portlet:renderURL var="LinkAddCourse">
@@ -197,6 +200,8 @@
 		    </body>
 		    
 <script>
+
+
   $(function() {
 <%
 StringBuffer values = new StringBuffer();
@@ -211,6 +216,7 @@ var foo = [ <%= values.toString() %> ];
     $("#tags").autocomplete({
       source: foo
     });
+    
   });
   </script>
  </html>

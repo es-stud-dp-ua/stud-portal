@@ -64,9 +64,9 @@ public class OnlineCourseServiceImpl implements OnlineCourseService
 
     @Override
     @Transactional(readOnly = true)
-    public List<OnlineCourse> getOnlineCourseByType(Integer onlineCourseTypeId)
+    public List<OnlineCourse> getOnlineCourseByType(Long onlineCourseTypeId, Integer pageNumb, Integer coursesByPage)
     {
-        return dao.getOnlineCourseByType(onlineCourseTypeId);
+        return dao.getOnlineCourseByType(onlineCourseTypeId, pageNumb, coursesByPage);
     }
 
     @Override
@@ -131,8 +131,8 @@ public class OnlineCourseServiceImpl implements OnlineCourseService
 	 
     @Override
     @Transactional(readOnly = true)
-    public List<OnlineCourse> getOnlineCourseByTitle(String title){
-    	return dao.getOnlineCourseByTitle(title);
+    public List<OnlineCourse> getOnlineCourseByTitle(String title, Integer pageNumb, Integer coursesByPage){
+    	return dao.getOnlineCourseByTitle(title,pageNumb,coursesByPage);
     }
 
     @Override

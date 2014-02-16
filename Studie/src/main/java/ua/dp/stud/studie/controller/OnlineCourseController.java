@@ -172,6 +172,14 @@ public class OnlineCourseController {
     public void viewAllOnlineFoundCourses(ActionRequest request, ActionResponse response) {
     	response.setRenderParameter("title", request.getParameter("title"));
     	response.setRenderParameter("view", "allOnlineFoundCourses");
+    	response.setRenderParameter("switch", "title");
+    }
+   
+    @ActionMapping(value = "getOnlineCoursesByType")
+    public void viewFoundByTypeOnlineCourses(ActionRequest request, ActionResponse response) {
+    	response.setRenderParameter("type", request.getParameter("type"));
+    	response.setRenderParameter("view", "allOnlineFoundCourses");
+    	response.setRenderParameter("switch", "type");
     }
     
     @RenderMapping(params = "view=allOnlineFoundCourses")
@@ -179,11 +187,41 @@ public class OnlineCourseController {
         ModelAndView model = new ModelAndView();
         List<OnlineCourseType> onlineCourseTypes = onlineCourseService.getAllOnlineCourseType();
         model.setViewName("viewAllOnlineCourses");
+        
+        Integer pagesCount = onlineCourseService.getPagesCount(COURSES_BY_PAGE);
+        Integer currentPage;
+        if ((request.getParameter(CURRENT_PAGE) != null) && ("next".equals(request.getParameter("direction")))) {
+            currentPage = Integer.parseInt(request.getParameter(CURRENT_PAGE));
+            if (currentPage < pagesCount) {
+                currentPage++;
+            }
+        } else if ((request.getParameter(CURRENT_PAGE) != null) && ("prev".equals(request.getParameter("direction")))) {
+            currentPage = Integer.parseInt(request.getParameter(CURRENT_PAGE));
+            if (currentPage > 1) {
+                currentPage--;
+            }
+        } else if ((request.getParameter(CURRENT_PAGE) != null) && ("temp".equals(request.getParameter("direction")))) {
+            currentPage = Integer.parseInt(request.getParameter(CURRENT_PAGE));
+        } else{
+            currentPage = 1;
+        }
+        
+        model.addObject(CURRENT_PAGE, currentPage);
+        model.addObject("pagesCount", pagesCount);
+        model.addObject("coursesByPage", COURSES_BY_PAGE);
+        
         model.addObject("onlineCourseTypes", onlineCourseTypes);
-        List<OnlineCourse> onlineCourses = onlineCourseService.getOnlineCourseByTitle(request.getParameter("title"));
+        List<OnlineCourse> onlineCourses=null;
+        if (request.getParameter("switch").equals("title")){
+        	onlineCourses = onlineCourseService.getOnlineCourseByTitle(request.getParameter("title"),currentPage, COURSES_BY_PAGE);
+        }
+        else if (request.getParameter("switch").equals("type")){
+        	onlineCourses = onlineCourseService.getOnlineCourseByType(Long.parseLong(request.getParameter("type")),currentPage, COURSES_BY_PAGE);
+        }
         model.addObject("onlineCourses", onlineCourses);
         String[] names = onlineCourseService.getAutocomplete();
         model.addObject("names",names);
+        createPagination(model, currentPage, pagesCount);
         return model;
     }
     

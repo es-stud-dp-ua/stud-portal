@@ -29,7 +29,7 @@ public interface OnlineCourseService
 
     List<OnlineCourseType> getAllOnlineCourseType();
 
-	List<OnlineCourse> getOnlineCourseByType(Integer onlineCourseTypeId);
+	List<OnlineCourse> getOnlineCourseByType(Long onlineCourseTypeId, Integer pageNumb, Integer coursesByPage);
 
     List<OnlineCourseType> getAllKindOfCourseWithCount();
 
@@ -37,7 +37,7 @@ public interface OnlineCourseService
 
     String[] getAutocomplete();
     
-    List<OnlineCourse> getOnlineCourseByTitle(String title);
+    List<OnlineCourse> getOnlineCourseByTitle(String title, Integer pageNumb, Integer coursesByPage);
     
     Collection<OnlineCourse> getOnlineCoursesOnPage(Integer pageNumb, Integer coursesByPage);
     
