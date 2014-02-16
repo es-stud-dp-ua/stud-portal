@@ -31,8 +31,33 @@
         </style>
 </head>
 <body>
+
+<script type="text/javascript">
+
+                    $(document).ready(function() {
+            $.Placeholder.init({color: "#aaa"});
+            });
+                    function isNotMax(e) {
+                    e = e || window.event;
+                            var target = e.target || e.srcElement;
+                            var code = e.keyCode ? e.keyCode : (e.which ? e.which : e.charCode)
+                            switch (code) {
+                    case 13:
+                            case 8:
+                            case 9:
+                            case 46:
+                            case 37:
+                            case 38:
+                            case 39:
+                            case 40:
+                            return true;
+                    }
+                    return target.value.length <= target.getAttribute('maxlength');
+                    }
+        </script>
+
 <liferay-ui:error  key="image" message='Please, select a picture! '/>
-<liferay-ui:error key="found" message='Please, fill the request fields! '/>
+
     <c:if test="${exception}">
         ${exception}
     </c:if>
@@ -43,69 +68,53 @@
 <%@include file="addEditOnlineCourse.jsp" %>
 
 
-<script>
-function isNotMax(e, validateValueTextArea) {
+ <script>
+        $("#jform").on("submit",function(event){
 
-     validateValueTextArea.value = validateValueTextArea.value
-     .substr(0, validateValueTextArea
-     .getAttribute('maxlength'));
-   }
+                                        document.getElementById('text1').innerHTML = CKEDITOR.instances.text.getData();
 
-    $("#jform").on("submit",function(event){
-                                 debugger
-                            document.getElementById('text1').innerHTML = CKEDITOR.instances.text.getData();
+                                    });
 
-                                                                                    });
+                             $(document).ready(function() {
+                     $.validator.setDefaults({ ignore: [] });
+                             $('#jform').validate({
 
+                     rules: {
+                     onlineCourseName: {
+                     required: true,
+                             minlength: 5,
+                             maxlength: 100
+                     },
+                     text1: {
+                     required: true,
+                             minlength: 300,
+                             maxlength: 3000
+                     }
 
-                    $(document).ready(function() {
-
-                                 document.getElementById('mainImage').addEventListener('change',handleFileSelect, false);
-
-                         $.validator.setDefaults({ ignore: [] });
-                                 $('#jform').validate({
-                         rules: {
-                         	onlineCourseName: {
-                       			    required: true,
-                                    minlength: 5,
-                                    maxlength: 100
-                                     },
-                         mainImage: {
-                        	         filesize: 5242880
-                                    },
+                     },
+                             messages: {
+                     onlineCourseName: {
+                     required: "<spring:message code="val.required"/>",
+                             minlength:  "<spring:message code="val.title.minlength"/>",
+                             maxlength:  "<spring:message code="val.title.maxlength"/>"
+                     },
                              text1: {
-                         			required: true,
-                                     minlength: 300,
-                                    maxlength: 3000
-                                    }
-                         } ,
-                        messages: {
-                            onlineCourseName: {
-                                 required: "<spring:message code="val.required"/>",
-                                 minlength:  "<spring:message code="val.title.minlength"/>",
-                                 maxlength:  "<spring:message code="val.title.maxlength"/>"
-                                    },
-                            mainImage:{
-                        	        filesize: "<spring:message code="val.text.minsize"/>"
-                                        },
-                                 text1: {
-                                required: "<spring:message code="val.required"/>",
-                                 minlength:  "<spring:message code="val.text.minlength"/>",
-                                 maxlength:  "<spring:message code="val.text.maxlength"/>"
-                                        }
-                        },
-                            highlight: function(label) {
-                                 $(label).removeClass("invisiblevalid");
-                                 $(label).closest('.control-group').addClass('error');
-                                                        },
+                     required: "<spring:message code="val.required"/>",
+                             minlength:  "<spring:message code="val.text.minlength"/>",
+                             maxlength:  "<spring:message code="val.text.maxlength"/>"
+                     }
+                     },
+                             highlight: function(label) {
+                     $(label).removeClass("invisiblevalid");
+                             $(label).closest('.control-group').addClass('error');
+                     },
                              success: function(label) {
-                                 $(label).removeClass("error");
-                                 label.addClass("invisiblevalid");
-                                             }
-                          });
-                         });
+                     $(label).removeClass("error");
+                             label.addClass("invisiblevalid");
+                     }
+                     });
+                     });
 
-</script>
-
+     </script>
 </body>
 </html>

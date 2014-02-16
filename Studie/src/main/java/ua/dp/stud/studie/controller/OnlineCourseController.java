@@ -46,10 +46,11 @@ import java.util.List;
 @Controller(value = "OnlineCoursesController")
 @RequestMapping(value = "VIEW")
 public class OnlineCourseController {
-	private static final String ADMIN_ROLE = "Administrator";
+
 	private static final String MAIN_IMAGE = "mainImage";
     private static final String ONLINE_COURSE = "onlineCourse";
     private static final String STR_FAIL = "failOnline";
+    private static final String ADMIN = "Administrator";
     private static final String NO_IMAGE = "no-images";
     private static final String MAIN_IMAGE_MOCK_URL = "http://www.princetonmn.org/vertical/Sites/%7BF37F81E8-174B-4EDB-91E0-1A3D62050D16%7D/uploads/News.gif";
     private static final int COURSES_BY_PAGE = 10;
@@ -80,6 +81,7 @@ public class OnlineCourseController {
         Integer id = Integer.parseInt(request.getParameter("id"));
         OnlineCourse course = onlineCourseService.getOnlineCourseById(id);
         model.addObject("onlineCourse",course);
+        model.addObject("isShown",request.isUserInRole(ADMIN)?true:false);
         return model;
     }
     
@@ -268,7 +270,7 @@ public class OnlineCourseController {
                         SessionStatus sessionStatus) throws IOException {
     	if (bindingResult.hasErrors()) {
             actionResponse.setRenderParameter(STR_FAIL, "msg.fail");
-            actionResponse.setRenderParameter("found", "found");
+//            actionResponse.setRenderParameter("found", "found");
             return;
         }
         	if (mainImage.getOriginalFilename().equals("")) {
@@ -368,7 +370,7 @@ public class OnlineCourseController {
 	public ModelAndView showAddFailed(RenderRequest request,
 			RenderResponse response) {
 		ModelAndView model = new ModelAndView("addOnlineCourse");
-        SessionErrors.add(request, request.getParameter("found"));
+       // SessionErrors.add(request, request.getParameter("found"));
 		SessionErrors.add(request, request.getParameter("no"));
         Collection<OnlineCourseType> kindOfCourses = onlineCourseService.getAllKindOfCourseWithCount();
         model.addObject("onlineCourseType", kindOfCourses);

@@ -87,7 +87,7 @@
             <script src="${pageContext.request.contextPath}/js/setCoords.js" type="text/javascript"></script>
             <script src="${pageContext.request.contextPath}/js/handleFile.js" type="text/javascript"></script>
 	<script>
-
+      document.getElementById('mainImage').addEventListener('change', handleFileSelect, false);
 
 	</script>
 
