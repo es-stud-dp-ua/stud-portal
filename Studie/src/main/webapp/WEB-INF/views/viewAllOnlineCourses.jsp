@@ -21,6 +21,16 @@
 <%
 	String[] name = (String[])request.getAttribute("names");
     Collection<OnlineCourse> courses = (Collection) request.getAttribute("onlineCourses");
+    int pagesCount = (Integer) request.getAttribute("pagesCount");
+    Integer currentPage = (Integer) request.getAttribute("currentPage");
+    //todo: remove unused variables
+    int nearbyPages = (Integer) request.getAttribute("nearbyPages"); //number of pages to show to left and right of current
+    int overallPages = (Integer) request.getAttribute("overallPages"); //overall number of pages
+    int leftPageNumb = (Integer) request.getAttribute("leftPageNumb"),
+            rightPageNumb = (Integer) request.getAttribute("rightPageNumb");
+    boolean skippedBeginning = (Boolean) request.getAttribute("skippedBeginning"),
+            skippedEnding = (Boolean) request.getAttribute("skippedEnding");
+
 %>
 
 <html>
@@ -37,19 +47,22 @@
   				   <input type="text" id="tags" name="title">
           </form:form>
   
-  
+<portlet:actionURL var="gotype" name="getOnlineCoursesByType"></portlet:actionURL>
+	<form:form id="typeForm" action="${gotype}">
+					<select onchange="this.form.submit()" name="type">
+						<option selected="selected"><spring:message code="course.SelectCourseType" /></option>
+					    <c:forEach var="postProfile" items="${onlineCourseTypes}">
+					    <option value="<c:out value="${postProfile.id}" />">
+					        <c:out value="${postProfile.kindOfCourse}" />
+					    </option>
+					    </c:forEach>
+					</select>		  
+	</form:form>				  
 <%if (request.isUserInRole("Administrator")){ %>
 		        <portlet:renderURL var="categories">
                     <portlet:param name="view" value="onlineCoursesCategories"/>
                 </portlet:renderURL>
 
-					<select>
-					    <c:forEach var="postProfile" items="${onlineCourseTypes}">
-					    <option>
-					        <c:out value="${postProfile.kindOfCourse}" />
-					    </option>
-					    </c:forEach>
-					</select>		      
 				 <a href="${categories}"><div style="display:inline;" id='changeBut' class="icon-pcppencil fs20" aria-hidden="true"></div></a>
 		    
 		       <portlet:renderURL var="LinkAddCourse">
@@ -100,10 +113,95 @@
 
 <%}%>
      </div>
+          <%if((courses == null ?0:courses.size())>9||currentPage>1){%>
+        <table width="90%">
+            <tr>
+                <td width="80" align="left">
+            <portlet:renderURL var="pagPrev">
+                <portlet:param name="view" value="allOnlineCourses"/>
+                <portlet:param name="direction" value="prev"/>
+                <portlet:param name="currentPage" value="<%=String.valueOf(currentPage)%>"/>
+            </portlet:renderURL>
+            <a href="${pagPrev}">
+                <img class="paginationImage"
+                     src="${pageContext.request.contextPath}/images/pagin-left.png"/>
+            </a>
+            </td>
+
+            <td width="auto" align="center" valign="center">
+                <%-- PAGINATION --%>
+                <%if (skippedBeginning) {%>
+                <%-- HIDING FIRST PAGES --%>
+                <a href="<portlet:renderURL><portlet:param name="view" value="allOnlineCourses"/><portlet:param name="direction" value="temp"/><portlet:param name="currentPage" value="1"/></portlet:renderURL>">1</a>
+                <label> ... </label>
+                <%}%>
+
+                <%-- SHOWING CURRENT PAGE NEAREST FROM LEFT AND RIGHT --%>
+                <%
+                    for (int pageNumb = leftPageNumb; pageNumb <= rightPageNumb; ++pageNumb) {
+                        if (pageNumb != currentPage) {
+                %>
+                <a href="<portlet:renderURL>
+                                <portlet:param name="view" value="allOnlineCourses"/>
+                <portlet:param name="currentPage" value="<%=String.valueOf(pageNumb)%>"/>
+               <portlet:param name="direction" value="temp"/>
+                </portlet:renderURL>"><%=pageNumb%>
+                </a>
+                <%if(pageNumb>0){ %>
+                <label>  </label>
+                <%}%>
+                <%if(pageNumb>9){ %>
+                <label>  </label>
+                <%}%>
+                <%if(pageNumb>99){ %>
+                <label>  </label>
+                <%}%>
+                <%} else {%>
+                <label style="color: #28477C; font-size: 40px;"><%=pageNumb%>
+                </label>
+                <%if(pageNumb>0){ %>
+                <label>  </label>
+                <%}%>
+                <%if(pageNumb>9){ %>
+                <label>  </label>
+                <%}%>
+                <%if(pageNumb>99){ %>
+                <label>  </label>
+                <%}%>
+                <%}%>
+                <%}%>
+
+                <%if (skippedEnding) {%>
+                <%-- HIDING LAST PAGES --%>
+                <label> ... </label>
+                <a href="<portlet:renderURL>
+                <portlet:param name="view" value="allOnlineCourses"/>
+                <portlet:param name="currentPage" value="<%=String.valueOf(pagesCount)%>"/>
+                <portlet:param name="direction" value="temp"/>
+                </portlet:renderURL>"><%=pagesCount%>
+                </a>
+                <%}%>
+            </td>
+            <td width="80" align="right">
+            <portlet:renderURL var="pagNext">
+                <portlet:param name="view" value="allOnlineCourses"/>
+                <portlet:param name="direction" value="next"/>
+                <portlet:param name="currentPage" value="<%=String.valueOf(currentPage)%>"/>
+            </portlet:renderURL>
+            <a href="${pagNext}">
+                <img class="paginationImage"
+                     src="${pageContext.request.contextPath}/images/pagin-right.png"/>
+            </a>
+            </td>
+            </tr>
+        </table>
+            <%}%>
 
 		    </body>
 		    
 <script>
+
+
   $(function() {
 <%
 StringBuffer values = new StringBuffer();
@@ -118,6 +216,7 @@ var foo = [ <%= values.toString() %> ];
     $("#tags").autocomplete({
       source: foo
     });
+    
   });
   </script>
  </html>

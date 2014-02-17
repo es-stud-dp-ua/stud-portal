@@ -1,14 +1,17 @@
 package ua.dp.stud.studie.dao.impl;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import ua.dp.stud.StudPortalLib.model.News;
 import ua.dp.stud.studie.dao.OnlineCourseDao;
 import ua.dp.stud.studie.model.Council;
 import ua.dp.stud.studie.model.OnlineCourse;
@@ -59,7 +62,7 @@ public class OnlineCourseDaoImpl implements OnlineCourseDao
     @Override
     public List<OnlineCourse> getAll()
     {
-        return getSession().createCriteria(OnlineCourse.class).list();
+        return getSession().createCriteria(OnlineCourse.class).addOrder(Order.desc("id")).list();
     }
 
     @Override
@@ -100,11 +103,12 @@ public class OnlineCourseDaoImpl implements OnlineCourseDao
     }
 
 	@Override
-	public List<OnlineCourse> getOnlineCourseByType(Integer onlineCourseTypeId)
+	public List<OnlineCourse> getOnlineCourseByType(Long onlineCourseTypeId, Integer pageNumb, Integer courseByPage)
 	{
-		Query query = getSession().createQuery("from OnlineCourse where onlineCourseType.id = :onlineCourseTypeId");
+		int firstResult = (pageNumb - 1) * courseByPage;
+		Query query = getSession().createQuery("from OnlineCourse where onlineCourseType.id = :onlineCourseTypeId ORDER BY id DESC");
 		query.setParameter("onlineCourseTypeId", onlineCourseTypeId);
-		List<OnlineCourse> list = (List<OnlineCourse>)query.list();
+		List<OnlineCourse> list = (List<OnlineCourse>)query.setFirstResult(firstResult).setMaxResults(courseByPage).list();
         return list;
 	}
 
@@ -115,11 +119,27 @@ public class OnlineCourseDaoImpl implements OnlineCourseDao
     };
     
     @Override
-    public List<OnlineCourse> getOnlineCourseByTitle(String title){
-    	Query query = getSession().createQuery("from OnlineCourse where onlineCourseName like :onlineCourseName");
+    public List<OnlineCourse> getOnlineCourseByTitle(String title, Integer pageNumb, Integer courseByPage){
+    	int firstResult = (pageNumb - 1) * courseByPage;
+    	Query query = getSession().createQuery("from OnlineCourse where onlineCourseName like :onlineCourseName ORDER BY id DESC");
 		query.setParameter("onlineCourseName","%"+title+"%");
-		List<OnlineCourse> list = (List<OnlineCourse>)query.list();
-		System.out.println(list);
+		List<OnlineCourse> list = (List<OnlineCourse>)query.setFirstResult(firstResult).setMaxResults(courseByPage).list();
         return list;
     }
+
+    @Override
+    public Collection<OnlineCourse> getOnlineCoursesOnPage(Integer pageNumb, Integer courseByPage) {
+        int firstResult = (pageNumb - 1) * courseByPage;
+        return (Collection<OnlineCourse>) getSession().createCriteria(OnlineCourse.class).addOrder(Order.desc("id"))
+                .setFirstResult(firstResult).setMaxResults(courseByPage).list();
+
+    }
+
+    @Override
+    public Integer getPagesCount(Integer coursesByPage) {
+    	Query q = getSession().createQuery("SELECT count(id) FROM OnlineCourse");
+        return ((Long) q.uniqueResult()).intValue()/coursesByPage+1; 
+    }
+
+
 }

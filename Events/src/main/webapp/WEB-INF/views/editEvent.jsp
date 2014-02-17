@@ -104,7 +104,7 @@ SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
         <script >
         $("#event").on("submit",function(event){
 
-                                          document.getElementById('text1').innerHTML = CKEDITOR.instances.textInput.getData();
+                                          document.getElementById('text1').innerHTML = CKEDITOR.instances.text.getData();
 
                                                                                                   });
                                                   $(document).ready(function() {

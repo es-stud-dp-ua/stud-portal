@@ -45,16 +45,6 @@
                         <script>
 
 
-                if(document.getElementById('img'))
-                {
-                     document.getElementById('img').parentNode.removeChild(document.getElementById('img'));
-                }
-                // Read in the image file as a data URL.
-                reader.readAsDataURL(f);
-                // Read in the image file as a data URL.
-                reader.readAsDataURL(f);
-                a();
-            }
             document.getElementById('mainImage').addEventListener('change', handleFileSelect, false);
                         </script>
 
@@ -64,13 +54,13 @@
                     <td rowspan=2 width="50%" align="left">
 
                      <div id="labels"><spring:message code="form.title"/></div><div id="redStar1">*</div>
-                        <form:input title="${event.title}" path="title" style="margin-left:2%;width:95%;" id="topicInput" cols="90" rows="2" maxlength="100" onkeypress="return isNotMax(event)"
+                        <form:input title="${event.title}" path="title" style="margin-left:2%;width:95%;" id="text" cols="90" rows="2" maxlength="100" onkeypress="return isNotMax(event,this)"
                                     name="title"/>
                         <form:errors path="title" cssClass="error"></form:errors>
                         <div id="labels"><spring:message code="form.text"/></div><div id="redStar2">*</div>
                             <div style="width: 450px; float: bottom ;padding-left: 8px;">
                             <form:textarea path="text" title="${event.text}" class="ckeditor" id="textInput" cols="60" rows="10" maxlength="8000"
-                                           onkeypress="return isNotMax(event)" name="text"/>
+                                           onkeypress="return isNotMax(event,this)" name="text"/>
                              <textarea style="visibility: hidden;width: 0px;" id="text1" name="text1"  ></textarea>
                             <form:errors path="text" cssClass="error" ></form:errors>
                                 <br/><br/>
