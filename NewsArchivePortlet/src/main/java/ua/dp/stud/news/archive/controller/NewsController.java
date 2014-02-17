@@ -344,7 +344,6 @@ public class NewsController {
             if (updateNews(oldNews, croppedImage, role, author, actionResponse)) {
                 newsService.updateNews(oldNews);
                 //close session
-
             }
         }
         else

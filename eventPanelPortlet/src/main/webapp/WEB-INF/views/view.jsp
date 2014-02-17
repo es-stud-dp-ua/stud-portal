@@ -193,7 +193,7 @@
          <div id="elem">
                     <div class="event <%if (myNewsSize > 0){%> newEvent <%}%>" rel="<portlet:renderURL/>&mode=pagination"
                          dataclass="myNews" title="<spring:message code="viewAll.myNews"/>">
-                        <span aria-hidden="true" class="icon-earth"></span>
+                        <span aria-hidden="true" class="icon-office"></span>
                     </div>
                     <c:if test="${myNewsSize > 0 }"> <span id="count">${myNewsSize}</span></c:if>
          </div>

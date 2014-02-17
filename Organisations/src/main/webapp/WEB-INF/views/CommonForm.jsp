@@ -5,6 +5,17 @@
              <input type="hidden" size="0" id="h" name="h"/>
              <form:input type="hidden" path="id" />
 
+<script>
+ function e(e) {
+                // Render thumbnail.
+                var span = document.createElement('span');
+                span.innerHTML = ['<img id="cropbox" class="thumb" width="453px" src="${mainImage}"/>'].join('');
+                document.getElementById('list').insertBefore(span, null);
+                a();
+            };
+</script>
+
+
              <table width="100%" margin-bottom="15px">
                  <tr>
                      <td width="50%" align="center">
@@ -20,7 +31,7 @@
                             <c:when test='${mainImage != null}' >
                                 <div>
                                     <div id="mainPic" style="vertical-align: top; ">
-                                         <img id="img"  style="vertical-align: top; "  src="${mainImage}"/>
+                                         <img id="img"  style="vertical-align: top; "  src="${mainImage}" onload="return e()"/>
                                          <output id="list"></output>
                                     </div>
                                 </div>

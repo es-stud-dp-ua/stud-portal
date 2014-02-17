@@ -328,29 +328,24 @@ public class OrganisationsController {
             CommonsMultipartFile croppedImage = null;
             Boolean defImage = Boolean.valueOf(actionRequest.getParameter("defaultImage"));
             Boolean changeImage = true;
+            boolean role = actionRequest.isUserInRole(ADMINISTRATOR_ROLE) ;
+            User user = (User) actionRequest.getAttribute(WebKeys.USER);
+            String author = user.getScreenName();
             if (defImage == false) {
-                if (!actionRequest.getParameter("t").equals("") || !"".equals(mainImage.getFileItem().getName())) {
+                if (actionRequest.getParameter("t").equals("100") && !"".equals(mainImage.getFileItem().getName())) {
                     croppedImage = imageService.cropImage(mainImage, Integer.parseInt(actionRequest.getParameter("t")),
                                                           Integer.parseInt(actionRequest.getParameter("l")),
                                                           Integer.parseInt(actionRequest.getParameter("w")),
                                                           Integer.parseInt(actionRequest.getParameter("h")));
+                    if (updateOrganisationFields(croppedImage, images, role, author, oldOrganization, typeOrg, changeImage))
+                        organizationService.updateOrganization(oldOrganization);
                 } else {
+                    organizationService.updateOrganization(oldOrganization);
                     changeImage = false;
                 }
 
-            } else {
-                croppedImage = imageService.getDefaultImage(actionRequest.getPortletSession().getPortletContext().getRealPath(File.separator));
             }
-            boolean role = actionRequest.isUserInRole(ADMINISTRATOR_ROLE) ;
-            User user = (User) actionRequest.getAttribute(WebKeys.USER);
-            String author = user.getScreenName();
-            if (updateOrganisationFields(croppedImage, images, role, author, oldOrganization, typeOrg, changeImage)) {
-                organizationService.updateOrganization(oldOrganization);
-//close session
-                sessionStatus.setComplete();
-            } else {
-                actionResponse.setRenderParameter(STR_FAIL, STR_DUPLICAT_TOPIC);
-            }
+            sessionStatus.setComplete();
         }
     }
 
@@ -382,7 +377,7 @@ public class OrganisationsController {
     @RenderMapping(params = "mode=edit")
     public ModelAndView editOrganisations(RenderRequest request, RenderResponse response) {
     	//getting organisations
-        int organisationID = Integer.valueOf(request.getParameter("orgsID"));
+        int organisationID = Integer.valueOf(request.getParameter("orgId"));
         Organization organisation = organizationService.getOrganizationById(organisationID);
     	User user = (User) request.getAttribute(WebKeys.USER);
         String userScreenName = user.getScreenName();
@@ -408,7 +403,7 @@ public class OrganisationsController {
     @RenderMapping(params = "mode=delete")
     public ModelAndView deleteOrganisation(RenderRequest request, RenderResponse response) {
 //getting current organisations
-        int organisationID = Integer.valueOf(request.getParameter("orgsID"));
+        int organisationID = Integer.valueOf(request.getParameter("orgId"));
         Organization organisation = organizationService.getOrganizationById(organisationID);
 //delete chosen organization's image from folder
         imageService.deleteDirectory(organisation);
