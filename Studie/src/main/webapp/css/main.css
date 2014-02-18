@@ -468,8 +468,13 @@ span.cke_skin_kama {
     right: 80%;
 }
 #redStar2{
-    color: red;
-    position: absolute;
-    bottom: 50%;
-    right: 80%;
-}
+     color: red;
+     position: absolute;
+     bottom: 50%;
+     right: 80%;
+ }
+ #redStar3{
+     color: red;
+     position: absolute;
+     top: 128px;
+      }

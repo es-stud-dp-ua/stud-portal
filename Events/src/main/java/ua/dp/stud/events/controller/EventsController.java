@@ -472,6 +472,8 @@ public class EventsController {
             eventsService.updateEvents(newEvent);
 //close session
             sessionStatus.setComplete();
+            actionResponse.setRenderParameter("success"," ");
+            actionResponse.setRenderParameter(ARCHIVE,actionRequest.getParameterValues(ARCHIVE));
         } else {
             actionResponse.setRenderParameter(STR_FAIL, STR_DUPLICAT_TOPIC);
         }
