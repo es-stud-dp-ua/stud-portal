@@ -103,14 +103,15 @@ public class EventsController {
         int pagesCount;
         int currentPage;
         EventsType type;
-        Boolean future=true;
-        Direction directionType=Direction.FUTURE;
+        Boolean future;
+        if (request.getAttribute(ARCHIVE)!=null)
+            future=TRUE.equals(request.getAttribute(ARCHIVE));
+        else future=true;
+        Direction directionType=null;
         Date sortDate=new Date();
 
         if (request.getParameter("directType")!=null)
             directionType= Direction.valueOf(request.getParameter("directType"));
-
-
 
         if ((request.getParameter(CURRENT_PAGE) != null) && ("next".equals(request.getParameter("direction")))) {
             currentPage = Integer.parseInt(request.getParameter(CURRENT_PAGE));
@@ -134,6 +135,8 @@ public class EventsController {
             type = null;
         }
 
+        if (directionType!=null)
+        {
         if ((directionType.equals(Direction.DAY))||(directionType.equals(Direction.FUTURE)))
         {
             future=true;
@@ -143,7 +146,12 @@ public class EventsController {
         {
             future=false;
         }
-
+        }
+        else
+        {
+            if (future) directionType=Direction.FUTURE;
+                    else directionType=Direction.PREVIOS;
+        }
 
        if (("".equals(request.getParameter("startDate")))||(request.getParameter("startDate")!=null))
         {
@@ -284,7 +292,7 @@ public class EventsController {
         } else {
             currentPage = 1;
         }
-         if ("true".equals(request.getParameter("archive")) || (request.getParameter("archive")) == null)
+         if (TRUE.equals(request.getParameter("archive")) || (request.getParameter("archive")) == null)
          {
             future=true;
         }
@@ -471,9 +479,11 @@ public class EventsController {
         if (updateEventsFields(newEvent, croppedImage, role, usRole, changeImage)) {
             eventsService.updateEvents(newEvent);
 //close session
-            sessionStatus.setComplete();
-            actionResponse.setRenderParameter("success"," ");
+
+          /*  showAddSuccess(actionRequest,actionResponse);*/
+            actionResponse.setRenderParameter("success","");
             actionResponse.setRenderParameter(ARCHIVE,actionRequest.getParameterValues(ARCHIVE));
+            sessionStatus.setComplete();
         } else {
             actionResponse.setRenderParameter(STR_FAIL, STR_DUPLICAT_TOPIC);
         }
@@ -555,6 +565,7 @@ public class EventsController {
 
     @RenderMapping(params = "success")
     public ModelAndView showAddSuccess(RenderRequest request, RenderResponse response) {
+        request.setAttribute(ARCHIVE,request.getParameter(ARCHIVE));
         ModelAndView model = showView(request, response);
         String strSuccess = "success";
         int currentPage;
@@ -563,14 +574,8 @@ public class EventsController {
         } else {
             currentPage = 1;
         }
-        Boolean future;
-        if (TRUE.equals(request.getParameter(ARCHIVE)) || (request.getParameter(ARCHIVE)) == null) {
-            future = true;
-        } else {
-            future = false;
-        }
 //send current event in view
-        model.addObject(ARCHIVE, future);
+
         model.addObject(CURRENT_PAGE, currentPage);
         SessionMessages.add(request, request.getParameter(strSuccess));
         return model;

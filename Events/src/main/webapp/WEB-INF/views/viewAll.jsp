@@ -181,7 +181,7 @@
                         <div class="panelbtn panelbtn-right fs20 icon-pcpremove"  aria-hidden="true"></div>
                     </a>
                     <a style="float: right" 
-                    href="<portlet:renderURL><portlet:param name="eventId" value="<%=currentEvent.getId().toString()%>"/><portlet:param name="mode" value="edit" /></portlet:renderURL>">
+                    href="<portlet:renderURL><portlet:param name="eventId" value="<%=currentEvent.getId().toString()%>"/><portlet:param name="mode" value="edit" /><portlet:param name="archive" value="${archive}"/></portlet:renderURL>">
                         <!--<spring:message code="viewSingle.Edit"/>-->
                         <div class="panelbtn panelbtn-right icon-pcppencil" aria-hidden="true"></div>
                     </a>

@@ -70,7 +70,7 @@ SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
     </portlet:renderURL>
 
     <portlet:actionURL var="actionLink" name="editEvent">
-        <portlet:param name="archive" value="<%=archive.toString()%>"/>
+        <portlet:param name="archive" value="${archive}"/>
         <portlet:param name="currentPage" value="<%=currentPage.toString()%>"/>
     </portlet:actionURL>
     <div class="portlet-content-controlpanel fs20">
