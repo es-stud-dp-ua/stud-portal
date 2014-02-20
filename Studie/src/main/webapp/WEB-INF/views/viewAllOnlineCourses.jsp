@@ -40,6 +40,7 @@
 </head>
 <body>
 <div>
+<%@include file="leftBar.jsp" %>
 
 <portlet:actionURL var="search" name="searchOnlineCourses"></portlet:actionURL>
           <form:form action="${search}">

@@ -26,6 +26,7 @@
 </head>
 <body>
 <div>
+<%@include file="leftBar.jsp" %>
 
 <%if (request.isUserInRole("Administrator")){ %>
 		       <portlet:renderURL var="LinkAddGrant">
