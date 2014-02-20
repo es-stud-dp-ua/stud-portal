@@ -270,7 +270,7 @@ public class OnlineCourseController {
                         SessionStatus sessionStatus) throws IOException {
     	if (bindingResult.hasErrors()) {
             actionResponse.setRenderParameter(STR_FAIL, "msg.fail");
-//            actionResponse.setRenderParameter("found", "found");
+
             return;
         }
         	if (mainImage.getOriginalFilename().equals("")) {
@@ -300,7 +300,8 @@ public class OnlineCourseController {
                          @RequestParam(MAIN_IMAGE) CommonsMultipartFile mainImage,
                          SessionStatus sessionStatus) throws IOException {
         if (bindingResult.hasErrors()) {
-            actionResponse.setRenderParameter(STR_FAIL, "msg.fail");
+            actionResponse.setRenderParameter(STR_FAIL, "image");
+            actionResponse.setRenderParameter("no", "image");
             return;
         }
         CommonsMultipartFile croppedImage = null;

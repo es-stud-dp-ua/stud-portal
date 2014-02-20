@@ -3,7 +3,9 @@ package ua.dp.stud.StudPortalLib.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
+import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import java.util.Date;
@@ -20,37 +22,40 @@ import java.util.Date;
 public class Course extends BaseImagesSupport{
 
 	@NotEmpty
-    @Column
+    @NotBlank
+    @Size(min = 5, max = 100)
     private String courseName;
 
-    @Column
+
     private String author;
 
     @NotEmpty
-    @Column
+    @NotBlank
+    @Size(min = 10, max = 500)
     private String coursesContact;
 
     @NotEmpty
-    @Column
+    @NotBlank
+    @Size(min = 300, max = 3000)
     private String coursesDescription;
 
-    @Column
+
     private String comment;
 
-    @Column
-    @Temporal(TemporalType.DATE)
+
     private Date addDate;
 
-    @Column
+
     private KindOfCourse kindOfCourse;
 
-    @Column
+
     private Boolean approved;
+
+
+    private  CoursesType coursesType;
 
     @Column
     @Enumerated(EnumType.ORDINAL)
-    private  CoursesType coursesType;
-
     public CoursesType getCoursesType() {
         return coursesType;
     }
@@ -63,7 +68,7 @@ public class Course extends BaseImagesSupport{
     public Course(String coursesName){
     	this.courseName = coursesName;
     }
-
+    @Column
     public String getCourseName() {
         return courseName;
     }
@@ -72,6 +77,7 @@ public class Course extends BaseImagesSupport{
         this.courseName = courseName;
     }
 
+    @Column
     public String getAuthor() {
         return author;
     }
@@ -80,6 +86,7 @@ public class Course extends BaseImagesSupport{
         this.author = author;
     }
 
+    @Column
     public String getComment() {
         return comment;
     }
@@ -88,6 +95,7 @@ public class Course extends BaseImagesSupport{
         this.comment = comment;
     }
 
+    @Column
     public String getCoursesContact() {
         return coursesContact;
     }
@@ -96,7 +104,7 @@ public class Course extends BaseImagesSupport{
         this.coursesContact = coursesContact;
     }
 
-
+    @Column
     public String getCoursesDescription() {
         return coursesDescription;
     }
@@ -105,6 +113,8 @@ public class Course extends BaseImagesSupport{
         this.coursesDescription = coursesDescription;
     }
 
+    @Column
+    @Temporal(TemporalType.DATE)
     public Date getAddDate() {
         return addDate;
     }
@@ -113,7 +123,7 @@ public class Course extends BaseImagesSupport{
         this.addDate = addDate;
     }
 
-
+    @Column
     public Boolean getApproved() {
         return approved;
     }
