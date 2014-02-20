@@ -68,7 +68,7 @@ label.error {
     font-size: 12pt;
     text-align: justify;
     margin-left: 5px;
-    max-height: 150px;
+
     white-space: pre-line;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -288,7 +288,7 @@ label.error {
 /*multiple image loader*/
 
 .aui-field-label {
-    /*text описание*/
+    /*text пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ*/
     font-weight: bold;
     padding-left: 9px;
 }
