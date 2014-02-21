@@ -11,7 +11,9 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <% Boolean russianLocaleEnabled = request.getLocale().getLanguage().equals("ru");  %>
+        <% Boolean russianLocaleEnabled = request.getLocale().getLanguage().equals("ru");
+
+        %>
         <style type="text/css">
             .error {
                 color: #ff0000;
@@ -36,20 +38,31 @@
         <script src="${pageContext.request.contextPath}/js/a.js" type="text/javascript"></script>
                     <script src="${pageContext.request.contextPath}/js/setCoords.js" type="text/javascript"></script>
 
-        <script type="text/javascript">
-                    $('#defaultEntry').timeEntry().change(function() {
-            var log = $('#log');
-                    log.val(log.val() + ($('#defaultEntry').val() || 'blank') + '\n');
-            });
-                    </script>
-        <script language="javascript" type="text/javascript">
-                    $(document).ready(function() {
-            });
-                    function isNotMax(e, id) {
-                    var validateValueTextArea = document.getElementById(id);
-                            validateValueTextArea.value = validateValueTextArea.value.substr(0, validateValueTextArea.getAttribute('maxlength'));
-                    }
-        </script>
+
+       <script type="text/javascript">
+
+                           $(document).ready(function() {
+                   $.Placeholder.init({color: "#aaa"});
+                   });
+                           function isNotMax(e) {
+                           e = e || window.event;
+                                   var target = e.target || e.srcElement;
+                                   var code = e.keyCode ? e.keyCode : (e.which ? e.which : e.charCode)
+                                   switch (code) {
+                           case 13:
+                                   case 8:
+                                   case 9:
+                                   case 46:
+                                   case 37:
+                                   case 38:
+                                   case 39:
+                                   case 40:
+                                   return true;
+                           }
+                           return target.value.length <= target.getAttribute('maxlength');
+                           }
+               </script>
+
     <portlet:renderURL var="home"> </portlet:renderURL>
 
     <portlet:actionURL var="actionLink" name="addCouncil"></portlet:actionURL>
@@ -62,55 +75,61 @@
 
     <liferay-ui:error key="no-images" message='<spring:message code="msg.noImages"/>'/>
     <liferay-ui:error key="dplTopic" message='<spring:message code="msg.dplTopic"/>'/>
+     <c:if test="${exception}">
+             ${exception}
+         </c:if>
+
+    <%@include file="addEditCouncil.jsp" %>
 
 
-    <div width="100%" align="center">
-        <form:form method="post" id="councilForm" name="councilForm"  action="${actionLink}"  enctype="multipart/form-data" commandName="council" modelAttribute="council">
-            <input type="hidden" size="0" id="x1" name="t" value="0"/>
-             <input type="hidden" size="0" id="y1" name="l" value="0"/>
-             <input type="hidden" size="0" id="w" name="w" value="100"/>
-             <input type="hidden" size="0" id="h" name="h" value="100"/>
+    <script>
+            $("#councilForm").on("submit",function(event){
 
-           <div id="labels" width="50%" align="center"><spring:message code="form.councilName"/></div>
+                                            document.getElementById('text1').innerHTML = CKEDITOR.instances.councilDescription.getData();
+                                            document.getElementById('text11').innerHTML = CKEDITOR.instances.councilContact.getData();
+                                        });
 
+                                 $(document).ready(function() {
+                         $.validator.setDefaults({ ignore: [] });
+                                 $('#councilForm').validate({
 
-                       
-                        <div style="width: 450px; padding-center: 20px;">
+                         rules: {
+                           text1: {
+                             required: true,
+                             minlength: 100,
+                             maxlength: 3000
+                           },
+                          text11: {
+                             required: true,
+                             minlength: 100,
+                             maxlength: 3000
+                          }
 
-                           <form:select path="studie.id">
-                                        <form:options items="${studie}" itemValue="id" itemLabel="title"/>
-                           </form:select>
-                        </div>
+                         },
+                                 messages: {
+                         text11: {
+                         required: "<spring:message code="val.required"/>",
+                                 minlength:  "<spring:message code="val.textcouncil.minlength"/>",
+                                 maxlength:  "<spring:message code="val.textcouncil.maxlength"/>"
+                         },
+                                 text1: {
+                         required: "<spring:message code="val.required"/>",
+                                 minlength:  "<spring:message code="val.textcouncil.minlength"/>",
+                                 maxlength:  "<spring:message code="val.textcouncil.maxlength"/>"
+                         }
+                         },
+                                 highlight: function(label) {
+                         $(label).removeClass("invisiblevalid");
+                                 $(label).closest('.control-group').addClass('error');
+                         },
+                                 success: function(label) {
+                         $(label).removeClass("error");
+                                 label.addClass("invisiblevalid");
+                         }
+                         });
+                         });
 
+         </script>
 
-
-            <table width="100%" margin-bottom="15px">
-                   <tr>
-                     <td  width="50%" align="center">
-                         <div id="labels"><spring:message code="form.councilContact"/></div>
-                            <div style="margin-left: 5px;">
-                                <textarea path="councilContact" class="ckeditor" id="councilContact" cols="60" rows="5" maxlength="10000"
-                                          name="councilContact" ></textarea>
-                                <textarea style="visibility: hidden;width: 0px;" id="text1" name="text1"  ></textarea>
-                                          <form:errors path="councilContact" cssClass="error" ></form:errors>
-                            </div>   
-                    </td>
-                        <td width="50%" align="center">
-                            <div id="labels"><spring:message code="form.councilDescription"/></div>
-                            <div style="margin-left: 5px;">
-                                <textarea path="councilDescription" class="ckeditor" id="councilDescription" cols="60" rows="5" maxlength="10000"
-                                          name="councilDescription" ></textarea>
-                                          <form:errors path="councilDescription" cssClass="error" ></form:errors>
-                            </div>
-                    </td>
-                </tr>
-            </table>
-            <br/>
-            <div id="sbm" align="center">
-                <input type="submit" value="<spring:message
-                       code="form.submit.council"/>"/>
-            </div>
-        </form:form>
-    </div>
 </body>
 </html>

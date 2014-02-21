@@ -170,10 +170,22 @@ public class CoursesController {
 
     @ActionMapping(value = "editCourse")
     public void editCourse(@ModelAttribute(COURSE) @Valid Course course,
+                           BindingResult bindingResult,
                            ActionRequest actionRequest,
                            ActionResponse actionResponse,
                            SessionStatus sessionStatus,
                            @RequestParam(MAIN_IMAGE) CommonsMultipartFile mainImage) throws IOException {
+
+        if (bindingResult.hasErrors()) {
+            actionResponse.setRenderParameter("coursefail", "found");
+            actionResponse.setRenderParameter(STR_FAIL, "msg.fail");
+            return;
+        }
+        if (mainImage.getOriginalFilename().equals("")) {
+            actionResponse.setRenderParameter("coursefail", "found");
+            actionResponse.setRenderParameter(STR_FAIL, STR_NO_IMAGE);
+            return;
+        }
 
         if (actionRequest.isUserInRole("Administrator"))
             course.setApproved(true);
@@ -257,9 +269,7 @@ public class CoursesController {
         response.setRenderParameter("view","allcourses");
     }
 
-    @ActionMapping(value = "saveCourse")
-    public void saveCourse() {
-    }
+
 
     @RenderMapping(params="view=coursesCategories")
     public ModelAndView viewCoursesCategories(RenderRequest request, RenderResponse response) {

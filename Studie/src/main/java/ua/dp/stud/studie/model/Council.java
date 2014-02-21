@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -24,8 +25,10 @@ public class Council implements Serializable{
     private Integer id;
     private Studie studie;
     @NotEmpty
+    @Size(min = 100, max = 3000)
     private String councilContact;
     @NotEmpty
+    @Size(min = 100, max = 3000)
     private String councilDescription;
     private List<CouncilMembers> councilMembers;
     

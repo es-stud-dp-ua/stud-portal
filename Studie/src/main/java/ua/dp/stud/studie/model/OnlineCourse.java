@@ -12,7 +12,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
+import org.hibernate.validator.constraints.NotBlank;
 import ua.dp.stud.StudPortalLib.model.BaseImagesSupport;
 
 @Entity
@@ -20,8 +23,15 @@ import ua.dp.stud.StudPortalLib.model.BaseImagesSupport;
 @PrimaryKeyJoinColumn(name = "id", referencedColumnName = "id")
 public class OnlineCourse extends BaseImagesSupport
 {
+    @Size(min = 5, max = 100)
+    @NotNull
+    @NotBlank
 	private String onlineCourseName;
+
 	private OnlineCourseType onlineCourseType;
+    @Size(min = 300, max = 3000)
+    @NotNull
+    @NotBlank
 	private String onlineCourseDescription;
 	
 	public OnlineCourse()

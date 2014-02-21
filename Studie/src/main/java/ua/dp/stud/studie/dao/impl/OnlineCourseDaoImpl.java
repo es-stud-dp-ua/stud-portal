@@ -62,7 +62,7 @@ public class OnlineCourseDaoImpl implements OnlineCourseDao
     @Override
     public List<OnlineCourse> getAll()
     {
-        return getSession().createCriteria(OnlineCourse.class).list();
+        return getSession().createCriteria(OnlineCourse.class).addOrder(Order.desc("id")).list();
     }
 
     @Override
