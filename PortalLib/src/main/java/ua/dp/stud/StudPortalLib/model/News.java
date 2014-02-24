@@ -45,7 +45,7 @@ public class News extends BaseImagesSupport implements Serializable {
     public News() {
         onMainpage = false;
         inCalendar = false;
-        approved = false;
+        approved = true;
     }
 
     /**

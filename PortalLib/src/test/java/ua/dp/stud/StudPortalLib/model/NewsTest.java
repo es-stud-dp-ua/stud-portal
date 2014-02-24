@@ -158,7 +158,7 @@ public class NewsTest {
      */
     @Test
     public void testGetApproved() {
-        Boolean expResult = false;
+        Boolean expResult = true;
         Boolean result = instance.getApproved();
         assertEquals(expResult, result);
     }
@@ -168,7 +168,7 @@ public class NewsTest {
      */
     @Test
     public void testSetApproved() {
-        Boolean approved = false;
+        Boolean approved = true;
         instance.setApproved(approved);
     }
 
