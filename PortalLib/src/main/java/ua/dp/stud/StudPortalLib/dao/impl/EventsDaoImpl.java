@@ -77,11 +77,11 @@ public class EventsDaoImpl extends DaoForApproveImpl<Events> implements EventsDa
         }
         else
         if (direct==Direction.DAY)
-        {   Date tmpb=new Date();
+        {   Date tmpb=new Date(String.valueOf(date));
             tmpb.setHours(0);
             tmpb.setSeconds(0);
             tmpb.setMinutes(0);
-            Date tmpe=new Date();
+            Date tmpe=new Date(String.valueOf(date));
             tmpe.setHours(23);
             tmpe.setSeconds(59);
             tmpe.setMinutes(59);
@@ -196,6 +196,7 @@ public class EventsDaoImpl extends DaoForApproveImpl<Events> implements EventsDa
 
     @Override
     public Collection<Events> getObjectOnPage(Boolean approved, Integer pageNumb, Integer objByPage,Direction direct,Date date) {
+
         int firstResult = (pageNumb - 1) * objByPage;
         Collection<Events> nearesEvents = null;
         //return all events (for event panel)
@@ -237,15 +238,15 @@ public class EventsDaoImpl extends DaoForApproveImpl<Events> implements EventsDa
         }
         else
         if (direct==Direction.DAY)
-        {   Date tmpb=date;
+        {   Date tmpb=new Date(String.valueOf(date));
             tmpb.setHours(0);
             tmpb.setSeconds(0);
             tmpb.setMinutes(0);
-            Date tmpe=date;
+            Date tmpe=new Date(String.valueOf(date));
             tmpe.setHours(23);
             tmpe.setSeconds(59);
             tmpe.setMinutes(59);
-            Query query=getSession().createQuery("FROM Events WHERE eventDateStart>=:DateNowB AND eventDateStart<=:DateNowE AND  approved=:approve ORDER BY eventDateStart asc ");
+            Query query=getSession().createQuery("FROM Events WHERE eventDateStart>=:DateNowB AND eventDateStart<=:DateNowE AND  approved=:approve ORDER BY eventDateStart asc");
             query.setDate("DateNowB",tmpb);
             query.setDate("DateNowE",tmpe);
             query.setParameter("approve",approved);

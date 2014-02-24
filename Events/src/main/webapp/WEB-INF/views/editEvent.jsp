@@ -102,14 +102,14 @@ SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
 
 
         <script >
-        $("#event").on("submit",function(event){
+        $("#jform").on("submit",function(event){
 
                                           document.getElementById('text1').innerHTML = CKEDITOR.instances.text.getData();
 
                                                                                                   });
                                                   $(document).ready(function() {
                                           $.validator.setDefaults({ ignore: [] });
-                                                  $('#event').validate({
+                                                  $('#jform').validate({
                                           rules: {
                                           title: {
                                           required: true,

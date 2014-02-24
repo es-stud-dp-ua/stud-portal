@@ -57,21 +57,29 @@ SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
                  <script src="${pageContext.request.contextPath}/js/a.js" type="text/javascript"></script>
                  <script src="${pageContext.request.contextPath}/js/setCoords.js" type="text/javascript"></script>
 
-                 <script type="text/javascript">
-                            $(document).ready(function() {
-                                $.Placeholder.init({color: "#aaa"});
-                            });
+ <script type="text/javascript">
 
-                            function isNotMax(e, validateValueTextArea) {
-
-                                 validateValueTextArea.value = validateValueTextArea.value
-                                 .substr(0, validateValueTextArea
-                                 .getAttribute('maxlength'));
-                               }
-
-                        </script>
-
-
+        $(document).ready(function() {
+             $.Placeholder.init({color: "#aaa"});
+             });
+                     function isNotMax(e) {
+                     e = e || window.event;
+                             var target = e.target || e.srcElement;
+                             var code = e.keyCode ? e.keyCode : (e.which ? e.which : e.charCode)
+                             switch (code) {
+                     case 13:
+                             case 8:
+                             case 9:
+                             case 46:
+                             case 37:
+                             case 38:
+                             case 39:
+                             case 40:
+                             return true;
+                     }
+                     return target.value.length <= target.getAttribute('maxlength');
+                     }
+         </script>
 
     <portlet:renderURL var="home"> </portlet:renderURL>
 
