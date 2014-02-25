@@ -43,10 +43,10 @@
 <%@include file="leftBar.jsp" %>
 
 <portlet:actionURL var="search" name="searchOnlineCourses"></portlet:actionURL>
-          <form:form action="${search}">
+          <div style="float: left;"><form:form action="${search}">
                    <spring:message code="course.Search" />
-  				   <input type="text" id="tags" name="title">
-          </form:form>
+  				   <input type="text" id="tags" name="title" style="height: 16px;">
+          </form:form></div>
   
 <portlet:actionURL var="gotype" name="getOnlineCoursesByType"></portlet:actionURL>
 	<form:form id="typeForm" action="${gotype}">
