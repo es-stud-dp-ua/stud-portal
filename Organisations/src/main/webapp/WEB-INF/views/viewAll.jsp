@@ -53,7 +53,7 @@
                 temp = new String("form." + currentType);%>
                 <div class="ribbon-wrapper">
                     <button class="btntype"
-                            style=" width: 150px; height: 40px;   margin-left: -10px;  border-color: #4473B9;" name="type"
+                            style=" width: 150px; height: 40px;   margin-left: -10px; padding-left:2%;  border-color: #4473B9;" name="type"
                             value="<%=currentType%>" id="<%=currentType%>">
                         <spring:message code="<%=temp%>"/></button>
                     <div class="ribbon-edge-topleft"></div>
@@ -132,10 +132,12 @@
                 <portlet:param name="currentPage" value="<%=String.valueOf(currentPage)%>"/>
                 <% if (type != null) {%><portlet:param name="type" value="<%=String.valueOf(type)%>"/><%} %>
             </portlet:renderURL>
-            <a href="${pagPrev}">
-                <img class="paginationImage"
-                     src="${pageContext.request.contextPath}/images/pagin-left.png"/>
-            </a>
+             <c:if test="${currentPage!=1}">
+                <a href="${pagPrev}">
+                    <img class="paginationImage"
+                         src="${pageContext.request.contextPath}/images/pagin-left.png"/>
+                </a>
+             </c:if>
             </td>
 
             <td width="auto" align="center" valign="center">
@@ -197,10 +199,12 @@
                 <portlet:param name="currentPage" value="<%=String.valueOf(currentPage)%>"/>
                 <% if (type != null) {%><portlet:param name="type" value="<%=String.valueOf(type)%>"/><%} %>
             </portlet:renderURL>
-            <a href="${pagNext}">
-                <img class="paginationImage"
-                     src="${pageContext.request.contextPath}/images/pagin-right.png"/>
-            </a>
+             <c:if test="${currentPage!=pagesCount}">
+                <a href="${pagNext}">
+                    <img class="paginationImage"
+                         src="${pageContext.request.contextPath}/images/pagin-right.png"/>
+                </a>
+              </c:if>
             </td>
             </tr>
         </table>
