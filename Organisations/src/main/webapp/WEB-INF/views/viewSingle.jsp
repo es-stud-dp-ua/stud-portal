@@ -59,7 +59,7 @@
                             temp = new String("form." + currentType);%>
                             <div class="ribbon-wrapper">
                                 <button class="btntype"
-                                        style=" width: 150px; height: 40px;   margin-left: -10px; padding-left:2%; border-color: #4473B9;" name="type"
+                                        style=" width: 160px; height: 40px;   margin-left: -10px; padding-left:2%; border-color: #4473B9;" name="type"
                                         value="<%=currentType%>" id="<%=currentType%>">
                                     <spring:message code="<%=temp%>"/></button>
                                 <div class="ribbon-edge-topleft"></div>
@@ -78,18 +78,19 @@
                         </form>
                     </div>
 
-        <div class="newsHeader">
-            <img src="${mainImage}" alt=""/>
+        <div class="newsHeader" style="margin-left:0px; margin-right:25px; margin-bottom:25px;">
+            <img src="${mainImage}" alt="" style="margin-left:30px;"/>
             ${organization.title}
         </div>
         <br/>
-        <div>
+        <div style="margin-left:23%">
             ${organization.contacts}
         </div>
         <br/>
-        <div class="newsText">
+        <div class="newsText" style="margin-left:176px; width:81%">
             ${organization.text}
         </div>
+
     </div>
     <%
         boolean carusel = false;

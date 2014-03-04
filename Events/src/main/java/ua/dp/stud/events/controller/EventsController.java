@@ -282,7 +282,6 @@ public class EventsController {
         Events event = eventsService.getEventsById(eventID);
         ImageImpl mImage = event.getMainImage();
         eventsService.incrementViews(event);
-        request.getPortletSession().getPortletContext();
         String mainImage = imageService.getPathToLargeImage(mImage, event);
         int currentPage;
         Boolean future;
@@ -552,7 +551,7 @@ public class EventsController {
     @RenderMapping(params = "mode=delete")
     public ModelAndView deleteEvent(RenderRequest request, RenderResponse response) {
 //getting current events
-        int eventID = Integer.valueOf(request.getParameter(EVENT_ID));
+        int eventID = Integer.valueOf(request.getParameter("eventId"));
         Events event = eventsService.getEventsById(eventID);
 //delete chosen organization's image from folder
         imageService.deleteDirectory(event);

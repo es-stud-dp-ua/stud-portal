@@ -77,17 +77,8 @@ public class EventsDaoImpl extends DaoForApproveImpl<Events> implements EventsDa
         }
         else
         if (direct==Direction.DAY)
-        {   Date tmpb=new Date(String.valueOf(date));
-            tmpb.setHours(0);
-            tmpb.setSeconds(0);
-            tmpb.setMinutes(0);
-            Date tmpe=new Date(String.valueOf(date));
-            tmpe.setHours(23);
-            tmpe.setSeconds(59);
-            tmpe.setMinutes(59);
-            Query query=getSession().createQuery("FROM Events WHERE eventDateStart>=:DateNowB AND eventDateStart<=:DateNowE AND type=:etype AND approved=:approve ORDER BY eventDateStart asc");
-            query.setDate("DateNowB",tmpb);
-            query.setDate("DateNowE",tmpe);
+        {   Query query=getSession().createQuery("FROM Events WHERE WHERE day(eventDateStart)=day(:date) AND type=:etype AND approved=:approve ORDER BY eventDateStart asc");
+            query.setDate("date",date);
             query.setParameter("approve",approve);
             query.setParameter("etype",EventsType.valueOf(type));
             nearesEvents=query.list();
@@ -238,18 +229,9 @@ public class EventsDaoImpl extends DaoForApproveImpl<Events> implements EventsDa
         }
         else
         if (direct==Direction.DAY)
-        {   Date tmpb=new Date(String.valueOf(date));
-            tmpb.setHours(0);
-            tmpb.setSeconds(0);
-            tmpb.setMinutes(0);
-            Date tmpe=new Date(String.valueOf(date));
-            tmpe.setHours(23);
-            tmpe.setSeconds(59);
-            tmpe.setMinutes(59);
-            Query query=getSession().createQuery("FROM Events WHERE eventDateStart>=:DateNowB AND eventDateStart<=:DateNowE AND  approved=:approve ORDER BY eventDateStart asc");
-            query.setDate("DateNowB",tmpb);
-            query.setDate("DateNowE",tmpe);
-            query.setParameter("approve",approved);
+        {   Query query=getSession().createQuery("FROM Events WHERE day(eventDateStart)=day(:date) AND approved=:approve ORDER BY eventDateStart asc"); // ORDER BY eventDateStart asc");
+            query.setDate("date",date);
+            query.setBoolean("approve",approved);
             nearesEvents=query.list();
         }
         else
