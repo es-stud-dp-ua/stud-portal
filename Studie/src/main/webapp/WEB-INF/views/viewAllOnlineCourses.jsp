@@ -121,10 +121,12 @@
                 <portlet:param name="direction" value="prev"/>
                 <portlet:param name="currentPage" value="<%=String.valueOf(currentPage)%>"/>
             </portlet:renderURL>
-            <a href="${pagPrev}">
-                <img class="paginationImage"
-                     src="${pageContext.request.contextPath}/images/pagin-left.png"/>
-            </a>
+            <c:if test="${currentPage!=1}">
+                <a href="${pagPrev}">
+                    <img class="paginationImage"
+                         src="${pageContext.request.contextPath}/images/pagin-left.png"/>
+                </a>
+            </c:if>
             </td>
 
             <td width="auto" align="center" valign="center">
@@ -187,10 +189,12 @@
                 <portlet:param name="direction" value="next"/>
                 <portlet:param name="currentPage" value="<%=String.valueOf(currentPage)%>"/>
             </portlet:renderURL>
-            <a href="${pagNext}">
-                <img class="paginationImage"
-                     src="${pageContext.request.contextPath}/images/pagin-right.png"/>
-            </a>
+            <c:if test="${currentPage!=pagesCount}">
+                <a href="${pagNext}">
+                    <img class="paginationImage"
+                         src="${pageContext.request.contextPath}/images/pagin-right.png"/>
+                </a>
+            </c:if>
             </td>
             </tr>
         </table>
