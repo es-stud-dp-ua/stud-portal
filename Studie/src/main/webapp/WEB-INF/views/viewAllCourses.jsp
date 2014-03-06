@@ -25,12 +25,12 @@ $(document).ready(function() {
                     	$("#courses").removeClass('btntype').addClass('btnselected');
                     });
 </script>
-        <%if (request.isUserInRole("Administrator")){ %>
-        <div class="portlet-content-controlpanel fs20"style="width: 10.15%; float: right;">
-            <a style="float: right" href="${LinkAddCourse}">
-                <div class="panelbtn panelbtn-right icon-pcpplus" aria-hidden="true"></div>
-            </a>
-        </div>
+        <%if (request.isUserInRole("Administrator") || request.isUserInRole("Press") || request.isUserInRole("User") ){ %>
+            <div class="portlet-content-controlpanel fs20"style="width: 10.15%; float: right;">
+                <a style="float: right" href="${LinkAddCourse}">
+                    <div class="panelbtn panelbtn-right icon-pcpplus" aria-hidden="true"></div>
+                </a>
+            </div>
         <%} %>
 	    <div class="textBox" style="padding-top:12px;">
 	        <spring:message code="Kind.label"/>
