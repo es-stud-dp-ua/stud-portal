@@ -210,11 +210,9 @@ public class EventsServiceImpl implements EventsService {
     }
 
     @Override
-    public Collection<EventsDto> getDtoEvents(Collection<Events> events)
-    {
+    public Collection<EventsDto> getDtoEvents(Collection<Events> events){
         Collection<EventsDto> eventsDto= new ArrayList<EventsDto>();
-        for(Events event: events )
-        {
+        for(Events event: events ){
             eventsDto.add(
                             new EventsDto(
                                          imageService.getPathToMicroblogImage(event.getMainImage(),event),

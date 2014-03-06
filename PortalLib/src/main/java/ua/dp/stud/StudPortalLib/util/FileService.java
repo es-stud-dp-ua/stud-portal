@@ -27,8 +27,7 @@ public class FileService {
     private static final String FILE_FOLDER;
     static final String FILE_URL_PREFIX = "/mediastuff/";
 
-    static
-    {
+    static{
         TOMCAT_FOLDER = System.getProperty("catalina.base");
         DATA_FOLDER = "PROJECT_DATA";
         FILE_FOLDER = "Files";
@@ -52,12 +51,10 @@ public class FileService {
 
 
    /** add to absolute path a path to file*/
-    public String generatePathToFile(EntityWithFile entity)
-    {
+    public String generatePathToFile(EntityWithFile entity){
         List<String> entityPath=entity.getEntityNameForPath();
         String path=FILE_FOLDER_ABS_PATH;
-        for (String s:entityPath)
-        {
+        for (String s:entityPath){
           path+=FOLDER_SEPARATOR+s;
         }
         return path;
@@ -70,11 +67,9 @@ public class FileService {
      * @param dir Directory to delete
      */
     private void deleteDirectory(File dir) {
-        if (dir.isDirectory())
-        {
+        if (dir.isDirectory()){
             String[] children = dir.list();
-            for (int i = 0; i < children.length; i++)
-            {
+            for (int i = 0; i < children.length; i++){
                 File f = new File(dir, children[i]);
                 this.deleteDirectory(f);
             }
@@ -92,25 +87,25 @@ public class FileService {
         try {
             FileOutputStream out = new FileOutputStream(file1);
             createdFilePath = writeFile(out,file1,fileSrc);
-            if(createdFilePath != null)
+            if(createdFilePath != null){
                 filecreate = true;
-         } catch (FileNotFoundException e) {}
-        //file.setOriginalFileName(file1.getName());
+            }
+         } catch (FileNotFoundException e) {
+
+        }
+
          file=new FileSaver(file1.getName())  ;
        return  file;
    }
 
-    private String writeFile(FileOutputStream out, File file, CommonsMultipartFile fileSrc)
-    {
+    private String writeFile(FileOutputStream out, File file, CommonsMultipartFile fileSrc){
         String filePath = null;
-        try
-        {
+        try{
             out.write(fileSrc.getBytes());
             out.close();
             filePath=file.getAbsolutePath();
 
-        }
-        catch (IOException e) { }
+        }catch (IOException e) { }
         return filePath;
     }
 
@@ -118,8 +113,7 @@ public class FileService {
         StringBuilder path = new StringBuilder(FILE_URL_PREFIX);
         path.append(FOLDER_SEPARATOR);
         path.append( FILE_FOLDER );
-        for (String s: entity.getEntityNameForPath())
-            {
+        for (String s: entity.getEntityNameForPath())   {
                 path.append(FOLDER_SEPARATOR).append(s);
             }
         path.append(FOLDER_SEPARATOR).append(file.getOriginalFileName());
@@ -131,13 +125,15 @@ public class FileService {
         StringBuilder path=new StringBuilder();
         path.append(generatePathToFile(entity));
         path.append(FOLDER_SEPARATOR);
-       if (base != null)
+       if (base != null){
          path.append(base.getOriginalFileName());
+       }
         File file=new File(path.toString());
      //  file.delete();
 
-       if (!(file.exists()))
+       if (!(file.exists())){
             file.mkdirs();
+       }
 
     }
 

@@ -124,7 +124,7 @@ public class BannerController {
         return model;
     }
 
-    /*
+    /**
     * Method for rendering VIEW mode
     * @param request
     * @param response
@@ -161,8 +161,7 @@ public class BannerController {
     }
 
     @RenderMapping(params = "mode=edit")
-    public ModelAndView showEditBanner(RenderRequest request, RenderResponse response) throws PortalException, SystemException
-    {
+    public ModelAndView showEditBanner(RenderRequest request, RenderResponse response) throws PortalException, SystemException{
         return getModel("edit",request);
     }
 
@@ -174,11 +173,10 @@ public class BannerController {
         BannerImage banner = bannerImageService.getBannerImageById(id);
         String url = actionRequest.getParameter("url");
         BannerImage other = bannerImageService.getByURL(url);
-        if (other != null)
-            if (other.getId() != banner.getId()) {
-                actionResponse.setRenderParameter(STR_FAIL, STR_DUBLICAT);
-                return;
-            }
+        if (other != null && other.getId() != banner.getId()) {
+            actionResponse.setRenderParameter(STR_FAIL, STR_DUBLICAT);
+            return;
+        }
         if (this.updateBannerImage(mainImage, url, actionResponse, banner)) {
             try {
                 bannerImageService.updateBannerImage(banner);

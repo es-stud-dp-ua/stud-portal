@@ -226,8 +226,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     public Collection<CommonDto> getDtoOrganization(Collection<Organization> organization)
     {
         Collection<CommonDto> orgDto= new ArrayList<CommonDto>();
-        for(Organization org:organization )
-        {
+        for(Organization org:organization ){
             orgDto.add(
             		new CommonDto(
             				imageService.getPathToMicroblogImage(org.getMainImage(),org),

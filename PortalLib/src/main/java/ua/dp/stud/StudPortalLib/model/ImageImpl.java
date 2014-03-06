@@ -52,7 +52,7 @@ public class ImageImpl implements Serializable {
 
     @Override
     public String toString() {
-        return new StringBuffer().append("ImageImpl[").append("originalImageName=").append(originalImageName)
+        return new StringBuilder().append("ImageImpl[").append("originalImageName=").append(originalImageName)
                 .append(", id=").append(id).append(']').toString();
     }
 

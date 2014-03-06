@@ -52,15 +52,24 @@ public class CommonType {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof CommonType)) return false;
+        if (this == o){
+            return true;
+        }
+        if (!(o instanceof CommonType)){
+            return false;
+        }
 
         CommonType that = (CommonType) o;
 
-        if (countOfCourses != null ? !countOfCourses.equals(that.countOfCourses) : that.countOfCourses != null)
+        if (countOfCourses != null ? !countOfCourses.equals(that.countOfCourses) : that.countOfCourses != null){
             return false;
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        if (kindOfCourse != null ? !kindOfCourse.equals(that.kindOfCourse) : that.kindOfCourse != null) return false;
+        }
+        if (id != null ? !id.equals(that.id) : that.id != null){
+            return false;
+        }
+        if (kindOfCourse != null ? !kindOfCourse.equals(that.kindOfCourse) : that.kindOfCourse != null){
+            return false;
+        }
 
         return true;
     }

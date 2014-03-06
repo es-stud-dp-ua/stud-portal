@@ -37,54 +37,28 @@ public class EventsDaoImpl extends DaoForApproveImpl<Events> implements EventsDa
     }
 
     @Override
-    public Collection<Events> getEventsOfTypeOnPage(Integer pageNumb, Integer eventsPerPage, String type, Boolean approve,/* -Boolean future*/ Direction direct,Date date)
-    {
+    public Collection<Events> getEventsOfTypeOnPage(Integer pageNumb, Integer eventsPerPage, String type, Boolean approve, Direction direct,Date date){
         int firstResult = (pageNumb - 1) * eventsPerPage;
         Collection<Events> nearesEvents = null;
-     /*  if (future) {
-            nearesEvents = getSession().createCriteria(Events.class)
-                    .add(Restrictions.eq("approved", approve))
-                    .add(Restrictions.eq("type", EventsType.valueOf(type)))
-                    .add(Restrictions.ge("eventDateStart", new Date()))
-                    .add(Restrictions.isNull("comment")).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
-                    .setFirstResult(firstResult).setMaxResults(eventsPerPage).addOrder(Order.asc("eventDateStart")).list();
-        } else {
-            nearesEvents = getSession().createCriteria(Events.class)
-                    .add(Restrictions.eq("approved", approve))
-                    .add(Restrictions.eq("type", EventsType.valueOf(type)))
-                    .add(Restrictions.le("eventDateStart", new Date()))
-                    .add(Restrictions.isNull("comment")).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
-                    .setFirstResult(firstResult).setMaxResults(eventsPerPage).addOrder(Order.asc("eventDateStart")).list();
-        }
 
-      */
-        if (direct==Direction.FUTURE)
-        {
+        if (direct==Direction.FUTURE){
             Query query=getSession().createQuery("FROM Events WHERE eventDateStart>=:DateNow AND type=:etype AND approved=:approve ORDER BY eventDateStart asc");
             query.setDate("DateNow",new Date());
             query.setParameter("approve",approve);
             query.setParameter("etype",EventsType.valueOf(type));
             nearesEvents=query.list();
-        }
-        else
-        if (direct==Direction.PREVIOS)
-        {
+        } else if (direct==Direction.PREVIOS){
             Query query=getSession().createQuery("FROM Events WHERE eventDateStart<=:DateNow AND type=:etype AND approved=:approve ORDER BY eventDateStart desc");
             query.setDate("DateNow",new Date());
             query.setParameter("approve",approve);
             query.setParameter("etype",EventsType.valueOf(type));
             nearesEvents=query.list();
-        }
-        else
-        if (direct==Direction.DAY)
-        {   Query query=getSession().createQuery("FROM Events WHERE WHERE day(eventDateStart)=day(:date) AND type=:etype AND approved=:approve ORDER BY eventDateStart asc");
+        }else if (direct==Direction.DAY){   Query query=getSession().createQuery("FROM Events WHERE WHERE day(eventDateStart)=day(:date) AND type=:etype AND approved=:approve ORDER BY eventDateStart asc");
             query.setDate("date",date);
             query.setParameter("approve",approve);
             query.setParameter("etype",EventsType.valueOf(type));
             nearesEvents=query.list();
-        }
-        else
-        {
+        }else{
             Query query=getSession().createQuery("FROM Events WHERE type=:etype AND approved=:approve ORDER BY eventDateStart desc");
             query.setParameter("etype",EventsType.valueOf(type));
             query.setParameter("approve",approve);
@@ -92,9 +66,6 @@ public class EventsDaoImpl extends DaoForApproveImpl<Events> implements EventsDa
 
         }
 
-       /* Collection<Events> nearesOnPageEvents = null;
-        for (int i=0;i<nearesEvents.size();i++)
-            if (i<firstResult) nearesOnPageEvents.add(nearesEvents.iterator().next()); */
         return nearesEvents;
     }
 
@@ -191,51 +162,25 @@ public class EventsDaoImpl extends DaoForApproveImpl<Events> implements EventsDa
         int firstResult = (pageNumb - 1) * objByPage;
         Collection<Events> nearesEvents = null;
         //return all events (for event panel)
-      /*  if(future==null){
-            nearesEvents = getSession().createCriteria(persistentClass)
-                    .add(Restrictions.eq("approved", approved))
-                    .add(Restrictions.isNull("comment")).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
-                    .setFirstResult(firstResult).setMaxResults(objByPage).addOrder(Order.asc("eventDateStart")).list();
-        }else
-            //return future events
-        if (future) {
-            nearesEvents = getSession().createCriteria(persistentClass)
-                    .add(Restrictions.eq("approved", approved))
-                    .add(Restrictions.ge("eventDateStart", new Date()))
-                    .add(Restrictions.isNull("comment")).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
-                    .setFirstResult(firstResult).setMaxResults(objByPage).addOrder(Order.asc("eventDateStart")).list();
-            //return old events
-        } else {
-            nearesEvents = getSession().createCriteria(persistentClass)
-                    .add(Restrictions.eq("approved", approved))
-                    .add(Restrictions.le("eventDateStart", new Date()))
-                    .add(Restrictions.isNull("comment")).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
-                    .setFirstResult(firstResult).setMaxResults(objByPage).addOrder(Order.asc("eventDateStart")).list();
-        }           */
-        if (direct==Direction.FUTURE)
-        {
+
+        if (direct==Direction.FUTURE){
             Query query=getSession().createQuery("FROM Events WHERE eventDateStart>=:DateNow AND approved=:approve ORDER BY eventDateStart asc");
             query.setDate("DateNow", date);
             query.setParameter("approve", approved);
             nearesEvents=query.list();
-        }
-        else
-        if (direct==Direction.PREVIOS)
-        {
+        }else
+          if (direct==Direction.PREVIOS){
             Query query=getSession().createQuery("FROM Events WHERE eventDateStart<:DateNow AND approved=:approve ORDER BY eventDateStart desc");
             query.setDate("DateNow",date);
             query.setParameter("approve",approved);
             nearesEvents=query.list();
-        }
-        else
-        if (direct==Direction.DAY)
-        {   Query query=getSession().createQuery("FROM Events WHERE day(eventDateStart)=day(:date) AND approved=:approve ORDER BY eventDateStart asc"); // ORDER BY eventDateStart asc");
+        } else
+          if (direct==Direction.DAY){
+            Query query=getSession().createQuery("FROM Events WHERE day(eventDateStart)=day(:date) AND approved=:approve ORDER BY eventDateStart asc"); // ORDER BY eventDateStart asc");
             query.setDate("date",date);
             query.setBoolean("approve",approved);
             nearesEvents=query.list();
-        }
-        else
-        {
+        }else{
             Query query=getSession().createQuery("FROM Events WHERE approved=:approve ORDER BY eventDateStart desc");
             query.setParameter("approve",approved);
             query.setFirstResult(firstResult);
@@ -244,17 +189,9 @@ public class EventsDaoImpl extends DaoForApproveImpl<Events> implements EventsDa
 
         }
 
-        /*Collection<Events> nearestOnPageEvents = null;
-        for (int i=0;i<nearesEvents.size();i++)
-            if (i<firstResult) nearestOnPageEvents.add(nearesEvents.iterator().next());
-        */
+
         return nearesEvents;
     }
 
- /*   public List<Events> getSortedEvents()
-    {
-       Query query = getSession().createQuery("from Events order by eventDateStart");
-       List<Events> list = (List<Events>)query.list();
-        return list;
-    }  */
+
 }

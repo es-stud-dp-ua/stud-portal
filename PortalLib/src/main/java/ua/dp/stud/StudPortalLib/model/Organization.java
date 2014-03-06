@@ -206,7 +206,7 @@ public class Organization extends BaseImagesSupport implements Serializable {
 
     @Override
     public String toString() {
-        return new StringBuffer().append("Organization[").append("title=").append(title)
+        return new StringBuilder().append("Organization[").append("title=").append(title)
                 .append(", text=").append(text).append(", author=").append(author)
                 .append(", organizationType=").append(organizationType).append(']').toString();
     }

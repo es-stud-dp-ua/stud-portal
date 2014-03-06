@@ -59,15 +59,13 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Course> getCoursesByKindAndType(String kindOfCourse, String coursesType)
-    {
+    public List<Course> getCoursesByKindAndType(String kindOfCourse, String coursesType) {
         return dao.getCoursesByKindAndType(kindOfCourse, coursesType);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Collection<Course> getCoursesByAuthor(String author)
-    {
+    public Collection<Course> getCoursesByAuthor(String author){
         return dao.getAllCoursesByAuthor(author);
     }
 

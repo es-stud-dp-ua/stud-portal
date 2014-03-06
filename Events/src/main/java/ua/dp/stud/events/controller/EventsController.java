@@ -466,7 +466,7 @@ public class EventsController {
             eventsService.updateEvents(newEvent);
 //close session
 
-          /*  showAddSuccess(actionRequest,actionResponse);*/
+
             actionResponse.setRenderParameter("success","");
             actionResponse.setRenderParameter(ARCHIVE,actionRequest.getParameterValues(ARCHIVE));
             sessionStatus.setComplete();
