@@ -13,6 +13,7 @@
 <%@ page isELIgnored="false" %>
 <%@include file="include.jsp" %>
 <%@page import="java.util.Arrays"%>
+<%@include file="leftBar.jsp" %>
 
 <% ImageService imageServices = (ImageService) pageContext.findAttribute("imageService"); %>
 
@@ -39,73 +40,70 @@
 
 </head>
 <body>
-<div>
-<%@include file="leftBar.jsp" %>
+<div style="padding-left: 150px">
+
 
 <portlet:actionURL var="search" name="searchOnlineCourses"></portlet:actionURL>
-          <form:form action="${search}">
+          <div style="float: left;">
+          <form:form action="${search}" style="display: inline;" >
                    <spring:message code="course.Search" />
-  				   <input type="text" id="tags" name="title">
+  				   <input type="text" id="tags" name="title" style="height: 16px;">
           </form:form>
-  
-<portlet:actionURL var="gotype" name="getOnlineCoursesByType"></portlet:actionURL>
-	<form:form id="typeForm" action="${gotype}">
-					<select onchange="this.form.submit()" name="type">
+		  <portlet:actionURL var="gotype" name="getOnlineCoursesByType"></portlet:actionURL>
+		  <form:form id="typeForm" action="${gotype}" style="display: inline;" >
+					<select onchange="this.form.submit()" name="type" style="width: 170px">
 						<option selected="selected"><spring:message code="course.SelectCourseType" /></option>
 					    <c:forEach var="postProfile" items="${onlineCourseTypes}">
 					    <option value="<c:out value="${postProfile.id}" />">
 					        <c:out value="${postProfile.kindOfCourse}" />
 					    </option>
 					    </c:forEach>
-					</select>		  
-	</form:form>				  
-<%if (request.isUserInRole("Administrator")){ %>
-		        <portlet:renderURL var="categories">
-                    <portlet:param name="view" value="onlineCoursesCategories"/>
-                </portlet:renderURL>
+					</select>	  
+	      </form:form>				  
+          <%if (request.isUserInRole("Administrator")){ %>
+		  <portlet:renderURL var="categories">
+                <portlet:param name="view" value="onlineCoursesCategories"/>
+          </portlet:renderURL>
 
-				 <a href="${categories}"><div style="display:inline;" id='changeBut' class="icon-pcppencil fs20" aria-hidden="true"></div></a>
+				 <a href="${categories}" id='changeBut' class="icon-pcppencil fs20" aria-hidden="true"></a>
 		    
 		       <portlet:renderURL var="LinkAddCourse">
        				 <portlet:param name="add" value="onlineCourse"/>
-    		   </portlet:renderURL>
+    		   </portlet:renderURL></div>
     			<div class="fs20"style="width: 10.15%;float: right;">
-                		<a style="float: right" href="${LinkAddCourse}">
+                		<a href="${LinkAddCourse}">
                     		<!--<spring:message code="viewSingle.Edit"/>-->
                     		<div class="panelbtn panelbtn-right icon-pcpplus" aria-hidden="true"></div>
                 		</a>
 				</div>
 		    <%} %>
-		    
+		    <br><br>
 		    <% if (!courses.isEmpty()) {
  for (OnlineCourse course : courses){%>
-     <div id="newsTable" style="padding-top: 15px;float: center">
-     			 <% if (request.isUserInRole("Administrator")) { %>
-				         <a style="float: right"
+<div id="newsTable" style="padding-top: 15px; float: center; width: 100%;">
+                         <a href='<portlet:renderURL>
+                                  <portlet:param name="id" value="<%=course.getId().toString()%>"/>
+                                  <portlet:param name="view" value="singleOnlineCourse"/>
+                                  </portlet:renderURL>'><img src="<%= imageServices.getPathToMicroblogImage(course.getMainImage(),course) %>" class="newsImage" style="float: left">
+ 						</a>
+                        <div class="newsHeader" style="padding-top: 40px; padding-left: 15%; font-size: 14pt;">
+                          <b>
+                          <a href='<portlet:renderURL>
+                                      <portlet:param name="id" value="<%=course.getId().toString()%>"/>
+                                      <portlet:param name="view" value="singleOnlineCourse"/>
+                                      </portlet:renderURL>'><%=course.getOnlineCourseName()%>
+                          </a>
+                          </b>
+                            <% if (request.isUserInRole("Administrator")) { %>
+    	<a style="float: right;"
+           href="<portlet:actionURL><portlet:param name="id" value="<%=course.getId().toString()%>"/><portlet:param name="view" value="deleteOnlineCourse" /></portlet:actionURL>">
+           <div class="icon-pcpremove fs20" aria-hidden="true"></div>
+     	</a>
+        <a style="float: right;"
            href="<portlet:renderURL><portlet:param name="id" value="<%=course.getId().toString()%>"/><portlet:param name="view" value="editOnlineCourse" /></portlet:renderURL>">
            <div class="icon-pcppencil fs20" aria-hidden="true"></div>
         </a>
-        				<a style="float: right"
-           href="<portlet:actionURL><portlet:param name="id" value="<%=course.getId().toString()%>"/><portlet:param name="view" value="deleteOnlineCourse" /></portlet:actionURL>">
-           <div class="icon-pcpremove fs20" aria-hidden="true"></div>
-        </a>
 				<%}%>
-                     <div width="100%">
-                         <img src="<%= imageServices.getPathToMicroblogImage(
-                        		 course.getMainImage(),
-                        		 course) %>" class="newsImage" style="float: left">
- 
-                         <div class="newsHeader" style="padding-top: 50px; padding-left: 175px; font-size: 20pt; ">
-                            <b>
-                                 <a href='
-                                 <portlet:renderURL>
-                                     <portlet:param name="id" value="<%=course.getId().toString()%>"/>
-                                         <portlet:param name="view" value="singleOnlineCourse"/>
-                                 </portlet:renderURL>
-                                 '><%=course.getOnlineCourseName()%>
-                                 </a>
-                            </b>
-                            </div>
                      
            </div>
            </div>
@@ -123,10 +121,12 @@
                 <portlet:param name="direction" value="prev"/>
                 <portlet:param name="currentPage" value="<%=String.valueOf(currentPage)%>"/>
             </portlet:renderURL>
-            <a href="${pagPrev}">
-                <img class="paginationImage"
-                     src="${pageContext.request.contextPath}/images/pagin-left.png"/>
-            </a>
+            <c:if test="${currentPage!=1}">
+                <a href="${pagPrev}">
+                    <img class="paginationImage"
+                         src="${pageContext.request.contextPath}/images/pagin-left.png"/>
+                </a>
+            </c:if>
             </td>
 
             <td width="auto" align="center" valign="center">
@@ -189,10 +189,12 @@
                 <portlet:param name="direction" value="next"/>
                 <portlet:param name="currentPage" value="<%=String.valueOf(currentPage)%>"/>
             </portlet:renderURL>
-            <a href="${pagNext}">
-                <img class="paginationImage"
-                     src="${pageContext.request.contextPath}/images/pagin-right.png"/>
-            </a>
+            <c:if test="${currentPage!=pagesCount}">
+                <a href="${pagNext}">
+                    <img class="paginationImage"
+                         src="${pageContext.request.contextPath}/images/pagin-right.png"/>
+                </a>
+            </c:if>
             </td>
             </tr>
         </table>

@@ -29,10 +29,12 @@ public class MyEvents extends State {
         Integer pageCount = service.getPagesCountByAuthor(userName, PER_PAGE);
         Integer newCurrentPage = setPage(pageCount);
         Collection<Events> eventsList = service.getPagesEventsByAuthor(userName, newCurrentPage, PER_PAGE);
-        model.addObject("eventsList", eventsList);
-        model.addObject(TYPE, "Events");
-        model.addObject(PAGE_COUNT, pageCount);
-        model.addObject(CURRENT_PAGE, newCurrentPage);
+        if(eventsList.size() > 0) {
+            model.addObject("eventsList", eventsList);
+            model.addObject(TYPE, "Events");
+            model.addObject(PAGE_COUNT, pageCount);
+            model.addObject(CURRENT_PAGE, newCurrentPage);
+        }
         setPlid();
         return model;
     }

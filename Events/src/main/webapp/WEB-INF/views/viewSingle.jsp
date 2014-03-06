@@ -129,7 +129,7 @@
             </a>
             <%if (request.isUserInRole("Administrator") || request.isUserInRole("User")) { %>
             <% if (request.isUserInRole("Administrator")) { %>
-            <a style="float: right" href='<portlet:renderURL><portlet:param name="eventID" value="<%=event.getId().toString()%>"/><portlet:param name="currentPage" value="1"/><portlet:param name="mode" value="delete" /></portlet:renderURL>'
+            <a style="float: right" href='<portlet:renderURL><portlet:param name="eventId" value="<%=event.getId().toString()%>"/><portlet:param name="currentPage" value="1"/><portlet:param name="mode" value="delete" /></portlet:renderURL>'
                onclick='return confirm("<spring:message code="form.confDelete"/>")'>
                 <div class="panelbtn panelbtn-right icon-pcpremove" aria-hidden="true"></div>
                 <!--<spring:message code="form.delete"/>-->

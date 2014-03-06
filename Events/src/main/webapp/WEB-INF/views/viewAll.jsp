@@ -176,7 +176,7 @@
                 </div>
                 <% if (request.isUserInRole("Administrator")) { %>
                 <div class="portlet-content-controlpanel fs20"style="width: 8.6%;float: right;">
-                    <a style="float: right" href='<portlet:renderURL><portlet:param name="eventID" value="<%=currentEvent.getId().toString()%>"/><portlet:param name="currentPage" value="<%=currentPage.toString()%>"/><portlet:param name="mode" value="delete" /></portlet:renderURL>'
+                    <a style="float: right" href="<portlet:renderURL><portlet:param name="eventId" value="<%=currentEvent.getId().toString()%>"/><portlet:param name="currentPage" value="<%=currentPage.toString()%>"/><portlet:param name="mode" value="delete" /></portlet:renderURL>"
                        onclick='return confirm("<spring:message code="form.confDelete"/>")'>
                         <div class="panelbtn panelbtn-right fs20 icon-pcpremove"  aria-hidden="true"></div>
                     </a>
@@ -236,10 +236,12 @@
                     </c:choose>
                     <% if (type != null) {%><portlet:param name="type" value="<%=String.valueOf(type)%>"/><%} %>
                 </portlet:renderURL>
-                <a href="${pagPrev}">
-                    <img class="paginationImage"
-                         src="${pageContext.request.contextPath}/images/pagin-left.png"/>
-                </a>
+                 <c:if test="${currentPage!=1}">
+                    <a href="${pagPrev}">
+                        <img class="paginationImage"
+                             src="${pageContext.request.contextPath}/images/pagin-left.png"/>
+                    </a>
+                 </c:if>
                 </td>
                 <td width="150" align="center" valign="center">
                     <%-- PAGINATION --%>
@@ -306,10 +308,12 @@
 
                     <% if (type != null) {%><portlet:param name="type" value="<%=String.valueOf(type)%>"/><%} %>
                 </portlet:renderURL>
-                <a href="${pagNext}">
-                    <img class="paginationImage"
-                         src="${pageContext.request.contextPath}/images/pagin-right.png"/>
-                </a>
+                <c:if test="${currentPage!=pagesCount}">
+                    <a href="${pagNext}">
+                        <img class="paginationImage"
+                             src="${pageContext.request.contextPath}/images/pagin-right.png"/>
+                    </a>
+                </c:if>
                 </td>
                 <%}%>
                 </tr>

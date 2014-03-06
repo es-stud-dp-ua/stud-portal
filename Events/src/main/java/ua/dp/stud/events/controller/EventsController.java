@@ -12,12 +12,7 @@ import com.liferay.portal.model.User;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.StringTokenizer;
+import java.util.*;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -104,14 +99,17 @@ public class EventsController {
         int currentPage;
         EventsType type;
         Boolean future;
-        if (request.getAttribute(ARCHIVE)!=null)
+        if (request.getAttribute(ARCHIVE)!=null){
             future=TRUE.equals(request.getAttribute(ARCHIVE));
-        else future=true;
+        } else{
+            future=true;
+        }
         Direction directionType=null;
         Date sortDate=new Date();
 
-        if (request.getParameter("directType")!=null)
+        if (request.getParameter("directType")!=null){
             directionType= Direction.valueOf(request.getParameter("directType"));
+        }
 
         if ((request.getParameter(CURRENT_PAGE) != null) && ("next".equals(request.getParameter("direction")))) {
             currentPage = Integer.parseInt(request.getParameter(CURRENT_PAGE));
@@ -135,35 +133,29 @@ public class EventsController {
             type = null;
         }
 
-        if (directionType!=null)
-        {
-        if ((directionType.equals(Direction.DAY))||(directionType.equals(Direction.FUTURE)))
-        {
-            future=true;
-        }
-        else
-        if ((directionType.equals(Direction.PREVIOS))||(directionType.equals(Direction.ALL)))
-        {
-            future=false;
-        }
-        }
-        else
-        {
-            if (future) directionType=Direction.FUTURE;
-                    else directionType=Direction.PREVIOS;
+        if (directionType!=null){
+            if ((directionType.equals(Direction.DAY))||(directionType.equals(Direction.FUTURE))) {
+                future=true;
+            } else
+                if ((directionType.equals(Direction.PREVIOS))||(directionType.equals(Direction.ALL))) {
+                    future=false;
+                }
+        } else{
+            if (future) {
+                directionType=Direction.FUTURE;
+            }else {
+                directionType=Direction.PREVIOS;
+            }
         }
 
-       if (("".equals(request.getParameter("startDate")))||(request.getParameter("startDate")!=null))
-        {
+       if (("".equals(request.getParameter("startDate")))||(request.getParameter("startDate")!=null)) {
             sortDate=new Date(Date.parse(request.getParameter("startDate")));
-        }
-        else
-        {   if(("".equals(request.getParameter("sortDate")))||(request.getParameter("sortdate")!=null))
-                {
+        } else{
+           if(("".equals(request.getParameter("sortDate")))||(request.getParameter("sortdate")!=null)){
                 sortDate=new Date(Date.parse(request.getParameter("sortdate")));
-                }
-            else
-                sortDate=new Date();
+                }  else {
+                     sortDate=new Date();
+                 }
         }
         if (type == null) {
             pagesCount = eventsService.getPagesCount(true, EVENTS_BY_PAGE, future);
@@ -227,7 +219,7 @@ public class EventsController {
         } else {
             currentPage = 1;
         }
-        pagesCount = (events.size() > 0) ? ((events.size() - 1) / EVENTS_BY_PAGE + 1) : 0;
+        pagesCount = (events.isEmpty()) ? ((events.size() - 1) / EVENTS_BY_PAGE + 1) : 0;
         int leftPageNumb = Math.max(1, currentPage - NEARBY_PAGES);
         int rightPageNumb = Math.min(pagesCount, currentPage + NEARBY_PAGES);
         boolean skippedBeginning = false;
@@ -263,12 +255,12 @@ public class EventsController {
 
 
     @ActionMapping(value = "sort")
-    public void getSortedDate(ActionRequest request, ActionResponse response)
-    {
-       if (request.getParameter("EventSortDate").equals(""))
+    public void getSortedDate(ActionRequest request, ActionResponse response){
+       if ("".equals(request.getParameter("EventSortDate"))) {
            response.setRenderParameter("startDate",(new Date().toString()));
-       else
+       } else {
             response.setRenderParameter("startDate",request.getParameter("EventSortDate"));
+       }
        response.setRenderParameter("directType",request.getParameter("directType"));
     }
 
@@ -282,7 +274,6 @@ public class EventsController {
         Events event = eventsService.getEventsById(eventID);
         ImageImpl mImage = event.getMainImage();
         eventsService.incrementViews(event);
-        request.getPortletSession().getPortletContext();
         String mainImage = imageService.getPathToLargeImage(mImage, event);
         int currentPage;
         Boolean future;
@@ -292,11 +283,9 @@ public class EventsController {
         } else {
             currentPage = 1;
         }
-         if (TRUE.equals(request.getParameter("archive")) || (request.getParameter("archive")) == null)
-         {
+         if (TRUE.equals(request.getParameter("archive")) || (request.getParameter("archive")) == null) {
             future=true;
-        }
-         else {
+        } else {
             future = false;
         }
 
@@ -326,13 +315,10 @@ public class EventsController {
         event.setAuthor(role);
         event.setApproved(frmRole.equals(ADMINISTRATOR_ROLE));
         try {
-            if (mainImage != null && mainImage.getSize() > 0) {
-                if (changeImage) {
+            if (mainImage != null && mainImage.getSize() > 0&& changeImage) {
                     imageService.saveMainImage(mainImage, event);
-                }
             }
-        }
-        catch (IOException ex) {
+        } catch (IOException ex) {
             LOG.log(Level.FATAL, STR_EXEPT, ex);
             return false;
         }
@@ -348,7 +334,7 @@ public class EventsController {
                          ActionResponse actionResponse, SessionStatus sessionStatus, @RequestParam(MAIN_IMAGE) CommonsMultipartFile mainImage)
             throws SystemException, PortalException {
         CommonsMultipartFile croppedImage = null;
-        if (!actionRequest.getParameter("t").equals("") || !"".equals(mainImage.getFileItem().getName())) {
+        if (!"".equals(actionRequest.getParameter("t")) || !"".equals(mainImage.getFileItem().getName())) {
             croppedImage = imageService.cropImage(mainImage, Integer.parseInt(actionRequest.getParameter("t")),
                                                   Integer.parseInt(actionRequest.getParameter("l")),
                                                   Integer.parseInt(actionRequest.getParameter("w")),
@@ -372,8 +358,8 @@ public class EventsController {
                 event.setEventDateEnd(dateEnd);
             }
         }
-        HashSet<String> names = new HashSet<String>();
-        ArrayList<Tags> tags = new ArrayList<Tags>();
+        Set<String> names = new HashSet<String>();
+        List<Tags> tags = new ArrayList<Tags>();
         String tag = actionRequest.getParameter("tags");
         StringTokenizer tokens = new StringTokenizer(tag, ",.; ");
 //check the uniqueness of the name
@@ -419,13 +405,13 @@ public class EventsController {
         Events newEvent = eventsService.getEventsById(eventID);
 //getting all parameters from form
         CommonsMultipartFile croppedImage = null;
-        HashSet<String> names = new HashSet<String>();
-        ArrayList<Tags> tags = new ArrayList<Tags>();
+        Set<String> names = new HashSet<String>();
+        List<Tags> tags = new ArrayList<Tags>();
         Boolean defImage = Boolean.valueOf(actionRequest.getParameter("defaultImage"));
         Boolean changeImage = true;
 
         if (!defImage) {
-            if (!actionRequest.getParameter("t").equals("")) {
+            if (!"".equals(actionRequest.getParameter("t"))) {
                 croppedImage = imageService.cropImage(mainImage, Integer.parseInt(actionRequest.getParameter("t")),
                                                       Integer.parseInt(actionRequest.getParameter("l")),
                                                       Integer.parseInt(actionRequest.getParameter("w")),
@@ -480,7 +466,7 @@ public class EventsController {
             eventsService.updateEvents(newEvent);
 //close session
 
-          /*  showAddSuccess(actionRequest,actionResponse);*/
+
             actionResponse.setRenderParameter("success","");
             actionResponse.setRenderParameter(ARCHIVE,actionRequest.getParameterValues(ARCHIVE));
             sessionStatus.setComplete();
@@ -552,7 +538,7 @@ public class EventsController {
     @RenderMapping(params = "mode=delete")
     public ModelAndView deleteEvent(RenderRequest request, RenderResponse response) {
 //getting current events
-        int eventID = Integer.valueOf(request.getParameter(EVENT_ID));
+        int eventID = Integer.valueOf(request.getParameter("eventId"));
         Events event = eventsService.getEventsById(eventID);
 //delete chosen organization's image from folder
         imageService.deleteDirectory(event);

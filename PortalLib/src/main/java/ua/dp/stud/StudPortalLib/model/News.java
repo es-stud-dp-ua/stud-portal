@@ -287,7 +287,7 @@ public class News extends BaseImagesSupport implements Serializable {
      */
     @Override
     public String toString() {
-        return new StringBuffer().append("News[").append("topic=").append(topic)
+        return new StringBuilder().append("News[").append("topic=").append(topic)
                 .append(", text=").append(text).append(", author=").append(author)
                 .append(", publication=").append(publication).append(']').toString();
     }

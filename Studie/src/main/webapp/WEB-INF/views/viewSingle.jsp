@@ -89,13 +89,13 @@
 		<tr></tbody></table>
 	<div id="mainProp">
 		<div style="width: 300px; float: right;"><ul>
-			<li><spring:message code="studie.FreeTrainig"/>&nbsp;<%=studie.getFreeTrainig()%></li>
-			<li><spring:message code="studie.PaidTrainig"/>&nbsp;<%=studie.getPaidTrainig()%></li>
-			<li><spring:message code="studie.MilitaryDepartment"/>&nbsp;<%=studie.getMilitaryDepartment()%></li>
-			<li><spring:message code="studie.Hostel"/>&nbsp;<%=studie.getHostel()%></li>
-			<li><spring:message code="studie.PostgraduateEducation"/>&nbsp;<%=studie.getPostgraduateEducation()%></li>
-			<li><spring:message code="studie.PostgraduateAndDoctoralStudies"/>&nbsp;<%=studie.getPostgraduateAndDoctoralStudies()%></li>
-			<li><spring:message code="studie.PreparatoryDepartment"/>&nbsp;<%=studie.getPreparatoryDepartment()%></li>
+			<li><spring:message code="studie.FreeTrainig"/>&nbsp;<% if (studie.getFreeTrainig() == true) {%><spring:message code="viewSingle.Yes"/><%} else { %><spring:message code="viewSingle.No"/><%} %></li>
+			<li><spring:message code="studie.PaidTrainig"/>&nbsp;<% if (studie.getPaidTrainig() == true) {%><spring:message code="viewSingle.Yes"/><%} else { %><spring:message code="viewSingle.No"/><%} %></li>
+			<li><spring:message code="studie.MilitaryDepartment"/>&nbsp;<% if (studie.getMilitaryDepartment() == true) {%><spring:message code="viewSingle.Yes"/><%} else { %><spring:message code="viewSingle.No"/><%} %></li>
+			<li><spring:message code="studie.Hostel"/>&nbsp;<% if (studie.getHostel() == true) {%><spring:message code="viewSingle.Yes"/><%} else { %><spring:message code="viewSingle.No"/><%} %></li>
+			<li><spring:message code="studie.PostgraduateEducation"/>&nbsp;<% if (studie.getPostgraduateEducation() == true) {%><spring:message code="viewSingle.Yes"/><%} else { %><spring:message code="viewSingle.No"/><%} %></li>
+			<li><spring:message code="studie.PostgraduateAndDoctoralStudies"/>&nbsp;<% if (studie.getPostgraduateAndDoctoralStudies() == true) {%><spring:message code="viewSingle.Yes"/><%} else { %><spring:message code="viewSingle.No"/><%} %></li>
+			<li><spring:message code="studie.PreparatoryDepartment"/>&nbsp;<% if (studie.getPreparatoryDepartment() == true) {%><spring:message code="viewSingle.Yes"/><%} else { %><spring:message code="viewSingle.No"/><%} %></li>
 			<li><spring:message code="studie.CountOfStudents"/>&nbsp;<%=studie.getCountOfStudents()%></li>
 			<li><spring:message code="studie.CountOfTeachers"/>&nbsp;<%=studie.getCountOfTeachers()%></li>
 			<li><spring:message code="studie.CountOfCandidates"/>&nbsp;<%=studie.getCountOfCandidates()%></li>

@@ -42,7 +42,9 @@ public class NewsDto extends CommonDto{
 		this.text = text;
 	}
 
-	NewsDto(){}
+	NewsDto(){
+
+    }
 
     public NewsDto(String imgPath, String title, Integer id, String creationDate, String text, String author, Integer numberOfViews ) {
         super(imgPath, title, id);
@@ -54,16 +56,30 @@ public class NewsDto extends CommonDto{
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof NewsDto)) return false;
-        if (!super.equals(o)) return false;
+        if (this == o){
+            return true;
+        }
+        if (!(o instanceof NewsDto)){
+            return false;
+        }
+        if (!super.equals(o)){
+            return false;
+        }
 
         NewsDto newsDto = (NewsDto) o;
 
-        if (text != null ? !text.equals(newsDto.text) : newsDto.text != null) return false;
-        if (creationDate != null ? !creationDate.equals(newsDto.creationDate) : newsDto.creationDate != null) return false;
-        if (author != null ? !author.equals(newsDto.author) : newsDto.author != null) return false;
-        if (numberOfViews != null ? !numberOfViews.equals(newsDto.numberOfViews) : newsDto.numberOfViews != null) return false;
+        if (text != null ? !text.equals(newsDto.text) : newsDto.text != null) {
+            return false;
+        }
+        if (creationDate != null ? !creationDate.equals(newsDto.creationDate) : newsDto.creationDate != null){
+            return false;
+        }
+        if (author != null ? !author.equals(newsDto.author) : newsDto.author != null) {
+            return false;
+        }
+        if (numberOfViews != null ? !numberOfViews.equals(newsDto.numberOfViews) : newsDto.numberOfViews != null) {
+            return false;
+        }
         return true;
     }
 

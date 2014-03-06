@@ -37,19 +37,30 @@ public class CommonDto {
         this.id = id;
     }
 
-    public CommonDto()
-    {}
+    public CommonDto() {
+
+    }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof CommonDto)) return false;
+        if (this == o){
+            return true;
+        }
+        if (!(o instanceof CommonDto)){
+            return false;
+        }
 
         CommonDto commonDto = (CommonDto) o;
 
-        if (id != null ? !id.equals(commonDto.id) : commonDto.id != null) return false;
-        if (imgPath != null ? !imgPath.equals(commonDto.imgPath) : commonDto.imgPath != null) return false;
-        if (name != null ? !name.equals(commonDto.name) : commonDto.name != null) return false;
+        if (id != null ? !id.equals(commonDto.id) : commonDto.id != null){
+            return false;
+        }
+        if (imgPath != null ? !imgPath.equals(commonDto.imgPath) : commonDto.imgPath != null){
+            return false;
+        }
+        if (name != null ? !name.equals(commonDto.name) : commonDto.name != null){
+            return false;
+        }
 
         return true;
     }

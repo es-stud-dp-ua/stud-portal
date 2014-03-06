@@ -72,11 +72,9 @@ public class BannerImageServiceImpl implements BannerImageService {
     }
 
     @Transactional(readOnly = true)
-    public Collection<CommonDto> getAllDTO(Collection<BannerImage> images)
-    {
+    public Collection<CommonDto> getAllDTO(Collection<BannerImage> images){
         Collection<CommonDto> dto=new ArrayList<CommonDto>();
-        for (BannerImage img:images)
-        {
+        for (BannerImage img:images){
             dto.add(new CommonDto(imageService.getPathToLargeImage(img.getMainImage(),img),img.getUrl(),img.getId()));
         }
         return dto;

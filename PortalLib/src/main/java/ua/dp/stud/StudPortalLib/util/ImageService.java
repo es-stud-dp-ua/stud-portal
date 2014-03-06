@@ -55,7 +55,7 @@ public class ImageService {
 		IMAGES_FOLDER_ABS_PATH = TOMCAT_FOLDER + FOLDER_SEPARATOR
 				+ IMAGES_FOLDER + FOLDER_SEPARATOR;
 
-		if (File.separator.equals("\\")) {
+		if ("\\".equals(File.separator)) {
 			SPLIT_BY = "\\\\";
 		} else {
 			SPLIT_BY = "/";
@@ -69,8 +69,7 @@ public class ImageService {
 	 * @param base
 	 * @throws java.io.IOException
 	 */
-	public void saveMainImage(CommonsMultipartFile file, BaseImagesSupport base)
-			throws IOException {
+	public void saveMainImage(CommonsMultipartFile file, BaseImagesSupport base) throws IOException {
 		String pathToImagesFolder = checkPathToImagesFolder(base);
 		Image sourceImage = ImageIO.read(file.getInputStream());
 		if (file.getSize() != 0) {
@@ -84,7 +83,7 @@ public class ImageService {
 					MICROBLOG_IMAGE_HEIGHT,file.getOriginalFilename());
 
 			ImageImpl image = new ImageImpl();
-			// image.setBase(base);
+
 			image.setOriginalImageName(file.getOriginalFilename());
 			base.setMainImage(image);
 		}

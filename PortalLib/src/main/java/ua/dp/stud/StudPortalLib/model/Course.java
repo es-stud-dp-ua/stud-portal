@@ -60,8 +60,7 @@ public class Course extends BaseImagesSupport{
         return coursesType;
     }
 
-    public Course()
-    {
+    public Course(){
         this.addDate=new Date();
         this.approved = false;
     }
