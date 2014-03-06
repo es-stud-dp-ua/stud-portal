@@ -18,8 +18,7 @@ import ua.dp.stud.studie.model.OnlineCourse;
 import ua.dp.stud.studie.model.OnlineCourseType;
 
 @Repository("onlineCourseDao")
-public class OnlineCourseDaoImpl implements OnlineCourseDao
-{
+public class OnlineCourseDaoImpl implements OnlineCourseDao{
 
     @Autowired
     private SessionFactory sessionFactory;
@@ -29,72 +28,61 @@ public class OnlineCourseDaoImpl implements OnlineCourseDao
         this.sessionFactory = sessionFactory;
     }
 
-    private Session getSession()
-    {
+    private Session getSession(){
         return this.sessionFactory.getCurrentSession();
     }
 
     @Override
-    public OnlineCourse getOnlineCourseById(Integer id)
-    {
+    public OnlineCourse getOnlineCourseById(Integer id) {
         return (OnlineCourse) getSession().get(OnlineCourse.class, id);
     }
 
     @Override
-    public void addOnlineCourse(OnlineCourse onlineCourse)
-    {
+    public void addOnlineCourse(OnlineCourse onlineCourse){
         getSession().save(onlineCourse);
     }
 
     @Override
-    public void deleteOnlineCourse(Integer id)
-    {
+    public void deleteOnlineCourse(Integer id){
         OnlineCourse onlineCourse = (OnlineCourse) getSession().get(OnlineCourse.class, id);
         getSession().delete(onlineCourse);
     }
 
     @Override
-    public void updateOnlineCourse(OnlineCourse onlineCourse)
-    {
+    public void updateOnlineCourse(OnlineCourse onlineCourse){
         getSession().update(onlineCourse);
     }
 
     @Override
-    public List<OnlineCourse> getAll()
-    {
+    public List<OnlineCourse> getAll(){
         return getSession().createCriteria(OnlineCourse.class).addOrder(Order.desc("id")).list();
     }
 
     @Override
-    public OnlineCourseType getOnlineCourseTypeById(Long id)
-    {
+    public OnlineCourseType getOnlineCourseTypeById(Long id){
     	OnlineCourseType onlineCourseType = (OnlineCourseType) getSession().get(OnlineCourseType.class, id);
     	 Hibernate.initialize(onlineCourseType.getOnlineCourse());
     	return onlineCourseType;
     }
 
     @Override
-    public void addOnlineCourseType(OnlineCourseType onlineCourseType)
-    {
+    public void addOnlineCourseType(OnlineCourseType onlineCourseType) {
         getSession().save(onlineCourseType);
     }
 
     @Override
-    public void deleteOnlineCourseType(Long id)
-    {
+    public void deleteOnlineCourseType(Long id){
         OnlineCourseType onlineCourseType = (OnlineCourseType) getSession().get(OnlineCourseType.class, id);
         getSession().delete(onlineCourseType);
     }
 
     @Override
-    public void updateOnlineCourseType(OnlineCourseType onlineCourseType)
-    {
+    public void updateOnlineCourseType(OnlineCourseType onlineCourseType){
         getSession().update(onlineCourseType);
     }
 
     @Override
-    public List<OnlineCourseType> getAllOnlineCourseType()
-    {
+    public List<OnlineCourseType> getAllOnlineCourseType(){
     	 List<OnlineCourseType> list = getSession().createCriteria(OnlineCourseType.class).list();
     	 for(OnlineCourseType type:list){
     		 Hibernate.initialize(type.getOnlineCourse());
@@ -103,8 +91,7 @@ public class OnlineCourseDaoImpl implements OnlineCourseDao
     }
 
 	@Override
-	public List<OnlineCourse> getOnlineCourseByType(Long onlineCourseTypeId, Integer pageNumb, Integer courseByPage)
-	{
+	public List<OnlineCourse> getOnlineCourseByType(Long onlineCourseTypeId, Integer pageNumb, Integer courseByPage){
 		int firstResult = (pageNumb - 1) * courseByPage;
 		Query query = getSession().createQuery("from OnlineCourse where onlineCourseType.id = :onlineCourseTypeId ORDER BY id DESC");
 		query.setParameter("onlineCourseTypeId", onlineCourseTypeId);
@@ -116,7 +103,7 @@ public class OnlineCourseDaoImpl implements OnlineCourseDao
     public void initializeCountOfCourses(OnlineCourseType onlineCourseType){
         Query q = getSession().createQuery("SELECT count(id) FROM OnlineCourse WHERE onlineCourseType="+onlineCourseType.getId().toString());
         onlineCourseType.setCountOfCourses((Long) q.uniqueResult());
-    };
+    }
     
     @Override
     public List<OnlineCourse> getOnlineCourseByTitle(String title, Integer pageNumb, Integer courseByPage){

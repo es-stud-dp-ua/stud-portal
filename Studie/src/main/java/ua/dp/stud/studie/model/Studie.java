@@ -546,7 +546,7 @@ public class Studie extends BaseImagesSupport implements Serializable {
 
     @Override
     public String toString() {
-        return new StringBuffer().append("Studie[").append("adress=").append(adress)
+        return new StringBuilder().append("Studie[").append("adress=").append(adress)
                 .append(", text=").append(text).append(", title=").append(title).append(']').toString();
     }
 }

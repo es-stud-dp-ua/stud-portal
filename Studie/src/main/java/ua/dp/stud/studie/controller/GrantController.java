@@ -130,7 +130,7 @@ public class GrantController {
             actionResponse.setRenderParameter(STR_FAIL, "msg.fail");
             return;
         }
-        	if (mainImage.getOriginalFilename().equals("")) {
+        	if ("".equals(mainImage.getOriginalFilename())) {
             actionResponse.setRenderParameter(STR_FAIL, NO_IMAGE);
             return;
         }
@@ -171,7 +171,7 @@ public class GrantController {
         oldGrant.setReceiptOfDocuments(grant.getReceiptOfDocuments());
         oldGrant.setSpeciality(grant.getSpeciality());
         oldGrant.setUniversity(grant.getUniversity());
-        if (!mainImage.getOriginalFilename().equals("")) {
+        if (!"".equals(mainImage.getOriginalFilename())) {
         	croppedImage = imageService.cropImage(mainImage, Integer.parseInt(actionRequest.getParameter("t")),
                                                Integer.parseInt(actionRequest.getParameter("l")),
                                                Integer.parseInt(actionRequest.getParameter("w")),

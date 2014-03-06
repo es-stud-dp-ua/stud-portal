@@ -99,8 +99,7 @@ public class CoursesController {
         return model;
     }
 
-    public void InitKindOfCourses()
-    {
+    public void InitKindOfCourses() {
         KindOfCourse kindOfCourse1= new KindOfCourse("Английский язык");
         KindOfCourse kindOfCourse2= new KindOfCourse("Китайский язык");
         KindOfCourse kindOfCourse4= new KindOfCourse("Карате");
@@ -128,18 +127,16 @@ public class CoursesController {
     @ResourceMapping(value = "coursesByKindAndType")
     public void renderCourses(ResourceResponse response,  ResourceRequest request,
                            @RequestParam(required = true) String kindOfCourse,
-                           @RequestParam(required = true) String coursesType) throws Exception
-    {
+                           @RequestParam(required = true) String coursesType)
+            throws Exception {
         StringBuilder s = new StringBuilder();
         List<Course> courses = courseService.getCoursesByKindAndType(kindOfCourse, coursesType);
-        //s.append(kindOfCourse); s.append(" "); s.append(coursesType);
         for (Course c:courses) {
             PortletURL p = response.createRenderURL();
             p.setParameter("courseId", c.getId().toString());
             p.setParameter("view", "course");
             s.append("<p><a href='").append(p.toString()).append("'>").append(c.getCourseName()).append("</a></p>");
         }
-        //response.createRenderURL();
         response.getWriter().println(s);
     }
 
@@ -194,7 +191,7 @@ public class CoursesController {
         Course oldCourse = courseService.getCourseByID(course.getId());
         course.setMainImage(oldCourse.getMainImage());
         CommonsMultipartFile croppedImage=null;
-        if (!mainImage.getOriginalFilename().equals("")) {
+        if (!"".equals(mainImage.getOriginalFilename())) {
         	croppedImage = imageService.cropImage(mainImage,
                     Integer.parseInt(actionRequest.getParameter("t")),
                     Integer.parseInt(actionRequest.getParameter("l")),
@@ -237,15 +234,13 @@ public class CoursesController {
 
         User user = (User) request.getAttribute(WebKeys.USER);
         boolean isShown=false;
-        if (request.isUserInRole(ADMIN) || request.isUserInRole("User"))
-        {
+        if (request.isUserInRole(ADMIN) || request.isUserInRole("User"))  {
             if(request.isUserInRole(ADMIN)){
                 isShown=true;
-                }
-            else{
-            if(request.isUserInRole("User") && course.getAuthor().equals(user.getScreenName())){
-                isShown=true;
-            }
+                } else{
+                    if(request.isUserInRole("User") && course.getAuthor().equals(user.getScreenName())){
+                    isShown=true;
+                    }
             }
         }
 
@@ -323,14 +318,13 @@ public class CoursesController {
                               ActionRequest actionRequest,
                               ActionResponse actionResponse,
                               SessionStatus sessionStatus,
-                              @RequestParam(MAIN_IMAGE) CommonsMultipartFile mainImage) throws IOException
-    {
+                              @RequestParam(MAIN_IMAGE) CommonsMultipartFile mainImage) throws IOException {
 		if (bindingResult.hasErrors()) {
 			actionResponse.setRenderParameter("coursefail", "found");
             actionResponse.setRenderParameter(STR_FAIL, "msg.fail");
             return;
         }
-        	if (mainImage.getOriginalFilename().equals("")) {
+        	if ("".equals(mainImage.getOriginalFilename())) {
         	actionResponse.setRenderParameter("coursefail", "found");
             actionResponse.setRenderParameter(STR_FAIL, STR_NO_IMAGE);
             return;

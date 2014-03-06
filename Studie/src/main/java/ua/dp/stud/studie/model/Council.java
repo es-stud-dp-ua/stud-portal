@@ -64,7 +64,7 @@ public class Council implements Serializable{
 
 
     public Council(Studie studie){
-    	this.setStudie(studie);
+        this.studie = studie;
     }
 
     public Council(Studie studie, String councilContact, String councilDescription) {
@@ -113,8 +113,10 @@ public class Council implements Serializable{
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Council)) return false;
+        if (this == o)
+            return true;
+        if (!(o instanceof Council))
+            return false;
 
         Council council = (Council) o;
 
@@ -124,9 +126,10 @@ public class Council implements Serializable{
             return false;
         if (councilMembers != null ? !councilMembers.equals(council.councilMembers) : council.councilMembers != null)
             return false;
-        if (!id.equals(council.id)) return false;
-        if (studie != null ? !studie.equals(council.studie) : council.studie != null) return false;
-
+        if (!id.equals(council.id))
+            return false;
+        if (studie != null ? !studie.equals(council.studie) : council.studie != null)
+            return false;
         return true;
     }
 

@@ -273,7 +273,7 @@ public class OnlineCourseController {
 
             return;
         }
-        	if (mainImage.getOriginalFilename().equals("")) {
+        	if ("".equals(mainImage.getOriginalFilename())) {
             actionResponse.setRenderParameter(STR_FAIL, "image");
             actionResponse.setRenderParameter("no", "image");
             return;
@@ -309,7 +309,7 @@ public class OnlineCourseController {
         oldCourse.setOnlineCourseDescription(onlineCourse.getOnlineCourseDescription());
         oldCourse.setOnlineCourseName(onlineCourse.getOnlineCourseName());
         oldCourse.setOnlineCourseType(onlineCourse.getOnlineCourseType());
-        if (!mainImage.getOriginalFilename().equals("")) {
+        if (!"".equals(mainImage.getOriginalFilename())) {
         	croppedImage = imageService.cropImage(mainImage, Integer.parseInt(actionRequest.getParameter("t")),
                                                Integer.parseInt(actionRequest.getParameter("l")),
                                                Integer.parseInt(actionRequest.getParameter("w")),

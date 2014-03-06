@@ -7,8 +7,7 @@ import ua.dp.stud.StudPortalLib.model.Course;
 import ua.dp.stud.studie.model.OnlineCourse;
 import ua.dp.stud.studie.model.OnlineCourseType;
 
-public interface OnlineCourseService
-{
+public interface OnlineCourseService{
 	OnlineCourse getOnlineCourseById (Integer id);
 	
 	void addOnlineCourse (OnlineCourse onlineCourse);

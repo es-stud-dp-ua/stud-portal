@@ -25,19 +25,16 @@ public class CouncilMembers extends BaseImagesSupport implements Serializable, C
 	    private Council nameOfCouncil;
 
 
-	    public CouncilMembers()
-	    {
+	    public CouncilMembers() {
 	    }
 
-	    public CouncilMembers(String memberName, String memberContact, String memberPosition, Integer listPosition)
-	    {
+	    public CouncilMembers(String memberName, String memberContact, String memberPosition, Integer listPosition) {
 	    	this.memberPosition=memberPosition;
 	    	this.memberName=memberName;
 	    	this.memberContact=memberContact;
 	    	this.listPosition=listPosition;
 	    }
-	    public CouncilMembers(String memberName, String memberContact, String memberPosition,Council nameOfCouncil, Integer listPosition)
-	    {
+	    public CouncilMembers(String memberName, String memberContact, String memberPosition,Council nameOfCouncil, Integer listPosition) {
 	    	this.memberPosition=memberPosition;
 	    	this.memberName=memberName;
 	    	this.memberContact=memberContact;
@@ -106,33 +103,36 @@ public class CouncilMembers extends BaseImagesSupport implements Serializable, C
 
 	    @Override
 	    public boolean equals(Object o) {
-	        if (this == o) return true;
-	        if (o == null || getClass() != o.getClass()) return false;
-	        if (!super.equals(o)) return false;
+	        if (this == o)
+                return true;
+	        if (o == null || getClass() != o.getClass())
+                return false;
+	        if (!super.equals(o))
+                return false;
 
 	        CouncilMembers council = (CouncilMembers) o;
 
 	        
-	        if (memberName != null ? !memberName.equals(council.memberName) : council.memberName != null) return false;
+	        if (memberName != null ? !memberName.equals(council.memberName) : council.memberName != null)
+                return false;
 	        if (memberContact != null ? !memberContact.equals(council.memberContact) : council.memberContact != null)
 	            return false;
 	        if (memberPosition != null ? !memberPosition.equals(council.memberPosition) : council.memberPosition != null)
 	            return false;
 	        if (listPosition != null ? !listPosition.equals(council.listPosition) : council.listPosition != null)
 	        	return false;
-
 	        return true;
 	    }
 
 		@Override
 		public int compareTo(CouncilMembers obj) {
-			
+
 			return listPosition.compareTo(obj.listPosition);
 		}
 
 		@Override
 	    public String toString() {
-	        return new StringBuffer().append("CouncilMembers[").append("memberName=").append(memberName)
+	        return new StringBuilder().append("CouncilMembers[").append("memberName=").append(memberName)
 	                .append(", memberContact=").append(memberContact).append(", memberPosition=").append(memberPosition)
 	                .append(", listPosition=").append(listPosition).append(']').toString();
 	    }
