@@ -75,14 +75,15 @@ public class CourseDaoImpl extends DaoForApproveImpl<Course> implements CourseDa
         } else {
             queryString.append("1=1");
         }
+
         Query query = getSession().createQuery(queryString.toString());
         if (!"all".equals(kindOfCourse)) {
-            query.setParameter("kindOfCourse", Integer.parseInt(kindOfCourse));
+            query.setParameter("kindOfCourse", Long.parseLong(kindOfCourse));
         }
         if (!"all".equals(coursesType)) {
             query.setParameter("coursesType", CoursesType.valueOf(coursesType));
         }
-        return  (List<Course>)query.list();
+        return  (List<Course>)query.list() ;
 
     }
 
