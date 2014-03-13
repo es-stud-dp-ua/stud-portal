@@ -7,8 +7,8 @@ import ua.dp.stud.StudPortalLib.model.News;
 import ua.dp.stud.studie.model.OnlineCourse;
 import ua.dp.stud.studie.model.OnlineCourseType;
 
-public interface OnlineCourseDao
-{
+public interface OnlineCourseDao{
+
 	OnlineCourse getOnlineCourseById(Integer id);
 
     void addOnlineCourse(OnlineCourse onlineCourse);

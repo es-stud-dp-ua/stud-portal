@@ -65,15 +65,13 @@ public class Schedule implements Serializable, EntityWithFile {
         this.lastUpdateDate = lastUpdateDate;
     }
 
-    public Schedule()
-    {
+    public Schedule() {
         this.faculty=null;
         this.year= Course.FIRST;
         this.scheduleFile =null;
         this.lastUpdateDate=new Date();
     }
-   public Schedule(Faculties faculty, Course year, FileSaver scheduleFileFolder, Date lastUpdateDate)
-    {
+   public Schedule(Faculties faculty, Course year, FileSaver scheduleFileFolder, Date lastUpdateDate) {
         this.faculty=faculty;
         this.year=year;
         this.scheduleFile =scheduleFileFolder;
@@ -83,18 +81,23 @@ public class Schedule implements Serializable, EntityWithFile {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
 
         Schedule schedule = (Schedule) o;
 
-        if (faculty != null ? !faculty.equals(schedule.faculty) : schedule.faculty != null) return false;
-        if (id != null ? !id.equals(schedule.id) : schedule.id != null) return false;
+        if (faculty != null ? !faculty.equals(schedule.faculty) : schedule.faculty != null)
+            return false;
+        if (id != null ? !id.equals(schedule.id) : schedule.id != null)
+            return false;
         if (lastUpdateDate != null ? !lastUpdateDate.equals(schedule.lastUpdateDate) : schedule.lastUpdateDate != null)
             return false;
         if (scheduleFile != null ? !scheduleFile.equals(schedule.scheduleFile) : schedule.scheduleFile != null)
             return false;
-        if (year != schedule.year) return false;
+        if (year != schedule.year)
+            return false;
 
         return true;
     }

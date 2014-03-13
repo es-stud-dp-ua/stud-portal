@@ -15,28 +15,24 @@ public class OnlineCourseType extends CommonType implements Serializable
 	private List<OnlineCourse> onlineCourse;
 	
 		
-	public OnlineCourseType (String onlineCourseType)
-    {
+	public OnlineCourseType (String onlineCourseType){
        super(onlineCourseType);
     }
 
-    public OnlineCourseType()
-    {
+    public OnlineCourseType(){
     }
 	
-    public OnlineCourseType(String onlineCourseType,List<OnlineCourse> onlineCourse)
-    {
+    public OnlineCourseType(String onlineCourseType,List<OnlineCourse> onlineCourse) {
     	super(onlineCourseType);
     	this.onlineCourse = onlineCourse;
     }
     
 	public List<OnlineCourse> getOnlineCourse()
 	{
-		return onlineCourse;
+	return onlineCourse;
 	}
 	
-	public void setOnlineCourse (List<OnlineCourse> onlineCourse)
-	{
+	public void setOnlineCourse (List<OnlineCourse> onlineCourse){
 		this.onlineCourse = onlineCourse;
 		for (OnlineCourse spec : this.onlineCourse) {
             if (spec.getOnlineCourseType() == null) {

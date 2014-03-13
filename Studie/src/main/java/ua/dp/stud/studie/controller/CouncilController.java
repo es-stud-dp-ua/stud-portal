@@ -207,11 +207,6 @@ public class CouncilController {
 		//File file = upload.getFile("file");
 		// System.out.println(file);
 		CouncilMembers member = new CouncilMembers();
-
-        /*if (file != null) {
-		 imageService.saveMemberImage(file, member);
-		 }*/
-        
 		member.setMemberContact(contact);
         member.setMemberName(name);
         member.setMemberPosition(position);
@@ -232,7 +227,8 @@ public class CouncilController {
 	}
 
 	@ResourceMapping(value = "editMember")
-	public void editMember(ResourceResponse response,ResourceRequest request) throws Exception {
+	public void editMember(ResourceResponse response,ResourceRequest request)
+            throws Exception {
 
 		UploadPortletRequest upload = PortalUtil.getUploadPortletRequest(request);
 		String name = upload.getParameter("name");
@@ -243,10 +239,9 @@ public class CouncilController {
 		File file = upload.getFile("file");
 		CouncilMembers oldCouncilMember = councilService
 				.getCouncilMembersById(member_id);
-		if (!(file==null)){
-				if (file.length() > 0) {
+		if (!(file==null)||(file.length() > 0))
+        {
 			 imageService.saveMemberImage(file, oldCouncilMember);
-			 }
 		}
 		
 		oldCouncilMember.setMemberName(name);
@@ -256,7 +251,6 @@ public class CouncilController {
 		oldCouncilMember.setNameOfCouncil(council);
 		councilService.updateCouncilMembers(oldCouncilMember);
 		String path = imageService.getPathToMicroblogImage(oldCouncilMember.getMainImage(),oldCouncilMember);
-		System.out.println(path);
 		if (path != null){
 		response.getWriter().println(path);
 		}
@@ -264,8 +258,8 @@ public class CouncilController {
 
 
 	@ResourceMapping(value = "memberUp")
-	public void MemberUp(ResourceResponse response,ResourceRequest request,Integer member_id,Integer council_id) throws Exception {
-
+	public void MemberUp(ResourceResponse response,ResourceRequest request,Integer member_id,Integer council_id)
+            throws Exception {
 		CouncilMembers member = councilService.getCouncilMembersById(member_id);
 		Council council = councilService.getCouncilById(council_id);
 		List<CouncilMembers> list = council.getCouncilMembers();
@@ -276,14 +270,11 @@ public class CouncilController {
 			}
 		}
 		
-		if(index>0){	
-			System.out.println("Enter");
+		if(index>0){
 		CouncilMembers prevMember = list.get(index-1);
 		Integer posList = member.getListPosition();
-		System.out.println(posList);
 		Integer prevList = prevMember.getListPosition();
-		System.out.println(prevList);
-		Integer temp = posList; 
+		Integer temp = posList;
 		member.setListPosition(prevList);
 		prevMember.setListPosition(temp);
 		councilService.updateCouncilMembers(member);
@@ -293,8 +284,8 @@ public class CouncilController {
 	}
 
 	@ResourceMapping(value = "memberDown")
-	public void MemberDown(ResourceResponse response,ResourceRequest request, Integer member_id, Integer council_id) throws Exception {
-
+	public void MemberDown(ResourceResponse response,ResourceRequest request, Integer member_id, Integer council_id)
+            throws Exception {
 		CouncilMembers member = councilService.getCouncilMembersById(member_id);
 		Council council = councilService.getCouncilById(council_id);
 		List<CouncilMembers> list = council.getCouncilMembers();
@@ -305,8 +296,7 @@ public class CouncilController {
 			}
 		}
 		
-		if(index!=(list.size()-1)){	
-			System.out.println("Enter");
+		if(index!=(list.size()-1)){
 		CouncilMembers nextMember = list.get(index+1);
 		Integer posList = member.getListPosition();
 		Integer nextList = nextMember.getListPosition();
@@ -315,7 +305,7 @@ public class CouncilController {
 		nextMember.setListPosition(temp);
 		councilService.updateCouncilMembers(member);
 		councilService.updateCouncilMembers(nextMember);
-			}
+		}
 	}
 
 	
