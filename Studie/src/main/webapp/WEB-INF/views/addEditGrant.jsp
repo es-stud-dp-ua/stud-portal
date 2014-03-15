@@ -50,26 +50,30 @@
 				<div class="textBox">
                     <div><spring:message code="form.grantUniversity"/></label>
                     </div>
-                    <form:input path="university" name="university"/>
+                    <form:input path="university" id="univer"  maxlength="100"
+                         onkeypress="return isNotMax(event,this)" name="university"/>
                     <p/><form:errors path="university" cssClass="error"/>
                 </div>
                 
                 <div class="textBox">
                     <div><spring:message code="form.grantCity"/></label>
                     </div>
-                    <form:input path="city" name="city"/>
+                    <form:input path="city" id="city"  maxlength="100"
+                        onkeypress="return isNotMax(event,this)" name="city"/>
                     <p/><form:errors path="city" cssClass="error"/>
                 </div>
                 <div class="textBox">
                     <div><spring:message code="form.grantCountry"/></label>
                     </div>
-                    <form:input path="country" name="country"/>
+                    <form:input path="country" id="country"  maxlength="100"
+                        onkeypress="return isNotMax(event,this)" name="country"/>
                     <p/><form:errors path="country" cssClass="error"/>
                 </div>
                 <div class="textBox">
                     <div><spring:message code="form.grantSpeciality"/></label>
                     </div>
-                    <form:input path="speciality" name="speciality"/>
+                    <form:input path="speciality" id="spec"  maxlength="100"
+                        onkeypress="return isNotMax(event,this)" name="speciality"/>
                     <p/><form:errors path="speciality" cssClass="error"/>
                 </div>
                 </td>
@@ -77,25 +81,29 @@
                 <div class="textBox">
                     <div><spring:message code="form.grantQualification"/></label>
                     </div>
-                    <form:input path="qualification" name="qualification"/>
+                    <form:input path="qualification" id="qualif"  maxlength="100"
+                        onkeypress="return isNotMax(event,this)" name="qualification"/>
                     <p/><form:errors path="qualification" cssClass="error"/>
                 </div>
                 <div class="textBox">
                     <div><spring:message code="form.grantEducationPeriod"/></label>
                     </div>
-                    <form:input path="educationPeriod" name="educationPeriod"/>
+                    <form:input path="educationPeriod" id="period"  maxlength="100"
+                        onkeypress="return isNotMax(event,this)" name="educationPeriod"/>
                     <p/><form:errors path="educationPeriod" cssClass="error"/>
                 </div>
                 <div class="textBox">
                     <div><spring:message code="form.grantEducationLanguage"/></label>
                     </div>
-                    <form:input path="educationLanguage" name="educationLanguage"/>
+                    <form:input path="educationLanguage" id="language"  maxlength="100"
+                        onkeypress="return isNotMax(event,this)" name="educationLanguage"/>
                     <p/><form:errors path="educationLanguage" cssClass="error"/>
                 </div>
                 <div class="textBox">
                     <div><spring:message code="form.grantReceiptOfDocuments"/></label>
                     </div>
-                    <form:input path="receiptOfDocuments" name="receiptOfDocuments"/>
+                    <form:input path="receiptOfDocuments" id="receiptDocuments"  maxlength="100"
+                        onkeypress="return isNotMax(event,this)" name="receiptOfDocuments"/>
                     <p/><form:errors path="receiptOfDocuments" cssClass="error"/>
                 </div>
                 </td>
@@ -108,7 +116,8 @@
 				</div>
 				<form:errors path="description" cssClass="error" />
 				<form:textarea path="description" 
-					id="textInput" cols="20" rows="4"></form:textarea>
+					id="textInput" cols="20" rows="8" maxlength="3000"
+                     onkeypress="return isNotMax(event,this)"></form:textarea>
 				</td>
 				<td>
 				<div id="labels">
@@ -116,7 +125,8 @@
 				</div>
 				<form:errors path="documents" cssClass="error" />
 				<form:textarea path="documents"
-					id="textInput" cols="20" rows="4"></form:textarea>
+					id="textInput" cols="20" rows="8" maxlength="3000"
+                    onkeypress="return isNotMax(event,this)"></form:textarea>
 				</td>
 				</tr>
 				</table>
@@ -129,23 +139,166 @@
     <script src="${pageContext.request.contextPath}/js/a.js" type="text/javascript"></script>
                 <script src="${pageContext.request.contextPath}/js/setCoords.js" type="text/javascript"></script>
                 <script src="${pageContext.request.contextPath}/js/handleFile.js" type="text/javascript"></script>
-	<script>
 
 
+
+       <script type="text/javascript">
+
+                           $(document).ready(function() {
+                   $.Placeholder.init({color: "#aaa"});
+                   });
+                           function isNotMax(e) {
+                           e = e || window.event;
+                                   var target = e.target || e.srcElement;
+                                   var code = e.keyCode ? e.keyCode : (e.which ? e.which : e.charCode)
+                                   switch (code) {
+                           case 13:
+                                   case 8:
+                                   case 9:
+                                   case 46:
+                                   case 37:
+                                   case 38:
+                                   case 39:
+                                   case 40:
+                                   return true;
+                           }
+                           return target.value.length <= target.getAttribute('maxlength');
+                           }
+               </script>
+
+       <script>
 		$(document)
 				.ready(
 						function() {
-							function isNotMax(e, id) {
-								var validateValueTextArea = document
-										.getElementById(id);
-								validateValueTextArea.value = validateValueTextArea.value
-										.substr(0, validateValueTextArea
-												.getAttribute('maxlength'));
-							}
+
 							document.getElementById('mainImage')
 									.addEventListener('change',
 											handleFileSelect, false);
 						})
 	</script>
+
+	<script>
+                         $(document).ready(function() {
+                         $.validator.setDefaults({ ignore: [] });
+                                 $('#grantForm').validate({
+
+                         rules: {
+                         university: {
+                         required: true,
+                                 minlength: 5,
+                                 maxlength: 100
+                         },
+                         city: {
+                           required: true,
+                                 minlength: 5,
+                                 maxlength: 100
+                         },
+                         country: {
+                         required: true,
+                                 minlength: 5,
+                                 maxlength: 100
+                         },
+                         speciality: {
+                         required: true,
+                                 minlength: 5,
+                                 maxlength: 100
+                         },
+                         qualification: {
+                         required: true,
+                                 minlength: 5,
+                                 maxlength: 100
+                         },
+                         educationPeriod: {
+                         required: true,
+                                 minlength: 5,
+                                 maxlength: 100
+                         },
+                         educationLanguage: {
+                         required: true,
+                                 minlength: 5,
+                                 maxlength: 100
+                         },
+                         receiptOfDocuments: {
+                         required: true,
+                                 minlength: 5,
+                                 maxlength: 100
+                         },
+                         description: {
+                         required: true,
+                                 minlength: 100,
+                                 maxlength: 3000
+                         },
+                         documents: {
+                         required: true,
+                                 minlength: 100,
+                                 maxlength: 3000
+                         }
+
+                         },
+                                 messages: {
+                         university: {
+                         required: "<spring:message code="val.required"/>",
+                                 minlength:  "<spring:message code="val.title.minlength"/>",
+                                 maxlength:  "<spring:message code="val.title.maxlength"/>"
+                         },
+                         city: {
+                         required: "<spring:message code="val.required"/>",
+                                 minlength:  "<spring:message code="val.title.minlength"/>",
+                                 maxlength:  "<spring:message code="val.title.maxlength"/>"
+                         },
+                         country: {
+                         required: "<spring:message code="val.required"/>",
+                                 minlength:  "<spring:message code="val.title.minlength"/>",
+                                 maxlength:  "<spring:message code="val.title.maxlength"/>"
+                         },
+                         speciality: {
+                         required: "<spring:message code="val.required"/>",
+                                 minlength:  "<spring:message code="val.title.minlength"/>",
+                                 maxlength:  "<spring:message code="val.title.maxlength"/>"
+                         },
+                         qualification: {
+                         required: "<spring:message code="val.required"/>",
+                                 minlength:  "<spring:message code="val.title.minlength"/>",
+                                 maxlength:  "<spring:message code="val.title.maxlength"/>"
+                         },
+                         receiptOfDocuments: {
+                         required: "<spring:message code="val.required"/>",
+                                 minlength:  "<spring:message code="val.title.minlength"/>",
+                                 maxlength:  "<spring:message code="val.title.maxlength"/>"
+                         },
+                         educationPeriod: {
+                         required: "<spring:message code="val.required"/>",
+                                 minlength:  "<spring:message code="val.title.minlength"/>",
+                                 maxlength:  "<spring:message code="val.title.maxlength"/>"
+                         },
+                         educationLanguage: {
+                         required: "<spring:message code="val.required"/>",
+                                 minlength:  "<spring:message code="val.title.minlength"/>",
+                                 maxlength:  "<spring:message code="val.title.maxlength"/>"
+                         },
+                         documents: {
+                         required: "<spring:message code="val.required"/>",
+                                 minlength:  "<spring:message code="val.textcouncil.minlength"/>",
+                                 maxlength:  "<spring:message code="val.textcouncil.maxlength"/>"
+                         },
+                         description: {
+                         required: "<spring:message code="val.required"/>",
+                                 minlength:  "<spring:message code="val.textcouncil.minlength"/>",
+                                 maxlength:  "<spring:message code="val.textcouncil.maxlength"/>"
+                         }
+
+                         },
+                                 highlight: function(label) {
+                         $(label).removeClass("invisiblevalid");
+                                 $(label).closest('.control-group').addClass('error');
+                         },
+                                 success: function(label) {
+                         $(label).removeClass("error");
+                                 label.addClass("invisiblevalid");
+                         }
+                         });
+                         });
+
+         </script>
 
 </form:form>

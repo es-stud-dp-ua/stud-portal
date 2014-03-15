@@ -4,7 +4,9 @@ package ua.dp.stud.studie.model;
 import java.io.Serializable;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 
+import org.hibernate.validator.constraints.NotEmpty;
 import ua.dp.stud.StudPortalLib.model.BaseImagesSupport;
 /**
  * Author: Lysenko Nikolai
@@ -101,8 +103,10 @@ public class Grant extends BaseImagesSupport implements Serializable{
 	public void setReceiptOfDocuments(String receiptOfDocuments) {
 		this.receiptOfDocuments = receiptOfDocuments;
 	}
-	
+
 	@Column
+    @NotEmpty
+    @Size(min = 100, max = 3000)
 	public String getDescription() {
 		return description;
 	}
@@ -112,6 +116,8 @@ public class Grant extends BaseImagesSupport implements Serializable{
 	}
 
 	@Column
+    @NotEmpty
+    @Size(min = 100, max = 3000)
 	public String getDocuments() {
 		return documents;
 	}

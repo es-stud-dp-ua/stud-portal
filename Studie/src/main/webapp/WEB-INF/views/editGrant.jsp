@@ -31,7 +31,6 @@
         </style>
 </head>
 <body>
-
 <portlet:actionURL var="addEdit" name="editGrant"></portlet:actionURL>
 <%@include file="addEditGrant.jsp" %>
 
