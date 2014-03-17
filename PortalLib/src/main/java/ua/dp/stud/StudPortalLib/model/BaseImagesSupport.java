@@ -81,7 +81,7 @@ public class BaseImagesSupport implements Serializable {
 
     @Override
     public String toString() {
-        return new StringBuffer().append("BaseImagesSupport[").append("id=").append(id).append(", yearMonthUniqueFolder=")
+        return new StringBuilder().append("BaseImagesSupport[").append("id=").append(id).append(", yearMonthUniqueFolder=")
                 .append(yearMonthUniqueFolder).append(']').toString();
     }
 }

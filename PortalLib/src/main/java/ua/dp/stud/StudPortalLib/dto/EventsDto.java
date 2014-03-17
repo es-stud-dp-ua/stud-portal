@@ -32,7 +32,9 @@ public class EventsDto extends CommonDto{
         this.location = location;
     }
 
-    EventsDto(){}
+    EventsDto(){
+
+    }
 
     public Date getEndDate() {
         return endDate;
@@ -52,16 +54,30 @@ public class EventsDto extends CommonDto{
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof EventsDto)) return false;
-        if (!super.equals(o)) return false;
+        if (this == o){
+            return true;
+        }
+        if (!(o instanceof EventsDto)){
+            return false;
+        }
+        if (!super.equals(o)){
+            return false;
+        }
 
         EventsDto eventsDto = (EventsDto) o;
 
-        if (desc != null ? !desc.equals(eventsDto.desc) : eventsDto.desc != null) return false;
-        if (endDate != null ? !endDate.equals(eventsDto.endDate) : eventsDto.endDate != null) return false;
-        if (location != null ? !location.equals(eventsDto.location) : eventsDto.location != null) return false;
-        if (startDate != null ? !startDate.equals(eventsDto.startDate) : eventsDto.startDate != null) return false;
+        if (desc != null ? !desc.equals(eventsDto.desc) : eventsDto.desc != null){
+            return false;
+        }
+        if (endDate != null ? !endDate.equals(eventsDto.endDate) : eventsDto.endDate != null) {
+            return false;
+        }
+        if (location != null ? !location.equals(eventsDto.location) : eventsDto.location != null){
+            return false;
+        }
+        if (startDate != null ? !startDate.equals(eventsDto.startDate) : eventsDto.startDate != null) {
+            return false;
+        }
 
         return true;
     }

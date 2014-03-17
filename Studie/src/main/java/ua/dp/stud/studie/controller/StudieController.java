@@ -239,7 +239,7 @@ public class StudieController {
             actionResponse.setRenderParameter(STR_FAIL, "msg.fail");
             return;
         }
-        if (mainImage.getOriginalFilename().equals("")) {
+        if ("".equals(mainImage.getOriginalFilename())) {
             actionResponse.setRenderParameter(STR_FAIL, STR_NO_IMAGE);
             return;
         }
@@ -271,8 +271,7 @@ public class StudieController {
         studie.setMainImage(oldStudy.getMainImage());
         studie.setAdditionalImages(oldStudy.getAdditionalImages());
         studie.setYearMonthUniqueFolder(oldStudy.getYearMonthUniqueFolder());
-        if (!mainImage.getOriginalFilename().equals(""))
-        {
+        if (!"".equals(mainImage.getOriginalFilename())) {
             mainImage = imageService.cropImage(mainImage, Integer.parseInt(actionRequest.getParameter("t")),
                     Integer.parseInt(actionRequest.getParameter("l")),
                     Integer.parseInt(actionRequest.getParameter("w")),
@@ -289,7 +288,6 @@ public class StudieController {
     @RenderMapping(params = {"mode=delImage", STUDY_ID})
     public ModelAndView delImage(RenderRequest request, RenderResponse response) {
         long imageID = Long.valueOf(request.getParameter("imageId"));
-        int studieID = Integer.valueOf(request.getParameter(STUDY_ID));
         ImageImpl image = studieService.getImageById(imageID);
         imageService.deleteImage(image, image.getBase());
         studieService.deleteImage(image);
@@ -298,8 +296,7 @@ public class StudieController {
 
     @RenderMapping(params = "mode=edit")
     public ModelAndView showEditNews(RenderRequest request, RenderResponse response) {
-    	if (!request.isUserInRole("Administrator"))
-    	{
+    	if (!request.isUserInRole("Administrator")){
     		return showView(request,response);
     	}
         ModelAndView model = new ModelAndView("editStudie");

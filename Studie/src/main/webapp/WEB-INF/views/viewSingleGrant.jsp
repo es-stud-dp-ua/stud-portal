@@ -27,10 +27,34 @@ ImageService imageServices = (ImageService) pageContext.findAttribute("imageServ
 </portlet:renderURL>
 	
 	<div class="portlet-content-controlpanel fs20">
+
+			<%
+				if (request.isUserInRole("Administrator")) {
+			%>
+			<a style="float: right"
+				href='<portlet:renderURL><portlet:param name="id" value="<%=grant.getId().toString()%>"/><portlet:param name="view" value="deleteGrant"/></portlet:renderURL>'
+				onclick='return confirm("<spring:message code="form.confDelete"/>")'>
+				<div class="panelbtn panelbtn-right icon-pcpremove"
+					aria-hidden="true"></div>
+			</a>
+
+			<a style="float: right"
+				href='<portlet:renderURL><portlet:param name="id" value="<%=grant.getId().toString()%>"/><portlet:param name="view" value="editGrant" /></portlet:renderURL>'>
+				<div class="panelbtn panelbtn-right icon-pcppencil"
+					aria-hidden="true"></div>
+			</a>
+			<%
+				}
+			%>
+
+
+
 			<a href="${home}"> <!--<spring:message code="form.back"/>-->
 				<div class="panelbtn panelbtn-right fs20 icon-pcparrow-left"
 					aria-hidden="true"></div>
 			</a>
+
+
 	</div>
 	
 	<div id="desc">

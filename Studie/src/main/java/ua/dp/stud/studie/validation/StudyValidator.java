@@ -21,13 +21,13 @@ public class StudyValidator implements Validator {
     @Override
     public void validate(Object o, Errors errors) {
         Studie studie = (Studie)o;
-        if(studie.getStatus().equals("NONE")) {
+        if("NONE".equals(studie.getStatus())) {
             errors.rejectValue("status", VALIDATION_NONE);
         }
-        if(studie.getAccreditacion().equals("NONE")) {
+        if("NONE".equals(studie.getAccreditacion())) {
             errors.rejectValue("accreditacion", VALIDATION_NONE);
         }
-        if(studie.getOnGraduation().equals("NONE")) {
+        if("NONE".equals(studie.getOnGraduation())) {
             errors.rejectValue("onGraduation", VALIDATION_NONE);
         }
     }

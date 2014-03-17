@@ -1,4 +1,4 @@
-<form:form method="post" action="${actionLink}"  enctype="multipart/form-data" commandName="event" modelAttribute="event">
+<form:form method="post" action="${actionLink}"  id="jform" enctype="multipart/form-data" commandName="event" modelAttribute="event">
             <input type="hidden" size="0" id="x1" name="t"/>
             <input type="hidden" size="0" id="y1" name="l"/>
             <input type="hidden" size="0" id="w" name="w"/>
@@ -54,12 +54,12 @@
                     <td rowspan=2 width="50%" align="left">
 
                      <div id="labels"><spring:message code="form.title"/></div><div id="redStar1">*</div>
-                        <form:input title="${event.title}" path="title" style="margin-left:2%;width:95%;" id="text" cols="90" rows="2" maxlength="100" onkeypress="return isNotMax(event,this)"
+                        <form:input title="${event.title}" path="title" style="margin-left:2%;width:95%;" id="title" cols="90" rows="2" maxlength="100" onkeypress="return isNotMax(event,this)"
                                     name="title"/>
                         <form:errors path="title" cssClass="error"></form:errors>
                         <div id="labels"><spring:message code="form.text"/></div><div id="redStar2">*</div>
                             <div style="width: 450px; float: bottom ;padding-left: 8px;">
-                            <form:textarea path="text" title="${event.text}" class="ckeditor" id="textInput" cols="60" rows="10" maxlength="8000"
+                            <form:textarea path="text" title="${event.text}" class="ckeditor" id="text" cols="60" rows="10" maxlength="8000"
                                            onkeypress="return isNotMax(event,this)" name="text"/>
                              <textarea style="visibility: hidden;width: 0px;" id="text1" name="text1"  ></textarea>
                             <form:errors path="text" cssClass="error" ></form:errors>

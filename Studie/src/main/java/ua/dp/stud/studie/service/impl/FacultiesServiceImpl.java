@@ -18,8 +18,7 @@ public class FacultiesServiceImpl implements FacultiesService {
     @Autowired
     private FacultiesDao dao;
 
-    public Faculties getFacultyByID(Integer id)
-    {
+    public Faculties getFacultyByID(Integer id) {
        return dao.getFacultyById(id);
     }
 

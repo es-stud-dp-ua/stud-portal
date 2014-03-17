@@ -11,11 +11,11 @@
         <implicit-parameter name="mode">delImage</implicit-parameter>
     </route>
     <route>
-        <pattern>/delete/{currentPage:\d+}/{eventID:\d+}</pattern>
+        <pattern>/delete/{currentPage:\d+}/{eventId:\d+}</pattern>
         <implicit-parameter name="mode">delete</implicit-parameter>
     </route>
     <route>
-        <pattern>/delete/{eventID:\d+}</pattern>
+        <pattern>/delete/{eventId:\d+}</pattern>
         <implicit-parameter name="mode">delete</implicit-parameter>
     </route>
     <route>

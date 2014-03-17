@@ -41,12 +41,13 @@ public class FileSaver implements Serializable {
                 '}';
     }
 
-   public FileSaver(String originalFileName )
-    {
+   public FileSaver(String originalFileName ){
         this.originalFileName = originalFileName;
     }
 
-    public FileSaver(){}
+    public FileSaver(){
+
+    }
 }
 
 

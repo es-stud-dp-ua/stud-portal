@@ -33,7 +33,9 @@ public class MicroBlogDto extends CommonDto{
     }
 
 
-    MicroBlogDto(){}
+    MicroBlogDto(){
+
+    }
 
     public MicroBlogDto(String imgPath, String title, Integer id, String creationDate, String author, Integer numberOfViews ) {
         super(imgPath, title, id);
@@ -44,15 +46,27 @@ public class MicroBlogDto extends CommonDto{
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof MicroBlogDto)) return false;
-        if (!super.equals(o)) return false;
+        if (this == o){
+            return true;
+        }
+        if (!(o instanceof MicroBlogDto)){
+            return false;
+        }
+        if (!super.equals(o)){
+            return false;
+        }
 
         MicroBlogDto MicroBlogDto = (MicroBlogDto) o;
 
-        if (creationDate != null ? !creationDate.equals(MicroBlogDto.creationDate) : MicroBlogDto.creationDate != null) return false;
-        if (author != null ? !author.equals(MicroBlogDto.author) : MicroBlogDto.author != null) return false;
-        if (numberOfViews != null ? !numberOfViews.equals(MicroBlogDto.numberOfViews) : MicroBlogDto.numberOfViews != null) return false;
+        if (creationDate != null ? !creationDate.equals(MicroBlogDto.creationDate) : MicroBlogDto.creationDate != null){
+            return false;
+        }
+        if (author != null ? !author.equals(MicroBlogDto.author) : MicroBlogDto.author != null){
+            return false;
+        }
+        if (numberOfViews != null ? !numberOfViews.equals(MicroBlogDto.numberOfViews) : MicroBlogDto.numberOfViews != null) {
+            return false;
+        }
         return true;
     }
 

@@ -135,7 +135,7 @@ public final class CustomFunctions {
         for (int i = 0, l = 0; i < parts.length; i++) {
             if ((i & 1) != 0) {
                 buffer = parts[i].substring(0, 2);
-                if (buffer.equals("</") || buffer.equals("[/")) {
+                if ("</".equals(buffer) || "[/".equals(buffer)) {
                     stack.pop();
                 } else {
                     if (parts[i].charAt(0) == '&') {
@@ -143,7 +143,7 @@ public final class CustomFunctions {
                     } else {
                         if (parts[i].length() >= 2) {
                             buffer = parts[i].substring(parts[i].length() - 2, parts[i].length());
-                            if (!buffer.equals("/>") || !buffer.equals("/]")) {
+                            if (!"/>".equals(buffer) || !"/]".equals(buffer)) {
                                 stack.push(parts[i]);
                             }
                         }
@@ -153,7 +153,7 @@ public final class CustomFunctions {
             } else {
                 if (parts[i].length() >= 2) {
                     buffer = parts[i].substring(parts[i].length() - 2, parts[i].length());
-                    if (!buffer.equals("/>")) {
+                    if (!"/>".equals(buffer)) {
                         l += parts[i].length();
                         if (l >= length) {
                             out.append(parts[i].substring(0, (length - l + parts[i].length())));

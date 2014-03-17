@@ -1,5 +1,6 @@
 package ua.dp.stud.StudPortalLib.util;
 
+import java.util.List;
 import java.util.regex.*;
 import java.util.LinkedList;
 
@@ -40,7 +41,7 @@ public class Splitter {
             text = "";
         }
         int lastMatch = 0;
-        LinkedList<String> splitted = new LinkedList<String>();
+        List<String> splitted = new LinkedList<String>();
         Matcher matcher = this.pattern.matcher(text);
         while (matcher.find()) {
             splitted.add(text.substring(lastMatch, matcher.start()));

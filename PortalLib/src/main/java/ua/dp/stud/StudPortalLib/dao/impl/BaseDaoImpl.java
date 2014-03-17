@@ -69,8 +69,8 @@ public abstract class BaseDaoImpl<E> implements BaseDao<E> {
 
     @Override
     public E getById(Integer id) {
-        E object = (E) getSession().get(persistentClass, id);
-        return object;
+        return  (E) getSession().get(persistentClass, id);
+
     }
 
     @Override

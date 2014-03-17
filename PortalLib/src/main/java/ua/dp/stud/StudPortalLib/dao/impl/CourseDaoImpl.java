@@ -62,29 +62,29 @@ public class CourseDaoImpl extends DaoForApproveImpl<Course> implements CourseDa
     }
 
     @Override
-    public List<Course> getCoursesByKindAndType(String kindOfCourse, String coursesType)
-    {
+    public List<Course> getCoursesByKindAndType(String kindOfCourse, String coursesType){
         StringBuilder queryString = new StringBuilder("from Course where ");
-        if (!kindOfCourse.equals("all")){
+        if (!"all".equals(kindOfCourse)){
             queryString.append("kindOfCourse.id = :kindOfCourse");
         } else {
             queryString.append("1=1");
         }
         queryString.append(" and ");
-        if (!coursesType.equals("all")) {
+        if (!"all".equals(coursesType)) {
             queryString.append("coursesType = :coursesType");
         } else {
             queryString.append("1=1");
         }
+
         Query query = getSession().createQuery(queryString.toString());
-        if (!kindOfCourse.equals("all")) {
-            query.setParameter("kindOfCourse", Integer.parseInt(kindOfCourse));
+        if (!"all".equals(kindOfCourse)) {
+            query.setParameter("kindOfCourse", Long.parseLong(kindOfCourse));
         }
-        if (!coursesType.equals("all")) {
+        if (!"all".equals(coursesType)) {
             query.setParameter("coursesType", CoursesType.valueOf(coursesType));
         }
-        List<Course> list = (List<Course>)query.list();
-        return list;
+        return  (List<Course>)query.list() ;
+
     }
 
     @Override
@@ -116,8 +116,7 @@ public class CourseDaoImpl extends DaoForApproveImpl<Course> implements CourseDa
     }
 
     @Override
-    public Collection<Course> getAllCoursesByAuthor(String author)
-    {
+    public Collection<Course> getAllCoursesByAuthor(String author){
         return getSession().getNamedQuery("Course.getByAuthor")
                 .setParameter("author", author).list();
     }

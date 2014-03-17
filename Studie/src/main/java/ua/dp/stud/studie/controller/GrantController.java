@@ -9,6 +9,8 @@ import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.validation.Valid;
 
+import com.liferay.portal.kernel.servlet.SessionErrors;
+import com.liferay.portal.kernel.servlet.SessionMessages;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -46,7 +48,7 @@ public class GrantController {
 	
 	private static final String MAIN_IMAGE = "mainImage";
 	private static final String MAIN_IMAGE_MOCK_URL = "http://www.princetonmn.org/vertical/Sites/%7BF37F81E8-174B-4EDB-91E0-1A3D62050D16%7D/uploads/News.gif";
-	private static final String STR_FAIL = "fail";
+	private static final String STR_FAIL = "failGrant";
     private static final String NO_IMAGE = "no-images";
 	
 	@Autowired
@@ -94,11 +96,11 @@ public class GrantController {
     }
 
 
-	@ActionMapping(params = "view=deleteGrant")
-    public void deleteGrant(ActionRequest request, ActionResponse response) {
+	@RenderMapping(params = "view=deleteGrant")
+    public ModelAndView deleteGrant(RenderRequest request, RenderResponse response) {
     	Integer id = Integer.parseInt(request.getParameter("id"));
         grantService.deleteGrant(id);
-        response.setRenderParameter("view", "allGrants");
+        return  showAddSuccess(request,response);
     }
 
 	@RenderMapping(params = "add=grant")
@@ -126,12 +128,14 @@ public class GrantController {
                         ActionResponse actionResponse,
                         @RequestParam(MAIN_IMAGE) CommonsMultipartFile mainImage,
                         SessionStatus sessionStatus) throws IOException {
-    	if (bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             actionResponse.setRenderParameter(STR_FAIL, "msg.fail");
+
             return;
         }
-        	if (mainImage.getOriginalFilename().equals("")) {
-            actionResponse.setRenderParameter(STR_FAIL, NO_IMAGE);
+        if ("".equals(mainImage.getOriginalFilename())) {
+            actionResponse.setRenderParameter(STR_FAIL, "image");
+            actionResponse.setRenderParameter("no", "image");
             return;
         }
         CommonsMultipartFile f = imageService.cropImage(mainImage, Integer.parseInt(actionRequest.getParameter("t")),
@@ -144,7 +148,9 @@ public class GrantController {
         	}
         	grantService.addGrant(grant);
             actionResponse.setRenderParameter("view", "allGrants");
+            SessionMessages.add(actionRequest, "successAdd");
             sessionStatus.setComplete();
+
         
     }
 
@@ -156,7 +162,8 @@ public class GrantController {
                          @RequestParam(MAIN_IMAGE) CommonsMultipartFile mainImage,
                          SessionStatus sessionStatus) throws IOException {
         if (bindingResult.hasErrors()) {
-            actionResponse.setRenderParameter(STR_FAIL, "msg.fail");
+            actionResponse.setRenderParameter(STR_FAIL, "image");
+            actionResponse.setRenderParameter("no", "image");
             return;
         }
         CommonsMultipartFile croppedImage = null;
@@ -171,7 +178,7 @@ public class GrantController {
         oldGrant.setReceiptOfDocuments(grant.getReceiptOfDocuments());
         oldGrant.setSpeciality(grant.getSpeciality());
         oldGrant.setUniversity(grant.getUniversity());
-        if (!mainImage.getOriginalFilename().equals("")) {
+        if (!"".equals(mainImage.getOriginalFilename())) {
         	croppedImage = imageService.cropImage(mainImage, Integer.parseInt(actionRequest.getParameter("t")),
                                                Integer.parseInt(actionRequest.getParameter("l")),
                                                Integer.parseInt(actionRequest.getParameter("w")),
@@ -182,13 +189,32 @@ public class GrantController {
         }
         grantService.updateGrant(oldGrant);
         actionResponse.setRenderParameter("view", "allGrants");
-            sessionStatus.setComplete();
+        SessionMessages.add(actionRequest, "successEdit");
+        sessionStatus.setComplete();
     }
 
     
     @InitBinder
     public void initBinder(WebDataBinder binder) {
         binder.setDisallowedFields(MAIN_IMAGE);
+    }
+
+    @RenderMapping(params = "failGrant")
+    public ModelAndView showAddFailed(RenderRequest request,
+                                      RenderResponse response) {
+        ModelAndView model = new ModelAndView("addGrant");
+        SessionErrors.add(request, request.getParameter("no"));
+
+        return model;
+    }
+
+    @RenderMapping(params = "success")
+    public ModelAndView showAddSuccess(RenderRequest request,
+                                       RenderResponse response) {
+        ModelAndView model = getMainView();
+        String strSuccess = "success";
+        SessionMessages.add(request, request.getParameter(strSuccess));
+        return model;
     }
 
 }

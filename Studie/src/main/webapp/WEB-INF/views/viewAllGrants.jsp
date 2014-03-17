@@ -25,6 +25,9 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 </head>
 <body>
+<liferay-ui:success  key="successAdd" message='Stud council was successfully added! '/>
+<liferay-ui:success  key="successEdit" message='Stud council was successfully edited! '/>
+
 <div>
 <%@include file="leftBar.jsp" %>
 
@@ -45,7 +48,8 @@
      <div id="newsTable" style="padding-top: 15px;float: left">
      	 <% if (request.isUserInRole("Administrator")) { %>
 						<a style="float: right"
-           href="<portlet:actionURL><portlet:param name="id" value="<%=grant.getId().toString()%>"/><portlet:param name="view" value="deleteGrant" /></portlet:actionURL>">
+           href='<portlet:renderURL><portlet:param name="id" value="<%=grant.getId().toString()%>"/><portlet:param name="view" value="deleteGrant" /></portlet:renderURL>'
+           onclick='return confirm("<spring:message code="form.confDelete"/>")'>
            <div class="icon-pcpremove fs20" aria-hidden="true"></div>
         </a>
 				         <a style="float: right"

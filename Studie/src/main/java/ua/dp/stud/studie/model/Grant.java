@@ -4,7 +4,9 @@ package ua.dp.stud.studie.model;
 import java.io.Serializable;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 
+import org.hibernate.validator.constraints.NotEmpty;
 import ua.dp.stud.StudPortalLib.model.BaseImagesSupport;
 /**
  * Author: Lysenko Nikolai
@@ -101,8 +103,10 @@ public class Grant extends BaseImagesSupport implements Serializable{
 	public void setReceiptOfDocuments(String receiptOfDocuments) {
 		this.receiptOfDocuments = receiptOfDocuments;
 	}
-	
+
 	@Column
+    @NotEmpty
+    @Size(min = 100, max = 3000)
 	public String getDescription() {
 		return description;
 	}
@@ -112,6 +116,8 @@ public class Grant extends BaseImagesSupport implements Serializable{
 	}
 
 	@Column
+    @NotEmpty
+    @Size(min = 100, max = 3000)
 	public String getDocuments() {
 		return documents;
 	}
@@ -162,13 +168,16 @@ public class Grant extends BaseImagesSupport implements Serializable{
 	
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        if (!super.equals(o))
+            return false;
 
         Grant grant = (Grant) o;
 
-        
+
         if (university != null ? !university.equals(grant.university) : grant.university != null){ 
         	return false;
         }
@@ -205,7 +214,7 @@ public class Grant extends BaseImagesSupport implements Serializable{
     
     @Override
     public String toString() {
-        return new StringBuffer().append("Grants[").append("university=").append(university)
+        return new StringBuilder().append("Grants[").append("university=").append(university)
                 .append(", city=").append(city).append(", country=").append(country)
                 .append(", speciality=").append(speciality).append(", qualification=").append(qualification).
                 append(", educationPeriod=").append(educationPeriod).append(", educationLanguage=").append(educationLanguage).

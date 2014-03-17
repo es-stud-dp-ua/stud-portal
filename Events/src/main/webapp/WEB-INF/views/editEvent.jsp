@@ -80,7 +80,7 @@ SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
         </a>
         <% if (request.isUserInRole("Administrator")) { %>
 
-        <a style="margin-left: 10px;" href="<portlet:renderURL/>&eventID=<%=event.getId()%>&mode=delete"
+        <a style="margin-left: 10px;" href="<portlet:renderURL/>&eventId=<%=event.getId()%>&mode=delete"
            onclick='return confirm("<spring:message code="form.confDelete"/>")'>
             <!--<spring:message code="form.delete"/>-->
             <div class="panelbtn panelbtn-right fs20 icon-pcpremove" aria-hidden="true"></div>
@@ -102,14 +102,14 @@ SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
 
 
         <script >
-        $("#event").on("submit",function(event){
+        $("#jform").on("submit",function(event){
 
                                           document.getElementById('text1').innerHTML = CKEDITOR.instances.text.getData();
 
                                                                                                   });
                                                   $(document).ready(function() {
                                           $.validator.setDefaults({ ignore: [] });
-                                                  $('#event').validate({
+                                                  $('#jform').validate({
                                           rules: {
                                           title: {
                                           required: true,

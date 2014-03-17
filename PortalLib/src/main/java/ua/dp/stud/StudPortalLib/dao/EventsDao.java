@@ -41,6 +41,6 @@ public interface EventsDao extends DaoForApprove<Events> {
     Collection<Events> getObjectOnPage(Boolean approved, Integer pageNumb, Integer objByPage,/*Boolean future,*/Direction direct,Date date);
 
 
-   // List<Events> getSortedEvents();
+
         
 }

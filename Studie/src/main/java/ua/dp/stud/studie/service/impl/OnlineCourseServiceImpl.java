@@ -29,78 +29,67 @@ public class OnlineCourseServiceImpl implements OnlineCourseService
 
     @Override
     @Transactional(readOnly = true)
-    public OnlineCourse getOnlineCourseById(Integer id)
-    {
+    public OnlineCourse getOnlineCourseById(Integer id) {
         return dao.getOnlineCourseById(id);
     }
 
     @Override
     @Transactional(readOnly = false)
-    public void addOnlineCourse(OnlineCourse onlineCourse)
-    {
+    public void addOnlineCourse(OnlineCourse onlineCourse) {
         dao.addOnlineCourse(onlineCourse);
     }
 
     @Override
     @Transactional(readOnly = false)
-    public void deleteOnlineCourse(Integer id)
-    {
+    public void deleteOnlineCourse(Integer id){
         dao.deleteOnlineCourse(id);
     }
 
     @Override
     @Transactional(readOnly = false)
-    public void updateOnlineCourse(OnlineCourse onlineCourse)
-    {
+    public void updateOnlineCourse(OnlineCourse onlineCourse){
         dao.updateOnlineCourse(onlineCourse);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<OnlineCourse> getAll()
-    {
+    public List<OnlineCourse> getAll() {
         return dao.getAll();
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<OnlineCourse> getOnlineCourseByType(Long onlineCourseTypeId, Integer pageNumb, Integer coursesByPage)
-    {
+    public List<OnlineCourse> getOnlineCourseByType(Long onlineCourseTypeId, Integer pageNumb, Integer coursesByPage){
         return dao.getOnlineCourseByType(onlineCourseTypeId, pageNumb, coursesByPage);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public OnlineCourseType getOnlineCourseTypeById(Long id)
-    {
+    public OnlineCourseType getOnlineCourseTypeById(Long id) {
         return dao.getOnlineCourseTypeById(id);
     }
 
     @Override
     @Transactional(readOnly = false)
-    public void addOnlineCourseType(OnlineCourseType onlineCourseType)
-    {
+    public void addOnlineCourseType(OnlineCourseType onlineCourseType) {
         dao.addOnlineCourseType(onlineCourseType);
     }
 
     @Override
     @Transactional(readOnly = false)
-    public void deleteOnlineCourseType(Long id)
-    {
+    public void deleteOnlineCourseType(Long id) {
         dao.deleteOnlineCourseType(id);
     }
 
     @Override
     @Transactional(readOnly = false)
-    public void updateOnlineCourseType(OnlineCourseType onlineCourseType)
-    {
+    public void updateOnlineCourseType(OnlineCourseType onlineCourseType) {
         dao.updateOnlineCourseType(onlineCourseType);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public  List<OnlineCourseType> getAllOnlineCourseType()
-    {
+    public  List<OnlineCourseType> getAllOnlineCourseType(){
         return dao.getAllOnlineCourseType();
     }
     @Override
@@ -111,12 +100,13 @@ public class OnlineCourseServiceImpl implements OnlineCourseService
             initializeCountOfCourses(c);
         }
         return onlineCourseTypes;
-    };
+    }
+
     @Override
     @Transactional(readOnly = true)
     public void initializeCountOfCourses(OnlineCourseType onlineCourseType){
         dao.initializeCountOfCourses(onlineCourseType);
-    };
+    }
 
     @Override
 	public String[] getAutocomplete() {

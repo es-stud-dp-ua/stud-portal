@@ -34,12 +34,10 @@ public class OnlineCourse extends BaseImagesSupport
     @NotBlank
 	private String onlineCourseDescription;
 	
-	public OnlineCourse()
-    {
+	public OnlineCourse() {
     }
     
-	public OnlineCourse(String onlineCourseName)
-    {
+	public OnlineCourse(String onlineCourseName){
     	this.onlineCourseName = onlineCourseName;
     }
 	@Column
@@ -75,15 +73,13 @@ public class OnlineCourse extends BaseImagesSupport
         this.onlineCourseType = onlineCourseType;
     }
     
-    public OnlineCourse(String onlineCourseName, String onlineCourseDescription, OnlineCourseType onlineCourseType)
-    {
+    public OnlineCourse(String onlineCourseName, String onlineCourseDescription, OnlineCourseType onlineCourseType) {
         this.onlineCourseName = onlineCourseName;
         this.onlineCourseDescription = onlineCourseDescription;
         this.onlineCourseType = onlineCourseType;
     }
     
-    public OnlineCourse(String onlineCourseName, String onlineCourseDescription)
-    {
+    public OnlineCourse(String onlineCourseName, String onlineCourseDescription){
         this.onlineCourseName = onlineCourseName;
         this.onlineCourseDescription = onlineCourseDescription;
     }

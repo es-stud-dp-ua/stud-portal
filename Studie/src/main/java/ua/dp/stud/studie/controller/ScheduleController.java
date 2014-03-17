@@ -82,8 +82,7 @@ public class ScheduleController {
                 ActionRequest actionRequest,
                 ActionResponse actionResponse,
                 SessionStatus sessionStatus,
-                @RequestParam(FILESCHEDULE) CommonsMultipartFile scheduleFile) throws IOException
-    {
+                @RequestParam(FILESCHEDULE) CommonsMultipartFile scheduleFile) throws IOException {
 
         schedule.setFaculty(facultiesService.getFacultyByID(schedule.getFaculty().getId()));
         FileSaver file = fileService.uploadFile(schedule.getScheduleFile(), scheduleFile, schedule);
@@ -111,8 +110,7 @@ public class ScheduleController {
 
     @ResourceMapping(value = "facultiesByStudy")
     public void renderFaculties(ResourceResponse response,  ResourceRequest request,
-                                @RequestParam(required = true) Integer studyId) throws Exception
-    {
+                                @RequestParam(required = true) Integer studyId) throws Exception {
         StringBuilder s = new StringBuilder();
         List<Faculties> faculties = studieService.getStudieById(studyId).getFaculties();
         for (Faculties f:faculties) {
@@ -124,8 +122,7 @@ public class ScheduleController {
     @ResourceMapping(value = "getSchedule")
     public void getSchedule( ResourceResponse response,  ResourceRequest request,
                             @RequestParam(required = true) Integer facultyId,
-                            @RequestParam(required = true) String year) throws Exception
-    {
+                            @RequestParam(required = true) String year) throws Exception {
         StringBuilder s = new StringBuilder();
         String pathToFile="";
         Faculties faculty = facultiesService.getFacultyByID(facultyId);

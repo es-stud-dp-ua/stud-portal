@@ -300,7 +300,7 @@ public class NewsController {
                                                         Integer.parseInt(actionRequest.getParameter("l")),
                                                         Integer.parseInt(actionRequest.getParameter("w")),
                                                         Integer.parseInt(actionRequest.getParameter("h")));
-        boolean role = actionRequest.isUserInRole(ADMIN_ROLE);
+        boolean role = true;
         User user = (User) actionRequest.getAttribute(WebKeys.USER);
         String screenName = user.getScreenName();
         //update fields for new news

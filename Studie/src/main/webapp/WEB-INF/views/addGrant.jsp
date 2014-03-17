@@ -31,6 +31,11 @@
         </style>
 </head>
 <body>
+<liferay-ui:error  key="image" message='Please, select a picture! '/>
+
+    <c:if test="${exception}">
+        ${exception}
+    </c:if>
 
 <portlet:actionURL var="addEdit" name="saveGrant"></portlet:actionURL>
 <%@include file="addEditGrant.jsp" %>
