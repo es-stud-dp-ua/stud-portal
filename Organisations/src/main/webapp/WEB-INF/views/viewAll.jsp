@@ -53,7 +53,7 @@
                 temp = new String("form." + currentType);%>
                 <div class="ribbon-wrapper">
                     <button class="btntype"
-                            style=" width: 160px; height: 40px;   margin-left: -10px; padding-left:2%;  border-color: #4473B9;" name="type"
+                            style=" width: 170px; height: 40px;   margin-left: -10px; padding-left:2%;  border-color: #4473B9;" name="type"
                             value="<%=currentType%>" id="<%=currentType%>">
                         <spring:message code="<%=temp%>"/></button>
                     <div class="ribbon-edge-topleft"></div>
@@ -71,7 +71,7 @@
                 <%}%>
             </form>
         </div>
-        <div id="newsTable">
+        <div id="newsTable" style="width: 81%">
             <% if (!orgsDtoList.isEmpty()) {
                  for (CommonDto currentOrgs : orgsDtoList){%>
             <div width="100%">
