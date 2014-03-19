@@ -44,13 +44,13 @@
 
 
 <portlet:actionURL var="search" name="searchOnlineCourses"></portlet:actionURL>
-          <div style="float: left;">
+  <div style="float: left;">
           <form:form action="${search}" style="display: inline;" >
                    <spring:message code="course.Search" />
   				   <input type="text" id="tags" name="title" style="height: 16px;">
           </form:form>
 		  <portlet:actionURL var="gotype" name="getOnlineCoursesByType"></portlet:actionURL>
-		  <form:form id="typeForm" action="${gotype}" style="display: inline;" >
+		  <form:form id="typeForm" action="${gotype}" style="display: inline; margin-left: 10px;" >
 					<select onchange="this.form.submit()" name="type" style="width: 170px">
 						<option selected="selected"><spring:message code="course.SelectCourseType" /></option>
 					    <c:forEach var="postProfile" items="${onlineCourseTypes}">
@@ -59,7 +59,7 @@
 					    </option>
 					    </c:forEach>
 					</select>	  
-	      </form:form>				  
+	         </form:form>
           <%if (request.isUserInRole("Administrator")){ %>
 		  <portlet:renderURL var="categories">
                 <portlet:param name="view" value="onlineCoursesCategories"/>
@@ -75,18 +75,20 @@
                     		<!--<spring:message code="viewSingle.Edit"/>-->
                     		<div class="panelbtn panelbtn-right icon-pcpplus" aria-hidden="true"></div>
                 		</a>
-				</div>
+			    </div>
 		    <%} %>
+  </div>
+
 		    <br><br>
 		    <% if (!courses.isEmpty()) {
- for (OnlineCourse course : courses){%>
-<div id="newsTable" style="padding-top: 15px; float: center; width: 100%;">
+    for (OnlineCourse course : courses){%>
+        <div id="newsTable" style="padding-top: 15px; float:left;  width: 82%; padding-left: 1%">
                          <a href='<portlet:renderURL>
                                   <portlet:param name="id" value="<%=course.getId().toString()%>"/>
                                   <portlet:param name="view" value="singleOnlineCourse"/>
                                   </portlet:renderURL>'><img src="<%= imageServices.getPathToMicroblogImage(course.getMainImage(),course) %>" class="newsImage" style="float: left">
  						</a>
-                        <div class="newsHeader" style="padding-top: 40px; padding-left: 15%; font-size: 14pt;">
+                     <div class="newsHeader" style="padding-top: 40px; padding-left: 15%; font-size: 14pt;">
                           <b>
                           <a href='<portlet:renderURL>
                                       <portlet:param name="id" value="<%=course.getId().toString()%>"/>
@@ -95,23 +97,24 @@
                           </a>
                           </b>
                             <% if (request.isUserInRole("Administrator")) { %>
-    	<a style="float: right;"
-           href="<portlet:actionURL><portlet:param name="id" value="<%=course.getId().toString()%>"/><portlet:param name="view" value="deleteOnlineCourse" /></portlet:actionURL>">
-           <div class="icon-pcpremove fs20" aria-hidden="true"></div>
-     	</a>
-        <a style="float: right;"
-           href="<portlet:renderURL><portlet:param name="id" value="<%=course.getId().toString()%>"/><portlet:param name="view" value="editOnlineCourse" /></portlet:renderURL>">
-           <div class="icon-pcppencil fs20" aria-hidden="true"></div>
-        </a>
-				<%}%>
+                                      <a style="float: right;"
+                                        href="<portlet:actionURL><portlet:param name="id" value="<%=course.getId().toString()%>"/><portlet:param name="view" value="deleteOnlineCourse" /></portlet:actionURL>">
+                                        <div class="icon-pcpremove fs20" aria-hidden="true"></div>
+                                       </a>
+                                 <a style="float: right;"
+                                    href="<portlet:renderURL><portlet:param name="id" value="<%=course.getId().toString()%>"/><portlet:param name="view" value="editOnlineCourse" /></portlet:renderURL>">
+                                    <div class="icon-pcppencil fs20" aria-hidden="true"></div>
+                                 </a>
+		                    <%}%>
                      
-           </div>
-           </div>
+          	         </div>
+        </div>
            <br/><br/>
              <%}%>
 
 <%}%>
-     </div>
+</div>
+
           <%if((courses == null ?0:courses.size())>9||currentPage>1){%>
         <table width="90%">
             <tr>
