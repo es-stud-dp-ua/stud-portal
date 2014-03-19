@@ -67,14 +67,14 @@
 
                                                 <p>
                                                     <a href="${linkToSingleNews}">
-                                                     <c:choose>
-                                                        <c:when test="${fn:length(event.topic) gt 32}">
-                                                            ${fn:substring(event.topic, 0, 32)}...
-                                                        </c:when>
-                                                        <c:otherwise>
-                                                            ${event.topic}
-                                                        </c:otherwise>
-                                                      </c:choose>
+                                                        <c:choose>
+                                                            <c:when test="${fn:length(event.topic) gt 32}">
+                                                                ${fn:substring(event.topic, 0, 32)}...
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                ${event.topic}
+                                                            </c:otherwise>
+                                                        </c:choose>
                                                     </a>
                                                 </p>
                                             </div>
