@@ -53,7 +53,7 @@ public class EventsDaoImpl extends DaoForApproveImpl<Events> implements EventsDa
             query.setParameter("approve",approve);
             query.setParameter("etype",EventsType.valueOf(type));
             nearesEvents=query.list();
-        }else if (direct==Direction.DAY){   Query query=getSession().createQuery("FROM Events WHERE WHERE day(eventDateStart)=day(:date) AND type=:etype AND approved=:approve ORDER BY eventDateStart asc");
+        }else if (direct==Direction.DAY){   Query query=getSession().createQuery("FROM Events WHERE WHERE day(eventDateStart)=day(:date) AND month(eventDateStart)=month(:date) AND year(eventDateStart)=year(:date) AND type=:etype AND approved=:approve ORDER BY eventDateStart asc");
             query.setDate("date",date);
             query.setParameter("approve",approve);
             query.setParameter("etype",EventsType.valueOf(type));
@@ -176,7 +176,7 @@ public class EventsDaoImpl extends DaoForApproveImpl<Events> implements EventsDa
             nearesEvents=query.list();
         } else
           if (direct==Direction.DAY){
-            Query query=getSession().createQuery("FROM Events WHERE day(eventDateStart)=day(:date) AND approved=:approve ORDER BY eventDateStart asc"); // ORDER BY eventDateStart asc");
+            Query query=getSession().createQuery("FROM Events WHERE day(eventDateStart)=day(:date) AND month(eventDateStart)=month(:date) AND year(eventDateStart)=year(:date) AND approved=:approve ORDER BY eventDateStart asc"); // ORDER BY eventDateStart asc");
             query.setDate("date",date);
             query.setBoolean("approve",approved);
             nearesEvents=query.list();
