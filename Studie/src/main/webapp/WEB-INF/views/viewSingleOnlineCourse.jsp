@@ -28,7 +28,7 @@ ImageService imageServices = (ImageService) pageContext.findAttribute("imageServ
 <portlet:actionURL var="gotype" name="getOnlineCoursesByType">
 <portlet:param name="type" value="<%=String.valueOf(course.getOnlineCourseType().getId())%>" />	
 </portlet:actionURL>
-	<div class="portlet-content-controlpanel fs20">
+	<div class="portlet-content-controlpanel fs20"style="width: 10.15%;float: right;" >
 			<a href="${home}"> <!--<spring:message code="form.back"/>-->
 				<div class="panelbtn panelbtn-right fs20 icon-pcparrow-left"
 					aria-hidden="true"></div>
@@ -45,14 +45,14 @@ ImageService imageServices = (ImageService) pageContext.findAttribute("imageServ
 
 
               <c:if test='${isShown}'>
-                <div class="portlet-content-controlpanel fs20"style="width: 10.15%;float: right;" >
+
                 <a style="float: right" href="${LinkDeleteCourse}">
                 <div class="panelbtn panelbtn-right icon-pcpremove" aria-hidden="true"></div>
                 </a>
                 <a style="float: right" href="${LinkEditCourse}">
                 <div class="panelbtn panelbtn-right icon-pcppencil" aria-hidden="true"></div>
                 </a>
-                </div>
+
               </c:if>
 	</div>
      <div id="newsTable" style="padding-top: 15px">

@@ -24,18 +24,27 @@
  			<portlet:param name="delete" value="course"/>
 </portlet:actionURL>
 
+<portlet:renderURL var="LinkHomeCourse">
+    <portlet:param name="view" value="allcourses" />
+</portlet:renderURL>'>
+
+ <div class="portlet-content-controlpanel fs20"style="width: 10.15%;float: right;" >
+    <a style="float: right" href="${LinkHomeCourse}">
+       	<div class="panelbtn panelbtn-right fs20 icon-pcparrow-left" aria-hidden="true"></div>
+        </a>
 
   <c:if test='${isShown}'>
-    <div class="portlet-content-controlpanel fs20"style="width: 10.15%;float: right;" >
+
     <a style="float: right" href="${LinkDeleteCourse}">
     <div class="panelbtn panelbtn-right icon-pcpremove" aria-hidden="true"></div>
     </a>
     <a style="float: right" href="${LinkEditCourse}">
     <div class="panelbtn panelbtn-right icon-pcppencil" aria-hidden="true"></div>
     </a>
-    </div>
+
   </c:if>
 
+ </div>
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 

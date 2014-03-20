@@ -28,6 +28,11 @@ ImageService imageServices = (ImageService) pageContext.findAttribute("imageServ
 	
 	<div class="portlet-content-controlpanel fs20">
 
+             <a  style="float:right"
+			    href="${home}"> <!--<spring:message code="form.back"/>-->
+				<div class="panelbtn panelbtn-right fs20 icon-pcparrow-left"
+					aria-hidden="true"></div>
+			 </a>
 			<%
 				if (request.isUserInRole("Administrator")) {
 			%>
@@ -49,10 +54,7 @@ ImageService imageServices = (ImageService) pageContext.findAttribute("imageServ
 
 
 
-			<a href="${home}"> <!--<spring:message code="form.back"/>-->
-				<div class="panelbtn panelbtn-right fs20 icon-pcparrow-left"
-					aria-hidden="true"></div>
-			</a>
+
 
 
 	</div>

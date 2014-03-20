@@ -25,8 +25,8 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 </head>
 <body>
-<liferay-ui:success  key="successAdd" message='Stud council was successfully added! '/>
-<liferay-ui:success  key="successEdit" message='Stud council was successfully edited! '/>
+<liferay-ui:success  key="successAdd" message='Grant was successfully added! '/>
+<liferay-ui:success  key="successEdit" message='Grant was successfully edited! '/>
 
 <div>
 <%@include file="leftBar.jsp" %>

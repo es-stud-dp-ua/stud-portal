@@ -147,7 +147,8 @@ public class GrantController {
             imageService.saveMainImage(f, grant);
         	}
         	grantService.addGrant(grant);
-            actionResponse.setRenderParameter("view", "allGrants");
+            actionResponse.setRenderParameter("id",grant.getId().toString());
+            actionResponse.setRenderParameter("view", "singleGrant");
             SessionMessages.add(actionRequest, "successAdd");
             sessionStatus.setComplete();
 
@@ -188,7 +189,8 @@ public class GrantController {
             imageService.saveMainImage(croppedImage, oldGrant);
         }
         grantService.updateGrant(oldGrant);
-        actionResponse.setRenderParameter("view", "allGrants");
+        actionResponse.setRenderParameter("id",grant.getId().toString());
+        actionResponse.setRenderParameter("view", "singleGrant");
         SessionMessages.add(actionRequest, "successEdit");
         sessionStatus.setComplete();
     }
