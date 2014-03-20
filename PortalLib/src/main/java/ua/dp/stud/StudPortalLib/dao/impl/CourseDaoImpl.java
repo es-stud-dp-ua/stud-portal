@@ -4,6 +4,7 @@ import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -58,7 +59,7 @@ public class CourseDaoImpl extends DaoForApproveImpl<Course> implements CourseDa
 
     @Override
     public List<Course> getAll() {
-        return getSession().createCriteria(Course.class).list();
+        return getSession().createCriteria(Course.class).addOrder(Order.asc("courseName")).list();
     }
 
     @Override
@@ -75,7 +76,7 @@ public class CourseDaoImpl extends DaoForApproveImpl<Course> implements CourseDa
         } else {
             queryString.append("1=1");
         }
-
+        queryString.append(" Order By courseName asc");
         Query query = getSession().createQuery(queryString.toString());
         if (!"all".equals(kindOfCourse)) {
             query.setParameter("kindOfCourse", Long.parseLong(kindOfCourse));

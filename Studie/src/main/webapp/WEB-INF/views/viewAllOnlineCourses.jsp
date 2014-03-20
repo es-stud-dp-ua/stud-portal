@@ -40,7 +40,7 @@
 
 </head>
 <body>
-<div style="padding-left: 150px">
+<div >
 
 
 <portlet:actionURL var="search" name="searchOnlineCourses"></portlet:actionURL>
@@ -80,15 +80,18 @@
   </div>
 
 		    <br><br>
+   <div >
 		    <% if (!courses.isEmpty()) {
     for (OnlineCourse course : courses){%>
-        <div id="newsTable" style="padding-top: 15px; float:left;  width: 82%; padding-left: 1%">
+        <div  style="padding-top: 15px; float:right;  width: 83%; ">
                          <a href='<portlet:renderURL>
                                   <portlet:param name="id" value="<%=course.getId().toString()%>"/>
                                   <portlet:param name="view" value="singleOnlineCourse"/>
-                                  </portlet:renderURL>'><img src="<%= imageServices.getPathToMicroblogImage(course.getMainImage(),course) %>" class="newsImage" style="float: left">
- 						</a>
-                     <div class="newsHeader" style="padding-top: 40px; padding-left: 15%; font-size: 14pt;">
+                                  </portlet:renderURL>'>
+					<img src="<%= imageServices.getPathToMicroblogImage(course.getMainImage(),course) %>"
+					 class="newsImage" style="float: left">
+ 			</a>
+                     <div class="newsHeader" style="padding-top: 40px; font-size: 14pt;">
                           <b>
                           <a href='<portlet:renderURL>
                                       <portlet:param name="id" value="<%=course.getId().toString()%>"/>
@@ -110,9 +113,10 @@
           	         </div>
         </div>
            <br/><br/>
-             <%}%>
+             <%}}%>
 
-<%}%>
+  
+   </div>
 </div>
 
           <%if((courses == null ?0:courses.size())>9||currentPage>1){%>
