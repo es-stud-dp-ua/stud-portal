@@ -115,8 +115,9 @@
 					<spring:message code="form.grantDescription" />
 				</div>
 				<form:errors path="description" cssClass="error" />
-				<form:textarea path="description" 
-					id="textInput" cols="20" rows="8" maxlength="3000"
+				<form:textarea path="description"
+				     style="resize: none; width: 430px; height: 471px; font-size: 12px;"
+					 cols="20" rows="8" maxlength="3000"
                      onkeypress="return isNotMax(event,this)"></form:textarea>
 				</td>
 				<td>
@@ -125,7 +126,8 @@
 				</div>
 				<form:errors path="documents" cssClass="error" />
 				<form:textarea path="documents"
-					id="textInput" cols="20" rows="8" maxlength="3000"
+				     style="resize: none; width: 430px; height: 471px;  font-size: 12px; "
+					 cols="20" rows="8" maxlength="3000"
                     onkeypress="return isNotMax(event,this)"></form:textarea>
 				</td>
 				</tr>
