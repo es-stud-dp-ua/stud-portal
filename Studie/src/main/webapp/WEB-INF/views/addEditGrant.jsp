@@ -116,7 +116,7 @@
 				</div>
 				<form:errors path="description" cssClass="error" />
 				<form:textarea path="description"
-				     style="resize: none; width: 430px; height: 471px; font-size: 12px;"
+				     style="resize: none; width: 430px; height: 471px; margin-right: 30px; font-size: 12px;"
 					 cols="20" rows="8" maxlength="3000"
                      onkeypress="return isNotMax(event,this)"></form:textarea>
 				</td>
