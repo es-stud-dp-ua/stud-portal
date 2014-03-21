@@ -83,19 +83,13 @@ public class CoursesController {
     @RenderMapping(params = "view=allcourses")
     public ModelAndView viewAllCourses(RenderRequest request, RenderResponse response) {
         ModelAndView model = new ModelAndView();
-        Integer buttonId;
-        if (request.getParameter(BUTTON_ID) == null) {
-            buttonId = 0;
-        } else {
-            buttonId = Integer.valueOf(request.getParameter(BUTTON_ID));
-        }
         List<KindOfCourse> kindOfCourses = courseService.getAllKindOfCourse();
         model.setViewName("viewAllCourses");
         model.addObject("kindOfCourses", kindOfCourses);
         model.addObject("coursesType", coursesType);
         List<Course> courses = courseService.getAll();
         model.addObject("courses", courses);
-        model.addObject(BUTTON_ID, buttonId);
+
         return model;
     }
 
