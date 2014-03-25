@@ -124,7 +124,7 @@
             </c:if>
             </td>
 
-            <td width="auto" align="center" valign="center">
+            <td width="auto" align="center" valign="center"style="color: #a9a9a9; font-size: 17pt;" >
                 <%-- PAGINATION --%>
                 <%if (skippedBeginning) {%>
                 <%-- HIDING FIRST PAGES --%>
