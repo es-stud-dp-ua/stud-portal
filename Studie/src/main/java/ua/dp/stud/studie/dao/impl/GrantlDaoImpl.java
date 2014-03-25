@@ -2,6 +2,7 @@ package ua.dp.stud.studie.dao.impl;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -36,7 +37,7 @@ public class GrantlDaoImpl implements GrantDao {
 
 	@Override
 	public Collection<Grant> getAllGrants() {
-		return getSession().createCriteria(Grant.class).list();
+		return getSession().createCriteria(Grant.class).addOrder(Order.asc("university")).list();
 	}
 
 	@Override

@@ -13,20 +13,21 @@
 <title>Insert title here</title>
 </head>
 <body>
+<%@include file="leftBar.jsp" %>
 
 <portlet:renderURL var="LinkEditCourse">
-            <portlet:param name="id" value="${course.id}"/>
+            <portlet:param name="courseId" value="${course.id}"/>
  			<portlet:param name="showEdit" value="course"/>
 </portlet:renderURL>
 
 <portlet:actionURL var="LinkDeleteCourse">
-            <portlet:param name="id" value="${course.id}"/>
+            <portlet:param name="courseId" value="${course.id}"/>
  			<portlet:param name="delete" value="course"/>
 </portlet:actionURL>
 
 <portlet:renderURL var="LinkHomeCourse">
     <portlet:param name="view" value="allcourses" />
-</portlet:renderURL>'>
+</portlet:renderURL>
 
  <div class="portlet-content-controlpanel fs20"style="width: 10.15%;float: right;" >
     <a style="float: right" href="${LinkHomeCourse}">
@@ -49,27 +50,31 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
 
-               <div  style="float:left">
-                  <img style="width:80px" src="${mainImage}" alt=""/>
-                  </div>
-
-                  <div style ="padding-left: 140px; font-size: 20px; width:20%;padding-top: 35px;">
-                  ${course.courseName}
-                  </div>
+    <div  style="margin-left:15px">
+                  <img style="width:130px; padding-left:15px;" src="${mainImage}" alt=""/>
 
 
+                 
+                 <strong> ${course.courseName}</strong>
 
-        <br/>
-        <div style="padding-top: 40px;" >
-            ${course.coursesContact}
-        </div>
-        <br/>
-        <div id="labels" style="width: 150px; font-size: 12pt; left: 10%;">
+
+
+
+             <br/>
+                  <div style="margin-left:135px">
+                 ${course.coursesContact}
+                 </div>
+            
+            <div style="margin-top:10px;margin-left:135px;">
+
                 <strong> <spring:message code="More"/>    </strong>
-        </div>
-        <br/>
-            ${course.coursesDescription}
-        </div>
+
+            
+		
+                ${course.coursesDescription}
+	    </div>
+    </div>
+
         <br/>
 
       <div id="Social_networks_Likes">

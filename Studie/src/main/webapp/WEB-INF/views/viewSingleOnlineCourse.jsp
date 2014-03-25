@@ -21,6 +21,7 @@ ImageService imageServices = (ImageService) pageContext.findAttribute("imageServ
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 </head>
 <body>
+<%@include file="leftBar.jsp" %>
 
 <portlet:renderURL var="home">
 		<portlet:param name="view" value="allOnlineCourses" />
@@ -28,21 +29,20 @@ ImageService imageServices = (ImageService) pageContext.findAttribute("imageServ
 <portlet:actionURL var="gotype" name="getOnlineCoursesByType">
 <portlet:param name="type" value="<%=String.valueOf(course.getOnlineCourseType().getId())%>" />	
 </portlet:actionURL>
+            <portlet:renderURL var="LinkEditCourse">
+                        <portlet:param name="id" value="<%=course.getId().toString()%>"/>
+             			<portlet:param name="view" value="editOnlineCourse"/>
+            </portlet:renderURL>
+
+            <portlet:actionURL var="LinkDeleteCourse">
+                        <portlet:param name="id" value="<%=course.getId().toString()%>"/>
+             			<portlet:param name="view" value="deleteOnlineCourse"/>
+            </portlet:actionURL>
 	<div class="portlet-content-controlpanel fs20"style="width: 10.15%;float: right;" >
 			<a href="${home}"> <!--<spring:message code="form.back"/>-->
 				<div class="panelbtn panelbtn-right fs20 icon-pcparrow-left"
 					aria-hidden="true"></div>
 			</a>
-			<portlet:renderURL var="LinkEditCourse">
-                        <portlet:param name="id" value="${course.id}"/>
-             			<portlet:param name="showEdit" value="course"/>
-            </portlet:renderURL>
-
-            <portlet:actionURL var="LinkDeleteCourse">
-                        <portlet:param name="id" value="${course.id}"/>
-             			<portlet:param name="delete" value="course"/>
-            </portlet:actionURL>
-
 
               <c:if test='${isShown}'>
 
@@ -55,8 +55,8 @@ ImageService imageServices = (ImageService) pageContext.findAttribute("imageServ
 
               </c:if>
 	</div>
-     <div id="newsTable" style="padding-top: 15px">
-                     <div width="100%" style="float: center">
+     <div  style="padding-top: 15px;margin-left: 150px;">
+                     <div width="100%" >
                          <img src="<%= imageServices.getPathToMicroblogImage(
                         		 course.getMainImage(),
                         		 course) %>" class="newsImage" style="float: left">

@@ -251,7 +251,7 @@ public class CoursesController {
     @ActionMapping(params = "delete=course")
     public void deleteCourse(ActionRequest request, ActionResponse response) {
 
-        int courseID = Integer.valueOf(request.getParameter("id"));
+        int courseID = Integer.valueOf(request.getParameter(COURSE_ID));
         Course course = courseService.getCourseByID(courseID);
         imageService.deleteDirectory(course);
         courseService.deleteCourse(course.getId());

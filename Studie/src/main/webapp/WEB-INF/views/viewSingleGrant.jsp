@@ -21,6 +21,10 @@ ImageService imageServices = (ImageService) pageContext.findAttribute("imageServ
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 </head>
 <body>
+<liferay-ui:success  key="successAdd" message='Grant was successfully added! '/>
+<liferay-ui:success  key="successEdit" message='Grant was successfully edited! '/>
+
+<%@include file="leftBar.jsp" %>
 
 <portlet:renderURL var="home">
 		<portlet:param name="view" value="allGrants" />
@@ -51,13 +55,13 @@ ImageService imageServices = (ImageService) pageContext.findAttribute("imageServ
 			<%
 				}
 			%>
+    </div>
 
 
 
 
 
 
-	</div>
 	
 	<div id="desc">
                      <div width="100%" style="float: center">
