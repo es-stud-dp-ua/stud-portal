@@ -115,7 +115,9 @@
 					  </div>
 				  </div>
 				</div>
-				
+                <%
+               	    if (request.isUserInRole("Administrator")) {
+               	%>
 				<div style="display: inline; float: right"
 					class="icon-pcpremove fs20"
 					onclick="removeMember(<%=member.getId()%>)" aria-hidden="true">
@@ -135,7 +137,8 @@
 					class="icon-pcparrow-down fs20"
 					onclick="memberDown(<%=member.getId()%>)" aria-hidden="true">
 				</div>
-				
+                <%}%>
+
 				<div id='edit_<%=member.getId()%>'
 					style="display: none; float: left">
 
