@@ -42,10 +42,10 @@
                 		</a>
 				</div>
 		    <%} %>
-
+ <div style="float:right; width: 77%;padding-top: 10px;">
 		    <% if (!grants.isEmpty()) {
  for (Grant grant : grants){%>
-     <div id="newsTable" style="padding-top: 15px;float: left">
+     <div  style="padding-top: 15px;  ">
      	 <% if (request.isUserInRole("Administrator")) { %>
 						<a style="float: right"
            href='<portlet:renderURL><portlet:param name="id" value="<%=grant.getId().toString()%>"/><portlet:param name="view" value="deleteGrant" /></portlet:renderURL>'
@@ -57,7 +57,7 @@
            <div class="icon-pcppencil fs20" aria-hidden="true"></div>
         </a>
 				<%}%>
-                         <div class="newsHeader" style="padding-top: 10px; padding-left: 175px; font-size: 20pt; ">
+                         <div class="newsHeader" style="padding-top: 10px; font-size: 20pt; ">
                                  <a href='
                                  <portlet:renderURL>
                                      <portlet:param name="id" value="<%=grant.getId().toString()%>"/>
@@ -71,6 +71,7 @@
              <%}%>
 
 <%}%>
+</div>
      </div>
 
 		    </body>
