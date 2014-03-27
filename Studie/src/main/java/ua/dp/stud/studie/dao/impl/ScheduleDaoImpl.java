@@ -56,10 +56,10 @@ public class ScheduleDaoImpl implements  ScheduleDao{
 
     @Override
     public Schedule getScheduleByFacultyAndYear(Faculties faculty, Course year){
-        Query query = getSession().createQuery("from Schedule where faculty = :faculty1 and year = :year1 and " +
-                "lastUpdateDate=(Select MAX(lastUpdateDate) from Schedule)");
+        Query query = getSession().createQuery("from Schedule where lastUpdateDate=(Select MAX(lastUpdateDate) from Schedule where faculty = :faculty1 and year = :year1 )");
         query.setParameter("faculty1", faculty);
         query.setParameter("year1",  year);
+
         Schedule schedule = (Schedule)query.uniqueResult();
         return schedule;
 
