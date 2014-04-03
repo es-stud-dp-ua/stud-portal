@@ -54,7 +54,7 @@ public class StudieController {
 
     private static final String MAIN_IMAGE_MOCK_URL = "images/no-logo-study.jpg";
     private static final String STR_FAIL = "fail";
-    private static final String STR_NO_IMAGE = "no images";
+    private static final String STR_NO_IMAGE = "no-images";
     private static final String STR_EXEPT = "Exception ";
     private static final String MAIN_IMAGE = "mainImage";
     private static final String BUTTON_ID = "buttonId";
