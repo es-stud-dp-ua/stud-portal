@@ -41,6 +41,7 @@
                 </tr>
             </table>
             <br/>
+
             <div id="sbm" align="center">
                 <input type="submit" value="<spring:message
                        code="form.submit.council"/>"/>

@@ -67,7 +67,7 @@
     <portlet:renderURL var="home"> 
     </portlet:renderURL>
 
-    <portlet:actionURL var="actionLink" name="editCouncil"></portlet:actionURL>
+
 	
 	<div class="portlet-content-controlpanel fs20">
         <a href="${home}">
@@ -80,6 +80,8 @@
      <c:if test="${exception}">
              ${exception}
          </c:if>
+
+     <portlet:actionURL var="actionLink" name="editCouncil"><portlet:param name="id" value="${council.id}"/></portlet:actionURL>
  <%@include file="addEditCouncil.jsp" %>
         <script>
                 $("#councilForm").on("submit",function(event){

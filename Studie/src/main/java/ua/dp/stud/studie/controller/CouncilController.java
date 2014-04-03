@@ -90,6 +90,7 @@ public class CouncilController {
     public void setStudieService(StudieService studieService) {
         this.studieService = studieService;
     }
+
 	@ModelAttribute(value = COUNCIL)
 	public Council getCommandObject() {
 		return new Council();
@@ -316,9 +317,8 @@ public class CouncilController {
 			SessionStatus sessionStatus) {
 		if (bindingResult.hasErrors()) {
 			actionResponse.setRenderParameter(STR_FAIL, "msg.fail");
-			return;
-		}
-		Council oldCouncil = councilService.getCouncilById(council.getId());
+			return;	}
+		Council oldCouncil = councilService.getCouncilById(Integer.parseInt(actionRequest.getParameter("id")));
         oldCouncil.setStudie(studieService.getStudieById(council.getStudie().getId()));
 		oldCouncil.setCouncilContact(council.getCouncilContact());
 		oldCouncil.setCouncilDescription(council.getCouncilDescription());
@@ -358,7 +358,7 @@ public class CouncilController {
 	@RenderMapping(params = "delete=council")
 	public ModelAndView deleteCouncil(RenderRequest request,
 			RenderResponse response) {
-		int councilID = Integer.valueOf(request.getParameter("councilID"));
+		int councilID = Integer.valueOf(request.getParameter("councilId"));
 		Council council = councilService.getCouncilById(councilID);
 		councilService.deleteCouncil(councilID);
 		return showAddSuccess(request, response);
