@@ -133,7 +133,11 @@ public class CouncilController {
 			actionResponse.setRenderParameter(STR_FAIL, "msg.fail");
 			return;
 		}
-
+        if(councilService.isDuplicateUniversity(council.getStudie().getId())){
+            actionResponse.setRenderParameter(STR_FAIL, "duplTop");
+           SessionMessages.add(actionRequest,STR_FAIL);
+            return;
+        }
         council.setStudie(studieService.getStudieById(council.getStudie().getId()));
         councilService.addCouncil(council);
         // close session
@@ -318,7 +322,14 @@ public class CouncilController {
 		if (bindingResult.hasErrors()) {
 			actionResponse.setRenderParameter(STR_FAIL, "msg.fail");
 			return;	}
-		Council oldCouncil = councilService.getCouncilById(Integer.parseInt(actionRequest.getParameter("id")));
+
+        Council oldCouncil = councilService.getCouncilById(Integer.parseInt(actionRequest.getParameter("id")));
+        if(councilService.isDuplicateUniversity(oldCouncil.getStudie().getId())){
+            actionResponse.setRenderParameter(STR_FAIL, "duplTop");
+            SessionMessages.add(actionRequest,STR_FAIL);
+            return;
+        }
+
         oldCouncil.setStudie(studieService.getStudieById(council.getStudie().getId()));
 		oldCouncil.setCouncilContact(council.getCouncilContact());
 		oldCouncil.setCouncilDescription(council.getCouncilDescription());
