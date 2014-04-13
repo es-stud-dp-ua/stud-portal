@@ -70,7 +70,7 @@ public class CouncilController {
 			.getName());
 
 	private static final String COUNCIL = "council";
-	private static final String STR_FAIL = "fail";
+	private static final String STR_FAIL = "failСouncil";
 	private static final String NO_IMAGE = "no-images";
 	private static final String MAIN_IMAGE_MOCK_URL = "http://www.princetonmn.org/vertical/Sites/%7BF37F81E8-174B-4EDB-91E0-1A3D62050D16%7D/uploads/News.gif";
 	private static final String CURRENT_PAGE = "currentPage";
@@ -133,7 +133,7 @@ public class CouncilController {
 			actionResponse.setRenderParameter(STR_FAIL, "msg.fail");
 			return;
 		}
-        if(councilService.isDuplicateUniversity(council.getStudie().getId())){
+        if(councilService.isDuplicateUniversity(council.getStudie().getId(),true)){
             actionResponse.setRenderParameter(STR_FAIL, "duplTop");
            SessionMessages.add(actionRequest,STR_FAIL);
             return;
@@ -324,7 +324,7 @@ public class CouncilController {
 			return;	}
 
         Council oldCouncil = councilService.getCouncilById(Integer.parseInt(actionRequest.getParameter("id")));
-        if(councilService.isDuplicateUniversity(oldCouncil.getStudie().getId())){
+        if(councilService.isDuplicateUniversity(oldCouncil.getStudie().getId(),false)){
             actionResponse.setRenderParameter(STR_FAIL, "duplTop");
             SessionMessages.add(actionRequest,STR_FAIL);
             return;
@@ -389,7 +389,7 @@ public class CouncilController {
 
 	}
 
-	@RenderMapping(params = "fail")
+	@RenderMapping(params = "failСouncil")
 	public ModelAndView showAddFailed(RenderRequest request,
 			RenderResponse response) {
 		ModelAndView model = new ModelAndView("addCouncil");

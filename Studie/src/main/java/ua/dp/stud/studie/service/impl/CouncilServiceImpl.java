@@ -85,8 +85,8 @@ public class CouncilServiceImpl implements CouncilService {
 
     @Override
     @Transactional(readOnly = true)
-    public Boolean isDuplicateUniversity(Integer id){
-        return dao.isDuplicateTopic(id);
+    public Boolean isDuplicateUniversity(Integer id, boolean addCouncil){
+        return dao.isDuplicateTopic(id,addCouncil);
     }
 
     @Override

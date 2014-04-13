@@ -138,6 +138,11 @@ public class GrantController {
             actionResponse.setRenderParameter("no", "image");
             return;
         }
+        if (grantService.isDuplicateTopic(grant.getUniversity(),null)){
+            actionResponse.setRenderParameter(STR_FAIL, "image");
+            actionResponse.setRenderParameter("found", "dplTopic");
+            return;
+        }
         CommonsMultipartFile f = imageService.cropImage(mainImage, Integer.parseInt(actionRequest.getParameter("t")),
                                                         Integer.parseInt(actionRequest.getParameter("l")),
                                                         Integer.parseInt(actionRequest.getParameter("w")),
@@ -164,11 +169,14 @@ public class GrantController {
                          SessionStatus sessionStatus) throws IOException {
         if (bindingResult.hasErrors()) {
             actionResponse.setRenderParameter(STR_FAIL, "image");
-            actionResponse.setRenderParameter("no", "image");
             return;
         }
         CommonsMultipartFile croppedImage = null;
         Grant oldGrant = grantService.getGrantById(grant.getId());
+        if (grantService.isDuplicateTopic(oldGrant.getUniversity(),Long.valueOf(oldGrant.getId()))){
+            actionResponse.setRenderParameter(STR_FAIL, "dplTopic");
+            return;
+        }
         oldGrant.setCity(grant.getCity());
         oldGrant.setCountry(grant.getCountry());
         oldGrant.setDescription(grant.getDescription());
@@ -205,8 +213,7 @@ public class GrantController {
     public ModelAndView showAddFailed(RenderRequest request,
                                       RenderResponse response) {
         ModelAndView model = new ModelAndView("addGrant");
-        SessionErrors.add(request, request.getParameter("no"));
-
+        SessionErrors.add(request, request.getParameter(STR_FAIL));
         return model;
     }
 

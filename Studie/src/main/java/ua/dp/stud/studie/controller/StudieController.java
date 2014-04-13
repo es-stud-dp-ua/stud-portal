@@ -243,6 +243,10 @@ public class StudieController {
             actionResponse.setRenderParameter(STR_FAIL, STR_NO_IMAGE);
             return;
         }
+        if( studieService.isDuplicateTopic(studie.getTitle(),null)){
+            actionResponse.setRenderParameter(STR_FAIL, "dplTopic");
+            return;
+        }
         CommonsMultipartFile f = imageService.cropImage(mainImage, Integer.parseInt(actionRequest.getParameter("t")),
                 Integer.parseInt(actionRequest.getParameter("l")),
                 Integer.parseInt(actionRequest.getParameter("w")),
@@ -268,6 +272,11 @@ public class StudieController {
             return;
         }
         Studie oldStudy = studieService.getStudieById(studie.getId());
+        if( studieService.isDuplicateTopic(oldStudy.getTitle(),Long.valueOf(oldStudy.getId()))){
+            actionResponse.setRenderParameter(STR_FAIL, "dplTopic");
+            return;
+        }
+
         studie.setMainImage(oldStudy.getMainImage());
         studie.setAdditionalImages(oldStudy.getAdditionalImages());
         studie.setYearMonthUniqueFolder(oldStudy.getYearMonthUniqueFolder());

@@ -86,9 +86,9 @@ public class CouncilDaoImpl implements CouncilDao {
     }
 
     @Override
-    public Boolean isDuplicateTopic(Integer id){
+    public Boolean isDuplicateTopic(Integer id, boolean addCouncil){
         List<Council> councils= getSession().createQuery("From Council where studie.id=:Sid").setParameter("Sid",id).list();
-        return (councils.size()!=0);
+        return (addCouncil)?(councils.size()!=0):(councils.size()>1);
     }
 
 }

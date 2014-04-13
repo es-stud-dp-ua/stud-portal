@@ -138,4 +138,9 @@ public class OnlineCourseServiceImpl implements OnlineCourseService
         return dao.getPagesCount(coursesByPage);
     }
 
+    @Override
+    public Boolean isDuplicateTopic(String name, Long id){
+        return dao.isDuplicateTopic(name,id);
+    }
+
 }	

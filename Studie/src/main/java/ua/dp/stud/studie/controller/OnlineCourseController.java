@@ -275,7 +275,11 @@ public class OnlineCourseController {
         }
         	if ("".equals(mainImage.getOriginalFilename())) {
             actionResponse.setRenderParameter(STR_FAIL, "image");
-            actionResponse.setRenderParameter("no", "image");
+
+            return;
+        }
+        if (onlineCourseService.isDuplicateTopic(onlineCourse.getOnlineCourseName(),null)){
+            actionResponse.setRenderParameter(STR_FAIL,"dplTopic");
             return;
         }
         CommonsMultipartFile f = imageService.cropImage(mainImage, Integer.parseInt(actionRequest.getParameter("t")),
@@ -301,11 +305,16 @@ public class OnlineCourseController {
                          SessionStatus sessionStatus) throws IOException {
         if (bindingResult.hasErrors()) {
             actionResponse.setRenderParameter(STR_FAIL, "image");
-            actionResponse.setRenderParameter("no", "image");
+
+            return;
+        }
+        OnlineCourse oldCourse = onlineCourseService.getOnlineCourseById(onlineCourse.getId());
+        if (onlineCourseService.isDuplicateTopic(oldCourse.getOnlineCourseName(),Long.valueOf(oldCourse.getId()))){
+            actionResponse.setRenderParameter(STR_FAIL,"dplTopic");
             return;
         }
         CommonsMultipartFile croppedImage = null;
-        OnlineCourse oldCourse = onlineCourseService.getOnlineCourseById(onlineCourse.getId());
+
         oldCourse.setOnlineCourseDescription(onlineCourse.getOnlineCourseDescription());
         oldCourse.setOnlineCourseName(onlineCourse.getOnlineCourseName());
         oldCourse.setOnlineCourseType(onlineCourse.getOnlineCourseType());
@@ -371,8 +380,7 @@ public class OnlineCourseController {
 	public ModelAndView showAddFailed(RenderRequest request,
 			RenderResponse response) {
 		ModelAndView model = new ModelAndView("addOnlineCourse");
-       // SessionErrors.add(request, request.getParameter("found"));
-		SessionErrors.add(request, request.getParameter("no"));
+        SessionErrors.add(request, request.getParameter(STR_FAIL));
         Collection<OnlineCourseType> kindOfCourses = onlineCourseService.getAllKindOfCourseWithCount();
         model.addObject("onlineCourseType", kindOfCourses);
 		return model;

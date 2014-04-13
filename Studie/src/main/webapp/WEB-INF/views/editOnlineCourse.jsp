@@ -32,6 +32,8 @@
 </head>
 <body>
 
+<liferay-ui:error  key="dplTopic" message='Please, choose another name of course! OnlineCourse with the same name is present! '/>
+
 <script type="text/javascript">
 
                     $(document).ready(function() {

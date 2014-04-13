@@ -31,6 +31,7 @@
         </style>
 </head>
 <body>
+<liferay-ui:error  key="dplTopic" message='Please, choose another name of grant! Grant with the same name is present! '/>
 <portlet:actionURL var="addEdit" name="editGrant"></portlet:actionURL>
 <%@include file="addEditGrant.jsp" %>
 

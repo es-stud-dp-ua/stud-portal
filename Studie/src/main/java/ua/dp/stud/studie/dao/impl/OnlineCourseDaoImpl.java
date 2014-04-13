@@ -128,5 +128,16 @@ public class OnlineCourseDaoImpl implements OnlineCourseDao{
         return ((Long) q.uniqueResult()).intValue()/coursesByPage+1; 
     }
 
+    @Override
+    public Boolean isDuplicateTopic(String name, Long id){
+        if(id==null){
+            List<OnlineCourse> list=getSession().createQuery("from OnlineCourse where onlineCourseName=:name").setParameter("name", name).list();
+            return  (list.size()!=0);
+        }else{
+            List<OnlineCourse> list=getSession().createQuery("from OnlineCourse where onlineCourseName=:name and id=:id").setParameter("name", name).setParameter("id", id).list();
+            return  (list.size()>1);
+        }
+    }
+
 
 }

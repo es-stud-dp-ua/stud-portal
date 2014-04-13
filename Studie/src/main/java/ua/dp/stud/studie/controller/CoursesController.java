@@ -183,6 +183,12 @@ public class CoursesController {
         else   course.setApproved(false);
 
         Course oldCourse = courseService.getCourseByID(course.getId());
+        if(courseService.isDuplicateTopic(oldCourse.getCourseName(),Long.valueOf(oldCourse.getId()))){
+            actionResponse.setRenderParameter("coursefail", "found");
+            actionResponse.setRenderParameter(STR_FAIL, "dplTopic");
+            return;
+        }
+
         course.setMainImage(oldCourse.getMainImage());
         CommonsMultipartFile croppedImage=null;
         if (!"".equals(mainImage.getOriginalFilename())) {
@@ -321,6 +327,12 @@ public class CoursesController {
         	if ("".equals(mainImage.getOriginalFilename())) {
         	actionResponse.setRenderParameter("coursefail", "found");
             actionResponse.setRenderParameter(STR_FAIL, STR_NO_IMAGE);
+            return;
+        }
+
+        if(courseService.isDuplicateTopic(course.getCourseName(),null)){
+            actionResponse.setRenderParameter("coursefail", "found");
+            actionResponse.setRenderParameter(STR_FAIL, "dplTopic");
             return;
         }
 

@@ -19,4 +19,6 @@ public interface StudieDao extends DaoForApprove<Studie> {
 
     Collection<Studie> getAll();
 
+    Boolean isDuplicateTopic(String name, Long id);
+
 }

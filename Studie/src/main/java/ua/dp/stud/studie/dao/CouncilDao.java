@@ -31,7 +31,7 @@ public interface CouncilDao {
 
     void updateCouncilMembers(CouncilMembers councilMembers);
 
-    Boolean isDuplicateTopic(Integer id);
+    Boolean isDuplicateTopic(Integer id, boolean addCouncil);
 
     List<CouncilMembers> getAllCouncilMembers();
 

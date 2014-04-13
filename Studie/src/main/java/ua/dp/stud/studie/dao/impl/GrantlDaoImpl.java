@@ -10,6 +10,7 @@ import ua.dp.stud.studie.dao.GrantDao;
 import ua.dp.stud.studie.model.Grant;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  *           @author Lysenko Nikolai
@@ -59,5 +60,18 @@ public class GrantlDaoImpl implements GrantDao {
 		getSession().merge(grant);
 		
 	}
+
+    @Override
+    public Boolean isDuplicateTopic(String name, Long id){
+        if(id==null){
+            List<Grant> list=getSession().createQuery("from Grant where university=:name").setParameter("name",name).list();
+            return  (list.size()!=0);
+        }else{
+            List<Grant> list=getSession().createQuery("from Grant where university=:name and id=:id").setParameter("name", name).setParameter("id", id).list();
+            return  (list.size()>1);
+        }
+
+
+    }
 
 }

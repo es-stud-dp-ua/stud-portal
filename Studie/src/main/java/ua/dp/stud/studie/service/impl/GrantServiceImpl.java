@@ -55,4 +55,9 @@ public class GrantServiceImpl implements GrantService {
 		dao.updateGrant(grant);
 	}
 
+    @Override
+    public Boolean isDuplicateTopic(String name, Long id){
+        return dao.isDuplicateTopic(name,id);
+    }
+
 }
