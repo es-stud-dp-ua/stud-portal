@@ -50,6 +50,7 @@ public class CoursesController {
     private static final String MAIN_IMAGE_MOCK_URL = "images/no-logo-study.jpg";
     private static final String BUTTON_ID = "buttonId";
     private static final String COURSE = "course";
+    private static final String JSP_NAME="jsp";
     private static final String MAIN_IMAGE = "mainImage";
     private static final String STR_FAIL = "fails";
     private static final String ADMIN = "Administrator";
@@ -167,23 +168,21 @@ public class CoursesController {
                            SessionStatus sessionStatus,
                            @RequestParam(MAIN_IMAGE) CommonsMultipartFile mainImage) throws IOException {
 
+        actionResponse.setRenderParameter(JSP_NAME,"edit");
+        actionResponse.setRenderParameter(COURSE_ID,course.getId().toString());
         if (bindingResult.hasErrors()) {
             actionResponse.setRenderParameter("coursefail", "found");
             actionResponse.setRenderParameter(STR_FAIL, "msg.fail");
             return;
         }
-        if (mainImage.getOriginalFilename().equals("")) {
-            actionResponse.setRenderParameter("coursefail", "found");
-            actionResponse.setRenderParameter(STR_FAIL, STR_NO_IMAGE);
-            return;
-        }
+
 
         if (actionRequest.isUserInRole("Administrator"))
             course.setApproved(true);
         else   course.setApproved(false);
 
         Course oldCourse = courseService.getCourseByID(course.getId());
-        if(courseService.isDuplicateTopic(oldCourse.getCourseName(),Long.valueOf(oldCourse.getId()))){
+        if(courseService.isDuplicateTopic(course.getCourseName(),oldCourse.getId())){
             actionResponse.setRenderParameter("coursefail", "found");
             actionResponse.setRenderParameter(STR_FAIL, "dplTopic");
             return;
@@ -209,6 +208,8 @@ public class CoursesController {
 
         courseService.updateCourse(course);
             actionResponse.setRenderParameter(COURSE_ID, Integer.toString(course.getId()));
+            actionResponse.setRenderParameter("view", "allcourses");
+            SessionMessages.add(actionRequest,"successEdit");
             sessionStatus.setComplete();
 
 
@@ -319,7 +320,9 @@ public class CoursesController {
                               ActionResponse actionResponse,
                               SessionStatus sessionStatus,
                               @RequestParam(MAIN_IMAGE) CommonsMultipartFile mainImage) throws IOException {
-		if (bindingResult.hasErrors()) {
+
+        actionResponse.setRenderParameter(JSP_NAME,"add");
+        if (bindingResult.hasErrors()) {
 			actionResponse.setRenderParameter("coursefail", "found");
             actionResponse.setRenderParameter(STR_FAIL, "msg.fail");
             return;
@@ -358,19 +361,34 @@ public class CoursesController {
             
             actionResponse.setRenderParameter("view", "course");
             actionResponse.setRenderParameter(COURSE_ID, Integer.toString(course.getId()));
+            SessionMessages.add(actionRequest, "successAdd");
             sessionStatus.setComplete();
     }
 
 	@RenderMapping(params = "coursefail=found")
 	public ModelAndView showAddFailed(RenderRequest request,
 			RenderResponse response) {
-		ModelAndView model = new ModelAndView("addCourse");
+		ModelAndView model;
+        if("edit".equals(request.getParameter(JSP_NAME))){
+            model= showEditCourse(request, response);
+        }else{
+            model=addCourse(request, response);
+        }
 		SessionErrors.add(request, request.getParameter(STR_FAIL));
         Collection<KindOfCourse> kindOfCourses = courseService.getAllKindOfCourse();
         model.addObject("kindOfCourse", kindOfCourses);
         model.addObject("coursesType", coursesType);
 		return model;
 	}
+
+    @RenderMapping(params = "successCourse")
+    public ModelAndView showAddSuccess(RenderRequest request,
+                                       RenderResponse response) {
+        ModelAndView model = viewCourse(request, response);
+        String strSuccess = "success";
+        SessionMessages.add(request, request.getParameter(strSuccess));
+        return model;
+    }
 	
     @InitBinder
     public void initBinder(WebDataBinder binder) {

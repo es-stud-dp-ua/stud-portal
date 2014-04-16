@@ -39,5 +39,5 @@ public interface CourseDao extends DaoForApprove<Course>{
     void initializeCountOfCourses(KindOfCourse kindOfCourse);
 
 
-    Boolean isDuplicateTopic(String name, Long id);
+    Boolean isDuplicateTopic(String name,Integer id);
 }

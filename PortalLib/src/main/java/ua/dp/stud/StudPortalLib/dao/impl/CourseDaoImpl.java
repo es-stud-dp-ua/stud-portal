@@ -128,13 +128,17 @@ public class CourseDaoImpl extends DaoForApproveImpl<Course> implements CourseDa
     }
 
     @Override
-    public Boolean isDuplicateTopic(String name,Long id){
+    public Boolean isDuplicateTopic(String name, Integer id){
+        List<Course> list=getSession().createQuery("from Course where courseName=:name").setParameter("name", name).list();
         if(id==null){
-            List<Course> list=getSession().createQuery("from Course where courseName=:name").setParameter("name", name).list();
             return  (list.size()!=0);
         }else{
-            List<Course> list=getSession().createQuery("from Course where courseName=:name and id=:id").setParameter("name", name).setParameter("id", id).list();
-            return  (list.size()>1);
+            if(list.size()==1){
+                return !(list.get(0).getId().equals(id));
+            }else{
+                return  (list.size()>1);
+            }
+
         }
     }
 }

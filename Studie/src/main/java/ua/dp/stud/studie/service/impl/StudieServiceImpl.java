@@ -73,7 +73,7 @@ public class StudieServiceImpl implements StudieService {
     }
 
     @Override
-    public Boolean isDuplicateTopic(String name, Long id){
+    public Boolean isDuplicateTopic(String name, Integer id){
        return dao.isDuplicateTopic(name,id);
     }
 }

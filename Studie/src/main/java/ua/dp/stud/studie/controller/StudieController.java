@@ -56,6 +56,7 @@ public class StudieController {
     private static final String STR_FAIL = "fail";
     private static final String STR_NO_IMAGE = "no-images";
     private static final String STR_EXEPT = "Exception ";
+    private static final String JSP_NAME="jsp";
     private static final String MAIN_IMAGE = "mainImage";
     private static final String BUTTON_ID = "buttonId";
     private static final String STUDY_ID = "studieID";
@@ -234,6 +235,8 @@ public class StudieController {
                           SessionStatus sessionStatus,
                           @RequestParam(MAIN_IMAGE) CommonsMultipartFile mainImage,
                           @RequestParam("images") CommonsMultipartFile[] images) {
+
+        actionResponse.setRenderParameter(JSP_NAME,"add");
         studyValidator.validate(studie, bindingResult);
         if (bindingResult.hasErrors()) {
             actionResponse.setRenderParameter(STR_FAIL, "msg.fail");
@@ -266,13 +269,17 @@ public class StudieController {
                            SessionStatus sessionStatus,
                            @RequestParam(MAIN_IMAGE) CommonsMultipartFile mainImage,
                            @RequestParam("images") CommonsMultipartFile[] images) {
+
+        actionResponse.setRenderParameter(JSP_NAME,"edit");
+        actionResponse.setRenderParameter("studieId",studie.getId().toString());
+
         studyValidator.validate(studie, bindingResult);
         if (bindingResult.hasErrors()) {
             actionResponse.setRenderParameter(STR_FAIL, "msg.fail");
             return;
         }
         Studie oldStudy = studieService.getStudieById(studie.getId());
-        if( studieService.isDuplicateTopic(oldStudy.getTitle(),Long.valueOf(oldStudy.getId()))){
+        if( studieService.isDuplicateTopic(studie.getTitle(),oldStudy.getId())){
             actionResponse.setRenderParameter(STR_FAIL, "dplTopic");
             return;
         }
@@ -304,7 +311,7 @@ public class StudieController {
     }
 
     @RenderMapping(params = "mode=edit")
-    public ModelAndView showEditNews(RenderRequest request, RenderResponse response) {
+    public ModelAndView showEditStuds(RenderRequest request, RenderResponse response) {
     	if (!request.isUserInRole("Administrator")){
     		return showView(request,response);
     	}
@@ -346,7 +353,12 @@ public class StudieController {
 
     @RenderMapping(params = "fail")
     public ModelAndView showAddFailed(RenderRequest request, RenderResponse response) {
-        ModelAndView model = showAddStuds(request, response);
+        ModelAndView model;
+        if("edit".equals(request.getParameter(JSP_NAME))){
+            model = showEditStuds(request, response);
+        }else{
+            model=showAddStuds(request, response);
+        }
         SessionErrors.add(request, request.getParameter(STR_FAIL));
         return model;
     }

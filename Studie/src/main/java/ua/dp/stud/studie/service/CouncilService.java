@@ -30,7 +30,7 @@ public interface CouncilService {
 
 	    void updateCouncilMembers(CouncilMembers councilMembers);
 
-        Boolean isDuplicateUniversity(Integer id, boolean addCouncil);
+        Boolean isDuplicateUniversity(Integer id,Integer idCouncil);
 
 	    List<CouncilMembers> getAllCouncilMembers();
 

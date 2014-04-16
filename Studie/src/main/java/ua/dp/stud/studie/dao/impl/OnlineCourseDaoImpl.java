@@ -129,15 +129,17 @@ public class OnlineCourseDaoImpl implements OnlineCourseDao{
     }
 
     @Override
-    public Boolean isDuplicateTopic(String name, Long id){
+    public Boolean isDuplicateTopic(String name, Integer id){
+        List<OnlineCourse> list=getSession().createQuery("from OnlineCourse where onlineCourseName=:name").setParameter("name", name).list();
         if(id==null){
-            List<OnlineCourse> list=getSession().createQuery("from OnlineCourse where onlineCourseName=:name").setParameter("name", name).list();
             return  (list.size()!=0);
         }else{
-            List<OnlineCourse> list=getSession().createQuery("from OnlineCourse where onlineCourseName=:name and id=:id").setParameter("name", name).setParameter("id", id).list();
-            return  (list.size()>1);
+            if (list.size()==1){
+               return !(list.get(0).getId().equals(id));
+            }else{
+                return  (list.size()>1);
+            }
         }
     }
-
 
 }

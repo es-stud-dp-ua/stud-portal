@@ -31,5 +31,5 @@ public interface StudieService {
 
     void deleteImage(ImageImpl image);
 
-    Boolean isDuplicateTopic(String name, Long id);
+    Boolean isDuplicateTopic(String name, Integer id);
 }

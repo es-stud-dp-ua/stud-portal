@@ -35,13 +35,16 @@ public class StudieDaoImpl extends DaoForApproveImpl<Studie> implements StudieDa
     }
 
     @Override
-    public Boolean isDuplicateTopic(String name, Long id){
+    public Boolean isDuplicateTopic(String name, Integer id){
+        List<Studie> studieList=getSession().createQuery("from Studie where title=:name").setParameter("name",name).list();
         if(id==null){
-            List<Studie> studieList=getSession().createQuery("from Studie where title=:name").setParameter("name",name).list();
             return  (studieList.size()!=0);
         }else{
-            List<Studie> studieList=getSession().createQuery("from Studie where title=:name and id=:id ").setParameter("name", name).setParameter("id",id).list();
-            return  (studieList.size()>0);
+            if(studieList.size()==1){
+                return !(studieList.get(0).getId().equals(id));
+            } else {
+                return (studieList.size()>1);
+            }
         }
     }
 }
