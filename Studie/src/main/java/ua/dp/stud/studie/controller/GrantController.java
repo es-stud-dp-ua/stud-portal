@@ -139,12 +139,10 @@ public class GrantController {
         }
         if ("".equals(mainImage.getOriginalFilename())) {
             actionResponse.setRenderParameter(STR_FAIL, "image");
-            actionResponse.setRenderParameter("no", "image");
             return;
         }
         if (grantService.isDuplicateTopic(grant.getUniversity(),null)){
-            actionResponse.setRenderParameter(STR_FAIL, "image");
-            actionResponse.setRenderParameter("found", "dplTopic");
+            actionResponse.setRenderParameter(STR_FAIL, "dplTopic");
             return;
         }
         CommonsMultipartFile f = imageService.cropImage(mainImage, Integer.parseInt(actionRequest.getParameter("t")),
