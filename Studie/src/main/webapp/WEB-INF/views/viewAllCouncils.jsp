@@ -75,7 +75,9 @@ for (Council council : councils){%>
            <div class="icon-pcppencil fs20" aria-hidden="true"></div>
         </a>
         				<a style="float: right"
-           href="<portlet:renderURL><portlet:param name="councilId" value="<%=council.getId().toString()%>"/><portlet:param name="delete" value="council" /></portlet:renderURL>">
+           href="<portlet:renderURL><portlet:param name="councilId" value="<%=council.getId().toString()%>"/>
+           <portlet:param name="delete" value="council" /></portlet:renderURL>"
+           onclick='return confirm("<spring:message code="form.confDelete"/>")'>
            <div class="icon-pcpremove fs20" aria-hidden="true"></div>
         </a>
 <%}%>

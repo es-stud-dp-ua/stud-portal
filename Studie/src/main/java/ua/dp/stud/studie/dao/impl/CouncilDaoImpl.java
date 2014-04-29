@@ -85,4 +85,18 @@ public class CouncilDaoImpl implements CouncilDao {
     	return getSession().createCriteria(CouncilMembers.class).list();
     }
 
+    @Override
+    public Boolean isDuplicateTopic(Integer id,Integer idCouncil){
+        List<Council> list=getSession().createQuery("From Council where studie.id=:Sid").setParameter("Sid",id).list();
+        if(idCouncil==null){
+              return  (list.size()!=0);
+        }else{
+            if(list.size()==1)
+                return !(list.get(0).getId().equals(idCouncil));
+            else{
+                return  (list.size()>1);
+            }
+        }
+    }
+
 }

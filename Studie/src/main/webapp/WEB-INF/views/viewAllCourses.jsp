@@ -12,7 +12,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+ <liferay-ui:success  key="successAdd" message='Course(Tutor) was successfully added! '/>
+ <liferay-ui:success  key="successEdit" message='Course(Tutor) was successfully edited! '/>
     <div id="contentDiv">
         <portlet:renderURL var="LinkAddCourse">
 	        <portlet:param name="add" value="course"/>
@@ -57,7 +58,9 @@ $(document).ready(function() {
 	    </div>
 	    <div id="coursesList">
 	        <c:forEach var="course" items="${courses}">
-        	    <p><a href='<portlet:renderURL><portlet:param name="courseId" value="${course.id}"/><portlet:param name="view" value="course"/></portlet:renderURL>'>${course.courseName}</a></p>
+	            <c:if test='${course.approved=="true"}'>
+        	        <p><a href='<portlet:renderURL><portlet:param name="courseId" value="${course.id}"/><portlet:param name="view" value="course"/></portlet:renderURL>'>${course.courseName}</a></p>
+        	    </c:if>
             </c:forEach>
 	    </div>
 	</div>

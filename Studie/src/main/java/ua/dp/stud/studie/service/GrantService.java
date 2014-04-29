@@ -18,5 +18,6 @@ public interface GrantService {
     void deleteGrant(Integer id);
 
     void updateGrant(Grant grant);
-		
+
+    Boolean isDuplicateTopic(String name, Integer id);
 }

@@ -52,6 +52,7 @@ public class OnlineCourseController {
     private static final String STR_FAIL = "failOnline";
     private static final String ADMIN = "Administrator";
     private static final String NO_IMAGE = "no-images";
+    private static final String JSP_NAME="jsp";
     private static final String MAIN_IMAGE_MOCK_URL = "http://www.princetonmn.org/vertical/Sites/%7BF37F81E8-174B-4EDB-91E0-1A3D62050D16%7D/uploads/News.gif";
     private static final int COURSES_BY_PAGE = 10;
     private static final int NEARBY_PAGES = 2;
@@ -189,7 +190,7 @@ public class OnlineCourseController {
         ModelAndView model = new ModelAndView();
         List<OnlineCourseType> onlineCourseTypes = onlineCourseService.getAllOnlineCourseType();
         model.setViewName("viewAllOnlineCourses");
-        
+                                   //request.is
         Integer pagesCount = onlineCourseService.getPagesCount(COURSES_BY_PAGE);
         Integer currentPage;
         if ((request.getParameter(CURRENT_PAGE) != null) && ("next".equals(request.getParameter("direction")))) {
@@ -268,14 +269,16 @@ public class OnlineCourseController {
                         ActionResponse actionResponse,
                         @RequestParam(MAIN_IMAGE) CommonsMultipartFile mainImage,
                         SessionStatus sessionStatus) throws IOException {
+
+        actionResponse.setRenderParameter(JSP_NAME,"add");
     	if (bindingResult.hasErrors()) {
             actionResponse.setRenderParameter(STR_FAIL, "msg.fail");
 
             return;
         }
-        	if ("".equals(mainImage.getOriginalFilename())) {
-            actionResponse.setRenderParameter(STR_FAIL, "image");
-            actionResponse.setRenderParameter("no", "image");
+
+        if (onlineCourseService.isDuplicateTopic(onlineCourse.getOnlineCourseName(),null)){
+            actionResponse.setRenderParameter(STR_FAIL,"dplTopic");
             return;
         }
         CommonsMultipartFile f = imageService.cropImage(mainImage, Integer.parseInt(actionRequest.getParameter("t")),
@@ -299,13 +302,21 @@ public class OnlineCourseController {
                          ActionResponse actionResponse,
                          @RequestParam(MAIN_IMAGE) CommonsMultipartFile mainImage,
                          SessionStatus sessionStatus) throws IOException {
+
+        actionResponse.setRenderParameter(JSP_NAME,"edit");
         if (bindingResult.hasErrors()) {
             actionResponse.setRenderParameter(STR_FAIL, "image");
-            actionResponse.setRenderParameter("no", "image");
+
+            return;
+        }
+        OnlineCourse oldCourse = onlineCourseService.getOnlineCourseById(onlineCourse.getId());
+        if (onlineCourseService.isDuplicateTopic(onlineCourse.getOnlineCourseName(),oldCourse.getId())){
+            actionResponse.setRenderParameter("id",oldCourse.getId().toString());
+            actionResponse.setRenderParameter(STR_FAIL,"dplTopic");
             return;
         }
         CommonsMultipartFile croppedImage = null;
-        OnlineCourse oldCourse = onlineCourseService.getOnlineCourseById(onlineCourse.getId());
+
         oldCourse.setOnlineCourseDescription(onlineCourse.getOnlineCourseDescription());
         oldCourse.setOnlineCourseName(onlineCourse.getOnlineCourseName());
         oldCourse.setOnlineCourseType(onlineCourse.getOnlineCourseType());
@@ -370,9 +381,13 @@ public class OnlineCourseController {
     @RenderMapping(params = "failOnline")
 	public ModelAndView showAddFailed(RenderRequest request,
 			RenderResponse response) {
-		ModelAndView model = new ModelAndView("addOnlineCourse");
-       // SessionErrors.add(request, request.getParameter("found"));
-		SessionErrors.add(request, request.getParameter("no"));
+        ModelAndView model;
+        if("edit".equals(request.getParameter(JSP_NAME))){
+            model = new ModelAndView("editOnlineCourse");
+        }else{
+            model = new ModelAndView("addOnlineCourse");
+        }
+        SessionErrors.add(request, request.getParameter(STR_FAIL));
         Collection<OnlineCourseType> kindOfCourses = onlineCourseService.getAllKindOfCourseWithCount();
         model.addObject("onlineCourseType", kindOfCourses);
 		return model;

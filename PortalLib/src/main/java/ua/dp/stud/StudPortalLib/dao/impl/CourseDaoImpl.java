@@ -126,4 +126,19 @@ public class CourseDaoImpl extends DaoForApproveImpl<Course> implements CourseDa
     public List<KindOfCourse> getAllKindOfCourse() {
         return getSession().createCriteria(KindOfCourse.class).list();
     }
+
+    @Override
+    public Boolean isDuplicateTopic(String name, Integer id){
+        List<Course> list=getSession().createQuery("from Course where courseName=:name").setParameter("name", name).list();
+        if(id==null){
+            return  (list.size()!=0);
+        }else{
+            if(list.size()==1){
+                return !(list.get(0).getId().equals(id));
+            }else{
+                return  (list.size()>1);
+            }
+
+        }
+    }
 }

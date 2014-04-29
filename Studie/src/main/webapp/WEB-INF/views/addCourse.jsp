@@ -55,6 +55,7 @@
                     }
         </script>
 <liferay-ui:error  key="no images" message='Please, select a picture! '/>
+<liferay-ui:error  key="dplTopic" message='Please, choose another name of course or tutor! Course(Tutor) with the same name is present! '/>
 
     <c:if test="${exception}">
         ${exception}

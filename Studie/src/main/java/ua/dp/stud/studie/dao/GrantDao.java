@@ -25,5 +25,6 @@ public interface GrantDao {
 
     void updateGrant(Grant grant);
 
+    Boolean isDuplicateTopic(String name, Integer id);
 
 }

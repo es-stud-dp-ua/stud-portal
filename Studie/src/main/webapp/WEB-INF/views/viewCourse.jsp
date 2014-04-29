@@ -13,6 +13,8 @@
 <title>Insert title here</title>
 </head>
 <body>
+<liferay-ui:success  key="successAdd" message='Course(Tutor) was successfully added! '/>
+<liferay-ui:success  key="successEdit" message='Course(Tutor) was successfully edited! '/>
 <%@include file="leftBar.jsp" %>
 
 <portlet:renderURL var="LinkEditCourse">
@@ -29,14 +31,14 @@
     <portlet:param name="view" value="allcourses" />
 </portlet:renderURL>
 
- <div class="portlet-content-controlpanel fs20"style="width: 10.15%;float: right;" >
+ <div class="portlet-content-controlpanel fs20"style="width: 10.5%;float: right;" >
     <a style="float: right" href="${LinkHomeCourse}">
        	<div class="panelbtn panelbtn-right fs20 icon-pcparrow-left" aria-hidden="true"></div>
         </a>
 
   <c:if test='${isShown}'>
 
-    <a style="float: right" href="${LinkDeleteCourse}">
+    <a style="float: right" href="${LinkDeleteCourse}" onclick='return confirm("<spring:message code="form.confDelete"/>")'>
     <div class="panelbtn panelbtn-right icon-pcpremove" aria-hidden="true"></div>
     </a>
     <a style="float: right" href="${LinkEditCourse}">

@@ -39,5 +39,5 @@ public interface OnlineCourseDao{
 
 	Integer getPagesCount(Integer coursesByPage);
 
-	
+    Boolean isDuplicateTopic(String name, Integer id);
 }

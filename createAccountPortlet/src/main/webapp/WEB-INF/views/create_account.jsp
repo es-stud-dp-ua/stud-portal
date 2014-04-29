@@ -52,6 +52,7 @@
                 phoneNumber: {
                     required: true,
                     regexp: '^[0-9/+]'
+                    rangelength: [10, 13],
                 },
                 rules: "required"
             },

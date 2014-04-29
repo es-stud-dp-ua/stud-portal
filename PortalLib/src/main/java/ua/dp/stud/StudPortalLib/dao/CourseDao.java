@@ -37,4 +37,7 @@ public interface CourseDao extends DaoForApprove<Course>{
     public Collection<Course> getAllCoursesByAuthor(String author);
 
     void initializeCountOfCourses(KindOfCourse kindOfCourse);
+
+
+    Boolean isDuplicateTopic(String name,Integer id);
 }

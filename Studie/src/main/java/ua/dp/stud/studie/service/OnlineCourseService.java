@@ -41,4 +41,6 @@ public interface OnlineCourseService{
     Collection<OnlineCourse> getOnlineCoursesOnPage(Integer pageNumb, Integer coursesByPage);
     
     Integer getPagesCount(Integer coursesByPage);
+
+    Boolean isDuplicateTopic(String name, Integer id);
 }

@@ -143,4 +143,9 @@ public class CourseServiceImpl implements CourseService {
     public void initializeCountOfCourses(KindOfCourse kindOfCourse) {
         dao.initializeCountOfCourses(kindOfCourse);
     }
+
+    @Override
+    public Boolean isDuplicateTopic(String name,Integer id){
+        return dao.isDuplicateTopic(name,id);
+    }
 }

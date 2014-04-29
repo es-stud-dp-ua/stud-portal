@@ -49,6 +49,7 @@ public class GrantController {
 	private static final String MAIN_IMAGE = "mainImage";
 	private static final String MAIN_IMAGE_MOCK_URL = "http://www.princetonmn.org/vertical/Sites/%7BF37F81E8-174B-4EDB-91E0-1A3D62050D16%7D/uploads/News.gif";
 	private static final String STR_FAIL = "failGrant";
+    private static final String JSP_NAME="jsp";
     private static final String NO_IMAGE = "no-images";
 	
 	@Autowired
@@ -128,6 +129,9 @@ public class GrantController {
                         ActionResponse actionResponse,
                         @RequestParam(MAIN_IMAGE) CommonsMultipartFile mainImage,
                         SessionStatus sessionStatus) throws IOException {
+
+        actionResponse.setRenderParameter(JSP_NAME,"add");
+
         if (bindingResult.hasErrors()) {
             actionResponse.setRenderParameter(STR_FAIL, "msg.fail");
 
@@ -135,7 +139,10 @@ public class GrantController {
         }
         if ("".equals(mainImage.getOriginalFilename())) {
             actionResponse.setRenderParameter(STR_FAIL, "image");
-            actionResponse.setRenderParameter("no", "image");
+            return;
+        }
+        if (grantService.isDuplicateTopic(grant.getUniversity(),null)){
+            actionResponse.setRenderParameter(STR_FAIL, "dplTopic");
             return;
         }
         CommonsMultipartFile f = imageService.cropImage(mainImage, Integer.parseInt(actionRequest.getParameter("t")),
@@ -162,13 +169,19 @@ public class GrantController {
                          ActionResponse actionResponse,
                          @RequestParam(MAIN_IMAGE) CommonsMultipartFile mainImage,
                          SessionStatus sessionStatus) throws IOException {
+
+        actionResponse.setRenderParameter(JSP_NAME,"edit");
+        actionResponse.setRenderParameter("id",grant.getId().toString());
         if (bindingResult.hasErrors()) {
             actionResponse.setRenderParameter(STR_FAIL, "image");
-            actionResponse.setRenderParameter("no", "image");
             return;
         }
         CommonsMultipartFile croppedImage = null;
         Grant oldGrant = grantService.getGrantById(grant.getId());
+        if (grantService.isDuplicateTopic(grant.getUniversity(),oldGrant.getId())){
+            actionResponse.setRenderParameter(STR_FAIL, "dplTopic");
+            return;
+        }
         oldGrant.setCity(grant.getCity());
         oldGrant.setCountry(grant.getCountry());
         oldGrant.setDescription(grant.getDescription());
@@ -189,7 +202,6 @@ public class GrantController {
             imageService.saveMainImage(croppedImage, oldGrant);
         }
         grantService.updateGrant(oldGrant);
-        actionResponse.setRenderParameter("id",grant.getId().toString());
         actionResponse.setRenderParameter("view", "singleGrant");
         SessionMessages.add(actionRequest, "successEdit");
         sessionStatus.setComplete();
@@ -204,9 +216,13 @@ public class GrantController {
     @RenderMapping(params = "failGrant")
     public ModelAndView showAddFailed(RenderRequest request,
                                       RenderResponse response) {
-        ModelAndView model = new ModelAndView("addGrant");
-        SessionErrors.add(request, request.getParameter("no"));
-
+        ModelAndView model;
+        if("edit".equals(request.getParameter(JSP_NAME))){
+            model =  new ModelAndView("editGrant");
+        }else{
+            model=new ModelAndView("addGrant");
+        }
+        SessionErrors.add(request, request.getParameter(STR_FAIL));
         return model;
     }
 

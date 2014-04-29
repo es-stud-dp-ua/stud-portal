@@ -30,4 +30,6 @@ public interface StudieService {
     ImageImpl getImageById(Long id);
 
     void deleteImage(ImageImpl image);
+
+    Boolean isDuplicateTopic(String name, Integer id);
 }

@@ -70,8 +70,9 @@ public class CouncilController {
 			.getName());
 
 	private static final String COUNCIL = "council";
-	private static final String STR_FAIL = "fail";
+	private static final String STR_FAIL = "failСouncil";
 	private static final String NO_IMAGE = "no-images";
+    private static final String JSP_NAME = "jsp";
 	private static final String MAIN_IMAGE_MOCK_URL = "http://www.princetonmn.org/vertical/Sites/%7BF37F81E8-174B-4EDB-91E0-1A3D62050D16%7D/uploads/News.gif";
 	private static final String CURRENT_PAGE = "currentPage";
 	private static final String MAIN_IMAGE = "mainImage";
@@ -128,12 +129,17 @@ public class CouncilController {
 			ActionRequest actionRequest,
 			ActionResponse actionResponse,
 			SessionStatus sessionStatus) {
-		
-		if (bindingResult.hasErrors()) {
+
+        actionResponse.setRenderParameter(JSP_NAME,"add");
+        if (bindingResult.hasErrors()) {
 			actionResponse.setRenderParameter(STR_FAIL, "msg.fail");
 			return;
 		}
-
+        if(councilService.isDuplicateUniversity(council.getStudie().getId(),null)){
+            actionResponse.setRenderParameter(STR_FAIL, "duplTop");
+           SessionMessages.add(actionRequest,STR_FAIL);
+            return;
+        }
         council.setStudie(studieService.getStudieById(council.getStudie().getId()));
         councilService.addCouncil(council);
         // close session
@@ -315,10 +321,20 @@ public class CouncilController {
 			BindingResult bindingResult, ActionRequest actionRequest,
 			ActionResponse actionResponse,
 			SessionStatus sessionStatus) {
+
+        actionResponse.setRenderParameter(JSP_NAME,"edit");
+        actionResponse.setRenderParameter("councilId", council.getId().toString());
 		if (bindingResult.hasErrors()) {
 			actionResponse.setRenderParameter(STR_FAIL, "msg.fail");
 			return;	}
-		Council oldCouncil = councilService.getCouncilById(Integer.parseInt(actionRequest.getParameter("id")));
+
+        Council oldCouncil = councilService.getCouncilById(Integer.parseInt(actionRequest.getParameter("id")));
+        if(councilService.isDuplicateUniversity(council.getStudie().getId(),oldCouncil.getId())){
+            actionResponse.setRenderParameter(STR_FAIL, "duplTop");
+            SessionMessages.add(actionRequest,STR_FAIL);
+            return;
+        }
+
         oldCouncil.setStudie(studieService.getStudieById(council.getStudie().getId()));
 		oldCouncil.setCouncilContact(council.getCouncilContact());
 		oldCouncil.setCouncilDescription(council.getCouncilDescription());
@@ -378,10 +394,15 @@ public class CouncilController {
 
 	}
 
-	@RenderMapping(params = "fail")
+	@RenderMapping(params = "failСouncil")
 	public ModelAndView showAddFailed(RenderRequest request,
 			RenderResponse response) {
-		ModelAndView model = new ModelAndView("addCouncil");
+		ModelAndView model;
+        if("edit".equals(request.getParameter(JSP_NAME))){
+            model= new ModelAndView("editCouncil");
+        }else{
+            model=new ModelAndView("addCouncil");
+        }
 		SessionErrors.add(request, request.getParameter(STR_FAIL));
 		Collection <Studie> studies = studieService.getAllStudies();
         model.addObject("studie",studies);

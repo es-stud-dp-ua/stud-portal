@@ -49,4 +49,6 @@ public interface CourseService {
 
     void initializeCountOfCourses(KindOfCourse kindOfCourse);
 
+    Boolean isDuplicateTopic(String name,Integer id);
+
 }

@@ -71,4 +71,9 @@ public class StudieServiceImpl implements StudieService {
     public void deleteImage(ImageImpl image) {
         dao.deleteImage(image.getId());
     }
+
+    @Override
+    public Boolean isDuplicateTopic(String name, Integer id){
+       return dao.isDuplicateTopic(name,id);
+    }
 }

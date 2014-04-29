@@ -85,6 +85,12 @@ public class CouncilServiceImpl implements CouncilService {
 
     @Override
     @Transactional(readOnly = true)
+    public Boolean isDuplicateUniversity(Integer id, Integer idCouncil){
+        return dao.isDuplicateTopic(id,idCouncil);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public  List<CouncilMembers> getAllCouncilMembers() {
         return dao.getAllCouncilMembers();
     }

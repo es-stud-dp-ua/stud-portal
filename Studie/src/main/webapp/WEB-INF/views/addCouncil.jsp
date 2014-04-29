@@ -74,7 +74,7 @@
     </div>
 
     <liferay-ui:error key="no-images" message='<spring:message code="msg.noImages"/>'/>
-    <liferay-ui:error key="dplTopic" message='<spring:message code="msg.dplTopic"/>'/>
+    <liferay-ui:error key="duplTop" message='Choose another university. Stud council with the same name is present!'/>
      <c:if test="${exception}">
              ${exception}
          </c:if>
