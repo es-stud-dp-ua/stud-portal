@@ -208,6 +208,11 @@ public class OrganisationsController {
             currentPage = 1;
         }
         ModelAndView model = new ModelAndView();
+        String comment="";
+        if (organisation.getApproved()==false)
+            comment=organisation.getComment();
+
+        model.addObject("comment",comment);
         model.setViewName("viewSingle");
         model.addObject("organization", organisation);
         model.addObject(CURRENT_PAGE, currentPage);

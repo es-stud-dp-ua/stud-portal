@@ -130,7 +130,6 @@ public abstract class DaoForApproveImpl<E extends BaseImagesSupport> extends Bas
     @Override
     public Integer getCount(Boolean approved) {
         return ((Long) getSession().createCriteria(persistentClass).setProjection(Projections.rowCount())
-                .add(Restrictions.isNull("comment"))
                 .add(Restrictions.eq("approved", approved))
                 .uniqueResult()).intValue();
     }
@@ -148,7 +147,7 @@ public abstract class DaoForApproveImpl<E extends BaseImagesSupport> extends Bas
         int firstResult = (pageNumb - 1) * objByPage;
         return getSession().createCriteria(persistentClass)
                 .add(Restrictions.eq("approved", approved))
-                .add(Restrictions.isNull("comment")).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
+                .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
                 .setFirstResult(firstResult).setMaxResults(objByPage).addOrder(Order.desc("id")).list();
     }
 }

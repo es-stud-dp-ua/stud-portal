@@ -246,6 +246,11 @@ public class CoursesController {
         }
 
         ModelAndView model = new ModelAndView();
+        String comment="";
+        if (course.getApproved()==false)
+            comment=course.getComment();
+
+        model.addObject("comment",comment);
         model.setViewName("viewCourse");
         model.addObject("course", course);
         model.addObject("isShown",isShown);

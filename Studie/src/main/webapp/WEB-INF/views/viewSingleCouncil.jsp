@@ -57,29 +57,26 @@
 				}
 			%>
 		</div>
+		<div>
 		<div class="councilHeader" style="float: left">
-			<img src="${mainImage}" alt="" />
+			<img src="${mainImage}" alt="" style="width:200px;" />
 
 
 		</div>
-		<div style="padding-left: 230px; width: 20%">
-			${council.studie.title}</div>
+		<div style="padding-left: 230px; width: 20%; font-size:30px;">
+			<b>	${council.studie.title}</b>
+		</div>
 		<br />
-		<style>
-.line {
-	border-right: 1px solid red
-	padding: 0 10px;
 
-	margin: 0 10%;
-}
-</style>
-		<div class="line"
-			style="padding-left: 20px; float: left; width: 20%; overflow: hidden; border-right: 1px solid red"
-			title="${council.councilContact}">${council.councilContact}</div>
+		<div style="display:inline-block" >
+			<b>	<spring:message code="form.councilContact"/> </b>
+			${council.councilContact}
+		</div>
+		<br/>
+		<br/>
 
-		<div class="councilDescription"
-			style="width: 20%; float: left; padding-left: 10px; overflow: hidden;"
-			title="${council.councilDescription} ">
+		<div class="councilDescription">
+			<b>	<spring:message code="form.councilDescription"/> </b>
 			${council.councilDescription}</div>
 	</div>
 
@@ -87,6 +84,7 @@
 	<br />
 	<br />
 	<br />
+	</div>
 <form id="members" name="members">
 
 <div id='newMember'>
@@ -103,14 +101,14 @@
 						src="<%=imageService.getPathToMicroblogImage(member.getMainImage(),member)%>"
 						style="float: left">
 						   <%}%>
-				  <div style="float: left">
+				  <div style="float: left; padding-left:5px;">
 					  <div id='position_<%=member.getId()%>'>
 						<i><%=member.getMemberPosition()%></i>
 					  </div>
-					  <div id='name_<%=member.getId()%>'>
+					  <div style=" padding-left:5px;" id='name_<%=member.getId()%>'>
 						<b><%=member.getMemberName()%></b>
 					  </div>
-					  <div id='contact_<%=member.getId()%>'>
+					  <div style=" padding-left:5px;" id='contact_<%=member.getId()%>'>
 					     <%=member.getMemberContact()%>
 					  </div>
 				  </div>
@@ -230,11 +228,14 @@
              </script>
 	<br />
 
+    <%
+      if (request.isUserInRole("Administrator")) {
+    %>
 	<div style="padding-left: 230px; width: 20%" class="splLink">
 	<input type="button" value="<spring:message code="form.councilMemberAdding"/>"
 				style="float: right" onclick="updateMember()"/>
 	</div>
-
+    <%}%>
 
 
 

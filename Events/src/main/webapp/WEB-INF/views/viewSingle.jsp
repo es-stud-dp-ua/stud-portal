@@ -139,6 +139,10 @@
             </c:if>
 
         </div>
+
+       <div style="color:red;"> ${comment} </div>
+           </br>
+
         <div>
         <div style="width:50%; float:left">
                     <img src="${mainImage}" alt=""/>

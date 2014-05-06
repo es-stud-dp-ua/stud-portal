@@ -51,6 +51,8 @@
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
+    <div style="color:red;"> ${comment} </div>
+    </br>
 
     <div  style="margin-left:15px">
                   <img style="width:130px; padding-left:15px;" src="${mainImage}" alt=""/>

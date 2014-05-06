@@ -300,8 +300,12 @@ public class EventsController {
                 }
             }
         }
-        model.addObject("isShown",isShown);
+        String comment="";
+        if (event.getApproved()==false)
+            comment=event.getComment();
 
+        model.addObject("comment",comment);
+        model.addObject("isShown",isShown);
         model.setView("viewSingle");
         model.addObject(ARCHIVE, future);
         model.addObject(CURRENT_PAGE, currentPage);

@@ -65,6 +65,7 @@ public class Events extends BaseImagesSupport implements Serializable {
             
 
     public Events() {
+        comment="Событие отправлено администратору на подтверждение.";
     }
 
     @Column

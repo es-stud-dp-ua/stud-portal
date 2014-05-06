@@ -78,6 +78,9 @@
                         </form>
                     </div>
 
+        <div style="color:red;"> ${comment} </div>
+            </br>
+
         <div class="newsHeader" style="margin-left:0px; margin-right:25px; margin-bottom:25px;">
             <img src="${mainImage}" alt="" style="margin-left:30px;"/>
             ${organization.title}

@@ -63,6 +63,7 @@ public class Course extends BaseImagesSupport{
     public Course(){
         this.addDate=new Date();
         this.approved = false;
+        comment="Курс отправлен администратору на подтверждение.";
     }
     public Course(String coursesName){
     	this.courseName = coursesName;

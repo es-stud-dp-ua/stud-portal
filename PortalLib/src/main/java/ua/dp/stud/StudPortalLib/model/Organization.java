@@ -33,6 +33,7 @@ public class Organization extends BaseImagesSupport implements Serializable {
      * Constructor by default
      */
     public Organization() {
+        comment="Организация отправлена администратору на подтверждение.";
         approved = false;
         organizationType = OrganizationType.SPORTS;
     }
