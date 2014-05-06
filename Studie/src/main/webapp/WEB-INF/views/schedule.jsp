@@ -49,7 +49,7 @@
     <div id="schedule_label" style="width: 150px; font-size: 12pt; padding-left: 130px"></div>
     <%if (request.isUserInRole("Administrator")) {%>
     <div style="left: 30%; " id="scheduleLoader" style="display: none;">
-        <input type="file" name="fileschedule" id="scheduleLoad"/>
+        <input type="file" name="fileschedule" id="scheduleLoad" style="display:none;"/>
     </div>
     <div style="left: 30%;" id="scheduleLoaderF" style="display: none;">
     </div>
@@ -80,6 +80,7 @@
         $('#facultiesList').hide();
         $('#yearsList').hide();
         $('#scheduleLoader').hide();
+        $('#scheduleLoad').val("");
         $('#scheduleLoaderF').hide();
         $('#sbm_schedule').hide();
         $('#schedule_label').html("");
@@ -91,6 +92,8 @@
     $("#facultiesList").change(function () {
         $('#yearsList').hide();
         $('#scheduleLoader').hide();
+        $('#scheduleLoad').hide();
+        $('#scheduleLoad').val("");
         $('#scheduleLoaderF').hide();
         $('#sbm_schedule').hide();
         $('#schedule_label').html("");
@@ -105,9 +108,20 @@
             getSchedule($('#facultiesList').val(), $('#yearsList').val());
             $('#scheduleLoader').show();
             $('#scheduleLoaderF').show();
-            $('#sbm_schedule').show();
+            $('#scheduleLoad').show();
+            $('#scheduleLoad').val("");
+            $('#sbm_schedule').hide();
         }
     });
+
+    $('#scheduleLoad').change(function(){
+        if($('#scheduleLoad').val()!=""){
+            $('#sbm_schedule').show();
+        }else{
+            $('#sbm_schedule').hide();
+        }
+    });
+
 
 
     function faculties(studyId) {
