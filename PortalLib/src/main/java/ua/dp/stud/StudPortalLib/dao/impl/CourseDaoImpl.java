@@ -64,7 +64,7 @@ public class CourseDaoImpl extends DaoForApproveImpl<Course> implements CourseDa
 
     @Override
     public List<Course> getCoursesByKindAndType(String kindOfCourse, String coursesType){
-        StringBuilder queryString = new StringBuilder("from Course where ");
+        StringBuilder queryString = new StringBuilder("from Course where approved=:t and ");
         if (!"all".equals(kindOfCourse)){
             queryString.append("kindOfCourse.id = :kindOfCourse");
         } else {
@@ -84,6 +84,7 @@ public class CourseDaoImpl extends DaoForApproveImpl<Course> implements CourseDa
         if (!"all".equals(coursesType)) {
             query.setParameter("coursesType", CoursesType.valueOf(coursesType));
         }
+        query.setParameter("t",true);
         return  (List<Course>)query.list() ;
 
     }
