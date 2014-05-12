@@ -192,7 +192,7 @@
          </div>
             <div>
 	            <p><spring:message code="if-log-in"/></p>
-				<a cssClass="control-group" href="/web/guest/home?p_p_id=58&p_p_lifecycle=0&p_p_state=maximized&p_p_mode=view&saveLastPath=0&_58_struts_action=%2Flogin%2Flogin">
+				<a cssClass="control-group" href="/web/guest/signin">
             	<spring:message code="log-in"/></a>
             </div>
         </fieldset>
